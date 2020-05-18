@@ -1,0 +1,14 @@
+<svg width="188" height="188" viewBox="0 0 188 188" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="94" cy="94" r="9" fill="#2673DD" fill-opacity="0.1"/>
+<circle cx="94" cy="94" r="8.5" stroke="#2673DD" stroke-opacity="0.2"/>
+<g opacity="0.4">
+<circle cx="94" cy="94" r="50" fill="#2673DD" fill-opacity="0.1"/>
+<circle cx="94" cy="94" r="49.5" stroke="#2673DD" stroke-opacity="0.2"/>
+</g>
+<g opacity="0.2">
+<circle cx="94" cy="94" r="94" fill="#2673DD" fill-opacity="0.1"/>
+<circle cx="94" cy="94" r="93.5" stroke="#2673DD" stroke-opacity="0.2"/>
+</g>
+<path d="M94 77.2L76.4 81.6V94.7999C76.4 108 94 116.8 94 116.8C94 116.8 111.6 108 111.6 94.7999V81.6L94 77.2Z" fill="#15A3A6"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M87.4 94.8C87.4 91.155 90.3549 88.2 94 88.2C96.403 88.2 98.5061 89.4843 99.6603 91.4039L103.434 89.1398C101.51 85.9405 98.005 83.8 94 83.8C87.9249 83.8 83 88.7249 83 94.8C83 100.875 87.9249 105.8 94 105.8C98.005 105.8 101.51 103.66 103.434 100.46L99.6603 98.1962C98.5061 100.116 96.403 101.4 94 101.4C90.3549 101.4 87.4 98.4451 87.4 94.8Z" fill="white"/>
+</svg>

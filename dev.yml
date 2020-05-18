@@ -1,0 +1,60 @@
+name: covid-shield
+
+type:
+  - android
+  - ios
+
+up:
+  - ruby: 2.6.1
+  - bundler
+  - homebrew:
+      - watchman
+  - node:
+      version: v13.7.0
+      yarn: 1.21.1
+      packages:
+        - ./
+  - android:
+      packages:
+        - cmdline-tools;latest
+        - emulator
+        - platform-tools
+        - build-tools;29.0.2
+        - platforms;android-29
+        - extras;android;m2repository
+        - extras;google;m2repository
+        - system-images;android-29;google_apis_playstore;x86
+      emulators:
+        - device: pixel_xl
+          name: CovidShield-Android
+          android_version: android-29
+          abi: google_apis_playstore;x86
+  - custom:
+      name: Install cocoapods dependencies
+      met?: cd ios && pod check --ignore-dev-pods
+      meet: cd ios && bundle exec pod install
+
+commands:
+  test:
+    run: yarn run test
+    desc: 'Run all tests'
+  pod-install:
+    run: yarn run pod-install
+    desc: 'Install cocoapods dependencies'
+  run-ios:
+    aliases: [i]
+    run: yarn run run-ios
+  run-android:
+    aliases: [a]
+    run: yarn run run-android
+  start:
+    run: yarn start
+    desc: 'Start app packager'
+  storybook:
+    run: yarn storybook
+    desc: 'Start Storybook packager'
+  lint:
+    aliases: [l]
+    run: yarn run lint
+  tsc:
+    run: yarn run tsc

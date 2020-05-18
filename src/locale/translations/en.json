@@ -1,0 +1,151 @@
+{
+  "Home": {
+    "NoExposureDetected": "No exposure detected",
+    "NoExposureDetectedDetailed": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19.",
+    "ExposureDetected": "You have possibly been exposed to COVID-19",
+    "ExposureDetectedDetailed": "Based on your random IDs, you have been near someone in the past 14 days who tested positive for COVID-19.",
+    "SeeGuidance": "Read Canada COVID-19 guidance",
+    "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+    "SignalDataShared": "Thank you for helping to slow the spread",
+    "SignalDataSharedDetailed": {
+      "One": "You will receive a notification asking you to share your random IDs each day for the next {number} day.",
+      "Other": "You will receive a notification asking you to share your random IDs each day for the next {number} days."
+    },
+    "SignalDataSharedCTA": "Track your symptoms",
+    "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
+    "DailyShare": "Share your new random IDs",
+    "DailyShareDetailed": "Sharing your data helps others to know if they have possibly been exposed to COVID-19.",
+    "ShareRandomIDsCTA": "Share your random IDs",
+    "BluetoothDisabled": "Bluetooth is off",
+    "EnableBluetoothCTA": "Bluetooth is used to collect and share random IDs needed for COVID Shield to work.",
+    "TurnOnBluetooth": "Turn on Bluetooth",
+    "ExposureNotificationsDisabled": "Exposure notifications are off",
+    "ExposureNotificationsDisabledDetailed": "Exposure notifications are needed for COVID Shield to work.",
+    "EnableExposureNotificationsCTA": "Turn on exposure notifications",
+    "NoConnectivity": "COVID Shield is offline",
+    "NoConnectivityDetailed": "COVID Shield needs internet access to continue checking for potential exposure.",
+    "AppName": "COVID Shield",
+    "LastCheckedMinutes": {
+      "One": "Last checked {number} minute ago",
+      "Other": "Last checked {number} minutes ago"
+    },
+    "LastCheckedHours": {
+      "One": "Last checked {number} hour ago",
+      "Other": "Last checked {number} hours ago"
+    },
+    "LastCheckedDays": {
+      "One": "Last checked {number} day ago",
+      "Other": "Last checked {number} days ago"
+    }
+  },
+  "OverlayClosed": {
+    "SystemStatus": "COVID Shield is ",
+    "SystemStatusOn": "ON",
+    "SystemStatusOff": "OFF",
+    "NotificationStatus": "Push notifications are ",
+    "NotificationStatusOff": "OFF",
+    "TapPrompt": "Tap for more information"
+  },
+  "OverlayOpen": {
+    "BluetoothCardStatus": "Bluetooth is ",
+    "BluetoothCardStatusOff": "OFF",
+    "BluetoothCardBody": "Bluetooth is used to collect and share random IDs needed for COVID Shield to work.",
+    "BluetoothCardAction": "Turn on Bluetooth",
+    "EnterCodeCardTitle": "COVID Shield code",
+    "EnterCodeCardBody": "Has a health care professional asked you to enter a COVID Shield code?",
+    "EnterCodeCardAction": "Enter code",
+    "NotificationCardStatus": "Push notifications are ",
+    "NotificationCardStatusOff": "OFF",
+    "NotificationCardBody": "You will not receive push notifications if you have possibly been exposed to COVID-19. Timely notification of potential exposure is important in helping to slow the spread of COVID-19.",
+    "NotificationCardAction": "Turn on push notifications",
+    "ExposureNotificationCardStatus": "Exposure notifications are ",
+    "ExposureNotificationCardStatusOff": "OFF",
+    "ExposureNotificationCardBody": "Exposure notifications are needed for COVID Shield to work.",
+    "ExposureNotificationCardAction": "Turn on exposure notifications"
+  },
+  "Info": {
+    "CheckSymptoms": "Check symptoms",
+    "SymptomsUrl": "https://ca.thrive.health/covid19/en",
+    "TellAFriend": "Share app",
+    "LearnMore": "How COVID Shield works",
+    "ChangeLanguage": "Change language",
+    "Privacy": "Read privacy policy"
+  },
+  "LanguageSelect": {
+    "Title": "Language",
+    "En": "English (Canada)",
+    "Fr": "Français (Canada)",
+    "EnShort": "English",
+    "FrShort": "Français",
+    "Close": "Back"
+  },
+  "Tutorial": {
+    "step-1Title": "How COVID Shield works",
+    "step-1": "Your phone uses Bluetooth to collect and share random IDs with phones near you with COVID Shield installed. These IDs are stored securely on each phone.",
+    "step-2Title": "If you have potentially been exposed to COVID-19",
+    "step-2": "You will receive a notification if you have been near someone in the past 14 days who has tested positive for COVID-19.",
+    "step-3Title": "If you test positive for COVID-19",
+    "step-3": "Anonymously notify others who have been near you in the past 14 days that they have possibly been exposed.",
+    "ActionBack": "Back",
+    "ActionNext": "Next",
+    "ActionEnd": "Done",
+    "Close": "Close"
+  },
+  "Sharing": {
+    "Title": "Share app",
+    "SubTitle": "Every person using COVID Shield helps to slow the spread of COVID-19. Sharing this app will not share any personal data.",
+    "Platform-messages": "Share to Messages",
+    "Platform-instagram": "Share to Instagram",
+    "More": "More apps",
+    "Message": "Join me in helping to slow the spread of COVID-19. Download the COVID Shield app: https://covidshield.app",
+    "Close": "Close"
+  },
+  "Onboarding": {
+    "ActionNext": "Next",
+    "ActionEnd": "Done",
+    "ActionBack": "Back"
+  },
+  "OnboardingPermissions": {
+    "Title": "Your data is private",
+    "Body": "COVID Shield takes a privacy-first approach to exposure notification.",
+    "Body2": "Your random IDs are stored exclusively on your phone unless you choose to share them.",
+    "Body3": "Use of COVID Shield is voluntary. You can delete your random IDs at any time."
+  },
+  "OnboardingStart": {
+    "Title": "Keep yourself and others safe",
+    "Body1": "Get notified if you have potentially been exposed to COVID-19.",
+    "Body2": "If you test positive for COVID-19, you can choose to anonymously share your data so others can be notified of possible exposure.",
+    "TutorialAction": "Learn how COVID Shield works"
+  },
+  "Privacy": {
+    "Title": "Privacy policy",
+    "Close": "Close"
+  },
+  "DataUpload": {
+    "Cancel": "Cancel",
+    "FormIntro": "Please enter your 8 digit COVID Shield code.",
+    "Action": "Submit code",
+    "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
+    "ConsentTitle": "Share your random IDs",
+    "ConsentBody": "You have been granted access by a health care professional to share the random IDs stored on your phone.",
+    "ConsentBody2": "If you share your random IDs, others with COVID Shield who have been near you in the past 14 days will receive a notification that they have possibly been exposed. This notification will not include any information about you.",
+    "ConsentBody3": "You will be notified once per day when new random IDs are available to be shared. You must grant permission each time for the random IDs to be shared. Sharing is voluntary.",
+    "PrivacyPolicyLink": "View privacy policy",
+    "ConsentAction": "I agree",
+    "ShareToast": "Random IDs shared successfully",
+    "ErrorTitle": "Code not recognized",
+    "ErrorBody": "Your COVID Shield code could not be recognized. Please try again.",
+    "ErrorAction": "OK"
+  },
+  "Notification": {
+    "ExposedMessageTitle": "You have possibly been exposed to COVID-19",
+    "ExposedMessageBody": "Based on your random IDs, you have been near someone in the past 14 days who tested positive for COVID-19.",
+    "OffMessageTitle": "COVID Shield is off",
+    "OffMessageBody": "Turn on COVID Shield to get notified if you have potentially been exposed to COVID-19.",
+    "DailyUploadNotificationTitle": "Share your new random IDs",
+    "DailyUploadNotificationBody": "Sharing your data helps others to know if they have possibly been exposed to COVID-19."
+  },
+  "Partners": {
+    "Label": "Developed in partnership with"
+  }
+}
