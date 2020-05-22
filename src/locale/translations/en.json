@@ -121,6 +121,11 @@
     "Title": "Privacy policy",
     "Close": "Close"
   },
+  "ThankYou": {
+    "Title": "Thank you for helping",
+    "Body": "Exposure notifications are on. You will receive a notification if COVID Shield detects that you have possibly been exposed to COVID-19.",
+    "Dismiss": "Dismiss"
+  },
   "DataUpload": {
     "Cancel": "Cancel",
     "FormIntro": "Please enter your 8 digit COVID Shield code.",
