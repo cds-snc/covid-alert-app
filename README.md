@@ -53,7 +53,7 @@ Follow the steps outlined in [React Native Development Environment Setup](https:
 
 - XCode 11.5 or greater
 - iOS device or simulator with iOS 13.5 or greater
-- [Bundler](https://bundler.io/): `gem install bundler`. Bundler is used to install the right version of [CocoaPods](https://cocoapods.org/) locally.
+- [Bundler](https://bundler.io/) to install the right version of [CocoaPods](https://cocoapods.org/) locally
 
 #### Android
 
