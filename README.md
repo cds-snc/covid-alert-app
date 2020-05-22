@@ -6,6 +6,7 @@ This repository implements a React Native _client application_ for Apple/Google'
 Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/). For more information on how this all works, read through the [COVID Shield Rationale](https://github.com/CovidShield/rationale).
 
 - [Overview](#overview)
+- [User experience](#user-experience)
 - [Local development](#local-development)
 - [Customization](#customization)
 - [Localization](#localization)
@@ -21,12 +22,21 @@ This app is built using React Native and designed to work well with patterns on 
 ## User Experience
 
 ### Aurora Design System
+
 COVID Shield follows design and content guidelines from the [Aurora Design System](https://design.gccollab.ca/) published by the Government of Canada's Digital Enablement Service.
 
+#### Typeface
+
+The Aurora Design System recommends Nunito for the app's main typeface. You can [download this font from Google Fonts](https://fonts.google.com/specimen/Nunito) or access it directly using the Google Fonts integration in Figma.
+
 ### Design
-Our [design assets and working files on Figma](https://www.figma.com/file/b76OYDhkTKJCaqDfVQybQY/Open-Source-COVID-Shield?node-id=1%3A18).
+
+- Our [wired Figma prototype](https://www.figma.com/proto/b76OYDhkTKJCaqDfVQybQY/Open-Source-COVID-Shield?node-id=324%3A3825&viewport=387%2C570%2C0.125&scaling=scale-down)
+- Our [design working files on Figma](https://www.figma.com/file/b76OYDhkTKJCaqDfVQybQY/Open-Source-COVID-Shield?node-id=1%3A18).
+- Our [illustration and animation assets](design/)
 
 ### Content
+
 Our [glossary of terms](https://github.com/CovidShield/rationale/blob/master/GLOSSARY.md).
 
 ## Local development
@@ -37,7 +47,7 @@ Follow the steps outlined in [React Native Development Environment Setup](https:
 
 #### iOS
 
-- XCode 11.5 (Beta 2) or greater
+- XCode 11.5 or greater
 - iOS device or simulator with iOS 13.5 or greater
 
 #### Android
