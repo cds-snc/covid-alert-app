@@ -39,8 +39,10 @@ export const Toolbar = ({title, navText, navIcon, onIconClicked}: ToolbarProps) 
     );
   }
   return (
-    <Box flexDirection="row" alignItems="center" flexWrap="wrap">
-      <Button text={navText} variant="text" onPress={onIconClicked} />
+    <Box flexDirection="row" alignItems="center" minHeight={56}>
+      <Box>
+        <Button text={navText} variant="text" onPress={onIconClicked} />
+      </Box>
       {title !== '' && (
         <Box flex={1} justifyContent="center" minWidth={100}>
           <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center">
