@@ -29,6 +29,10 @@ COVID Shield follows design and content guidelines from the [Aurora Design Syste
 
 The Aurora Design System recommends Nunito for the app's main typeface. You can [download this font from Google Fonts](https://fonts.google.com/specimen/Nunito) or access it directly using the Google Fonts integration in Figma.
 
+#### Inspiration
+
+Our onboarding flow was inspired in part by the work done in [this Medium article](https://onezero.medium.com/openui-a6b9c3d741de) which is shared under the [CC 4.0 license](https://creativecommons.org/licenses/by/4.0/). Thanks to [@jelle.prins](https://twitter.com/jelleprins) and [@ppkorevaar](https://twitter.com/ppkorevaar) for their initial work.
+
 ### Design
 
 - Our [wired Figma prototype](https://www.figma.com/proto/b76OYDhkTKJCaqDfVQybQY/Open-Source-COVID-Shield?node-id=324%3A3825&viewport=387%2C570%2C0.125&scaling=scale-down)
