@@ -18,9 +18,10 @@ const inputBorderColor = (string: string, position: number) => {
 export interface CodeInputProps {
   value: string;
   onChange: (value: string) => void;
+  autoFocus?: boolean;
 }
 
-export const CodeInput = ({value, onChange}: CodeInputProps) => {
+export const CodeInput = ({value, onChange, autoFocus}: CodeInputProps) => {
   const inputRef = useRef<TextInput>(null);
   const onChangeTrimmed = useCallback(text => onChange(text.trim()), [onChange]);
 
@@ -62,6 +63,7 @@ export const CodeInput = ({value, onChange}: CodeInputProps) => {
         returnKeyType="done"
         maxLength={8}
         style={styles.input}
+        autoFocus={autoFocus}
       />
       <TouchableWithoutFeedback onPress={giveFocus}>
         <Box flexDirection="row" justifyContent="space-evenly" marginHorizontal="m">
