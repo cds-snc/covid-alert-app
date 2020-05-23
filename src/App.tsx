@@ -8,7 +8,7 @@
  * @format
  */
 import React, {useMemo, useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import {I18nContext, I18nManager} from '@shopify/react-i18n';
 import {ThemeProvider} from '@shopify/restyle';
 import MainNavigator from 'navigation/MainNavigator';
@@ -53,7 +53,7 @@ const App = () => {
     <I18nContext.Provider value={i18nManager}>
       <SharedTranslations>
         <ExposureNotificationServiceProvider backendInterface={backendService}>
-          <NavigationContainer>
+          <DevPersistedNavigationContainer persistKey="navigationState">
             {TEST_MODE ? (
               <TestMode>
                 <MainNavigator />
@@ -61,7 +61,7 @@ const App = () => {
             ) : (
               <MainNavigator />
             )}
-          </NavigationContainer>
+          </DevPersistedNavigationContainer>
         </ExposureNotificationServiceProvider>
       </SharedTranslations>
     </I18nContext.Provider>
