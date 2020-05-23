@@ -55,7 +55,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
 didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void (^)(void))completionHandler
-{ 
+{
   [RNCPushNotificationIOS didReceiveNotificationResponse:response];
   completionHandler();
 }
@@ -79,6 +79,9 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  // Sets the default tint color for native components like ActionSheet.
+  // Link blue #002D42
+  self.window.tintColor = [UIColor colorWithRed:2.0f / 255.0f green:120.0f / 255.0f blue:164.0f / 255.0f alpha:1];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
@@ -88,7 +91,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   // [REQUIRED] Register BackgroundFetch
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   [RNSplashScreen show];
-  
+
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
