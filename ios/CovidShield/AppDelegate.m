@@ -79,9 +79,12 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  // #002D42
+  UIColor *linkBlue = [UIColor colorWithRed:2.0f / 255.0f green:120.0f / 255.0f blue:164.0f / 255.0f alpha:1];
   // Sets the default tint color for native components like ActionSheet.
-  // Link blue #002D42
-  self.window.tintColor = [UIColor colorWithRed:2.0f / 255.0f green:120.0f / 255.0f blue:164.0f / 255.0f alpha:1];
+  self.window.tintColor = linkBlue;
+  // This is needed to tint the keyboard done button.
+  UIToolbar.appearance.tintColor = linkBlue;
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
