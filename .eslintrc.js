@@ -32,6 +32,7 @@ module.exports = {
     ],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'jsx-a11y/no-autofocus': 'off',
   },
   ignorePatterns: [
     '**/services/BackendService/covidshield/*.d.ts',
