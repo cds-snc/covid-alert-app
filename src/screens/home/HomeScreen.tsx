@@ -1,9 +1,10 @@
 import React, {useMemo, useState, useEffect} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
+import {AppState, AppStateStatus, DevSettings} from 'react-native';
 import {BottomSheet, Box} from 'components';
 import {useExposureStatus, useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
 import {checkNotifications, requestNotifications} from 'react-native-permissions';
 import {useNetInfo} from '@react-native-community/netinfo';
+import {useNavigation, DrawerActions} from '@react-navigation/native';
 
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
@@ -85,6 +86,15 @@ const Content = () => {
 };
 
 export const HomeScreen = () => {
+  const navigation = useNavigation();
+  React.useEffect(() => {
+    if (__DEV__) {
+      DevSettings.addMenuItem('Show Test Menu', () => {
+        navigation.dispatch(DrawerActions.openDrawer());
+      });
+    }
+  }, [navigation]);
+
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus === 'denied';
