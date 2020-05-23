@@ -8,20 +8,32 @@ import {PrivacyScreen} from 'screens/privacy';
 import {SharingScreen} from 'screens/sharing';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
-import {StatusBar} from 'react-native';
+import {StatusBar, Platform} from 'react-native';
 import {useStorage} from 'services/StorageService';
+import {useNavigationState} from '@react-navigation/native';
 
 enableScreens();
 
 const MainStack = createNativeStackNavigator();
 
 const withDarkNav = (Component: React.ElementType) => {
-  const ComponentWithDarkNav = (props: any) => (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <Component {...props} />
-    </>
-  );
+  const ComponentWithDarkNav = (props: any) => {
+    const stackIndex = useNavigationState(state => state.index);
+    return (
+      <>
+        <StatusBar
+          barStyle={
+            // On iOS 13+ keep light statusbar since the screen will be displayed in a modal with a
+            // dark background.
+            stackIndex > 0 && Platform.OS === 'ios' && parseInt(Platform.Version as string, 10) >= 13 && !Platform.isPad
+              ? 'light-content'
+              : 'dark-content'
+          }
+        />
+        <Component {...props} />
+      </>
+    );
+  };
   return ComponentWithDarkNav;
 };
 const withLightNav = (Component: React.ElementType) => {
