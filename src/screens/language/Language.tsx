@@ -48,6 +48,7 @@ export const LanguageScreen = () => {
           title={i18n.translate('LanguageSelect.Title')}
           navIcon="icon-back-arrow"
           navText={i18n.translate('LanguageSelect.Close')}
+          navLabel={i18n.translate('LanguageSelect.Close')}
           onIconClicked={close}
         />
         <ScrollView>
