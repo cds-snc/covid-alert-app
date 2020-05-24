@@ -1,8 +1,6 @@
 /**
  * @format
  */
-import 'intl';
-import 'intl/locale-data/jsonp/en';
 import 'react-native-gesture-handler';
 
 import AsyncStorage from '@react-native-community/async-storage';
