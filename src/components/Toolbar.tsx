@@ -12,7 +12,7 @@ export interface ToolbarProps {
   onIconClicked(): void;
   navText?: string /* iOS only */;
   navIcon?: IconProps['name'] /* Android only */;
-  navLabel?: string
+  navLabel?: string;
 }
 
 export const Toolbar = ({title, navText, navIcon, navLabel, onIconClicked}: ToolbarProps) => {
