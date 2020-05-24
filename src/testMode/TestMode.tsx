@@ -15,14 +15,8 @@ const Drawer = createDrawerNavigator();
 
 const DrawerContent = () => {
   const [i18n] = useI18n();
-  const {locale, setLocale} = useStorage();
 
   const {reset} = useStorage();
-
-  const onLanguagePress = useCallback(() => {
-    const newLocale = locale === 'en' ? 'fr' : 'en';
-    setLocale(newLocale);
-  }, [locale, setLocale]);
 
   const onShowSampleNotification = useCallback(() => {
     PushNotification.presentLocalNotification({
@@ -86,7 +80,6 @@ const DrawerContent = () => {
           </Text>
         </Section>
         <Section>
-          <Item title="Language" onPress={onLanguagePress} connectedRight={locale} />
           <Item title="Show sample notification" onPress={onShowSampleNotification} />
         </Section>
         <Section>

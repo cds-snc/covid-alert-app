@@ -22,7 +22,7 @@
     "ExposureNotificationsDisabled": "Exposure notifications are off",
     "ExposureNotificationsDisabledDetailed": "Exposure notifications are needed for COVID Shield to work.",
     "EnableExposureNotificationsCTA": "Turn on exposure notifications",
-    "NoConnectivity": "COVID Shield is offline",
+    "NoConnectivity": "No internet connection",
     "NoConnectivityDetailed": "COVID Shield needs internet access to continue checking for potential exposure.",
     "AppName": "COVID Shield",
     "LastCheckedMinutes": {
@@ -120,6 +120,11 @@
   "Privacy": {
     "Title": "Privacy policy",
     "Close": "Close"
+  },
+  "ThankYou": {
+    "Title": "Thank you for helping",
+    "Body": "Exposure notifications are on. You will receive a notification if COVID Shield detects that you have possibly been exposed to COVID-19.",
+    "Dismiss": "Dismiss"
   },
   "DataUpload": {
     "Cancel": "Cancel",

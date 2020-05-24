@@ -22,7 +22,7 @@
     "ExposureNotificationsDisabled": "Les notifications d'exposition à la COVID-19 sont désactivées",
     "ExposureNotificationsDisabledDetailed": "Les notifications d'exposition à la COVID-19 sont nécessaires au fonctionnement de COVID Shield.",
     "EnableExposureNotificationsCTA": "Activez les notifications d'exposition à la COVID-19",
-    "NoConnectivity": "COVID Shield est hors ligne",
+    "NoConnectivity": "Aucune connexion Internet",
     "NoConnectivityDetailed": "COVID Shield a besoin d'un accès Internet pour continuer de vérifier les expositions potentielles à la COVID-19.",
     "AppName": "COVID Shield",
     "LastCheckedMinutes": {
@@ -120,6 +120,11 @@
   "Privacy": {
     "Title": "Politique de confidentialité",
     "Close": "Fermer"
+  },
+   "ThankYou": {
+    "Title": "Merci d'aider",
+    "Body": "Les notifications d’exposition sont activées. Si COVID Shield détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
+    "Dismiss": "OK"
   },
   "DataUpload": {
     "Cancel": "Annuler",
