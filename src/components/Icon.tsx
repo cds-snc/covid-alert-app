@@ -65,7 +65,7 @@ export interface IconProps {
   accessibilityLabel?: string
 }
 
-export const Icon = ({ name, size = 24, accessibilityLabel}: IconProps) => {
+export const Icon = ({name, size = 24, accessibilityLabel}: IconProps) => {
   const IconImpl = ICONS[name];
   return IconImpl ? <IconImpl accessible={true} accessibilityLabel={accessibilityLabel} width={size} height={size} /> : null;
 };
