@@ -1,21 +1,22 @@
 import React from 'react';
-import {Platform, TouchableOpacity} from 'react-native';
+import { Platform, TouchableOpacity, } from 'react-native';
 
-import {Box} from './Box';
-import {Icon, IconProps} from './Icon';
-import {Ripple} from './Ripple';
+import { Box } from './Box';
+import { Icon, IconProps } from './Icon';
+import { Ripple } from './Ripple';
 
 interface TouchableIconProps {
   iconName: IconProps['name'];
   iconSize?: IconProps['size'];
   containerSize?: number;
+  label?: string;
   onPress(): void;
 }
 
-export const TouchableIcon = ({iconName, iconSize, containerSize = 56, onPress}: TouchableIconProps) => {
+export const TouchableIcon = ({ iconName, iconSize, containerSize = 56, label, onPress }: TouchableIconProps) => {
   const content = (
     <Box width={containerSize} height={containerSize} justifyContent="center" alignItems="center">
-      <Icon name={iconName} size={iconSize} />
+      <Icon name={iconName} size={iconSize} accessibilityLabel={label} />
     </Box>
   );
 
@@ -26,5 +27,5 @@ export const TouchableIcon = ({iconName, iconSize, containerSize = 56, onPress}:
       </Ripple>
     );
   }
-  return <TouchableOpacity onPress={onPress}>{content}</TouchableOpacity>;
+  return <TouchableOpacity style={{backgroundColor:'yellow'}} onPress={onPress}>{content}</TouchableOpacity>;
 };

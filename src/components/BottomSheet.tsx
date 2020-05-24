@@ -60,7 +60,7 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
     <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
       {children}
       <TouchableOpacity onPress={toggleExpanded} style={styles.collapseButton}>
-        <Icon name="icon-chevron" />
+        <Icon name="icon-chevron" accessibilityLabel="Collapse"/>
       </TouchableOpacity>
     </Animated.View>
   );

@@ -50,6 +50,7 @@ export const SharingScreen = () => {
           title={i18n.translate('Sharing.Title')}
           navIcon="icon-back-arrow"
           navText={i18n.translate('Sharing.Close')}
+          navLabel={i18n.translate('Sharing.Close')}
           onIconClicked={close}
         />
         <ScrollView>
