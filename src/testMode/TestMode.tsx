@@ -108,6 +108,9 @@ const DrawerContent = () => {
           )}
         </Section>
         <Section>
+          <Item title="JavaScript engine" connectedRight={(global as any).HermesInternal == null ? 'JSC' : 'Hermes'} />
+        </Section>
+        <Section>
           <Item title="Clear data" subtitle="Still need to reopen the app manually" onPress={reset} />
         </Section>
       </Box>

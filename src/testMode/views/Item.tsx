@@ -6,7 +6,7 @@ import {Theme} from 'shared/theme';
 export interface ItemProps {
   title: string;
   subtitle?: string;
-  onPress(): void;
+  onPress?(): void;
   connectedRight?: React.ReactElement | string;
 }
 
