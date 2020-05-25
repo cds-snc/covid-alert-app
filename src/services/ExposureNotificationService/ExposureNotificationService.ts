@@ -162,7 +162,7 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
-  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string[]> {
+  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string> {
     let runningDate = new Date();
 
     const lastcheckHour = hoursSinceEpoch(lastFetchDate || addDays(runningDate, -14));
@@ -232,10 +232,10 @@ export class ExposureNotificationService {
 
     const generator = this.keysSinceLastFetch(lastCheckDate);
     while (true) {
-      const {value: keysFilesUrls, done} = await generator.next();
+      const {value: keysFilesUrl, done} = await generator.next();
       if (done) break;
 
-      const summary = await this.exposureNotification.detectExposure(exposureConfigutration, keysFilesUrls);
+      const summary = await this.exposureNotification.detectExposure(exposureConfigutration, [keysFilesUrl]);
       if (summary.matchedKeyCount > 0) {
         const exposures = await this.exposureNotification.getExposureInformation(summary);
         return finalize({type: 'exposed', exposures});

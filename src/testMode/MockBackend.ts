@@ -30,11 +30,11 @@ class MockBackend implements BackendInterface {
   reportDiagnosisKeys = async (_submissionKeyPair: SubmissionKeySet, _keys: TemporaryExposureKey[]) => {};
 
   retrieveDiagnosisKeysByDay = async (_sinceDate: Date) => {
-    return [];
+    return '';
   };
 
   retrieveDiagnosisKeysByHour = async (_sinceDate: Date) => {
-    return [];
+    return '';
   };
 
   getExposureConfiguration = async () => {

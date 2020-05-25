@@ -19,7 +19,7 @@ RCT_REMAP_METHOD(getRandomBytes, randomBytesWithSize:(NSUInteger)size withResolv
     NSString *base64encoded = [[[NSData alloc] initWithBytes:buff length:size] base64EncodedStringWithOptions:0];
     resolve(base64encoded);
   }
-      
+
 }
 
 RCT_REMAP_METHOD(downloadDiagnosisKeysFiles, downloadDiagnosisKeysFilesWithURL:(NSString *)url WithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
@@ -37,37 +37,8 @@ RCT_REMAP_METHOD(downloadDiagnosisKeysFiles, downloadDiagnosisKeysFilesWithURL:(
              [NSString stringWithContentsOfURL:location encoding:NSUTF8StringEncoding error:nil], nil);
       return;
     }
-    NSArray *fileUrls = [self breakUpFile:location];
-    resolve(fileUrls);
+    resolve(location);
   }] resume];
 }
 
-
-- (NSArray *)breakUpFile:(NSURL *)fileUrl {
-  NSURL *temporaryDirectoryURL = [NSURL fileURLWithPath: NSTemporaryDirectory() isDirectory: YES];
-
-  NSData *data = [[NSData alloc] initWithContentsOfURL:fileUrl];
-  NSUInteger offset = 0;
-  NSMutableArray *newFileUrls = [NSMutableArray new];
-  while (offset < data.length) {
-    uint32_t size;
-    [data getBytes:&size range:NSMakeRange(offset, sizeof(size))];
-    offset += sizeof(size);
-    
-    // reverse endianness
-    uint8_t *sizeBuff = (uint8_t *)&size;
-    size = (sizeBuff[0] << 24) + (sizeBuff[1] << 16) + (sizeBuff[2] << 8) + sizeBuff[3];
-    
-    if (size == 0) break;
-    
-    NSData *fileBytes = [data subdataWithRange:NSMakeRange(offset, size)];
-    offset += size;
-    
-    NSString *filename = [[NSUUID UUID] UUIDString];
-    NSURL *newFileUrl = [temporaryDirectoryURL URLByAppendingPathComponent:filename];
-    [fileBytes writeToURL:newFileUrl atomically:YES];
-    [newFileUrls addObject:newFileUrl.absoluteString];
-  }
-  return newFileUrls.copy;
-}
 @end

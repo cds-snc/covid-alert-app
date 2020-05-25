@@ -4,7 +4,7 @@ import hmac256 from 'crypto-js/hmac-sha256';
 import encHex from 'crypto-js/enc-hex';
 import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
-import {getRandomBytes, downloadDiagnosisKeysFiles} from 'bridge/CovidShield';
+import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {utcISO8601Date} from 'shared/date-fns';
 import {blobFetch} from 'shared/fetch';
 
@@ -27,16 +27,16 @@ export class BackendService implements BackendInterface {
     const message = `${request}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
 
-    return downloadDiagnosisKeysFiles(`${this.retreiveUrl}/retrieve-day/${request}/${hmac}`);
+    return downloadDiagnosisKeysFile(`${this.retreiveUrl}/retrieve-day/${request}/${hmac}`);
   }
 
-  async retrieveDiagnosisKeysByHour(date: Date, hour: number): Promise<string[]> {
+  async retrieveDiagnosisKeysByHour(date: Date, hour: number) {
     const hourFormatted = `0${hour}`.slice(-2);
     const request = `${utcISO8601Date(date)}`;
     const message = `${request}:${hourFormatted}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
 
-    return downloadDiagnosisKeysFiles(`${this.retreiveUrl}/retrieve-hour/${request}/${hourFormatted}/${hmac}`);
+    return downloadDiagnosisKeysFile(`${this.retreiveUrl}/retrieve-hour/${request}/${hourFormatted}/${hmac}`);
   }
 
   async getExposureConfiguration() {
