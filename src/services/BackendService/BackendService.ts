@@ -11,12 +11,12 @@ import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
 export class BackendService implements BackendInterface {
-  retreiveUrl: string;
+  retrieveUrl: string;
   submitUrl: string;
   hmacKey: string;
 
-  constructor(retreiveUrl: string, submitUrl: string, hmacKey: string) {
-    this.retreiveUrl = retreiveUrl;
+  constructor(retrieveUrl: string, submitUrl: string, hmacKey: string) {
+    this.retrieveUrl = retrieveUrl;
     this.submitUrl = submitUrl;
     this.hmacKey = hmacKey;
   }
@@ -25,12 +25,12 @@ export class BackendService implements BackendInterface {
     const message = `${period}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
 
-    return downloadDiagnosisKeysFile(`${this.retreiveUrl}/retrieve/${period}/${hmac}`);
+    return downloadDiagnosisKeysFile(`${this.retrieveUrl}/retrieve/${period}/${hmac}`);
   }
 
   async getExposureConfiguration() {
     const region = 'ON';
-    return (await fetch(`${this.retreiveUrl}/config/${region}/exposure.json`)).json();
+    return (await fetch(`${this.retrieveUrl}/config/${region}/exposure.json`)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
