@@ -49,6 +49,12 @@ typedef ENManagerMock ENManagerImplementation ;
   return YES;
 }
 
+- (void)invalidate
+{
+  [self.enManager invalidate];
+  self.enManager = nil;
+}
+
 RCT_EXPORT_MODULE();
 
 RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
