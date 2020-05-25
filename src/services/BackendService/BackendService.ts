@@ -30,7 +30,7 @@ export class BackendService implements BackendInterface {
 
   async getExposureConfiguration() {
     const region = 'ON';
-    return (await fetch(`${this.retrieveUrl}/config/${region}/exposure.json`)).json();
+    return (await fetch(`${this.retrieveUrl}/${region}/exposure.json`)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
