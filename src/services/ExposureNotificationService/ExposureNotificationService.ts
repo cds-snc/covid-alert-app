@@ -1,7 +1,7 @@
 import ExposureNotification, {ExposureInformation, Status as SystemStatus} from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {Observable} from 'shared/Observable';
-import {addDays, hoursSinceEpoch, daysBetween} from 'shared/date-fns';
+import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -163,21 +163,14 @@ export class ExposureNotificationService {
   }
 
   private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string> {
-    let runningDate = new Date();
+    const runningDate = new Date();
 
-    const lastcheckHour = hoursSinceEpoch(lastFetchDate || addDays(runningDate, -14));
-    let runningHour = hoursSinceEpoch(runningDate);
+    const lastchecPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14));
+    let runningPeriod = periodSinceEpoch(runningDate);
 
-    let hour = runningDate.getUTCHours() - 1;
-    while (hour >= 0 && runningHour > lastcheckHour) {
-      yield await this.backendInterface.retrieveDiagnosisKeysByHour(runningDate, hour);
-      hour -= 1;
-      runningHour -= 1;
-    }
-    while (runningHour > lastcheckHour) {
-      runningDate = addDays(runningDate, -1);
-      yield await this.backendInterface.retrieveDiagnosisKeysByDay(runningDate);
-      runningHour -= 24;
+    while (runningPeriod > lastchecPeriod) {
+      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
+      runningPeriod -= 2;
     }
   }
 

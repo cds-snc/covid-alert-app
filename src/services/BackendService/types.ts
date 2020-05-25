@@ -9,7 +9,6 @@ export interface SubmissionKeySet {
 export interface BackendInterface {
   claimOneTimeCode(code: string): Promise<SubmissionKeySet>;
   reportDiagnosisKeys(submissionKeyPair: SubmissionKeySet, keys: TemporaryExposureKey[]): Promise<void>;
-  retrieveDiagnosisKeysByDay(day: Date): Promise<string>;
-  retrieveDiagnosisKeysByHour(Date: Date, day: number): Promise<string>;
+  retrieveDiagnosisKeys(period: number): Promise<string>;
   getExposureConfiguration(): Promise<ExposureConfiguration>;
 }
