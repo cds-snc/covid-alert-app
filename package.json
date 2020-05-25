@@ -41,7 +41,7 @@
     "react-native-material-ripple": "^0.9.1",
     "react-native-permissions": "^2.1.4",
     "react-native-reanimated": "^1.8.0",
-    "react-native-safe-area-context": "^0.7.3",
+    "react-native-safe-area-context": "^2.0.0",
     "react-native-screens": "^2.7.0",
     "react-native-sensitive-info": "^5.5.5",
     "react-native-share": "^3.3.0",
