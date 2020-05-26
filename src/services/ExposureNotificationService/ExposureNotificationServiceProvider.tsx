@@ -1,11 +1,11 @@
-import React, {createContext, useCallback, useContext, useEffect, useState, useMemo} from 'react';
-import {useI18n} from '@shopify/react-i18n';
-import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotification';
+import React, { createContext, useCallback, useContext, useEffect, useState, useMemo } from 'react';
+import { useI18n } from '@shopify/react-i18n';
+import ExposureNotification, { Status as SystemStatus } from 'bridge/ExposureNotification';
 import AsyncStorage from '@react-native-community/async-storage';
 import SecureStorage from 'react-native-sensitive-info';
 
-import {BackendInterface} from '../BackendService';
-import {BackgroundScheduler} from '../BackgroundSchedulerService';
+import { BackendInterface } from '../BackendService';
+import { BackgroundScheduler } from '../BackgroundSchedulerService';
 
 import {
   ExposureNotificationService,
@@ -75,11 +75,11 @@ export function useSystemStatus(): [SystemStatus, () => void] {
   return [state, update];
 }
 
-export function useExposureStatus(): [ExposureStatus, () => void] {
+export function useExposureStatus(): [ExposureStatus, (forceRefresh?: boolean) => void] {
   const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
   const [state, setState] = useState<ExposureStatus>(exposureNotificationService.exposureStatus.value);
-  const update = useCallback(() => {
-    exposureNotificationService.updateExposureStatus();
+  const update = useCallback((forceRefresh?: boolean) => {
+    exposureNotificationService.updateExposureStatus(forceRefresh || false);
   }, [exposureNotificationService]);
 
   useEffect(() => {

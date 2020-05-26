@@ -1,14 +1,14 @@
-import {Buffer} from 'buffer';
+import { Buffer } from 'buffer';
 
 import hmac256 from 'crypto-js/hmac-sha256';
 import encHex from 'crypto-js/enc-hex';
-import {TemporaryExposureKey} from 'bridge/ExposureNotification';
+import { TemporaryExposureKey } from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
-import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
-import {blobFetch} from 'shared/fetch';
+import { getRandomBytes, downloadDiagnosisKeysFile } from 'bridge/CovidShield';
+import { blobFetch } from 'shared/fetch';
 
-import {covidshield} from './covidshield';
-import {BackendInterface, SubmissionKeySet} from './types';
+import { covidshield } from './covidshield';
+import { BackendInterface, SubmissionKeySet } from './types';
 
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
@@ -30,7 +30,7 @@ export class BackendService implements BackendInterface {
 
   async getExposureConfiguration() {
     const region = 'ON';
-    return (await fetch(`${this.retrieveUrl}/${region}/exposure.json`)).json();
+    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
@@ -58,7 +58,7 @@ export class BackendService implements BackendInterface {
 
   async reportDiagnosisKeys(keyPair: SubmissionKeySet, exposureKeys: TemporaryExposureKey[]) {
     const upload = covidshield.Upload.create({
-      timestamp: {seconds: Date.now()},
+      timestamp: { seconds: Date.now() },
       keys: exposureKeys.map(key =>
         covidshield.Key.create({
           keyData: Buffer.from(key.keyData, 'base64'),

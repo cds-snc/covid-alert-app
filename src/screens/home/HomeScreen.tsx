@@ -1,19 +1,19 @@
-import React, {useMemo, useState, useEffect} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
-import {BottomSheet, Box} from 'components';
-import {useExposureStatus, useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
-import {checkNotifications, requestNotifications} from 'react-native-permissions';
-import {useNetInfo} from '@react-native-community/netinfo';
+import React, { useMemo, useState, useEffect } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
+import { BottomSheet, Box } from 'components';
+import { useExposureStatus, useSystemStatus, SystemStatus } from 'services/ExposureNotificationService';
+import { checkNotifications, requestNotifications } from 'react-native-permissions';
+import { useNetInfo } from '@react-native-community/netinfo';
 
-import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
-import {BluetoothDisabledView} from './views/BluetoothDisabledView';
-import {NetworkDisabledView} from './views/NetworkDisabledView';
-import {DiagnosedView} from './views/DiagnosedView';
-import {DiagnosedShareView} from './views/DiagnosedShareView';
-import {ExposureView} from './views/ExposureView';
-import {NoExposureView} from './views/NoExposureView';
-import {OverlayView} from './views/OverlayView';
-import {CollapsedOverlayView} from './views/CollapsedOverlayView';
+import { ExposureNotificationsDisabledView } from './views/ExposureNotificationsDisabledView';
+import { BluetoothDisabledView } from './views/BluetoothDisabledView';
+import { NetworkDisabledView } from './views/NetworkDisabledView';
+import { DiagnosedView } from './views/DiagnosedView';
+import { DiagnosedShareView } from './views/DiagnosedShareView';
+import { ExposureView } from './views/ExposureView';
+import { NoExposureView } from './views/NoExposureView';
+import { OverlayView } from './views/OverlayView';
+import { CollapsedOverlayView } from './views/CollapsedOverlayView';
 
 type NotificationPermission = 'denied' | 'granted' | 'unavailable' | 'blocked';
 
@@ -21,7 +21,7 @@ const useNotificationPermissionStatus = (): [string, () => void] => {
   const [status, setStatus] = useState<NotificationPermission>('granted');
 
   checkNotifications()
-    .then(({status}) => {
+    .then(({ status }) => {
       setStatus(status);
     })
     .catch(error => {
@@ -31,7 +31,7 @@ const useNotificationPermissionStatus = (): [string, () => void] => {
 
   const request = () => {
     requestNotifications(['alert'])
-      .then(({status}) => {
+      .then(({ status }) => {
         setStatus(status);
       })
       .catch(error => {
