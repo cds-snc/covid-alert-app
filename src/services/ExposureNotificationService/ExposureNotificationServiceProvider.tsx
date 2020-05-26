@@ -75,15 +75,12 @@ export function useSystemStatus(): [SystemStatus, () => void] {
   return [state, update];
 }
 
-export function useExposureStatus(): [ExposureStatus, (forceRefresh?: boolean) => void] {
+export function useExposureStatus(): [ExposureStatus, () => void] {
   const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
   const [state, setState] = useState<ExposureStatus>(exposureNotificationService.exposureStatus.value);
-  const update = useCallback(
-    (forceRefresh?: boolean) => {
-      exposureNotificationService.updateExposureStatus(forceRefresh || false);
-    },
-    [exposureNotificationService],
-  );
+  const update = useCallback(() => {
+    exposureNotificationService.updateExposureStatus();
+  }, [exposureNotificationService]);
 
   useEffect(() => {
     return exposureNotificationService.exposureStatus.observe(setState);
