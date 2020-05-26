@@ -1,6 +1,7 @@
 package app.covidshield.module
 
 import android.content.Context
+import android.util.Base64
 import app.covidshield.extensions.toWritableArray
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -14,7 +15,7 @@ import okhttp3.Request
 import okio.BufferedSource
 import java.math.BigInteger
 import java.security.SecureRandom
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 
 
@@ -29,7 +30,7 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
     @ReactMethod
     fun getRandomBytes(size: Int, promise: Promise) {
         val bytes = SecureRandom().generateSeed(size)
-        val base64Encoded = Base64.getEncoder().encodeToString(bytes)
+        val base64Encoded = Base64.encodeToString(bytes, Base64.DEFAULT)
         promise.resolve(base64Encoded)
     }
 
