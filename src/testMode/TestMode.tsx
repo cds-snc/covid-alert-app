@@ -6,6 +6,7 @@ import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 import {ExposureSummary} from 'bridge/ExposureNotification';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {MockProvider, useMock} from './MockProvider';
 import {Item} from './views/Item';
@@ -100,6 +101,20 @@ const DrawerContent = () => {
             </>
           )}
         </Section>
+        {!mock.enabled && (
+          <>
+            <Section>
+              <Item
+                title="Clear exposure history and run check"
+                onPress={async () => {
+                  console.log('forcing refresh...');
+                  await AsyncStorage.removeItem('lastCheckTimeStamp');
+                  updateExposureStatus();
+                }}
+              />
+            </Section>
+          </>
+        )}
         <Section>
           <Item title="JavaScript engine" connectedRight={(global as any).HermesInternal == null ? 'JSC' : 'Hermes'} />
         </Section>
