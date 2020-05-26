@@ -49,6 +49,10 @@ Our [glossary of terms](https://github.com/CovidShield/rationale/blob/master/GLO
 
 Follow the steps outlined in [React Native Development Environment Setup](https://reactnative.dev/docs/environment-setup) to make sure you have the proper tools installed.
 
+#### Node
+
+- [Node 12 LTS](https://nodejs.org/en/download/)
+
 #### iOS
 
 - XCode 11.5 or greater
@@ -73,7 +77,15 @@ yarn install
 
 ##### 2.1 Additional step for iOS
 
+###### 2.1.1 Install Cocoapods
+
+```bash
+sudo gem install cocoapods
 ```
+
+###### 2.1.2 Install pods
+
+```bash
 bundle install && yarn pod-install
 ```
 
@@ -139,6 +151,14 @@ After modifying the content you must run the `generate-translations` command in 
 yarn generate-translations
 ```
 
+### Add new translation
+
+1. Create a new i18n file in [src/locale/translations/pt.json](./src/locale/translations/pt.json);
+2. Add the new option `pt` in [translations.js](./translations.js);
+3. Regenerate the translations `yarn generate-translations`;
+4. Add the new option in [src/components/LanguageToggle.tsx](./src/components/LanguageToggle.tsx);
+5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx);
+
 ## Who built COVID Shield?
 
 We are a group of Shopify volunteers who want to help to slow the spread of COVID-19 by offering our
@@ -146,3 +166,34 @@ skills and experience developing scalable, easy to use applications. We are rele
 free of charge and with a flexible open-source license.
 
 For questions, we can be reached at <press@covidshield.app>.
+
+## Troubleshooting
+
+### [Android] Problem with debug.keystore during run Android version
+
+Logs
+
+```bash
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:packageDebug'.
+> A failure occurred while executing com.android.build.gradle.internal.tasks.Workers$ActionFacade
+   > com.android.ide.common.signing.KeytoolException: Failed to read key AndroidDebugKey from store "/Users/YOUR_USER/.android/debug.keystore": keystore password was incorrect
+```
+
+Generate a new `debug.keystore`:
+
+```bash
+cd android/app
+keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Copy your debug.keystore to `~/.android/debug.keystore`:
+
+```bash
+cd android/app
+cp debug.keystore ~/.android/debug.keystore
+```
+
+Now you can run `yarn run-android` in your root folder.
