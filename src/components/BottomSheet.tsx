@@ -3,6 +3,7 @@ import {View, StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-nati
 import Animated from 'react-native-reanimated';
 import {useSafeArea} from 'react-native-safe-area-context';
 import BottomSheetRaw from 'reanimated-bottom-sheet';
+import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from './Box';
 import {Icon} from './Icon';
@@ -42,6 +43,7 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
   const bottomSheetPosition = useRef(new Animated.Value(1));
   const bottomSheetRef: React.Ref<BottomSheetRaw> = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [i18n] = useI18n();
   const toggleExpanded = useCallback(() => {
     if (isExpanded) {
       bottomSheetRef.current?.snapTo(1);
@@ -60,7 +62,7 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
     <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
       {children}
       <TouchableOpacity onPress={toggleExpanded} style={styles.collapseButton}>
-        <Icon name="icon-chevron" />
+        <Icon name="icon-chevron" accessibilityLabel={i18n.translate('BottomSheet.Collapse')} />
       </TouchableOpacity>
     </Animated.View>
   );

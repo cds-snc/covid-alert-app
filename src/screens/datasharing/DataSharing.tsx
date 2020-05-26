@@ -39,6 +39,7 @@ export const DataSharingScreen = () => {
           title={isVerified ? i18n.translate('DataUpload.ConsentTitle') : ''}
           navIcon="icon-back-arrow"
           navText={i18n.translate('DataUpload.Cancel')}
+          navLabel={i18n.translate('DataUpload.Cancel')}
           onIconClicked={close}
         />
         <ScrollView>

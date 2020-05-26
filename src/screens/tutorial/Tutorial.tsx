@@ -55,7 +55,13 @@ export const TutorialScreen = () => {
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('Tutorial.Close')} onIconClicked={close} />
+        <Toolbar
+          title=""
+          navIcon="icon-back-arrow"
+          navText={i18n.translate('Tutorial.Close')}
+          navLabel={i18n.translate('Tutorial.Close')}
+          onIconClicked={close}
+        />
         {carouselVisible && (
           <Carousel
             ref={carouselRef}

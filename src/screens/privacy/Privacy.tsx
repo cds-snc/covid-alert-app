@@ -20,6 +20,7 @@ export const PrivacyScreen = () => {
           title={i18n.translate('Privacy.Title')}
           navIcon="icon-back-arrow"
           navText={i18n.translate('Privacy.Close')}
+          navLabel={i18n.translate('Privacy.Close')}
           onIconClicked={close}
         />
         <ScrollView style={styles.flex}>
