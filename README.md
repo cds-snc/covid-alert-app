@@ -118,24 +118,13 @@ You can also build the app with native development tool:
 
 When the app is running development mode, you can tap on the COVID Shield logo at the top of the app to open the Test menu. This menu enables you to:
 
-- Switch languages
 - Put the app into test mode to bypass the Exposure Notification API check
 - Change the system status
 - Change the exposure status
 - Send a sample notification
 - Reset the app to onboarding state
 
-### Test mode
-
-Test mode UI is enabled if the environment config file (`.env*`) has `TEST_MODE=true`. To toggle test mode UI, you can swipe right to left at home screen or press on CovidShield logo.
-
-Some features in test mode:
-
-- Toggle language.
-- Show sample exposed notification.
-- Mock server. When it is enabled, it will override Google / Apple Exposure Notification framework and backend for system status, exposure status.
-
-To disable test mode UI on production build, simply set it to false in the environment config file `TEST_MODE=false`.
+Note that: Test menu is enabled if the environment config file (`.env*`) has `TEST_MODE=true`. To disable test mode UI on production build, simply set it to false in the environment config file `TEST_MODE=false`.
 
 ## Customization
 
@@ -153,11 +142,11 @@ yarn generate-translations
 
 ### Add new translation
 
-1. Create a new i18n file in [src/locale/translations/pt.json](./src/locale/translations/pt.json);
-2. Add the new option `pt` in [translations.js](./translations.js);
-3. Regenerate the translations `yarn generate-translations`;
-4. Add the new option in [src/components/LanguageToggle.tsx](./src/components/LanguageToggle.tsx);
-5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx);
+1. Create a new i18n file in [src/locale/translations/](./src/locale/translations/).
+2. Add the new option `pt` in [translations.js](./translations.js).
+3. Regenerate the translations `yarn generate-translations`.
+4. Add the new option in [src/components/LanguageToggle.tsx](./src/components/LanguageToggle.tsx).
+5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
 
 ## Who built COVID Shield?
 
