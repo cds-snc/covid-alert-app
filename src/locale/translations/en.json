@@ -177,5 +177,7 @@
     "QC": "Quebec",
     "SK": "Saskatchewan",
     "YT": "Yukon"
+    "Collapse": "Close",
+    "OpenStatus": "Open Covid Shield status"
   }
 }

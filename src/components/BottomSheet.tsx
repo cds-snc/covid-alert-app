@@ -17,6 +17,7 @@ interface ContentProps {
 }
 
 const SheetContentsContainer = ({children, isExpanded, toggleExpanded}: ContentProps) => {
+  const [i18n] = useI18n();
   const content = (
     <Box backgroundColor="overlayBackground" minHeight="100%">
       <Box marginTop="l" alignItems="center">
@@ -29,7 +30,15 @@ const SheetContentsContainer = ({children, isExpanded, toggleExpanded}: ContentP
     return content;
   }
 
-  return <TouchableHighlight onPress={toggleExpanded}>{content}</TouchableHighlight>;
+  return (
+    <TouchableHighlight
+      onPress={toggleExpanded}
+      accessibilityRole="button"
+      accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+    >
+      {content}
+    </TouchableHighlight>
+  );
 };
 
 export interface BottomSheetProps {
