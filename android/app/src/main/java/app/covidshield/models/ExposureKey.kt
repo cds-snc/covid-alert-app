@@ -12,7 +12,8 @@ import org.json.JSONObject
 data class ExposureKey(
         val transmissionRiskLevel: Int,
         val keyData: String,
-        val rollingStartNumber: Int
+        val rollingStartNumber: Int,
+        val rollingStartIntervalNumber: Int
 ) {
 
     fun toMap(): WritableMap? {
@@ -31,7 +32,8 @@ data class ExposureKey(
             return ExposureKey(
                     transmissionRiskLevel = key.transmissionRiskLevel,
                     keyData = Hex.bytesToStringLowercase(key.keyData),
-                    rollingStartNumber = key.rollingStartIntervalNumber
+                    rollingStartNumber = key.rollingStartIntervalNumber,
+                    rollingStartIntervalNumber = key.rollingStartIntervalNumber
             )
         }
     }
