@@ -127,16 +127,13 @@ export class ExposureNotificationService {
     return addDays(cycleStart ? new Date(parseInt(cycleStart, 10)) : new Date(), 14);
   }
 
-  async updateExposureStatus(forceRefresh = false): Promise<ExposureStatus> {
+  async updateExposureStatus(): Promise<ExposureStatus> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
       this.exposureStatusUpdatePromise = null;
       return input;
     };
-    this.exposureStatusUpdatePromise = this.performExposureStatusUpdate(forceRefresh).then(
-      cleanUpPromise,
-      cleanUpPromise,
-    );
+    this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
     return this.exposureStatusUpdatePromise;
   }
 
@@ -204,11 +201,7 @@ export class ExposureNotificationService {
     return false;
   }
 
-  private async performExposureStatusUpdate(forceRefresh: boolean): Promise<ExposureStatus> {
-    if (forceRefresh) {
-      console.log('forcing refresh...');
-      await this.storage.setItem('lastCheckTimeStamp', '');
-    }
+  private async performExposureStatusUpdate(): Promise<ExposureStatus> {
     const exposureConfigutration = await this.backendInterface.getExposureConfiguration();
     const lastCheckDate = await (async () => {
       const timestamp = await this.storage.getItem('lastCheckTimeStamp');
