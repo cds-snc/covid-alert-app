@@ -62,10 +62,9 @@ type IconName = keyof typeof ICONS;
 export interface IconProps {
   name: IconName;
   size?: number;
-  accessibilityLabel?: string;
 }
 
-export const Icon = ({name, size = 24, accessibilityLabel}: IconProps) => {
+export const Icon = ({name, size = 24}: IconProps) => {
   const IconImpl = ICONS[name];
-  return IconImpl ? <IconImpl accessible accessibilityLabel={accessibilityLabel} width={size} height={size} /> : null;
+  return IconImpl ? <IconImpl width={size} height={size} /> : null;
 };

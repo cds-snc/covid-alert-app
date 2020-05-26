@@ -15,8 +15,14 @@ interface TouchableIconProps {
 
 export const TouchableIcon = ({iconName, iconSize, containerSize = 56, label, onPress}: TouchableIconProps) => {
   const content = (
-    <Box width={containerSize} height={containerSize} justifyContent="center" alignItems="center">
-      <Icon name={iconName} size={iconSize} accessibilityLabel={label} />
+    <Box
+      width={containerSize}
+      height={containerSize}
+      justifyContent="center"
+      alignItems="center"
+      accessibilityLabel={label}
+    >
+      <Icon name={iconName} size={iconSize} />
     </Box>
   );
 

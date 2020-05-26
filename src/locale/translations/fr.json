@@ -121,7 +121,7 @@
     "Title": "Politique de confidentialité",
     "Close": "Fermer"
   },
-   "ThankYou": {
+  "ThankYou": {
     "Title": "Merci d'aider",
     "Body": "Les notifications d’exposition sont activées. Si COVID Shield détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
     "Dismiss": "OK"
@@ -154,6 +154,6 @@
     "Label": "Développé en partenariat avec"
   },
   "BottomSheet": {
-    "Collapse": "effondrer"
+    "Collapse": "Fermer"
   }
 }
