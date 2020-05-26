@@ -22,7 +22,7 @@ RCT_REMAP_METHOD(getRandomBytes, randomBytesWithSize:(NSUInteger)size withResolv
 
 }
 
-RCT_REMAP_METHOD(downloadDiagnosisKeysFiles, downloadDiagnosisKeysFilesWithURL:(NSString *)url WithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_REMAP_METHOD(downloadDiagnosisKeysFile, downloadDiagnosisKeysFileWithURL:(NSString *)url WithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
   NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
   NSURL *taskURL = [RCTConvert NSURL:url];

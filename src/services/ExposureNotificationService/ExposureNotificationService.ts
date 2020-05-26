@@ -165,10 +165,10 @@ export class ExposureNotificationService {
   private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string> {
     const runningDate = new Date();
 
-    const lastchecPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14));
+    const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14));
     let runningPeriod = periodSinceEpoch(runningDate);
 
-    while (runningPeriod > lastchecPeriod) {
+    while (runningPeriod > lastCheckPeriod) {
       yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
       runningPeriod -= 2;
     }
@@ -223,6 +223,7 @@ export class ExposureNotificationService {
       return finalize({...currentStatus, needsSubmission: await this.calculateNeedsSubmission()});
     }
 
+    console.log('lastCheckDate', lastCheckDate);
     const generator = this.keysSinceLastFetch(lastCheckDate);
     while (true) {
       const {value: keysFilesUrl, done} = await generator.next();
