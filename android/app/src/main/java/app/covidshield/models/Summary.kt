@@ -13,8 +13,8 @@ data class Summary(
         val matchedKeyCount: Int,
         val maximumRiskScore: Int
 ) {
-    fun toMap(summary: Summary): WritableMap? {
-        return convertJsonToMap(JSONObject(Gson().toJson(summary)))
+    fun toMap(): WritableMap? {
+        return convertJsonToMap(JSONObject(Gson().toJson(this)))
     }
 
     companion object {

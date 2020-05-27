@@ -1,7 +1,6 @@
 package app.covidshield.module
 
-import app.covidshield.extensions.toWritableArray
-import app.covidshield.extensions.toWritableMap
+import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
 import app.covidshield.models.Information
 import app.covidshield.models.Summary
@@ -14,6 +13,10 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableNativeArray
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.tasks.Task
+import java.io.File
+import java.util.UUID
+
+private const val SUMMARY_HIDDEN_KEY = "_summaryIdx"
 
 class ExposureNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
 
@@ -41,7 +44,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     @ReactMethod
     fun resetAllData(promise: Promise) {
-        // THis method does not exist in the android nearby SDK.
+        // This method does not exist in the android nearby SDK.
         promise.resolve(null)
     }
 
@@ -56,8 +59,18 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     @ReactMethod
     fun detectExposure(configuration: ReadableMap, diagnosisKeysURLs: ReadableArray, promise: Promise) {
-        // Get keys.
-        promise.resolve(emptyMap<String, String>().toWritableMap())
+        promise.rejectOnException {
+            val config = Configuration.fromMap(configuration).toGoogleConfig()
+            val files = diagnosisKeysURLs.toArrayList().map { File(it.toString()) }
+            val token = UUID.randomUUID()
+            exposureNotificationClient.provideDiagnosisKeys(files, config, token.toString()).bindPromise(promise) {
+                exposureNotificationClient.getExposureSummary(token.toString()).bindPromise(promise) {
+                    val map = Summary.fromExposureSummary(it).toMap()
+                    map?.putString(SUMMARY_HIDDEN_KEY, token.toString())
+                    resolve(map)
+                }
+            }
+        }
     }
 
     @ReactMethod
@@ -74,29 +87,26 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     @ReactMethod
-    fun getExposureInformation(_summary: ReadableMap, promise: Promise) {
-        // Summary is useless here. We need the keys.
-        val summary = Summary.fromMap(_summary)
-//        exposureNotificationClient.getExposureInformation(// Pass keys in here)
-//            .addOnSuccessListener { information ->
-//                val writableNativeArray = WritableNativeArray()
-//                information.forEach {
-//                    writableNativeArray.pushMap(Information.fromExposureInformation(it).toMap())
-//                }
-//                promise.resolve(writableNativeArray)
-//            }
-//            .addOnCanceledListener {
-//                promise.reject(Exception("Cancelled"))
-//            }
+    fun getExposureInformation(summary: ReadableMap, promise: Promise) {
+        promise.rejectOnException {
+            val token = summary.getString(SUMMARY_HIDDEN_KEY) ?: throw NullPointerException("token is null")
+            exposureNotificationClient.getExposureInformation(token).bindPromise(promise) { exposureInformationList ->
+                val writableNativeArray = WritableNativeArray()
+                exposureInformationList.forEach {
+                    writableNativeArray.pushMap(Information.fromExposureInformation(it).toMap())
+                }
+                resolve(writableNativeArray)
+            }
+        }
     }
 }
 
 fun <T> Task<T>.bindPromise(promise: Promise, successBlock: Promise.(T) -> Unit) {
-    this.addOnFailureListener { promise.reject(it) }.addOnSuccessListener {successBlock.invoke(promise, it)}
+    this.addOnFailureListener { promise.reject(it) }.addOnSuccessListener { successBlock.invoke(promise, it) }
 }
 
 fun <T, R> Task<T>.bindPromise(promise: Promise, failureValue: R, successBlock: Promise.(T) -> Unit) {
-    this.addOnFailureListener { promise.resolve(failureValue) }.addOnSuccessListener {successBlock.invoke(promise, it)}
+    this.addOnFailureListener { promise.resolve(failureValue) }.addOnSuccessListener { successBlock.invoke(promise, it) }
 }
 
 fun Promise.rejectOnException(block: () -> Unit) {
