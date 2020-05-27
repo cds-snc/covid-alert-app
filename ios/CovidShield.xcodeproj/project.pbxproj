@@ -262,8 +262,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CovidShield" */;
 			buildPhases = (
-				2CF09B024003DB90CDBA2FC5 /* [CP] Check Pods Manifest.lock */,
 				748240532477265C009F68EA /* Install env config */,
+				2CF09B024003DB90CDBA2FC5 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,

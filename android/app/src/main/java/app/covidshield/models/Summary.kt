@@ -1,29 +1,9 @@
 package app.covidshield.models
 
-import app.covidshield.utils.convertJsonToMap
-import app.covidshield.utils.convertMapToJson
-import com.facebook.react.bridge.ReadableMap
-import com.facebook.react.bridge.WritableMap
-import com.google.android.gms.nearby.exposurenotification.ExposureSummary
-import com.google.gson.Gson
-import org.json.JSONObject
+import com.google.gson.annotations.SerializedName
 
 data class Summary(
-        val daysSinceLastExposure: Int,
-        val matchedKeyCount: Int,
-        val maximumRiskScore: Int
-) {
-    fun toMap(): WritableMap? {
-        return convertJsonToMap(JSONObject(Gson().toJson(this)))
-    }
-
-    companion object {
-        fun fromMap(readableMap: ReadableMap): Summary {
-            return Gson().fromJson(convertMapToJson(readableMap).toString(), Summary::class.java)
-        }
-
-        fun fromExposureSummary(summary: ExposureSummary): Summary {
-            return Summary(daysSinceLastExposure = summary.daysSinceLastExposure, matchedKeyCount = summary.matchedKeyCount, maximumRiskScore = summary.maximumRiskScore)
-        }
-    }
-}
+    @SerializedName("daysSinceLastExposure") val daysSinceLastExposure: Int,
+    @SerializedName("matchedKeyCount") val matchedKeyCount: Int,
+    @SerializedName("maximumRiskScore") val maximumRiskScore: Int
+)

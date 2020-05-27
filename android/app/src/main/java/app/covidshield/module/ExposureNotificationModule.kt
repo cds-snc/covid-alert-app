@@ -1,18 +1,22 @@
 package app.covidshield.module
 
+import app.covidshield.extensions.bindPromise
+import app.covidshield.extensions.parse
+import app.covidshield.extensions.rejectOnException
+import app.covidshield.extensions.toExposureConfiguration
+import app.covidshield.extensions.toExposureKey
+import app.covidshield.extensions.toInformation
+import app.covidshield.extensions.toSummary
+import app.covidshield.extensions.toWritableArray
+import app.covidshield.extensions.toWritableMap
 import app.covidshield.models.Configuration
-import app.covidshield.models.ExposureKey
-import app.covidshield.models.Information
-import app.covidshield.models.Summary
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
-import com.facebook.react.bridge.WritableNativeArray
 import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.tasks.Task
 import java.io.File
 import java.util.UUID
 
@@ -28,18 +32,16 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     @ReactMethod
     fun start(promise: Promise) {
-        exposureNotificationClient.start()
-            .bindPromise(promise) {
-                resolve(Unit)
-            }
+        exposureNotificationClient.start().bindPromise(promise) {
+            resolve(Unit)
+        }
     }
 
     @ReactMethod
     fun stop(promise: Promise) {
-        exposureNotificationClient.stop()
-            .bindPromise(promise) {
-                resolve(Unit)
-            }
+        exposureNotificationClient.stop().bindPromise(promise) {
+            resolve(Unit)
+        }
     }
 
     @ReactMethod
@@ -50,70 +52,48 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     @ReactMethod
     fun getStatus(promise: Promise) {
-        exposureNotificationClient.isEnabled
-            .bindPromise(promise, Status.DISABLED.value) {
-                val status = if (it) Status.ACTIVE else Status.DISABLED
-                resolve(status.value)
-            }
+        exposureNotificationClient.isEnabled.bindPromise(promise, Status.DISABLED.value) { isEnabled ->
+            val status = if (isEnabled) Status.ACTIVE else Status.DISABLED
+            resolve(status.value)
+        }
     }
 
     @ReactMethod
     fun detectExposure(configuration: ReadableMap, diagnosisKeysURLs: ReadableArray, promise: Promise) {
         promise.rejectOnException {
-            val config = Configuration.fromMap(configuration).toGoogleConfig()
-            val files = diagnosisKeysURLs.toArrayList().map { File(it.toString()) }
-            val token = UUID.randomUUID()
-            exposureNotificationClient.provideDiagnosisKeys(files, config, token.toString()).bindPromise(promise) {
-                exposureNotificationClient.getExposureSummary(token.toString()).bindPromise(promise) {
-                    val map = Summary.fromExposureSummary(it).toMap()
-                    map?.putString(SUMMARY_HIDDEN_KEY, token.toString())
-                    resolve(map)
+            val exposureConfiguration = configuration.parse(Configuration::class.java).toExposureConfiguration()
+            val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
+            val token = UUID.randomUUID().toString()
+            exposureNotificationClient
+                .provideDiagnosisKeys(files, exposureConfiguration, token)
+                .continueWithTask { exposureNotificationClient.getExposureSummary(token) }
+                .bindPromise(promise) { exposureSummary ->
+                    val summary = exposureSummary.toSummary().toWritableMap().apply {
+                        putString(SUMMARY_HIDDEN_KEY, token)
+                    }
+                    resolve(summary)
                 }
-            }
         }
     }
 
     @ReactMethod
     fun getTemporaryExposureKeyHistory(promise: Promise) {
         exposureNotificationClient.temporaryExposureKeyHistory.bindPromise(promise) { keys ->
-            rejectOnException {
-                val writableNativeArray = WritableNativeArray()
-                keys.forEach {
-                    writableNativeArray.pushMap(ExposureKey.fromGoogleKey(it).toMap())
-                }
-                resolve(writableNativeArray)
-            }
+            val exposureKeys = keys.map { it.toExposureKey() }.toWritableArray()
+            resolve(exposureKeys)
         }
     }
 
     @ReactMethod
     fun getExposureInformation(summary: ReadableMap, promise: Promise) {
         promise.rejectOnException {
-            val token = summary.getString(SUMMARY_HIDDEN_KEY) ?: throw NullPointerException("token is null")
+            val token = summary.getString(SUMMARY_HIDDEN_KEY)
+                ?: throw IllegalArgumentException("Invalid summary token")
             exposureNotificationClient.getExposureInformation(token).bindPromise(promise) { exposureInformationList ->
-                val writableNativeArray = WritableNativeArray()
-                exposureInformationList.forEach {
-                    writableNativeArray.pushMap(Information.fromExposureInformation(it).toMap())
-                }
-                resolve(writableNativeArray)
+                val informationList = exposureInformationList.map { it.toInformation() }.toWritableArray()
+                resolve(informationList)
             }
         }
-    }
-}
-
-fun <T> Task<T>.bindPromise(promise: Promise, successBlock: Promise.(T) -> Unit) {
-    this.addOnFailureListener { promise.reject(it) }.addOnSuccessListener { successBlock.invoke(promise, it) }
-}
-
-fun <T, R> Task<T>.bindPromise(promise: Promise, failureValue: R, successBlock: Promise.(T) -> Unit) {
-    this.addOnFailureListener { promise.resolve(failureValue) }.addOnSuccessListener { successBlock.invoke(promise, it) }
-}
-
-fun Promise.rejectOnException(block: () -> Unit) {
-    try {
-        block.invoke()
-    } catch (e: Exception) {
-        this.reject(e)
     }
 }
 
