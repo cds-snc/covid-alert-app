@@ -120,8 +120,7 @@ private fun convertArrayToJson(readableArray: ReadableArray?): JSONArray? {
     val array = JSONArray()
     for (i in 0 until readableArray.size()) {
         when (readableArray.getType(i)) {
-            ReadableType.Null -> {
-            }
+            ReadableType.Null -> Unit
             ReadableType.Boolean -> array.put(readableArray.getBoolean(i))
             ReadableType.Number -> array.put(readableArray.getDouble(i))
             ReadableType.String -> array.put(readableArray.getString(i))
