@@ -1,10 +1,8 @@
 import React, {useRef, useEffect} from 'react';
-import {Dimensions, StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, useWindowDimensions} from 'react-native';
 import {Box, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import LottieView from 'lottie-react-native';
-
-const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 
 export type TutorialKey = 'step-1' | 'step-2' | 'step-3';
 
@@ -18,6 +16,7 @@ const animationData = {
 
 export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isActiveSlide: boolean}) => {
   const [i18n] = useI18n();
+  const {width: viewportWidth, height: viewportHeight} = useWindowDimensions();
   const animationRef: React.Ref<LottieView> = useRef(null);
   useEffect(() => {
     if (isActiveSlide) {

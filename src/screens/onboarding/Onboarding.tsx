@@ -1,7 +1,7 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles, Header, LanguageToggle} from 'components';
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import {SafeAreaView, useSafeArea} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useStorage} from 'services/StorageService';
@@ -10,8 +10,6 @@ import OnboardingBg from 'assets/onboarding-bg.svg';
 
 import {Permissions} from './views/Permissions';
 import {Start} from './views/Start';
-
-const {width: viewportWidth} = Dimensions.get('window');
 
 type ViewKey = 'start' | 'permissions';
 
@@ -23,6 +21,7 @@ const viewComponents = {
 
 export const OnboardingScreen = () => {
   const [i18n] = useI18n();
+  const {width: viewportWidth} = useWindowDimensions();
   const insets = useSafeArea();
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);

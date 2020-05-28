@@ -1,10 +1,8 @@
 import React from 'react';
-import {StyleSheet, Dimensions, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, useWindowDimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LottieView from 'lottie-react-native';
 import {Box, Header} from 'components';
-
-const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 
 interface BaseHomeViewProps {
   children?: React.ReactNode;
@@ -12,6 +10,7 @@ interface BaseHomeViewProps {
 }
 
 export const BaseHomeView = ({children, animationSource}: BaseHomeViewProps) => {
+  const {width: viewportWidth, height: viewportHeight} = useWindowDimensions();
   return (
     <SafeAreaView style={styles.flex}>
       <Header />

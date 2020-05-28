@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles, Toolbar} from 'components';
@@ -8,10 +8,9 @@ import {useI18n} from '@shopify/react-i18n';
 
 import {TutorialContent, tutorialData, TutorialKey} from './TutorialContent';
 
-const {width: viewportWidth} = Dimensions.get('window');
-
 export const TutorialScreen = () => {
   const navigation = useNavigation();
+  const {width: viewportWidth} = useWindowDimensions();
   const carouselRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [i18n] = useI18n();
