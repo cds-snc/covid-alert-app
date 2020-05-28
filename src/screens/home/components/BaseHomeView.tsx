@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Dimensions, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LottieView from 'lottie-react-native';
+import {useReduceMotionPreference} from 'shared/useReduceMotionPreference';
 import {Box, Header} from 'components';
 
 const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
@@ -12,6 +13,7 @@ interface BaseHomeViewProps {
 }
 
 export const BaseHomeView = ({children, animationSource}: BaseHomeViewProps) => {
+  const prefersReducedMotion = useReduceMotionPreference();
   return (
     <SafeAreaView style={styles.flex}>
       <Header />
@@ -28,7 +30,8 @@ export const BaseHomeView = ({children, animationSource}: BaseHomeViewProps) => 
               height: viewportHeight / 2,
             }}
             source={animationSource}
-            autoPlay
+            // don't play if user prefers reduced animations
+            autoPlay={!prefersReducedMotion}
             loop
           />
         )}

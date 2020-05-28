@@ -3,6 +3,7 @@ import {Dimensions, StyleSheet, ScrollView} from 'react-native';
 import {Box, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import LottieView from 'lottie-react-native';
+import {useReduceMotionPreference} from 'shared/useReduceMotionPreference';
 
 const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 
@@ -18,14 +19,17 @@ const animationData = {
 
 export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isActiveSlide: boolean}) => {
   const [i18n] = useI18n();
+  const prefersReducedMotion = useReduceMotionPreference();
   const animationRef: React.Ref<LottieView> = useRef(null);
   useEffect(() => {
+    // don't play if user prefers reduced animations
+    if (prefersReducedMotion) return;
     if (isActiveSlide) {
       animationRef.current?.play();
     } else {
       animationRef.current?.reset();
     }
-  }, [isActiveSlide]);
+  }, [isActiveSlide, prefersReducedMotion]);
   return (
     <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
       <LottieView
