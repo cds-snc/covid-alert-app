@@ -34,7 +34,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
         </Text>
       </Box>
       <Box paddingHorizontal="m" marginBottom="m">
-        <CodeInput value={value} onChange={onChange} autoFocus />
+        <CodeInput value={value} onChange={onChange} accessibilityLabel={i18n.translate('DataUpload.InputLabel')} />
       </Box>
       <Box flex={1} paddingHorizontal="m">
         <Button
