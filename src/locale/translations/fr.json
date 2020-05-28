@@ -75,8 +75,10 @@
     "Title": "Langue",
     "En": "English (Canada)",
     "Fr": "Français (Canada)",
+    "PtBR": "Portugais (Brésil)",
     "EnShort": "English",
     "FrShort": "Français",
+    "PtBRShort": "Portugais (Brésil)",
     "Close": "Retour"
   },
   "Tutorial": {
