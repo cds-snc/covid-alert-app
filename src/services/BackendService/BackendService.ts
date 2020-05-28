@@ -4,44 +4,33 @@ import hmac256 from 'crypto-js/hmac-sha256';
 import encHex from 'crypto-js/enc-hex';
 import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
-import {getRandomBytes, downloadDiagnosisKeysFiles} from 'bridge/CovidShield';
-import {utcISO8601Date} from 'shared/date-fns';
+import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
 export class BackendService implements BackendInterface {
-  retreiveUrl: string;
+  retrieveUrl: string;
   submitUrl: string;
   hmacKey: string;
 
-  constructor(retreiveUrl: string, submitUrl: string, hmacKey: string) {
-    this.retreiveUrl = retreiveUrl;
+  constructor(retrieveUrl: string, submitUrl: string, hmacKey: string) {
+    this.retrieveUrl = retrieveUrl;
     this.submitUrl = submitUrl;
     this.hmacKey = hmacKey;
   }
 
-  async retrieveDiagnosisKeysByDay(date: Date) {
-    const request = utcISO8601Date(date);
-    const message = `${request}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
+  async retrieveDiagnosisKeys(period: number) {
+    const message = `${period}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
 
-    return downloadDiagnosisKeysFiles(`${this.retreiveUrl}/retrieve-day/${request}/${hmac}`);
-  }
-
-  async retrieveDiagnosisKeysByHour(date: Date, hour: number): Promise<string[]> {
-    const hourFormatted = `0${hour}`.slice(-2);
-    const request = `${utcISO8601Date(date)}`;
-    const message = `${request}:${hourFormatted}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
-    const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
-
-    return downloadDiagnosisKeysFiles(`${this.retreiveUrl}/retrieve-hour/${request}/${hourFormatted}/${hmac}`);
+    return downloadDiagnosisKeysFile(`${this.retrieveUrl}/retrieve/${period}/${hmac}`);
   }
 
   async getExposureConfiguration() {
     const region = 'ON';
-    return (await fetch(`${this.retreiveUrl}/config/${region}/exposure.json`)).json();
+    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
