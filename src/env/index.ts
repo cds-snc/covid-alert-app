@@ -1,4 +1,10 @@
+import {Platform} from 'react-native';
 import Config from 'react-native-config';
+
+export const APP_ID = Platform.select({
+  android: Config.APP_ID_ANDROID,
+  ios: Config.APP_ID_IOS,
+})!!;
 
 export const APP_VERSION_CODE = parseInt(Config.APP_VERSION_CODE, 10);
 
