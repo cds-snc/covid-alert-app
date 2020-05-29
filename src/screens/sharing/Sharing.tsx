@@ -2,8 +2,8 @@ import React, {useCallback, useMemo} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {ShareablePlatform, shareContent, shareInstagramStory, shareMessages, useShareablePlatforms} from 'bridge/Share';
 import {Box, Icon, Text, Toolbar} from 'components';
-import {Image, StyleSheet, TouchableOpacity, View, ScrollView, Platform} from 'react-native';
-import {SafeAreaView, useSafeArea} from 'react-native-safe-area-context';
+import {Image, StyleSheet, TouchableOpacity, View, Platform} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import theme from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
 import OnboardingBg from 'assets/onboarding-bg.svg';
@@ -20,7 +20,6 @@ const ICONS = {
 };
 
 export const SharingScreen = () => {
-  const insets = useSafeArea();
   const [i18n] = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
