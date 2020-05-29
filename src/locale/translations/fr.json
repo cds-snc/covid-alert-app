@@ -8,8 +8,8 @@
     "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
     "SignalDataShared": "Merci d'aider à prévenir la transmission",
     "SignalDataSharedDetailed": {
-      "One": "Vous allez recevoir chaque jour, pour les {number} prochains jour, une notification vous demandant de partager vos identifiants aléatoires.",
-      "Other": "Vous allez recevoir chaque jour, pour les {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires."
+      "One": "Vous allez recevoir chaque jour, pendant les {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires.",
+      "Other": "Vous allez recevoir chaque jour, pendant les {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires."
     },
     "SignalDataSharedCTA": "Suivez vos symptômes",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
