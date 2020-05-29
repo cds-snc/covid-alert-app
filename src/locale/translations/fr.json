@@ -1,15 +1,15 @@
 {
   "Home": {
     "NoExposureDetected": "Aucune exposition à la COVID-19 détectée",
-    "NoExposureDetectedDetailed": "Selon vos identifiants aléatoires, dans les 14 derniers jours, vous n'avez pas été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
+    "NoExposureDetectedDetailed": "Selon vos identifiants aléatoires, au cours des 14 derniers jours, vous n'avez pas été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
     "ExposureDetected": "Vous avez possiblement été exposé(e) à la COVID-19",
-    "ExposureDetectedDetailed": "Selon vos identifiants aléatoires, dans les 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
+    "ExposureDetectedDetailed": "Selon vos identifiants aléatoires, au cours des 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
     "SeeGuidance": "Lire les directives du Canada sur la COVID-19",
     "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-    "SignalDataShared": "Merci d'aider à prévenir la transmission",
+    "SignalDataShared": "Merci d'aider à ralentir la transmission",
     "SignalDataSharedDetailed": {
-      "One": "Vous allez recevoir chaque jour, pendant les {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires.",
-      "Other": "Vous allez recevoir chaque jour, pendant les {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires."
+      "One": "Vous recevrez chaque jour, au cours des {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires.",
+      "Other": "Vous recevrez chaque jour, au cours des {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires."
     },
     "SignalDataSharedCTA": "Suivez vos symptômes",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
@@ -26,16 +26,16 @@
     "NoConnectivityDetailed": "COVID Shield a besoin d'un accès Internet pour continuer de vérifier les expositions potentielles à la COVID-19.",
     "AppName": "COVID Shield",
     "LastCheckedMinutes": {
-      "One": "Mis à jour il y a {number} minute",
-      "Other": "Mis à jour il y a {number} minutes"
+      "One": "Dernière vérification il y a {number} minute",
+      "Other": "Dernière vérification il y a {number} minutes"
     },
     "LastCheckedHours": {
-      "One": "Mis à jour il y a {number} heure",
-      "Other": "Mis à jour il y a {number} heures"
+      "One": "Dernière vérification il y a {number} heure",
+      "Other": "Dernière vérification il y a {number} heures"
     },
     "LastCheckedDays": {
-      "One": "Mis à jour il y a {number} jour",
-      "Other": "Mis à jour il y a {number} jours"
+      "One": "Dernière vérification il y a {number} jour",
+      "Other": "Dernière vérification il y a {number} jours"
     }
   },
   "OverlayClosed": {
@@ -56,7 +56,7 @@
     "EnterCodeCardAction": "Entrez le code",
     "NotificationCardStatus": "Les notifications poussées sont ",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
-    "NotificationCardBody": "Vous ne recevrez pas de notifications poussées si vous avez possiblement été exposé(e) à la COVID-19. Les notifications spontanées sont importantes pour aider à prévenir la transmission de la COVID-19.",
+    "NotificationCardBody": "Vous ne recevrez pas de notifications poussées si vous avez possiblement été exposé(e) à la COVID-19. Les notifications spontanées sont importantes pour aider à ralentir la transmission de la COVID-19.",
     "NotificationCardAction": "Activez les notifications poussées",
     "ExposureNotificationCardStatus": "Les notifications d'exposition à la COVID-19 sont ",
     "ExposureNotificationCardStatusOff": "DÉSACTIVÉES",
@@ -85,9 +85,9 @@
     "step-1Title": "Comment fonctionne COVID Shield",
     "step-1": "Votre téléphone utilise la fonction Bluetooth pour collecter et partager des identifiants aléatoires avec d'autres téléphones à proximité qui ont l'application COVID Shield. Ces identifiants sont conservés en toute sécurité sur chaque téléphone.",
     "step-2Title": "Si vous avez potentiellement été exposé(e) à la COVID-19",
-    "step-2": "Vous recevrez une notification si, dans les 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
+    "step-2": "Vous recevrez une notification si, au cours des 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
     "step-3Title": "Si vous recevez un résultat de test positif à la COVID-19",
-    "step-3": "Avisez anonymement ceux qui ont été à proximité de vous dans les 14 derniers jours qu'ils ont possiblement été exposés à la COVID-19.",
+    "step-3": "Avisez anonymement ceux qui ont été à proximité de vous au cours des 14 derniers jours qu'ils ont possiblement été exposés à la COVID-19.",
     "ActionBack": "Précédent",
     "ActionNext": "Suivant",
     "ActionEnd": "Terminé",
@@ -95,11 +95,11 @@
   },
   "Sharing": {
     "Title": "Partager l'application",
-    "SubTitle": "Chaque personne utilisant COVID Shield aide à prévenir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
+    "SubTitle": "Chaque personne utilisant COVID Shield aide à ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
     "Platform-messages": "Partager avec Messages",
     "Platform-instagram": "Partager avec Instagram",
     "More": "Plus d'applications",
-    "Message": "Joignez-vous à moi pour aider à prévenir la transmission de la COVID-19. Téléchargez l'application COVID Shield : https://covidshield.app",
+    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l'application COVID Shield : https://covidshield.app",
     "Close": "Fermer"
   },
   "Onboarding": {
@@ -111,7 +111,7 @@
     "Title": "Vos données sont privées",
     "Body": "COVID Shield priorise la confidentialité lors d'envois de notifications d'exposition à la COVID-19.",
     "Body2": "Vos identifiants aléatoires sont conservés sur votre téléphone exclusivement, à moins que vous décidiez de les partager.",
-    "Body3": "L'utilisation de COVID Shield est volontaire. Vous pouvez supprimer vos identifiants aléatoires à tout moment."
+    "Body3": "L'utilisation de COVID Shield se fait sur une base volontaire. Vous pouvez supprimer vos identifiants aléatoires à tout moment."
   },
   "OnboardingStart": {
     "Title": "Protégez-vous, protégez les autres",
@@ -135,10 +135,10 @@
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
     "ConsentTitle": "Partagez vos identifiants aléatoires",
     "ConsentBody": "Un professionnel de la santé vous a autorisé à partager les identifiants aléatoires conservés sur votre téléphone.",
-    "ConsentBody2": "Si vous partagez vos identifiants aléatoires, ceux qui ont été à proximité de vous dans les 14 derniers jours avec l'application COVID Shield recevront une notification les avisant qu'ils ont possiblement été exposés à la COVID-19. Cette notification ne contiendra aucune information vous concernant.",
-    "ConsentBody3": "Vous recevrez une notification par jour lorsque de nouveaux identifiants aléatoires pourront être partagés. Vous devrez accorder la permission chaque fois pour que les identifiants aléatoires soient partagés. Le partage est volontaire.",
+    "ConsentBody2": "Si vous partagez vos identifiants aléatoires, ceux qui ont été à proximité de vous au cours des 14 derniers jours avec l'application COVID Shield recevront une notification les avisant qu'ils ont possiblement été exposés à la COVID-19. Cette notification ne contiendra aucune information vous concernant.",
+    "ConsentBody3": "Vous recevrez une notification par jour lorsque de nouveaux identifiants aléatoires pourront être partagés. Vous devrez chaque fois donner votre autorisation pour que les identifiants aléatoires soient partagés. Le partage est volontaire.",
     "PrivacyPolicyLink": "Voir la politique de confidentialité",
-    "ConsentAction": "Accepter",
+    "ConsentAction": "J'accepte",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "ErrorTitle": "Code non reconnu",
     "ErrorBody": "Votre code COVID Shield n'a pas pu être reconnu. Essayez de nouveau.",
@@ -146,14 +146,14 @@
   },
   "Notification": {
     "ExposedMessageTitle": "Vous avez possiblement été exposé(e)",
-    "ExposedMessageBody": "Selon vos identifiants aléatoires, dans les 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
+    "ExposedMessageBody": "Selon vos identifiants aléatoires, au cours des 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
     "OffMessageTitle": "COVID Shield est désactivé",
     "OffMessageBody": "Activez COVID Shield pour recevoir une notification si vous avez potentiellement été exposé(e) à la COVID-19.",
     "DailyUploadNotificationTitle": "Partagez vos nouveaux identifiants aléatoires",
     "DailyUploadNotificationBody": "Partager vos données aide les autres à savoir s'ils ont possiblement été exposés à la COVID-19."
   },
   "Partners": {
-    "Label": "Développé en partenariat avec"
+    "Label": "Conçu en partenariat avec"
   },
   "BottomSheet": {
     "Collapse": "Fermer"
