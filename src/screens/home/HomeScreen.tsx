@@ -5,6 +5,7 @@ import {useExposureStatus, useSystemStatus, SystemStatus} from 'services/Exposur
 import {checkNotifications, requestNotifications} from 'react-native-permissions';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
+import {useOrientation} from 'shared/useOrientation';
 
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
@@ -109,9 +110,12 @@ export const HomeScreen = () => {
     [showNotificationWarning, systemStatus, turnNotificationsOn],
   );
 
+  const {orientation} = useOrientation();
+  const maxWidth = orientation === 'landscape' ? 500 : undefined;
+
   return (
-    <Box flex={1} backgroundColor="mainBackground">
-      <Box flex={1} paddingTop="m">
+    <Box flex={1} alignItems="center" backgroundColor="mainBackground">
+      <Box flex={1} maxWidth={maxWidth} paddingTop="m">
         <Content />
       </Box>
       <BottomSheet
@@ -124,6 +128,7 @@ export const HomeScreen = () => {
           status={systemStatus}
           notificationWarning={showNotificationWarning}
           turnNotificationsOn={turnNotificationsOn}
+          maxWidth={maxWidth}
         />
       </BottomSheet>
     </Box>

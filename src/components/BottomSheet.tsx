@@ -19,7 +19,9 @@ interface ContentProps {
 const SheetContentsContainer = ({children, isExpanded, toggleExpanded}: ContentProps) => {
   const content = (
     <Box backgroundColor="overlayBackground" minHeight="100%">
-      <Box marginTop="l">{children}</Box>
+      <Box marginTop="l" alignItems="center">
+        {children}
+      </Box>
     </Box>
   );
 
