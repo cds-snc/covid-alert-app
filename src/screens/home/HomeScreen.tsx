@@ -5,7 +5,7 @@ import {useExposureStatus, useSystemStatus, SystemStatus} from 'services/Exposur
 import {checkNotifications, requestNotifications} from 'react-native-permissions';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
-import {useOrientation} from 'shared/useOrientation';
+import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
@@ -110,8 +110,7 @@ export const HomeScreen = () => {
     [showNotificationWarning, systemStatus, turnNotificationsOn],
   );
 
-  const {orientation} = useOrientation();
-  const maxWidth = orientation === 'landscape' ? 500 : undefined;
+  const maxWidth = useMaxContentWidth();
 
   return (
     <Box flex={1} alignItems="center" backgroundColor="mainBackground">

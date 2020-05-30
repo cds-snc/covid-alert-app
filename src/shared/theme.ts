@@ -169,6 +169,7 @@ const theme = {
       disabled: {},
     },
   },
+  maxContentWidth: 500,
 };
 
 export type Theme = typeof theme;

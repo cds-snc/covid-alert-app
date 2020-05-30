@@ -7,6 +7,7 @@ import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useStorage} from 'services/StorageService';
 import {useI18n} from '@shopify/react-i18n';
 import OnboardingBg from 'assets/onboarding-bg.svg';
+import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
 import {Permissions} from './views/Permissions';
 import {Start} from './views/Start';
@@ -36,10 +37,19 @@ export const OnboardingScreen = () => {
     });
   }, [navigation, setOnboarded]);
 
-  const renderItem = useCallback(({item}: {item: ViewKey}) => {
-    const ItemComponent = viewComponents[item];
-    return <ItemComponent />;
-  }, []);
+  const maxWidth = useMaxContentWidth();
+
+  const renderItem = useCallback(
+    ({item}: {item: ViewKey}) => {
+      const ItemComponent = viewComponents[item];
+      return (
+        <Box maxWidth={maxWidth} alignSelf="center">
+          <ItemComponent />
+        </Box>
+      );
+    },
+    [maxWidth],
+  );
 
   const nextItem = useCallback(() => {
     if (carouselRef.current) {
