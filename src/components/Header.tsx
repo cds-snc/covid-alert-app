@@ -19,7 +19,7 @@ export const Header = ({isOverlay}: HeaderProps) => {
   }, [navigation]);
   return (
     <TouchableWithoutFeedback onPress={onLogoPress}>
-      <Box flexDirection="row" alignItems="center" justifyContent="center" marginBottom="m">
+      <Box flexDirection="row" alignItems="center" justifyContent="center" marginBottom="l">
         <Box marginHorizontal="s">
           <Icon size={20} name="shield-covid" />
         </Box>
