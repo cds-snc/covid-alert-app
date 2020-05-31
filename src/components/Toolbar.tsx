@@ -31,7 +31,7 @@ export const Toolbar = ({title, navText, navIcon, onIconClicked}: ToolbarProps) 
       <Box flex={1} flexDirection="row" alignItems="center" justifyContent="flex-start" padding="none" maxHeight={56}>
         {navIcon && <TouchableIcon iconName={navIcon} onPress={onIconClicked} />}
         <Box padding="m">
-          <Text variant="bodySubTitle" color="overlayBodyText">
+          <Text variant="bodySubTitle" color="overlayBodyText" accessibilityRole="header">
             {title}
           </Text>
         </Box>
