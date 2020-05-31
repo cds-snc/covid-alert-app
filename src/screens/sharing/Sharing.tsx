@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {ShareablePlatform, shareContent, shareInstagramStory, shareMessages, useShareablePlatforms} from 'bridge/Share';
 import {Box, Icon, Text, Toolbar} from 'components';
-import {Image, StyleSheet, TouchableOpacity, View, Platform} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View, Platform, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import theme from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
@@ -59,11 +59,12 @@ export const SharingScreen = () => {
           navLabel={i18n.translate('Sharing.Close')}
           onIconClicked={close}
         />
-        <Box flex={1}>
-          <Box position="absolute" width="100%">
-            <OnboardingBg width="100%" viewBox="0 0 375 325" />
+        <ScrollView contentContainerStyle={styles.content}>
+          <Box flex={1}>
+            <Box position="absolute" width="100%">
+              <OnboardingBg width="100%" viewBox="0 0 375 325" />
+            </Box>
           </Box>
-          <Box flex={1} />
           <Box paddingHorizontal="m">
             <Text variant="bodyText" fontSize={16} color="overlayBodyText">
               {i18n.translate('Sharing.SubTitle')}
@@ -102,7 +103,7 @@ export const SharingScreen = () => {
               </TouchableOpacity>
             </Box>
           </Box>
-        </Box>
+        </ScrollView>
       </SafeAreaView>
     </Box>
   );
@@ -112,10 +113,16 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
+  content: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+  },
   icon: {
     height: 30,
     width: 30,
   },
+
   moreIcon: {
     height: 30,
     width: 30,
