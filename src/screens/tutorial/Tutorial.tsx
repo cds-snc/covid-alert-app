@@ -68,7 +68,9 @@ export const TutorialScreen = () => {
         )}
         <Box alignItems="center" justifyContent="center" flexDirection="row" flexWrap="wrap">
           <Box flex={1} padding="l" flexWrap="wrap">
-            {!isStart && <Button text="Back" variant="subduedText" onPress={prevItem} />}
+            {!isStart && (
+              <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="subduedText" onPress={prevItem} />
+            )}
           </Box>
           <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
           <Box flex={1} padding="l" flexWrap="wrap">
