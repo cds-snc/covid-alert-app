@@ -23,8 +23,7 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
   const animationRef: React.Ref<LottieView> = useRef(null);
   useEffect(() => {
     // don't play if user prefers reduced animations
-    if (prefersReducedMotion) return;
-    if (isActiveSlide) {
+    if (isActiveSlide && !prefersReducedMotion) {
       animationRef.current?.play();
     } else {
       animationRef.current?.reset();
@@ -37,7 +36,7 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
         style={{width: viewportWidth, height: viewportHeight / 2}}
         source={animationData[item]}
         imageAssetsFolder="animation/images"
-        loop
+        loop={!prefersReducedMotion}
       />
       <Box paddingHorizontal="xxl">
         <Text textAlign="center" color="overlayBodyText" variant="bodySubTitle" marginBottom="m">

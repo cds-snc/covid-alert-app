@@ -32,7 +32,7 @@ export const BaseHomeView = ({children, animationSource}: BaseHomeViewProps) => 
             source={animationSource}
             // don't play if user prefers reduced animations
             autoPlay={!prefersReducedMotion}
-            loop
+            loop={!prefersReducedMotion}
           />
         )}
         <Box flex={1} alignItems="center" justifyContent="center" marginHorizontal="xl">
