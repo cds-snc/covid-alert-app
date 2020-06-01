@@ -66,7 +66,13 @@ RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve reject
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
     } else {
-      resolve(nil);
+      [self.enManager setExposureNotificationEnabled:YES completionHandler:^(NSError * _Nullable error) {
+        if (error) {
+          reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+        } else {
+          resolve(nil);
+        }
+      }];
     }
   }];
 }
@@ -95,6 +101,27 @@ RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolv
       break;
   }
 }
+
+
+RCT_REMAP_METHOD(getTestTemporaryExposureKeyHistory, getTestTemporaryExposureKeyHistoryWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [self.enManager getTestDiagnosisKeysWithCompletionHandler:^(NSArray<ENTemporaryExposureKey *> * _Nullable keys, NSError * _Nullable error) {
+    if (error) {
+      reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+    } else {
+      NSMutableArray *serialziedKeys = [NSMutableArray new];
+      for (ENTemporaryExposureKey *key in keys) {
+        [serialziedKeys addObject:@{
+          @"keyData": [key.keyData base64EncodedStringWithOptions:0],
+          @"rollingStartNumber": @(key.rollingStartNumber),
+          @"transmissionRiskLevel": @(key.transmissionRiskLevel)
+        }];
+      }
+      resolve(serialziedKeys);
+    }
+  }];
+}
+
 
 RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {

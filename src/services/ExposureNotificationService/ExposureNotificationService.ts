@@ -53,6 +53,7 @@ export interface SecureStorageOptions {
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: Observable<ExposureStatus>;
+  started = false;
 
   exposureNotification: typeof ExposureNotification;
   backendInterface: BackendInterface;
@@ -77,10 +78,10 @@ export class ExposureNotificationService {
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
-    this.start();
   }
 
   async start(): Promise<void> {
+    this.started = true;
     try {
       await this.exposureNotification.start();
     } catch (_) {

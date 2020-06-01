@@ -59,6 +59,15 @@ export const ExposureNotificationServiceProvider = ({
   );
 };
 
+export function useStartENSystem(): () => void {
+  const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
+  return useCallback(() => {
+    if (!exposureNotificationService.started) {
+      exposureNotificationService.start();
+    }
+  }, [exposureNotificationService]);
+}
+
 export function useSystemStatus(): [SystemStatus, () => void] {
   const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
   const [state, setState] = useState<SystemStatus>(exposureNotificationService.systemStatus.value);
