@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import {StyleSheet, Dimensions, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LottieView from 'lottie-react-native';
@@ -14,6 +14,16 @@ interface BaseHomeViewProps {
 
 export const BaseHomeView = ({children, animationSource}: BaseHomeViewProps) => {
   const prefersReducedMotion = useReduceMotionPreference();
+  const animationRef: React.Ref<LottieView> = useRef(null);
+
+  useEffect(() => {
+    // need to stop if user prefers reduced animations
+    if (prefersReducedMotion) {
+      animationRef.current?.reset();
+      animationRef.current?.pause();
+    }
+  }, [prefersReducedMotion]);
+
   return (
     <SafeAreaView style={styles.flex}>
       <Header />
@@ -24,6 +34,7 @@ export const BaseHomeView = ({children, animationSource}: BaseHomeViewProps) => 
       >
         {animationSource && (
           <LottieView
+            ref={animationRef}
             style={{
               ...styles.animationBase,
               width: viewportWidth * 2,

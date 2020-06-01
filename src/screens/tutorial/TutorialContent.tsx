@@ -22,8 +22,11 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
   const prefersReducedMotion = useReduceMotionPreference();
   const animationRef: React.Ref<LottieView> = useRef(null);
   useEffect(() => {
-    // don't play if user prefers reduced animations
-    if (isActiveSlide && !prefersReducedMotion) {
+    // need to stop if user prefers reduced animations
+    if (prefersReducedMotion) {
+      animationRef.current?.reset();
+      animationRef.current?.pause();
+    } else if (isActiveSlide) {
       animationRef.current?.play();
     } else {
       animationRef.current?.reset();
