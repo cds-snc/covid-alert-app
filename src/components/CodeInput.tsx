@@ -71,7 +71,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <Box flexDirection="row" justifyContent="space-evenly" marginHorizontal="m">
+        <Box flexDirection="row" justifyContent="space-evenly" marginHorizontal="m" paddingVertical="l">
           {displayValue()}
         </Box>
       </TouchableWithoutFeedback>
