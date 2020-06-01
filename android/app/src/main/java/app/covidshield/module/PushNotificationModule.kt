@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import app.covidshield.MainActivity
 import app.covidshield.R
 import app.covidshield.extensions.parse
+import app.covidshield.extensions.rejectOnException
 import app.covidshield.extensions.toJson
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -18,7 +19,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import java.util.UUID
 
 private const val CHANNEL_ID = "CovidShield"
 private const val CHANNEL_NAME = "CovidShield"
@@ -48,14 +49,17 @@ class PushNotificationModule(context: ReactApplicationContext) : ReactContextBas
 
     @ReactMethod
     fun requestPermissions(config: ReadableMap, promise: Promise) {
-        promise.resolve(null)
+        // Noop for Android
+        promise.resolve(Unit)
     }
 
     @ReactMethod
     fun presentLocalNotification(data: ReadableMap, promise: Promise) {
-        val config = data.toHashMap().toJson().parse(PushNotificationConfig::class.java)!!
-        showNotification(config)
-        promise.resolve(null)
+        promise.rejectOnException {
+            val config = data.toHashMap().toJson().parse(PushNotificationConfig::class.java)
+            showNotification(config)
+            promise.resolve(Unit)
+        }
     }
 
     private fun showNotification(config: PushNotificationConfig) {
