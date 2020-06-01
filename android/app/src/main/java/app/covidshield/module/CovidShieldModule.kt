@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.io.IOException
 import java.security.SecureRandom
 import java.util.UUID
 import kotlin.coroutines.CoroutineContext
@@ -39,8 +40,8 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
             promise.rejectOnException {
                 val request = Request.Builder().url(url).build()
                 val response = okHttpClient.newCall(request).execute().takeIf { it.code() == 200 }
-                    ?: throw Error("Network error")
-                val bytes = response.body()?.bytes() ?: throw Error("Network error")
+                    ?: throw IOException()
+                val bytes = response.body()?.bytes() ?: throw IOException()
                 val fileName = writeFile(bytes)
                 promise.resolve(fileName)
             }
