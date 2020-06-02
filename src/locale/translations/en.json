@@ -158,5 +158,9 @@
   },
   "BottomSheet": {
     "Collapse": "Close"
+  },
+  "RegionPicker": {
+    "Title": "Select your province or territory",
+    "Body": "This helps give you more relevant guidance.\nThis information is only stored on your device and will never be shared with anyone else."
   }
 }
