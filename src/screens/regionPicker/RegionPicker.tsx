@@ -28,20 +28,20 @@ interface RegionItemProps {
   onPress: (code: Region) => void;
 }
 
-const items: Omit<RegionItemProps, 'onPress' | 'selected'>[] = [
-  {code: 'AB', flagIcon: AbFlag, name: 'Alberta'},
-  {code: 'BC', flagIcon: BcFlag, name: 'British Columbia'},
-  {code: 'MB', flagIcon: MbFlag, name: 'Manitoba'},
-  {code: 'NB', flagIcon: NbFlag, name: 'New Brunswick'},
-  {code: 'NL', flagIcon: NlFlag, name: 'Newfoundland and Labrador'},
-  {code: 'NT', flagIcon: NtFlag, name: 'Northwest Territories'},
-  {code: 'NS', flagIcon: NsFlag, name: 'Nova Scotia'},
-  {code: 'NU', flagIcon: NuFlag, name: 'Nunavut'},
-  {code: 'ON', flagIcon: OnFlag, name: 'Ontario'},
-  {code: 'PE', flagIcon: PeFlag, name: 'Prince Edward Island'},
-  {code: 'QC', flagIcon: QcFlag, name: 'Quebec'},
-  {code: 'SK', flagIcon: SkFlag, name: 'Saskatchewan'},
-  {code: 'YT', flagIcon: YtFlag, name: 'Yukon'},
+const items: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[] = [
+  {code: 'AB', flagIcon: AbFlag},
+  {code: 'BC', flagIcon: BcFlag},
+  {code: 'MB', flagIcon: MbFlag},
+  {code: 'NB', flagIcon: NbFlag},
+  {code: 'NL', flagIcon: NlFlag},
+  {code: 'NT', flagIcon: NtFlag},
+  {code: 'NS', flagIcon: NsFlag},
+  {code: 'NU', flagIcon: NuFlag},
+  {code: 'ON', flagIcon: OnFlag},
+  {code: 'PE', flagIcon: PeFlag},
+  {code: 'QC', flagIcon: QcFlag},
+  {code: 'SK', flagIcon: SkFlag},
+  {code: 'YT', flagIcon: YtFlag},
 ];
 
 const RegionItem_ = ({code, onPress, name, flagIcon, selected}: RegionItemProps) => (
@@ -74,11 +74,10 @@ export const RegionPickerScreen = () => {
         <ScrollView style={styles.flex}>
           <Box flex={1} paddingHorizontal="m">
             <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center">
-              Select your province or territory
+              {i18n.translate('RegionPicker.Title')}
             </Text>
             <Text marginVertical="m" variant="bodyText" color="overlayBodyText" textAlign="center">
-              This helps give you more relevant guidance.{'\n'}This information is only stored on your device and will
-              never be shared with anyone else.
+              {i18n.translate('RegionPicker.Body')}
             </Text>
             <Box paddingHorizontal="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground">
               {items.map(item => {
@@ -87,6 +86,7 @@ export const RegionPickerScreen = () => {
                     key={item.code}
                     selected={selectedRegion === item.code}
                     onPress={setSelectedRegion}
+                    name={i18n.translate(`RegionPicker.${item.code}`)}
                     {...item}
                   />
                 );
