@@ -16,7 +16,7 @@ export const ThemeProvider = ({children}: ThemeProviderProps) => {
 
   useEffect(() => setTheme(getThemeWithDefault(region)), [region]);
 
-  return <ThemeProviderRS theme={theme}>{theme && children}</ThemeProviderRS>;
+  return <ThemeProviderRS theme={theme}>{children}</ThemeProviderRS>;
 };
 
 const getThemeWithDefault = (region?: Region, mode: 'light' | 'dark' = 'light'): Theme => {

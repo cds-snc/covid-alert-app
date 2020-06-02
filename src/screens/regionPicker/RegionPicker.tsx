@@ -72,7 +72,7 @@ export const RegionPickerScreen = () => {
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
         <ScrollView style={styles.flex}>
-          <Box flex={1} paddingHorizontal="m">
+          <Box flex={1} paddingHorizontal="m" paddingTop="m">
             <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center">
               {i18n.translate('RegionPicker.Title')}
             </Text>
@@ -97,11 +97,14 @@ export const RegionPickerScreen = () => {
         <Box
           backgroundColor="overlayBackground"
           padding="m"
-          borderTopColor="infoBlockNeutralBackground"
-          borderTopWidth={1}
+          shadowColor="infoBlockNeutralBackground"
+          shadowOffset={{width: 0, height: 2}}
+          shadowOpacity={0.5}
+          shadowRadius={2}
+          elevation={10}
         >
           <Button
-            text={selectedRegion === 'None' ? 'Skip' : 'Get started'}
+            text={i18n.translate(`RegionPicker.${selectedRegion === 'None' ? 'Skip' : 'GetStarted'}`)}
             variant={selectedRegion === 'None' ? 'bigHollow' : 'bigFlat'}
             onPress={async () => {
               await persistRegion(selectedRegion);
