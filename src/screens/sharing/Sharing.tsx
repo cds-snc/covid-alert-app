@@ -59,51 +59,56 @@ export const SharingScreen = () => {
           navLabel={i18n.translate('Sharing.Close')}
           onIconClicked={close}
         />
-        <ScrollView contentContainerStyle={styles.content}>
-          <Box flex={1}>
-            <Box position="absolute" width="100%">
+        <Box flex={1}>
+          <ScrollView>
+            <Box>
               <OnboardingBg width="100%" viewBox="0 0 375 325" />
             </Box>
-          </Box>
-          <Box paddingHorizontal="m">
-            <Text variant="bodyText" fontSize={16} color="overlayBodyText">
-              {i18n.translate('Sharing.SubTitle')}
-            </Text>
-          </Box>
-          <Box padding="m">
-            <Box paddingHorizontal="s" paddingRight="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground">
-              {platforms.map(platform => (
-                <React.Fragment key={platform}>
-                  <TouchableOpacity onPress={onShareByPlatform[platform]}>
-                    <Box paddingVertical="s" flexDirection="row" alignItems="center" justifyContent="space-between">
-                      <Image style={styles.icon} source={ICONS[platform]} />
-                      <Text variant="bodyText" marginVertical="s" marginLeft="s" color="overlayBodyText">
-                        {i18n.translate(`Sharing.Platform-${platform}`)}
-                      </Text>
-                      <Box flex={1} alignItems="flex-end">
-                        <Icon size={32} name="icon-chevron" />
-                      </Box>
-                    </Box>
-                  </TouchableOpacity>
-                  <Box height={1} marginHorizontal="-m" backgroundColor="overlayBackground" />
-                </React.Fragment>
-              ))}
-              <TouchableOpacity onPress={onShareMore}>
-                <Box paddingVertical="s" flexDirection="row" alignItems="center" justifyContent="space-between">
-                  <View style={styles.moreIcon}>
-                    <Icon size={16} name="icon-ellipsis" />
-                  </View>
-                  <Text variant="bodyText" marginVertical="s" marginLeft="s" color="overlayBodyText">
-                    {i18n.translate('Sharing.More')}
-                  </Text>
-                  <Box flex={1} alignItems="flex-end">
-                    <Icon size={32} name="icon-chevron" />
-                  </Box>
-                </Box>
-              </TouchableOpacity>
+            <Box paddingHorizontal="m">
+              <Text variant="bodyText" fontSize={16} color="overlayBodyText">
+                {i18n.translate('Sharing.SubTitle')}
+              </Text>
             </Box>
-          </Box>
-        </ScrollView>
+            <Box padding="m">
+              <Box
+                paddingHorizontal="s"
+                paddingRight="m"
+                borderRadius={10}
+                backgroundColor="infoBlockNeutralBackground"
+              >
+                {platforms.map(platform => (
+                  <React.Fragment key={platform}>
+                    <TouchableOpacity onPress={onShareByPlatform[platform]}>
+                      <Box paddingVertical="s" flexDirection="row" alignItems="center" justifyContent="space-between">
+                        <Image style={styles.icon} source={ICONS[platform]} />
+                        <Text variant="bodyText" marginVertical="s" marginLeft="s" color="overlayBodyText">
+                          {i18n.translate(`Sharing.Platform-${platform}`)}
+                        </Text>
+                        <Box flex={1} alignItems="flex-end">
+                          <Icon size={32} name="icon-chevron" />
+                        </Box>
+                      </Box>
+                    </TouchableOpacity>
+                    <Box height={1} marginHorizontal="-m" backgroundColor="overlayBackground" />
+                  </React.Fragment>
+                ))}
+                <TouchableOpacity onPress={onShareMore}>
+                  <Box paddingVertical="s" flexDirection="row" alignItems="center" justifyContent="space-between">
+                    <View style={styles.moreIcon}>
+                      <Icon size={16} name="icon-ellipsis" />
+                    </View>
+                    <Text variant="bodyText" marginVertical="s" marginLeft="s" color="overlayBodyText">
+                      {i18n.translate('Sharing.More')}
+                    </Text>
+                    <Box flex={1} alignItems="flex-end">
+                      <Icon size={32} name="icon-chevron" />
+                    </Box>
+                  </Box>
+                </TouchableOpacity>
+              </Box>
+            </Box>
+          </ScrollView>
+        </Box>
       </SafeAreaView>
     </Box>
   );
