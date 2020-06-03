@@ -113,6 +113,7 @@ RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryW
         [serialziedKeys addObject:@{
           @"keyData": [key.keyData base64EncodedStringWithOptions:0],
           @"rollingStartNumber": @(key.rollingStartNumber),
+          @"rollingPeriod": @(key.rollingPeriod),
           @"transmissionRiskLevel": @(key.transmissionRiskLevel)
         }];
       }
