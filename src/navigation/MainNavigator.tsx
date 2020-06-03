@@ -72,7 +72,7 @@ const OnboardingNavigator = () => {
   const {region} = useStorage();
   return (
     <OnboardingStack.Navigator
-      screenOptions={DEFAULT_SCREEN_OPTIONS}
+      screenOptions={{stackAnimation: 'fade', headerShown: false}}
       initialRouteName={region ? 'OnboardingTutorial' : 'RegionPicker'}
     >
       <OnboardingStack.Screen name="RegionPicker" component={RegionPickerScreenWithNavBar} />
