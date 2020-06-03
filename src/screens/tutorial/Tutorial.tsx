@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles, Toolbar} from 'components';
@@ -8,10 +8,9 @@ import {useI18n} from '@shopify/react-i18n';
 
 import {TutorialContent, tutorialData, TutorialKey} from './TutorialContent';
 
-const {width: viewportWidth} = Dimensions.get('window');
-
 export const TutorialScreen = () => {
   const navigation = useNavigation();
+  const {width: viewportWidth} = useWindowDimensions();
   const carouselRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [i18n] = useI18n();
@@ -74,7 +73,9 @@ export const TutorialScreen = () => {
         )}
         <Box alignItems="center" justifyContent="center" flexDirection="row" flexWrap="wrap">
           <Box flex={1} padding="l" flexWrap="wrap">
-            {!isStart && <Button text="Back" variant="subduedText" onPress={prevItem} />}
+            {!isStart && (
+              <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="subduedText" onPress={prevItem} />
+            )}
           </Box>
           <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
           <Box flex={1} padding="l" flexWrap="wrap">

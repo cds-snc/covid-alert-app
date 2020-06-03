@@ -1,5 +1,7 @@
 import React from 'react';
+import {StatusBar, Platform} from 'react-native';
 import {enableScreens} from 'react-native-screens';
+import {useNavigationState} from '@react-navigation/native';
 import {createNativeStackNavigator, NativeStackNavigationOptions} from 'react-native-screens/native-stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
@@ -8,9 +10,8 @@ import {PrivacyScreen} from 'screens/privacy';
 import {SharingScreen} from 'screens/sharing';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
-import {StatusBar, Platform} from 'react-native';
 import {useStorage} from 'services/StorageService';
-import {useNavigationState} from '@react-navigation/native';
+import {RegionPickerScreen} from 'screens/regionPicker';
 
 enableScreens();
 
@@ -53,6 +54,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 }
 
 const HomeScreenWithNavBar = withLightNav(HomeScreen);
+const RegionPickerScreenWithNavBar = withDarkNav(RegionPickerScreen);
 const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
@@ -65,12 +67,29 @@ const DEFAULT_SCREEN_OPTIONS: NativeStackNavigationOptions = {
   headerShown: false,
 };
 
+const OnboardingStack = createNativeStackNavigator();
+const OnboardingNavigator = () => {
+  const {region} = useStorage();
+  return (
+    <OnboardingStack.Navigator
+      screenOptions={{stackAnimation: 'fade', headerShown: false}}
+      initialRouteName={region ? 'OnboardingTutorial' : 'RegionPicker'}
+    >
+      <OnboardingStack.Screen name="RegionPicker" component={RegionPickerScreenWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingTutorial" component={OnboardingScreenWithNavBar} />
+    </OnboardingStack.Navigator>
+  );
+};
+
 const MainNavigator = () => {
   const {isOnboarding} = useStorage();
   return (
-    <MainStack.Navigator screenOptions={DEFAULT_SCREEN_OPTIONS} initialRouteName={isOnboarding ? 'Onboarding' : 'Home'}>
+    <MainStack.Navigator
+      screenOptions={DEFAULT_SCREEN_OPTIONS}
+      initialRouteName={isOnboarding ? 'OnboardingNavigator' : 'Home'}
+    >
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
-      <MainStack.Screen name="Onboarding" component={OnboardingScreenWithNavBar} />
+      <MainStack.Screen name="OnboardingNavigator" component={OnboardingNavigator} />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
       <MainStack.Screen name="DataSharing" component={DataSharingScreenWithNavBar} />
       <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />

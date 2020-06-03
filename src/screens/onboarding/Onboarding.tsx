@@ -1,17 +1,16 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles, Header, LanguageToggle} from 'components';
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import {SafeAreaView, useSafeArea} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useStorage} from 'services/StorageService';
 import {useI18n} from '@shopify/react-i18n';
 import OnboardingBg from 'assets/onboarding-bg.svg';
+import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
 import {Permissions} from './views/Permissions';
 import {Start} from './views/Start';
-
-const {width: viewportWidth} = Dimensions.get('window');
 
 type ViewKey = 'start' | 'permissions';
 
@@ -23,6 +22,7 @@ const viewComponents = {
 
 export const OnboardingScreen = () => {
   const [i18n] = useI18n();
+  const {width: viewportWidth} = useWindowDimensions();
   const insets = useSafeArea();
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
@@ -37,10 +37,19 @@ export const OnboardingScreen = () => {
     });
   }, [navigation, setOnboarded]);
 
-  const renderItem = useCallback(({item}: {item: ViewKey}) => {
-    const ItemComponent = viewComponents[item];
-    return <ItemComponent />;
-  }, []);
+  const maxWidth = useMaxContentWidth();
+
+  const renderItem = useCallback(
+    ({item}: {item: ViewKey}) => {
+      const ItemComponent = viewComponents[item];
+      return (
+        <Box maxWidth={maxWidth} alignSelf="center">
+          <ItemComponent />
+        </Box>
+      );
+    },
+    [maxWidth],
+  );
 
   const nextItem = useCallback(() => {
     if (carouselRef.current) {
