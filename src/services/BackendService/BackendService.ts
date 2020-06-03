@@ -58,15 +58,18 @@ export class BackendService implements BackendInterface {
 
   async reportDiagnosisKeys(keyPair: SubmissionKeySet, exposureKeys: TemporaryExposureKey[]) {
     const upload = covidshield.Upload.create({
-      timestamp: {seconds: Date.now()},
+      timestamp: {seconds: Math.floor(new Date().getTime() / 1000)},
       keys: exposureKeys.map(key =>
-        covidshield.Key.create({
+        covidshield.TemporaryExposureKey.create({
           keyData: Buffer.from(key.keyData, 'base64'),
-          rollingStartNumber: key.rollingStartNumber,
+          rollingStartIntervalNumber: key.rollingStartNumber,
           transmissionRiskLevel: key.transmissionRiskLevel,
+          rollingPeriod: key.rollingPeriod,
         }),
       ),
     });
+    console.log({upload: JSON.stringify(upload)});
+
     const serializedUpload = covidshield.Upload.encode(upload).finish();
 
     const clientPrivate = Buffer.from(keyPair.clientPrivateKey, 'base64');
