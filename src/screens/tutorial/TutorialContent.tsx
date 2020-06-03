@@ -12,9 +12,18 @@ export type TutorialKey = 'step-1' | 'step-2' | 'step-3';
 export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3'];
 
 const animationData = {
-  'step-1': require('assets/animation/onboarding-step-1.json'),
-  'step-2': require('assets/animation/onboarding-step-2.json'),
-  'step-3': require('assets/animation/onboarding-step-3.json'),
+  'step-1': {
+    source: require('assets/animation/onboarding-step-1.json'),
+    pauseFrame: 105,
+  },
+  'step-2': {
+    source: require('assets/animation/onboarding-step-2.json'),
+    pauseFrame: 120,
+  },
+  'step-3': {
+    source: require('assets/animation/onboarding-step-3.json'),
+    pauseFrame: 124,
+  },
 };
 
 export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isActiveSlide: boolean}) => {
@@ -24,20 +33,19 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
   useEffect(() => {
     // need to stop if user prefers reduced animations
     if (prefersReducedMotion) {
-      animationRef.current?.reset();
-      animationRef.current?.pause();
+      animationRef.current?.play(animationData[item].pauseFrame, animationData[item].pauseFrame);
     } else if (isActiveSlide) {
       animationRef.current?.play();
     } else {
       animationRef.current?.reset();
     }
-  }, [isActiveSlide, prefersReducedMotion]);
+  }, [isActiveSlide, prefersReducedMotion, item]);
   return (
     <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
       <LottieView
         ref={animationRef}
         style={{width: viewportWidth, height: viewportHeight / 2}}
-        source={animationData[item]}
+        source={animationData[item].source}
         imageAssetsFolder="animation/images"
         loop={!prefersReducedMotion}
       />

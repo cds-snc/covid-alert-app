@@ -10,19 +10,24 @@ const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 interface BaseHomeViewProps {
   children?: React.ReactNode;
   animationSource?: string;
+  animationPauseFrame?: number;
 }
 
-export const BaseHomeView = ({children, animationSource}: BaseHomeViewProps) => {
+export const BaseHomeView = ({children, animationSource, animationPauseFrame}: BaseHomeViewProps) => {
   const prefersReducedMotion = useReduceMotionPreference();
   const animationRef: React.Ref<LottieView> = useRef(null);
 
   useEffect(() => {
     // need to stop if user prefers reduced animations
     if (prefersReducedMotion) {
-      animationRef.current?.reset();
-      animationRef.current?.pause();
+      if (animationPauseFrame) {
+        animationRef.current?.play(animationPauseFrame, animationPauseFrame);
+      } else {
+        animationRef.current?.reset();
+        animationRef.current?.pause();
+      }
     }
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, animationPauseFrame]);
 
   return (
     <SafeAreaView style={styles.flex}>
