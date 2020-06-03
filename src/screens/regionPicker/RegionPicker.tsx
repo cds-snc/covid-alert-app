@@ -46,7 +46,7 @@ const items: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[] = [
 
 const RegionItem_ = ({code, onPress, name, flagIcon, selected}: RegionItemProps) => (
   <>
-    <TouchableOpacity onPress={() => onPress(code)}>
+    <TouchableOpacity onPress={() => onPress(code)} accessibilityRole="radio" accessibilityState={{selected}}>
       <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
         <Box flexDirection="row" alignItems="center" paddingVertical="s">
           <Image source={flagIcon} style={styles.flag} />
@@ -73,13 +73,18 @@ export const RegionPickerScreen = () => {
       <SafeAreaView style={styles.flex}>
         <ScrollView style={styles.flex}>
           <Box flex={1} paddingHorizontal="m" paddingTop="m">
-            <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center">
+            <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center" accessibilityRole="header">
               {i18n.translate('RegionPicker.Title')}
             </Text>
             <Text marginVertical="m" variant="bodyText" color="overlayBodyText" textAlign="center">
               {i18n.translate('RegionPicker.Body')}
             </Text>
-            <Box paddingHorizontal="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground">
+            <Box
+              paddingHorizontal="m"
+              borderRadius={10}
+              backgroundColor="infoBlockNeutralBackground"
+              accessibilityRole="radiogroup"
+            >
               {items.map(item => {
                 return (
                   <RegionItem
