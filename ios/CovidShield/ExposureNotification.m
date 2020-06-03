@@ -66,7 +66,13 @@ RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve reject
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
     } else {
-      resolve(nil);
+      [self.enManager setExposureNotificationEnabled:YES completionHandler:^(NSError * _Nullable error) {
+        if (error) {
+          reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+        } else {
+          resolve(nil);
+        }
+      }];
     }
   }];
 }
