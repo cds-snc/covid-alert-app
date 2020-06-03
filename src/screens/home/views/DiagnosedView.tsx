@@ -29,7 +29,7 @@ export const DiagnosedView = () => {
         {i18n.translate(pluralizeKey('Home.SignalDataSharedDetailed', daysDiff), {number: daysDiff})}
       </Text>
       <Box alignSelf="stretch">
-        <Button text={i18n.translate('Home.SignalDataSharedCTA')} variant="bigFlat" onPress={onAction} />
+        <Button text={i18n.translate('Home.SignalDataSharedCTA')} variant="bigFlat" externalLink onPress={onAction} />
       </Box>
     </BaseHomeView>
   );

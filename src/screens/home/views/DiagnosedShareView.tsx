@@ -30,6 +30,7 @@ export const DiagnosedShareView = () => {
           text={i18n.translate('Home.SignalDataSharedCTA')}
           variant="bigHollow"
           color="bodyText"
+          externalLink
           onPress={toSymptomTracker}
         />
       </Box>
