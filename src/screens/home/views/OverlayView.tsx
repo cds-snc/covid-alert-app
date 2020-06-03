@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Box, InfoBlock} from 'components';
+import {Box, InfoBlock, BoxProps} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {SystemStatus} from 'services/ExposureNotificationService';
 
@@ -56,18 +56,18 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   );
 };
 
-interface Props {
+interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
   turnNotificationsOn: () => void;
 }
 
-export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: Props) => {
+export const OverlayView = ({status, notificationWarning, turnNotificationsOn, maxWidth}: Props) => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
 
   return (
-    <Box>
+    <Box maxWidth={maxWidth}>
       <Box marginBottom="l">
         <StatusHeaderView enabled={status === SystemStatus.Active} />
       </Box>

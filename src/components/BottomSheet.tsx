@@ -1,5 +1,5 @@
-import React, {useState, useCallback, useRef} from 'react';
-import {View, StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
+import {View, StyleSheet, TouchableHighlight, TouchableOpacity, useWindowDimensions} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useSafeArea} from 'react-native-safe-area-context';
 import BottomSheetRaw from 'reanimated-bottom-sheet';
@@ -19,7 +19,9 @@ interface ContentProps {
 const SheetContentsContainer = ({children, isExpanded, toggleExpanded}: ContentProps) => {
   const content = (
     <Box backgroundColor="overlayBackground" minHeight="100%">
-      <Box marginTop="l">{children}</Box>
+      <Box marginTop="l" alignItems="center">
+        {children}
+      </Box>
     </Box>
   );
 
@@ -35,9 +37,6 @@ export interface BottomSheetProps {
   children?: React.ReactElement;
   extraContent?: boolean;
 }
-
-const SNAP_POINTS = ['100%', '20%'];
-const SNAP_POINTS_LARGE = ['100%', '30%'];
 
 export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProps) => {
   const bottomSheetPosition = useRef(new Animated.Value(1));
@@ -57,6 +56,13 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
 
   const onOpenEnd = useCallback(() => setIsExpanded(true), []);
   const onCloseEnd = useCallback(() => setIsExpanded(false), []);
+
+  const {width, height} = useWindowDimensions();
+  const snapPoints = [height, Math.max(width, height) * (extraContent ? 0.3 : 0.2)];
+
+  useEffect(() => {
+    bottomSheetRef.current?.snapTo(isExpanded ? 0 : 1);
+  }, [width, isExpanded]);
 
   const expandedContentWrapper = (
     <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
@@ -89,8 +95,6 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
     );
   }, [collapsedContentWrapper, expandedContentWrapper, isExpanded, toggleExpanded]);
 
-  const snapPoints = extraContent ? SNAP_POINTS_LARGE : SNAP_POINTS;
-
   return (
     <>
       <BottomSheetRaw
@@ -104,6 +108,7 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
         snapPoints={snapPoints}
         initialSnap={1}
         callbackNode={bottomSheetPosition.current}
+        enabledInnerScrolling
       />
       <Box height={snapPoints[1]} style={styles.spacer} />
     </>
