@@ -27,14 +27,19 @@ export const useStorage = () => {
   const [locale, setLocaleInternal] = useState(storageService.locale.value);
   const setLocale = useMemo(() => storageService.setLocale, [storageService.setLocale]);
 
+  const [region, setRegionInternal] = useState(storageService.region.value);
+  const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);
+
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
+  useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
 
   const reset = useCallback(() => {
     setOnboarded(false);
     setLocale('en');
+    setRegion(undefined);
     AsyncStorage.clear();
-  }, [setLocale, setOnboarded]);
+  }, [setLocale, setOnboarded, setRegion]);
 
   return useMemo(
     () => ({
@@ -42,8 +47,10 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
+      region,
+      setRegion,
       reset,
     }),
-    [isOnboarding, locale, reset, setLocale, setOnboarded],
+    [isOnboarding, locale, region, reset, setLocale, setOnboarded, setRegion],
   );
 };

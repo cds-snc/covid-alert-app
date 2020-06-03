@@ -4,9 +4,10 @@ import {ShareablePlatform, shareContent, shareInstagramStory, shareMessages, use
 import {Box, Icon, Text, Toolbar} from 'components';
 import {Image, StyleSheet, TouchableOpacity, View, Platform, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import theme from 'shared/theme';
+import {Theme} from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
 import OnboardingBg from 'assets/onboarding-bg.svg';
+import {useTheme} from '@shopify/restyle';
 
 const ICONS = {
   instagram: Platform.select({
@@ -22,6 +23,7 @@ const ICONS = {
 export const SharingScreen = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
+  const theme = useTheme<Theme>();
   const close = useCallback(() => navigation.goBack(), [navigation]);
 
   const platforms = useShareablePlatforms();
@@ -44,7 +46,7 @@ export const SharingScreen = () => {
       }),
       {} as {[key in ShareablePlatform]: () => void},
     );
-  }, [i18n, platforms]);
+  }, [i18n, platforms, theme.colors.mainBackground]);
   const onShareMore = useCallback(() => {
     shareContent(i18n.translate('Sharing.Message'));
   }, [i18n]);
