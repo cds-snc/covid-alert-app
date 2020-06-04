@@ -76,15 +76,21 @@ export const Button = ({
     </Box>
   );
 
+  const accessibilityProps = {
+    accessibilityRole: 'button' as 'button',
+    accessibilityState: {disabled},
+    ...externalLinkProps,
+  };
+
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleContainerBorderRadius={4} rippleDuration={500} onPress={onPressHandler} {...externalLinkProps}>
+      <Ripple rippleContainerBorderRadius={4} rippleDuration={500} onPress={onPressHandler} {...accessibilityProps}>
         {content}
       </Ripple>
     );
   }
   return (
-    <TouchableOpacity onPress={onPressHandler} style={styles.stretch} disabled={disabled} {...externalLinkProps}>
+    <TouchableOpacity onPress={onPressHandler} style={styles.stretch} disabled={disabled} {...accessibilityProps}>
       {content}
     </TouchableOpacity>
   );
