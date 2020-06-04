@@ -157,7 +157,9 @@
     "Label": "Developed in partnership with"
   },
   "BottomSheet": {
-    "Collapse": "Close"
+    "Collapse": "Close",
+    "OnStatus": "Covid Shield is on, Tap for more information",
+    "OffStatus": "Covid Shield is off, Tap for more information"
   },
   "RegionPicker": {
     "Title": "Select your province or territory",
