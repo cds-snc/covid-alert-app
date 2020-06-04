@@ -12,6 +12,7 @@ import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerScreen} from 'screens/regionPicker';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 enableScreens();
 
@@ -21,7 +22,7 @@ const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
     const stackIndex = useNavigationState(state => state.index);
     return (
-      <>
+      <SafeAreaProvider>
         <StatusBar
           barStyle={
             // On iOS 13+ keep light statusbar since the screen will be displayed in a modal with a
@@ -32,17 +33,18 @@ const withDarkNav = (Component: React.ElementType) => {
           }
         />
         <Component {...props} />
-      </>
+      </SafeAreaProvider>
     );
   };
   return ComponentWithDarkNav;
 };
+
 const withLightNav = (Component: React.ElementType) => {
   const ComponentWithLightNav = (props: any) => (
-    <>
+    <SafeAreaProvider>
       <StatusBar barStyle="light-content" />
       <Component {...props} />
-    </>
+    </SafeAreaProvider>
   );
   return ComponentWithLightNav;
 };
