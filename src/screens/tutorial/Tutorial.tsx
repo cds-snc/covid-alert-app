@@ -71,14 +71,16 @@ export const TutorialScreen = () => {
             onSnapToItem={newIndex => setCurrentStep(newIndex)}
           />
         )}
-        <Box alignItems="center" justifyContent="center" flexDirection="row" flexWrap="wrap">
-          <Box flex={1} padding="l" flexWrap="wrap">
+        <Box flexDirection="row" padding="l">
+          <Box flex={1}>
             {!isStart && (
               <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="subduedText" onPress={prevItem} />
             )}
           </Box>
-          <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
-          <Box flex={1} padding="l" flexWrap="wrap">
+          <Box flex={1} justifyContent="center">
+            <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
+          </Box>
+          <Box flex={1}>
             <Button
               text={i18n.translate(`Tutorial.Action${isEnd ? 'End' : 'Next'}`)}
               variant="text"

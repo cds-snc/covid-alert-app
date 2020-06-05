@@ -69,7 +69,9 @@ export const Button = ({
         <ActivityIndicator color={textColor} size="large" />
       ) : (
         <>
-          <Text style={{color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>{text}</Text>
+          <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
+            {text}
+          </Text>
           {externalLink && <Icon name={externalArrowIcon} />}
         </>
       )}
@@ -99,5 +101,8 @@ export const Button = ({
 const styles = StyleSheet.create({
   stretch: {
     alignSelf: 'stretch',
+  },
+  content: {
+    textAlign: 'center',
   },
 });

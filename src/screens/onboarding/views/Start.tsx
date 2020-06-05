@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button, Icon} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
@@ -8,8 +8,8 @@ export const Start = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Box flex={1} paddingHorizontal="xl">
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+      <Box paddingHorizontal="xl">
         <Box paddingHorizontal="l" marginTop="m">
           <Text variant="bodyTitle" color="overlayBodyText" marginHorizontal="l" marginBottom="l" textAlign="center">
             {i18n.translate('OnboardingStart.Title')}
@@ -38,3 +38,10 @@ export const Start = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  content: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
+});

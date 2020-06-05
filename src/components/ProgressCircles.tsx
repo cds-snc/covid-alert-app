@@ -25,7 +25,7 @@ export const ProgressCircles = ({numberOfSteps, activeStep, ...props}: ProgressC
     return steps;
   };
   return (
-    <Box justifyContent="center" flexDirection="row" marginBottom="l" {...props}>
+    <Box justifyContent="center" flexDirection="row" {...props}>
       {renderSteps()}
     </Box>
   );
