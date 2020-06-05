@@ -43,7 +43,7 @@ export const Toolbar = ({title, navText, navIcon, onIconClicked}: ToolbarProps) 
       <Button text={navText} variant="text" onPress={onIconClicked} />
       {title !== '' && (
         <Box flex={1} justifyContent="center" minWidth={100}>
-          <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center">
+          <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center" accessibilityRole="header">
             {title}
           </Text>
         </Box>
