@@ -16,7 +16,7 @@ export const DiagnosedShareView = () => {
 
   return (
     <BaseHomeView animationSource={require('assets/animation/yellow-dot.json')}>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l">
+      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.DailyShare')}
       </Text>
       <Text variant="bodyText" color="bodyText" textAlign="center" marginBottom="l">

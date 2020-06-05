@@ -38,12 +38,12 @@ export const InfoBlock = ({
       {(title || titleBolded) && (
         <Box marginBottom="m" justifyContent="center" flexDirection="row" flexWrap="wrap">
           {title && (
-            <Text variant="overlayTitle" color={color}>
+            <Text variant="overlayTitle" accessibilityRole="header" color={color}>
               {title}
             </Text>
           )}
           {titleBolded && (
-            <Text variant="overlayTitle" color={color} fontFamily="Nunito-Bold">
+            <Text variant="overlayTitle" accessibilityRole="header" color={color} fontFamily="Nunito-Bold">
               {titleBolded}
             </Text>
           )}

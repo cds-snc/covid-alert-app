@@ -11,7 +11,14 @@ export const Start = () => {
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box paddingHorizontal="xl">
         <Box paddingHorizontal="l" marginTop="m">
-          <Text variant="bodyTitle" color="overlayBodyText" marginHorizontal="l" marginBottom="l" textAlign="center">
+          <Text
+            variant="bodyTitle"
+            color="overlayBodyText"
+            marginHorizontal="l"
+            marginBottom="l"
+            textAlign="center"
+            accessibilityRole="header"
+          >
             {i18n.translate('OnboardingStart.Title')}
           </Text>
         </Box>

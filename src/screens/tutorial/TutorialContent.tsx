@@ -49,7 +49,13 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
         loop={!prefersReducedMotion}
       />
       <Box paddingHorizontal="xxl">
-        <Text textAlign="center" color="overlayBodyText" variant="bodySubTitle" marginBottom="m">
+        <Text
+          textAlign="center"
+          color="overlayBodyText"
+          variant="bodySubTitle"
+          marginBottom="m"
+          accessibilityRole="header"
+        >
           {i18n.translate(`Tutorial.${item}Title`)}
         </Text>
         <Text variant="bodyText" textAlign="center" color="overlayBodyText">
