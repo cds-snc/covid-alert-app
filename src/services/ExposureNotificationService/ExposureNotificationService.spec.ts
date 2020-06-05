@@ -4,9 +4,8 @@ import {when} from 'jest-when';
 import {ExposureNotificationService} from './ExposureNotificationService';
 
 const server: any = {
-  retrieveDiagnosisKeysByHour: jest.fn().mockResolvedValue([]),
+  retrieveDiagnosisKeys: jest.fn().mockResolvedValue([]),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),
-  retrieveDiagnosisKeysByDay: jest.fn().mockResolvedValue([]),
   claimOneTimeCode: jest.fn(),
   reportDiagnosisKeys: jest.fn(),
 };
@@ -45,8 +44,7 @@ describe('ExposureNotificationService', () => {
       .mockImplementation((args: any) => new OriginalDate(args));
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeysByHour).toHaveBeenCalledTimes(7);
-    expect(server.retrieveDiagnosisKeysByDay).toHaveBeenCalledTimes(14);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(168);
   });
 
   it('backfills the right amount of keys for current day', async () => {
@@ -58,24 +56,13 @@ describe('ExposureNotificationService', () => {
     storage.getItem.mockResolvedValue(new OriginalDate('2020-05-19T04:10:00+0000').getTime());
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeysByHour).toHaveBeenCalledTimes(3);
-    expect(server.retrieveDiagnosisKeysByDay).not.toHaveBeenCalled();
-  });
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
 
-  it('backfills the right amount of keys for last few days', async () => {
-    dateSpy.mockImplementation((args: any) => {
-      if (args === undefined) return new OriginalDate('2020-05-19T07:10:00+0000');
-      return new OriginalDate(args);
-    });
-
-    when(storage.getItem)
-      .calledWith('lastCheckTimeStamp')
-      .mockResolvedValue(new OriginalDate('2020-05-18T04:10:00+0000').getTime());
+    server.retrieveDiagnosisKeys.mockClear();
+    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-19T03:10:00+0000').getTime());
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeysByHour).toHaveBeenCalledTimes(7);
-    expect(server.retrieveDiagnosisKeysByDay).toHaveBeenCalledTimes(1);
-    expect(server.retrieveDiagnosisKeysByDay).toHaveBeenCalledWith(new OriginalDate('2020-05-18T07:10:00.000Z'));
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
 
   it('serializes status update', async () => {

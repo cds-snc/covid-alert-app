@@ -6,7 +6,7 @@ import {Theme} from 'shared/theme';
 export interface ItemProps {
   title: string;
   subtitle?: string;
-  onPress(): void;
+  onPress?(): void;
   connectedRight?: React.ReactElement | string;
 }
 
@@ -20,21 +20,26 @@ export const Item = ({title, subtitle, onPress, connectedRight}: ItemProps) => {
     ) : (
       connectedRight
     );
-  return (
-    <Ripple onPress={onPress}>
-      <Box flexDirection="row" height={48} alignItems="center" paddingHorizontal="m">
-        <Box flex={1}>
-          <Text color="overlayBodyText" {...theme.textVariants.menuItemTitle}>
-            {title}
+
+  const content = (
+    <Box flexDirection="row" height={48} alignItems="center" paddingHorizontal="m">
+      <Box flex={1}>
+        <Text color="overlayBodyText" {...theme.textVariants.menuItemTitle}>
+          {title}
+        </Text>
+        {subtitle && (
+          <Text color="bodyTextSubdued" {...theme.textVariants.menuItemSubtitle}>
+            {subtitle}
           </Text>
-          {subtitle && (
-            <Text color="bodyTextSubdued" {...theme.textVariants.menuItemSubtitle}>
-              {subtitle}
-            </Text>
-          )}
-        </Box>
-        {connectedRightElement}
+        )}
       </Box>
-    </Ripple>
+      {connectedRightElement}
+    </Box>
   );
+
+  if (!onPress) {
+    return content;
+  }
+
+  return <Ripple onPress={onPress}>{content}</Ripple>;
 };

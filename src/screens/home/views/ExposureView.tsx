@@ -21,7 +21,7 @@ export const ExposureView = () => {
       </Text>
       <LastCheckedDisplay />
       <Box alignSelf="stretch" marginTop="l">
-        <Button text={i18n.translate('Home.SeeGuidance')} variant="bigFlat" onPress={onAction} />
+        <Button text={i18n.translate('Home.SeeGuidance')} variant="bigFlat" externalLink onPress={onAction} />
       </Box>
     </BaseHomeView>
   );

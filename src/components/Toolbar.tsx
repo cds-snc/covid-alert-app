@@ -12,9 +12,10 @@ export interface ToolbarProps {
   onIconClicked(): void;
   navText?: string /* iOS only */;
   navIcon?: IconProps['name'] /* Android only */;
+  navLabel?: string;
 }
 
-export const Toolbar = ({title, navText, navIcon, onIconClicked}: ToolbarProps) => {
+export const Toolbar = ({title, navText, navIcon, navLabel, onIconClicked}: ToolbarProps) => {
   useEffect(() => {
     if (Platform.OS !== 'android') {
       return;
@@ -29,7 +30,7 @@ export const Toolbar = ({title, navText, navIcon, onIconClicked}: ToolbarProps) 
   if (Platform.OS === 'android') {
     return (
       <Box flex={1} flexDirection="row" alignItems="center" justifyContent="flex-start" padding="none" maxHeight={56}>
-        {navIcon && <TouchableIcon iconName={navIcon} onPress={onIconClicked} />}
+        {navIcon && <TouchableIcon iconName={navIcon} label={navLabel} onPress={onIconClicked} />}
         <Box padding="m">
           <Text variant="bodySubTitle" color="overlayBodyText" accessibilityRole="header">
             {title}
@@ -39,8 +40,10 @@ export const Toolbar = ({title, navText, navIcon, onIconClicked}: ToolbarProps) 
     );
   }
   return (
-    <Box flexDirection="row" alignItems="center" flexWrap="wrap">
-      <Button text={navText} variant="text" onPress={onIconClicked} />
+    <Box flexDirection="row" alignItems="center" minHeight={56}>
+      <Box>
+        <Button text={navText} variant="text" onPress={onIconClicked} />
+      </Box>
       {title !== '' && (
         <Box flex={1} justifyContent="center" minWidth={100}>
           <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center" accessibilityRole="header">

@@ -8,13 +8,11 @@
  * @format
  */
 import React, {useMemo, useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import {I18nContext, I18nManager} from '@shopify/react-i18n';
-import {ThemeProvider} from '@shopify/restyle';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StorageServiceProvider, useStorage} from 'services/StorageService';
-import theme from 'shared/theme';
 import Reactotron from 'reactotron-react-native';
 import {NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -23,6 +21,7 @@ import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
 import {SharedTranslations} from 'locale';
+import {ThemeProvider} from 'shared/theme';
 
 // grabs the ip address
 if (__DEV__) {
@@ -53,7 +52,7 @@ const App = () => {
     <I18nContext.Provider value={i18nManager}>
       <SharedTranslations>
         <ExposureNotificationServiceProvider backendInterface={backendService}>
-          <NavigationContainer>
+          <DevPersistedNavigationContainer persistKey="navigationState">
             {TEST_MODE ? (
               <TestMode>
                 <MainNavigator />
@@ -61,7 +60,7 @@ const App = () => {
             ) : (
               <MainNavigator />
             )}
-          </NavigationContainer>
+          </DevPersistedNavigationContainer>
         </ExposureNotificationServiceProvider>
       </SharedTranslations>
     </I18nContext.Provider>
@@ -72,11 +71,11 @@ const AppProvider = () => {
   return (
     <SafeAreaProvider>
       <StatusBar backgroundColor="transparent" translucent />
-      <ThemeProvider theme={theme}>
-        <StorageServiceProvider>
+      <StorageServiceProvider>
+        <ThemeProvider>
           <App />
-        </StorageServiceProvider>
-      </ThemeProvider>
+        </ThemeProvider>
+      </StorageServiceProvider>
     </SafeAreaProvider>
   );
 };

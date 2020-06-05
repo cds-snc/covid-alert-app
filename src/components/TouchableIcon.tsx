@@ -9,12 +9,19 @@ interface TouchableIconProps {
   iconName: IconProps['name'];
   iconSize?: IconProps['size'];
   containerSize?: number;
+  label?: string;
   onPress(): void;
 }
 
-export const TouchableIcon = ({iconName, iconSize, containerSize = 56, onPress}: TouchableIconProps) => {
+export const TouchableIcon = ({iconName, iconSize, containerSize = 56, label, onPress}: TouchableIconProps) => {
   const content = (
-    <Box width={containerSize} height={containerSize} justifyContent="center" alignItems="center">
+    <Box
+      width={containerSize}
+      height={containerSize}
+      justifyContent="center"
+      alignItems="center"
+      accessibilityLabel={label}
+    >
       <Icon name={iconName} size={iconSize} />
     </Box>
   );

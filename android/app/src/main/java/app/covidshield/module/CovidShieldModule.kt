@@ -1,7 +1,8 @@
 package app.covidshield.module
 
 import android.content.Context
-import app.covidshield.extensions.toWritableArray
+import android.util.Base64
+import app.covidshield.extensions.rejectOnException
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -11,12 +12,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okio.BufferedSource
-import java.math.BigInteger
+import java.io.IOException
 import java.security.SecureRandom
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
-
 
 class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
 
@@ -28,54 +27,34 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
 
     @ReactMethod
     fun getRandomBytes(size: Int, promise: Promise) {
-        val bytes = SecureRandom().generateSeed(size)
-        val base64Encoded = Base64.getEncoder().encodeToString(bytes)
-        promise.resolve(base64Encoded)
+        promise.rejectOnException {
+            val bytes = SecureRandom().generateSeed(size)
+            val base64Encoded = Base64.encodeToString(bytes, Base64.DEFAULT)
+            promise.resolve(base64Encoded)
+        }
     }
 
     @ReactMethod
-    fun downloadDiagnosisKeysFiles(url: String, promise: Promise) {
+    fun downloadDiagnosisKeysFile(url: String, promise: Promise) {
         launch(Dispatchers.IO) {
-            var bufferedSource: BufferedSource? = null
-            try {
+            promise.rejectOnException {
                 val request = Request.Builder().url(url).build()
                 val response = okHttpClient.newCall(request).execute().takeIf { it.code() == 200 }
-                    ?: throw Error("Network error")
-                bufferedSource = response.body()?.source() ?: throw Error("Network error")
-                val files = mutableListOf<ByteArray>()
-                while (true) {
-                    val size = bufferedSource.read(4)?.let { BigInteger(it).toInt() } ?: break
-                    val file = bufferedSource.read(size) ?: break
-                    files.add(file)
-                }
-                val fileDirs = writeFiles(files)
-                promise.resolve(fileDirs.toWritableArray())
-            } catch (exception: Exception) {
-                promise.reject(exception)
-            } finally {
-                bufferedSource?.close()
+                    ?: throw IOException()
+                val bytes = response.body()?.bytes() ?: throw IOException()
+                val fileName = writeFile(bytes)
+                promise.resolve(fileName)
             }
         }
     }
 
-    private fun writeFiles(files: List<ByteArray>): List<String> {
+    private fun writeFile(file: ByteArray): String {
         // TODO: consider using cache or cleaning up old files
-        return files.map { file ->
-            val filename = UUID.randomUUID().toString()
-            reactApplicationContext.openFileOutput(filename, Context.MODE_PRIVATE).use {
-                it.write(file)
-            }
-            filename
+        val filename = UUID.randomUUID().toString()
+        reactApplicationContext.openFileOutput(filename, Context.MODE_PRIVATE).use {
+            it.write(file)
         }
+        return filename
     }
 
-    private fun BufferedSource.read(size: Int): ByteArray? {
-        return try {
-            val byteArray = ByteArray(size)
-            readFully(byteArray)
-            byteArray
-        } catch (_: Exception) {
-            null
-        }
-    }
 }

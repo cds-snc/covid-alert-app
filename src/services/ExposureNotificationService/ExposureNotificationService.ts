@@ -1,7 +1,7 @@
 import ExposureNotification, {ExposureInformation, Status as SystemStatus} from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {Observable} from 'shared/Observable';
-import {addDays, hoursSinceEpoch, daysBetween} from 'shared/date-fns';
+import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -53,6 +53,7 @@ export interface SecureStorageOptions {
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: Observable<ExposureStatus>;
+  started = false;
 
   exposureNotification: typeof ExposureNotification;
   backendInterface: BackendInterface;
@@ -72,16 +73,21 @@ export class ExposureNotificationService {
   ) {
     this.translate = translate;
     this.exposureNotification = exposureNotification;
-    this.systemStatus = new Observable<SystemStatus>(SystemStatus.Active);
+    this.systemStatus = new Observable<SystemStatus>(SystemStatus.Disabled);
     this.exposureStatus = new Observable<ExposureStatus>({type: 'monitoring'});
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
-    this.start();
   }
 
   async start(): Promise<void> {
-    await this.exposureNotification.start();
+    this.started = true;
+    try {
+      await this.exposureNotification.start();
+    } catch (_) {
+      // Noop because Exposure Notification framework is unavailable on device
+      return;
+    }
     // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
     const timestamp = await this.storage.getItem('lastCheckTimeStamp');
     const submissionCycleStartedAtStr = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);
@@ -162,22 +168,15 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
-  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string[]> {
-    let runningDate = new Date();
+  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string> {
+    const runningDate = new Date();
 
-    const lastcheckHour = hoursSinceEpoch(lastFetchDate || addDays(runningDate, -14));
-    let runningHour = hoursSinceEpoch(runningDate);
+    const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14));
+    let runningPeriod = periodSinceEpoch(runningDate);
 
-    let hour = runningDate.getUTCHours() - 1;
-    while (hour >= 0 && runningHour > lastcheckHour) {
-      yield await this.backendInterface.retrieveDiagnosisKeysByHour(runningDate, hour);
-      hour -= 1;
-      runningHour -= 1;
-    }
-    while (runningHour > lastcheckHour) {
-      runningDate = addDays(runningDate, -1);
-      yield await this.backendInterface.retrieveDiagnosisKeysByDay(runningDate);
-      runningHour -= 24;
+    while (runningPeriod > lastCheckPeriod) {
+      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
+      runningPeriod -= 2;
     }
   }
 
@@ -230,12 +229,13 @@ export class ExposureNotificationService {
       return finalize({...currentStatus, needsSubmission: await this.calculateNeedsSubmission()});
     }
 
+    console.log('lastCheckDate', lastCheckDate);
     const generator = this.keysSinceLastFetch(lastCheckDate);
     while (true) {
-      const {value: keysFilesUrls, done} = await generator.next();
+      const {value: keysFilesUrl, done} = await generator.next();
       if (done) break;
 
-      const summary = await this.exposureNotification.detectExposure(exposureConfigutration, keysFilesUrls);
+      const summary = await this.exposureNotification.detectExposure(exposureConfigutration, [keysFilesUrl]);
       if (summary.matchedKeyCount > 0) {
         const exposures = await this.exposureNotification.getExposureInformation(summary);
         return finalize({type: 'exposed', exposures});

@@ -13,7 +13,7 @@ interface LanguageSelectItemProps {
 }
 const LanguageSelectItem = ({onPress, text, isActive}: LanguageSelectItemProps) => (
   <>
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} accessibilityRole="radio" accessibilityState={{selected: isActive}}>
       <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
         <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
           {text}
@@ -48,6 +48,7 @@ export const LanguageScreen = () => {
           title={i18n.translate('LanguageSelect.Title')}
           navIcon="icon-back-arrow"
           navText={i18n.translate('LanguageSelect.Close')}
+          navLabel={i18n.translate('LanguageSelect.Close')}
           onIconClicked={close}
         />
         <ScrollView>
@@ -57,6 +58,7 @@ export const LanguageScreen = () => {
             borderRadius={10}
             backgroundColor="infoBlockNeutralBackground"
             marginTop="m"
+            accessibilityRole="radiogroup"
           >
             <LanguageSelectItem
               onPress={toggle('en')}
