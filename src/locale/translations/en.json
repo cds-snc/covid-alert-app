@@ -25,6 +25,7 @@
     "NoConnectivity": "No internet connection",
     "NoConnectivityDetailed": "COVID Shield needs internet access to continue checking for potential exposure.",
     "AppName": "COVID Shield",
+    "ExternalLinkHint": "Opens in a new window",
     "LastCheckedMinutes": {
       "One": "Last checked {number} minute ago",
       "Other": "Last checked {number} minutes ago"
@@ -132,6 +133,7 @@
     "Cancel": "Cancel",
     "FormIntro": "Please enter your 8 digit COVID Shield code.",
     "Action": "Submit code",
+    "InputLabel": "Covid Shield code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
     "ConsentTitle": "Share your random IDs",
     "ConsentBody": "You have been granted access by a health care professional to share the random IDs stored on your phone.",
@@ -156,6 +158,27 @@
     "Label": "Developed in partnership with"
   },
   "BottomSheet": {
-    "Collapse": "Close"
+    "Collapse": "Close",
+    "OnStatus": "Covid Shield is on, Tap for more information",
+    "OffStatus": "Covid Shield is off, Tap for more information"
+  },
+  "RegionPicker": {
+    "Title": "Select your province or territory",
+    "Body": "This helps give you more relevant guidance.\nThis information is only stored on your device and will never be shared with anyone else.",
+    "Skip": "Skip",
+    "GetStarted": "Get started",
+    "AB": "Alberta",
+    "BC": "British Columbia",
+    "MB": "Manitoba",
+    "NB": "New Brunswick",
+    "NL": "Newfoundland and Labrador",
+    "NT": "Northwest Territories",
+    "NS": "Nova Scotia",
+    "NU": "Nunavut",
+    "ON": "Ontario",
+    "PE": "Prince Edward Island",
+    "QC": "Quebec",
+    "SK": "Saskatchewan",
+    "YT": "Yukon"
   }
 }

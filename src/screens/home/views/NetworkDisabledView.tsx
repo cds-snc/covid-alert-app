@@ -11,7 +11,7 @@ export const NetworkDisabledView = () => {
       <Box marginBottom="l">
         <Icon name="icon-offline" size={44} />
       </Box>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l">
+      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.NoConnectivity')}
       </Text>
       <Text variant="bodyText" color="bodyText" textAlign="center">

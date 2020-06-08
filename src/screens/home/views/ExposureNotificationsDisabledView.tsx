@@ -16,7 +16,7 @@ export const ExposureNotificationsDisabledView = () => {
       <Box marginBottom="l">
         <Icon name="icon-exposure-notifications-disabled" size={44} />
       </Box>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l">
+      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.ExposureNotificationsDisabled')}
       </Text>
       <Text variant="bodyText" color="bodyText" textAlign="center">

@@ -10,6 +10,7 @@ import IconChevron from 'assets/icon-chevron.svg';
 import IconClose from 'assets/icon-close.svg';
 import IconEnterCode from 'assets/icon-enter-code.svg';
 import IconExternalArrow from 'assets/icon-external-arrow.svg';
+import IconExternalArrowLight from 'assets/icon-external-arrow-light.svg';
 import IconImportant from 'assets/icon-important.svg';
 import IconMessages from 'assets/icon-messages.svg';
 import IconNotify from 'assets/icon-notify.svg';
@@ -38,6 +39,7 @@ const ICONS = {
   'icon-enter-code': IconEnterCode,
   'icon-ellipsis': Ellipsis,
   'icon-external-arrow': IconExternalArrow,
+  'icon-external-arrow-light': IconExternalArrowLight,
   'icon-important': IconImportant,
   'icon-messages': IconMessages,
   'icon-notify': IconNotify,

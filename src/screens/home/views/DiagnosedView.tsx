@@ -21,7 +21,7 @@ export const DiagnosedView = () => {
 
   return (
     <BaseHomeView animationSource={require('assets/animation/yellow-dot.json')}>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l">
+      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.SignalDataShared')}
         {/* No exposure detected */}
       </Text>
@@ -29,7 +29,7 @@ export const DiagnosedView = () => {
         {i18n.translate(pluralizeKey('Home.SignalDataSharedDetailed', daysDiff), {number: daysDiff})}
       </Text>
       <Box alignSelf="stretch">
-        <Button text={i18n.translate('Home.SignalDataSharedCTA')} variant="bigFlat" onPress={onAction} />
+        <Button text={i18n.translate('Home.SignalDataSharedCTA')} variant="bigFlat" externalLink onPress={onAction} />
       </Box>
     </BaseHomeView>
   );

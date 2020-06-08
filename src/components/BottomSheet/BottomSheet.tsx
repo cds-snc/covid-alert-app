@@ -1,34 +1,16 @@
-import React, {useState, useCallback, useRef} from 'react';
-import {View, StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
+import {View, StyleSheet, TouchableOpacity, useWindowDimensions} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useSafeArea} from 'react-native-safe-area-context';
 import BottomSheetRaw from 'reanimated-bottom-sheet';
 import {useI18n} from '@shopify/react-i18n';
 
-import {Box} from './Box';
-import {Icon} from './Icon';
+import {Box} from '../Box';
+import {Icon} from '../Icon';
+
+import {SheetContentsContainer} from './SheetContentsContainer';
 
 const {abs, sub, pow} = Animated;
-
-interface ContentProps {
-  isExpanded: boolean;
-  toggleExpanded: () => void;
-  children?: React.ReactElement;
-}
-
-const SheetContentsContainer = ({children, isExpanded, toggleExpanded}: ContentProps) => {
-  const content = (
-    <Box backgroundColor="overlayBackground" minHeight="100%">
-      <Box marginTop="l">{children}</Box>
-    </Box>
-  );
-
-  if (isExpanded) {
-    return content;
-  }
-
-  return <TouchableHighlight onPress={toggleExpanded}>{content}</TouchableHighlight>;
-};
 
 export interface BottomSheetProps {
   collapsedContent?: React.ReactElement;
@@ -36,10 +18,7 @@ export interface BottomSheetProps {
   extraContent?: boolean;
 }
 
-const SNAP_POINTS = ['100%', '20%'];
-const SNAP_POINTS_LARGE = ['100%', '30%'];
-
-export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProps) => {
+const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProps) => {
   const bottomSheetPosition = useRef(new Animated.Value(1));
   const bottomSheetRef: React.Ref<BottomSheetRaw> = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -57,6 +36,13 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
 
   const onOpenEnd = useCallback(() => setIsExpanded(true), []);
   const onCloseEnd = useCallback(() => setIsExpanded(false), []);
+
+  const {width, height} = useWindowDimensions();
+  const snapPoints = [height, Math.max(width, height) * (extraContent ? 0.3 : 0.2)];
+
+  useEffect(() => {
+    bottomSheetRef.current?.snapTo(isExpanded ? 0 : 1);
+  }, [width, isExpanded]);
 
   const expandedContentWrapper = (
     <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
@@ -89,8 +75,6 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
     );
   }, [collapsedContentWrapper, expandedContentWrapper, isExpanded, toggleExpanded]);
 
-  const snapPoints = extraContent ? SNAP_POINTS_LARGE : SNAP_POINTS;
-
   return (
     <>
       <BottomSheetRaw
@@ -104,6 +88,7 @@ export const BottomSheet = ({children, collapsedContent, extraContent}: BottomSh
         snapPoints={snapPoints}
         initialSnap={1}
         callbackNode={bottomSheetPosition.current}
+        enabledInnerScrolling
       />
       <Box height={snapPoints[1]} style={styles.spacer} />
     </>
@@ -137,3 +122,5 @@ const styles = StyleSheet.create({
     marginBottom: -18,
   },
 });
+
+export default BottomSheet;

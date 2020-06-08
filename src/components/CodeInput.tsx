@@ -18,10 +18,10 @@ const inputBorderColor = (string: string, position: number) => {
 export interface CodeInputProps {
   value: string;
   onChange: (value: string) => void;
-  autoFocus?: boolean;
+  accessibilityLabel: string;
 }
 
-export const CodeInput = ({value, onChange, autoFocus}: CodeInputProps) => {
+export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps) => {
   const inputRef = useRef<TextInput>(null);
   const onChangeTrimmed = useCallback(text => onChange(text.trim()), [onChange]);
 
@@ -61,12 +61,17 @@ export const CodeInput = ({value, onChange, autoFocus}: CodeInputProps) => {
         autoCorrect={false}
         autoCompleteType="off"
         returnKeyType="done"
+        accessibilityLabel={accessibilityLabel}
+        caretHidden
         maxLength={8}
         style={styles.input}
-        autoFocus={autoFocus}
       />
-      <TouchableWithoutFeedback onPress={giveFocus}>
-        <Box flexDirection="row" justifyContent="space-evenly" marginHorizontal="m">
+      <TouchableWithoutFeedback
+        onPress={giveFocus}
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      >
+        <Box flexDirection="row" justifyContent="space-evenly" marginHorizontal="m" paddingVertical="l">
           {displayValue()}
         </Box>
       </TouchableWithoutFeedback>
@@ -76,7 +81,13 @@ export const CodeInput = ({value, onChange, autoFocus}: CodeInputProps) => {
 
 const styles = StyleSheet.create({
   input: {
-    height: 0,
-    width: 0,
+    borderWidth: 0,
+    color: 'transparent',
+    height: 40,
+    left: 15,
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    zIndex: 1,
   },
 });
