@@ -1,5 +1,6 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import {DevSettings} from 'react-native';
 
 import {StorageService} from './StorageService';
 
@@ -27,14 +28,22 @@ export const useStorage = () => {
   const [locale, setLocaleInternal] = useState(storageService.locale.value);
   const setLocale = useMemo(() => storageService.setLocale, [storageService.setLocale]);
 
+  const [region, setRegionInternal] = useState(storageService.region.value);
+  const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);
+
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
+  useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
 
-  const reset = useCallback(() => {
+  const reset = useCallback(async () => {
     setOnboarded(false);
     setLocale('en');
-    AsyncStorage.clear();
-  }, [setLocale, setOnboarded]);
+    setRegion(undefined);
+    await AsyncStorage.clear();
+    if (__DEV__) {
+      DevSettings.reload('Reset app');
+    }
+  }, [setLocale, setOnboarded, setRegion]);
 
   return useMemo(
     () => ({
@@ -42,8 +51,10 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
+      region,
+      setRegion,
       reset,
     }),
-    [isOnboarding, locale, reset, setLocale, setOnboarded],
+    [isOnboarding, locale, region, reset, setLocale, setOnboarded, setRegion],
   );
 };

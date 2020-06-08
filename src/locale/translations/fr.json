@@ -25,6 +25,7 @@
     "NoConnectivity": "Aucune connexion Internet",
     "NoConnectivityDetailed": "COVID Shield a besoin d'un accès Internet pour continuer de vérifier les expositions potentielles à la COVID-19.",
     "AppName": "COVID Shield",
+    "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
     "LastCheckedMinutes": {
       "One": "Dernière vérification il y a {number} minute",
       "Other": "Dernière vérification il y a {number} minutes"

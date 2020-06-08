@@ -53,6 +53,7 @@ export interface SecureStorageOptions {
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: Observable<ExposureStatus>;
+  started = false;
 
   exposureNotification: typeof ExposureNotification;
   backendInterface: BackendInterface;
@@ -72,16 +73,21 @@ export class ExposureNotificationService {
   ) {
     this.translate = translate;
     this.exposureNotification = exposureNotification;
-    this.systemStatus = new Observable<SystemStatus>(SystemStatus.Active);
+    this.systemStatus = new Observable<SystemStatus>(SystemStatus.Disabled);
     this.exposureStatus = new Observable<ExposureStatus>({type: 'monitoring'});
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
-    this.start();
   }
 
   async start(): Promise<void> {
-    await this.exposureNotification.start();
+    this.started = true;
+    try {
+      await this.exposureNotification.start();
+    } catch (_) {
+      // Noop because Exposure Notification framework is unavailable on device
+      return;
+    }
     // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
     const timestamp = await this.storage.getItem('lastCheckTimeStamp');
     const submissionCycleStartedAtStr = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);

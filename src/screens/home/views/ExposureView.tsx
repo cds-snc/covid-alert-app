@@ -12,7 +12,7 @@ export const ExposureView = () => {
   }, [i18n]);
   return (
     <BaseHomeView animationSource={require('assets/animation/blue-and-yellow.json')}>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l">
+      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.ExposureDetected')}
         {/* No exposure detected */}
       </Text>
@@ -21,7 +21,7 @@ export const ExposureView = () => {
       </Text>
       <LastCheckedDisplay />
       <Box alignSelf="stretch" marginTop="l">
-        <Button text={i18n.translate('Home.SeeGuidance')} variant="bigFlat" onPress={onAction} />
+        <Button text={i18n.translate('Home.SeeGuidance')} variant="bigFlat" externalLink onPress={onAction} />
       </Box>
     </BaseHomeView>
   );
