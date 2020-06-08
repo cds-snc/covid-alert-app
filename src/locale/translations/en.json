@@ -133,6 +133,7 @@
     "Cancel": "Cancel",
     "FormIntro": "Please enter your 8 digit COVID Shield code.",
     "Action": "Submit code",
+    "InputLabel": "Covid Shield code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
     "ConsentTitle": "Share your random IDs",
     "ConsentBody": "You have been granted access by a health care professional to share the random IDs stored on your phone.",
