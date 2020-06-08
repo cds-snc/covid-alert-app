@@ -1,9 +1,9 @@
-import ExposureNotification, { ExposureInformation, Status as SystemStatus } from 'bridge/ExposureNotification';
+import ExposureNotification, {ExposureInformation, Status as SystemStatus} from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
-import { Observable } from 'shared/Observable';
-import { addDays, daysBetween, periodSinceEpoch } from 'shared/date-fns';
+import {Observable} from 'shared/Observable';
+import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
 
-import { BackendInterface, SubmissionKeySet } from '../BackendService';
+import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const SUBMISSION_CYCLE_STARTED_AT = 'submissionCycleStartedAt';
@@ -16,24 +16,24 @@ const SECURE_OPTIONS = {
 
 type Translate = (key: string) => string;
 
-export { SystemStatus };
+export {SystemStatus};
 
 export type ExposureStatus =
   | {
-    type: 'monitoring';
-    lastChecked?: string;
-  }
+      type: 'monitoring';
+      lastChecked?: string;
+    }
   | {
-    type: 'exposed';
-    exposures: ExposureInformation[];
-    lastChecked?: string;
-  }
+      type: 'exposed';
+      exposures: ExposureInformation[];
+      lastChecked?: string;
+    }
   | {
-    type: 'diagnosed';
-    needsSubmission: boolean;
-    cycleEndsAt: Date;
-    lastChecked?: string;
-  };
+      type: 'diagnosed';
+      needsSubmission: boolean;
+      cycleEndsAt: Date;
+      lastChecked?: string;
+    };
 
 export interface PersistencyProvider {
   setItem(key: string, value: string): Promise<void>;
@@ -74,7 +74,7 @@ export class ExposureNotificationService {
     this.translate = translate;
     this.exposureNotification = exposureNotification;
     this.systemStatus = new Observable<SystemStatus>(SystemStatus.Disabled);
-    this.exposureStatus = new Observable<ExposureStatus>({ type: 'monitoring' });
+    this.exposureStatus = new Observable<ExposureStatus>({type: 'monitoring'});
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
@@ -100,7 +100,7 @@ export class ExposureNotificationService {
       });
     }
     if (timestamp) {
-      this.exposureStatus.set({ ...this.exposureStatus.get(), lastChecked: timestamp });
+      this.exposureStatus.set({...this.exposureStatus.get(), lastChecked: timestamp});
     }
     await this.updateExposureStatus();
   }
@@ -188,7 +188,7 @@ export class ExposureNotificationService {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type === 'diagnosed') {
       await this.secureStorage.setItem(SUBMISSION_LAST_COMPLETED_AT, new Date().getTime().toString(), SECURE_OPTIONS);
-      this.exposureStatus.set({ ...currentStatus, needsSubmission: false });
+      this.exposureStatus.set({...currentStatus, needsSubmission: false});
     }
   }
 
@@ -223,28 +223,28 @@ export class ExposureNotificationService {
 
     const finalize = (status: ExposureStatus) => {
       const timestamp = `${new Date().getTime()}`;
-      this.exposureStatus.set({ ...status, lastChecked: timestamp });
+      this.exposureStatus.set({...status, lastChecked: timestamp});
       this.storage.setItem('lastCheckTimeStamp', timestamp);
       return this.exposureStatus.get();
     };
 
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type === 'diagnosed') {
-      return finalize({ ...currentStatus, needsSubmission: await this.calculateNeedsSubmission() });
+      return finalize({...currentStatus, needsSubmission: await this.calculateNeedsSubmission()});
     }
 
     console.log('lastCheckDate', lastCheckDate);
     const generator = this.keysSinceLastFetch(lastCheckDate);
     while (true) {
-      const { value: keysFilesUrl, done } = await generator.next();
+      const {value: keysFilesUrl, done} = await generator.next();
       if (done) break;
 
       const summary = await this.exposureNotification.detectExposure(exposureConfigutration, [keysFilesUrl]);
       if (summary.matchedKeyCount > 0) {
         const exposures = await this.exposureNotification.getExposureInformation(summary);
-        return finalize({ type: 'exposed', exposures });
+        return finalize({type: 'exposed', exposures});
       }
     }
-    return finalize({ type: 'monitoring' });
+    return finalize({type: 'monitoring'});
   }
 }
