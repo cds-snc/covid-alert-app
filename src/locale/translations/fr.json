@@ -132,7 +132,7 @@
     "Cancel": "Annuler",
     "FormIntro": "Entrez votre code COVID Shield à 8 chiffres.",
     "Action": "Soumettre le code",
-    "InputLabel": "Entrée de code Covid Shield",
+    "InputLabel": "code Covid Shield",
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
     "ConsentTitle": "Partagez vos identifiants aléatoires",
     "ConsentBody": "Un professionnel de la santé vous a autorisé à partager les identifiants aléatoires conservés sur votre téléphone.",
