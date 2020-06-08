@@ -1,7 +1,7 @@
 /* eslint-disable require-atomic-updates */
-import { when } from 'jest-when';
+import {when} from 'jest-when';
 
-import { ExposureNotificationService } from './ExposureNotificationService';
+import {ExposureNotificationService} from './ExposureNotificationService';
 
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue([]),
@@ -19,7 +19,7 @@ const secureStorage: any = {
   setItem: jest.fn().mockResolvedValueOnce(undefined),
 };
 const bridge: any = {
-  detectExposure: jest.fn().mockResolvedValue({ matchedKeyCount: 0 }),
+  detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
 };
@@ -178,7 +178,7 @@ describe('ExposureNotificationService', () => {
     await service.start();
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({ type: 'diagnosed', needsSubmission: true }),
+      expect.objectContaining({type: 'diagnosed', needsSubmission: true}),
     );
 
     currentDateString = '2020-05-20T04:10:00+0000';
@@ -193,11 +193,11 @@ describe('ExposureNotificationService', () => {
       {
         sharedPreferencesName: 'covidShieldSharedPreferences',
         keychainService: 'covidShieldKeychain',
-      }
+      },
     );
 
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({ type: 'diagnosed', needsSubmission: false }),
+      expect.objectContaining({type: 'diagnosed', needsSubmission: false}),
     );
 
     when(secureStorage.getItem)
@@ -209,7 +209,7 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({ type: 'diagnosed', needsSubmission: true }),
+      expect.objectContaining({type: 'diagnosed', needsSubmission: true}),
     );
 
     // advance 14 days
@@ -220,7 +220,7 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({ type: 'diagnosed', needsSubmission: false }),
+      expect.objectContaining({type: 'diagnosed', needsSubmission: false}),
     );
   });
 });
