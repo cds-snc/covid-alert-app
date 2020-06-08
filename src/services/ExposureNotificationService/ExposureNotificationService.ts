@@ -1,9 +1,9 @@
-import ExposureNotification, {ExposureInformation, Status as SystemStatus} from 'bridge/ExposureNotification';
+import ExposureNotification, { ExposureInformation, Status as SystemStatus } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
-import {Observable} from 'shared/Observable';
-import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
+import { Observable } from 'shared/Observable';
+import { addDays, daysBetween, periodSinceEpoch } from 'shared/date-fns';
 
-import {BackendInterface, SubmissionKeySet} from '../BackendService';
+import { BackendInterface, SubmissionKeySet } from '../BackendService';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const SUBMISSION_CYCLE_STARTED_AT = 'submissionCycleStartedAt';
@@ -16,24 +16,24 @@ const SECURE_OPTIONS = {
 
 type Translate = (key: string) => string;
 
-export {SystemStatus};
+export { SystemStatus };
 
 export type ExposureStatus =
   | {
-      type: 'monitoring';
-      lastChecked?: string;
-    }
+    type: 'monitoring';
+    lastChecked?: string;
+  }
   | {
-      type: 'exposed';
-      exposures: ExposureInformation[];
-      lastChecked?: string;
-    }
+    type: 'exposed';
+    exposures: ExposureInformation[];
+    lastChecked?: string;
+  }
   | {
-      type: 'diagnosed';
-      needsSubmission: boolean;
-      cycleEndsAt: Date;
-      lastChecked?: string;
-    };
+    type: 'diagnosed';
+    needsSubmission: boolean;
+    cycleEndsAt: Date;
+    lastChecked?: string;
+  };
 
 export interface PersistencyProvider {
   setItem(key: string, value: string): Promise<void>;
@@ -74,7 +74,7 @@ export class ExposureNotificationService {
     this.translate = translate;
     this.exposureNotification = exposureNotification;
     this.systemStatus = new Observable<SystemStatus>(SystemStatus.Disabled);
-    this.exposureStatus = new Observable<ExposureStatus>({type: 'monitoring'});
+    this.exposureStatus = new Observable<ExposureStatus>({ type: 'monitoring' });
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
@@ -90,7 +90,7 @@ export class ExposureNotificationService {
     }
     // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
     const timestamp = await this.storage.getItem('lastCheckTimeStamp');
-    const submissionCycleStartedAtStr = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);
+    const submissionCycleStartedAtStr = await this.secureStorage.getItem(SUBMISSION_CYCLE_STARTED_AT, SECURE_OPTIONS);
     if (submissionCycleStartedAtStr) {
       this.exposureStatus.set({
         type: 'diagnosed',
@@ -100,7 +100,7 @@ export class ExposureNotificationService {
       });
     }
     if (timestamp) {
-      this.exposureStatus.set({...this.exposureStatus.get(), lastChecked: timestamp});
+      this.exposureStatus.set({ ...this.exposureStatus.get(), lastChecked: timestamp });
     }
     await this.updateExposureStatus();
   }
@@ -129,7 +129,7 @@ export class ExposureNotificationService {
   }
 
   async submissionCycleEndsAt(): Promise<Date> {
-    const cycleStart = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);
+    const cycleStart = await this.secureStorage.getItem(SUBMISSION_CYCLE_STARTED_AT, SECURE_OPTIONS);
     return addDays(cycleStart ? new Date(parseInt(cycleStart, 10)) : new Date(), 14);
   }
 
@@ -148,7 +148,11 @@ export class ExposureNotificationService {
     const serialized = JSON.stringify(keys);
     await this.secureStorage.setItem(SUBMISSION_AUTH_KEYS, serialized, SECURE_OPTIONS);
     const submissionCycleStartAt = new Date();
-    this.storage.setItem(SUBMISSION_CYCLE_STARTED_AT, submissionCycleStartAt.getTime().toString());
+    await this.secureStorage.setItem(
+      SUBMISSION_CYCLE_STARTED_AT,
+      submissionCycleStartAt.getTime().toString(),
+      SECURE_OPTIONS,
+    );
     this.exposureStatus.set({
       type: 'diagnosed',
       needsSubmission: true,
@@ -183,13 +187,13 @@ export class ExposureNotificationService {
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type === 'diagnosed') {
-      await this.storage.setItem(SUBMISSION_LAST_COMPLETED_AT, new Date().getTime().toString());
-      this.exposureStatus.set({...currentStatus, needsSubmission: false});
+      await this.secureStorage.setItem(SUBMISSION_LAST_COMPLETED_AT, new Date().getTime().toString(), SECURE_OPTIONS);
+      this.exposureStatus.set({ ...currentStatus, needsSubmission: false });
     }
   }
 
   private async calculateNeedsSubmission(): Promise<boolean> {
-    const lastSubmittedStr = await this.storage.getItem(SUBMISSION_LAST_COMPLETED_AT);
+    const lastSubmittedStr = await this.secureStorage.getItem(SUBMISSION_LAST_COMPLETED_AT, SECURE_OPTIONS);
     const submissionCycleEnds = await this.submissionCycleEndsAt();
     if (!lastSubmittedStr) {
       return true;
@@ -219,28 +223,28 @@ export class ExposureNotificationService {
 
     const finalize = (status: ExposureStatus) => {
       const timestamp = `${new Date().getTime()}`;
-      this.exposureStatus.set({...status, lastChecked: timestamp});
+      this.exposureStatus.set({ ...status, lastChecked: timestamp });
       this.storage.setItem('lastCheckTimeStamp', timestamp);
       return this.exposureStatus.get();
     };
 
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type === 'diagnosed') {
-      return finalize({...currentStatus, needsSubmission: await this.calculateNeedsSubmission()});
+      return finalize({ ...currentStatus, needsSubmission: await this.calculateNeedsSubmission() });
     }
 
     console.log('lastCheckDate', lastCheckDate);
     const generator = this.keysSinceLastFetch(lastCheckDate);
     while (true) {
-      const {value: keysFilesUrl, done} = await generator.next();
+      const { value: keysFilesUrl, done } = await generator.next();
       if (done) break;
 
       const summary = await this.exposureNotification.detectExposure(exposureConfigutration, [keysFilesUrl]);
       if (summary.matchedKeyCount > 0) {
         const exposures = await this.exposureNotification.getExposureInformation(summary);
-        return finalize({type: 'exposed', exposures});
+        return finalize({ type: 'exposed', exposures });
       }
     }
-    return finalize({type: 'monitoring'});
+    return finalize({ type: 'monitoring' });
   }
 }

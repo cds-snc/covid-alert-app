@@ -1,7 +1,7 @@
 /* eslint-disable require-atomic-updates */
-import {when} from 'jest-when';
+import { when } from 'jest-when';
 
-import {ExposureNotificationService} from './ExposureNotificationService';
+import { ExposureNotificationService } from './ExposureNotificationService';
 
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue([]),
@@ -19,7 +19,7 @@ const secureStorage: any = {
   setItem: jest.fn().mockResolvedValueOnce(undefined),
 };
 const bridge: any = {
-  detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
+  detectExposure: jest.fn().mockResolvedValue({ matchedKeyCount: 0 }),
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
 };
@@ -110,7 +110,7 @@ describe('ExposureNotificationService', () => {
   });
 
   it('restores "diangosed" status from storage', async () => {
-    when(storage.getItem)
+    when(secureStorage.getItem)
       .calledWith('submissionCycleStartedAt')
       .mockResolvedValueOnce(new OriginalDate('2020-05-18T04:10:00+0000').toString());
     dateSpy.mockImplementation((...args) =>
@@ -131,13 +131,13 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((...args) =>
         args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
       );
-      when(storage.getItem)
+      when(secureStorage.getItem)
         .calledWith('submissionCycleStartedAt')
         .mockResolvedValue(new OriginalDate('2020-05-14T04:10:00+0000').toString());
     });
 
     it('for positive', async () => {
-      when(storage.getItem)
+      when(secureStorage.getItem)
         .calledWith('submissionLastCompletedAt')
         .mockResolvedValue(new OriginalDate('2020-05-18T04:10:00+0000').toString());
 
@@ -149,7 +149,7 @@ describe('ExposureNotificationService', () => {
       );
     });
     it('for negative', async () => {
-      when(storage.getItem)
+      when(secureStorage.getItem)
         .calledWith('submissionLastCompletedAt')
         .mockResolvedValue(new OriginalDate('2020-05-19T04:10:00+0000').getTime().toString());
       await service.start();
@@ -164,10 +164,10 @@ describe('ExposureNotificationService', () => {
   it('needsSubmission status recalculates daily', async () => {
     let currentDateString = '2020-05-19T04:10:00+0000';
 
-    when(storage.getItem)
+    when(secureStorage.getItem)
       .calledWith('submissionCycleStartedAt')
       .mockResolvedValue(new OriginalDate('2020-05-14T04:10:00+0000').getTime().toString());
-    when(storage.getItem)
+    when(secureStorage.getItem)
       .calledWith('submissionLastCompletedAt')
       .mockResolvedValue(null);
 
@@ -178,7 +178,7 @@ describe('ExposureNotificationService', () => {
     await service.start();
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({type: 'diagnosed', needsSubmission: true}),
+      expect.objectContaining({ type: 'diagnosed', needsSubmission: true }),
     );
 
     currentDateString = '2020-05-20T04:10:00+0000';
@@ -187,16 +187,20 @@ describe('ExposureNotificationService', () => {
       .mockResolvedValueOnce('{}');
     await service.fetchAndSubmitKeys();
 
-    expect(storage.setItem).toHaveBeenCalledWith(
+    expect(secureStorage.setItem).toHaveBeenCalledWith(
       'submissionLastCompletedAt',
       new OriginalDate(currentDateString).getTime().toString(),
+      {
+        sharedPreferencesName: 'covidShieldSharedPreferences',
+        keychainService: 'covidShieldKeychain',
+      }
     );
 
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({type: 'diagnosed', needsSubmission: false}),
+      expect.objectContaining({ type: 'diagnosed', needsSubmission: false }),
     );
 
-    when(storage.getItem)
+    when(secureStorage.getItem)
       .calledWith('submissionLastCompletedAt')
       .mockResolvedValue(new OriginalDate(currentDateString).getTime().toString());
 
@@ -205,18 +209,18 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({type: 'diagnosed', needsSubmission: true}),
+      expect.objectContaining({ type: 'diagnosed', needsSubmission: true }),
     );
 
     // advance 14 days
     currentDateString = '2020-05-30T04:10:00+0000';
-    when(storage.getItem)
+    when(secureStorage.getItem)
       .calledWith('submissionLastCompletedAt')
       .mockResolvedValue(new OriginalDate('2020-05-28T04:10:00+0000').getTime().toString());
 
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({type: 'diagnosed', needsSubmission: false}),
+      expect.objectContaining({ type: 'diagnosed', needsSubmission: false }),
     );
   });
 });
