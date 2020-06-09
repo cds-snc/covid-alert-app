@@ -1,0 +1,1 @@
+  2020-06-05 2:22:00 PM EDT: Starting composition “Onboarding - Step 2”.  Output To: /Users/kyle/development/shopify/covidshield/mobile/design/aftereffects/renders/Onboarding_Step_2.mov    2020-06-05 2:22:05 PM EDT: Finished composition “Onboarding - Step 2”.  Total Time Elapsed: 5 SecondsLog closed on 2020-06-05 at 2:22:06 PM EDT

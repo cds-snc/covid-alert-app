@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* CovidShieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CovidShieldTests.m */; };
+		1328B72A4DDB4713970A0673 /* img_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = FAA4C78E2EF7441687865846 /* img_0.svg */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -21,6 +22,7 @@
 		74B6941E245F15B20077B9DA /* ExposureNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6941D245F15B20077B9DA /* ExposureNotification.m */; };
 		8DF9A2955489329AFD47D944 /* libPods-CovidShield-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 643730E3E57CC675D488E2BC /* libPods-CovidShield-tvOS.a */; };
 		9DCF98527548A48AED34959C /* libPods-CovidShield-CovidShieldTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */; };
+		A10A691626414D8AABBB659C /* Device-Large.png in Resources */ = {isa = PBXBuildFile; fileRef = 431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */; };
 		A5B29C19B17A2E25480B88CE /* libPods-CovidShield-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 097F1398729006FEB2A771FC /* libPods-CovidShield-tvOSTests.a */; };
 		BA054BD27C1A8657F6BF95BB /* libPods-CovidShield.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52445CBEB4F2B88669022976 /* libPods-CovidShield.a */; };
 		E0C908AD8D97409895BCF901 /* img_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B4DC3E27534960AEAA5640 /* img_0.png */; };
@@ -64,6 +66,7 @@
 		2D02E47B1E0B4A5D006451C7 /* CovidShield-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CovidShield-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* CovidShield-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CovidShield-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30410EF97217406AB84D48C6 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../src/assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Device-Large.png"; path = "../src/assets/animation/images/Device-Large.png"; sourceTree = "<group>"; };
 		4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.release.xcconfig"; sourceTree = "<group>"; };
 		52445CBEB4F2B88669022976 /* libPods-CovidShield.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		643730E3E57CC675D488E2BC /* libPods-CovidShield-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +87,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FA11CCD8EB9EB39453E3C0AA /* Pods-CovidShield-CovidShieldTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FAA4C78E2EF7441687865846 /* img_0.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = img_0.svg; path = ../src/assets/animation/images/img_0.svg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,8 @@
 				30410EF97217406AB84D48C6 /* Nunito-Bold.ttf */,
 				9B6B2313DFFB46AE99F7DDCD /* Nunito.ttf */,
 				94B4DC3E27534960AEAA5640 /* img_0.png */,
+				431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */,
+				FAA4C78E2EF7441687865846 /* img_0.svg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -380,6 +386,8 @@
 				195904142488B84300430369 /* Launch Screen.storyboard in Resources */,
 				3E0E3459D94C4332856E0784 /* Nunito.ttf in Resources */,
 				E0C908AD8D97409895BCF901 /* img_0.png in Resources */,
+				A10A691626414D8AABBB659C /* Device-Large.png in Resources */,
+				1328B72A4DDB4713970A0673 /* img_0.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

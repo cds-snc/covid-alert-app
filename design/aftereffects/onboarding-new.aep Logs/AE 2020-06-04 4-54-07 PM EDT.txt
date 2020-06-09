@@ -1,0 +1,1 @@
+  2020-06-04 4:54:07 PM EDT: Starting composition “Comp 1”.  Output To: /Users/kyle/development/shopify/covidshield/mobile/design/aftereffects/renders/Comp_1.mov    2020-06-04 4:54:09 PM EDT: Finished composition “Comp 1”.  Total Time Elapsed: 2 SecondsLog closed on 2020-06-04 at 4:54:09 PM EDT
