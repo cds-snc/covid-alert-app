@@ -1,1 +1,0 @@
-  2020-06-05 3:42:49 PM EDT: Finished composition “tempConverterComp”.  Total Time Elapsed: 0 SecondsLog closed on 2020-06-05 at 3:42:49 PM EDT
