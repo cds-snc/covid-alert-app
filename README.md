@@ -147,6 +147,7 @@ yarn generate-translations
 3. Regenerate the translations `yarn generate-translations`.
 4. Add the new option in [src/components/LanguageToggle.tsx](./src/components/LanguageToggle.tsx).
 5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
+6. Add the new option in Xcode `Localizations` settings (Project -> CovidShield -> Info tab -> Localizations) and make sure `Launch Screen.storyboard` is checked.
 
 ## Who built COVID Shield?
 
