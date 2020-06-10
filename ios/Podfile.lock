@@ -243,7 +243,7 @@ PODS:
     - React
   - react-native-netinfo (5.9.0):
     - React
-  - react-native-safe-area-context (2.0.0):
+  - react-native-safe-area-context (3.0.2):
     - React
   - react-native-sensitive-info (5.5.5):
     - React
@@ -533,7 +533,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-config: 313a1306066289211579b9655eb81d9a565462d0
   react-native-netinfo: 7b3c53674ea611b26a7788821f137c6d9d3a038b
-  react-native-safe-area-context: 60f654e00b6cc416573f6d5dbfce3839958eb57a
+  react-native-safe-area-context: b11a34881faac509cad5578726c98161ad4d275c
   react-native-sensitive-info: 4629b223484a08225c3eb088ff3f91b03097b5e5
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c

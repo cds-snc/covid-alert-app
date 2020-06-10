@@ -38,7 +38,6 @@
 			remoteInfo = CovidShield;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
-		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
