@@ -80,6 +80,7 @@
 		77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-CovidShieldTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B4DC3E27534960AEAA5640 /* img_0.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = img_0.png; path = ../src/assets/animation/images/img_0.png; sourceTree = "<group>"; };
 		9B6B2313DFFB46AE99F7DDCD /* Nunito.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito.ttf; path = ../src/assets/fonts/Nunito.ttf; sourceTree = "<group>"; };
+		BAD0A9B82492A30500F1EEC8 /* CovidShieldDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CovidShieldDebug.entitlements; path = CovidShield/CovidShieldDebug.entitlements; sourceTree = "<group>"; };
 		C3C62E531ADF4C4A8E004927 /* Pods-CovidShield-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield-tvOSTests/Pods-CovidShield-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C8C6BC10F3A019B49411B60B /* Pods-CovidShield-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-CovidShield-tvOSTests/Pods-CovidShield-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		D59BC3EC50A0ADA445499A7C /* Pods-CovidShield-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield-tvOS/Pods-CovidShield-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -146,6 +147,7 @@
 		13B07FAE1A68108700A75B9A /* CovidShield */ = {
 			isa = PBXGroup;
 			children = (
+				BAD0A9B82492A30500F1EEC8 /* CovidShieldDebug.entitlements */,
 				179621B4246C643100B9FC0D /* CovidShield.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -333,8 +335,9 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 6WLJ9XN9DH;
+						DevelopmentTeam = S49952WKLY;
 						LastSwiftMigration = 1120;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -698,9 +701,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = CovidShield/CovidShield.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CovidShield/CovidShieldDebug.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = CovidShield/CovidShieldDebug.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6WLJ9XN9DH;
+				DEVELOPMENT_TEAM = S49952WKLY;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -716,6 +722,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_IOS)";
 				PRODUCT_NAME = CovidShield;
+				PROVISIONING_PROFILE_SPECIFIER = SapphireDevelopmentProfile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -730,7 +737,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CovidShield/CovidShield.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6WLJ9XN9DH;
+				DEVELOPMENT_TEAM = S49952WKLY;
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
