@@ -12,15 +12,15 @@ export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3'];
 const animationData = {
   'step-1': {
     source: require('assets/animation/onboarding-step-1.json'),
-    pauseFrame: 105,
+    pauseFrame: 55,
   },
   'step-2': {
     source: require('assets/animation/onboarding-step-2.json'),
-    pauseFrame: 120,
+    pauseFrame: 378,
   },
   'step-3': {
     source: require('assets/animation/onboarding-step-3.json'),
-    pauseFrame: 124,
+    pauseFrame: 398,
   },
 };
 
