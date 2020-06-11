@@ -154,7 +154,7 @@ android {
     }
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
+            minifyEnabled false
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds

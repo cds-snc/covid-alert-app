@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* CovidShieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CovidShieldTests.m */; };
+		1328B72A4DDB4713970A0673 /* img_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = FAA4C78E2EF7441687865846 /* img_0.svg */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1716CF3E246576CD00B22EF4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1716CF3D246576CD00B22EF4 /* Launch Screen.storyboard */; };
+		195904142488B84300430369 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 195904162488B84300430369 /* Launch Screen.storyboard */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -21,6 +22,7 @@
 		74B6941E245F15B20077B9DA /* ExposureNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6941D245F15B20077B9DA /* ExposureNotification.m */; };
 		8DF9A2955489329AFD47D944 /* libPods-CovidShield-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 643730E3E57CC675D488E2BC /* libPods-CovidShield-tvOS.a */; };
 		9DCF98527548A48AED34959C /* libPods-CovidShield-CovidShieldTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */; };
+		A10A691626414D8AABBB659C /* Device-Large.png in Resources */ = {isa = PBXBuildFile; fileRef = 431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */; };
 		A5B29C19B17A2E25480B88CE /* libPods-CovidShield-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 097F1398729006FEB2A771FC /* libPods-CovidShield-tvOSTests.a */; };
 		BA054BD27C1A8657F6BF95BB /* libPods-CovidShield.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52445CBEB4F2B88669022976 /* libPods-CovidShield.a */; };
 		E0C908AD8D97409895BCF901 /* img_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B4DC3E27534960AEAA5640 /* img_0.png */; };
@@ -56,12 +58,15 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CovidShield/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CovidShield/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CovidShield/main.m; sourceTree = "<group>"; };
-		1716CF3D246576CD00B22EF4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		179621B4246C643100B9FC0D /* CovidShield.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CovidShield.entitlements; path = CovidShield/CovidShield.entitlements; sourceTree = "<group>"; };
+		195904152488B84300430369 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		195904172488B85500430369 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
+		195904192488B85E00430369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
 		1A0CE02FD9160E9B9AF76381 /* Pods-CovidShield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.release.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* CovidShield-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CovidShield-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* CovidShield-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CovidShield-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30410EF97217406AB84D48C6 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../src/assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Device-Large.png"; path = "../src/assets/animation/images/Device-Large.png"; sourceTree = "<group>"; };
 		4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.release.xcconfig"; sourceTree = "<group>"; };
 		52445CBEB4F2B88669022976 /* libPods-CovidShield.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		643730E3E57CC675D488E2BC /* libPods-CovidShield-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +87,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FA11CCD8EB9EB39453E3C0AA /* Pods-CovidShield-CovidShieldTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FAA4C78E2EF7441687865846 /* img_0.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = img_0.svg; path = ../src/assets/animation/images/img_0.svg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +151,7 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				1716CF3D246576CD00B22EF4 /* Launch Screen.storyboard */,
+				195904162488B84300430369 /* Launch Screen.storyboard */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				7482405524773294009F68EA /* Config.release.xcconfig */,
@@ -160,6 +166,8 @@
 				30410EF97217406AB84D48C6 /* Nunito-Bold.ttf */,
 				9B6B2313DFFB46AE99F7DDCD /* Nunito.ttf */,
 				94B4DC3E27534960AEAA5640 /* img_0.png */,
+				431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */,
+				FAA4C78E2EF7441687865846 /* img_0.svg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -346,6 +354,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -374,9 +383,11 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FA02CBEB18514E9EBFD56EBD /* Nunito-Bold.ttf in Resources */,
-				1716CF3E246576CD00B22EF4 /* Launch Screen.storyboard in Resources */,
+				195904142488B84300430369 /* Launch Screen.storyboard in Resources */,
 				3E0E3459D94C4332856E0784 /* Nunito.ttf in Resources */,
 				E0C908AD8D97409895BCF901 /* img_0.png in Resources */,
+				A10A691626414D8AABBB659C /* Device-Large.png in Resources */,
+				1328B72A4DDB4713970A0673 /* img_0.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +635,19 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		195904162488B84300430369 /* Launch Screen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				195904152488B84300430369 /* Base */,
+				195904172488B85500430369 /* fr */,
+				195904192488B85E00430369 /* en */,
+			);
+			name = "Launch Screen.storyboard";
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -706,7 +730,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CovidShield/CovidShield.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A7XGC83MZE;
+				DEVELOPMENT_TEAM = 6WLJ9XN9DH;
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
