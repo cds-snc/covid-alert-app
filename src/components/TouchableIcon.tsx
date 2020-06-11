@@ -14,24 +14,33 @@ interface TouchableIconProps {
 }
 
 export const TouchableIcon = ({iconName, iconSize, containerSize = 56, label, onPress}: TouchableIconProps) => {
+  const accessibilityProps = {
+    accessibilityRole: 'button' as 'button',
+    accessibilityLabel: label,
+  };
+
   const content = (
-    <Box
-      width={containerSize}
-      height={containerSize}
-      justifyContent="center"
-      alignItems="center"
-      accessibilityLabel={label}
-    >
+    <Box width={containerSize} height={containerSize} justifyContent="center" alignItems="center">
       <Icon name={iconName} size={iconSize} />
     </Box>
   );
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleSize={containerSize} rippleContainerBorderRadius={containerSize} rippleCentered onPress={onPress}>
+      <Ripple
+        rippleSize={containerSize}
+        rippleContainerBorderRadius={containerSize}
+        rippleCentered
+        onPress={onPress}
+        {...accessibilityProps}
+      >
         {content}
       </Ripple>
     );
   }
-  return <TouchableOpacity onPress={onPress}>{content}</TouchableOpacity>;
+  return (
+    <TouchableOpacity onPress={onPress} {...accessibilityProps}>
+      {content}
+    </TouchableOpacity>
+  );
 };
