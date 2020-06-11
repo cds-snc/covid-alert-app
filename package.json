@@ -9,7 +9,7 @@
     "generate-translations": "node translations.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pod-install": "pushd ios; bundle exec pod install; popd",
-    "run-android": "react-native run-android --variant debug --appIdSuffix debug",
+    "run-android": "react-native run-android --variant debug",
     "run-ios": "react-native run-ios",
     "start": "react-native start --reset-cache",
     "test": "jest",
