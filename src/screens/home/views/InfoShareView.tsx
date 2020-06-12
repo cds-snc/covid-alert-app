@@ -11,7 +11,7 @@ interface InfoShareItemProps extends TouchableOpacityProps {
 }
 const InfoShareItem = ({onPress, text, icon, ...touchableProps}: InfoShareItemProps) => (
   <>
-    <TouchableOpacity onPress={onPress} {...touchableProps}>
+    <TouchableOpacity onPress={onPress} accessibilityRole="button" {...touchableProps}>
       <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
         <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
           {text}
