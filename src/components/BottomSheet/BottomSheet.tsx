@@ -51,6 +51,7 @@ const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProp
         onPress={toggleExpanded}
         style={styles.collapseButton}
         accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+        accessibilityRole="button"
       >
         <Icon name="icon-chevron" />
       </TouchableOpacity>
