@@ -1,7 +1,7 @@
 /* eslint-disable require-atomic-updates */
 import {when} from 'jest-when';
 
-import {ExposureNotificationService} from './ExposureNotificationService';
+import {ExposureNotificationService, SystemStatus} from './ExposureNotificationService';
 
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue([]),
@@ -22,6 +22,7 @@ const bridge: any = {
   detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
+  getStatus: jest.fn(),
 };
 
 describe('ExposureNotificationService', () => {
@@ -29,8 +30,10 @@ describe('ExposureNotificationService', () => {
 
   const OriginalDate = global.Date;
   const dateSpy = jest.spyOn(global, 'Date');
+
   beforeEach(() => {
     service = new ExposureNotificationService(server, translate, storage, secureStorage, bridge);
+    bridge.getStatus.mockReturnValue(Promise.resolve(SystemStatus.Active));
   });
 
   afterEach(() => {

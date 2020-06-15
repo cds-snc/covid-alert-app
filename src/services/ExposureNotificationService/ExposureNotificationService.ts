@@ -85,12 +85,12 @@ export class ExposureNotificationService {
   async start(): Promise<void> {
     try {
       await this.exposureNotification.start();
-      await this.updateSystemStatus();
     } catch (_) {
       // Noop because Exposure Notification framework is unavailable on device
       return;
     }
 
+    await this.updateSystemStatus();
     if (this.systemStatus.get() !== SystemStatus.Active) {
       // Noop because Exposure Notification cannot start
       return;
