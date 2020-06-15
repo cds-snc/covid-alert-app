@@ -83,23 +83,25 @@ export class ExposureNotificationService {
   }
 
   async start(): Promise<void> {
+    if (this.started) {
+      return;
+    }
+    this.started = true;
+
     try {
       await this.exposureNotification.start();
     } catch (_) {
       // Noop because Exposure Notification framework is unavailable on device
+      this.started = false;
       return;
     }
 
     await this.updateSystemStatus();
     if (this.systemStatus.get() !== SystemStatus.Active) {
       // Noop because Exposure Notification cannot start
+      this.started = false;
       return;
     }
-
-    if (this.started) {
-      return;
-    }
-    this.started = true;
 
     // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
     const timestamp = await this.storage.getItem('lastCheckTimeStamp');
