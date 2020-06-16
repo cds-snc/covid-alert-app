@@ -6,8 +6,8 @@ export function hoursSinceEpoch(date: Date) {
   return date.getTime() / (1000 * 3600);
 }
 
-export function periodSinceEpoch(date: Date) {
-  return Math.floor(date.getTime() / (1000 * 3600 * 2)) * 2;
+export function periodSinceEpoch(date: Date, hoursPerPeriod: number) {
+  return Math.floor(date.getTime() / (1000 * 3600 * hoursPerPeriod)) * hoursPerPeriod;
 }
 
 export function daysFromNow(date: Date) {

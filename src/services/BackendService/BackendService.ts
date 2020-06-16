@@ -14,18 +14,19 @@ export class BackendService implements BackendInterface {
   retrieveUrl: string;
   submitUrl: string;
   hmacKey: string;
+  region: number;
 
-  constructor(retrieveUrl: string, submitUrl: string, hmacKey: string) {
+  constructor(retrieveUrl: string, submitUrl: string, hmacKey: string, region: number) {
     this.retrieveUrl = retrieveUrl;
     this.submitUrl = submitUrl;
     this.hmacKey = hmacKey;
+    this.region = region;
   }
 
   async retrieveDiagnosisKeys(period: number) {
-    const message = `${period}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
+    const message = `${this.region}:${period}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
-
-    return downloadDiagnosisKeysFile(`${this.retrieveUrl}/retrieve/${period}/${hmac}`);
+    return downloadDiagnosisKeysFile(`${this.retrieveUrl}/retrieve/${this.region}/${period}/${hmac}`);
   }
 
   async getExposureConfiguration() {
@@ -60,15 +61,14 @@ export class BackendService implements BackendInterface {
     const upload = covidshield.Upload.create({
       timestamp: {seconds: Math.floor(new Date().getTime() / 1000)},
       keys: exposureKeys.map(key =>
-        covidshield.TemporaryExposureKey.create({
+        covidshield.Key.create({
           keyData: Buffer.from(key.keyData, 'base64'),
-          rollingStartIntervalNumber: key.rollingStartNumber,
           transmissionRiskLevel: key.transmissionRiskLevel,
+          rollingStartNumber: key.rollingStartNumber,
           rollingPeriod: key.rollingPeriod,
         }),
       ),
     });
-    console.log({upload: JSON.stringify(upload)});
 
     const serializedUpload = covidshield.Upload.encode(upload).finish();
 
