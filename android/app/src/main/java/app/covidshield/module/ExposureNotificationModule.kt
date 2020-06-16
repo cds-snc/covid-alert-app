@@ -15,6 +15,7 @@ import app.covidshield.extensions.toSummary
 import app.covidshield.extensions.toWritableArray
 import app.covidshield.extensions.toWritableMap
 import app.covidshield.models.Configuration
+import app.covidshield.models.ExposureKey
 import app.covidshield.utils.ActivityResultHelper
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -43,6 +44,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     private var startResolutionCompleter: CompletableDeferred<Any>? = null
+    private var getTekResolutionCompleter: CompletableDeferred<Any>? = null
 
     override fun getName(): String = "ExposureNotification"
 
@@ -106,9 +108,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     @ReactMethod
     fun getTemporaryExposureKeyHistory(promise: Promise) {
-        exposureNotificationClient.temporaryExposureKeyHistory.bindPromise(promise) { keys ->
-            val exposureKeys = keys.map { it.toExposureKey() }.toWritableArray()
-            resolve(exposureKeys)
+        promise.launch(this) {
+            val exposureKeys = getTemporaryExposureKeyHistoryInternal()
+            promise.resolve(exposureKeys.toWritableArray())
         }
     }
 
@@ -158,9 +160,46 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         }
     }
 
+    private suspend fun getTemporaryExposureKeyHistoryInternal(): List<ExposureKey> {
+        val activity = currentActivity ?: throw IllegalStateException("Invalid activity")
+        try {
+            val tekKeys = exposureNotificationClient.temporaryExposureKeyHistory.await()
+            return tekKeys.map { it.toExposureKey() }
+        } catch (exception: Exception) {
+            if (exception !is ApiException) {
+                log("Unknown error")
+                throw exception
+            }
+            if (exception.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
+                getTekResolutionCompleter = CompletableDeferred()
+                try {
+                    exception.status.startResolutionForResult(
+                        activity,
+                        GET_TEK_RESOLUTION_FOR_RESULT_REQUEST_CODE
+                    )
+                    getTekResolutionCompleter?.await()
+                    getTekResolutionCompleter = null
+                    return getTemporaryExposureKeyHistoryInternal()
+                } catch (exception: IntentSender.SendIntentException) {
+                    log("Error when calling startResolutionForResult")
+                    getTekResolutionCompleter?.completeExceptionally(exception)
+                } catch (exception: Exception) {
+                    log("User denied permission")
+                } finally {
+                    getTekResolutionCompleter = null
+                }
+            } else {
+                log("Unknown error")
+                throw Error(exception)
+            }
+        }
+        throw Error("Unknown error")
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val completer = when (requestCode) {
             START_RESOLUTION_FOR_RESULT_REQUEST_CODE -> startResolutionCompleter
+            GET_TEK_RESOLUTION_FOR_RESULT_REQUEST_CODE -> getTekResolutionCompleter
             else -> return
         }
         launch {
@@ -175,6 +214,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     companion object {
 
         private const val START_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9001
+        private const val GET_TEK_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9002
     }
 }
 
