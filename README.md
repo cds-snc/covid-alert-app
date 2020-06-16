@@ -58,10 +58,12 @@ Follow the steps outlined in [React Native Development Environment Setup](https:
 - XCode 11.5 or greater
 - iOS device or simulator with iOS 13.5 or greater
 - [Bundler](https://bundler.io/) to install the right version of CocoaPods locally
+- You also need a provisioning profile with the Exposure Notification entitlement. For more information, visit https://developer.apple.com/documentation/exposurenotification.
 
 #### Android
 
-- Android device or simulator with the ability to run the latest version of Google Play Services.
+- Android device with the ability to run the latest version of Google Play Services or Google Play Services Beta. Sign up for beta program here https://developers.google.com/android/guides/beta-program.
+- You also need a whitelisted APPLICATION_ID that will be used to publish to Google Play. You could use APPLICATION_ID from [Google Sample App](https://github.com/google/exposure-notifications-android) for testing purposes `"com.google.android.apps.exposurenotification"`. Go to [Environment config](https://github.com/CovidShield/mobile#3-environment-config) to see how to change APPLICATION_ID.
 
 #### 1. Check out the repository
 

@@ -33,7 +33,6 @@ const isAvailableiOS = async (platform: ShareablePlatform) => {
 const isAvailableAndroid = async (platform: ShareablePlatform) => {
   try {
     const target: string | undefined = queries![platform];
-
     const status = await Share.isPackageInstalled(target!);
     return (status as {isInstalled: boolean; message: string}).isInstalled;
   } catch (error) {
@@ -111,19 +110,25 @@ export const shareMessages = async (message: string | undefined) => {
     message,
   };
 
-  shareToSingleApp(options);
+  try {
+    await shareToSingleApp(options);
+  } catch (error) {
+    console.log('>>> error sharing messages:', error);
+  }
 };
 
-export const shareInstagramStory = async (backgroundColoriOS: string) => {
+export const shareInstagramStory = async (backgroundColoriOS: string, messageOrUrl: string) => {
   const platformOptions = Platform.select({
     ios: {
       social: Share.Social.INSTAGRAM_STORIES,
       method: Share.InstagramStories.SHARE_STICKER_IMAGE,
+      stickerImage: messageOrUrl,
       backgroundBottomColor: backgroundColoriOS,
       backgroundTopColor: backgroundColoriOS,
     },
     android: {
       social: Share.Social.INSTAGRAM,
+      url: messageOrUrl,
       forceDialog: true,
     },
   });
