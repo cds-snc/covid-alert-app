@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, Box, LastCheckedDisplay } from 'components';
 import { useI18n } from '@shopify/react-i18n';
 import { useStorage } from 'services/StorageService';
+import { Region } from 'shared/Region';
 
 import { BaseHomeView } from '../components/BaseHomeView';
 
@@ -9,9 +10,9 @@ export const NoExposureView = () => {
   const [i18n] = useI18n();
   const { region } = useStorage();
 
-  const isRegionOnboard = region => {
-    const onboardedRegions = ['ON'];
-    if (onboardedRegions.indexOf(region) > -1) {
+  const isRegionCovered = (region: Region) => {
+    const onboardedCovered = ['ON'];
+    if (onboardedCovered.indexOf(region) > -1) {
       return true;
     }
     return false;
@@ -20,7 +21,7 @@ export const NoExposureView = () => {
   let translationKey;
   if (!region) {
     translationKey = 'Home.NoExposureDetectedDetailedNoRegionSet';
-  } else if (isRegionOnboard(region)) {
+  } else if (isRegionCovered(region)) {
     translationKey = 'Home.NoExposureDetectedDetailed';
   } else {
     translationKey = 'Home.NoExposureDetectedDetailedUncoveredRegion';
