@@ -7,11 +7,11 @@ import {BaseHomeView} from '../components/BaseHomeView';
 export const NoExposureView = () => {
   const [i18n] = useI18n();
   return (
-    <BaseHomeView animationSource={require('assets/animation/blue-dot.json')}>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" textAlign="center" accessibilityRole="header">
+    <BaseHomeView iconName="icon-offline">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected')}
       </Text>
-      <Text variant="bodyText" color="bodyText" textAlign="center">
+      <Text variant="bodyText" color="bodyText">
         {i18n.translate('Home.NoExposureDetectedDetailed')}
       </Text>
       <LastCheckedDisplay />

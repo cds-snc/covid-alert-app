@@ -1,5 +1,5 @@
 export const palette = {
-  brandBlue: '#002D42',
+  brandBlue: '#26374A',
   linkBlue: '#0278A4',
   bodyBlack: '#212121',
   bodySubdued: '#5B5B5B',
@@ -24,6 +24,7 @@ export const palette = {
 const theme = {
   colors: {
     mainBackground: palette.brandBlue,
+    greenBackground: palette.greenBright,
     overlayBackground: palette.white,
     overlayBodyText: palette.bodyBlack,
     fadedBackground: palette.fadedWhite,

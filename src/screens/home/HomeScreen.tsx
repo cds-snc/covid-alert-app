@@ -16,6 +16,8 @@ import {ExposureView} from './views/ExposureView';
 import {NoExposureView} from './views/NoExposureView';
 import {OverlayView} from './views/OverlayView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
+import {Theme} from 'shared/theme';
+import {useTheme} from '@shopify/restyle';
 
 type NotificationPermission = 'denied' | 'granted' | 'unavailable' | 'blocked';
 
@@ -44,10 +46,15 @@ const useNotificationPermissionStatus = (): [string, () => void] => {
   return [status === 'granted' ? status : 'denied', request];
 };
 
-const Content = () => {
+interface ContentProps {
+  setBackgroundColor: (color: string) => void;
+}
+
+const Content = ({setBackgroundColor}: ContentProps) => {
   const [exposureStatus, updateExposureStatus] = useExposureStatus();
   const [systemStatus, updateSystemStatus] = useSystemStatus();
   const startSystem = useStartENSystem();
+  const theme = useTheme<Theme>();
 
   useEffect(() => {
     startSystem();
@@ -86,6 +93,7 @@ const Content = () => {
           return <BluetoothDisabledView />;
         case SystemStatus.Active:
         case SystemStatus.Unknown:
+          setBackgroundColor('greenBackground');
           return <NoExposureView />;
       }
   }
@@ -116,11 +124,11 @@ export const HomeScreen = () => {
   );
 
   const maxWidth = useMaxContentWidth();
-
+  const [backgroundColor, setBackgroundColor] = useState<string>('greenBackground');
   return (
-    <Box flex={1} alignItems="center" backgroundColor="mainBackground">
+    <Box flex={1} alignItems="center" backgroundColor={backgroundColor}>
       <Box flex={1} maxWidth={maxWidth} paddingTop="m">
-        <Content />
+        <Content setBackgroundColor={setBackgroundColor} />
       </Box>
       <BottomSheet
         // need to change the key here so bottom sheet is rerendered. This is because the snap points change.
