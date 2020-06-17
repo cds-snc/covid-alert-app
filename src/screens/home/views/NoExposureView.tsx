@@ -18,7 +18,7 @@ export const NoExposureView = () => {
     return false;
   };
 
-  let translationKey;
+  let translationKey = 'Home.NoExposureDetectedDetailedNoRegionSet';
   if (!region) {
     translationKey = 'Home.NoExposureDetectedDetailedNoRegionSet';
   } else if (isRegionCovered(region)) {
