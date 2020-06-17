@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box, Text, Icon } from 'components';
-import { useI18n } from '@shopify/react-i18n';
+import {Box, Text, Icon} from 'components';
+import {useI18n} from '@shopify/react-i18n';
 
 interface Props {
   enabled: boolean;
 }
-export const StatusHeaderView = ({ enabled }: Props) => {
+export const StatusHeaderView = ({enabled}: Props) => {
   const [i18n] = useI18n();
   const color = enabled ? 'statusSuccess' : 'statusError';
   return (

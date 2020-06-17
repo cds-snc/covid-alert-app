@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Text } from 'components';
-import { useI18n } from '@shopify/react-i18n';
-import { SystemStatus } from 'services/ExposureNotificationService';
+import {Box, Text} from 'components';
+import {useI18n} from '@shopify/react-i18n';
+import {SystemStatus} from 'services/ExposureNotificationService';
 
-import { StatusHeaderView } from './StatusHeaderView';
+import {StatusHeaderView} from './StatusHeaderView';
 
 interface Props {
   status: SystemStatus;
@@ -11,7 +11,7 @@ interface Props {
   turnNotificationsOn: () => void;
 }
 
-export const CollapsedOverlayView = ({ status, notificationWarning }: Props) => {
+export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
   const [i18n] = useI18n();
   return (
     <Box>
@@ -31,7 +31,13 @@ export const CollapsedOverlayView = ({ status, notificationWarning }: Props) => 
           <Text variant="overlayTitle" color="overlayBodyText" accessibilityRole="header">
             {i18n.translate('OverlayClosed.NotificationStatus')}
           </Text>
-          <Text variant="overlayTitle" color="overlayBodyText" fontFamily="Noto Sans" fontWeight="bold" accessibilityRole="header">
+          <Text
+            variant="overlayTitle"
+            color="overlayBodyText"
+            fontFamily="Noto Sans"
+            fontWeight="bold"
+            accessibilityRole="header"
+          >
             {i18n.translate('OverlayClosed.NotificationStatusOff')}
           </Text>
         </Box>
