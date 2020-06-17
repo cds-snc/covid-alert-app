@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bodyContent: {
-    fontFamily: 'Nunito',
+    fontFamily: 'Noto Sans',
   },
 });

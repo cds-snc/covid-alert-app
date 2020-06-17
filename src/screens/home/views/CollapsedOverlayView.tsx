@@ -31,7 +31,13 @@ export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
           <Text variant="overlayTitle" color="overlayBodyText" accessibilityRole="header">
             {i18n.translate('OverlayClosed.NotificationStatus')}
           </Text>
-          <Text variant="overlayTitle" color="overlayBodyText" fontFamily="Nunito-Bold" accessibilityRole="header">
+          <Text
+            variant="overlayTitle"
+            color="overlayBodyText"
+            fontFamily="Noto Sans"
+            fontWeight="bold"
+            accessibilityRole="header"
+          >
             {i18n.translate('OverlayClosed.NotificationStatusOff')}
           </Text>
         </Box>

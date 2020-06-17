@@ -43,7 +43,13 @@ export const InfoBlock = ({
             </Text>
           )}
           {titleBolded && (
-            <Text variant="overlayTitle" accessibilityRole="header" color={color} fontFamily="Nunito-Bold">
+            <Text
+              variant="overlayTitle"
+              accessibilityRole="header"
+              color={color}
+              fontFamily="Noto Sans"
+              fontWeight="bold"
+            >
               {titleBolded}
             </Text>
           )}
