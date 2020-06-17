@@ -1,14 +1,14 @@
 import React from 'react';
-import { Text, Box, LastCheckedDisplay } from 'components';
-import { useI18n } from '@shopify/react-i18n';
-import { useStorage } from 'services/StorageService';
-import { Region } from 'shared/Region';
+import {Text, Box, LastCheckedDisplay} from 'components';
+import {useI18n} from '@shopify/react-i18n';
+import {useStorage} from 'services/StorageService';
+import {Region} from 'shared/Region';
 
-import { BaseHomeView } from '../components/BaseHomeView';
+import {BaseHomeView} from '../components/BaseHomeView';
 
 export const NoExposureView = () => {
   const [i18n] = useI18n();
-  const { region } = useStorage();
+  const {region} = useStorage();
 
   const isRegionCovered = (region: Region) => {
     const onboardedCovered = ['ON'];
