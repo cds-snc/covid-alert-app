@@ -85,3 +85,7 @@ ios/GoogleService-Info.plist
 ios/Generated.xcconfig
 android/app/google-services.json
 .env.local
+.env
+
+# generated files
+ios/assets
