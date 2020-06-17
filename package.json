@@ -22,7 +22,7 @@
     "@react-native-community/push-notification-ios": "^1.2.0",
     "@react-navigation/drawer": "^5.7.2",
     "@react-navigation/native": "^5.3.0",
-    "@react-navigation/stack": "^5.3.2",
+    "@react-navigation/stack": "^5.4.0",
     "@shopify/react-hooks": "^1.9.1",
     "@shopify/react-i18n": "^3.0.1",
     "@shopify/restyle": "^1.0.4",
