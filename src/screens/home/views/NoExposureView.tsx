@@ -1,18 +1,38 @@
 import React from 'react';
-import {Text, Box, LastCheckedDisplay} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import { Text, Box, LastCheckedDisplay } from 'components';
+import { useI18n } from '@shopify/react-i18n';
+import { useStorage } from 'services/StorageService';
 
-import {BaseHomeView} from '../components/BaseHomeView';
+import { BaseHomeView } from '../components/BaseHomeView';
 
 export const NoExposureView = () => {
   const [i18n] = useI18n();
+  const { region } = useStorage();
+
+  const isRegionOnboard = region => {
+    const onboardedRegions = ['ON'];
+    if (onboardedRegions.indexOf(region) > -1) {
+      return true;
+    }
+    return false;
+  };
+
+  let translationKey;
+  if (!region) {
+    translationKey = 'Home.NoExposureDetectedDetailedNoRegionSet';
+  } else if (isRegionOnboard(region)) {
+    translationKey = 'Home.NoExposureDetectedDetailed';
+  } else {
+    translationKey = 'Home.NoExposureDetectedDetailedUncoveredRegion';
+  }
+
   return (
     <BaseHomeView animationSource={require('assets/animation/blue-dot.json')}>
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" textAlign="center" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected')}
       </Text>
       <Text variant="bodyText" color="bodyText" textAlign="center">
-        {i18n.translate('Home.NoExposureDetectedDetailed')}
+        {i18n.translate(translationKey)}
       </Text>
       <LastCheckedDisplay />
       {/* centering looks off without this, because other screens with animations have a button */}

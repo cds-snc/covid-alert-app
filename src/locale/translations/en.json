@@ -2,6 +2,8 @@
   "Home": {
     "NoExposureDetected": "No exposure detected",
     "NoExposureDetectedDetailed": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19.",
+    "NoExposureDetectedDetailedNoRegionSet": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19. But you haven't set your region so this guidance is probably wrong!",
+    "NoExposureDetectedDetailedUncoveredRegion": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19. But your province hasn't adopted the app yet so this guidance is probably wrong!",
     "ExposureDetected": "You have possibly been exposed to COVID-19",
     "ExposureDetectedDetailed": "Based on your random IDs, you have been near someone in the past 14 days who tested positive for COVID-19.",
     "SeeGuidance": "Read Canada COVID-19 guidance",
