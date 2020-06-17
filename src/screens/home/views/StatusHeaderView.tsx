@@ -1,11 +1,11 @@
 import React from 'react';
-import {Box, Text, Icon} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import { Box, Text, Icon } from 'components';
+import { useI18n } from '@shopify/react-i18n';
 
 interface Props {
   enabled: boolean;
 }
-export const StatusHeaderView = ({enabled}: Props) => {
+export const StatusHeaderView = ({ enabled }: Props) => {
   const [i18n] = useI18n();
   const color = enabled ? 'statusSuccess' : 'statusError';
   return (
@@ -17,7 +17,7 @@ export const StatusHeaderView = ({enabled}: Props) => {
         <Text variant="overlayTitle" lineHeight={19} color={color}>
           {i18n.translate('OverlayClosed.SystemStatus')}
         </Text>
-        <Text variant="overlayTitle" lineHeight={19} color={color} fontFamily="Nunito-Bold">
+        <Text variant="overlayTitle" lineHeight={19} color={color} fontFamily="Noto Sans" fontWeight="bold">
           {enabled ? i18n.translate('OverlayClosed.SystemStatusOn') : i18n.translate('OverlayClosed.SystemStatusOff')}
         </Text>
       </Box>

@@ -1,10 +1,10 @@
 import React from 'react';
-import {Theme} from 'shared/theme';
+import { Theme } from 'shared/theme';
 
-import {Box} from './Box';
-import {Button} from './Button';
-import {Icon, IconProps} from './Icon';
-import {Text} from './Text';
+import { Box } from './Box';
+import { Button } from './Button';
+import { Icon, IconProps } from './Icon';
+import { Text } from './Text';
 
 export interface InfoBlockProps {
   icon?: IconProps['name'];
@@ -22,7 +22,7 @@ export interface InfoBlockProps {
 export const InfoBlock = ({
   icon,
   text,
-  button: {text: buttonText, action},
+  button: { text: buttonText, action },
   color,
   backgroundColor,
   title,
@@ -43,7 +43,7 @@ export const InfoBlock = ({
             </Text>
           )}
           {titleBolded && (
-            <Text variant="overlayTitle" accessibilityRole="header" color={color} fontFamily="Nunito-Bold">
+            <Text variant="overlayTitle" accessibilityRole="header" color={color} fontFamily="Noto Sans" fontWeight="bold">
               {titleBolded}
             </Text>
           )}

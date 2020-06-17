@@ -1,9 +1,9 @@
-import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar} from 'components';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useI18n} from '@shopify/react-i18n';
+import React, { useCallback } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Box, Toolbar } from 'components';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useI18n } from '@shopify/react-i18n';
 import Markdown from 'react-native-markdown-display';
 import privacyPolicyEn from 'assets/privacypolicy';
 import privacyPolicyFr from 'assets/privacypolicy-fr';
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bodyContent: {
-    fontFamily: 'Nunito',
+    fontFamily: 'Noto Sans',
   },
 });
