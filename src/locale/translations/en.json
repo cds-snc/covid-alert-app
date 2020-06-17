@@ -1,9 +1,11 @@
 {
   "Home": {
-    "NoExposureDetected": "No exposure detected",
-    "NoExposureDetectedDetailed": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19.",
-    "NoExposureDetectedDetailedNoRegionSet": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19. But you haven't set your region so this guidance is probably wrong!",
-    "NoExposureDetectedDetailedUncoveredRegion": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19. But your province hasn't adopted the app yet so this guidance is probably wrong!",
+    "ChooseRegion": "Choose province or territory",
+    "NoExposureDetected": {
+      "RegionCovered": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19.",
+      "NoRegionSet": "We’re not able to say whether you’ve been exposed.\n\nProvincial and territorial governments are working to support placehoder_name across Canada. In some places, people cannot yet report COVID-19 diagnoses through this app.",
+      "RegionNotCovered": "We’re not able to say whether you’ve been exposed.\n\nPeople in your province or territory are not yet able to report a COVID diagnosis through this app.\n\nIt’s still good to keep placeholder_name on. That way, when people are able to report a diagnosis, we’ll know if you were near them."
+    },
     "ExposureDetected": "You have possibly been exposed to COVID-19",
     "ExposureDetectedDetailed": "Based on your random IDs, you have been near someone in the past 14 days who tested positive for COVID-19.",
     "SeeGuidance": "Read Canada COVID-19 guidance",
@@ -166,6 +168,8 @@
     "OffStatus": "Covid Shield is off, Tap for more information"
   },
   "RegionPicker": {
+    "SettingsTitle": "Province or Territory",
+    "Close": "Back",
     "Title": "Select your province or territory",
     "Body": "This helps give you more relevant guidance.\nThis information is only stored on your device and will never be shared with anyone else.",
     "Skip": "Skip",

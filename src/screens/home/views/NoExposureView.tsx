@@ -1,14 +1,16 @@
-import React from 'react';
-import {Text, Box, LastCheckedDisplay} from 'components';
+import React, {useCallback} from 'react';
+import {Text, Button, Box, LastCheckedDisplay} from 'components';
+import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {Region} from 'shared/Region';
-
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const NoExposureView = () => {
   const [i18n] = useI18n();
+  const navigation = useNavigation();
   const {region} = useStorage();
+  const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
 
   const isRegionCovered = (region: Region) => {
     const onboardedCovered = ['ON'];
@@ -18,14 +20,20 @@ export const NoExposureView = () => {
     return false;
   };
 
-  let translationKey = 'Home.NoExposureDetectedDetailedNoRegionSet';
+  let regionCase = 'noRegionSet';
   if (!region) {
-    translationKey = 'Home.NoExposureDetectedDetailedNoRegionSet';
+    regionCase = 'noRegionSet';
   } else if (isRegionCovered(region)) {
-    translationKey = 'Home.NoExposureDetectedDetailed';
+    regionCase = 'regionCovered';
   } else {
-    translationKey = 'Home.NoExposureDetectedDetailedUncoveredRegion';
+    regionCase = 'regionNotCovered';
   }
+
+  const regionTranslations = {
+    noRegionSet: 'Home.NoExposureDetected.NoRegionSet',
+    regionCovered: 'Home.NoExposureDetected.RegionCovered',
+    regionNotCovered: 'Home.NoExposureDetected.RegionNotCovered',
+  };
 
   return (
     <BaseHomeView animationSource={require('assets/animation/blue-dot.json')}>
@@ -33,11 +41,13 @@ export const NoExposureView = () => {
         {i18n.translate('Home.NoExposureDetected')}
       </Text>
       <Text variant="bodyText" color="bodyText" textAlign="center">
-        {i18n.translate(translationKey)}
+        {i18n.translate(regionTranslations[regionCase])}
       </Text>
       <LastCheckedDisplay />
       {/* centering looks off without this, because other screens with animations have a button */}
-      <Box height={50} />
+      <Box alignSelf="stretch" marginTop="l">
+        <Button text={i18n.translate('Home.ChooseRegion')} variant="bigFlat" onPress={onRegion} />
+      </Box>
     </BaseHomeView>
   );
 };

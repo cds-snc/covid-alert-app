@@ -10,6 +10,7 @@ import {PrivacyScreen} from 'screens/privacy';
 import {SharingScreen} from 'screens/sharing';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
+// import {RegionScreen} from 'screens/region';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerScreen} from 'screens/regionPicker';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -63,6 +64,7 @@ const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const SharingScreenWithNavBar = withDarkNav(SharingScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
+// const RegionScreenWithNavBar = withDarkNav(RegionScreen);
 
 const DEFAULT_SCREEN_OPTIONS: NativeStackNavigationOptions = {
   stackPresentation: 'modal',
@@ -97,6 +99,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
       <MainStack.Screen name="Sharing" component={SharingScreenWithNavBar} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
+      <MainStack.Screen name="RegionSelect" component={RegionPickerScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };

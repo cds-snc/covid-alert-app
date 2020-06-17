@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Text, Icon, Button} from 'components';
+import {Box, Text, Icon, Button, Toolbar} from 'components';
 import {StyleSheet, TouchableOpacity, ScrollView, Image} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
@@ -62,23 +62,44 @@ const RegionItem_ = ({code, onPress, name, flagIcon, selected}: RegionItemProps)
 );
 const RegionItem = React.memo(RegionItem_);
 
-export const RegionPickerScreen = () => {
+export const RegionPickerScreen = (settingsPage: boolean = false) => {
   const [i18n] = useI18n();
   const {setRegion: persistRegion} = useStorage();
   const [selectedRegion, setSelectedRegion] = useState<Region>('None');
   const {navigate} = useNavigation();
-
+  // const navigation = useNavigation();
+  // const close = useCallback(async () => {
+  //   await persistRegion(selectedRegion);
+  //   return navigation.goBack();
+  // }, [navigation]);
+  const close = async () => {
+    await persistRegion(selectedRegion);
+    navigate('Home');
+  };
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
+        {settingsPage ? (
+          <Toolbar
+            title={i18n.translate('RegionPicker.SettingsTitle')}
+            navIcon="icon-back-arrow"
+            navText={i18n.translate('RegionPicker.Close')}
+            navLabel={i18n.translate('RegionPicker.Close')}
+            onIconClicked={close}
+          />
+        ) : null}
         <ScrollView style={styles.flex}>
           <Box flex={1} paddingHorizontal="m" paddingTop="m">
-            <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center" accessibilityRole="header">
-              {i18n.translate('RegionPicker.Title')}
-            </Text>
-            <Text marginVertical="m" variant="bodyText" color="overlayBodyText" textAlign="center">
-              {i18n.translate('RegionPicker.Body')}
-            </Text>
+            {settingsPage ? null : (
+              <React.Fragment>
+                <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center" accessibilityRole="header">
+                  {i18n.translate('RegionPicker.Title')}
+                </Text>
+                <Text marginVertical="m" variant="bodyText" color="overlayBodyText" textAlign="center">
+                  {i18n.translate('RegionPicker.Body')}
+                </Text>
+              </React.Fragment>
+            )}
             <Box
               paddingHorizontal="m"
               borderRadius={10}
@@ -99,24 +120,26 @@ export const RegionPickerScreen = () => {
             </Box>
           </Box>
         </ScrollView>
-        <Box
-          backgroundColor="overlayBackground"
-          padding="m"
-          shadowColor="infoBlockNeutralBackground"
-          shadowOffset={{width: 0, height: 2}}
-          shadowOpacity={0.5}
-          shadowRadius={2}
-          elevation={10}
-        >
-          <Button
-            text={i18n.translate(`RegionPicker.${selectedRegion === 'None' ? 'Skip' : 'GetStarted'}`)}
-            variant={selectedRegion === 'None' ? 'bigHollow' : 'bigFlat'}
-            onPress={async () => {
-              await persistRegion(selectedRegion);
-              navigate('OnboardingTutorial');
-            }}
-          />
-        </Box>
+        {settingsPage ? null : (
+          <Box
+            backgroundColor="overlayBackground"
+            padding="m"
+            shadowColor="infoBlockNeutralBackground"
+            shadowOffset={{width: 0, height: 2}}
+            shadowOpacity={0.5}
+            shadowRadius={2}
+            elevation={10}
+          >
+            <Button
+              text={i18n.translate(`RegionPicker.${selectedRegion === 'None' ? 'Skip' : 'GetStarted'}`)}
+              variant={selectedRegion === 'None' ? 'bigHollow' : 'bigFlat'}
+              onPress={async () => {
+                await persistRegion(selectedRegion);
+                navigate('OnboardingTutorial');
+              }}
+            />
+          </Box>
+        )}
       </SafeAreaView>
     </Box>
   );
