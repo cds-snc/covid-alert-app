@@ -10,8 +10,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import app.covidshield.MainActivity
 import app.covidshield.R
+import app.covidshield.extensions.launch
 import app.covidshield.extensions.parse
-import app.covidshield.extensions.rejectOnException
 import app.covidshield.extensions.toJson
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -19,7 +19,10 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.google.gson.annotations.SerializedName
-import java.util.UUID
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import java.util.*
+import kotlin.coroutines.CoroutineContext
 
 private const val CHANNEL_ID = "CovidShield"
 private const val CHANNEL_NAME = "CovidShield"
@@ -28,7 +31,7 @@ private const val CHANNEL_DESC = "CovidShield"
 /**
  * See https://developer.android.com/training/notify-user/build-notification#kotlin
  */
-class PushNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
+class PushNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
 
     private val notificationManager = NotificationManagerCompat.from(context)
 
@@ -47,18 +50,20 @@ class PushNotificationModule(context: ReactApplicationContext) : ReactContextBas
 
     override fun getName(): String = "PushNotification"
 
+    override val coroutineContext: CoroutineContext get() = Dispatchers.Default
+
     @ReactMethod
     fun requestPermissions(config: ReadableMap, promise: Promise) {
         // Noop for Android
-        promise.resolve(Unit)
+        promise.resolve(null)
     }
 
     @ReactMethod
     fun presentLocalNotification(data: ReadableMap, promise: Promise) {
-        promise.rejectOnException {
+        promise.launch(this) {
             val config = data.toHashMap().toJson().parse(PushNotificationConfig::class.java)
             showNotification(config)
-            promise.resolve(Unit)
+            promise.resolve(null)
         }
     }
 

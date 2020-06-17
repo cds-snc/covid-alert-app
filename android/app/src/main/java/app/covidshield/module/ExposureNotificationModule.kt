@@ -3,11 +3,8 @@ package app.covidshield.module
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
-import app.covidshield.extensions.bindPromise
 import app.covidshield.extensions.launch
-import app.covidshield.extensions.log
 import app.covidshield.extensions.parse
-import app.covidshield.extensions.rejectOnException
 import app.covidshield.extensions.toExposureConfiguration
 import app.covidshield.extensions.toExposureKey
 import app.covidshield.extensions.toInformation
@@ -32,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
-import java.util.UUID
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 private const val SUMMARY_HIDDEN_KEY = "_summaryIdx"
@@ -90,19 +87,18 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     @ReactMethod
     fun detectExposure(configuration: ReadableMap, diagnosisKeysURLs: ReadableArray, promise: Promise) {
-        promise.rejectOnException {
+        promise.launch(this) {
             val exposureConfiguration = configuration.parse(Configuration::class.java).toExposureConfiguration()
             val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
             val token = UUID.randomUUID().toString()
-            exposureNotificationClient
-                .provideDiagnosisKeys(files, exposureConfiguration, token)
-                .continueWithTask { exposureNotificationClient.getExposureSummary(token) }
-                .bindPromise(promise) { exposureSummary ->
-                    val summary = exposureSummary.toSummary().toWritableMap().apply {
-                        putString(SUMMARY_HIDDEN_KEY, token)
-                    }
-                    resolve(summary)
-                }
+
+            exposureNotificationClient.provideDiagnosisKeys(files, exposureConfiguration, token).await()
+
+            val exposureSummary = exposureNotificationClient.getExposureSummary(token).await()
+            val summary = exposureSummary.toSummary()
+            promise.resolve(summary.toWritableMap().apply {
+                putString(SUMMARY_HIDDEN_KEY, token)
+            })
         }
     }
 
@@ -116,13 +112,12 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     @ReactMethod
     fun getExposureInformation(summary: ReadableMap, promise: Promise) {
-        promise.rejectOnException {
+        promise.launch(this) {
             val token = summary.getString(SUMMARY_HIDDEN_KEY)
                 ?: throw IllegalArgumentException("Invalid summary token")
-            exposureNotificationClient.getExposureInformation(token).bindPromise(promise) { exposureInformationList ->
-                val informationList = exposureInformationList.map { it.toInformation() }.toWritableArray()
-                resolve(informationList)
-            }
+            val exposureInformationList = exposureNotificationClient.getExposureInformation(token).await()
+            val informationList = exposureInformationList.map { it.toInformation() }.toWritableArray()
+            promise.resolve(informationList)
         }
     }
 
@@ -132,8 +127,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             exposureNotificationClient.start().await()
         } catch (exception: Exception) {
             if (exception !is ApiException) {
-                log("Unknown error")
-                throw exception
+                throw Exception("UNKNOWN_ERROR", exception)
             }
             if (exception.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
                 startResolutionCompleter = CompletableDeferred()
@@ -146,16 +140,14 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     startResolutionCompleter = null
                     startInternal()
                 } catch (exception: IntentSender.SendIntentException) {
-                    log("Error when calling startResolutionForResult")
-                    startResolutionCompleter?.completeExceptionally(exception)
+                    startResolutionCompleter?.completeExceptionally(Exception("SEND_INTENT_EXCEPTION", exception))
                 } catch (exception: Exception) {
-                    log("User denied permission")
+                    startResolutionCompleter?.completeExceptionally(Exception("PERMISSION_DENIED", exception))
                 } finally {
                     startResolutionCompleter = null
                 }
             } else {
-                log("Unknown error")
-                throw Error(exception)
+                throw Exception("NO_RESOLUTION_REQUIRED", exception)
             }
         }
     }
@@ -167,8 +159,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             return tekKeys.map { it.toExposureKey() }
         } catch (exception: Exception) {
             if (exception !is ApiException) {
-                log("Unknown error")
-                throw exception
+                throw Exception("UNKNOWN_ERROR", exception)
             }
             if (exception.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
                 getTekResolutionCompleter = CompletableDeferred()
@@ -181,19 +172,17 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     getTekResolutionCompleter = null
                     return getTemporaryExposureKeyHistoryInternal()
                 } catch (exception: IntentSender.SendIntentException) {
-                    log("Error when calling startResolutionForResult")
-                    getTekResolutionCompleter?.completeExceptionally(exception)
+                    getTekResolutionCompleter?.completeExceptionally(Exception("SEND_INTENT_EXCEPTION", exception))
                 } catch (exception: Exception) {
-                    log("User denied permission")
+                    getTekResolutionCompleter?.completeExceptionally(Exception("PERMISSION_DENIED", exception))
                 } finally {
                     getTekResolutionCompleter = null
                 }
             } else {
-                log("Unknown error")
-                throw Error(exception)
+                throw Exception("NO_RESOLUTION_REQUIRED", exception)
             }
         }
-        throw Error("Unknown error")
+        throw Exception("UNKNOWN_ERROR")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
