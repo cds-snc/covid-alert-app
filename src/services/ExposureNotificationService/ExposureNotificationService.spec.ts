@@ -1,10 +1,14 @@
 /* eslint-disable require-atomic-updates */
 import {when} from 'jest-when';
 
-import {ExposureNotificationService, SystemStatus} from './ExposureNotificationService';
+import {ExposureNotificationService} from './ExposureNotificationService';
+
+jest.mock('react-native-zip-archive', () => ({
+  unzip: jest.fn(),
+}));
 
 const server: any = {
-  retrieveDiagnosisKeys: jest.fn().mockResolvedValue([]),
+  retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),
   claimOneTimeCode: jest.fn(),
   reportDiagnosisKeys: jest.fn(),
@@ -22,7 +26,6 @@ const bridge: any = {
   detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
-  getStatus: jest.fn(),
 };
 
 describe('ExposureNotificationService', () => {
@@ -30,10 +33,8 @@ describe('ExposureNotificationService', () => {
 
   const OriginalDate = global.Date;
   const dateSpy = jest.spyOn(global, 'Date');
-
   beforeEach(() => {
     service = new ExposureNotificationService(server, translate, storage, secureStorage, bridge);
-    bridge.getStatus.mockReturnValue(Promise.resolve(SystemStatus.Active));
   });
 
   afterEach(() => {
@@ -47,22 +48,28 @@ describe('ExposureNotificationService', () => {
       .mockImplementation((args: any) => new OriginalDate(args));
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(168);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(56);
   });
 
   it('backfills the right amount of keys for current day', async () => {
     dateSpy.mockImplementation((args: any) => {
-      if (args === undefined) return new OriginalDate('2020-05-19T07:10:00+0000');
+      if (args === undefined) return new OriginalDate('2020-05-19T11:10:00+0000');
       return new OriginalDate(args);
     });
 
-    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-19T04:10:00+0000').getTime());
+    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-19T06:10:00+0000').getTime());
+    await service.updateExposureStatus();
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(0);
+
+    server.retrieveDiagnosisKeys.mockClear();
+
+    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-19T05:10:00+0000').getTime());
 
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
 
     server.retrieveDiagnosisKeys.mockClear();
-    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-19T03:10:00+0000').getTime());
+    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-18T23:10:00+0000').getTime());
 
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);

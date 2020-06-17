@@ -1010,7 +1010,7 @@
                 case 11:
                     message.error = 11;
                     break;
-                case "INVALID_ROLLING_START_INTERVAL_NUMBER":
+                case "INVALID_ROLLING_START_NUMBER":
                 case 12:
                     message.error = 12;
                     break;
@@ -1068,7 +1068,7 @@
              * @property {number} INVALID_TIMESTAMP=8 INVALID_TIMESTAMP value
              * @property {number} INVALID_ROLLING_PERIOD=10 INVALID_ROLLING_PERIOD value
              * @property {number} INVALID_KEY_DATA=11 INVALID_KEY_DATA value
-             * @property {number} INVALID_ROLLING_START_INTERVAL_NUMBER=12 INVALID_ROLLING_START_INTERVAL_NUMBER value
+             * @property {number} INVALID_ROLLING_START_NUMBER=12 INVALID_ROLLING_START_NUMBER value
              * @property {number} INVALID_TRANSMISSION_RISK_LEVEL=13 INVALID_TRANSMISSION_RISK_LEVEL value
              */
             EncryptedUploadResponse.ErrorCode = (function() {
@@ -1084,7 +1084,7 @@
                 values[valuesById[8] = "INVALID_TIMESTAMP"] = 8;
                 values[valuesById[10] = "INVALID_ROLLING_PERIOD"] = 10;
                 values[valuesById[11] = "INVALID_KEY_DATA"] = 11;
-                values[valuesById[12] = "INVALID_ROLLING_START_INTERVAL_NUMBER"] = 12;
+                values[valuesById[12] = "INVALID_ROLLING_START_NUMBER"] = 12;
                 values[valuesById[13] = "INVALID_TRANSMISSION_RISK_LEVEL"] = 13;
                 return values;
             })();
@@ -1099,7 +1099,7 @@
              * @memberof covidshield
              * @interface IUpload
              * @property {google.protobuf.ITimestamp} timestamp Upload timestamp
-             * @property {Array.<covidshield.ITemporaryExposureKey>|null} [keys] Upload keys
+             * @property {Array.<covidshield.IKey>|null} [keys] Upload keys
              */
     
             /**
@@ -1128,7 +1128,7 @@
     
             /**
              * Upload keys.
-             * @member {Array.<covidshield.ITemporaryExposureKey>} keys
+             * @member {Array.<covidshield.IKey>} keys
              * @memberof covidshield.Upload
              * @instance
              */
@@ -1161,7 +1161,7 @@
                 $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                 if (message.keys != null && message.keys.length)
                     for (var i = 0; i < message.keys.length; ++i)
-                        $root.covidshield.TemporaryExposureKey.encode(message.keys[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        $root.covidshield.Key.encode(message.keys[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                 return writer;
             };
     
@@ -1202,7 +1202,7 @@
                     case 2:
                         if (!(message.keys && message.keys.length))
                             message.keys = [];
-                        message.keys.push($root.covidshield.TemporaryExposureKey.decode(reader, reader.uint32()));
+                        message.keys.push($root.covidshield.Key.decode(reader, reader.uint32()));
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -1250,7 +1250,7 @@
                     if (!Array.isArray(message.keys))
                         return "keys: array expected";
                     for (var i = 0; i < message.keys.length; ++i) {
-                        var error = $root.covidshield.TemporaryExposureKey.verify(message.keys[i]);
+                        var error = $root.covidshield.Key.verify(message.keys[i]);
                         if (error)
                             return "keys." + error;
                     }
@@ -1282,7 +1282,7 @@
                     for (var i = 0; i < object.keys.length; ++i) {
                         if (typeof object.keys[i] !== "object")
                             throw TypeError(".covidshield.Upload.keys: object expected");
-                        message.keys[i] = $root.covidshield.TemporaryExposureKey.fromObject(object.keys[i]);
+                        message.keys[i] = $root.covidshield.Key.fromObject(object.keys[i]);
                     }
                 }
                 return message;
@@ -1310,7 +1310,7 @@
                 if (message.keys && message.keys.length) {
                     object.keys = [];
                     for (var j = 0; j < message.keys.length; ++j)
-                        object.keys[j] = $root.covidshield.TemporaryExposureKey.toObject(message.keys[j], options);
+                        object.keys[j] = $root.covidshield.Key.toObject(message.keys[j], options);
                 }
                 return object;
             };
@@ -1329,32 +1329,26 @@
             return Upload;
         })();
     
-        covidshield.TemporaryExposureKeyExport = (function() {
+        covidshield.File = (function() {
     
             /**
-             * Properties of a TemporaryExposureKeyExport.
+             * Properties of a File.
              * @memberof covidshield
-             * @interface ITemporaryExposureKeyExport
-             * @property {number|Long|null} [startTimestamp] TemporaryExposureKeyExport startTimestamp
-             * @property {number|Long|null} [endTimestamp] TemporaryExposureKeyExport endTimestamp
-             * @property {string|null} [region] TemporaryExposureKeyExport region
-             * @property {number|null} [batchNum] TemporaryExposureKeyExport batchNum
-             * @property {number|null} [batchSize] TemporaryExposureKeyExport batchSize
-             * @property {Array.<covidshield.ISignatureInfo>|null} [signatureInfos] TemporaryExposureKeyExport signatureInfos
-             * @property {Array.<covidshield.ITemporaryExposureKey>|null} [keys] TemporaryExposureKeyExport keys
+             * @interface IFile
+             * @property {covidshield.IHeader|null} [header] File header
+             * @property {Array.<covidshield.IKey>|null} [key] File key
              */
     
             /**
-             * Constructs a new TemporaryExposureKeyExport.
+             * Constructs a new File.
              * @memberof covidshield
-             * @classdesc Represents a TemporaryExposureKeyExport.
-             * @implements ITemporaryExposureKeyExport
+             * @classdesc Represents a File.
+             * @implements IFile
              * @constructor
-             * @param {covidshield.ITemporaryExposureKeyExport=} [properties] Properties to set
+             * @param {covidshield.IFile=} [properties] Properties to set
              */
-            function TemporaryExposureKeyExport(properties) {
-                this.signatureInfos = [];
-                this.keys = [];
+            function File(properties) {
+                this.key = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -1362,159 +1356,91 @@
             }
     
             /**
-             * TemporaryExposureKeyExport startTimestamp.
-             * @member {number|Long} startTimestamp
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * File header.
+             * @member {covidshield.IHeader|null|undefined} header
+             * @memberof covidshield.File
              * @instance
              */
-            TemporaryExposureKeyExport.prototype.startTimestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+            File.prototype.header = null;
     
             /**
-             * TemporaryExposureKeyExport endTimestamp.
-             * @member {number|Long} endTimestamp
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * File key.
+             * @member {Array.<covidshield.IKey>} key
+             * @memberof covidshield.File
              * @instance
              */
-            TemporaryExposureKeyExport.prototype.endTimestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+            File.prototype.key = $util.emptyArray;
     
             /**
-             * TemporaryExposureKeyExport region.
-             * @member {string} region
-             * @memberof covidshield.TemporaryExposureKeyExport
-             * @instance
-             */
-            TemporaryExposureKeyExport.prototype.region = "";
-    
-            /**
-             * TemporaryExposureKeyExport batchNum.
-             * @member {number} batchNum
-             * @memberof covidshield.TemporaryExposureKeyExport
-             * @instance
-             */
-            TemporaryExposureKeyExport.prototype.batchNum = 0;
-    
-            /**
-             * TemporaryExposureKeyExport batchSize.
-             * @member {number} batchSize
-             * @memberof covidshield.TemporaryExposureKeyExport
-             * @instance
-             */
-            TemporaryExposureKeyExport.prototype.batchSize = 0;
-    
-            /**
-             * TemporaryExposureKeyExport signatureInfos.
-             * @member {Array.<covidshield.ISignatureInfo>} signatureInfos
-             * @memberof covidshield.TemporaryExposureKeyExport
-             * @instance
-             */
-            TemporaryExposureKeyExport.prototype.signatureInfos = $util.emptyArray;
-    
-            /**
-             * TemporaryExposureKeyExport keys.
-             * @member {Array.<covidshield.ITemporaryExposureKey>} keys
-             * @memberof covidshield.TemporaryExposureKeyExport
-             * @instance
-             */
-            TemporaryExposureKeyExport.prototype.keys = $util.emptyArray;
-    
-            /**
-             * Creates a new TemporaryExposureKeyExport instance using the specified properties.
+             * Creates a new File instance using the specified properties.
              * @function create
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.File
              * @static
-             * @param {covidshield.ITemporaryExposureKeyExport=} [properties] Properties to set
-             * @returns {covidshield.TemporaryExposureKeyExport} TemporaryExposureKeyExport instance
+             * @param {covidshield.IFile=} [properties] Properties to set
+             * @returns {covidshield.File} File instance
              */
-            TemporaryExposureKeyExport.create = function create(properties) {
-                return new TemporaryExposureKeyExport(properties);
+            File.create = function create(properties) {
+                return new File(properties);
             };
     
             /**
-             * Encodes the specified TemporaryExposureKeyExport message. Does not implicitly {@link covidshield.TemporaryExposureKeyExport.verify|verify} messages.
+             * Encodes the specified File message. Does not implicitly {@link covidshield.File.verify|verify} messages.
              * @function encode
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.File
              * @static
-             * @param {covidshield.ITemporaryExposureKeyExport} message TemporaryExposureKeyExport message or plain object to encode
+             * @param {covidshield.IFile} message File message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            TemporaryExposureKeyExport.encode = function encode(message, writer) {
+            File.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.startTimestamp != null && Object.hasOwnProperty.call(message, "startTimestamp"))
-                    writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.startTimestamp);
-                if (message.endTimestamp != null && Object.hasOwnProperty.call(message, "endTimestamp"))
-                    writer.uint32(/* id 2, wireType 1 =*/17).fixed64(message.endTimestamp);
-                if (message.region != null && Object.hasOwnProperty.call(message, "region"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.region);
-                if (message.batchNum != null && Object.hasOwnProperty.call(message, "batchNum"))
-                    writer.uint32(/* id 4, wireType 0 =*/32).int32(message.batchNum);
-                if (message.batchSize != null && Object.hasOwnProperty.call(message, "batchSize"))
-                    writer.uint32(/* id 5, wireType 0 =*/40).int32(message.batchSize);
-                if (message.signatureInfos != null && message.signatureInfos.length)
-                    for (var i = 0; i < message.signatureInfos.length; ++i)
-                        $root.covidshield.SignatureInfo.encode(message.signatureInfos[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-                if (message.keys != null && message.keys.length)
-                    for (var i = 0; i < message.keys.length; ++i)
-                        $root.covidshield.TemporaryExposureKey.encode(message.keys[i], writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                if (message.header != null && Object.hasOwnProperty.call(message, "header"))
+                    $root.covidshield.Header.encode(message.header, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.key != null && message.key.length)
+                    for (var i = 0; i < message.key.length; ++i)
+                        $root.covidshield.Key.encode(message.key[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                 return writer;
             };
     
             /**
-             * Encodes the specified TemporaryExposureKeyExport message, length delimited. Does not implicitly {@link covidshield.TemporaryExposureKeyExport.verify|verify} messages.
+             * Encodes the specified File message, length delimited. Does not implicitly {@link covidshield.File.verify|verify} messages.
              * @function encodeDelimited
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.File
              * @static
-             * @param {covidshield.ITemporaryExposureKeyExport} message TemporaryExposureKeyExport message or plain object to encode
+             * @param {covidshield.IFile} message File message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            TemporaryExposureKeyExport.encodeDelimited = function encodeDelimited(message, writer) {
+            File.encodeDelimited = function encodeDelimited(message, writer) {
                 return this.encode(message, writer).ldelim();
             };
     
             /**
-             * Decodes a TemporaryExposureKeyExport message from the specified reader or buffer.
+             * Decodes a File message from the specified reader or buffer.
              * @function decode
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.File
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {covidshield.TemporaryExposureKeyExport} TemporaryExposureKeyExport
+             * @returns {covidshield.File} File
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            TemporaryExposureKeyExport.decode = function decode(reader, length) {
+            File.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.TemporaryExposureKeyExport();
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.File();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.startTimestamp = reader.fixed64();
+                        message.header = $root.covidshield.Header.decode(reader, reader.uint32());
                         break;
                     case 2:
-                        message.endTimestamp = reader.fixed64();
-                        break;
-                    case 3:
-                        message.region = reader.string();
-                        break;
-                    case 4:
-                        message.batchNum = reader.int32();
-                        break;
-                    case 5:
-                        message.batchSize = reader.int32();
-                        break;
-                    case 6:
-                        if (!(message.signatureInfos && message.signatureInfos.length))
-                            message.signatureInfos = [];
-                        message.signatureInfos.push($root.covidshield.SignatureInfo.decode(reader, reader.uint32()));
-                        break;
-                    case 7:
-                        if (!(message.keys && message.keys.length))
-                            message.keys = [];
-                        message.keys.push($root.covidshield.TemporaryExposureKey.decode(reader, reader.uint32()));
+                        if (!(message.key && message.key.length))
+                            message.key = [];
+                        message.key.push($root.covidshield.Key.decode(reader, reader.uint32()));
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -1525,30 +1451,304 @@
             };
     
             /**
-             * Decodes a TemporaryExposureKeyExport message from the specified reader or buffer, length delimited.
+             * Decodes a File message from the specified reader or buffer, length delimited.
              * @function decodeDelimited
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.File
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {covidshield.TemporaryExposureKeyExport} TemporaryExposureKeyExport
+             * @returns {covidshield.File} File
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            TemporaryExposureKeyExport.decodeDelimited = function decodeDelimited(reader) {
+            File.decodeDelimited = function decodeDelimited(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
             };
     
             /**
-             * Verifies a TemporaryExposureKeyExport message.
+             * Verifies a File message.
              * @function verify
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.File
              * @static
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            TemporaryExposureKeyExport.verify = function verify(message) {
+            File.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.header != null && message.hasOwnProperty("header")) {
+                    var error = $root.covidshield.Header.verify(message.header);
+                    if (error)
+                        return "header." + error;
+                }
+                if (message.key != null && message.hasOwnProperty("key")) {
+                    if (!Array.isArray(message.key))
+                        return "key: array expected";
+                    for (var i = 0; i < message.key.length; ++i) {
+                        var error = $root.covidshield.Key.verify(message.key[i]);
+                        if (error)
+                            return "key." + error;
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a File message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof covidshield.File
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {covidshield.File} File
+             */
+            File.fromObject = function fromObject(object) {
+                if (object instanceof $root.covidshield.File)
+                    return object;
+                var message = new $root.covidshield.File();
+                if (object.header != null) {
+                    if (typeof object.header !== "object")
+                        throw TypeError(".covidshield.File.header: object expected");
+                    message.header = $root.covidshield.Header.fromObject(object.header);
+                }
+                if (object.key) {
+                    if (!Array.isArray(object.key))
+                        throw TypeError(".covidshield.File.key: array expected");
+                    message.key = [];
+                    for (var i = 0; i < object.key.length; ++i) {
+                        if (typeof object.key[i] !== "object")
+                            throw TypeError(".covidshield.File.key: object expected");
+                        message.key[i] = $root.covidshield.Key.fromObject(object.key[i]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a File message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof covidshield.File
+             * @static
+             * @param {covidshield.File} message File
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            File.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.key = [];
+                if (options.defaults)
+                    object.header = null;
+                if (message.header != null && message.hasOwnProperty("header"))
+                    object.header = $root.covidshield.Header.toObject(message.header, options);
+                if (message.key && message.key.length) {
+                    object.key = [];
+                    for (var j = 0; j < message.key.length; ++j)
+                        object.key[j] = $root.covidshield.Key.toObject(message.key[j], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this File to JSON.
+             * @function toJSON
+             * @memberof covidshield.File
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            File.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return File;
+        })();
+    
+        covidshield.Header = (function() {
+    
+            /**
+             * Properties of a Header.
+             * @memberof covidshield
+             * @interface IHeader
+             * @property {number|Long|null} [startTimestamp] Header startTimestamp
+             * @property {number|Long|null} [endTimestamp] Header endTimestamp
+             * @property {string|null} [region] Header region
+             * @property {number|null} [batchNum] Header batchNum
+             * @property {number|null} [batchSize] Header batchSize
+             */
+    
+            /**
+             * Constructs a new Header.
+             * @memberof covidshield
+             * @classdesc Represents a Header.
+             * @implements IHeader
+             * @constructor
+             * @param {covidshield.IHeader=} [properties] Properties to set
+             */
+            function Header(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Header startTimestamp.
+             * @member {number|Long} startTimestamp
+             * @memberof covidshield.Header
+             * @instance
+             */
+            Header.prototype.startTimestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+            /**
+             * Header endTimestamp.
+             * @member {number|Long} endTimestamp
+             * @memberof covidshield.Header
+             * @instance
+             */
+            Header.prototype.endTimestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+            /**
+             * Header region.
+             * @member {string} region
+             * @memberof covidshield.Header
+             * @instance
+             */
+            Header.prototype.region = "";
+    
+            /**
+             * Header batchNum.
+             * @member {number} batchNum
+             * @memberof covidshield.Header
+             * @instance
+             */
+            Header.prototype.batchNum = 0;
+    
+            /**
+             * Header batchSize.
+             * @member {number} batchSize
+             * @memberof covidshield.Header
+             * @instance
+             */
+            Header.prototype.batchSize = 0;
+    
+            /**
+             * Creates a new Header instance using the specified properties.
+             * @function create
+             * @memberof covidshield.Header
+             * @static
+             * @param {covidshield.IHeader=} [properties] Properties to set
+             * @returns {covidshield.Header} Header instance
+             */
+            Header.create = function create(properties) {
+                return new Header(properties);
+            };
+    
+            /**
+             * Encodes the specified Header message. Does not implicitly {@link covidshield.Header.verify|verify} messages.
+             * @function encode
+             * @memberof covidshield.Header
+             * @static
+             * @param {covidshield.IHeader} message Header message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Header.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.startTimestamp != null && Object.hasOwnProperty.call(message, "startTimestamp"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.startTimestamp);
+                if (message.endTimestamp != null && Object.hasOwnProperty.call(message, "endTimestamp"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.endTimestamp);
+                if (message.region != null && Object.hasOwnProperty.call(message, "region"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.region);
+                if (message.batchNum != null && Object.hasOwnProperty.call(message, "batchNum"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).int32(message.batchNum);
+                if (message.batchSize != null && Object.hasOwnProperty.call(message, "batchSize"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).int32(message.batchSize);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Header message, length delimited. Does not implicitly {@link covidshield.Header.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof covidshield.Header
+             * @static
+             * @param {covidshield.IHeader} message Header message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Header.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Header message from the specified reader or buffer.
+             * @function decode
+             * @memberof covidshield.Header
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {covidshield.Header} Header
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Header.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.Header();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.startTimestamp = reader.int64();
+                        break;
+                    case 2:
+                        message.endTimestamp = reader.int64();
+                        break;
+                    case 3:
+                        message.region = reader.string();
+                        break;
+                    case 4:
+                        message.batchNum = reader.int32();
+                        break;
+                    case 5:
+                        message.batchSize = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Header message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof covidshield.Header
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {covidshield.Header} Header
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Header.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Header message.
+             * @function verify
+             * @memberof covidshield.Header
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Header.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.startTimestamp != null && message.hasOwnProperty("startTimestamp"))
@@ -1566,39 +1766,21 @@
                 if (message.batchSize != null && message.hasOwnProperty("batchSize"))
                     if (!$util.isInteger(message.batchSize))
                         return "batchSize: integer expected";
-                if (message.signatureInfos != null && message.hasOwnProperty("signatureInfos")) {
-                    if (!Array.isArray(message.signatureInfos))
-                        return "signatureInfos: array expected";
-                    for (var i = 0; i < message.signatureInfos.length; ++i) {
-                        var error = $root.covidshield.SignatureInfo.verify(message.signatureInfos[i]);
-                        if (error)
-                            return "signatureInfos." + error;
-                    }
-                }
-                if (message.keys != null && message.hasOwnProperty("keys")) {
-                    if (!Array.isArray(message.keys))
-                        return "keys: array expected";
-                    for (var i = 0; i < message.keys.length; ++i) {
-                        var error = $root.covidshield.TemporaryExposureKey.verify(message.keys[i]);
-                        if (error)
-                            return "keys." + error;
-                    }
-                }
                 return null;
             };
     
             /**
-             * Creates a TemporaryExposureKeyExport message from a plain object. Also converts values to their respective internal types.
+             * Creates a Header message from a plain object. Also converts values to their respective internal types.
              * @function fromObject
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.Header
              * @static
              * @param {Object.<string,*>} object Plain object
-             * @returns {covidshield.TemporaryExposureKeyExport} TemporaryExposureKeyExport
+             * @returns {covidshield.Header} Header
              */
-            TemporaryExposureKeyExport.fromObject = function fromObject(object) {
-                if (object instanceof $root.covidshield.TemporaryExposureKeyExport)
+            Header.fromObject = function fromObject(object) {
+                if (object instanceof $root.covidshield.Header)
                     return object;
-                var message = new $root.covidshield.TemporaryExposureKeyExport();
+                var message = new $root.covidshield.Header();
                 if (object.startTimestamp != null)
                     if ($util.Long)
                         (message.startTimestamp = $util.Long.fromValue(object.startTimestamp)).unsigned = false;
@@ -1623,46 +1805,22 @@
                     message.batchNum = object.batchNum | 0;
                 if (object.batchSize != null)
                     message.batchSize = object.batchSize | 0;
-                if (object.signatureInfos) {
-                    if (!Array.isArray(object.signatureInfos))
-                        throw TypeError(".covidshield.TemporaryExposureKeyExport.signatureInfos: array expected");
-                    message.signatureInfos = [];
-                    for (var i = 0; i < object.signatureInfos.length; ++i) {
-                        if (typeof object.signatureInfos[i] !== "object")
-                            throw TypeError(".covidshield.TemporaryExposureKeyExport.signatureInfos: object expected");
-                        message.signatureInfos[i] = $root.covidshield.SignatureInfo.fromObject(object.signatureInfos[i]);
-                    }
-                }
-                if (object.keys) {
-                    if (!Array.isArray(object.keys))
-                        throw TypeError(".covidshield.TemporaryExposureKeyExport.keys: array expected");
-                    message.keys = [];
-                    for (var i = 0; i < object.keys.length; ++i) {
-                        if (typeof object.keys[i] !== "object")
-                            throw TypeError(".covidshield.TemporaryExposureKeyExport.keys: object expected");
-                        message.keys[i] = $root.covidshield.TemporaryExposureKey.fromObject(object.keys[i]);
-                    }
-                }
                 return message;
             };
     
             /**
-             * Creates a plain object from a TemporaryExposureKeyExport message. Also converts values to other types if specified.
+             * Creates a plain object from a Header message. Also converts values to other types if specified.
              * @function toObject
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.Header
              * @static
-             * @param {covidshield.TemporaryExposureKeyExport} message TemporaryExposureKeyExport
+             * @param {covidshield.Header} message Header
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            TemporaryExposureKeyExport.toObject = function toObject(message, options) {
+            Header.toObject = function toObject(message, options) {
                 if (!options)
                     options = {};
                 var object = {};
-                if (options.arrays || options.defaults) {
-                    object.signatureInfos = [];
-                    object.keys = [];
-                }
                 if (options.defaults) {
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, false);
@@ -1694,55 +1852,44 @@
                     object.batchNum = message.batchNum;
                 if (message.batchSize != null && message.hasOwnProperty("batchSize"))
                     object.batchSize = message.batchSize;
-                if (message.signatureInfos && message.signatureInfos.length) {
-                    object.signatureInfos = [];
-                    for (var j = 0; j < message.signatureInfos.length; ++j)
-                        object.signatureInfos[j] = $root.covidshield.SignatureInfo.toObject(message.signatureInfos[j], options);
-                }
-                if (message.keys && message.keys.length) {
-                    object.keys = [];
-                    for (var j = 0; j < message.keys.length; ++j)
-                        object.keys[j] = $root.covidshield.TemporaryExposureKey.toObject(message.keys[j], options);
-                }
                 return object;
             };
     
             /**
-             * Converts this TemporaryExposureKeyExport to JSON.
+             * Converts this Header to JSON.
              * @function toJSON
-             * @memberof covidshield.TemporaryExposureKeyExport
+             * @memberof covidshield.Header
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            TemporaryExposureKeyExport.prototype.toJSON = function toJSON() {
+            Header.prototype.toJSON = function toJSON() {
                 return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
             };
     
-            return TemporaryExposureKeyExport;
+            return Header;
         })();
     
-        covidshield.SignatureInfo = (function() {
+        covidshield.Key = (function() {
     
             /**
-             * Properties of a SignatureInfo.
+             * Properties of a Key.
              * @memberof covidshield
-             * @interface ISignatureInfo
-             * @property {string|null} [appBundleId] SignatureInfo appBundleId
-             * @property {string|null} [androidPackage] SignatureInfo androidPackage
-             * @property {string|null} [verificationKeyVersion] SignatureInfo verificationKeyVersion
-             * @property {string|null} [verificationKeyId] SignatureInfo verificationKeyId
-             * @property {string|null} [signatureAlgorithm] SignatureInfo signatureAlgorithm
+             * @interface IKey
+             * @property {Uint8Array|null} [keyData] Key keyData
+             * @property {number|null} [rollingStartNumber] Key rollingStartNumber
+             * @property {number|null} [rollingPeriod] Key rollingPeriod
+             * @property {number|null} [transmissionRiskLevel] Key transmissionRiskLevel
              */
     
             /**
-             * Constructs a new SignatureInfo.
+             * Constructs a new Key.
              * @memberof covidshield
-             * @classdesc Represents a SignatureInfo.
-             * @implements ISignatureInfo
+             * @classdesc Represents a Key.
+             * @implements IKey
              * @constructor
-             * @param {covidshield.ISignatureInfo=} [properties] Properties to set
+             * @param {covidshield.IKey=} [properties] Properties to set
              */
-            function SignatureInfo(properties) {
+            function Key(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -1750,375 +1897,100 @@
             }
     
             /**
-             * SignatureInfo appBundleId.
-             * @member {string} appBundleId
-             * @memberof covidshield.SignatureInfo
-             * @instance
-             */
-            SignatureInfo.prototype.appBundleId = "";
-    
-            /**
-             * SignatureInfo androidPackage.
-             * @member {string} androidPackage
-             * @memberof covidshield.SignatureInfo
-             * @instance
-             */
-            SignatureInfo.prototype.androidPackage = "";
-    
-            /**
-             * SignatureInfo verificationKeyVersion.
-             * @member {string} verificationKeyVersion
-             * @memberof covidshield.SignatureInfo
-             * @instance
-             */
-            SignatureInfo.prototype.verificationKeyVersion = "";
-    
-            /**
-             * SignatureInfo verificationKeyId.
-             * @member {string} verificationKeyId
-             * @memberof covidshield.SignatureInfo
-             * @instance
-             */
-            SignatureInfo.prototype.verificationKeyId = "";
-    
-            /**
-             * SignatureInfo signatureAlgorithm.
-             * @member {string} signatureAlgorithm
-             * @memberof covidshield.SignatureInfo
-             * @instance
-             */
-            SignatureInfo.prototype.signatureAlgorithm = "";
-    
-            /**
-             * Creates a new SignatureInfo instance using the specified properties.
-             * @function create
-             * @memberof covidshield.SignatureInfo
-             * @static
-             * @param {covidshield.ISignatureInfo=} [properties] Properties to set
-             * @returns {covidshield.SignatureInfo} SignatureInfo instance
-             */
-            SignatureInfo.create = function create(properties) {
-                return new SignatureInfo(properties);
-            };
-    
-            /**
-             * Encodes the specified SignatureInfo message. Does not implicitly {@link covidshield.SignatureInfo.verify|verify} messages.
-             * @function encode
-             * @memberof covidshield.SignatureInfo
-             * @static
-             * @param {covidshield.ISignatureInfo} message SignatureInfo message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            SignatureInfo.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.appBundleId != null && Object.hasOwnProperty.call(message, "appBundleId"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.appBundleId);
-                if (message.androidPackage != null && Object.hasOwnProperty.call(message, "androidPackage"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.androidPackage);
-                if (message.verificationKeyVersion != null && Object.hasOwnProperty.call(message, "verificationKeyVersion"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.verificationKeyVersion);
-                if (message.verificationKeyId != null && Object.hasOwnProperty.call(message, "verificationKeyId"))
-                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.verificationKeyId);
-                if (message.signatureAlgorithm != null && Object.hasOwnProperty.call(message, "signatureAlgorithm"))
-                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.signatureAlgorithm);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified SignatureInfo message, length delimited. Does not implicitly {@link covidshield.SignatureInfo.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof covidshield.SignatureInfo
-             * @static
-             * @param {covidshield.ISignatureInfo} message SignatureInfo message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            SignatureInfo.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a SignatureInfo message from the specified reader or buffer.
-             * @function decode
-             * @memberof covidshield.SignatureInfo
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {covidshield.SignatureInfo} SignatureInfo
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            SignatureInfo.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.SignatureInfo();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.appBundleId = reader.string();
-                        break;
-                    case 2:
-                        message.androidPackage = reader.string();
-                        break;
-                    case 3:
-                        message.verificationKeyVersion = reader.string();
-                        break;
-                    case 4:
-                        message.verificationKeyId = reader.string();
-                        break;
-                    case 5:
-                        message.signatureAlgorithm = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a SignatureInfo message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof covidshield.SignatureInfo
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {covidshield.SignatureInfo} SignatureInfo
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            SignatureInfo.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a SignatureInfo message.
-             * @function verify
-             * @memberof covidshield.SignatureInfo
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            SignatureInfo.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.appBundleId != null && message.hasOwnProperty("appBundleId"))
-                    if (!$util.isString(message.appBundleId))
-                        return "appBundleId: string expected";
-                if (message.androidPackage != null && message.hasOwnProperty("androidPackage"))
-                    if (!$util.isString(message.androidPackage))
-                        return "androidPackage: string expected";
-                if (message.verificationKeyVersion != null && message.hasOwnProperty("verificationKeyVersion"))
-                    if (!$util.isString(message.verificationKeyVersion))
-                        return "verificationKeyVersion: string expected";
-                if (message.verificationKeyId != null && message.hasOwnProperty("verificationKeyId"))
-                    if (!$util.isString(message.verificationKeyId))
-                        return "verificationKeyId: string expected";
-                if (message.signatureAlgorithm != null && message.hasOwnProperty("signatureAlgorithm"))
-                    if (!$util.isString(message.signatureAlgorithm))
-                        return "signatureAlgorithm: string expected";
-                return null;
-            };
-    
-            /**
-             * Creates a SignatureInfo message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof covidshield.SignatureInfo
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {covidshield.SignatureInfo} SignatureInfo
-             */
-            SignatureInfo.fromObject = function fromObject(object) {
-                if (object instanceof $root.covidshield.SignatureInfo)
-                    return object;
-                var message = new $root.covidshield.SignatureInfo();
-                if (object.appBundleId != null)
-                    message.appBundleId = String(object.appBundleId);
-                if (object.androidPackage != null)
-                    message.androidPackage = String(object.androidPackage);
-                if (object.verificationKeyVersion != null)
-                    message.verificationKeyVersion = String(object.verificationKeyVersion);
-                if (object.verificationKeyId != null)
-                    message.verificationKeyId = String(object.verificationKeyId);
-                if (object.signatureAlgorithm != null)
-                    message.signatureAlgorithm = String(object.signatureAlgorithm);
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a SignatureInfo message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof covidshield.SignatureInfo
-             * @static
-             * @param {covidshield.SignatureInfo} message SignatureInfo
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            SignatureInfo.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.appBundleId = "";
-                    object.androidPackage = "";
-                    object.verificationKeyVersion = "";
-                    object.verificationKeyId = "";
-                    object.signatureAlgorithm = "";
-                }
-                if (message.appBundleId != null && message.hasOwnProperty("appBundleId"))
-                    object.appBundleId = message.appBundleId;
-                if (message.androidPackage != null && message.hasOwnProperty("androidPackage"))
-                    object.androidPackage = message.androidPackage;
-                if (message.verificationKeyVersion != null && message.hasOwnProperty("verificationKeyVersion"))
-                    object.verificationKeyVersion = message.verificationKeyVersion;
-                if (message.verificationKeyId != null && message.hasOwnProperty("verificationKeyId"))
-                    object.verificationKeyId = message.verificationKeyId;
-                if (message.signatureAlgorithm != null && message.hasOwnProperty("signatureAlgorithm"))
-                    object.signatureAlgorithm = message.signatureAlgorithm;
-                return object;
-            };
-    
-            /**
-             * Converts this SignatureInfo to JSON.
-             * @function toJSON
-             * @memberof covidshield.SignatureInfo
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            SignatureInfo.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return SignatureInfo;
-        })();
-    
-        covidshield.TemporaryExposureKey = (function() {
-    
-            /**
-             * Properties of a TemporaryExposureKey.
-             * @memberof covidshield
-             * @interface ITemporaryExposureKey
-             * @property {Uint8Array|null} [keyData] TemporaryExposureKey keyData
-             * @property {number|null} [transmissionRiskLevel] TemporaryExposureKey transmissionRiskLevel
-             * @property {number|null} [rollingStartIntervalNumber] TemporaryExposureKey rollingStartIntervalNumber
-             * @property {number|null} [rollingPeriod] TemporaryExposureKey rollingPeriod
-             */
-    
-            /**
-             * Constructs a new TemporaryExposureKey.
-             * @memberof covidshield
-             * @classdesc Represents a TemporaryExposureKey.
-             * @implements ITemporaryExposureKey
-             * @constructor
-             * @param {covidshield.ITemporaryExposureKey=} [properties] Properties to set
-             */
-            function TemporaryExposureKey(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * TemporaryExposureKey keyData.
+             * Key keyData.
              * @member {Uint8Array} keyData
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @instance
              */
-            TemporaryExposureKey.prototype.keyData = $util.newBuffer([]);
+            Key.prototype.keyData = $util.newBuffer([]);
     
             /**
-             * TemporaryExposureKey transmissionRiskLevel.
-             * @member {number} transmissionRiskLevel
-             * @memberof covidshield.TemporaryExposureKey
+             * Key rollingStartNumber.
+             * @member {number} rollingStartNumber
+             * @memberof covidshield.Key
              * @instance
              */
-            TemporaryExposureKey.prototype.transmissionRiskLevel = 0;
+            Key.prototype.rollingStartNumber = 0;
     
             /**
-             * TemporaryExposureKey rollingStartIntervalNumber.
-             * @member {number} rollingStartIntervalNumber
-             * @memberof covidshield.TemporaryExposureKey
-             * @instance
-             */
-            TemporaryExposureKey.prototype.rollingStartIntervalNumber = 0;
-    
-            /**
-             * TemporaryExposureKey rollingPeriod.
+             * Key rollingPeriod.
              * @member {number} rollingPeriod
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @instance
              */
-            TemporaryExposureKey.prototype.rollingPeriod = 144;
+            Key.prototype.rollingPeriod = 0;
     
             /**
-             * Creates a new TemporaryExposureKey instance using the specified properties.
-             * @function create
-             * @memberof covidshield.TemporaryExposureKey
-             * @static
-             * @param {covidshield.ITemporaryExposureKey=} [properties] Properties to set
-             * @returns {covidshield.TemporaryExposureKey} TemporaryExposureKey instance
+             * Key transmissionRiskLevel.
+             * @member {number} transmissionRiskLevel
+             * @memberof covidshield.Key
+             * @instance
              */
-            TemporaryExposureKey.create = function create(properties) {
-                return new TemporaryExposureKey(properties);
+            Key.prototype.transmissionRiskLevel = 0;
+    
+            /**
+             * Creates a new Key instance using the specified properties.
+             * @function create
+             * @memberof covidshield.Key
+             * @static
+             * @param {covidshield.IKey=} [properties] Properties to set
+             * @returns {covidshield.Key} Key instance
+             */
+            Key.create = function create(properties) {
+                return new Key(properties);
             };
     
             /**
-             * Encodes the specified TemporaryExposureKey message. Does not implicitly {@link covidshield.TemporaryExposureKey.verify|verify} messages.
+             * Encodes the specified Key message. Does not implicitly {@link covidshield.Key.verify|verify} messages.
              * @function encode
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @static
-             * @param {covidshield.ITemporaryExposureKey} message TemporaryExposureKey message or plain object to encode
+             * @param {covidshield.IKey} message Key message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            TemporaryExposureKey.encode = function encode(message, writer) {
+            Key.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
                 if (message.keyData != null && Object.hasOwnProperty.call(message, "keyData"))
                     writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.keyData);
-                if (message.transmissionRiskLevel != null && Object.hasOwnProperty.call(message, "transmissionRiskLevel"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.transmissionRiskLevel);
-                if (message.rollingStartIntervalNumber != null && Object.hasOwnProperty.call(message, "rollingStartIntervalNumber"))
-                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.rollingStartIntervalNumber);
+                if (message.rollingStartNumber != null && Object.hasOwnProperty.call(message, "rollingStartNumber"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.rollingStartNumber);
                 if (message.rollingPeriod != null && Object.hasOwnProperty.call(message, "rollingPeriod"))
-                    writer.uint32(/* id 4, wireType 0 =*/32).int32(message.rollingPeriod);
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.rollingPeriod);
+                if (message.transmissionRiskLevel != null && Object.hasOwnProperty.call(message, "transmissionRiskLevel"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).int32(message.transmissionRiskLevel);
                 return writer;
             };
     
             /**
-             * Encodes the specified TemporaryExposureKey message, length delimited. Does not implicitly {@link covidshield.TemporaryExposureKey.verify|verify} messages.
+             * Encodes the specified Key message, length delimited. Does not implicitly {@link covidshield.Key.verify|verify} messages.
              * @function encodeDelimited
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @static
-             * @param {covidshield.ITemporaryExposureKey} message TemporaryExposureKey message or plain object to encode
+             * @param {covidshield.IKey} message Key message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            TemporaryExposureKey.encodeDelimited = function encodeDelimited(message, writer) {
+            Key.encodeDelimited = function encodeDelimited(message, writer) {
                 return this.encode(message, writer).ldelim();
             };
     
             /**
-             * Decodes a TemporaryExposureKey message from the specified reader or buffer.
+             * Decodes a Key message from the specified reader or buffer.
              * @function decode
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {covidshield.TemporaryExposureKey} TemporaryExposureKey
+             * @returns {covidshield.Key} Key
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            TemporaryExposureKey.decode = function decode(reader, length) {
+            Key.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.TemporaryExposureKey();
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.Key();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
@@ -2126,13 +1998,13 @@
                         message.keyData = reader.bytes();
                         break;
                     case 2:
-                        message.transmissionRiskLevel = reader.int32();
+                        message.rollingStartNumber = reader.uint32();
                         break;
                     case 3:
-                        message.rollingStartIntervalNumber = reader.int32();
+                        message.rollingPeriod = reader.uint32();
                         break;
                     case 4:
-                        message.rollingPeriod = reader.int32();
+                        message.transmissionRiskLevel = reader.int32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -2143,83 +2015,83 @@
             };
     
             /**
-             * Decodes a TemporaryExposureKey message from the specified reader or buffer, length delimited.
+             * Decodes a Key message from the specified reader or buffer, length delimited.
              * @function decodeDelimited
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {covidshield.TemporaryExposureKey} TemporaryExposureKey
+             * @returns {covidshield.Key} Key
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            TemporaryExposureKey.decodeDelimited = function decodeDelimited(reader) {
+            Key.decodeDelimited = function decodeDelimited(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
             };
     
             /**
-             * Verifies a TemporaryExposureKey message.
+             * Verifies a Key message.
              * @function verify
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @static
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            TemporaryExposureKey.verify = function verify(message) {
+            Key.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.keyData != null && message.hasOwnProperty("keyData"))
                     if (!(message.keyData && typeof message.keyData.length === "number" || $util.isString(message.keyData)))
                         return "keyData: buffer expected";
-                if (message.transmissionRiskLevel != null && message.hasOwnProperty("transmissionRiskLevel"))
-                    if (!$util.isInteger(message.transmissionRiskLevel))
-                        return "transmissionRiskLevel: integer expected";
-                if (message.rollingStartIntervalNumber != null && message.hasOwnProperty("rollingStartIntervalNumber"))
-                    if (!$util.isInteger(message.rollingStartIntervalNumber))
-                        return "rollingStartIntervalNumber: integer expected";
+                if (message.rollingStartNumber != null && message.hasOwnProperty("rollingStartNumber"))
+                    if (!$util.isInteger(message.rollingStartNumber))
+                        return "rollingStartNumber: integer expected";
                 if (message.rollingPeriod != null && message.hasOwnProperty("rollingPeriod"))
                     if (!$util.isInteger(message.rollingPeriod))
                         return "rollingPeriod: integer expected";
+                if (message.transmissionRiskLevel != null && message.hasOwnProperty("transmissionRiskLevel"))
+                    if (!$util.isInteger(message.transmissionRiskLevel))
+                        return "transmissionRiskLevel: integer expected";
                 return null;
             };
     
             /**
-             * Creates a TemporaryExposureKey message from a plain object. Also converts values to their respective internal types.
+             * Creates a Key message from a plain object. Also converts values to their respective internal types.
              * @function fromObject
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @static
              * @param {Object.<string,*>} object Plain object
-             * @returns {covidshield.TemporaryExposureKey} TemporaryExposureKey
+             * @returns {covidshield.Key} Key
              */
-            TemporaryExposureKey.fromObject = function fromObject(object) {
-                if (object instanceof $root.covidshield.TemporaryExposureKey)
+            Key.fromObject = function fromObject(object) {
+                if (object instanceof $root.covidshield.Key)
                     return object;
-                var message = new $root.covidshield.TemporaryExposureKey();
+                var message = new $root.covidshield.Key();
                 if (object.keyData != null)
                     if (typeof object.keyData === "string")
                         $util.base64.decode(object.keyData, message.keyData = $util.newBuffer($util.base64.length(object.keyData)), 0);
                     else if (object.keyData.length)
                         message.keyData = object.keyData;
+                if (object.rollingStartNumber != null)
+                    message.rollingStartNumber = object.rollingStartNumber >>> 0;
+                if (object.rollingPeriod != null)
+                    message.rollingPeriod = object.rollingPeriod >>> 0;
                 if (object.transmissionRiskLevel != null)
                     message.transmissionRiskLevel = object.transmissionRiskLevel | 0;
-                if (object.rollingStartIntervalNumber != null)
-                    message.rollingStartIntervalNumber = object.rollingStartIntervalNumber | 0;
-                if (object.rollingPeriod != null)
-                    message.rollingPeriod = object.rollingPeriod | 0;
                 return message;
             };
     
             /**
-             * Creates a plain object from a TemporaryExposureKey message. Also converts values to other types if specified.
+             * Creates a plain object from a Key message. Also converts values to other types if specified.
              * @function toObject
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @static
-             * @param {covidshield.TemporaryExposureKey} message TemporaryExposureKey
+             * @param {covidshield.Key} message Key
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            TemporaryExposureKey.toObject = function toObject(message, options) {
+            Key.toObject = function toObject(message, options) {
                 if (!options)
                     options = {};
                 var object = {};
@@ -2231,509 +2103,33 @@
                         if (options.bytes !== Array)
                             object.keyData = $util.newBuffer(object.keyData);
                     }
+                    object.rollingStartNumber = 0;
+                    object.rollingPeriod = 0;
                     object.transmissionRiskLevel = 0;
-                    object.rollingStartIntervalNumber = 0;
-                    object.rollingPeriod = 144;
                 }
                 if (message.keyData != null && message.hasOwnProperty("keyData"))
                     object.keyData = options.bytes === String ? $util.base64.encode(message.keyData, 0, message.keyData.length) : options.bytes === Array ? Array.prototype.slice.call(message.keyData) : message.keyData;
-                if (message.transmissionRiskLevel != null && message.hasOwnProperty("transmissionRiskLevel"))
-                    object.transmissionRiskLevel = message.transmissionRiskLevel;
-                if (message.rollingStartIntervalNumber != null && message.hasOwnProperty("rollingStartIntervalNumber"))
-                    object.rollingStartIntervalNumber = message.rollingStartIntervalNumber;
+                if (message.rollingStartNumber != null && message.hasOwnProperty("rollingStartNumber"))
+                    object.rollingStartNumber = message.rollingStartNumber;
                 if (message.rollingPeriod != null && message.hasOwnProperty("rollingPeriod"))
                     object.rollingPeriod = message.rollingPeriod;
+                if (message.transmissionRiskLevel != null && message.hasOwnProperty("transmissionRiskLevel"))
+                    object.transmissionRiskLevel = message.transmissionRiskLevel;
                 return object;
             };
     
             /**
-             * Converts this TemporaryExposureKey to JSON.
+             * Converts this Key to JSON.
              * @function toJSON
-             * @memberof covidshield.TemporaryExposureKey
+             * @memberof covidshield.Key
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            TemporaryExposureKey.prototype.toJSON = function toJSON() {
+            Key.prototype.toJSON = function toJSON() {
                 return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
             };
     
-            return TemporaryExposureKey;
-        })();
-    
-        covidshield.TEKSignatureList = (function() {
-    
-            /**
-             * Properties of a TEKSignatureList.
-             * @memberof covidshield
-             * @interface ITEKSignatureList
-             * @property {Array.<covidshield.ITEKSignature>|null} [signatures] TEKSignatureList signatures
-             */
-    
-            /**
-             * Constructs a new TEKSignatureList.
-             * @memberof covidshield
-             * @classdesc Represents a TEKSignatureList.
-             * @implements ITEKSignatureList
-             * @constructor
-             * @param {covidshield.ITEKSignatureList=} [properties] Properties to set
-             */
-            function TEKSignatureList(properties) {
-                this.signatures = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * TEKSignatureList signatures.
-             * @member {Array.<covidshield.ITEKSignature>} signatures
-             * @memberof covidshield.TEKSignatureList
-             * @instance
-             */
-            TEKSignatureList.prototype.signatures = $util.emptyArray;
-    
-            /**
-             * Creates a new TEKSignatureList instance using the specified properties.
-             * @function create
-             * @memberof covidshield.TEKSignatureList
-             * @static
-             * @param {covidshield.ITEKSignatureList=} [properties] Properties to set
-             * @returns {covidshield.TEKSignatureList} TEKSignatureList instance
-             */
-            TEKSignatureList.create = function create(properties) {
-                return new TEKSignatureList(properties);
-            };
-    
-            /**
-             * Encodes the specified TEKSignatureList message. Does not implicitly {@link covidshield.TEKSignatureList.verify|verify} messages.
-             * @function encode
-             * @memberof covidshield.TEKSignatureList
-             * @static
-             * @param {covidshield.ITEKSignatureList} message TEKSignatureList message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TEKSignatureList.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.signatures != null && message.signatures.length)
-                    for (var i = 0; i < message.signatures.length; ++i)
-                        $root.covidshield.TEKSignature.encode(message.signatures[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified TEKSignatureList message, length delimited. Does not implicitly {@link covidshield.TEKSignatureList.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof covidshield.TEKSignatureList
-             * @static
-             * @param {covidshield.ITEKSignatureList} message TEKSignatureList message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TEKSignatureList.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a TEKSignatureList message from the specified reader or buffer.
-             * @function decode
-             * @memberof covidshield.TEKSignatureList
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {covidshield.TEKSignatureList} TEKSignatureList
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TEKSignatureList.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.TEKSignatureList();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        if (!(message.signatures && message.signatures.length))
-                            message.signatures = [];
-                        message.signatures.push($root.covidshield.TEKSignature.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a TEKSignatureList message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof covidshield.TEKSignatureList
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {covidshield.TEKSignatureList} TEKSignatureList
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TEKSignatureList.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a TEKSignatureList message.
-             * @function verify
-             * @memberof covidshield.TEKSignatureList
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            TEKSignatureList.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.signatures != null && message.hasOwnProperty("signatures")) {
-                    if (!Array.isArray(message.signatures))
-                        return "signatures: array expected";
-                    for (var i = 0; i < message.signatures.length; ++i) {
-                        var error = $root.covidshield.TEKSignature.verify(message.signatures[i]);
-                        if (error)
-                            return "signatures." + error;
-                    }
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a TEKSignatureList message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof covidshield.TEKSignatureList
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {covidshield.TEKSignatureList} TEKSignatureList
-             */
-            TEKSignatureList.fromObject = function fromObject(object) {
-                if (object instanceof $root.covidshield.TEKSignatureList)
-                    return object;
-                var message = new $root.covidshield.TEKSignatureList();
-                if (object.signatures) {
-                    if (!Array.isArray(object.signatures))
-                        throw TypeError(".covidshield.TEKSignatureList.signatures: array expected");
-                    message.signatures = [];
-                    for (var i = 0; i < object.signatures.length; ++i) {
-                        if (typeof object.signatures[i] !== "object")
-                            throw TypeError(".covidshield.TEKSignatureList.signatures: object expected");
-                        message.signatures[i] = $root.covidshield.TEKSignature.fromObject(object.signatures[i]);
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a TEKSignatureList message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof covidshield.TEKSignatureList
-             * @static
-             * @param {covidshield.TEKSignatureList} message TEKSignatureList
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            TEKSignatureList.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.signatures = [];
-                if (message.signatures && message.signatures.length) {
-                    object.signatures = [];
-                    for (var j = 0; j < message.signatures.length; ++j)
-                        object.signatures[j] = $root.covidshield.TEKSignature.toObject(message.signatures[j], options);
-                }
-                return object;
-            };
-    
-            /**
-             * Converts this TEKSignatureList to JSON.
-             * @function toJSON
-             * @memberof covidshield.TEKSignatureList
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            TEKSignatureList.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return TEKSignatureList;
-        })();
-    
-        covidshield.TEKSignature = (function() {
-    
-            /**
-             * Properties of a TEKSignature.
-             * @memberof covidshield
-             * @interface ITEKSignature
-             * @property {covidshield.ISignatureInfo|null} [signatureInfo] TEKSignature signatureInfo
-             * @property {number|null} [batchNum] TEKSignature batchNum
-             * @property {number|null} [batchSize] TEKSignature batchSize
-             * @property {Uint8Array|null} [signature] TEKSignature signature
-             */
-    
-            /**
-             * Constructs a new TEKSignature.
-             * @memberof covidshield
-             * @classdesc Represents a TEKSignature.
-             * @implements ITEKSignature
-             * @constructor
-             * @param {covidshield.ITEKSignature=} [properties] Properties to set
-             */
-            function TEKSignature(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * TEKSignature signatureInfo.
-             * @member {covidshield.ISignatureInfo|null|undefined} signatureInfo
-             * @memberof covidshield.TEKSignature
-             * @instance
-             */
-            TEKSignature.prototype.signatureInfo = null;
-    
-            /**
-             * TEKSignature batchNum.
-             * @member {number} batchNum
-             * @memberof covidshield.TEKSignature
-             * @instance
-             */
-            TEKSignature.prototype.batchNum = 0;
-    
-            /**
-             * TEKSignature batchSize.
-             * @member {number} batchSize
-             * @memberof covidshield.TEKSignature
-             * @instance
-             */
-            TEKSignature.prototype.batchSize = 0;
-    
-            /**
-             * TEKSignature signature.
-             * @member {Uint8Array} signature
-             * @memberof covidshield.TEKSignature
-             * @instance
-             */
-            TEKSignature.prototype.signature = $util.newBuffer([]);
-    
-            /**
-             * Creates a new TEKSignature instance using the specified properties.
-             * @function create
-             * @memberof covidshield.TEKSignature
-             * @static
-             * @param {covidshield.ITEKSignature=} [properties] Properties to set
-             * @returns {covidshield.TEKSignature} TEKSignature instance
-             */
-            TEKSignature.create = function create(properties) {
-                return new TEKSignature(properties);
-            };
-    
-            /**
-             * Encodes the specified TEKSignature message. Does not implicitly {@link covidshield.TEKSignature.verify|verify} messages.
-             * @function encode
-             * @memberof covidshield.TEKSignature
-             * @static
-             * @param {covidshield.ITEKSignature} message TEKSignature message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TEKSignature.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.signatureInfo != null && Object.hasOwnProperty.call(message, "signatureInfo"))
-                    $root.covidshield.SignatureInfo.encode(message.signatureInfo, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.batchNum != null && Object.hasOwnProperty.call(message, "batchNum"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.batchNum);
-                if (message.batchSize != null && Object.hasOwnProperty.call(message, "batchSize"))
-                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.batchSize);
-                if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
-                    writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.signature);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified TEKSignature message, length delimited. Does not implicitly {@link covidshield.TEKSignature.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof covidshield.TEKSignature
-             * @static
-             * @param {covidshield.ITEKSignature} message TEKSignature message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TEKSignature.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a TEKSignature message from the specified reader or buffer.
-             * @function decode
-             * @memberof covidshield.TEKSignature
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {covidshield.TEKSignature} TEKSignature
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TEKSignature.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.TEKSignature();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.signatureInfo = $root.covidshield.SignatureInfo.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.batchNum = reader.int32();
-                        break;
-                    case 3:
-                        message.batchSize = reader.int32();
-                        break;
-                    case 4:
-                        message.signature = reader.bytes();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a TEKSignature message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof covidshield.TEKSignature
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {covidshield.TEKSignature} TEKSignature
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TEKSignature.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a TEKSignature message.
-             * @function verify
-             * @memberof covidshield.TEKSignature
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            TEKSignature.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.signatureInfo != null && message.hasOwnProperty("signatureInfo")) {
-                    var error = $root.covidshield.SignatureInfo.verify(message.signatureInfo);
-                    if (error)
-                        return "signatureInfo." + error;
-                }
-                if (message.batchNum != null && message.hasOwnProperty("batchNum"))
-                    if (!$util.isInteger(message.batchNum))
-                        return "batchNum: integer expected";
-                if (message.batchSize != null && message.hasOwnProperty("batchSize"))
-                    if (!$util.isInteger(message.batchSize))
-                        return "batchSize: integer expected";
-                if (message.signature != null && message.hasOwnProperty("signature"))
-                    if (!(message.signature && typeof message.signature.length === "number" || $util.isString(message.signature)))
-                        return "signature: buffer expected";
-                return null;
-            };
-    
-            /**
-             * Creates a TEKSignature message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof covidshield.TEKSignature
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {covidshield.TEKSignature} TEKSignature
-             */
-            TEKSignature.fromObject = function fromObject(object) {
-                if (object instanceof $root.covidshield.TEKSignature)
-                    return object;
-                var message = new $root.covidshield.TEKSignature();
-                if (object.signatureInfo != null) {
-                    if (typeof object.signatureInfo !== "object")
-                        throw TypeError(".covidshield.TEKSignature.signatureInfo: object expected");
-                    message.signatureInfo = $root.covidshield.SignatureInfo.fromObject(object.signatureInfo);
-                }
-                if (object.batchNum != null)
-                    message.batchNum = object.batchNum | 0;
-                if (object.batchSize != null)
-                    message.batchSize = object.batchSize | 0;
-                if (object.signature != null)
-                    if (typeof object.signature === "string")
-                        $util.base64.decode(object.signature, message.signature = $util.newBuffer($util.base64.length(object.signature)), 0);
-                    else if (object.signature.length)
-                        message.signature = object.signature;
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a TEKSignature message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof covidshield.TEKSignature
-             * @static
-             * @param {covidshield.TEKSignature} message TEKSignature
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            TEKSignature.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.signatureInfo = null;
-                    object.batchNum = 0;
-                    object.batchSize = 0;
-                    if (options.bytes === String)
-                        object.signature = "";
-                    else {
-                        object.signature = [];
-                        if (options.bytes !== Array)
-                            object.signature = $util.newBuffer(object.signature);
-                    }
-                }
-                if (message.signatureInfo != null && message.hasOwnProperty("signatureInfo"))
-                    object.signatureInfo = $root.covidshield.SignatureInfo.toObject(message.signatureInfo, options);
-                if (message.batchNum != null && message.hasOwnProperty("batchNum"))
-                    object.batchNum = message.batchNum;
-                if (message.batchSize != null && message.hasOwnProperty("batchSize"))
-                    object.batchSize = message.batchSize;
-                if (message.signature != null && message.hasOwnProperty("signature"))
-                    object.signature = options.bytes === String ? $util.base64.encode(message.signature, 0, message.signature.length) : options.bytes === Array ? Array.prototype.slice.call(message.signature) : message.signature;
-                return object;
-            };
-    
-            /**
-             * Converts this TEKSignature to JSON.
-             * @function toJSON
-             * @memberof covidshield.TEKSignature
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            TEKSignature.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return TEKSignature;
+            return Key;
         })();
     
         return covidshield;

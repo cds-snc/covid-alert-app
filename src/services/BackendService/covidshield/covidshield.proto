@@ -6,23 +6,23 @@ option go_package="pkg/proto/covidshield";
 
 // Clients will receive a One Time Code via some external channel (i.e. SMS or
 // verbal). Then, upon issuing THIS request, they will generate a new keypair.
-// If the response comes back successful, the app_public_key (and the
-// corresponding private key) and the returned server_public_key will be kept in
+// If the response comes back successful, the appPublicKey (and the
+// corresponding private key) and the returned serverPublicKey will be kept in
 // local storage for the duration of this reporting window (the next 14 days).
 //
-// app_public_keys must not be re-used for new KeyClaimRequests, or the requests
+// appPublicKeys must not be re-used for new KeyClaimRequests, or the requests
 // will fail.
 message KeyClaimRequest {
-  // one_time_code is the code received from the testing portal.
-  required string one_time_code = 1; // 8 numerical digits
-  // app_public_key is generated locally and saved upon successful request
+  // oneTimeCode is the code received from the testing portal.
+  required string oneTimeCode = 1; // 8 numerical digits
+  // appPublicKey is generated locally and saved upon successful request
   // completion.
-  required bytes app_public_key = 2; // 32 bytes
+  required bytes appPublicKey = 2; // 32 bytes
 }
 
 // KeyClaimResponse is received from the server in response to a
 // KeyClaimRequest. If the request was successful, error will be NONE and
-// server_public_key will be set.
+// serverPublicKey will be set.
 message KeyClaimResponse {
   enum ErrorCode {
     NONE = 0;
@@ -33,7 +33,7 @@ message KeyClaimResponse {
     INVALID_KEY = 4;
   }
   optional ErrorCode error = 1;
-  optional bytes server_public_key = 2; // 32 bytes
+  optional bytes serverPublicKey = 2; // 32 bytes
 }
 
 // We are using a NaCl Box (Curve25519+XSalsa20+Poly1305) to encrypt and
@@ -47,16 +47,16 @@ message KeyClaimResponse {
 //
 // See "Security Model" at https://nacl.cr.yp.to/box.html
 message EncryptedUploadRequest {
-  // server_public_key is provided by the Diagnosis Server to the App, and is
+  // serverPublicKey is provided by the Diagnosis Server to the App, and is
   // used to encrypt the payload. This key should be stored locally for 14
   // days, and used to submit the follow-up Diagnosis Key.
-  required bytes server_public_key = 1; // 32 bytes
-  // app_public_key is the public side of a keypair generated once by the
-  // application and linked to the server_public_key. These are linked in the
-  // Diagnosis Server, so that only one app_public_key is authorized to upload
-  // for a given server_public_key. If a new server_public_key is issued to an App
-  // (e.g. months later), a new app_public_key should be generated.
-  required bytes app_public_key = 2; // 32 bytes
+  required bytes serverPublicKey = 1; // 32 bytes
+  // appPublicKey is the public side of a keypair generated once by the
+  // application and linked to the serverPublicKey. These are linked in the
+  // Diagnosis Server, so that only one appPublicKey is authorized to upload
+  // for a given serverPublicKey. If a new serverPublicKey is issued to an App
+  // (e.g. months later), a new appPublicKey should be generated.
+  required bytes appPublicKey = 2; // 32 bytes
   // nonce must be 24 random bytes, and absolutely must NOT be re-used between
   // subsequent submissions of Diagnosis Keys. This nonce is passed to the
   // encryption library to generate the ciphertext.
@@ -84,7 +84,7 @@ message EncryptedUploadResponse {
     INVALID_TIMESTAMP = 8;
     INVALID_ROLLING_PERIOD = 10;
     INVALID_KEY_DATA = 11;
-    INVALID_ROLLING_START_INTERVAL_NUMBER = 12;
+    INVALID_ROLLING_START_NUMBER = 12;
     INVALID_TRANSMISSION_RISK_LEVEL = 13;
   }
   required ErrorCode error = 1;
@@ -95,95 +95,35 @@ message Upload {
   // timestamp is just the current device time at message generation.
   required google.protobuf.Timestamp timestamp = 1;
   // keys returns from the ExposureNotification API.
-  repeated TemporaryExposureKey keys = 2;
+  repeated Key keys = 2;
 }
 
-// Remaining messages imported from:
-// https://developer.apple.com/documentation/exposurenotification/setting_up_an_exposure_notification_server
+// File, Header, and Key messages imported from:
+// https://developer.apple.com/documentation/exposurenotification/enmanager/3586331-detectexposures
 //
-// The format of the /keys endpoints is a stream of serialized File
+// The format of the /retrieve-* endpoints is a stream of serialized File
 // messages, each length-prefixed with a big-endian uint32. Clients should take
-// care to verify that the batch_size from the headers matches the total number
+// care to verify that the batchSize from the headers matches the total number
 // of records received.
-//
-// Note, as a special case, that if there are no keys at all in the requested
-// range, the total content of the response will be "\x00\x00\x00\x00"; that
-// is, a big-endian uint32 of zero.
 //
 // In general, we don't change or add field definitions below this point.
 
-message TemporaryExposureKeyExport {
-  // Time window of keys in the file, based on arrival
-  // at the server, in UTC seconds.
-  optional fixed64 start_timestamp = 1;
-  optional fixed64 end_timestamp = 2;
-
-  // Region from which these keys came (for example, MCC).
-  optional string region = 3;
-
-  // Reserved for future use. Both batch_num and batch_size
-  // must be set to a value of 1.
-  optional int32 batch_num = 4;
-  optional int32 batch_size = 5;
-
-  // Information about associated signatures.
-  repeated SignatureInfo signature_infos = 6;
-
-  // The temporary exposure keys themselves.
-  repeated TemporaryExposureKey keys = 7;
+message File {
+  optional Header header = 1;
+  repeated Key key = 2;
 }
 
-message SignatureInfo {
-  // App Store app bundle ID.
-  optional string app_bundle_id = 1;
-
-  // Android app package name.
-  optional string android_package = 2;
-
-  // Key version in case the EN server signing key is rotated.
-  optional string verification_key_version = 3;
-
-  // Additional information to uniquely identify the public
-  // key associated with the EN server's signing key
-  // (for example, the EN server might serve the app
-  // from different countries with different keys).
-  optional string verification_key_id = 4;
-
-  // All keys must be signed using the SHA-256 with ECDSA algorithm.
-  // This field must contain the string "ecdsa-with-SHA256".
-  optional string signature_algorithm = 5;
+message Header {
+  optional int64 startTimestamp = 1; // Time window of keys in this file based on arrival to server, in UTC.
+  optional int64 endTimestamp = 2;
+  optional string region = 3; // Region for which these keys came from (e.g., country)
+  optional int32 batchNum = 4; // E.g., if batchNum=2;batchSize=10, this is batch 2 of 10
+  optional int32 batchSize = 5;
 }
 
-message TemporaryExposureKey {
-  // Temporary exposure key.
-  optional bytes key_data = 1;
-
-  // Varying risk associated with a key depending on the diagnosis method.
-  optional int32 transmission_risk_level = 2;
-
-  // Number representing the beginning interval for temporary exposure
-  // key validity (ENIntervalNumber).
-  optional int32 rolling_start_interval_number = 3;
-
-  // Number of intervals in a period.
-  optional int32 rolling_period = 4 [default = 144];
-}
-
-message TEKSignatureList {
-  // Information about associated signatures.
-  repeated TEKSignature signatures = 1;
-}
-
-message TEKSignature {
-  // Information to uniquely identify the public key associated
-  // with the EN server's signing key.
-  optional SignatureInfo signature_info = 1;
-
-  // Reserved for future use. Both batch_num and batch_size
-  // must be set to a value of 1.
-  optional int32 batch_num = 2;
-  optional int32 batch_size = 3;
-
-  // Signature in X9.62 format (ASN.1 SEQUENCE of two INTEGER fields).
-  optional bytes signature = 4;
+message Key {
+  optional bytes keyData = 1; // Key of infected user
+  optional uint32 rollingStartNumber = 2; // Interval number when the key's EKRollingPeriod started.
+  optional uint32 rollingPeriod = 3; // Number of 10-minute windows between key rolling.
+  optional int32 transmissionRiskLevel = 4; // Risk of transmission associated with the person this key came from.
 }

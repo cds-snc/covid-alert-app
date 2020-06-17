@@ -2,6 +2,7 @@ import ExposureNotification, {ExposureInformation, Status as SystemStatus} from 
 import PushNotification from 'bridge/PushNotification';
 import {Observable} from 'shared/Observable';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
+import {unzip} from 'react-native-zip-archive';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -15,6 +16,7 @@ const SECURE_OPTIONS = {
 };
 
 type Translate = (key: string) => string;
+const hoursPerPeriod = 6;
 
 export {SystemStatus};
 
@@ -53,6 +55,7 @@ export interface SecureStorageOptions {
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: Observable<ExposureStatus>;
+  started = false;
 
   exposureNotification: typeof ExposureNotification;
   backendInterface: BackendInterface;
@@ -62,7 +65,6 @@ export class ExposureNotificationService {
   secureStorage: SecurePersistencyProvider;
 
   private exposureStatusUpdatePromise: Promise<ExposureStatus> | null = null;
-  private started = false;
 
   constructor(
     backendInterface: BackendInterface,
@@ -78,31 +80,16 @@ export class ExposureNotificationService {
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
-    // initialize
-    this.updateSystemStatus();
   }
 
   async start(): Promise<void> {
-    if (this.started) {
-      return;
-    }
     this.started = true;
-
     try {
       await this.exposureNotification.start();
     } catch (_) {
       // Noop because Exposure Notification framework is unavailable on device
-      this.started = false;
       return;
     }
-
-    await this.updateSystemStatus();
-    if (this.systemStatus.get() !== SystemStatus.Active) {
-      // Noop because Exposure Notification cannot start
-      this.started = false;
-      return;
-    }
-
     // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
     const timestamp = await this.storage.getItem('lastCheckTimeStamp');
     const submissionCycleStartedAtStr = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);
@@ -183,15 +170,30 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
-  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string> {
+  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string | null> {
     const runningDate = new Date();
 
-    const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14));
-    let runningPeriod = periodSinceEpoch(runningDate);
-
+    const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14), hoursPerPeriod);
+    let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
     while (runningPeriod > lastCheckPeriod) {
-      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
-      runningPeriod -= 2;
+      const zipFile = await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
+      if (zipFile) {
+        const components = zipFile.split('/');
+        components.pop();
+        components.push('keys-export');
+        const targetDir = components.join('/');
+
+        try {
+          yield await unzip(zipFile, targetDir);
+        } catch (err) {
+          yield null;
+        }
+      } else {
+        yield null;
+      }
+
+      // yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
+      runningPeriod -= hoursPerPeriod;
     }
   }
 
@@ -249,11 +251,20 @@ export class ExposureNotificationService {
     while (true) {
       const {value: keysFilesUrl, done} = await generator.next();
       if (done) break;
+      if (!keysFilesUrl) continue;
+      try {
+        const summary = await this.exposureNotification.detectExposure(exposureConfigutration, [
+          `${keysFilesUrl}/export.bin`,
+          `${keysFilesUrl}/export.sig`,
+        ]);
 
-      const summary = await this.exposureNotification.detectExposure(exposureConfigutration, [keysFilesUrl]);
-      if (summary.matchedKeyCount > 0) {
-        const exposures = await this.exposureNotification.getExposureInformation(summary);
-        return finalize({type: 'exposed', exposures});
+        if (summary.matchedKeyCount > 0) {
+          const exposures = await this.exposureNotification.getExposureInformation(summary);
+          return finalize({type: 'exposed', exposures});
+        }
+      } catch (err) {
+        console.log({err});
+        continue;
       }
     }
     return finalize({type: 'monitoring'});

@@ -2,19 +2,18 @@ package app.covidshield.module
 
 import android.content.Context
 import android.util.Base64
-import app.covidshield.extensions.rejectOnException
+import app.covidshield.extensions.launch
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 import java.security.SecureRandom
-import java.util.UUID
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
@@ -27,24 +26,25 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
 
     @ReactMethod
     fun getRandomBytes(size: Int, promise: Promise) {
-        promise.rejectOnException {
+        promise.launch(this) {
             val bytes = SecureRandom().generateSeed(size)
             val base64Encoded = Base64.encodeToString(bytes, Base64.DEFAULT)
             promise.resolve(base64Encoded)
         }
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     @ReactMethod
     fun downloadDiagnosisKeysFile(url: String, promise: Promise) {
-        launch(Dispatchers.IO) {
-            promise.rejectOnException {
-                val request = Request.Builder().url(url).build()
-                val response = okHttpClient.newCall(request).execute().takeIf { it.code() == 200 }
-                    ?: throw IOException()
-                val bytes = response.body()?.bytes() ?: throw IOException()
-                val fileName = writeFile(bytes)
-                promise.resolve(fileName)
+        promise.launch(this) {
+            val request = Request.Builder().url(url).build()
+            val response = okHttpClient.newCall(request).execute()
+            if (response.code() != 200) {
+                throw IOException()
             }
+            val bytes = response.body()?.bytes() ?: throw IOException()
+            val fileName = writeFile(bytes)
+            promise.resolve(fileName)
         }
     }
 
@@ -56,5 +56,4 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
         }
         return filename
     }
-
 }
