@@ -22,7 +22,7 @@ export const Header = ({isOverlay}: HeaderProps) => {
 
   let textColor = isOverlay ? 'overlayBodyText' : 'bodyText';
 
-  if (regionCase === 'noRegionSet') {
+  if (regionCase === 'noRegionSet' || regionCase === 'regionNotCovered') {
     textColor = 'bodyTitleWhite';
   }
 
