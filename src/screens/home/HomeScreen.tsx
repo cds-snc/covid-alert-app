@@ -6,6 +6,9 @@ import {checkNotifications, requestNotifications} from 'react-native-permissions
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
+import {Theme} from 'shared/theme';
+import {useStorage} from 'services/StorageService';
+import {getRegionCase} from 'shared/RegionLogic';
 
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
@@ -18,6 +21,16 @@ import {OverlayView} from './views/OverlayView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 
 type NotificationPermission = 'denied' | 'granted' | 'unavailable' | 'blocked';
+type BackgroundColor = keyof Theme['colors'];
+
+interface ContentProps {
+  setBackgroundColor: (color: string) => void;
+}
+
+const strToBackgroundColor = (backgroundColor: string): BackgroundColor => {
+  const color: BackgroundColor = backgroundColor as BackgroundColor;
+  return color;
+};
 
 const useNotificationPermissionStatus = (): [string, () => void] => {
   const [status, setStatus] = useState<NotificationPermission>('granted');
@@ -44,7 +57,9 @@ const useNotificationPermissionStatus = (): [string, () => void] => {
   return [status === 'granted' ? status : 'denied', request];
 };
 
-const Content = () => {
+const Content = ({setBackgroundColor}: ContentProps) => {
+  const {region} = useStorage();
+  const regionCase = getRegionCase(region);
   const [exposureStatus, updateExposureStatus] = useExposureStatus();
   const [systemStatus, updateSystemStatus] = useSystemStatus();
   const startSystem = useStartENSystem();
@@ -54,6 +69,18 @@ const Content = () => {
   }, [startSystem]);
 
   const network = useNetInfo();
+
+  switch (regionCase) {
+    case 'noRegionSet':
+      setBackgroundColor('mainBackground');
+      break;
+    case 'regionCovered':
+      setBackgroundColor('regionCoveredBackground');
+      break;
+    case 'regionNotCovered':
+      setBackgroundColor('mainBackground');
+      break;
+  }
 
   useEffect(() => {
     const updateStatus = (newState: AppStateStatus) => {
@@ -69,6 +96,9 @@ const Content = () => {
       AppState.removeEventListener('change', updateStatus);
     };
   }, [updateExposureStatus, updateSystemStatus]);
+
+  // setBackgroundColor('exposureBackground');
+  // return <ExposureView />;
 
   switch (exposureStatus.type) {
     case 'exposed':
@@ -86,6 +116,7 @@ const Content = () => {
           return <BluetoothDisabledView />;
         case SystemStatus.Active:
         case SystemStatus.Unknown:
+          // setBackgroundColor('exposureBackground');
           return <NoExposureView />;
       }
   }
@@ -104,6 +135,7 @@ export const HomeScreen = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus === 'denied';
+
   const collapsedContent = useMemo(
     () => (
       <CollapsedOverlayView
@@ -116,11 +148,12 @@ export const HomeScreen = () => {
   );
 
   const maxWidth = useMaxContentWidth();
+  const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
 
   return (
-    <Box flex={1} alignItems="center" backgroundColor="mainBackground">
+    <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
       <Box flex={1} maxWidth={maxWidth} paddingTop="m">
-        <Content />
+        <Content setBackgroundColor={setBackgroundColor} />
       </Box>
       <BottomSheet
         // need to change the key here so bottom sheet is rerendered. This is because the snap points change.

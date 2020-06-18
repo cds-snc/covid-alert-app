@@ -1,11 +1,22 @@
 {
   "Home": {
-    "NoExposureDetected": "No exposure detected",
-    "NoExposureDetectedDetailed": "You have not been near anyone who reported a COVID diagnosis through this app.",
+    "NoExposureDetected": {
+      "RegionCoveredTitle": "RegionCoveredTitle",
+      "RegionCoveredBody": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19.",
+      "NoRegionSetTitle": "Choose your province or territory",
+      "NoRegionSetBody": "Provincial and territorial governments are working to support StopCOVID across Canada. In some places, people cannot yet report COVID-19 diagnoses through this app.",
+      "RegionNotCoveredTitle": " Choose your province or territory",
+      "RegionNotCoveredBody": "We’re not able to say whether you’ve been exposed.\n\nPeople in your province or territory are not yet able to report a COVID diagnosis through this app.\n\nIt’s still good to keep placeholder_name on. That way, when people are able to report a diagnosis, we’ll know if you were near them."
+    },
+    "NoExposureDetectedDetailed1": "You have not been near anyone who reported a COVID diagnosis through this app.",
+    "NoExposureDetectedDetailed2": "However, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app. ",
     "ExposureDetected": "You’ve been exposed",
-    "ExposureDetectedDetailed": "You’ve been near someone who reported a COVID-19 diagnosis through the app.\n\nThis does not mean you’ve been infected. But you should probably take some action.",
-    "SeeGuidance": "What now? See guidance",
+    "ExposureDetectedDetailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
+    "ExposureDetectedDetailed2": "This does not mean you’ve been infected. But you should probably take some action.",
+    "SeeGuidance": "What now? See guidance.",
     "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+    "How": "How are exposures decided.",
+    "HowUrl": "https://www.canada.ca/",
     "SignalDataShared": "Thank you for helping to slow the spread",
     "SignalDataSharedDetailed": {
       "One": "For the next {number} day, you’ll get a daily message asking for your  information.\n\nTake care for yourself and your family during this time. ",

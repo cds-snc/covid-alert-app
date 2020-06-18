@@ -59,14 +59,14 @@ const ICONS = {
   'shield-covid': ShieldCovid,
 };
 
-type IconName = keyof typeof ICONS;
+export type IconName = keyof typeof ICONS;
 
 export interface IconProps {
-  name: IconName;
+  name: IconName | undefined;
   size?: number;
 }
 
 export const Icon = ({name, size = 24}: IconProps) => {
-  const IconImpl = ICONS[name];
+  const IconImpl = name !== undefined ? ICONS[name] : null; // eslint-disable-line no-negated-condition
   return IconImpl ? <IconImpl width={size} height={size} /> : null;
 };

@@ -1,10 +1,11 @@
 export const palette = {
-  brandBlue: '#002D42',
+  brandBlue: '#26374A',
   linkBlue: '#0278A4',
   bodyBlack: '#212121',
   bodySubdued: '#5B5B5B',
   greenBright: '#A4DE82',
   white: '#FFFFFF',
+  faded: 'rgba(255, 255, 255, 0.3)',
   fadedTextWhite: 'rgba(255, 255, 255, 0.65)',
   fadedWhite: 'rgba(0, 0, 0, 0.2)',
   successLight: '#D8EECA',
@@ -19,15 +20,25 @@ export const palette = {
   neutralGrey: '#F4F4F4',
   darkGrey: '#cecece',
   fadedYellow: '#FFF5D9',
+  warn: '#FFCDB3',
+  nutmeg: '#5F3500',
+  mint: '#B3DFC0',
+  black: '#000000',
 };
 
 const theme = {
   colors: {
     mainBackground: palette.brandBlue,
+    regionCoveredBackground: palette.mint,
+    exposureBackground: palette.warn,
+    greenBackground: palette.greenBright,
     overlayBackground: palette.white,
     overlayBodyText: palette.bodyBlack,
     fadedBackground: palette.fadedWhite,
-    bodyText: palette.white,
+    bodyText: palette.bodyBlack,
+    bodyTitleWhite: palette.white,
+    bodyTextWhite: palette.white,
+    bodyTextNutmeg: palette.nutmeg,
     bodyTextFaded: palette.fadedTextWhite,
     bodyTextSubdued: palette.bodySubdued,
     statusSuccess: palette.success,
@@ -114,6 +125,30 @@ const theme = {
     },
   },
   buttonVariants: {
+    opaqueFlatBlackText: {
+      color: palette.faded,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    opaqueFlatWhiteText: {
+      color: palette.faded,
+      height: 52,
+      textColor: palette.white,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
     bigFlat: {
       color: palette.linkBlue,
       height: 52,

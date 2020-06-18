@@ -1,22 +1,54 @@
-import React from 'react';
-import {Text, Box, LastCheckedDisplay} from 'components';
+import React, {useCallback} from 'react';
+import {Linking} from 'react-native';
+import {Text, Box, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {useStorage} from 'services/StorageService';
+import {getRegionCase} from 'shared/RegionLogic';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const NoExposureView = () => {
   const [i18n] = useI18n();
+  const {region} = useStorage();
+
+  const regionCase = getRegionCase(region);
+
+  // console.log('the region', regionCase);
+
+  const titleTextColor = 'bodyTitleWhite';
+  const bodyTextColor = 'bodyTextWhite';
+  const buttonVariant = 'opaqueFlatWhiteText';
+
+  const onAction = useCallback(() => {
+    Linking.openURL(i18n.translate('Home.GuidanceUrl')).catch(err => console.error('An error occurred', err));
+  }, [i18n]);
+
+  const regionTranslationsBody = {
+    noRegionSet: 'Home.NoExposureDetected.NoRegionSetBody',
+    regionCovered: 'Home.NoExposureDetected.RegionCoveredBody',
+    regionNotCovered: 'Home.NoExposureDetected.RegionNotCoveredBody',
+  };
+
+  const regionTranslationsTitle = {
+    noRegionSet: 'Home.NoExposureDetected.NoRegionSetTitle',
+    regionCovered: 'Home.NoExposureDetected.RegionCoveredTitle',
+    regionNotCovered: 'Home.NoExposureDetected.RegionNotCoveredTitle',
+  };
+
   return (
-    <BaseHomeView animationSource={require('assets/animation/blue-dot.json')}>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" textAlign="center" accessibilityRole="header">
-        {i18n.translate('Home.NoExposureDetected')}
+    // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
+    <BaseHomeView>
+      <Text variant="bodyTitle" color={titleTextColor} marginBottom="l" accessibilityRole="header">
+        {i18n.translate(regionTranslationsTitle[regionCase])}
       </Text>
-      <Text variant="bodyText" color="bodyText" textAlign="center">
-        {i18n.translate('Home.NoExposureDetectedDetailed')}
+      <Text variant="bodyText" color={bodyTextColor} marginBottom="l">
+        {i18n.translate(regionTranslationsBody[regionCase])}
       </Text>
-      <LastCheckedDisplay />
-      {/* centering looks off without this, because other screens with animations have a button */}
-      <Box height={50} />
+      {/* <LastCheckedDisplay /> */}
+
+      <Box alignSelf="stretch" marginTop="l" marginBottom="s">
+        <Button text={i18n.translate('Home.How')} variant={buttonVariant} externalLink onPress={onAction} />
+      </Box>
     </BaseHomeView>
   );
 };
