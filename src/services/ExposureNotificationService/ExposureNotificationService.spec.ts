@@ -110,7 +110,7 @@ describe('ExposureNotificationService', () => {
   });
 
   it('restores "diangosed" status from storage', async () => {
-    when(secureStorage.getItem)
+    when(storage.getItem)
       .calledWith('submissionCycleStartedAt')
       .mockResolvedValueOnce(new OriginalDate('2020-05-18T04:10:00+0000').toString());
     dateSpy.mockImplementation((...args) =>
@@ -131,13 +131,13 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((...args) =>
         args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
       );
-      when(secureStorage.getItem)
+      when(storage.getItem)
         .calledWith('submissionCycleStartedAt')
         .mockResolvedValue(new OriginalDate('2020-05-14T04:10:00+0000').toString());
     });
 
     it('for positive', async () => {
-      when(secureStorage.getItem)
+      when(storage.getItem)
         .calledWith('submissionLastCompletedAt')
         .mockResolvedValue(new OriginalDate('2020-05-18T04:10:00+0000').toString());
 
@@ -149,7 +149,7 @@ describe('ExposureNotificationService', () => {
       );
     });
     it('for negative', async () => {
-      when(secureStorage.getItem)
+      when(storage.getItem)
         .calledWith('submissionLastCompletedAt')
         .mockResolvedValue(new OriginalDate('2020-05-19T04:10:00+0000').getTime().toString());
       await service.start();
@@ -164,10 +164,10 @@ describe('ExposureNotificationService', () => {
   it('needsSubmission status recalculates daily', async () => {
     let currentDateString = '2020-05-19T04:10:00+0000';
 
-    when(secureStorage.getItem)
+    when(storage.getItem)
       .calledWith('submissionCycleStartedAt')
       .mockResolvedValue(new OriginalDate('2020-05-14T04:10:00+0000').getTime().toString());
-    when(secureStorage.getItem)
+    when(storage.getItem)
       .calledWith('submissionLastCompletedAt')
       .mockResolvedValue(null);
 
@@ -187,20 +187,16 @@ describe('ExposureNotificationService', () => {
       .mockResolvedValueOnce('{}');
     await service.fetchAndSubmitKeys();
 
-    expect(secureStorage.setItem).toHaveBeenCalledWith(
+    expect(storage.setItem).toHaveBeenCalledWith(
       'submissionLastCompletedAt',
       new OriginalDate(currentDateString).getTime().toString(),
-      {
-        sharedPreferencesName: 'covidShieldSharedPreferences',
-        keychainService: 'covidShieldKeychain',
-      },
     );
 
     expect(service.exposureStatus.get()).toStrictEqual(
       expect.objectContaining({type: 'diagnosed', needsSubmission: false}),
     );
 
-    when(secureStorage.getItem)
+    when(storage.getItem)
       .calledWith('submissionLastCompletedAt')
       .mockResolvedValue(new OriginalDate(currentDateString).getTime().toString());
 
@@ -214,7 +210,7 @@ describe('ExposureNotificationService', () => {
 
     // advance 14 days
     currentDateString = '2020-05-30T04:10:00+0000';
-    when(secureStorage.getItem)
+    when(storage.getItem)
       .calledWith('submissionLastCompletedAt')
       .mockResolvedValue(new OriginalDate('2020-05-28T04:10:00+0000').getTime().toString());
 
