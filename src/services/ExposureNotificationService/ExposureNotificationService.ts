@@ -90,7 +90,7 @@ export class ExposureNotificationService {
     }
     // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
     const timestamp = await this.storage.getItem('lastCheckTimeStamp');
-    const submissionCycleStartedAtStr = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT, SECURE_OPTIONS);
+    const submissionCycleStartedAtStr = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);
     if (submissionCycleStartedAtStr) {
       this.exposureStatus.set({
         type: 'diagnosed',
