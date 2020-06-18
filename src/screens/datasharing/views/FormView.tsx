@@ -36,7 +36,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
       <Box paddingHorizontal="m" marginBottom="m">
         <CodeInput value={value} onChange={onChange} accessibilityLabel={i18n.translate('DataUpload.InputLabel')} />
       </Box>
-      <Box flex={1} paddingHorizontal="m">
+      <Box flex={1} paddingHorizontal="m" marginBottom="m">
         <Button
           loading={loading}
           disabled={value.length !== 8}
