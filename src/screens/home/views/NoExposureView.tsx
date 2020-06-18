@@ -12,11 +12,11 @@ export const NoExposureView = () => {
       <Text variant="bodyTitle" color="bodyTextNutmeg" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected')}
       </Text>
-      <Text variant="bodyText" color="bodyText">
-        {i18n.translate('Home.NoExposureDetectedDetailed')}
+      <Text variant="bodyText" color="bodyText" marginBottom="l">
+        {i18n.translate('Home.NoExposureDetectedDetailed1')}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginTop="l">
-        {i18n.translate('Home.NoExposureDetectedProvinces')}
+      <Text variant="bodyText" color="bodyText">
+        {i18n.translate('Home.NoExposureDetectedDetailed2')}
       </Text>
       {/* <LastCheckedDisplay /> */}
       {/* centering looks off without this, because other screens with animations have a button */}
