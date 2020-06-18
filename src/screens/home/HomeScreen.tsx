@@ -6,7 +6,6 @@ import {checkNotifications, requestNotifications} from 'react-native-permissions
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
-
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
@@ -20,6 +19,16 @@ import {Theme} from 'shared/theme';
 import {useTheme} from '@shopify/restyle';
 
 type NotificationPermission = 'denied' | 'granted' | 'unavailable' | 'blocked';
+type BackgroundColor = keyof Theme['colors'];
+
+interface ContentProps {
+  setBackgroundColor: (color: string) => void;
+}
+
+const strToBackgroundColor = (backgroundColor: string): BackgroundColor => {
+  let color: BackgroundColor = backgroundColor as BackgroundColor;
+  return color;
+};
 
 const useNotificationPermissionStatus = (): [string, () => void] => {
   const [status, setStatus] = useState<NotificationPermission>('granted');
@@ -46,15 +55,10 @@ const useNotificationPermissionStatus = (): [string, () => void] => {
   return [status === 'granted' ? status : 'denied', request];
 };
 
-interface ContentProps {
-  setBackgroundColor: (color: string) => void;
-}
-
 const Content = ({setBackgroundColor}: ContentProps) => {
   const [exposureStatus, updateExposureStatus] = useExposureStatus();
   const [systemStatus, updateSystemStatus] = useSystemStatus();
   const startSystem = useStartENSystem();
-  const theme = useTheme<Theme>();
 
   useEffect(() => {
     startSystem();
@@ -93,7 +97,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
           return <BluetoothDisabledView />;
         case SystemStatus.Active:
         case SystemStatus.Unknown:
-          setBackgroundColor('greenBackground');
+          setBackgroundColor('exposureBackground');
           return <NoExposureView />;
       }
   }
@@ -112,6 +116,7 @@ export const HomeScreen = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus === 'denied';
+
   const collapsedContent = useMemo(
     () => (
       <CollapsedOverlayView
@@ -124,9 +129,10 @@ export const HomeScreen = () => {
   );
 
   const maxWidth = useMaxContentWidth();
-  const [backgroundColor, setBackgroundColor] = useState<string>('greenBackground');
+  const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
+
   return (
-    <Box flex={1} alignItems="center" backgroundColor={backgroundColor}>
+    <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
       <Box flex={1} maxWidth={maxWidth} paddingTop="m">
         <Content setBackgroundColor={setBackgroundColor} />
       </Box>

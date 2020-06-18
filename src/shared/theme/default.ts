@@ -19,16 +19,20 @@ export const palette = {
   neutralGrey: '#F4F4F4',
   darkGrey: '#cecece',
   fadedYellow: '#FFF5D9',
+  warn: '#FFCDB3',
+  nutmeg: '#5F3500',
 };
 
 const theme = {
   colors: {
     mainBackground: palette.brandBlue,
+    exposureBackground: palette.warn,
     greenBackground: palette.greenBright,
     overlayBackground: palette.white,
     overlayBodyText: palette.bodyBlack,
     fadedBackground: palette.fadedWhite,
-    bodyText: palette.white,
+    bodyText: palette.bodyBlack,
+    bodyTextNutmeg: palette.nutmeg,
     bodyTextFaded: palette.fadedTextWhite,
     bodyTextSubdued: palette.bodySubdued,
     statusSuccess: palette.success,
