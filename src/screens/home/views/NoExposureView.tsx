@@ -12,7 +12,7 @@ export const NoExposureView = () => {
 
   const regionCase = getRegionCase(region);
 
-  console.log('the region', regionCase);
+  // console.log('the region', regionCase);
 
   const titleTextColor = 'bodyTitleWhite';
   const bodyTextColor = 'bodyTextWhite';
