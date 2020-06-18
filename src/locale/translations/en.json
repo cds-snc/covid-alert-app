@@ -16,19 +16,19 @@
     "SeeGuidance": "What now? See guidance.",
     "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
     "How": "How are exposures decided.",
-    "HowURL": "#",
+    "HowUrl": "https://www.canada.ca/",
     "SignalDataShared": "Thank you for helping to slow the spread",
     "SignalDataSharedDetailed": {
-      "One": "You will receive a notification asking you to share your random IDs each day for the next {number} day.",
-      "Other": "You will receive a notification asking you to share your random IDs each day for the next {number} days."
+      "One": "For the next {number} day, you’ll get a daily message asking for your  information.\n\nTake care for yourself and your family during this time. ",
+      "Other": "For the next {number} days, you’ll get a daily message asking for your  information.\n\nTake care for yourself and your family during this time."
     },
     "SignalDataSharedCTA": "Track your symptoms",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
-    "DailyShare": "Share your new random IDs",
-    "DailyShareDetailed": "Sharing your data helps others to know if they have possibly been exposed to COVID-19.",
-    "ShareRandomIDsCTA": "Share your random IDs",
+    "DailyShare": "Share your new information",
+    "DailyShareDetailed": "Sharing your information helps others to know if they've been exposed to COVID-19. Then they can isolate and slow the spread to others. No details about who you are will be shared.",
+    "ShareRandomIDsCTA": "Notify people you've been near",
     "BluetoothDisabled": "Bluetooth is off",
-    "EnableBluetoothCTA": "Bluetooth is used to collect and share random IDs needed for StopCOVID to work.",
+    "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so StopCOVID can work.",
     "TurnOnBluetooth": "Turn on Bluetooth",
     "ExposureNotificationsDisabled": "Exposure notifications are off",
     "ExposureNotificationsDisabledDetailed": "Exposure notifications are needed for StopCOVID to work.",
@@ -61,14 +61,14 @@
   "OverlayOpen": {
     "BluetoothCardStatus": "Bluetooth is ",
     "BluetoothCardStatusOff": "OFF",
-    "BluetoothCardBody": "Bluetooth is used to collect and share random IDs needed for StopCOVID to work.",
+    "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so StopCOVID can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
-    "EnterCodeCardTitle": "StopCOVID code",
-    "EnterCodeCardBody": "Has a health care professional asked you to enter a StopCOVID code?",
+    "EnterCodeCardTitle": "Diagnosed with COVID-19?",
+    "EnterCodeCardBody": "You were given an 8-digit number when you were diagnosed. This number tells StopCOVID to notify people you were near.",
     "EnterCodeCardAction": "Enter code",
     "NotificationCardStatus": "Push notifications are ",
     "NotificationCardStatusOff": "OFF",
-    "NotificationCardBody": "You will not receive push notifications if you have possibly been exposed to COVID-19. Timely notification of potential exposure is important in helping to slow the spread of COVID-19.",
+    "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on push notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardStatusOff": "OFF",
@@ -106,8 +106,8 @@
     "Close": "Close"
   },
   "Sharing": {
-    "Title": "Share app",
-    "SubTitle": "Every person using StopCOVID helps to slow the spread of COVID-19. Sharing this app will not share any personal data.",
+    "Title": "Tell your friends about StopCOVID",
+    "SubTitle": "Every person using StopCOVID helps to slow the spread of COVID-19. Sharing this app will not share any of your personal information.",
     "Platform-messages": "Share to Messages",
     "Platform-instagram": "Share to Instagram",
     "More": "More apps",
@@ -138,7 +138,7 @@
   },
   "ThankYou": {
     "Title": "Thank you for helping",
-    "Body": "Exposure notifications are on. You will receive a notification if StopCOVID detects that you have possibly been exposed to COVID-19.",
+    "Body": "Exposure notifications are on. You will receive a message if StopCOVID detects that you've been near someone who has reported a COVID-19 diagnosis.",
     "Dismiss": "Dismiss"
   },
   "DataUpload": {
@@ -159,12 +159,12 @@
     "ErrorAction": "OK"
   },
   "Notification": {
-    "ExposedMessageTitle": "You have possibly been exposed to COVID-19",
-    "ExposedMessageBody": "Based on your random IDs, you have been near someone in the past 14 days who tested positive for COVID-19.",
+    "ExposedMessageTitle": "You’ve been exposed",
+    "ExposedMessageBody": "You’ve been near someone who reported a COVID-19 diagnosis through the app.\n\nThis does not mean you’ve been infected. But you should probably take some action.",
     "OffMessageTitle": "StopCOVID is off",
-    "OffMessageBody": "Turn on StopCOVID to get notified if you have potentially been exposed to COVID-19.",
-    "DailyUploadNotificationTitle": "Share your new random IDs",
-    "DailyUploadNotificationBody": "Sharing your data helps others to know if they have possibly been exposed to COVID-19."
+    "OffMessageBody": "Turn on StopCOVID to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
+    "DailyUploadNotificationTitle": "Share your new informatin about people you were near",
+    "DailyUploadNotificationBody": "Sharing your information helps people know if they've been exposed to COVID-19. Then they can isolate and slow the spread to others. No details about who you are will be shared."
   },
   "Partners": {
     "Label": "Developed in partnership with"
@@ -175,8 +175,8 @@
     "OffStatus": "StopCOVID is off, Tap for more information"
   },
   "RegionPicker": {
-    "Title": "Select your province or territory",
-    "Body": "This helps give you more relevant guidance.\nThis information is only stored on your device and will never be shared with anyone else.",
+    "Title": "Where do you live?",
+    "Body": "Choose the province or territory whose public health guidance you need to follow.\n\nThis information is only stored on your phone and will never be shared with anyone else.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "AB": "Alberta",

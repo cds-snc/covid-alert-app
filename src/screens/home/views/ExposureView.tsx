@@ -7,9 +7,14 @@ import {BaseHomeView} from '../components/BaseHomeView';
 
 export const ExposureView = () => {
   const [i18n] = useI18n();
-  const onAction = useCallback(() => {
+  const onActionGuidance = useCallback(() => {
     Linking.openURL(i18n.translate('Home.GuidanceUrl')).catch(err => console.error('An error occurred', err));
   }, [i18n]);
+
+  const onActionHow = useCallback(() => {
+    Linking.openURL(i18n.translate('Home.HowUrl')).catch(err => console.error('An error occurred', err));
+  }, [i18n]);
+
   return (
     <BaseHomeView>
       <Text variant="bodyTitle" color="bodyTextNutmeg" marginBottom="l" accessibilityRole="header">
@@ -30,11 +35,11 @@ export const ExposureView = () => {
           text={i18n.translate('Home.SeeGuidance')}
           variant="opaqueFlatBlackText"
           externalLink
-          onPress={onAction}
+          onPress={onActionGuidance}
         />
       </Box>
-      <Box alignSelf="stretch">
-        <Button text={i18n.translate('Home.How')} variant="opaqueFlatBlackText" externalLink onPress={onAction} />
+      <Box alignSelf="stretch" marginBottom="s">
+        <Button text={i18n.translate('Home.How')} variant="opaqueFlatBlackText" externalLink onPress={onActionHow} />
       </Box>
     </BaseHomeView>
   );
