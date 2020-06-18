@@ -17,14 +17,14 @@
     "DailyShareDetailed": "Partager vos données aide les autres à savoir s'ils ont possiblement été exposés à la COVID-19.",
     "ShareRandomIDsCTA": "Partagez vos identifiants aléatoires",
     "BluetoothDisabled": "Le Bluetooth est désactivé",
-    "EnableBluetoothCTA": "Le Bluetooth est utilisé pour collecter et partager des identifiants aléatoires nécessaires au fonctionnement de placeholder_name.",
+    "EnableBluetoothCTA": "Le Bluetooth est utilisé pour collecter et partager des identifiants aléatoires nécessaires au fonctionnement de StopCOVID.",
     "TurnOnBluetooth": "Activez le Bluetooth",
     "ExposureNotificationsDisabled": "Les notifications d'exposition à la COVID-19 sont désactivées",
-    "ExposureNotificationsDisabledDetailed": "Les notifications d'exposition à la COVID-19 sont nécessaires au fonctionnement de placeholder_name.",
+    "ExposureNotificationsDisabledDetailed": "Les notifications d'exposition à la COVID-19 sont nécessaires au fonctionnement de StopCOVID.",
     "EnableExposureNotificationsCTA": "Activez les notifications d'exposition à la COVID-19",
     "NoConnectivity": "Aucune connexion Internet",
-    "NoConnectivityDetailed": "placeholder_name a besoin d'un accès Internet pour continuer de vérifier les expositions potentielles à la COVID-19.",
-    "AppName": "placeholder_name",
+    "NoConnectivityDetailed": "StopCOVID a besoin d'un accès Internet pour continuer de vérifier les expositions potentielles à la COVID-19.",
+    "AppName": "StopCOVID",
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
     "LastCheckedMinutes": {
       "One": "Dernière vérification il y a {number} minute",
@@ -40,7 +40,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "placeholder_name est ",
+    "SystemStatus": "StopCOVID est ",
     "SystemStatusOn": "ACTIVÉ",
     "SystemStatusOff": "DÉSACTIVÉ",
     "NotificationStatus": "Les notifications poussées sont ",
@@ -50,10 +50,10 @@
   "OverlayOpen": {
     "BluetoothCardStatus": "Le Bluetooth est ",
     "BluetoothCardStatusOff": "DÉSACTIVÉ",
-    "BluetoothCardBody": "Le Bluetooth est utilisé pour collecter et partager des identifiants aléatoires nécessaires au fonctionnement de placeholder_name.",
+    "BluetoothCardBody": "Le Bluetooth est utilisé pour collecter et partager des identifiants aléatoires nécessaires au fonctionnement de StopCOVID.",
     "BluetoothCardAction": "Activez le Bluetooth",
-    "EnterCodeCardTitle": "Code placeholder_name",
-    "EnterCodeCardBody": "Un professionel de la santé vous a-t-il demandé d'entrer un code placeholder_name?",
+    "EnterCodeCardTitle": "Code StopCOVID",
+    "EnterCodeCardBody": "Un professionel de la santé vous a-t-il demandé d'entrer un code StopCOVID?",
     "EnterCodeCardAction": "Entrez le code",
     "NotificationCardStatus": "Les notifications poussées sont ",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
@@ -61,14 +61,14 @@
     "NotificationCardAction": "Activez les notifications poussées",
     "ExposureNotificationCardStatus": "Les notifications d'exposition à la COVID-19 sont ",
     "ExposureNotificationCardStatusOff": "DÉSACTIVÉES",
-    "ExposureNotificationCardBody": "Les notifications d'exposition à la COVID-19 sont nécessaires au fonctionnement de placeholder_name.",
+    "ExposureNotificationCardBody": "Les notifications d'exposition à la COVID-19 sont nécessaires au fonctionnement de StopCOVID.",
     "ExposureNotificationCardAction": "Activez les notifications d'exposition"
   },
   "Info": {
     "CheckSymptoms": "Vérifier vos symptômes",
     "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
     "TellAFriend": "Partager l'application",
-    "LearnMore": "Comment fonctionne placeholder_name",
+    "LearnMore": "Comment fonctionne StopCOVID",
     "ChangeLanguage": "Changer de langue",
     "Privacy": "Lire la politique de confidentialité"
   },
@@ -83,8 +83,8 @@
     "Close": "Retour"
   },
   "Tutorial": {
-    "step-1Title": "Comment fonctionne placeholder_name",
-    "step-1": "Votre téléphone utilise la fonction Bluetooth pour collecter et partager des identifiants aléatoires avec d'autres téléphones à proximité qui ont l'application placeholder_name. Ces identifiants sont conservés en toute sécurité sur chaque téléphone.",
+    "step-1Title": "Comment fonctionne StopCOVID",
+    "step-1": "Votre téléphone utilise la fonction Bluetooth pour collecter et partager des identifiants aléatoires avec d'autres téléphones à proximité qui ont l'application StopCOVID. Ces identifiants sont conservés en toute sécurité sur chaque téléphone.",
     "step-2Title": "Si vous avez potentiellement été exposé(e) à la COVID-19",
     "step-2": "Vous recevrez une notification si, au cours des 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
     "step-3Title": "Si vous recevez un résultat de test positif à la COVID-19",
@@ -96,11 +96,11 @@
   },
   "Sharing": {
     "Title": "Partager l'application",
-    "SubTitle": "Chaque personne utilisant placeholder_name aide à ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
+    "SubTitle": "Chaque personne utilisant StopCOVID aide à ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
     "Platform-messages": "Partager avec Messages",
     "Platform-instagram": "Partager avec Instagram",
     "More": "Plus d'applications",
-    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l'application placeholder_name : https://covidshield.app",
+    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l'application StopCOVID : https://covidshield.app",
     "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
     "Close": "Fermer"
   },
@@ -111,15 +111,15 @@
   },
   "OnboardingPermissions": {
     "Title": "Vos données sont privées",
-    "Body": "placeholder_name priorise la confidentialité lors d'envois de notifications d'exposition à la COVID-19.",
+    "Body": "StopCOVID priorise la confidentialité lors d'envois de notifications d'exposition à la COVID-19.",
     "Body2": "Vos identifiants aléatoires sont conservés sur votre téléphone exclusivement, à moins que vous décidiez de les partager.",
-    "Body3": "L'utilisation de placeholder_name se fait sur une base volontaire. Vous pouvez supprimer vos identifiants aléatoires à tout moment."
+    "Body3": "L'utilisation de StopCOVID se fait sur une base volontaire. Vous pouvez supprimer vos identifiants aléatoires à tout moment."
   },
   "OnboardingStart": {
     "Title": "Protégez-vous, protégez les autres",
     "Body1": "Recevez une notification si vous avez potentiellement été exposé(e) à la COVID-19.",
     "Body2": "Si vous recevez un résultat de test positif à la COVID-19, vous pouvez choisir de partager vos données de façon anonyme pour aviser ceux qui ont possiblement été exposés.",
-    "TutorialAction": "Découvrez comment placeholder_name fonctionne"
+    "TutorialAction": "Découvrez comment StopCOVID fonctionne"
   },
   "Privacy": {
     "Title": "Politique de confidentialité",
@@ -127,31 +127,31 @@
   },
   "ThankYou": {
     "Title": "Merci d'aider",
-    "Body": "Les notifications d’exposition sont activées. Si placeholder_name détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
+    "Body": "Les notifications d’exposition sont activées. Si StopCOVID détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
     "Dismiss": "OK"
   },
   "DataUpload": {
     "Cancel": "Annuler",
-    "FormIntro": "Entrez votre code placeholder_name à 8 chiffres.",
+    "FormIntro": "Entrez votre code StopCOVID à 8 chiffres.",
     "Action": "Soumettre le code",
-    "InputLabel": "code placeholder_name",
+    "InputLabel": "code StopCOVID",
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
     "ConsentTitle": "Partagez vos identifiants aléatoires",
     "ConsentBody": "Un professionnel de la santé vous a autorisé à partager les identifiants aléatoires conservés sur votre téléphone.",
-    "ConsentBody2": "Si vous partagez vos identifiants aléatoires, ceux qui ont été à proximité de vous au cours des 14 derniers jours avec l'application placeholder_name recevront une notification les avisant qu'ils ont possiblement été exposés à la COVID-19. Cette notification ne contiendra aucune information vous concernant.",
+    "ConsentBody2": "Si vous partagez vos identifiants aléatoires, ceux qui ont été à proximité de vous au cours des 14 derniers jours avec l'application StopCOVID recevront une notification les avisant qu'ils ont possiblement été exposés à la COVID-19. Cette notification ne contiendra aucune information vous concernant.",
     "ConsentBody3": "Vous recevrez une notification par jour lorsque de nouveaux identifiants aléatoires pourront être partagés. Vous devrez chaque fois donner votre autorisation pour que les identifiants aléatoires soient partagés. Le partage est volontaire.",
     "PrivacyPolicyLink": "Voir la politique de confidentialité",
     "ConsentAction": "J'accepte",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "ErrorTitle": "Code non reconnu",
-    "ErrorBody": "Votre code placeholder_name n'a pas pu être reconnu. Essayez de nouveau.",
+    "ErrorBody": "Votre code StopCOVID n'a pas pu être reconnu. Essayez de nouveau.",
     "ErrorAction": "OK"
   },
   "Notification": {
     "ExposedMessageTitle": "Vous avez possiblement été exposé(e)",
     "ExposedMessageBody": "Selon vos identifiants aléatoires, au cours des 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
-    "OffMessageTitle": "placeholder_name est désactivé",
-    "OffMessageBody": "Activez placeholder_name pour recevoir une notification si vous avez potentiellement été exposé(e) à la COVID-19.",
+    "OffMessageTitle": "StopCOVID est désactivé",
+    "OffMessageBody": "Activez StopCOVID pour recevoir une notification si vous avez potentiellement été exposé(e) à la COVID-19.",
     "DailyUploadNotificationTitle": "Partagez vos nouveaux identifiants aléatoires",
     "DailyUploadNotificationBody": "Partager vos données aide les autres à savoir s'ils ont possiblement été exposés à la COVID-19."
   },
