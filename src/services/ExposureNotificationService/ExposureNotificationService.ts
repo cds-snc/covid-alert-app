@@ -129,7 +129,7 @@ export class ExposureNotificationService {
   }
 
   async submissionCycleEndsAt(): Promise<Date> {
-    const cycleStart = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT, SECURE_OPTIONS);
+    const cycleStart = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);
     return addDays(cycleStart ? new Date(parseInt(cycleStart, 10)) : new Date(), 14);
   }
 
