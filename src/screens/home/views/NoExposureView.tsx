@@ -4,6 +4,7 @@ import {Text, Box, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
+
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const NoExposureView = () => {

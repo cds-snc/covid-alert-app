@@ -67,6 +67,6 @@ export interface IconProps {
 }
 
 export const Icon = ({name, size = 24}: IconProps) => {
-  const IconImpl = name !== undefined ? ICONS[name] : null;
+  const IconImpl = name !== undefined ? ICONS[name] : null; // eslint-disable-line no-negated-condition
   return IconImpl ? <IconImpl width={size} height={size} /> : null;
 };
