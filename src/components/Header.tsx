@@ -4,6 +4,7 @@ import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
+import {Theme} from 'shared/theme';
 
 import {Box} from './Box';
 import {Icon} from './Icon';
@@ -12,6 +13,8 @@ import {Text} from './Text';
 export interface HeaderProps {
   isOverlay?: boolean;
 }
+
+type Color = keyof Theme['colors'];
 
 export const Header = ({isOverlay}: HeaderProps) => {
   const [i18n] = useI18n();
@@ -26,6 +29,8 @@ export const Header = ({isOverlay}: HeaderProps) => {
     textColor = 'bodyTitleWhite';
   }
 
+  const headerTextColor: Color = textColor as Color;
+
   const onLogoPress = useCallback(() => {
     navigation.dispatch(DrawerActions.openDrawer());
   }, [navigation]);
@@ -36,7 +41,7 @@ export const Header = ({isOverlay}: HeaderProps) => {
           <Icon size={20} name="maple-leaf" />
         </Box>
 
-        <Text variant="homeHeader" color={textColor}>
+        <Text variant="homeHeader" color={headerTextColor}>
           {i18n.translate('Home.AppName')}
         </Text>
       </Box>
