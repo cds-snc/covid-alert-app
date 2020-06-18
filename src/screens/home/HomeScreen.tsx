@@ -7,7 +7,6 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 import {Theme} from 'shared/theme';
-import {useTheme} from '@shopify/restyle';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 
@@ -98,8 +97,8 @@ const Content = ({setBackgroundColor}: ContentProps) => {
     };
   }, [updateExposureStatus, updateSystemStatus]);
 
-  // setBackgroundColor('exposureBackground');
-  //return <ExposureView />;
+  setBackgroundColor('exposureBackground');
+  return <ExposureView />;
 
   switch (exposureStatus.type) {
     case 'exposed':

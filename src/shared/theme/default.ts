@@ -36,6 +36,8 @@ const theme = {
     overlayBodyText: palette.bodyBlack,
     fadedBackground: palette.fadedWhite,
     bodyText: palette.bodyBlack,
+    bodyTitleWhite: palette.white,
+    bodyTextWhite: palette.white,
     bodyTextNutmeg: palette.nutmeg,
     bodyTextFaded: palette.fadedTextWhite,
     bodyTextSubdued: palette.bodySubdued,
@@ -123,10 +125,22 @@ const theme = {
     },
   },
   buttonVariants: {
-    opaqueFlat: {
+    opaqueFlatBlackText: {
       color: palette.faded,
       height: 52,
       textColor: palette.black,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    opaqueFlatWhiteText: {
+      color: palette.faded,
+      height: 52,
+      textColor: palette.white,
       fontFamily: 'Noto Sans',
       fontSize: 18,
       borderWidth: undefined,
