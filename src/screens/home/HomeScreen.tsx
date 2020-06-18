@@ -81,8 +81,8 @@ const Content = ({setBackgroundColor}: ContentProps) => {
     };
   }, [updateExposureStatus, updateSystemStatus]);
 
-  // setBackgroundColor('exposureBackground');
-  // return <ExposureView />;
+  setBackgroundColor('exposureBackground');
+  return <ExposureView />;
 
   switch (exposureStatus.type) {
     case 'exposed':

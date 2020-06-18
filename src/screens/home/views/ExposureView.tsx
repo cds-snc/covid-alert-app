@@ -26,10 +26,10 @@ export const ExposureView = () => {
 
       <LastCheckedDisplay />
       <Box alignSelf="stretch" marginTop="l">
-        <Button text={i18n.translate('Home.SeeGuidance')} variant="bigFlat" externalLink onPress={onAction} />
+        <Button text={i18n.translate('Home.SeeGuidance')} variant="opaqueFlat" externalLink onPress={onAction} />
       </Box>
       <Box alignSelf="stretch" marginTop="l">
-        <Button text={i18n.translate('Home.How')} variant="bigFlat" externalLink onPress={onAction} />
+        <Button text={i18n.translate('Home.How')} variant="opaqueFlat" externalLink onPress={onAction} />
       </Box>
     </BaseHomeView>
   );

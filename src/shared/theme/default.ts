@@ -119,6 +119,19 @@ const theme = {
     },
   },
   buttonVariants: {
+    opaqueFlat: {
+      color: palette.white,
+      opacity: 0.2,
+      height: 52,
+      textColor: palette.white,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
     bigFlat: {
       color: palette.linkBlue,
       height: 52,
