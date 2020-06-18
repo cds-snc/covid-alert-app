@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, Box} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
-import {Region} from 'shared/Region';
+import {getRegionCase} from 'shared/RegionLogic';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -10,20 +10,7 @@ export const NoExposureView = () => {
   const [i18n] = useI18n();
   const {region} = useStorage();
 
-  const isRegionCovered = (region: Region) => {
-    const onboardedCovered = ['ON'];
-    if (onboardedCovered.indexOf(region) > -1) {
-      return true;
-    }
-    return false;
-  };
-
-  let regionCase = 'regionNotCovered';
-  if (!region) {
-    regionCase = 'noRegionSet';
-  } else if (isRegionCovered(region)) {
-    regionCase = 'regionCovered';
-  }
+  const regionCase = getRegionCase(region);
 
   const regionTranslationsBody = {
     noRegionSet: 'Home.NoExposureDetected.NoRegionSetBody',
