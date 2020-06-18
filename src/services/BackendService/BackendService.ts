@@ -64,7 +64,7 @@ export class BackendService implements BackendInterface {
           keyData: Buffer.from(key.keyData, 'base64'),
           rollingStartIntervalNumber: key.rollingStartNumber,
           transmissionRiskLevel: key.transmissionRiskLevel,
-          rollingPeriod: key.rollingPeriod,
+          rollingPeriod: 144,
         }),
       ),
     });
