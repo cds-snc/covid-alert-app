@@ -17,14 +17,14 @@
     "DailyShareDetailed": "Compartilhar seus dados ajuda outras pessoas a saber se elas foram expostas ao COVID-19.",
     "ShareRandomIDsCTA": "Compartilhe seus IDs aleatórios",
     "BluetoothDisabled": "Bluetooth desligado",
-    "EnableBluetoothCTA": "O Bluetooth é usado para coletar e compartilhar IDs aleatórios necessários para o COVID Shield funcionar.",
+    "EnableBluetoothCTA": "O Bluetooth é usado para coletar e compartilhar IDs aleatórios necessários para o StopCOVID funcionar.",
     "TurnOnBluetooth": "Ligar o Bluetooth",
     "ExposureNotificationsDisabled": "As notificações de exposição estão desligadas",
-    "ExposureNotificationsDisabledDetailed": "São necessárias notificações de exposição para que o COVID Shield funcione.",
+    "ExposureNotificationsDisabledDetailed": "São necessárias notificações de exposição para que o StopCOVID funcione.",
     "EnableExposureNotificationsCTA": "Ligar notificações de exposição",
     "NoConnectivity": "Sem conexão à internet",
-    "NoConnectivityDetailed": "O COVID Shield precisa de acesso à Internet para continuar verificando à potenciais exposições.",
-    "AppName": "COVID Shield",
+    "NoConnectivityDetailed": "O StopCOVID precisa de acesso à Internet para continuar verificando à potenciais exposições.",
+    "AppName": "StopCOVID",
     "LastCheckedMinutes": {
       "One": "Última verificação há {number} minuto",
       "Other": "Última verificação há {number} minutos"
@@ -39,7 +39,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "COVID Shield está ",
+    "SystemStatus": "StopCOVID está ",
     "SystemStatusOn": "LIGADO",
     "SystemStatusOff": "DESLIGADO",
     "NotificationStatus": "As notificações estão ",
@@ -49,10 +49,10 @@
   "OverlayOpen": {
     "BluetoothCardStatus": "Bluetooth está ",
     "BluetoothCardStatusOff": "DESLIGADO",
-    "BluetoothCardBody": "O Bluetooth é usado para coletar e compartilhar IDs aleatórios necessários para o COVID Shield funcionar.",
+    "BluetoothCardBody": "O Bluetooth é usado para coletar e compartilhar IDs aleatórios necessários para o StopCOVID funcionar.",
     "BluetoothCardAction": "Ligar o Bluetooth",
-    "EnterCodeCardTitle": "Código do COVID Shield",
-    "EnterCodeCardBody": "Um profissional de saúde pediu para você inserir um código COVID Shield?",
+    "EnterCodeCardTitle": "Código do StopCOVID",
+    "EnterCodeCardBody": "Um profissional de saúde pediu para você inserir um código StopCOVID?",
     "EnterCodeCardAction": "Insira o código",
     "NotificationCardStatus": "As notificações estão ",
     "NotificationCardStatusOff": "DESLIGADAS",
@@ -60,14 +60,14 @@
     "NotificationCardAction": "Ligar notificações",
     "ExposureNotificationCardStatus": "As notificações de exposição estão ",
     "ExposureNotificationCardStatusOff": "DESLIGADAS",
-    "ExposureNotificationCardBody": "São necessárias notificações de exposição para que o COVID Shield funcione.",
+    "ExposureNotificationCardBody": "São necessárias notificações de exposição para que o StopCOVID funcione.",
     "ExposureNotificationCardAction": "Ligar notificações de exposição"
   },
   "Info": {
     "CheckSymptoms": "Verifique os sintomas",
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Compartilhe o aplicativo",
-    "LearnMore": "Como o COVID Shield funciona",
+    "LearnMore": "Como o StopCOVID funciona",
     "ChangeLanguage": "Mudar idioma",
     "Privacy": "Leia a política de privacidade"
   },
@@ -82,8 +82,8 @@
     "Close": "Voltar"
   },
   "Tutorial": {
-    "step-1Title": "Como o COVID Shield funciona",
-    "step-1": "Seu telefone usa o Bluetooth para coletar e compartilhar IDs aleatórios com telefones próximos a você com o COVID Shield instalado. Esses IDs são armazenados com segurança em cada telefone.",
+    "step-1Title": "Como o StopCOVID funciona",
+    "step-1": "Seu telefone usa o Bluetooth para coletar e compartilhar IDs aleatórios com telefones próximos a você com o StopCOVID instalado. Esses IDs são armazenados com segurança em cada telefone.",
     "step-2Title": "Se você foi potencialmente exposto ao COVID-19",
     "step-2": "Você receberá uma notificação se esteve próximo de alguém nos últimos 14 dias que testou positivo para COVID-19.",
     "step-3Title": "Se você testar positivo para COVID-19",
@@ -95,11 +95,11 @@
   },
   "Sharing": {
     "Title": "Compartilhe o aplicativo",
-    "SubTitle": "Todas as pessoas que usam o COVID Shield ajudam a diminuir a propagação do COVID-19. Compartilhando este aplicativo não compartilhará dados pessoais.",
+    "SubTitle": "Todas as pessoas que usam o StopCOVID ajudam a diminuir a propagação do COVID-19. Compartilhando este aplicativo não compartilhará dados pessoais.",
     "Platform-messages": "Compartilhar em Mensagens",
     "Platform-instagram": "Compartilhar no Instagram",
     "More": "Mais aplicativos",
-    "Message": "Junte-se a mim e ajude a diminuir a propagação do COVID-19. Baixe o aplicativo COVID Shield: https://covidshield.app",
+    "Message": "Junte-se a mim e ajude a diminuir a propagação do COVID-19. Baixe o aplicativo StopCOVID: https://covidshield.app",
     "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
     "Close": "Fechar"
   },
@@ -110,15 +110,15 @@
   },
   "OnboardingPermissions": {
     "Title": "Seus dados são privados",
-    "Body": "O COVID Shield adota uma abordagem de privacidade em primeiro lugar na notificação de exposição.",
+    "Body": "O StopCOVID adota uma abordagem de privacidade em primeiro lugar na notificação de exposição.",
     "Body2": "Seus IDs aleatórios são armazenados exclusivamente em seu telefone, a menos que você os compartilhe.",
-    "Body3": "O uso do COVID Shield é voluntário. Você pode excluir seus IDs aleatórios a qualquer momento."
+    "Body3": "O uso do StopCOVID é voluntário. Você pode excluir seus IDs aleatórios a qualquer momento."
   },
   "OnboardingStart": {
     "Title": "Mantenha você e os outros seguros",
     "Body1": "Seja notificado se você foi potencialmente exposto ao COVID-19.",
     "Body2": "Se você testar positivo para COVID-19, poderá compartilhar seus dados anonimamente para que outras pessoas possam ser notificadas sobre uma possível exposição.",
-    "TutorialAction": "Saiba como o COVID Shield funciona"
+    "TutorialAction": "Saiba como o StopCOVID funciona"
   },
   "Privacy": {
     "Title": "Política de privacidade",
@@ -126,30 +126,30 @@
   },
   "ThankYou": {
     "Title": "Obrigado por ajudar",
-    "Body": "As notificações de exposição estão ativadas. Você receberá uma notificação se o COVID Shield detectar que você foi exposto ao COVID-19.",
+    "Body": "As notificações de exposição estão ativadas. Você receberá uma notificação se o StopCOVID detectar que você foi exposto ao COVID-19.",
     "Dismiss": "Dispensar"
   },
   "DataUpload": {
     "Cancel": "Cancelar",
-    "FormIntro": "Digite seu código COVID Shield de 8 dígitos.",
+    "FormIntro": "Digite seu código StopCOVID de 8 dígitos.",
     "Action": "Enviar código",
     "InfoSmall": "Seus IDs aleatórios não serão compartilhados, a menos que você permita na próxima etapa.",
     "ConsentTitle": "Compartilhe seus IDs aleatórios",
     "ConsentBody": "Você recebeu acesso de um profissional de saúde para compartilhar os IDs aleatórios armazenados no seu telefone.",
-    "ConsentBody2": "Se você compartilhar seus IDs aleatórios, outras pessoas com a COVID Shield que estiveram perto de você nos últimos 14 dias receberão uma notificação de que elas possivelmente foram expostas. Esta notificação não incluirá nenhuma informação sobre você.",
+    "ConsentBody2": "Se você compartilhar seus IDs aleatórios, outras pessoas com a StopCOVID que estiveram perto de você nos últimos 14 dias receberão uma notificação de que elas possivelmente foram expostas. Esta notificação não incluirá nenhuma informação sobre você.",
     "ConsentBody3": "Você será notificado uma vez por dia quando novos IDs aleatórios estiverem disponíveis para serem compartilhados. Você deve conceder permissão cada vez para que os IDs aleatórios sejam compartilhados. Compartilhar é voluntário.",
     "PrivacyPolicyLink": "Ver política de privacidade",
     "ConsentAction": "Concordo",
     "ShareToast": "IDs aleatórios compartilhados com sucesso",
     "ErrorTitle": "Código não reconhecido",
-    "ErrorBody": "Não foi possível reconhecer seu código COVID Shield. Por favor, tente novamente.",
+    "ErrorBody": "Não foi possível reconhecer seu código StopCOVID. Por favor, tente novamente.",
     "ErrorAction": "OK"
   },
   "Notification": {
     "ExposedMessageTitle": "Você possivelmente foi exposto ao COVID-19",
     "ExposedMessageBody": "Com base nos seus IDs aleatórios, você esteve perto de alguém nos últimos 14 dias que testou positivo para COVID-19.",
-    "OffMessageTitle": "O COVID Shield está desligado",
-    "OffMessageBody": "Ligue o COVID Shield para ser notificado se você tiver sido potencialmente exposto ao COVID-19.",
+    "OffMessageTitle": "O StopCOVID está desligado",
+    "OffMessageBody": "Ligue o StopCOVID para ser notificado se você tiver sido potencialmente exposto ao COVID-19.",
     "DailyUploadNotificationTitle": "Compartilhe seus novos IDs aleatórios",
     "DailyUploadNotificationBody": "Compartilhar seus dados ajuda outras pessoas a saber se elas foram expostas ao COVID-19."
   },
