@@ -26,6 +26,7 @@ import ShareHeading from 'assets/share-heading.svg';
 import SheetHandleBar from 'assets/sheet-handle-bar.svg';
 import ShieldActive from 'assets/shield-active.svg';
 import ShieldCovid from 'assets/shield-covid.svg';
+import MapleLeaf from 'assets/maple-leaf.svg';
 import ShieldDisabled from 'assets/shield-disabled.svg';
 
 const ICONS = {
@@ -57,6 +58,7 @@ const ICONS = {
   'shield-disabled': ShieldDisabled,
   'shield-active': ShieldActive,
   'shield-covid': ShieldCovid,
+  'maple-leaf': MapleLeaf,
 };
 
 export type IconName = keyof typeof ICONS;

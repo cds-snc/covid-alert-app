@@ -21,7 +21,7 @@ export const Header = ({isOverlay}: HeaderProps) => {
     <TouchableWithoutFeedback onPress={onLogoPress}>
       <Box flexDirection="row" alignItems="center" justifyContent="center" marginBottom="l">
         <Box marginHorizontal="s">
-          <Icon size={20} name="shield-covid" />
+          <Icon size={20} name="maple-leaf" />
         </Box>
         <Text variant="homeHeader" color={isOverlay ? 'overlayBodyText' : 'bodyText'}>
           {i18n.translate('Home.AppName')}
