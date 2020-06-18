@@ -20,16 +20,21 @@ export const DiagnosedView = () => {
   const daysDiff = daysBetween(new Date(), exposureStatus.cycleEndsAt);
 
   return (
-    <BaseHomeView animationSource={require('assets/animation/yellow-dot.json')}>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+    <BaseHomeView>
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.SignalDataShared')}
         {/* No exposure detected */}
       </Text>
-      <Text variant="bodyText" color="bodyText" textAlign="center" marginBottom="l">
+      <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate(pluralizeKey('Home.SignalDataSharedDetailed', daysDiff), {number: daysDiff})}
       </Text>
-      <Box alignSelf="stretch">
-        <Button text={i18n.translate('Home.SignalDataSharedCTA')} variant="bigFlat" externalLink onPress={onAction} />
+      <Box alignSelf="stretch" marginBottom="l">
+        <Button
+          text={i18n.translate('Home.SignalDataSharedCTA')}
+          variant="opaqueGrey"
+          externalLink
+          onPress={onAction}
+        />
       </Box>
     </BaseHomeView>
   );

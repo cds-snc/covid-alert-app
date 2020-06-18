@@ -104,6 +104,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
     case 'exposed':
       return <ExposureView />;
     case 'diagnosed':
+      setBackgroundColor('lighterBlueBackground');
       return exposureStatus.needsSubmission ? <DiagnosedShareView /> : <DiagnosedView />;
     case 'monitoring':
     default:
