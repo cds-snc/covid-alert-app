@@ -20,13 +20,11 @@ export const NoExposureView = () => {
     return false;
   };
 
-  let regionCase = 'noRegionSet';
+  let regionCase = 'regionNotCovered';
   if (!region) {
     regionCase = 'noRegionSet';
   } else if (isRegionCovered(region)) {
     regionCase = 'regionCovered';
-  } else {
-    regionCase = 'regionNotCovered';
   }
 
   const regionTranslations = {
@@ -44,10 +42,13 @@ export const NoExposureView = () => {
         {i18n.translate(regionTranslations[regionCase])}
       </Text>
       <LastCheckedDisplay />
-      {/* centering looks off without this, because other screens with animations have a button */}
-      <Box alignSelf="stretch" marginTop="l">
-        <Button text={i18n.translate('Home.ChooseRegion')} variant="bigFlat" onPress={onRegion} />
-      </Box>
+      {regionCase == 'noRegionSet' ? (
+        <Box alignSelf="stretch" marginTop="l">
+          <Button text={i18n.translate('Home.ChooseRegion')} variant="bigFlat" onPress={onRegion} />
+        </Box>
+      ) : (
+        <Box height={50} />
+      )}
     </BaseHomeView>
   );
 };
