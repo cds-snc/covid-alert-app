@@ -2,6 +2,8 @@ import React, {useCallback} from 'react';
 import {TouchableWithoutFeedback} from 'react-native';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
+import {useStorage} from 'services/StorageService';
+import {getRegionCase} from 'shared/RegionLogic';
 
 import {Box} from './Box';
 import {Icon} from './Icon';
@@ -14,6 +16,16 @@ export interface HeaderProps {
 export const Header = ({isOverlay}: HeaderProps) => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
+
+  const {region} = useStorage();
+  const regionCase = getRegionCase(region);
+
+  let textColor = isOverlay ? 'overlayBodyText' : 'bodyText';
+
+  if (regionCase === 'noRegionSet') {
+    textColor = 'bodyTitleWhite';
+  }
+
   const onLogoPress = useCallback(() => {
     navigation.dispatch(DrawerActions.openDrawer());
   }, [navigation]);
@@ -23,7 +35,8 @@ export const Header = ({isOverlay}: HeaderProps) => {
         <Box marginHorizontal="s">
           <Icon size={20} name="maple-leaf" />
         </Box>
-        <Text variant="homeHeader" color={isOverlay ? 'overlayBodyText' : 'bodyText'}>
+
+        <Text variant="homeHeader" color={textColor}>
           {i18n.translate('Home.AppName')}
         </Text>
       </Box>
