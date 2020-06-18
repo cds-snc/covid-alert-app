@@ -86,7 +86,7 @@ export const Button = ({
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleContainerBorderRadius={4} rippleDuration={500} onPress={onPressHandler} {...accessibilityProps}>
+      <Ripple rippleContainerBorderRadius={4} onPress={onPressHandler} {...accessibilityProps}>
         {content}
       </Ripple>
     );
