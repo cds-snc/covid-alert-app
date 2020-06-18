@@ -90,7 +90,7 @@ export class ExposureNotificationService {
     }
     // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
     const timestamp = await this.storage.getItem('lastCheckTimeStamp');
-    const submissionCycleStartedAtStr = await this.secureStorage.getItem(SUBMISSION_CYCLE_STARTED_AT, SECURE_OPTIONS);
+    const submissionCycleStartedAtStr = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT, SECURE_OPTIONS);
     if (submissionCycleStartedAtStr) {
       this.exposureStatus.set({
         type: 'diagnosed',
@@ -129,7 +129,7 @@ export class ExposureNotificationService {
   }
 
   async submissionCycleEndsAt(): Promise<Date> {
-    const cycleStart = await this.secureStorage.getItem(SUBMISSION_CYCLE_STARTED_AT, SECURE_OPTIONS);
+    const cycleStart = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT, SECURE_OPTIONS);
     return addDays(cycleStart ? new Date(parseInt(cycleStart, 10)) : new Date(), 14);
   }
 
@@ -148,11 +148,7 @@ export class ExposureNotificationService {
     const serialized = JSON.stringify(keys);
     await this.secureStorage.setItem(SUBMISSION_AUTH_KEYS, serialized, SECURE_OPTIONS);
     const submissionCycleStartAt = new Date();
-    await this.secureStorage.setItem(
-      SUBMISSION_CYCLE_STARTED_AT,
-      submissionCycleStartAt.getTime().toString(),
-      SECURE_OPTIONS,
-    );
+    await this.storage.setItem(SUBMISSION_CYCLE_STARTED_AT, submissionCycleStartAt.getTime().toString());
     this.exposureStatus.set({
       type: 'diagnosed',
       needsSubmission: true,
@@ -187,13 +183,13 @@ export class ExposureNotificationService {
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type === 'diagnosed') {
-      await this.secureStorage.setItem(SUBMISSION_LAST_COMPLETED_AT, new Date().getTime().toString(), SECURE_OPTIONS);
+      await this.storage.setItem(SUBMISSION_LAST_COMPLETED_AT, new Date().getTime().toString());
       this.exposureStatus.set({...currentStatus, needsSubmission: false});
     }
   }
 
   private async calculateNeedsSubmission(): Promise<boolean> {
-    const lastSubmittedStr = await this.secureStorage.getItem(SUBMISSION_LAST_COMPLETED_AT, SECURE_OPTIONS);
+    const lastSubmittedStr = await this.storage.getItem(SUBMISSION_LAST_COMPLETED_AT);
     const submissionCycleEnds = await this.submissionCycleEndsAt();
     if (!lastSubmittedStr) {
       return true;
