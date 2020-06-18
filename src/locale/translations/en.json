@@ -17,14 +17,14 @@
     "DailyShareDetailed": "Sharing your data helps others to know if they have possibly been exposed to COVID-19.",
     "ShareRandomIDsCTA": "Share your random IDs",
     "BluetoothDisabled": "Bluetooth is off",
-    "EnableBluetoothCTA": "Bluetooth is used to collect and share random IDs needed for COVID Shield to work.",
+    "EnableBluetoothCTA": "Bluetooth is used to collect and share random IDs needed for StopCOVID to work.",
     "TurnOnBluetooth": "Turn on Bluetooth",
     "ExposureNotificationsDisabled": "Exposure notifications are off",
-    "ExposureNotificationsDisabledDetailed": "Exposure notifications are needed for COVID Shield to work.",
+    "ExposureNotificationsDisabledDetailed": "Exposure notifications are needed for StopCOVID to work.",
     "EnableExposureNotificationsCTA": "Turn on exposure notifications",
     "NoConnectivity": "No internet connection",
-    "NoConnectivityDetailed": "COVID Shield needs internet access to continue checking for potential exposure.",
-    "AppName": "COVID Shield",
+    "NoConnectivityDetailed": "StopCOVID needs internet access to continue checking for potential exposure.",
+    "AppName": "StopCOVID",
     "ExternalLinkHint": "Opens in a new window",
     "LastCheckedMinutes": {
       "One": "Last checked {number} minute ago",
@@ -40,7 +40,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "COVID Shield is ",
+    "SystemStatus": "StopCOVID is ",
     "SystemStatusOn": "ON",
     "SystemStatusOff": "OFF",
     "NotificationStatus": "Push notifications are ",
@@ -50,10 +50,10 @@
   "OverlayOpen": {
     "BluetoothCardStatus": "Bluetooth is ",
     "BluetoothCardStatusOff": "OFF",
-    "BluetoothCardBody": "Bluetooth is used to collect and share random IDs needed for COVID Shield to work.",
+    "BluetoothCardBody": "Bluetooth is used to collect and share random IDs needed for StopCOVID to work.",
     "BluetoothCardAction": "Turn on Bluetooth",
-    "EnterCodeCardTitle": "COVID Shield code",
-    "EnterCodeCardBody": "Has a health care professional asked you to enter a COVID Shield code?",
+    "EnterCodeCardTitle": "StopCOVID code",
+    "EnterCodeCardBody": "Has a health care professional asked you to enter a StopCOVID code?",
     "EnterCodeCardAction": "Enter code",
     "NotificationCardStatus": "Push notifications are ",
     "NotificationCardStatusOff": "OFF",
@@ -61,14 +61,14 @@
     "NotificationCardAction": "Turn on push notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardStatusOff": "OFF",
-    "ExposureNotificationCardBody": "Exposure notifications are needed for COVID Shield to work.",
+    "ExposureNotificationCardBody": "Exposure notifications are needed for StopCOVID to work.",
     "ExposureNotificationCardAction": "Turn on exposure notifications"
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
-    "LearnMore": "How COVID Shield works",
+    "LearnMore": "How StopCOVID works",
     "ChangeLanguage": "Change language",
     "Privacy": "Read privacy policy"
   },
@@ -83,8 +83,8 @@
     "Close": "Back"
   },
   "Tutorial": {
-    "step-1Title": "How COVID Shield works",
-    "step-1": "Your phone uses Bluetooth to collect and share random IDs with phones near you with COVID Shield installed. These IDs are stored securely on each phone.",
+    "step-1Title": "How StopCOVID works",
+    "step-1": "Your phone uses Bluetooth to collect and share random IDs with phones near you with StopCOVID installed. These IDs are stored securely on each phone.",
     "step-2Title": "If you have potentially been exposed to COVID-19",
     "step-2": "You will receive a notification if you have been near someone in the past 14 days who has tested positive for COVID-19.",
     "step-3Title": "If you test positive for COVID-19",
@@ -96,11 +96,11 @@
   },
   "Sharing": {
     "Title": "Share app",
-    "SubTitle": "Every person using COVID Shield helps to slow the spread of COVID-19. Sharing this app will not share any personal data.",
+    "SubTitle": "Every person using StopCOVID helps to slow the spread of COVID-19. Sharing this app will not share any personal data.",
     "Platform-messages": "Share to Messages",
     "Platform-instagram": "Share to Instagram",
     "More": "More apps",
-    "Message": "Join me in helping to slow the spread of COVID-19. Download the COVID Shield app: https://covidshield.app",
+    "Message": "Join me in helping to slow the spread of COVID-19. Download the StopCOVID app: https://covidshield.app",
     "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
     "Close": "Close"
   },
@@ -111,15 +111,15 @@
   },
   "OnboardingPermissions": {
     "Title": "Your data is private",
-    "Body": "COVID Shield takes a privacy-first approach to exposure notification.",
+    "Body": "StopCOVID takes a privacy-first approach to exposure notification.",
     "Body2": "Your random IDs are stored exclusively on your phone unless you choose to share them.",
-    "Body3": "Use of COVID Shield is voluntary. You can delete your random IDs at any time."
+    "Body3": "Use of StopCOVID is voluntary. You can delete your random IDs at any time."
   },
   "OnboardingStart": {
     "Title": "Keep yourself and others safe",
     "Body1": "Get notified if you have potentially been exposed to COVID-19.",
     "Body2": "If you test positive for COVID-19, you can choose to anonymously share your data so others can be notified of possible exposure.",
-    "TutorialAction": "Learn how COVID Shield works"
+    "TutorialAction": "Learn how StopCOVID works"
   },
   "Privacy": {
     "Title": "Privacy policy",
@@ -127,31 +127,31 @@
   },
   "ThankYou": {
     "Title": "Thank you for helping",
-    "Body": "Exposure notifications are on. You will receive a notification if COVID Shield detects that you have possibly been exposed to COVID-19.",
+    "Body": "Exposure notifications are on. You will receive a notification if StopCOVID detects that you have possibly been exposed to COVID-19.",
     "Dismiss": "Dismiss"
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "FormIntro": "Please enter your 8 digit COVID Shield code.",
+    "FormIntro": "Please enter your 8 digit StopCOVID code.",
     "Action": "Submit code",
-    "InputLabel": "Covid Shield code",
+    "InputLabel": "StopCOVID code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
     "ConsentTitle": "Share your random IDs",
     "ConsentBody": "You have been granted access by a health care professional to share the random IDs stored on your phone.",
-    "ConsentBody2": "If you share your random IDs, others with COVID Shield who have been near you in the past 14 days will receive a notification that they have possibly been exposed. This notification will not include any information about you.",
+    "ConsentBody2": "If you share your random IDs, others with StopCOVID who have been near you in the past 14 days will receive a notification that they have possibly been exposed. This notification will not include any information about you.",
     "ConsentBody3": "You will be notified once per day when new random IDs are available to be shared. You must grant permission each time for the random IDs to be shared. Sharing is voluntary.",
     "PrivacyPolicyLink": "View privacy policy",
     "ConsentAction": "I agree",
     "ShareToast": "Random IDs shared successfully",
     "ErrorTitle": "Code not recognized",
-    "ErrorBody": "Your COVID Shield code could not be recognized. Please try again.",
+    "ErrorBody": "Your StopCOVID code could not be recognized. Please try again.",
     "ErrorAction": "OK"
   },
   "Notification": {
     "ExposedMessageTitle": "You have possibly been exposed to COVID-19",
     "ExposedMessageBody": "Based on your random IDs, you have been near someone in the past 14 days who tested positive for COVID-19.",
-    "OffMessageTitle": "COVID Shield is off",
-    "OffMessageBody": "Turn on COVID Shield to get notified if you have potentially been exposed to COVID-19.",
+    "OffMessageTitle": "StopCOVID is off",
+    "OffMessageBody": "Turn on StopCOVID to get notified if you have potentially been exposed to COVID-19.",
     "DailyUploadNotificationTitle": "Share your new random IDs",
     "DailyUploadNotificationBody": "Sharing your data helps others to know if they have possibly been exposed to COVID-19."
   },
@@ -160,8 +160,8 @@
   },
   "BottomSheet": {
     "Collapse": "Close",
-    "OnStatus": "Covid Shield is on, Tap for more information",
-    "OffStatus": "Covid Shield is off, Tap for more information"
+    "OnStatus": "StopCOVID is on, Tap for more information",
+    "OffStatus": "StopCOVID is off, Tap for more information"
   },
   "RegionPicker": {
     "Title": "Select your province or territory",
