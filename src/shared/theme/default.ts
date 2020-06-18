@@ -24,6 +24,8 @@ export const palette = {
   nutmeg: '#5F3500',
   mint: '#B3DFC0',
   black: '#000000',
+  lighterBlue: '#B3CAE5',
+  buttonGrey: '#EEEEEE',
 };
 
 const theme = {
@@ -54,6 +56,8 @@ const theme = {
     infoBlockBlackText: palette.white,
     infoBlockYellowBackground: palette.fadedYellow,
     divider: palette.fadedWhite,
+    lighterBlueBackground: palette.lighterBlue,
+    buttonGrey: palette.buttonGrey,
   },
   spacing: {
     /* eslint-disable id-length */
@@ -127,6 +131,18 @@ const theme = {
   buttonVariants: {
     opaqueFlatBlackText: {
       color: palette.faded,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    opaqueGrey: {
+      color: palette.buttonGrey,
       height: 52,
       textColor: palette.black,
       fontFamily: 'Noto Sans',
