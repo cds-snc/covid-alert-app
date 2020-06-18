@@ -2,7 +2,6 @@ import ExposureNotification, {ExposureInformation, Status as SystemStatus} from 
 import PushNotification from 'bridge/PushNotification';
 import {Observable} from 'shared/Observable';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
-import {unzip} from 'react-native-zip-archive';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -16,7 +15,7 @@ const SECURE_OPTIONS = {
 };
 
 type Translate = (key: string) => string;
-const hoursPerPeriod = 6;
+const hoursPerPeriod = 24;
 
 export {SystemStatus};
 
@@ -175,25 +174,10 @@ export class ExposureNotificationService {
 
     const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14), hoursPerPeriod);
     let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
+
     while (runningPeriod > lastCheckPeriod) {
-      const zipFile = await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
-      if (zipFile) {
-        const components = zipFile.split('/');
-        components.pop();
-        components.push('keys-export');
-        const targetDir = components.join('/');
-
-        try {
-          yield await unzip(zipFile, targetDir);
-        } catch (err) {
-          yield null;
-        }
-      } else {
-        yield null;
-      }
-
-      // yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
-      runningPeriod -= hoursPerPeriod;
+      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod).catch(() => null);
+      runningPeriod -= 1;
     }
   }
 
@@ -246,18 +230,13 @@ export class ExposureNotificationService {
       return finalize({...currentStatus, needsSubmission: await this.calculateNeedsSubmission()});
     }
 
-    console.log('lastCheckDate', lastCheckDate);
     const generator = this.keysSinceLastFetch(lastCheckDate);
     while (true) {
       const {value: keysFilesUrl, done} = await generator.next();
       if (done) break;
       if (!keysFilesUrl) continue;
       try {
-        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [
-          `${keysFilesUrl}/export.bin`,
-          `${keysFilesUrl}/export.sig`,
-        ]);
-
+        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [`${keysFilesUrl}`]);
         if (summary.matchedKeyCount > 0) {
           const exposures = await this.exposureNotification.getExposureInformation(summary);
           return finalize({type: 'exposed', exposures});

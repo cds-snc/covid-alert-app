@@ -3,22 +3,26 @@ import {Linking} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Box, InfoBlock, BoxProps} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {SystemStatus} from 'services/ExposureNotificationService';
+import {SystemStatus, useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
+  const startExposureNotificationService = useStartExposureNotificationService();
+
+  const enableExposureNotifications = useCallback(() => {
+    console.log('ccccc enableExposureNotifications');
+    startExposureNotificationService();
+  }, [startExposureNotificationService]);
+
   return (
     <InfoBlock
       icon="icon-exposure-notifications-off"
       title={i18n.translate('OverlayOpen.ExposureNotificationCardStatus')}
       titleBolded={i18n.translate('OverlayOpen.ExposureNotificationCardStatusOff')}
       text={i18n.translate('OverlayOpen.ExposureNotificationCardBody')}
-      button={{text: i18n.translate('OverlayOpen.ExposureNotificationCardAction'), action: toSettings}}
+      button={{text: i18n.translate('OverlayOpen.ExposureNotificationCardAction'), action: enableExposureNotifications}}
       backgroundColor="errorBackground"
       color="errorText"
     />

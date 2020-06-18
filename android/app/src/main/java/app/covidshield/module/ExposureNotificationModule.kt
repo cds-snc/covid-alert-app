@@ -3,7 +3,9 @@ package app.covidshield.module
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
+import app.covidshield.extensions.cleanup
 import app.covidshield.extensions.launch
+import app.covidshield.extensions.log
 import app.covidshield.extensions.parse
 import app.covidshield.extensions.toExposureConfiguration
 import app.covidshield.extensions.toExposureKey
@@ -94,6 +96,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
             exposureNotificationClient.provideDiagnosisKeys(files, exposureConfiguration, token).await()
 
+            files.forEach { it.cleanup() }
             val exposureSummary = exposureNotificationClient.getExposureSummary(token).await()
             val summary = exposureSummary.toSummary()
             promise.resolve(summary.toWritableMap().apply {
@@ -147,6 +150,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     startResolutionCompleter = null
                 }
             } else {
+                log(exception.message)
                 throw Exception("NO_RESOLUTION_REQUIRED", exception)
             }
         }

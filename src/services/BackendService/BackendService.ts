@@ -24,7 +24,7 @@ export class BackendService implements BackendInterface {
   }
 
   async retrieveDiagnosisKeys(period: number) {
-    const message = `${this.region}:${period}:${Math.floor(new Date().getTime() / 1000 / 3600)}`;
+    const message = `${this.region}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     return downloadDiagnosisKeysFile(`${this.retrieveUrl}/retrieve/${this.region}/${period}/${hmac}`);
   }
@@ -61,10 +61,10 @@ export class BackendService implements BackendInterface {
     const upload = covidshield.Upload.create({
       timestamp: {seconds: Math.floor(new Date().getTime() / 1000)},
       keys: exposureKeys.map(key =>
-        covidshield.Key.create({
+        covidshield.TemporaryExposureKey.create({
           keyData: Buffer.from(key.keyData, 'base64'),
           transmissionRiskLevel: key.transmissionRiskLevel,
-          rollingStartNumber: key.rollingStartNumber,
+          rollingStartIntervalNumber: key.rollingStartIntervalNumber,
           rollingPeriod: key.rollingPeriod,
         }),
       ),

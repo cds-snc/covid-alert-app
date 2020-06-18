@@ -3,10 +3,6 @@ import {when} from 'jest-when';
 
 import {ExposureNotificationService} from './ExposureNotificationService';
 
-jest.mock('react-native-zip-archive', () => ({
-  unzip: jest.fn(),
-}));
-
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),
@@ -48,7 +44,7 @@ describe('ExposureNotificationService', () => {
       .mockImplementation((args: any) => new OriginalDate(args));
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(56);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(14);
   });
 
   it('backfills the right amount of keys for current day', async () => {
@@ -63,13 +59,13 @@ describe('ExposureNotificationService', () => {
 
     server.retrieveDiagnosisKeys.mockClear();
 
-    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-19T05:10:00+0000').getTime());
+    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-18T05:10:00+0000').getTime());
 
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
 
     server.retrieveDiagnosisKeys.mockClear();
-    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-18T23:10:00+0000').getTime());
+    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-17T23:10:00+0000').getTime());
 
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);

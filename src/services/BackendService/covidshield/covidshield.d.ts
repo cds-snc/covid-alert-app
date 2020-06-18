@@ -106,6 +106,12 @@ export namespace covidshield {
 
         /** KeyClaimResponse serverPublicKey */
         serverPublicKey?: (Uint8Array|null);
+
+        /** KeyClaimResponse triesRemaining */
+        triesRemaining?: (number|null);
+
+        /** KeyClaimResponse remainingBanDuration */
+        remainingBanDuration?: (google.protobuf.IDuration|null);
     }
 
     /** Represents a KeyClaimResponse. */
@@ -122,6 +128,12 @@ export namespace covidshield {
 
         /** KeyClaimResponse serverPublicKey. */
         public serverPublicKey: Uint8Array;
+
+        /** KeyClaimResponse triesRemaining. */
+        public triesRemaining: number;
+
+        /** KeyClaimResponse remainingBanDuration. */
+        public remainingBanDuration?: (google.protobuf.IDuration|null);
 
         /**
          * Creates a new KeyClaimResponse instance using the specified properties.
@@ -202,7 +214,8 @@ export namespace covidshield {
             UNKNOWN = 1,
             INVALID_ONE_TIME_CODE = 2,
             SERVER_ERROR = 3,
-            INVALID_KEY = 4
+            INVALID_KEY = 4,
+            TEMPORARY_BAN = 5
         }
     }
 
@@ -419,8 +432,9 @@ export namespace covidshield {
             INVALID_TIMESTAMP = 8,
             INVALID_ROLLING_PERIOD = 10,
             INVALID_KEY_DATA = 11,
-            INVALID_ROLLING_START_NUMBER = 12,
-            INVALID_TRANSMISSION_RISK_LEVEL = 13
+            INVALID_ROLLING_START_INTERVAL_NUMBER = 12,
+            INVALID_TRANSMISSION_RISK_LEVEL = 13,
+            NO_KEYS_IN_PAYLOAD = 14
         }
     }
 
@@ -431,7 +445,7 @@ export namespace covidshield {
         timestamp: google.protobuf.ITimestamp;
 
         /** Upload keys */
-        keys?: (covidshield.IKey[]|null);
+        keys?: (covidshield.ITemporaryExposureKey[]|null);
     }
 
     /** Represents an Upload. */
@@ -447,7 +461,7 @@ export namespace covidshield {
         public timestamp: google.protobuf.ITimestamp;
 
         /** Upload keys. */
-        public keys: covidshield.IKey[];
+        public keys: covidshield.ITemporaryExposureKey[];
 
         /**
          * Creates a new Upload instance using the specified properties.
@@ -520,319 +534,535 @@ export namespace covidshield {
         public toJSON(): { [k: string]: any };
     }
 
-    /** Properties of a File. */
-    interface IFile {
+    /** Properties of a TemporaryExposureKeyExport. */
+    interface ITemporaryExposureKeyExport {
 
-        /** File header */
-        header?: (covidshield.IHeader|null);
-
-        /** File key */
-        key?: (covidshield.IKey[]|null);
-    }
-
-    /** Represents a File. */
-    class File implements IFile {
-
-        /**
-         * Constructs a new File.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: covidshield.IFile);
-
-        /** File header. */
-        public header?: (covidshield.IHeader|null);
-
-        /** File key. */
-        public key: covidshield.IKey[];
-
-        /**
-         * Creates a new File instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns File instance
-         */
-        public static create(properties?: covidshield.IFile): covidshield.File;
-
-        /**
-         * Encodes the specified File message. Does not implicitly {@link covidshield.File.verify|verify} messages.
-         * @param message File message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: covidshield.IFile, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified File message, length delimited. Does not implicitly {@link covidshield.File.verify|verify} messages.
-         * @param message File message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: covidshield.IFile, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a File message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns File
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.File;
-
-        /**
-         * Decodes a File message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns File
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.File;
-
-        /**
-         * Verifies a File message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a File message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns File
-         */
-        public static fromObject(object: { [k: string]: any }): covidshield.File;
-
-        /**
-         * Creates a plain object from a File message. Also converts values to other types if specified.
-         * @param message File
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: covidshield.File, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this File to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a Header. */
-    interface IHeader {
-
-        /** Header startTimestamp */
+        /** TemporaryExposureKeyExport startTimestamp */
         startTimestamp?: (number|Long|null);
 
-        /** Header endTimestamp */
+        /** TemporaryExposureKeyExport endTimestamp */
         endTimestamp?: (number|Long|null);
 
-        /** Header region */
+        /** TemporaryExposureKeyExport region */
         region?: (string|null);
 
-        /** Header batchNum */
+        /** TemporaryExposureKeyExport batchNum */
         batchNum?: (number|null);
 
-        /** Header batchSize */
+        /** TemporaryExposureKeyExport batchSize */
         batchSize?: (number|null);
+
+        /** TemporaryExposureKeyExport signatureInfos */
+        signatureInfos?: (covidshield.ISignatureInfo[]|null);
+
+        /** TemporaryExposureKeyExport keys */
+        keys?: (covidshield.ITemporaryExposureKey[]|null);
     }
 
-    /** Represents a Header. */
-    class Header implements IHeader {
+    /** Represents a TemporaryExposureKeyExport. */
+    class TemporaryExposureKeyExport implements ITemporaryExposureKeyExport {
 
         /**
-         * Constructs a new Header.
+         * Constructs a new TemporaryExposureKeyExport.
          * @param [properties] Properties to set
          */
-        constructor(properties?: covidshield.IHeader);
+        constructor(properties?: covidshield.ITemporaryExposureKeyExport);
 
-        /** Header startTimestamp. */
+        /** TemporaryExposureKeyExport startTimestamp. */
         public startTimestamp: (number|Long);
 
-        /** Header endTimestamp. */
+        /** TemporaryExposureKeyExport endTimestamp. */
         public endTimestamp: (number|Long);
 
-        /** Header region. */
+        /** TemporaryExposureKeyExport region. */
         public region: string;
 
-        /** Header batchNum. */
+        /** TemporaryExposureKeyExport batchNum. */
         public batchNum: number;
 
-        /** Header batchSize. */
+        /** TemporaryExposureKeyExport batchSize. */
         public batchSize: number;
 
+        /** TemporaryExposureKeyExport signatureInfos. */
+        public signatureInfos: covidshield.ISignatureInfo[];
+
+        /** TemporaryExposureKeyExport keys. */
+        public keys: covidshield.ITemporaryExposureKey[];
+
         /**
-         * Creates a new Header instance using the specified properties.
+         * Creates a new TemporaryExposureKeyExport instance using the specified properties.
          * @param [properties] Properties to set
-         * @returns Header instance
+         * @returns TemporaryExposureKeyExport instance
          */
-        public static create(properties?: covidshield.IHeader): covidshield.Header;
+        public static create(properties?: covidshield.ITemporaryExposureKeyExport): covidshield.TemporaryExposureKeyExport;
 
         /**
-         * Encodes the specified Header message. Does not implicitly {@link covidshield.Header.verify|verify} messages.
-         * @param message Header message or plain object to encode
+         * Encodes the specified TemporaryExposureKeyExport message. Does not implicitly {@link covidshield.TemporaryExposureKeyExport.verify|verify} messages.
+         * @param message TemporaryExposureKeyExport message or plain object to encode
          * @param [writer] Writer to encode to
          * @returns Writer
          */
-        public static encode(message: covidshield.IHeader, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: covidshield.ITemporaryExposureKeyExport, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Header message, length delimited. Does not implicitly {@link covidshield.Header.verify|verify} messages.
-         * @param message Header message or plain object to encode
+         * Encodes the specified TemporaryExposureKeyExport message, length delimited. Does not implicitly {@link covidshield.TemporaryExposureKeyExport.verify|verify} messages.
+         * @param message TemporaryExposureKeyExport message or plain object to encode
          * @param [writer] Writer to encode to
          * @returns Writer
          */
-        public static encodeDelimited(message: covidshield.IHeader, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: covidshield.ITemporaryExposureKeyExport, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Decodes a Header message from the specified reader or buffer.
+         * Decodes a TemporaryExposureKeyExport message from the specified reader or buffer.
          * @param reader Reader or buffer to decode from
          * @param [length] Message length if known beforehand
-         * @returns Header
+         * @returns TemporaryExposureKeyExport
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.Header;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.TemporaryExposureKeyExport;
 
         /**
-         * Decodes a Header message from the specified reader or buffer, length delimited.
+         * Decodes a TemporaryExposureKeyExport message from the specified reader or buffer, length delimited.
          * @param reader Reader or buffer to decode from
-         * @returns Header
+         * @returns TemporaryExposureKeyExport
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.Header;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.TemporaryExposureKeyExport;
 
         /**
-         * Verifies a Header message.
+         * Verifies a TemporaryExposureKeyExport message.
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
         public static verify(message: { [k: string]: any }): (string|null);
 
         /**
-         * Creates a Header message from a plain object. Also converts values to their respective internal types.
+         * Creates a TemporaryExposureKeyExport message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
-         * @returns Header
+         * @returns TemporaryExposureKeyExport
          */
-        public static fromObject(object: { [k: string]: any }): covidshield.Header;
+        public static fromObject(object: { [k: string]: any }): covidshield.TemporaryExposureKeyExport;
 
         /**
-         * Creates a plain object from a Header message. Also converts values to other types if specified.
-         * @param message Header
+         * Creates a plain object from a TemporaryExposureKeyExport message. Also converts values to other types if specified.
+         * @param message TemporaryExposureKeyExport
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: covidshield.Header, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: covidshield.TemporaryExposureKeyExport, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
         /**
-         * Converts this Header to JSON.
+         * Converts this TemporaryExposureKeyExport to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
     }
 
-    /** Properties of a Key. */
-    interface IKey {
+    /** Properties of a SignatureInfo. */
+    interface ISignatureInfo {
 
-        /** Key keyData */
-        keyData?: (Uint8Array|null);
+        /** SignatureInfo verificationKeyVersion */
+        verificationKeyVersion?: (string|null);
 
-        /** Key rollingStartNumber */
-        rollingStartNumber?: (number|null);
+        /** SignatureInfo verificationKeyId */
+        verificationKeyId?: (string|null);
 
-        /** Key rollingPeriod */
-        rollingPeriod?: (number|null);
-
-        /** Key transmissionRiskLevel */
-        transmissionRiskLevel?: (number|null);
+        /** SignatureInfo signatureAlgorithm */
+        signatureAlgorithm?: (string|null);
     }
 
-    /** Represents a Key. */
-    class Key implements IKey {
+    /** Represents a SignatureInfo. */
+    class SignatureInfo implements ISignatureInfo {
 
         /**
-         * Constructs a new Key.
+         * Constructs a new SignatureInfo.
          * @param [properties] Properties to set
          */
-        constructor(properties?: covidshield.IKey);
+        constructor(properties?: covidshield.ISignatureInfo);
 
-        /** Key keyData. */
-        public keyData: Uint8Array;
+        /** SignatureInfo verificationKeyVersion. */
+        public verificationKeyVersion: string;
 
-        /** Key rollingStartNumber. */
-        public rollingStartNumber: number;
+        /** SignatureInfo verificationKeyId. */
+        public verificationKeyId: string;
 
-        /** Key rollingPeriod. */
-        public rollingPeriod: number;
-
-        /** Key transmissionRiskLevel. */
-        public transmissionRiskLevel: number;
+        /** SignatureInfo signatureAlgorithm. */
+        public signatureAlgorithm: string;
 
         /**
-         * Creates a new Key instance using the specified properties.
+         * Creates a new SignatureInfo instance using the specified properties.
          * @param [properties] Properties to set
-         * @returns Key instance
+         * @returns SignatureInfo instance
          */
-        public static create(properties?: covidshield.IKey): covidshield.Key;
+        public static create(properties?: covidshield.ISignatureInfo): covidshield.SignatureInfo;
 
         /**
-         * Encodes the specified Key message. Does not implicitly {@link covidshield.Key.verify|verify} messages.
-         * @param message Key message or plain object to encode
+         * Encodes the specified SignatureInfo message. Does not implicitly {@link covidshield.SignatureInfo.verify|verify} messages.
+         * @param message SignatureInfo message or plain object to encode
          * @param [writer] Writer to encode to
          * @returns Writer
          */
-        public static encode(message: covidshield.IKey, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: covidshield.ISignatureInfo, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified Key message, length delimited. Does not implicitly {@link covidshield.Key.verify|verify} messages.
-         * @param message Key message or plain object to encode
+         * Encodes the specified SignatureInfo message, length delimited. Does not implicitly {@link covidshield.SignatureInfo.verify|verify} messages.
+         * @param message SignatureInfo message or plain object to encode
          * @param [writer] Writer to encode to
          * @returns Writer
          */
-        public static encodeDelimited(message: covidshield.IKey, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: covidshield.ISignatureInfo, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Decodes a Key message from the specified reader or buffer.
+         * Decodes a SignatureInfo message from the specified reader or buffer.
          * @param reader Reader or buffer to decode from
          * @param [length] Message length if known beforehand
-         * @returns Key
+         * @returns SignatureInfo
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.Key;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.SignatureInfo;
 
         /**
-         * Decodes a Key message from the specified reader or buffer, length delimited.
+         * Decodes a SignatureInfo message from the specified reader or buffer, length delimited.
          * @param reader Reader or buffer to decode from
-         * @returns Key
+         * @returns SignatureInfo
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.Key;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.SignatureInfo;
 
         /**
-         * Verifies a Key message.
+         * Verifies a SignatureInfo message.
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
         public static verify(message: { [k: string]: any }): (string|null);
 
         /**
-         * Creates a Key message from a plain object. Also converts values to their respective internal types.
+         * Creates a SignatureInfo message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
-         * @returns Key
+         * @returns SignatureInfo
          */
-        public static fromObject(object: { [k: string]: any }): covidshield.Key;
+        public static fromObject(object: { [k: string]: any }): covidshield.SignatureInfo;
 
         /**
-         * Creates a plain object from a Key message. Also converts values to other types if specified.
-         * @param message Key
+         * Creates a plain object from a SignatureInfo message. Also converts values to other types if specified.
+         * @param message SignatureInfo
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: covidshield.Key, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: covidshield.SignatureInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
         /**
-         * Converts this Key to JSON.
+         * Converts this SignatureInfo to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a TemporaryExposureKey. */
+    interface ITemporaryExposureKey {
+
+        /** TemporaryExposureKey keyData */
+        keyData?: (Uint8Array|null);
+
+        /** TemporaryExposureKey transmissionRiskLevel */
+        transmissionRiskLevel?: (number|null);
+
+        /** TemporaryExposureKey rollingStartIntervalNumber */
+        rollingStartIntervalNumber?: (number|null);
+
+        /** TemporaryExposureKey rollingPeriod */
+        rollingPeriod?: (number|null);
+    }
+
+    /** Represents a TemporaryExposureKey. */
+    class TemporaryExposureKey implements ITemporaryExposureKey {
+
+        /**
+         * Constructs a new TemporaryExposureKey.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: covidshield.ITemporaryExposureKey);
+
+        /** TemporaryExposureKey keyData. */
+        public keyData: Uint8Array;
+
+        /** TemporaryExposureKey transmissionRiskLevel. */
+        public transmissionRiskLevel: number;
+
+        /** TemporaryExposureKey rollingStartIntervalNumber. */
+        public rollingStartIntervalNumber: number;
+
+        /** TemporaryExposureKey rollingPeriod. */
+        public rollingPeriod: number;
+
+        /**
+         * Creates a new TemporaryExposureKey instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TemporaryExposureKey instance
+         */
+        public static create(properties?: covidshield.ITemporaryExposureKey): covidshield.TemporaryExposureKey;
+
+        /**
+         * Encodes the specified TemporaryExposureKey message. Does not implicitly {@link covidshield.TemporaryExposureKey.verify|verify} messages.
+         * @param message TemporaryExposureKey message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: covidshield.ITemporaryExposureKey, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TemporaryExposureKey message, length delimited. Does not implicitly {@link covidshield.TemporaryExposureKey.verify|verify} messages.
+         * @param message TemporaryExposureKey message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: covidshield.ITemporaryExposureKey, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TemporaryExposureKey message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TemporaryExposureKey
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.TemporaryExposureKey;
+
+        /**
+         * Decodes a TemporaryExposureKey message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TemporaryExposureKey
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.TemporaryExposureKey;
+
+        /**
+         * Verifies a TemporaryExposureKey message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TemporaryExposureKey message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TemporaryExposureKey
+         */
+        public static fromObject(object: { [k: string]: any }): covidshield.TemporaryExposureKey;
+
+        /**
+         * Creates a plain object from a TemporaryExposureKey message. Also converts values to other types if specified.
+         * @param message TemporaryExposureKey
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: covidshield.TemporaryExposureKey, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TemporaryExposureKey to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a TEKSignatureList. */
+    interface ITEKSignatureList {
+
+        /** TEKSignatureList signatures */
+        signatures?: (covidshield.ITEKSignature[]|null);
+    }
+
+    /** Represents a TEKSignatureList. */
+    class TEKSignatureList implements ITEKSignatureList {
+
+        /**
+         * Constructs a new TEKSignatureList.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: covidshield.ITEKSignatureList);
+
+        /** TEKSignatureList signatures. */
+        public signatures: covidshield.ITEKSignature[];
+
+        /**
+         * Creates a new TEKSignatureList instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TEKSignatureList instance
+         */
+        public static create(properties?: covidshield.ITEKSignatureList): covidshield.TEKSignatureList;
+
+        /**
+         * Encodes the specified TEKSignatureList message. Does not implicitly {@link covidshield.TEKSignatureList.verify|verify} messages.
+         * @param message TEKSignatureList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: covidshield.ITEKSignatureList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TEKSignatureList message, length delimited. Does not implicitly {@link covidshield.TEKSignatureList.verify|verify} messages.
+         * @param message TEKSignatureList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: covidshield.ITEKSignatureList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TEKSignatureList message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TEKSignatureList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.TEKSignatureList;
+
+        /**
+         * Decodes a TEKSignatureList message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TEKSignatureList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.TEKSignatureList;
+
+        /**
+         * Verifies a TEKSignatureList message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TEKSignatureList message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TEKSignatureList
+         */
+        public static fromObject(object: { [k: string]: any }): covidshield.TEKSignatureList;
+
+        /**
+         * Creates a plain object from a TEKSignatureList message. Also converts values to other types if specified.
+         * @param message TEKSignatureList
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: covidshield.TEKSignatureList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TEKSignatureList to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a TEKSignature. */
+    interface ITEKSignature {
+
+        /** TEKSignature signatureInfo */
+        signatureInfo?: (covidshield.ISignatureInfo|null);
+
+        /** TEKSignature batchNum */
+        batchNum?: (number|null);
+
+        /** TEKSignature batchSize */
+        batchSize?: (number|null);
+
+        /** TEKSignature signature */
+        signature?: (Uint8Array|null);
+    }
+
+    /** Represents a TEKSignature. */
+    class TEKSignature implements ITEKSignature {
+
+        /**
+         * Constructs a new TEKSignature.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: covidshield.ITEKSignature);
+
+        /** TEKSignature signatureInfo. */
+        public signatureInfo?: (covidshield.ISignatureInfo|null);
+
+        /** TEKSignature batchNum. */
+        public batchNum: number;
+
+        /** TEKSignature batchSize. */
+        public batchSize: number;
+
+        /** TEKSignature signature. */
+        public signature: Uint8Array;
+
+        /**
+         * Creates a new TEKSignature instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TEKSignature instance
+         */
+        public static create(properties?: covidshield.ITEKSignature): covidshield.TEKSignature;
+
+        /**
+         * Encodes the specified TEKSignature message. Does not implicitly {@link covidshield.TEKSignature.verify|verify} messages.
+         * @param message TEKSignature message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: covidshield.ITEKSignature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TEKSignature message, length delimited. Does not implicitly {@link covidshield.TEKSignature.verify|verify} messages.
+         * @param message TEKSignature message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: covidshield.ITEKSignature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TEKSignature message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TEKSignature
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.TEKSignature;
+
+        /**
+         * Decodes a TEKSignature message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TEKSignature
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.TEKSignature;
+
+        /**
+         * Verifies a TEKSignature message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TEKSignature message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TEKSignature
+         */
+        public static fromObject(object: { [k: string]: any }): covidshield.TEKSignature;
+
+        /**
+         * Creates a plain object from a TEKSignature message. Also converts values to other types if specified.
+         * @param message TEKSignature
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: covidshield.TEKSignature, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TEKSignature to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
@@ -936,6 +1166,102 @@ export namespace google {
 
             /**
              * Converts this Timestamp to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a Duration. */
+        interface IDuration {
+
+            /** Duration seconds */
+            seconds?: (number|Long|null);
+
+            /** Duration nanos */
+            nanos?: (number|null);
+        }
+
+        /** Represents a Duration. */
+        class Duration implements IDuration {
+
+            /**
+             * Constructs a new Duration.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IDuration);
+
+            /** Duration seconds. */
+            public seconds: (number|Long);
+
+            /** Duration nanos. */
+            public nanos: number;
+
+            /**
+             * Creates a new Duration instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Duration instance
+             */
+            public static create(properties?: google.protobuf.IDuration): google.protobuf.Duration;
+
+            /**
+             * Encodes the specified Duration message. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
+             * @param message Duration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IDuration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Duration message, length delimited. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
+             * @param message Duration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IDuration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a Duration message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns Duration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Duration;
+
+            /**
+             * Decodes a Duration message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns Duration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Duration;
+
+            /**
+             * Verifies a Duration message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a Duration message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Duration
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.Duration;
+
+            /**
+             * Creates a plain object from a Duration message. Also converts values to other types if specified.
+             * @param message Duration
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.Duration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Duration to JSON.
              * @returns JSON object
              */
             public toJSON(): { [k: string]: any };

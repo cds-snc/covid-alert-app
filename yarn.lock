@@ -7235,11 +7235,6 @@ react-native-svg@^12.1.0:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
 
-react-native-zip-archive@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-zip-archive/-/react-native-zip-archive-5.0.2.tgz#cfa2aa8c97dd4ccb2dd8c99812ec7d9e20bf7549"
-  integrity sha512-s/dSQ+XDK1aPnZ2YH1abIAWLwfylU1WptnQ0HuPVO0tahQKGQpcEgj+UQXnzPnUFHwAlTfvV7PjVyZQukNvWjw==
-
 react-native@0.62.2:
   version "0.62.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.62.2.tgz#d831e11a3178705449142df19a70ac2ca16bad10"

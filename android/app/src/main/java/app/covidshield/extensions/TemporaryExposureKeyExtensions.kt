@@ -7,7 +7,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 fun TemporaryExposureKey.toExposureKey(): ExposureKey {
     return ExposureKey(
         keyData = Base64.encodeToString(keyData, Base64.NO_WRAP),
-        rollingStartNumber = rollingStartIntervalNumber,
+        rollingStartIntervalNumber = rollingStartIntervalNumber,
         rollingPeriod = rollingPeriod,
         transmissionRiskLevel = transmissionRiskLevel
     )
