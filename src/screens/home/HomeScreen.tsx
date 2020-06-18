@@ -6,6 +6,11 @@ import {checkNotifications, requestNotifications} from 'react-native-permissions
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
+import {Theme} from 'shared/theme';
+import {useTheme} from '@shopify/restyle';
+import {useStorage} from 'services/StorageService';
+import {getRegionCase} from 'shared/RegionLogic';
+
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
@@ -15,8 +20,6 @@ import {ExposureView} from './views/ExposureView';
 import {NoExposureView} from './views/NoExposureView';
 import {OverlayView} from './views/OverlayView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
-import {Theme} from 'shared/theme';
-import {useTheme} from '@shopify/restyle';
 
 type NotificationPermission = 'denied' | 'granted' | 'unavailable' | 'blocked';
 type BackgroundColor = keyof Theme['colors'];
@@ -26,7 +29,7 @@ interface ContentProps {
 }
 
 const strToBackgroundColor = (backgroundColor: string): BackgroundColor => {
-  let color: BackgroundColor = backgroundColor as BackgroundColor;
+  const color: BackgroundColor = backgroundColor as BackgroundColor;
   return color;
 };
 
@@ -56,6 +59,8 @@ const useNotificationPermissionStatus = (): [string, () => void] => {
 };
 
 const Content = ({setBackgroundColor}: ContentProps) => {
+  const {region} = useStorage();
+  const regionCase = getRegionCase(region);
   const [exposureStatus, updateExposureStatus] = useExposureStatus();
   const [systemStatus, updateSystemStatus] = useSystemStatus();
   const startSystem = useStartENSystem();
