@@ -5,7 +5,11 @@ import {useExposureStatus} from 'services/ExposureNotificationService';
 import {daysFromNow, hoursFromNow, minutesFromNow} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 
-export const LastCheckedDisplay = () => {
+export interface LastCheckedDisplayProps {
+  textDark: boolean;
+}
+
+export const LastCheckedDisplay = ({textDark}: LastCheckedDisplayProps) => {
   const [i18n] = useI18n();
   const [exposureStatus] = useExposureStatus();
   if (!exposureStatus.lastChecked) return null;
@@ -25,9 +29,13 @@ export const LastCheckedDisplay = () => {
 
   return (
     <Box marginTop="s">
-      <Text variant="smallText" color="bodyTextFaded" lineHeight={24} textAlign="center">
+      <Text variant="smallText" color={textDark ? 'bodyText' : 'bodyTextFaded'} lineHeight={24} textAlign="center">
         {text}
       </Text>
     </Box>
   );
+};
+
+LastCheckedDisplay.defaultProps = {
+  textDark: false,
 };
