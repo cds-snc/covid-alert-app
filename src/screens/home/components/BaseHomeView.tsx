@@ -64,7 +64,7 @@ export const BaseHomeView = ({children, animationSource, animationPauseFrame, ic
             />
           </Box>
         )}
-        <Box flex={1} alignItems="flex-start" justifyContent="center" marginHorizontal="xl">
+        <Box flex={1} alignItems="flex-start" justifyContent="flex-end" marginHorizontal="xl">
           {children}
         </Box>
       </ScrollView>

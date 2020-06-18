@@ -1,5 +1,6 @@
-import React from 'react';
-import {Text, Box} from 'components';
+import React, {useCallback} from 'react';
+import {Linking} from 'react-native';
+import {Text, Box, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
@@ -11,6 +12,10 @@ export const NoExposureView = () => {
   const {region} = useStorage();
 
   const regionCase = getRegionCase(region);
+
+  const onAction = useCallback(() => {
+    Linking.openURL(i18n.translate('Home.GuidanceUrl')).catch(err => console.error('An error occurred', err));
+  }, [i18n]);
 
   const regionTranslationsBody = {
     noRegionSet: 'Home.NoExposureDetected.NoRegionSetBody',
@@ -34,8 +39,10 @@ export const NoExposureView = () => {
         {i18n.translate(regionTranslationsBody[regionCase])}
       </Text>
       {/* <LastCheckedDisplay /> */}
-      {/* centering looks off without this, because other screens with animations have a button */}
-      <Box height={50} />
+
+      <Box alignSelf="stretch" marginTop="l" marginBottom="s">
+        <Button text={i18n.translate('Home.How')} variant="opaqueFlat" externalLink onPress={onAction} />
+      </Box>
     </BaseHomeView>
   );
 };

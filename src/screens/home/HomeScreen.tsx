@@ -71,6 +71,18 @@ const Content = ({setBackgroundColor}: ContentProps) => {
 
   const network = useNetInfo();
 
+  switch (regionCase) {
+    case 'noRegionSet':
+      setBackgroundColor('mainBackground');
+      break;
+    case 'regionCovered':
+      setBackgroundColor('regionCoveredBackground');
+      break;
+    case 'regionNotCovered':
+      setBackgroundColor('mainBackground');
+      break;
+  }
+
   useEffect(() => {
     const updateStatus = (newState: AppStateStatus) => {
       if (newState === 'active') {
@@ -86,8 +98,8 @@ const Content = ({setBackgroundColor}: ContentProps) => {
     };
   }, [updateExposureStatus, updateSystemStatus]);
 
-  setBackgroundColor('exposureBackground');
-  return <ExposureView />;
+  // setBackgroundColor('exposureBackground');
+  //return <ExposureView />;
 
   switch (exposureStatus.type) {
     case 'exposed':
@@ -105,7 +117,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
           return <BluetoothDisabledView />;
         case SystemStatus.Active:
         case SystemStatus.Unknown:
-          setBackgroundColor('exposureBackground');
+          // setBackgroundColor('exposureBackground');
           return <NoExposureView />;
       }
   }

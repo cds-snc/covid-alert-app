@@ -5,6 +5,7 @@ export const palette = {
   bodySubdued: '#5B5B5B',
   greenBright: '#A4DE82',
   white: '#FFFFFF',
+  faded: 'rgba(255, 255, 255, 0.3)',
   fadedTextWhite: 'rgba(255, 255, 255, 0.65)',
   fadedWhite: 'rgba(0, 0, 0, 0.2)',
   successLight: '#D8EECA',
@@ -21,11 +22,14 @@ export const palette = {
   fadedYellow: '#FFF5D9',
   warn: '#FFCDB3',
   nutmeg: '#5F3500',
+  mint: '#B3DFC0',
+  black: '#000000',
 };
 
 const theme = {
   colors: {
     mainBackground: palette.brandBlue,
+    regionCoveredBackground: palette.mint,
     exposureBackground: palette.warn,
     greenBackground: palette.greenBright,
     overlayBackground: palette.white,
@@ -120,10 +124,9 @@ const theme = {
   },
   buttonVariants: {
     opaqueFlat: {
-      color: palette.white,
-      opacity: 0.2,
+      color: palette.faded,
       height: 52,
-      textColor: palette.white,
+      textColor: palette.black,
       fontFamily: 'Noto Sans',
       fontSize: 18,
       borderWidth: undefined,
