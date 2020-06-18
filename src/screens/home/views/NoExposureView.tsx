@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
-import {Text, Box, Button} from 'components';
+import {Text, Box, Button, LastCheckedDisplay} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
@@ -17,7 +17,6 @@ export const NoExposureView = () => {
 
   const titleTextColor = 'bodyTitleWhite';
   const bodyTextColor = 'bodyTextWhite';
-  const buttonVariant = 'opaqueFlatWhiteText';
 
   const onAction = useCallback(() => {
     Linking.openURL(i18n.translate('Home.GuidanceUrl')).catch(err => console.error('An error occurred', err));
@@ -44,10 +43,11 @@ export const NoExposureView = () => {
       <Text variant="bodyText" color={bodyTextColor} marginBottom="l">
         {i18n.translate(regionTranslationsBody[regionCase])}
       </Text>
-      {/* <LastCheckedDisplay /> */}
 
-      <Box alignSelf="stretch" marginTop="l" marginBottom="s">
-        <Button text={i18n.translate('Home.How')} variant={buttonVariant} externalLink onPress={onAction} />
+      <LastCheckedDisplay />
+
+      <Box alignSelf="stretch" marginTop="l" marginBottom="l">
+        <Button text={i18n.translate('Home.How')} variant="opaqueGrey" externalLink onPress={onAction} />
       </Box>
     </BaseHomeView>
   );

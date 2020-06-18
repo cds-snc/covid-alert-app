@@ -1,8 +1,8 @@
 {
   "Home": {
     "NoExposureDetected": {
-      "RegionCoveredTitle": "RegionCoveredTitle",
-      "RegionCoveredBody": "Based on your random IDs, you have not been near someone in the past 14 days who has tested positive for COVID-19.",
+      "RegionCoveredTitle": "No exposure detected",
+      "RegionCoveredBody": "You have not been near anyone who reported a COVID diagnosis through this app.",
       "NoRegionSetTitle": "Choose your province or territory",
       "NoRegionSetBody": "Provincial and territorial governments are working to support StopCOVID across Canada. In some places, people cannot yet report COVID-19 diagnoses through this app.",
       "RegionNotCoveredTitle": " Choose your province or territory",
@@ -15,7 +15,7 @@
     "ExposureDetectedDetailed2": "This does not mean you’ve been infected. But you should probably take some action.",
     "SeeGuidance": "What now? See guidance.",
     "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
-    "How": "How are exposures decided.",
+    "How": "What's an exposure?",
     "HowUrl": "https://www.canada.ca/",
     "SignalDataShared": "Thank you for helping to slow the spread",
     "SignalDataSharedDetailed": {
