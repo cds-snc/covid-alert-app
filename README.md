@@ -2,11 +2,13 @@
 
 ![Lint + Typscript](https://github.com/CovidShield/mobile/workflows/CI/badge.svg)
 
+Adapted from <https://github.com/CovidShield/mobile> ([see changes](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
+
 This repository implements a React Native _client application_ for Apple/Google's [Exposure
 Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/). For more information on how this all works, read through the [COVID Shield Rationale](https://github.com/CovidShield/rationale).
 
 - [Overview](#overview)
-- [User experience](#user-experience)
+
 - [Local development](#local-development)
 - [Customization](#customization)
 - [Localization](#localization)
@@ -14,34 +16,6 @@ Notification](https://www.apple.com/covid19/contacttracing) framework, informed 
 ## Overview
 
 This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Shield Diagnosis Server](https://github.com/CovidShield/backend) to provide a reference for how a client application for exposure notifications could work.
-
-### Screenshots
-
-![Three iOS devices showing the default screen, an exposure notification, and the detail screen in COVID Shield mobile app](https://github.com/CovidShield/rationale/raw/master/assets/ios-screens.png)
-
-## User Experience
-
-### Aurora Design System
-
-COVID Shield follows design and content guidelines from the [Aurora Design System](https://design.gccollab.ca/) published by the Government of Canada's Digital Enablement Service.
-
-#### Typeface
-
-The Aurora Design System recommends Nunito for the app's main typeface. You can [download this font from Google Fonts](https://fonts.google.com/specimen/Nunito) or access it directly using the Google Fonts integration in Figma.
-
-#### Inspiration
-
-Our onboarding flow was inspired in part by the work done in [this Medium article](https://onezero.medium.com/openui-a6b9c3d741de) which is shared under the [CC 4.0 license](https://creativecommons.org/licenses/by/4.0/). Thanks to [@jelle.prins](https://twitter.com/jelleprins) and [@ppkorevaar](https://twitter.com/ppkorevaar) for their initial work.
-
-### Design
-
-- Our [wired Figma prototype](https://www.figma.com/proto/b76OYDhkTKJCaqDfVQybQY/Open-Source-COVID-Shield?node-id=324%3A3825&viewport=387%2C570%2C0.125&scaling=scale-down)
-- Our [design working files on Figma](https://www.figma.com/file/b76OYDhkTKJCaqDfVQybQY/Open-Source-COVID-Shield?node-id=1%3A18).
-- Our [illustration and animation assets](design/)
-
-### Content
-
-Our [glossary of terms](https://github.com/CovidShield/rationale/blob/master/GLOSSARY.md).
 
 ## Local development
 
@@ -63,7 +37,7 @@ Follow the steps outlined in [React Native Development Environment Setup](https:
 #### Android
 
 - Android device with the ability to run the latest version of Google Play Services or Google Play Services Beta. Sign up for beta program here https://developers.google.com/android/guides/beta-program.
-- You also need a whitelisted APPLICATION_ID that will be used to publish to Google Play. You could use APPLICATION_ID from [Google Sample App](https://github.com/google/exposure-notifications-android) for testing purposes `"com.google.android.apps.exposurenotification"`. Go to [Environment config](https://github.com/CovidShield/mobile#3-environment-config) to see how to change APPLICATION_ID.
+- You also need a safelisted APPLICATION_ID that will be used to publish to Google Play. You could use APPLICATION_ID from [Google Sample App](https://github.com/google/exposure-notifications-android) for testing purposes `"com.google.android.apps.exposurenotification"`. Go to [Environment config](https://github.com/CovidShield/mobile#3-environment-config) to see how to change APPLICATION_ID.
 
 #### 1. Check out the repository
 
@@ -153,11 +127,9 @@ yarn generate-translations
 
 ## Who built COVID Shield?
 
-We are a group of Shopify volunteers who want to help to slow the spread of COVID-19 by offering our
-skills and experience developing scalable, easy to use applications. We are releasing COVID Shield
-free of charge and with a flexible open-source license.
+COVID Shield was originally developed by [volunteers at Shopify](https://www.covidshield.app/). It was [released free of charge under a flexible open-source license](https://github.com/CovidShield/mobile).
 
-For questions, we can be reached at <press@covidshield.app>.
+This repository is being developed by the [Canadian Digital Service](https://digital.canada.ca/). We can be reached at <cds-snc@tbs-sct.gc.ca>.
 
 ## Troubleshooting
 
