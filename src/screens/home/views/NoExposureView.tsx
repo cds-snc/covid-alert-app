@@ -16,8 +16,6 @@ export const NoExposureView = () => {
 
   const regionCase = getRegionCase(region);
 
-  // console.log('the region', regionCase);
-
   let titleTextColor = 'bodyTitleWhite';
   let bodyTextColor = 'bodyTextWhite';
 
@@ -55,7 +53,7 @@ export const NoExposureView = () => {
         {i18n.translate(regionTranslationsBody[regionCase])}
       </Text>
 
-      <LastCheckedDisplay textDark />
+      {regionCase === 'noRegionSet' ? <LastCheckedDisplay /> : <LastCheckedDisplay textDark />}
 
       <Box alignSelf="stretch" marginTop="l" marginBottom="l">
         <Button text={i18n.translate('Home.How')} variant="opaqueGrey" externalLink onPress={onAction} />
