@@ -7211,10 +7211,10 @@ react-native-share@^3.3.0:
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-3.3.0.tgz#07ab21e6e6dc2399a9c4b5517f5bca831907ffa3"
   integrity sha512-BH/l3UMk+g+JVa/0W4pw9Jr92fOJPg6KyK9sOjPe9SSNxei/NObo+D80MaecZaBoORV9lrktmlCD+ka/ed1JuA==
 
-react-native-snap-carousel@^3.9.0:
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.9.0.tgz#017793ca3f5e901ccd5a3117d79bb18ec08928a3"
-  integrity sha512-XDCUNo0SXfHOCc/v1s96hzrf/N4lDBjXLZMNLLUeSkLsHlH2QryFyQKO48AI08fJmM5JBqGVwcJiF47aMWOmYQ==
+react-native-snap-carousel@^3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.9.1.tgz#6fd9bd8839546c2c6043a41d2035afbc6fe0443e"
+  integrity sha512-xWEGusacIgK1YaDXLi7Gao2+ISLoGPVEBR8fcMf4tOOJQufutlNwkoLu0l6B8Qgsrre0nTxoVZikRgGRDWlLaQ==
   dependencies:
     prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
