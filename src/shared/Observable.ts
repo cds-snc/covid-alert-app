@@ -67,7 +67,7 @@ class Subscriptions<T> {
       this.subscriptions.push(sub);
     } else {
       // it is okay to store insertion in the same list as deletion
-      // since we always push back, insertion will always preceed deletion.
+      // since we always push back, insertion will always precede deletion.
       this.state.cycleEndActions.push(() => this.subscriptions.push(sub));
     }
   }
