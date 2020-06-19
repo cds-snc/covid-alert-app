@@ -10,13 +10,15 @@ import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
 import {Permissions} from './views/Permissions';
 import {Start} from './views/Start';
+import {YourData} from './views/YourData';
 
-type ViewKey = 'start' | 'permissions';
+type ViewKey = 'start' | 'permissions' | 'yourdata';
 
-const contentData: ViewKey[] = ['start', 'permissions'];
+const contentData: ViewKey[] = ['start', 'permissions', 'yourdata'];
 const viewComponents = {
   start: Start,
   permissions: Permissions,
+  yourdata: YourData,
 };
 
 export const OnboardingScreen = () => {

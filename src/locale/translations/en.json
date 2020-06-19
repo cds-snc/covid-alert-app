@@ -126,6 +126,15 @@
     "Body2": "where you’ve been",
     "Body3": "who you’ve been with"
   },
+  "YourData": {
+    "Title": "Your data and identity are private",
+    "Body": "StopCOVID does not know",
+    "Body1": "your identity",
+    "Body2": "any identifiable information about you or your contacts",
+    "Body3": "your medical information, unless you choose to share it anonymously, if you test positive",
+    "Body4": "Data collected through this app is never shared without your permission",
+    "Body5": "Use of the app is voluntary. You can delete it at any time."
+  },
   "OnboardingStart": {
     "Title": "How it works",
     "Body1": "Using Bluetooth, StopCOVID shares anonymous, randomly generated codes, with other app users nearby.",
