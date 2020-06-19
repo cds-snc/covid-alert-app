@@ -42,7 +42,7 @@ describe('ExposureNotificationService', () => {
     dateSpy.mockReset();
   });
 
-  it('backfills keys when last timestamp not avialble', async () => {
+  it('backfills keys when last timestamp not available', async () => {
     dateSpy
       .mockImplementationOnce(() => new OriginalDate('2020-05-19T07:10:00+0000'))
       .mockImplementation((args: any) => new OriginalDate(args));
@@ -119,7 +119,7 @@ describe('ExposureNotificationService', () => {
     );
   });
 
-  it('restores "diangosed" status from storage', async () => {
+  it('restores "diagnosed" status from storage', async () => {
     when(storage.getItem)
       .calledWith('submissionCycleStartedAt')
       .mockResolvedValueOnce(new OriginalDate('2020-05-18T04:10:00+0000').toString());

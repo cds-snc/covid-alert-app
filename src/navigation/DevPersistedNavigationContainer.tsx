@@ -41,7 +41,7 @@ function DevPersistedNavigationContainerImpl(
   );
 
   React.useEffect(() => {
-    const loadPerisitedState = async () => {
+    const loadPersistedState = async () => {
       try {
         const jsonString = await AsyncStorage.getItem(persistKey);
         if (jsonString != null) {
@@ -53,7 +53,7 @@ function DevPersistedNavigationContainerImpl(
         setIsReady(true);
       }
     };
-    loadPerisitedState();
+    loadPersistedState();
   }, [persistKey]);
 
   if (!isReady) {
