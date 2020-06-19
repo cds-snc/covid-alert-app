@@ -55,7 +55,7 @@ export const NoExposureView = () => {
 
       {regionCase === 'noRegionSet' ? <LastCheckedDisplay /> : <LastCheckedDisplay textDark />}
 
-      <Box alignSelf="stretch" marginTop="l" marginBottom="l">
+      <Box alignSelf="stretch" marginBottom="l">
         <Button text={i18n.translate('Home.How')} variant="opaqueGrey" externalLink onPress={onAction} />
       </Box>
     </BaseHomeView>
