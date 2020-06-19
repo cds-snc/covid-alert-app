@@ -17,10 +17,10 @@ export const ExposureNotificationsDisabledView = () => {
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.ExposureNotificationsDisabled')}
       </Text>
-      <Text variant="bodyText" color="bodyText">
+      <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate('Home.ExposureNotificationsDisabledDetailed')}
       </Text>
-      <Box alignSelf="stretch" marginTop="l" marginBottom="l">
+      <Box alignSelf="stretch" marginBottom="l">
         <Button
           internalLink
           text={i18n.translate('Home.EnableExposureNotificationsCTA')}
