@@ -189,7 +189,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
 
     implementation "androidx.core:core-ktx:$androidXCoreKtxVersion"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$andoridXSwipeRefreshLayoutVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$androidXSwipeRefreshLayoutVersion"
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
