@@ -6,6 +6,7 @@ import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {Theme} from 'shared/theme';
 import {useNetInfo} from '@react-native-community/netinfo';
+import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
 
 import {Box} from './Box';
 import {Icon} from './Icon';
@@ -21,6 +22,7 @@ export const Header = ({isOverlay}: HeaderProps) => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
   const network = useNetInfo();
+  const [systemStatus] = useSystemStatus();
 
   const {region} = useStorage();
   const regionCase = getRegionCase(region);
@@ -35,6 +37,9 @@ export const Header = ({isOverlay}: HeaderProps) => {
     textColor = 'bodyText';
   }
 
+  if (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) {
+    textColor = 'bodyText';
+  }
   const headerTextColor: Color = textColor as Color;
 
   const onLogoPress = useCallback(() => {

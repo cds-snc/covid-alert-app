@@ -1,17 +1,16 @@
 import {useI18n} from '@shopify/react-i18n';
+import {Linking} from 'react-native';
 import {Box, Button, Text} from 'components';
 import React, {useCallback} from 'react';
-import {useStartENSystem} from 'services/ExposureNotificationService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const ExposureNotificationsDisabledView = () => {
   const [i18n] = useI18n();
-  const startSystem = useStartENSystem();
 
-  const enableExposureNotifications = useCallback(() => {
-    startSystem();
-  }, [startSystem]);
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
 
   return (
     <BaseHomeView>
@@ -21,12 +20,12 @@ export const ExposureNotificationsDisabledView = () => {
       <Text variant="bodyText" color="bodyText">
         {i18n.translate('Home.ExposureNotificationsDisabledDetailed')}
       </Text>
-      <Box alignSelf="stretch" marginTop="l">
+      <Box alignSelf="stretch" marginTop="l" marginBottom="l">
         <Button
           internalLink
           text={i18n.translate('Home.EnableExposureNotificationsCTA')}
           variant="danger50Flat"
-          onPress={enableExposureNotifications}
+          onPress={toSettings}
         />
       </Box>
     </BaseHomeView>
