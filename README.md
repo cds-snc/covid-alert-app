@@ -177,7 +177,7 @@ d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, 
 
 - [Aperçu](#aperçu)
 
-- [Développement local](#développement local)
+- [Développement local](#développement-local)
 - [Personnalisation](#personnalisation)
 - [Localisation](#localisation)
 
