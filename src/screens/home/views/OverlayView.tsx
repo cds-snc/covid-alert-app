@@ -88,14 +88,13 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
       )}
       <Box marginBottom="m" marginHorizontal="m">
         <InfoBlock
-          icon="icon-enter-code"
-          title={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
+          titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
           text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
           button={{
             text: i18n.translate('OverlayOpen.EnterCodeCardAction'),
             action: () => navigation.navigate('DataSharing'),
           }}
-          backgroundColor="infoBlockBrightBackground"
+          backgroundColor="infoBlockNeutralBackground"
           color="infoBlockBrightText"
         />
       </Box>
