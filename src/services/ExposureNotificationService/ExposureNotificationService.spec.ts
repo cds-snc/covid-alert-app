@@ -42,7 +42,7 @@ describe('ExposureNotificationService', () => {
     dateSpy.mockReset();
   });
 
-  it('backfills keys when last timestamp not avialble', async () => {
+  it('backfills keys when last timestamp not available', async () => {
     dateSpy
       .mockImplementationOnce(() => new OriginalDate('2020-05-19T07:10:00+0000'))
       .mockImplementation((args: any) => new OriginalDate(args));
