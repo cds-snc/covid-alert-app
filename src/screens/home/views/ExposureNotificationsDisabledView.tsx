@@ -1,35 +1,31 @@
 import {useI18n} from '@shopify/react-i18n';
-import {Box, Button, Icon, LastCheckedDisplay, Text} from 'components';
+import {Linking} from 'react-native';
+import {Box, Button, Text} from 'components';
 import React, {useCallback} from 'react';
-import {useStartENSystem} from 'services/ExposureNotificationService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const ExposureNotificationsDisabledView = () => {
   const [i18n] = useI18n();
-  const startSystem = useStartENSystem();
 
-  const enableExposureNotifications = useCallback(() => {
-    startSystem();
-  }, [startSystem]);
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
 
   return (
     <BaseHomeView>
-      <Box marginBottom="l">
-        <Icon name="icon-exposure-notifications-disabled" size={44} />
-      </Box>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.ExposureNotificationsDisabled')}
       </Text>
-      <Text variant="bodyText" color="bodyText" textAlign="center">
+      <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate('Home.ExposureNotificationsDisabledDetailed')}
       </Text>
-      <LastCheckedDisplay />
-      <Box alignSelf="stretch" marginTop="l">
+      <Box alignSelf="stretch" marginBottom="l">
         <Button
+          internalLink
           text={i18n.translate('Home.EnableExposureNotificationsCTA')}
-          variant="bigFlat"
-          onPress={enableExposureNotifications}
+          variant="danger50Flat"
+          onPress={toSettings}
         />
       </Box>
     </BaseHomeView>

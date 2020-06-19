@@ -25,6 +25,7 @@ export interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   externalLink?: boolean;
+  internalLink?: boolean;
 }
 
 export const Button = ({
@@ -35,6 +36,7 @@ export const Button = ({
   disabled,
   loading,
   externalLink,
+  internalLink,
 }: ButtonProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
@@ -63,6 +65,7 @@ export const Button = ({
       justifyContent="center"
       style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
       paddingHorizontal="m"
+      paddingVertical="m"
       flexDirection="row"
     >
       {loading ? (
@@ -73,6 +76,7 @@ export const Button = ({
             {text}
           </Text>
           {externalLink && <Icon name={externalArrowIcon} />}
+          {internalLink && <Icon name="icon-chevron" />}
         </>
       )}
     </Box>

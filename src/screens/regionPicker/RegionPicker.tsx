@@ -73,13 +73,17 @@ export const RegionPickerScreen = () => {
       <SafeAreaView style={styles.flex}>
         <ScrollView style={styles.flex}>
           <Box flex={1} paddingHorizontal="m" paddingTop="m">
-            <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center" accessibilityRole="header">
+            <Text marginBottom="s" variant="bodyTitle" color="overlayBodyText" accessibilityRole="header">
               {i18n.translate('RegionPicker.Title')}
             </Text>
-            <Text marginVertical="m" variant="bodyText" color="overlayBodyText" textAlign="center">
+            <Text variant="smallText" color="dangerText" accessibilityRole="header">
+              {i18n.translate('RegionPicker.Optional')}
+            </Text>
+            <Text marginVertical="m" variant="bodyText" color="overlayBodyText">
               {i18n.translate('RegionPicker.Body')}
             </Text>
             <Box
+              marginTop="l"
               paddingHorizontal="m"
               borderRadius={10}
               backgroundColor="infoBlockNeutralBackground"

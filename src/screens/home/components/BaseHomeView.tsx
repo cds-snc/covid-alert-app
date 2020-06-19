@@ -3,16 +3,17 @@ import {StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LottieView from 'lottie-react-native';
 import {useReduceMotionPreference} from 'shared/useReduceMotionPreference';
-import {Box, Header} from 'components';
+import {Box, Header, Icon, IconName} from 'components';
 import {useOrientation} from 'shared/useOrientation';
 
 interface BaseHomeViewProps {
   children?: React.ReactNode;
   animationSource?: string;
   animationPauseFrame?: number;
+  iconName?: IconName;
 }
 
-export const BaseHomeView = ({children, animationSource, animationPauseFrame}: BaseHomeViewProps) => {
+export const BaseHomeView = ({children, animationSource, animationPauseFrame, iconName}: BaseHomeViewProps) => {
   const {
     orientation,
     scaledSize: {width: viewportWidth, height: viewportHeight},
@@ -33,7 +34,7 @@ export const BaseHomeView = ({children, animationSource, animationPauseFrame}: B
   }, [prefersReducedMotion, animationPauseFrame]);
 
   return (
-    <SafeAreaView style={styles.flex}>
+    <SafeAreaView>
       <Header />
       <ScrollView
         style={styles.flex}
@@ -43,6 +44,10 @@ export const BaseHomeView = ({children, animationSource, animationPauseFrame}: B
         ]}
         bounces={false}
       >
+        <Box marginTop="xxl">
+          <Icon name={iconName} size={110} />
+        </Box>
+
         {animationSource && orientation === 'portrait' && (
           <Box marginBottom="m">
             <LottieView
@@ -59,7 +64,7 @@ export const BaseHomeView = ({children, animationSource, animationPauseFrame}: B
             />
           </Box>
         )}
-        <Box flex={1} alignItems="center" justifyContent="center" marginHorizontal="xl">
+        <Box flex={1} alignItems="flex-start" justifyContent="flex-end" marginHorizontal="xl">
           {children}
         </Box>
       </ScrollView>

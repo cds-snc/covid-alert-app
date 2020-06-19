@@ -17,7 +17,7 @@ import IconNotify from 'assets/icon-notify.svg';
 import IconShare from 'assets/icon-share.svg';
 import IconNotifications from 'assets/icon-notifications.svg';
 import IconLearn from 'assets/icon-learn.svg';
-import IconOffline from 'assets/icon-offline.svg';
+import IconOffline from 'assets/icon-offline-2.svg';
 import IconExposureNotificationsDisabled from 'assets/icon-exposure-notifications-disabled.svg';
 import IconExposureNotificationsOff from 'assets/icon-exposure-notifications-off.svg';
 import ProgressCircleEmpty from 'assets/progress-circle-empty.svg';
@@ -26,6 +26,7 @@ import ShareHeading from 'assets/share-heading.svg';
 import SheetHandleBar from 'assets/sheet-handle-bar.svg';
 import ShieldActive from 'assets/shield-active.svg';
 import ShieldCovid from 'assets/shield-covid.svg';
+import MapleLeaf from 'assets/maple-leaf.svg';
 import ShieldDisabled from 'assets/shield-disabled.svg';
 
 const ICONS = {
@@ -57,16 +58,17 @@ const ICONS = {
   'shield-disabled': ShieldDisabled,
   'shield-active': ShieldActive,
   'shield-covid': ShieldCovid,
+  'maple-leaf': MapleLeaf,
 };
 
-type IconName = keyof typeof ICONS;
+export type IconName = keyof typeof ICONS;
 
 export interface IconProps {
-  name: IconName;
+  name: IconName | undefined;
   size?: number;
 }
 
 export const Icon = ({name, size = 24}: IconProps) => {
-  const IconImpl = ICONS[name];
+  const IconImpl = name !== undefined ? ICONS[name] : null; // eslint-disable-line no-negated-condition
   return IconImpl ? <IconImpl width={size} height={size} /> : null;
 };

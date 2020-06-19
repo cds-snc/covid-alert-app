@@ -9,7 +9,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>COVID Shield</string>
+	<string>StopCOVID</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -50,8 +50,8 @@
 	<string/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Nunito-Bold.ttf</string>
-		<string>Nunito.ttf</string>
+		<string>NotoSans-Bold.ttf</string>
+		<string>NotoSans-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
@@ -63,8 +63,8 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-    <string>telephony</string>
-    <string>bluetooth-le</string>
+		<string>telephony</string>
+		<string>bluetooth-le</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

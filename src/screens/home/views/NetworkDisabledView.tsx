@@ -11,13 +11,14 @@ export const NetworkDisabledView = () => {
       <Box marginBottom="l">
         <Icon name="icon-offline" size={44} />
       </Box>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.NoConnectivity')}
       </Text>
-      <Text variant="bodyText" color="bodyText" textAlign="center">
+      <Text variant="bodyText" color="bodyText">
         {i18n.translate('Home.NoConnectivityDetailed')}
       </Text>
       <LastCheckedDisplay />
+      <Box marginTop="l" marginBottom="l" />
     </BaseHomeView>
   );
 };

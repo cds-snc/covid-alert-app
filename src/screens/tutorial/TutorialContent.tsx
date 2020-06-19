@@ -1,5 +1,5 @@
 import React, {useRef, useEffect} from 'react';
-import {StyleSheet, ScrollView, useWindowDimensions} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
 import {Box, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import LottieView from 'lottie-react-native';
@@ -27,7 +27,7 @@ const animationData = {
 export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isActiveSlide: boolean}) => {
   const [i18n] = useI18n();
   const prefersReducedMotion = useReduceMotionPreference();
-  const {width: viewportWidth, height: viewportHeight} = useWindowDimensions();
+  // const {width: viewportWidth, height: viewportHeight} = useWindowDimensions();
   const animationRef: React.Ref<LottieView> = useRef(null);
   useEffect(() => {
     // need to stop if user prefers reduced animations
@@ -41,6 +41,7 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
   }, [isActiveSlide, prefersReducedMotion, item]);
   return (
     <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
+      {/*
       <LottieView
         ref={animationRef}
         style={{width: viewportWidth, height: viewportHeight / 2}}
@@ -48,17 +49,12 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
         imageAssetsFolder="animation/images"
         loop={!prefersReducedMotion}
       />
-      <Box paddingHorizontal="xxl">
-        <Text
-          textAlign="center"
-          color="overlayBodyText"
-          variant="bodySubTitle"
-          marginBottom="m"
-          accessibilityRole="header"
-        >
+      */}
+      <Box flex={1} paddingVertical="xxl" paddingHorizontal="xxl">
+        <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
           {i18n.translate(`Tutorial.${item}Title`)}
         </Text>
-        <Text variant="bodyText" textAlign="center" color="overlayBodyText">
+        <Text variant="bodyText" color="overlayBodyText">
           {i18n.translate(`Tutorial.${item}`)}
         </Text>
       </Box>

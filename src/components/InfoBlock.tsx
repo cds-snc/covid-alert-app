@@ -29,31 +29,37 @@ export const InfoBlock = ({
   titleBolded,
 }: InfoBlockProps) => {
   return (
-    <Box borderRadius={10} backgroundColor={backgroundColor} padding="m" alignItems="center">
+    <Box borderRadius={10} backgroundColor={backgroundColor} padding="m" alignItems="flex-start">
       {icon && (
         <Box marginBottom="m">
           <Icon name={icon} size={24} />
         </Box>
       )}
       {(title || titleBolded) && (
-        <Box marginBottom="m" justifyContent="center" flexDirection="row" flexWrap="wrap">
+        <Box marginBottom="m" justifyContent="flex-start" flexDirection="row" flexWrap="wrap">
           {title && (
             <Text variant="overlayTitle" accessibilityRole="header" color={color}>
               {title}
             </Text>
           )}
           {titleBolded && (
-            <Text variant="overlayTitle" accessibilityRole="header" color={color} fontFamily="Nunito-Bold">
+            <Text
+              variant="overlayTitle"
+              accessibilityRole="header"
+              color={color}
+              fontFamily="Noto Sans"
+              fontWeight="bold"
+            >
               {titleBolded}
             </Text>
           )}
         </Box>
       )}
-      <Text variant="bodyText" fontSize={16} color={color} marginBottom="m" textAlign="center">
+      <Text variant="bodyText" fontSize={16} color={color} marginBottom="m">
         {text}
       </Text>
       <Box marginHorizontal="none" alignSelf="stretch">
-        <Button text={buttonText} onPress={action} variant="hollow" color={color} />
+        <Button text={buttonText} onPress={action} variant="bigFlat" color={color} />
       </Box>
     </Box>
   );
