@@ -31,7 +31,8 @@ export const InfoShareView = () => {
   const onSymptomps = useCallback(() => {
     Linking.openURL(i18n.translate('Info.SymptomsUrl')).catch(err => console.error('An error occurred', err));
   }, [i18n]);
-  const onShare = useCallback(() => navigation.navigate('Sharing'), [navigation]);
+
+  // const onShare = useCallback(() => navigation.navigate('Sharing'), [navigation]);
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
@@ -47,7 +48,7 @@ export const InfoShareView = () => {
           accessibilityRole="link"
           accessibilityHint={i18n.translate('Home.ExternalLinkHint')}
         />
-        <InfoShareItem onPress={onShare} text={i18n.translate('Info.TellAFriend')} icon="icon-share" />
+        {/* <InfoShareItem onPress={onShare} text={i18n.translate('Info.TellAFriend')} icon="icon-share" /> */}
         <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground" marginTop="m">
