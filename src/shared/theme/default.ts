@@ -27,6 +27,8 @@ export const palette = {
   black: '#000000',
   lighterBlue: '#B3CAE5',
   buttonGrey: '#EEEEEE',
+  danger25: '#FFC1B3',
+  danger50: '#F7635D',
   pink: '#FFC1B3',
 };
 
@@ -38,6 +40,7 @@ const theme = {
     offlineBackground: palette.pink,
     greenBackground: palette.greenBright,
     overlayBackground: palette.white,
+    danger25Background: palette.danger25,
     overlayBodyText: palette.bodyBlack,
     fadedBackground: palette.fadedWhite,
     bodyText: palette.bodyBlack,
@@ -134,6 +137,18 @@ const theme = {
     },
   },
   buttonVariants: {
+    danger50Flat: {
+      color: palette.danger50,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
     opaqueFlatBlackText: {
       color: palette.faded,
       height: 52,
