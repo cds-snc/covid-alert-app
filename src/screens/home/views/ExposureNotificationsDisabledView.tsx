@@ -1,5 +1,5 @@
 import {useI18n} from '@shopify/react-i18n';
-import {Box, Button, Icon, LastCheckedDisplay, Text} from 'components';
+import {Box, Button, Text} from 'components';
 import React, {useCallback} from 'react';
 import {useStartENSystem} from 'services/ExposureNotificationService';
 

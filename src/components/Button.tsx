@@ -65,6 +65,7 @@ export const Button = ({
       justifyContent="center"
       style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
       paddingHorizontal="m"
+      paddingVertical="m"
       flexDirection="row"
     >
       {loading ? (
@@ -75,7 +76,7 @@ export const Button = ({
             {text}
           </Text>
           {externalLink && <Icon name={externalArrowIcon} />}
-          {internalLink && <Icon name={'icon-chevron'} />}
+          {internalLink && <Icon name="icon-chevron" />}
         </>
       )}
     </Box>
