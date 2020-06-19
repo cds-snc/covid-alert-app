@@ -28,8 +28,10 @@ import ShieldActive from 'assets/shield-active.svg';
 import ShieldCovid from 'assets/shield-covid.svg';
 import MapleLeaf from 'assets/maple-leaf.svg';
 import ShieldDisabled from 'assets/shield-disabled.svg';
+import IconX from 'assets/icon-x.svg';
 
 const ICONS = {
+  'icon-x': IconX,
   'icon-back-arrow': IconBackArrow,
   'icon-bluetooth': IconBluetooth,
   'icon-bluetooth-disabled': IconBluetoothDisabled,

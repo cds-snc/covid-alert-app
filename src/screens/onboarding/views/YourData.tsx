@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text} from 'components';
+import {Box, Text, Icon} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
 export const YourData = () => {
@@ -15,21 +15,33 @@ export const YourData = () => {
         </Box>
 
         <Box flexDirection="row" marginBottom="l">
+          <Text marginTop="s" marginRight="m">
+            <Icon size={20} name="icon-x" />
+          </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('YourData.Body')}
           </Text>
         </Box>
         <Box flexDirection="row" marginBottom="l">
+          <Text marginTop="s" marginRight="m">
+            <Icon size={20} name="icon-x" />
+          </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('YourData.Body1')}
           </Text>
         </Box>
         <Box flexDirection="row" marginBottom="l">
+          <Text marginTop="s" marginRight="m">
+            <Icon size={20} name="icon-x" />
+          </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('YourData.Body2')}
           </Text>
         </Box>
-        <Box flexDirection="row" alignItems="center" marginBottom="l">
+        <Box flexDirection="row" alignItems="flex-start" marginBottom="l">
+          <Text marginTop="s" marginRight="m">
+            <Icon size={20} name="icon-x" />
+          </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('YourData.Body3')}
           </Text>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
+import {Icon} from 'components';
 import {Box, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
@@ -15,16 +16,25 @@ export const Permissions = () => {
         </Box>
 
         <Box flexDirection="row" marginBottom="l">
+          <Text marginTop="s" marginRight="m">
+            <Icon size={20} name="icon-x" />
+          </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body')}
           </Text>
         </Box>
         <Box flexDirection="row" marginBottom="l">
+          <Text marginTop="s" marginRight="m">
+            <Icon size={20} name="icon-x" />
+          </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body2')}
           </Text>
         </Box>
         <Box flexDirection="row" alignItems="center" marginBottom="l">
+          <Text marginTop="s" marginRight="m">
+            <Icon size={20} name="icon-x" />
+          </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body3')}
           </Text>
