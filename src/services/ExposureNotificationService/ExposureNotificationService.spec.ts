@@ -119,7 +119,7 @@ describe('ExposureNotificationService', () => {
     );
   });
 
-  it('restores "diangosed" status from storage', async () => {
+  it('restores "diagnosed" status from storage', async () => {
     when(storage.getItem)
       .calledWith('submissionCycleStartedAt')
       .mockResolvedValueOnce(new OriginalDate('2020-05-18T04:10:00+0000').toString());
