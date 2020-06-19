@@ -27,12 +27,9 @@ export const palette = {
   black: '#000000',
   lighterBlue: '#B3CAE5',
   buttonGrey: '#EEEEEE',
-<<<<<<< HEAD
   danger25: '#FFC1B3',
   danger50: '#F7635D',
-=======
   pink: '#FFC1B3',
->>>>>>> master
 };
 
 const theme = {
