@@ -10,7 +10,7 @@ const isRegionCovered = (region: Region) => {
 
 export const getRegionCase = (region: Region | undefined) => {
   let regionCase: RegionCase = 'regionNotCovered';
-  if (!region) {
+  if (!region || region === 'None') {
     regionCase = 'noRegionSet';
   } else if (isRegionCovered(region)) {
     regionCase = 'regionCovered';
