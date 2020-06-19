@@ -20,11 +20,19 @@ export const YourData = () => {
           </Text>
         </Box>
         <Box flexDirection="row" marginBottom="l">
+          <Text marginRight="s">❌</Text>
+          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
+            {i18n.translate('YourData.Body1')}
+          </Text>
+        </Box>
+        <Box flexDirection="row" marginBottom="l">
+          <Text marginRight="s">❌</Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('YourData.Body2')}
           </Text>
         </Box>
         <Box flexDirection="row" alignItems="center" marginBottom="l">
+          <Text marginRight="s">❌</Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('YourData.Body3')}
           </Text>

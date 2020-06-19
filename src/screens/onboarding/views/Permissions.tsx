@@ -15,16 +15,19 @@ export const Permissions = () => {
         </Box>
 
         <Box flexDirection="row" marginBottom="l">
+          <Text marginRight="s">❌</Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body')}
           </Text>
         </Box>
         <Box flexDirection="row" marginBottom="l">
+          <Text marginRight="s">❌</Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body2')}
           </Text>
         </Box>
         <Box flexDirection="row" alignItems="center" marginBottom="l">
+          <Text marginRight="s">❌</Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body3')}
           </Text>
