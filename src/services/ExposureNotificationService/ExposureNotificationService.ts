@@ -225,7 +225,7 @@ export class ExposureNotificationService {
   }
 
   private async performExposureStatusUpdate(): Promise<ExposureStatus> {
-    const exposureConfigutration = await this.backendInterface.getExposureConfiguration();
+    const exposureConfiguration = await this.backendInterface.getExposureConfiguration();
     const lastCheckDate = await (async () => {
       const timestamp = await this.storage.getItem('lastCheckTimeStamp');
       if (timestamp) {
@@ -253,7 +253,7 @@ export class ExposureNotificationService {
       if (done) break;
       if (!keysFilesUrl) continue;
       try {
-        const summary = await this.exposureNotification.detectExposure(exposureConfigutration, [
+        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [
           `${keysFilesUrl}/export.bin`,
           `${keysFilesUrl}/export.sig`,
         ]);
