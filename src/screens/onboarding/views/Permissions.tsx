@@ -7,31 +7,25 @@ export const Permissions = () => {
   const [i18n] = useI18n();
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box paddingHorizontal="xl">
-        <Box paddingHorizontal="l" marginTop="m">
-          <Text
-            variant="bodyTitle"
-            color="overlayBodyText"
-            marginHorizontal="l"
-            marginBottom="l"
-            textAlign="center"
-            accessibilityRole="header"
-          >
+      <Box flex={1} marginTop="xl" paddingHorizontal="xl">
+        <Box marginTop="m">
+          <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
             {i18n.translate('OnboardingPermissions.Title')}
           </Text>
         </Box>
-        <Box marginBottom="l">
-          <Text variant="bodyText" color="overlayBodyText" textAlign="center">
+
+        <Box flexDirection="row" marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body')}
           </Text>
         </Box>
-        <Box marginBottom="l">
-          <Text variant="bodyText" color="overlayBodyText" textAlign="center">
+        <Box flexDirection="row" marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body2')}
           </Text>
         </Box>
-        <Box marginBottom="l">
-          <Text variant="bodyText" color="overlayBodyText" textAlign="center">
+        <Box flexDirection="row" alignItems="center" marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body3')}
           </Text>
         </Box>

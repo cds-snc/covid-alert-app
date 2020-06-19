@@ -121,15 +121,16 @@
     "ActionBack": "Back"
   },
   "OnboardingPermissions": {
-    "Title": "Your data is private",
-    "Body": "StopCOVID takes a privacy-first approach to exposure notification.",
-    "Body2": "Your random IDs are stored exclusively on your phone unless you choose to share them.",
-    "Body3": "Use of StopCOVID is voluntary. You can delete your random IDs at any time."
+    "Title": "Your location is not tracked",
+    "Body": "your location",
+    "Body2": "where you’ve been",
+    "Body3": "who you’ve been with"
   },
   "OnboardingStart": {
-    "Title": "Keep yourself and others safe",
-    "Body1": "Get notified if you have potentially been exposed to COVID-19.",
-    "Body2": "If you test positive for COVID-19, you can choose to anonymously share your data so others can be notified of possible exposure.",
+    "Title": "How it works",
+    "Body1": "Using Bluetooth, StopCOVID shares anonymous, randomly generated codes, with other app users nearby.",
+    "Body2": "If you have been exposed to COVID-19 by another app user in the past 14 days, you will receive an anonymous notification.",
+    "Body3": "If you test positive for COVID-19, you can anonymously notify others who have been near you, in the past 14 days.",
     "TutorialAction": "Learn how StopCOVID works"
   },
   "Privacy": {
