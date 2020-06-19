@@ -191,9 +191,9 @@ Cette application est construite à l’aide de React Native et est conçue pour
 
 Suivez les étapes décrites dans [Configuration de l’environnement de développement React Native](https://reactnative.dev/docs/environment-setup) pour vous assurer que les outils appropriés sont installés.
 
-#### Nœud
+#### Node
 
-- [Nœud 12 LTS](https://nodejs.org/en/download/)
+- [Node 12 LTS](https://nodejs.org/en/download/)
 
 #### iOS
 
