@@ -41,6 +41,7 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
   }, [isActiveSlide, prefersReducedMotion, item]);
   return (
     <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
+      {/*
       <LottieView
         ref={animationRef}
         style={{width: viewportWidth, height: viewportHeight / 2}}
@@ -48,17 +49,12 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
         imageAssetsFolder="animation/images"
         loop={!prefersReducedMotion}
       />
-      <Box paddingHorizontal="xxl">
-        <Text
-          textAlign="center"
-          color="overlayBodyText"
-          variant="bodySubTitle"
-          marginBottom="m"
-          accessibilityRole="header"
-        >
+      */}
+      <Box flex={1} paddingVertical="xxl" paddingHorizontal="xxl">
+        <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
           {i18n.translate(`Tutorial.${item}Title`)}
         </Text>
-        <Text variant="bodyText" textAlign="center" color="overlayBodyText">
+        <Text variant="bodyText" color="overlayBodyText">
           {i18n.translate(`Tutorial.${item}`)}
         </Text>
       </Box>
