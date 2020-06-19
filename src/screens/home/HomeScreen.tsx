@@ -108,7 +108,10 @@ const Content = ({setBackgroundColor}: ContentProps) => {
       return exposureStatus.needsSubmission ? <DiagnosedShareView /> : <DiagnosedView />;
     case 'monitoring':
     default:
-      if (!network.isConnected) return <NetworkDisabledView />;
+      if (!network.isConnected) {
+        setBackgroundColor('offlineBackground');
+        return <NetworkDisabledView />;
+      }
       switch (systemStatus) {
         case SystemStatus.Disabled:
         case SystemStatus.Restricted:
