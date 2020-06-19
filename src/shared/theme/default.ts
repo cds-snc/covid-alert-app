@@ -1,6 +1,6 @@
 export const palette = {
   brandBlue: '#26374A',
-  linkBlue: '#0278A4',
+  linkBlue: '#005B99',
   bodyBlack: '#000000',
   bodySubdued: '#5B5B5B',
   greenBright: '#A4DE82',
@@ -17,7 +17,7 @@ export const palette = {
   brandRed: '#AF3C43',
   brandGreen: '#333000',
   lightBlue: '#CCEFFF',
-  neutralGrey: '#F4F4F4',
+  neutralGrey: '#EEEEEE',
   darkGrey: '#cecece',
   fadedYellow: '#FFF5D9',
   warn: '#FFCDB3',
