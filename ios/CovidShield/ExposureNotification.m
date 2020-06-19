@@ -21,7 +21,7 @@
   key.keyData = [@"1234567812345678" dataUsingEncoding:NSUTF8StringEncoding];
   key.rollingStartNumber = 123;
   key.transmissionRiskLevel = 5;
-  
+
   NSArray *keys = @[key];
   completionHandler(keys, nil);
 }
@@ -29,7 +29,7 @@
 @end
 
 
-typedef ENManagerMock ENManagerImplementation ;
+typedef ENManager ENManagerImplementation ;
 
 @interface ExposureNotification ()
 @property (nonatomic, assign) NSMutableArray *reportedSummaries;
@@ -61,7 +61,7 @@ RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve reject
 {
   if (self.enManager) return;
   self.enManager = [ENManagerImplementation new];
-  
+
   [self.enManager activateWithCompletionHandler:^(NSError * _Nullable error) {
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
@@ -158,7 +158,7 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
   }
 
 
-  
+
   [self.enManager detectExposuresWithConfiguration:configuration
                                   diagnosisKeyURLs:urls
                                  completionHandler:^(ENExposureDetectionSummary * _Nullable summary, NSError * _Nullable error) {
