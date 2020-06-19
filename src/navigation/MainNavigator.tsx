@@ -72,14 +72,14 @@ const DEFAULT_SCREEN_OPTIONS: NativeStackNavigationOptions = {
 
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
-  const {region} = useStorage();
+  // const {region} = useStorage();
   return (
     <OnboardingStack.Navigator
       screenOptions={{stackAnimation: 'fade', headerShown: false}}
-      initialRouteName={region ? 'OnboardingTutorial' : 'RegionPicker'}
+      initialRouteName="OnboardingTutorial"
     >
-      <OnboardingStack.Screen name="RegionPicker" component={RegionPickerScreenWithNavBar} />
       <OnboardingStack.Screen name="OnboardingTutorial" component={OnboardingScreenWithNavBar} />
+      <OnboardingStack.Screen name="RegionPicker" component={RegionPickerScreenWithNavBar} />
     </OnboardingStack.Navigator>
   );
 };

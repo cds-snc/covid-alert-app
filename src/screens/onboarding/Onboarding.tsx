@@ -32,7 +32,7 @@ export const OnboardingScreen = () => {
     setOnboarded(true);
     navigation.reset({
       index: 0,
-      routes: [{name: 'Home'}],
+      routes: [{name: 'RegionPicker'}],
     });
   }, [navigation, setOnboarded]);
 

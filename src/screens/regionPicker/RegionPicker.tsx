@@ -64,7 +64,7 @@ export const RegionPickerScreen = () => {
             variant={selectedRegion === 'None' ? 'bigHollow' : 'bigFlat'}
             onPress={async () => {
               await persistRegion(selectedRegion);
-              navigate('OnboardingTutorial');
+              navigate('Home');
             }}
           />
         </Box>
