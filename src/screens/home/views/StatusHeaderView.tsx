@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Text, Icon} from 'components';
+import {Box, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
 interface Props {
