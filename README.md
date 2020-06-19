@@ -1,3 +1,5 @@
+[La version française suit.](#---------------------------------------------------------------------)
+
 # COVID Shield Mobile App
 
 ![Lint + Typscript](https://github.com/CovidShield/mobile/workflows/CI/badge.svg)
@@ -161,3 +163,169 @@ cp debug.keystore ~/.android/debug.keystore
 ```
 
 Now you can run `yarn run-android` in your root folder.
+
+## ---------------------------------------------------------------------
+
+# Application mobile COVID Shield
+
+![Lint + Typscript](https://github.com/CovidShield/mobile/workflows/CI/badge.svg)
+
+Adapté de <https://github.com/CovidShield/mobile> ([voir les modifications](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
+
+Ce dépôt met en œuvre une _application client_ React Native pour le cadriciel [Notification
+d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, éclairé par [l’orientation fournie par le commissaire à la protection de la vie privée du Canada](https://priv.gc.ca/fr/opc-news/speeches/2020/s-d_20200507/). Pour en savoir plus sur la façon dont tout cela fonctionne, lisez la [justification du COVID Shield](https://github.com/CovidShield/rationale).
+
+- [Aperçu](#aperçu)
+
+- [Développement local](#développement local)
+- [Personnalisation](#personnalisation)
+- [Localisation](#localisation)
+
+## Aperçu
+
+Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic COVID Shield](https://github.com/CovidShield/backend) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
+
+## Développement local
+
+### Conditions préalables
+
+Suivez les étapes décrites dans [Configuration de l’environnement de développement React Native](https://reactnative.dev/docs/environment-setup) pour vous assurer que les outils appropriés sont installés.
+
+#### Nœud
+
+- [Nœud 12 LTS](https://nodejs.org/en/download/)
+
+#### iOS
+
+- XCode 11.5 ou supérieur
+- appareil ou simulateur iOS avec iOS 13.5 ou plus récent
+- [Bundler](https://bundler.io/) pour installer la bonne version de CocoaPods localement
+- Vous avez également besoin d’un profil de provisionnement avec le droit de notification d’exposition. Pour obtenir de plus amples renseignements, visitez https://developer.apple.com/documentation/exposurenotification.
+
+#### Android
+
+- Appareil Android pouvant exécuter la dernière version de Google Play Services ou Google Play Services Beta. Inscrivez-vous au programme bêta ici https://developers.google.com/android/guides/beta-program.
+- Vous avez également besoin d’un APPLICATION_ID protégé qui sera utilisé pour publier dans Google Play. Vous pouvez utiliser l’APPLICATION_ID de [Google Sample App](https://github.com/google/exposure-notifications-android) à des fins d’essai `« com.google.android.apps.exposurenotification »`. Aller à [Environment config](https://github.com/CovidShield/mobile#3-environment-config) pour voir comment modifier l’APPLICATION_ID.
+
+#### 1. Consulter le dépôt
+
+```bash
+git clone git@github.com:CovidShield/mobile.git
+```
+
+#### 2. Installer les dépendances :
+
+```bash
+yarn install
+```
+
+##### 2.1 Étape supplémentaire pour iOS
+
+###### 2.1.1 Installer Cocoapods
+
+```bash
+sudo gem install cocoapods
+```
+
+###### 2.1.2 Installer les modules
+
+```bash
+bundle install && yarn pod-install
+```
+
+#### 3. Configuration environnement
+
+Cocher `.env` et rajuster la configuration si nécessaire. Voir [react-native-config](https://www.npmjs.com/package/react-native-config#different-environments) pour plus d’information.
+
+Exemple :
+
+```bash
+ENVFILE=.env.production yarn run-ios
+ENVFILE=.env.production yarn run-android
+```
+
+#### 4. Démarrer l’application en mode développement
+
+Vous pouvez maintenant lancer l’application à l’aide des commandes suivantes pour iOS et Android :
+
+```bash
+yarn run-ios
+yarn run-android
+```
+
+Vous pouvez également construire l’application avec un outil de développement natif :
+
+- Pour iOS, utilisez XCode en ouvrant le fichier `CovidShield.xcworkspace` dans le dossier « ios ».
+- Pour Android, utilisez Android Studio en ouvrant le dossier `android`.
+
+### Mode de développement
+
+Lorsque l’application est en mode de développement, vous pouvez appuyer sur le logo COVID Shield en haut de l’application pour ouvrir le menu Test. Ce menu vous permet de :
+
+- Mettre l’application en mode test pour contourner le contrôle de l’API de notification d’exposition
+- Modifier l’état du système
+- Modifier le statut d’exposition
+- Envoyer un exemple de notification
+- Réinitialiser l’application à l’état d’intégration
+
+Remarque : Le menu de test est activé si le fichier de configuration de l’environnement (`.env*`) montre « TEST_MODE=true ». Pour désactiver l’interface utilisateur du mode test en production, il suffit de la définir comme False dans le fichier de configuration d’environnement « TEST_MODE=false ».
+
+## Personnalisation
+
+Vous pouvez personnaliser l’apparence de l’application en grande partie en modifiant les valeurs du [Theme File](https://github.com/CovidShield/mobile/blob/master/src/shared/theme.ts).
+
+## Localisation
+
+L’application COVID Shield est disponible en français et en anglais. Le contenu entièrement localisé peut être modifié en modifiant les fichiers de traduction qui se trouvent dans le [répertoire des traductions](https://github.com/CovidShield/mobile/tree/master/src/locale/translations). On peut ajouter plus de traductions en utilisant le même mécanisme pour le français et l’anglais.
+
+Après avoir modifié le contenu, vous devez exécuter la commande `generate-translations` pour que l’application reflète vos modifications.
+
+```bash
+yarn generate-translations
+```
+
+### Ajouter une nouvelle traduction
+
+1. Créer un nouveau fichier i18n dans [src/local/translations/](./src/local/translations/).
+2. Ajouter la nouvelle option `pt` dans [translations.js](./translations.js).
+3. Régénérer les traductions `yarn generate-translations`.
+4. Ajouter la nouvelle option dans [src/components/Languagetoggle.tsx](./src/components/Languagetoggle.tsx).
+5. Ajouter la nouvelle option dans [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
+6. Ajouter la nouvelle option dans les paramètres Xcode `Localizations` (Project -> CovidShield -> onglet Info -> Localizations) et assurez-vous que `Launch Screen.storyboard` est coché.
+
+## Qui a conçu COVID Shield?
+
+COVID Shield a été conçu à l’origine par des [bénévoles de Shopify](https://www.covidshield.app/). Il a été [diffusé gratuitement en vertu d’une licence ouverte flexible](https://github.com/CovidShield/mobile).
+
+Ce dépôt est élaboré par le [Service numérique canadien](https://numerique.canada.ca/). Vous pouvez nous joindre à <cds-snc@tbs-sct.gc.ca>.
+
+## Résolution de problèmes
+
+### [Android] Problème avec debug.keystore pendant l’exécution de la version Android
+
+Journaux
+
+```bash
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:packageDebug'.
+> A failure occurred while executing com.android.build.gradle.internal.tasks.Workers$ActionFacade
+   > com.android.ide.common.signing.KeytoolException: Failed to read key AndroidDebugKey from store "/Users/YOUR_USER/.android/debug.keystore": keystore password was incorrect
+```
+
+Créer un nouveau `debug.keystore` :
+
+```bash
+cd android/app
+keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Copiez votre debug.keystore sur `~/.android/debug.keystore` :
+
+```bash
+cd android/app
+cp debug.keystore ~/.android/debug.keystore
+```
+
+Vous pouvez maintenant exécuter `yarn run-android` dans votre dossier racine.
