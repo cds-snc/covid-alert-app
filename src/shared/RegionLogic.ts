@@ -1,4 +1,4 @@
-import {Region} from './Region';
+import {Region, RegionCase} from './Region';
 
 const isRegionCovered = (region: Region) => {
   const onboardedCovered = ['ON'];
@@ -9,7 +9,6 @@ const isRegionCovered = (region: Region) => {
 };
 
 export const getRegionCase = (region: Region | undefined) => {
-  type RegionCase = 'regionNotCovered' | 'noRegionSet' | 'regionCovered';
   let regionCase: RegionCase = 'regionNotCovered';
   if (!region) {
     regionCase = 'noRegionSet';

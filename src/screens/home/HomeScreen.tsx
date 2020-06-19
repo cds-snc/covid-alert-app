@@ -10,13 +10,17 @@ import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 
+import {RegionCase} from '../../shared/Region';
+
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
 import {DiagnosedView} from './views/DiagnosedView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
 import {ExposureView} from './views/ExposureView';
-import {NoExposureView} from './views/NoExposureView';
+import {NoExposureUncoveredRegionView} from './views/NoExposureUncoveredRegionView';
+import {NoExposureCoveredRegionView} from './views/NoExposureCoveredRegionView';
+import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
 import {OverlayView} from './views/OverlayView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 
@@ -70,17 +74,19 @@ const Content = ({setBackgroundColor}: ContentProps) => {
 
   const network = useNetInfo();
 
-  switch (regionCase) {
-    case 'noRegionSet':
-      setBackgroundColor('mainBackground');
-      break;
-    case 'regionCovered':
-      setBackgroundColor('regionCoveredBackground');
-      break;
-    case 'regionNotCovered':
-      setBackgroundColor('mainBackground');
-      break;
-  }
+  const getNoExposureView = (_regionCase: RegionCase) => {
+    switch (_regionCase) {
+      case 'noRegionSet':
+        setBackgroundColor('mainBackground');
+        return <NoExposureNoRegionView />;
+      case 'regionCovered':
+        setBackgroundColor('regionCoveredBackground');
+        return <NoExposureCoveredRegionView />;
+      case 'regionNotCovered':
+        setBackgroundColor('mainBackground');
+        return <NoExposureUncoveredRegionView />;
+    }
+  };
 
   useEffect(() => {
     const updateStatus = (newState: AppStateStatus) => {
@@ -121,7 +127,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
           return <BluetoothDisabledView />;
         case SystemStatus.Active:
         case SystemStatus.Unknown:
-          return <NoExposureView />;
+          return getNoExposureView(regionCase);
       }
   }
 };
