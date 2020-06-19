@@ -15,20 +15,17 @@ export const ExposureNotificationsDisabledView = () => {
 
   return (
     <BaseHomeView>
-      <Box marginBottom="l">
-        <Icon name="icon-exposure-notifications-disabled" size={44} />
-      </Box>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.ExposureNotificationsDisabled')}
       </Text>
-      <Text variant="bodyText" color="bodyText" textAlign="center">
+      <Text variant="bodyText" color="bodyText">
         {i18n.translate('Home.ExposureNotificationsDisabledDetailed')}
       </Text>
-      <LastCheckedDisplay />
       <Box alignSelf="stretch" marginTop="l">
         <Button
+          internalLink
           text={i18n.translate('Home.EnableExposureNotificationsCTA')}
-          variant="bigFlat"
+          variant="danger50Flat"
           onPress={enableExposureNotifications}
         />
       </Box>

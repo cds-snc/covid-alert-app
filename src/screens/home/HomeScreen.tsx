@@ -112,12 +112,12 @@ const Content = ({setBackgroundColor}: ContentProps) => {
       switch (systemStatus) {
         case SystemStatus.Disabled:
         case SystemStatus.Restricted:
+          setBackgroundColor('danger25Background');
           return <ExposureNotificationsDisabledView />;
         case SystemStatus.BluetoothOff:
           return <BluetoothDisabledView />;
         case SystemStatus.Active:
         case SystemStatus.Unknown:
-          // setBackgroundColor('exposureBackground');
           return <NoExposureView />;
       }
   }
