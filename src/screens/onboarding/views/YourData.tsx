@@ -15,9 +15,6 @@ export const YourData = () => {
         </Box>
 
         <Box flexDirection="row" marginBottom="l">
-          <Text marginTop="s" marginRight="m">
-            <Icon size={20} name="icon-x" />
-          </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('YourData.Body')}
           </Text>
