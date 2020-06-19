@@ -27,5 +27,11 @@ platform :ios do
 end
 
 platform :android do
-  # Android Lanes
+  lane :beta do
+    gradle(
+      task: 'assemble',
+      build_type: 'Release',
+      project_dir: 'android/'
+    )
+  end
 end
