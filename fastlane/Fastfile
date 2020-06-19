@@ -1,0 +1,31 @@
+fastlane_version '2.53.1'
+
+platform :ios do
+  lane :beta do
+    increment_build_number(
+      build_number: latest_testflight_build_number + 1,
+      xcodeproj: "ios/CovidShield.xcodeproj"
+    )
+    get_certificates(
+      output_path: "fastlane/certs"
+    )
+    get_provisioning_profile(
+      output_path: "fastlane/certs"
+    )
+    build_app(
+      scheme: "CovidShield",
+      workspace: "./ios/CovidShield.xcworkspace",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "ca.tbs-sct.covid" => "SapphireDevelopmentProfile"
+        }
+      }
+    )
+    upload_to_testflight
+  end
+end
+
+platform :android do
+  # Android Lanes
+end

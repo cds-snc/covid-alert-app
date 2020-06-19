@@ -1,0 +1,2 @@
+app_identifier "ca.tbs-sct.covid"
+apple_id ENV["APPLE_ID"]
