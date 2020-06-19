@@ -2,19 +2,19 @@ import {Buffer} from 'buffer';
 
 import {NativeModules} from 'react-native';
 
-const CoviedShieldBridgeBare = NativeModules.CovidShield as {
+const CovidShieldBridgeBare = NativeModules.CovidShield as {
   downloadDiagnosisKeysFile(url: string): Promise<string>;
   getRandomBytes(size: number): Promise<string>;
 };
 
-export interface CoviedShieldBridge {
+export interface CovidShieldBridge {
   downloadDiagnosisKeysFile(url: string): Promise<string>;
   getRandomBytes(size: number): Promise<Buffer>;
 }
 
-export const downloadDiagnosisKeysFile = CoviedShieldBridgeBare.downloadDiagnosisKeysFile;
+export const downloadDiagnosisKeysFile = CovidShieldBridgeBare.downloadDiagnosisKeysFile;
 
 export const getRandomBytes = async (size: number) => {
-  const base64encoded = await CoviedShieldBridgeBare.getRandomBytes(size);
+  const base64encoded = await CovidShieldBridgeBare.getRandomBytes(size);
   return Buffer.from(base64encoded, 'base64');
 };
