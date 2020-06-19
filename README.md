@@ -55,7 +55,7 @@ Follow the steps outlined in [React Native Development Environment Setup](https:
 
 #### iOS
 
-- XCode 11.5 or greater
+- Xcode 11.5 or greater
 - iOS device or simulator with iOS 13.5 or greater
 - [Bundler](https://bundler.io/) to install the right version of CocoaPods locally
 - You also need a provisioning profile with the Exposure Notification entitlement. For more information, visit https://developer.apple.com/documentation/exposurenotification.
@@ -113,7 +113,7 @@ yarn run-android
 
 You can also build the app with native development tool:
 
-- For iOS, using XCode by opening the `CovidShield.xcworkspace` file in the `ios` folder.
+- For iOS, using Xcode by opening the `CovidShield.xcworkspace` file in the `ios` folder.
 - For Android, using Android Studio by opening `android` folder.
 
 ### Development mode
