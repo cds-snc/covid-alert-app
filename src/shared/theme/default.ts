@@ -27,6 +27,7 @@ export const palette = {
   black: '#000000',
   lighterBlue: '#B3CAE5',
   buttonGrey: '#EEEEEE',
+  pink: '#FFC1B3',
 };
 
 const theme = {
@@ -34,6 +35,7 @@ const theme = {
     mainBackground: palette.brandBlue,
     regionCoveredBackground: palette.mint,
     exposureBackground: palette.warn,
+    offlineBackground: palette.pink,
     greenBackground: palette.greenBright,
     overlayBackground: palette.white,
     overlayBodyText: palette.bodyBlack,

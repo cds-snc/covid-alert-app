@@ -5,6 +5,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {Theme} from 'shared/theme';
+import {useNetInfo} from '@react-native-community/netinfo';
 
 import {Box} from './Box';
 import {Icon} from './Icon';
@@ -19,6 +20,7 @@ type Color = keyof Theme['colors'];
 export const Header = ({isOverlay}: HeaderProps) => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
+  const network = useNetInfo();
 
   const {region} = useStorage();
   const regionCase = getRegionCase(region);
@@ -27,6 +29,10 @@ export const Header = ({isOverlay}: HeaderProps) => {
 
   if (regionCase === 'noRegionSet' || regionCase === 'regionNotCovered') {
     textColor = 'bodyTitleWhite';
+  }
+
+  if (!network.isConnected) {
+    textColor = 'bodyText';
   }
 
   const headerTextColor: Color = textColor as Color;

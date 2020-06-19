@@ -33,8 +33,8 @@
     "ExposureNotificationsDisabled": "Exposure notifications are off",
     "ExposureNotificationsDisabledDetailed": "Exposure notifications are needed for StopCOVID to work.",
     "EnableExposureNotificationsCTA": "Turn on exposure notifications",
-    "NoConnectivity": "No internet connection",
-    "NoConnectivityDetailed": "StopCOVID needs internet access to continue checking for potential exposure.",
+    "NoConnectivity": "StopCOVID is offline",
+    "NoConnectivityDetailed": "StopCOVID only works if there is internet access.",
     "AppName": "StopCOVID",
     "ExternalLinkHint": "Opens in a new window",
     "LastCheckedMinutes": {
