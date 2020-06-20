@@ -44,7 +44,7 @@ Follow the steps outlined in [React Native Development Environment Setup](https:
 #### 1. Check out the repository
 
 ```bash
-git clone git@github.com:CovidShield/mobile.git
+git clone git@github.com:cds-snc/covid-shield-mobile.git
 ```
 
 #### 2. Install dependencies
@@ -210,7 +210,7 @@ Suivez les étapes décrites dans [Configuration de l’environnement de dévelo
 #### 1. Consulter le dépôt
 
 ```bash
-git clone git@github.com:CovidShield/mobile.git
+git clone git@github.com:cds-snc/covid-shield-mobile.git
 ```
 
 #### 2. Installer les dépendances :

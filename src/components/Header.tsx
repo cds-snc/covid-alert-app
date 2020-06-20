@@ -2,11 +2,7 @@ import React, {useCallback} from 'react';
 import {TouchableWithoutFeedback} from 'react-native';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
-import {useStorage} from 'services/StorageService';
-import {getRegionCase} from 'shared/RegionLogic';
 import {Theme} from 'shared/theme';
-import {useNetInfo} from '@react-native-community/netinfo';
-import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
 
 import {Box} from './Box';
 import {Icon} from './Icon';
@@ -18,28 +14,12 @@ export interface HeaderProps {
 
 type Color = keyof Theme['colors'];
 
-export const Header = ({isOverlay}: HeaderProps) => {
+export const Header = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
-  const network = useNetInfo();
-  const [systemStatus] = useSystemStatus();
 
-  const {region} = useStorage();
-  const regionCase = getRegionCase(region);
+  const textColor = 'bodyText';
 
-  let textColor = isOverlay ? 'overlayBodyText' : 'bodyText';
-
-  if (regionCase === 'noRegionSet' || regionCase === 'regionNotCovered') {
-    textColor = 'bodyTitleWhite';
-  }
-
-  if (!network.isConnected) {
-    textColor = 'bodyText';
-  }
-
-  if (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) {
-    textColor = 'bodyText';
-  }
   const headerTextColor: Color = textColor as Color;
 
   const onLogoPress = useCallback(() => {
