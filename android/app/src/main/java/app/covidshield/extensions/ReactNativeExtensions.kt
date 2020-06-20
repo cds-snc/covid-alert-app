@@ -22,7 +22,7 @@ fun Any.toWritableMap(): WritableMap {
 }
 
 fun <T> ReadableMap.parse(classOfT: Class<T>): T {
-    return convertMapToJson(this)!!.toJson().parse(classOfT)
+    return convertMapToJson(this)!!.toString().parse(classOfT)
 }
 
 fun <T> ReadableArray.parse(classOfT: Class<T>): List<T> {

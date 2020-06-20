@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.io.File
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -48,12 +49,10 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
         }
     }
 
-    private fun writeFile(file: ByteArray): String {
-        // TODO: consider using cache or cleaning up old files
-        val filename = UUID.randomUUID().toString()
-        reactApplicationContext.openFileOutput(filename, Context.MODE_PRIVATE).use {
-            it.write(file)
-        }
-        return filename
+    private fun writeFile(data: ByteArray): String {
+        val dirName = UUID.randomUUID().toString()
+        val file = File(reactApplicationContext.getDir(dirName, Context.MODE_PRIVATE), "keys.zip")
+        file.outputStream().use { it.write(data) }
+        return file.absolutePath
     }
 }
