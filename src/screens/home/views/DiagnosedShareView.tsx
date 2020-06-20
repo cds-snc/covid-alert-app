@@ -16,16 +16,16 @@ export const DiagnosedShareView = () => {
 
   return (
     <BaseHomeView>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.DailyShare')}
       </Text>
-      <Text variant="bodyText" color="bodyText" textAlign="center" marginBottom="l">
+      <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate('Home.DailyShareDetailed')}
       </Text>
       <Box alignSelf="stretch" marginBottom="s">
         <Button text={i18n.translate('Home.ShareRandomIDsCTA')} variant="bigFlat" onPress={toDataShare} />
       </Box>
-      <Box alignSelf="stretch">
+      <Box alignSelf="stretch" marginBottom="l">
         <Button
           text={i18n.translate('Home.SignalDataSharedCTA')}
           variant="bigFlat"
