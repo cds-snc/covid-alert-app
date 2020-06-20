@@ -4,7 +4,6 @@ import {Box, Button, ProgressCircles, Header, LanguageToggle} from 'components';
 import {StyleSheet, LayoutChangeEvent, LayoutRectangle} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
-import {useStorage} from 'services/StorageService';
 import {useI18n} from '@shopify/react-i18n';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
@@ -25,16 +24,7 @@ export const OnboardingScreen = () => {
   const [i18n] = useI18n();
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
-  const {setOnboarded} = useStorage();
   const navigation = useNavigation();
-  const handlePermissions = useCallback(() => {
-    // handle all our app permission stuff
-    setOnboarded(true);
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'RegionPicker'}],
-    });
-  }, [navigation, setOnboarded]);
 
   const maxWidth = useMaxContentWidth();
 
@@ -53,12 +43,12 @@ export const OnboardingScreen = () => {
   const nextItem = useCallback(() => {
     if (carouselRef.current) {
       if (currentIndex === contentData.length - 1) {
-        handlePermissions();
+        navigation.navigate('RegionPicker');
         return;
       }
       (carouselRef.current! as CarouselStatic<ViewKey>).snapToNext();
     }
-  }, [currentIndex, handlePermissions]);
+  }, [currentIndex, navigation]);
 
   const prevItem = useCallback(() => {
     if (carouselRef.current) {

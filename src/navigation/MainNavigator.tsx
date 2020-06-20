@@ -2,7 +2,7 @@ import React from 'react';
 import {StatusBar, Platform} from 'react-native';
 import {enableScreens} from 'react-native-screens';
 import {useNavigationState} from '@react-navigation/native';
-import {createNativeStackNavigator, NativeStackNavigationOptions} from 'react-native-screens/native-stack';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
@@ -65,14 +65,8 @@ const SharingScreenWithNavBar = withDarkNav(SharingScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 
-const DEFAULT_SCREEN_OPTIONS: NativeStackNavigationOptions = {
-  stackPresentation: 'modal',
-  headerShown: false,
-};
-
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
-  // const {region} = useStorage();
   return (
     <OnboardingStack.Navigator
       screenOptions={{stackAnimation: 'fade', headerShown: false}}
@@ -88,7 +82,7 @@ const MainNavigator = () => {
   const {isOnboarding} = useStorage();
   return (
     <MainStack.Navigator
-      screenOptions={DEFAULT_SCREEN_OPTIONS}
+      screenOptions={{stackPresentation: 'modal', headerShown: false}}
       initialRouteName={isOnboarding ? 'OnboardingNavigator' : 'Home'}
     >
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />

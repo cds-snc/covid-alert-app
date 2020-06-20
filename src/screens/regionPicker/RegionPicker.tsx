@@ -13,7 +13,8 @@ export const RegionPickerScreen = () => {
   const [i18n] = useI18n();
   const {setRegion: persistRegion} = useStorage();
   const [selectedRegion, setSelectedRegion] = useState<Region>('None');
-  const {navigate} = useNavigation();
+  const navigation = useNavigation();
+  const {setOnboarded} = useStorage();
 
   return (
     <Box flex={1} backgroundColor="overlayBackground">
@@ -63,8 +64,12 @@ export const RegionPickerScreen = () => {
             text={i18n.translate(`RegionPicker.${selectedRegion === 'None' ? 'Skip' : 'GetStarted'}`)}
             variant={selectedRegion === 'None' ? 'bigHollow' : 'bigFlat'}
             onPress={async () => {
+              await setOnboarded(true);
               await persistRegion(selectedRegion);
-              navigate('Home');
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'Home'}],
+              });
             }}
           />
         </Box>
