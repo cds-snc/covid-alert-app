@@ -73,17 +73,15 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   }, [startSystem]);
 
   const network = useNetInfo();
+  setBackgroundColor('mainBackground');
 
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
       case 'noRegionSet':
-        setBackgroundColor('mainBackground');
         return <NoExposureNoRegionView />;
       case 'regionCovered':
-        setBackgroundColor('regionCoveredBackground');
         return <NoExposureCoveredRegionView />;
       case 'regionNotCovered':
-        setBackgroundColor('mainBackground');
         return <NoExposureUncoveredRegionView />;
     }
   };
@@ -110,18 +108,15 @@ const Content = ({setBackgroundColor}: ContentProps) => {
     case 'exposed':
       return <ExposureView />;
     case 'diagnosed':
-      setBackgroundColor('lighterBlueBackground');
       return exposureStatus.needsSubmission ? <DiagnosedShareView /> : <DiagnosedView />;
     case 'monitoring':
     default:
       if (!network.isConnected) {
-        setBackgroundColor('offlineBackground');
         return <NetworkDisabledView />;
       }
       switch (systemStatus) {
         case SystemStatus.Disabled:
         case SystemStatus.Restricted:
-          setBackgroundColor('danger25Background');
           return <ExposureNotificationsDisabledView />;
         case SystemStatus.BluetoothOff:
           return <BluetoothDisabledView />;
