@@ -111,6 +111,8 @@ const Content = ({setBackgroundColor}: ContentProps) => {
       return <ExposureView />;
     case 'diagnosed':
       setBackgroundColor('lighterBlueBackground');
+      // it is possible to get to the <DiagnosedShareView /> immidiately after
+      // submitting a code. todo: investigate this further.
       return exposureStatus.needsSubmission ? <DiagnosedShareView /> : <DiagnosedView />;
     case 'monitoring':
     default:

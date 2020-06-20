@@ -7,6 +7,7 @@ import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from '../Box';
 import {Icon} from '../Icon';
+import {BottomSheetToggle} from '../../shared/bottomSheetToggle';
 
 import {SheetContentsContainer} from './SheetContentsContainer';
 
@@ -23,6 +24,7 @@ const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProp
   const bottomSheetRef: React.Ref<BottomSheetRaw> = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [i18n] = useI18n();
+
   const toggleExpanded = useCallback(() => {
     if (isExpanded) {
       bottomSheetRef.current?.snapTo(1);
@@ -46,7 +48,7 @@ const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProp
 
   const expandedContentWrapper = (
     <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
-      {children}
+      <BottomSheetToggle.Provider value={toggleExpanded}>{children}</BottomSheetToggle.Provider>
       <TouchableOpacity
         onPress={toggleExpanded}
         style={styles.collapseButton}
