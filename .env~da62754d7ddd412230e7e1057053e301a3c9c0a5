@@ -8,5 +8,5 @@ RETRIEVE_URL=https://retrieval.covidshield.app
 HMAC_KEY=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 REGION=302
 
-TEST_MODE=false
+TEST_MODE=true
 MOCK_SERVER=false

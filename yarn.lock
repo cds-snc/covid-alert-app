@@ -7165,13 +7165,6 @@ react-native-markdown-display@^6.1.0:
     prop-types "^15.7.2"
     react-native-fit-image "^1.5.5"
 
-react-native-material-ripple@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/react-native-material-ripple/-/react-native-material-ripple-0.9.1.tgz#db1ad9dd7cf97011e4cd8475ae2041ade0f891cb"
-  integrity sha512-dHjARdKoGD3LXwPh2TkURabywM5BfdpKc/AHplJTfBMalhVZ2bc7iJoJmNhNnmT/TZ+B3szL6uV1mO7Pv8zNeA==
-  dependencies:
-    prop-types "^15.5.10"
-
 react-native-permissions@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.1.4.tgz#b0663839d28444d8ea6b5302303b2151ea70d2da"
