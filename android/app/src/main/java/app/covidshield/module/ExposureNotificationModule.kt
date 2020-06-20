@@ -209,59 +209,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         private const val START_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9001
         private const val GET_TEK_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9002
     }
-
-    private suspend fun startInternal() {
-        val activity = currentActivity ?: throw IllegalStateException("Invalid activity")
-        try {
-            exposureNotificationClient.start().await()
-        } catch (exception: Exception) {
-            if (exception !is ApiException) {
-                log("Unknown error")
-                throw exception
-            }
-            if (exception.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
-                startResolutionCompleter = CompletableDeferred()
-                try {
-                    exception.status.startResolutionForResult(
-                        activity,
-                        START_RESOLUTION_FOR_RESULT_REQUEST_CODE
-                    )
-                    startResolutionCompleter?.await()
-                    startResolutionCompleter = null
-                    startInternal()
-                } catch (exception: IntentSender.SendIntentException) {
-                    log("Error when calling startResolutionForResult")
-                    startResolutionCompleter?.completeExceptionally(exception)
-                } catch (exception: Exception) {
-                    log("User denied permission")
-                } finally {
-                    startResolutionCompleter = null
-                }
-            } else {
-                log("Unknown error")
-                throw Error(exception)
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val completer = when (requestCode) {
-            START_RESOLUTION_FOR_RESULT_REQUEST_CODE -> startResolutionCompleter
-            else -> return
-        }
-        launch {
-            if (resultCode == Activity.RESULT_OK) {
-                completer?.complete(Unit)
-            } else {
-                completer?.completeExceptionally(Exception())
-            }
-        }
-    }
-
-    companion object {
-
-        private const val START_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9001
-    }
 }
 
 private enum class Status(val value: String) {
