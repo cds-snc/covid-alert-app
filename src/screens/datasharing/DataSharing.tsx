@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 
-import {BottomSheetToggle} from '../../shared/bottomSheetToggle';
+import {BottomSheetClose} from '../../shared/bottomSheetClose';
 
 import {FormView} from './views/FormView';
 import {ConsentView} from './views/ConsentView';
@@ -20,7 +20,7 @@ export const DataSharingScreen = () => {
   const handleChange = useCallback(text => setCodeValue(text), []);
   // if keySubmissionStatus is None we need the 1-time code, otherwise we should go right to consent
   const [isVerified, setIsVerified] = useState(exposureStatus.type === 'diagnosed');
-  const BottomSheetToggleFn = useContext(BottomSheetToggle);
+  const BottomSheetCloseFn = useContext(BottomSheetClose);
 
   const onError = useCallback(() => {
     Alert.alert(i18n.translate('DataUpload.ErrorTitle'), i18n.translate('DataUpload.ErrorBody'), [
@@ -33,9 +33,9 @@ export const DataSharingScreen = () => {
   }, []);
 
   const handleUploaded = useCallback(() => {
-    // BottomSheetToggleFn();
+    BottomSheetCloseFn();
     navigation.goBack();
-  }, [navigation]);
+  }, [BottomSheetCloseFn, navigation]);
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>

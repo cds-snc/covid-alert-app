@@ -7,7 +7,7 @@ import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from '../Box';
 import {Icon} from '../Icon';
-import {BottomSheetToggle} from '../../shared/bottomSheetToggle';
+import {BottomSheetClose} from '../../shared/bottomSheetClose';
 
 import {SheetContentsContainer} from './SheetContentsContainer';
 
@@ -33,6 +33,11 @@ const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProp
     }
   }, [isExpanded]);
 
+  const closeSheet = useCallback(() => {
+    bottomSheetRef.current?.snapTo(1);
+    setIsExpanded(false);
+  }, []);
+
   const insets = useSafeArea();
   const renderHeader = useCallback(() => <Box height={insets.top} />, [insets.top]);
 
@@ -48,7 +53,7 @@ const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProp
 
   const expandedContentWrapper = (
     <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
-      <BottomSheetToggle.Provider value={toggleExpanded}>{children}</BottomSheetToggle.Provider>
+      <BottomSheetClose.Provider value={closeSheet}>{children}</BottomSheetClose.Provider>
       <TouchableOpacity
         onPress={toggleExpanded}
         style={styles.collapseButton}

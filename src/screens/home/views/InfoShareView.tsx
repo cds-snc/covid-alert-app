@@ -1,8 +1,10 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {TouchableOpacity, TouchableOpacityProps, Linking} from 'react-native';
 import {Box, Text, Icon, IconProps} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
+
+import {BottomSheetClose} from '../../../shared/bottomSheetClose';
 
 interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
@@ -28,6 +30,8 @@ const InfoShareItem = ({onPress, text, icon, ...touchableProps}: InfoShareItemPr
 export const InfoShareView = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
+  const BottomSheetCloseFn = useContext(BottomSheetClose);
+
   const onSymptomps = useCallback(() => {
     Linking.openURL(i18n.translate('Info.SymptomsUrl')).catch(err => console.error('An error occurred', err));
   }, [i18n]);
@@ -37,6 +41,9 @@ export const InfoShareView = () => {
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
   const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
+  const onToggle = useCallback(() => {
+    BottomSheetCloseFn();
+  }, [BottomSheetCloseFn]);
 
   return (
     <>
@@ -56,6 +63,7 @@ export const InfoShareView = () => {
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
         <InfoShareItem onPress={onRegion} text={i18n.translate('Info.ChangeRegion')} icon="icon-chevron" />
         <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
+        <InfoShareItem onPress={onToggle} text={i18n.translate('Togglestuff')} icon="icon-chevron" />
       </Box>
     </>
   );
