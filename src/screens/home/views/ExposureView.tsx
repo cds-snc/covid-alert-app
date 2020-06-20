@@ -17,7 +17,7 @@ export const ExposureView = () => {
 
   return (
     <BaseHomeView>
-      <Text variant="bodyTitle" color="bodyTextNutmeg" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.ExposureDetected')}
         {/* No exposure detected */}
       </Text>
@@ -31,15 +31,10 @@ export const ExposureView = () => {
 
       {/* <LastCheckedDisplay /> */}
       <Box alignSelf="stretch" marginTop="l" marginBottom="s">
-        <Button
-          text={i18n.translate('Home.SeeGuidance')}
-          variant="opaqueFlatBlackText"
-          externalLink
-          onPress={onActionGuidance}
-        />
+        <Button text={i18n.translate('Home.SeeGuidance')} variant="bigFlat" externalLink onPress={onActionGuidance} />
       </Box>
       <Box alignSelf="stretch" marginBottom="s">
-        <Button text={i18n.translate('Home.How')} variant="opaqueFlatBlackText" externalLink onPress={onActionHow} />
+        <Button text={i18n.translate('Home.How')} variant="bigFlat" externalLink onPress={onActionHow} />
       </Box>
     </BaseHomeView>
   );

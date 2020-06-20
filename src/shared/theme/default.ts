@@ -34,7 +34,7 @@ export const palette = {
 
 const theme = {
   colors: {
-    mainBackground: palette.brandBlue,
+    mainBackground: palette.neutralGrey,
     regionCoveredBackground: palette.mint,
     exposureBackground: palette.warn,
     offlineBackground: palette.pink,
