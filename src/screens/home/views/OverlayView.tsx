@@ -1,9 +1,10 @@
-import React, {useCallback} from 'react';
-import {Linking} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {Linking, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Box, InfoBlock, BoxProps} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {SystemStatus} from 'services/ExposureNotificationService';
+import {useBluetoothStatus, BluetoothStatus} from 'react-native-bluetooth-status';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -25,21 +26,32 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   );
 };
 
-const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-  return (
-    <InfoBlock
-      icon="icon-bluetooth-off"
-      title={i18n.translate('OverlayOpen.BluetoothCardStatus')}
-      titleBolded={i18n.translate('OverlayOpen.BluetoothCardStatusOff')}
-      text={i18n.translate('OverlayOpen.BluetoothCardBody')}
-      button={{text: i18n.translate('OverlayOpen.BluetoothCardAction'), action: toSettings}}
-      backgroundColor="errorBackground"
-      color="errorText"
-    />
-  );
+const BluetoothStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
+  if (Platform.OS !== 'android') {
+    return (
+      <InfoBlock
+        icon="icon-bluetooth-off"
+        title={i18n.translate('OverlayOpen.BluetoothCardStatus')}
+        titleBolded={i18n.translate('OverlayOpen.BluetoothCardStatusOff')}
+        text={i18n.translate('OverlayOpen.BluetoothCardBody')}
+        backgroundColor="errorBackground"
+        color="errorText"
+      />
+    );
+  }
+  if (Platform.OS === 'android') {
+    return (
+      <InfoBlock
+        icon="icon-bluetooth-off"
+        title={i18n.translate('OverlayOpen.BluetoothCardStatus')}
+        titleBolded={i18n.translate('OverlayOpen.BluetoothCardStatusOff')}
+        text={i18n.translate('OverlayOpen.BluetoothCardBody')}
+        button={{text: i18n.translate('OverlayOpen.BluetoothCardAction'), action}}
+        backgroundColor="errorBackground"
+        color="errorText"
+      />
+    );
+  }
 };
 
 const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
@@ -65,6 +77,10 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, maxWidth}: Props) => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
+  const [btStatus, isPending, setBluetooth] = useBluetoothStatus();
+  const setBluetoothAction = () => {
+    setBluetooth(true);
+  };
 
   return (
     <Box maxWidth={maxWidth}>
@@ -76,9 +92,9 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
           <SystemStatusOff i18n={i18n} />
         </Box>
       )}
-      {status !== SystemStatus.Active && (
+      {!btStatus && (
         <Box marginBottom="m" marginHorizontal="m">
-          <BluetoothStatusOff i18n={i18n} />
+          <BluetoothStatusOff action={setBluetoothAction} i18n={i18n} />
         </Box>
       )}
       {notificationWarning && (
