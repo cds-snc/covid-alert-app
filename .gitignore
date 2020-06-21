@@ -86,6 +86,7 @@ ios/Generated.xcconfig
 android/app/google-services.json
 .env.local
 .env
+.env.production
 
 # generated files
 ios/assets
