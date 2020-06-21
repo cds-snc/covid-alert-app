@@ -1,6 +1,7 @@
 package app.covidshield.module
 
 import android.app.Activity
+import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.IntentSender
 import app.covidshield.extensions.cleanup
@@ -45,6 +46,8 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     private var startResolutionCompleter: CompletableDeferred<Any>? = null
     private var getTekResolutionCompleter: CompletableDeferred<Any>? = null
 
+    private val bluetoothAdapter get() = BluetoothAdapter.getDefaultAdapter()
+
     override fun getName(): String = "ExposureNotification"
 
     override val coroutineContext: CoroutineContext get() = Dispatchers.Default
@@ -52,7 +55,11 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun start(promise: Promise) {
         promise.launch(this) {
-            startInternal()
+            val status = getStatusInternal()
+            if (status != Status.ACTIVE) {
+                stopInternal()
+                startInternal()
+            }
             promise.resolve(null)
         }
     }
@@ -60,11 +67,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun stop(promise: Promise) {
         promise.launch(this) {
-            try {
-                exposureNotificationClient.stop().await()
-            } catch (_: Exception) {
-                // Noop
-            }
+            stopInternal()
         }
     }
 
@@ -77,12 +80,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getStatus(promise: Promise) {
         promise.launch(this) {
-            val status = try {
-                val isEnabled = exposureNotificationClient.isEnabled.await()
-                if (isEnabled) Status.ACTIVE else Status.DISABLED
-            } catch (_: Exception) {
-                Status.DISABLED
-            }
+            val status = getStatusInternal()
             promise.resolve(status.value)
         }
     }
@@ -189,6 +187,32 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         throw Exception("UNKNOWN_ERROR")
     }
 
+    private suspend fun stopInternal() {
+        try {
+            exposureNotificationClient.stop().await()
+        } catch (_: Exception) {
+            // Noop
+        }
+    }
+
+    private suspend fun getStatusInternal(): Status {
+        val isExposureNotificationEnabled = try {
+            exposureNotificationClient.isEnabled.await()
+        } catch (_: Exception) {
+            false
+        }
+        val isBluetoothEnabled = try {
+            bluetoothAdapter.isEnabled
+        } catch (_: Exception) {
+            false
+        }
+        return when {
+            !isExposureNotificationEnabled -> Status.DISABLED
+            !isBluetoothEnabled -> Status.BLUETOOTH_OFF
+            else -> Status.ACTIVE
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val completer = when (requestCode) {
             START_RESOLUTION_FOR_RESULT_REQUEST_CODE -> startResolutionCompleter
@@ -213,5 +237,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
 private enum class Status(val value: String) {
     ACTIVE("active"),
-    DISABLED("disabled")
+    DISABLED("disabled"),
+    BLUETOOTH_OFF("bluetooth_off")
 }
