@@ -11,7 +11,6 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
 
   const enableExposureNotifications = useCallback(() => {
-    console.log('ccccc enableExposureNotifications');
     startExposureNotificationService();
   }, [startExposureNotificationService]);
 
