@@ -146,12 +146,19 @@ android {
     }
     signingConfigs {
       release {
-        if (project.hasProperty('STOPCOVID_UPLOAD_STORE_FILE')) {
-          storeFile file(STOPCOVID_UPLOAD_STORE_FILE)
-          storePassword STOPCOVID_UPLOAD_STORE_PASSWORD
-          keyAlias STOPCOVID_UPLOAD_KEY_ALIAS
-          keyPassword STOPCOVID_UPLOAD_KEY_PASSWORD
+        // if (project.hasProperty('COVIDSHIELD_UPLOAD_STORE_FILE')) {
+        //   storeFile file(COVIDSHIELD_UPLOAD_STORE_FILE)
+        //   storePassword COVIDSHIELD_UPLOAD_STORE_PASSWORD
+        //   keyAlias COVIDSHIELD_UPLOAD_KEY_ALIAS
+        //   keyPassword COVIDSHIELD_UPLOAD_KEY_PASSWORD
+        // }
+        if (project.env.get('COVIDSHIELD_UPLOAD_STORE_FILE') != null) {
+          storeFile file(project.env.get('COVIDSHIELD_UPLOAD_STORE_FILE'))
+          storePassword project.env.get('COVIDSHIELD_UPLOAD_STORE_PASSWORD')
+          keyAlias project.env.get('COVIDSHIELD_UPLOAD_KEY_ALIAS')
+          keyPassword project.env.get('COVIDSHIELD_UPLOAD_KEY_PASSWORD')
         }
+
       }
     }
 
