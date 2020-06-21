@@ -34,7 +34,7 @@ export class StorageService {
   };
 
   setRegion = async (value: Region | undefined) => {
-    await AsyncStorage.setItem(Key.Locale, value ? value : '');
+    await AsyncStorage.setItem(Key.Region, value ? value : '');
     this.region.set(value);
   };
 

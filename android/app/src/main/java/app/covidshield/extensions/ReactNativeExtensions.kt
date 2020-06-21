@@ -12,7 +12,9 @@ import org.json.JSONException
 import org.json.JSONObject
 
 fun List<Any>.toWritableArray(): WritableArray {
-    return convertJsonToArray(this.toJson().parse(JSONArray::class.java))
+    val writableArray = WritableNativeArray()
+    forEach { writableArray.pushMap(it.toWritableMap()) }
+    return writableArray
 }
 
 fun Any.toWritableMap(): WritableMap {
@@ -20,7 +22,7 @@ fun Any.toWritableMap(): WritableMap {
 }
 
 fun <T> ReadableMap.parse(classOfT: Class<T>): T {
-    return convertMapToJson(this)!!.toJson().parse(classOfT)
+    return convertMapToJson(this)!!.toString().parse(classOfT)
 }
 
 fun <T> ReadableArray.parse(classOfT: Class<T>): List<T> {

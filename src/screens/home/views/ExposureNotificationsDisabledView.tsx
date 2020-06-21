@@ -1,7 +1,7 @@
 import {useI18n} from '@shopify/react-i18n';
-import {Linking} from 'react-native';
 import {Box, Button, Text} from 'components';
 import React, {useCallback} from 'react';
+import {Linking} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 

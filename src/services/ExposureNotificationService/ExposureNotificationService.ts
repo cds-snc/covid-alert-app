@@ -15,6 +15,7 @@ const SECURE_OPTIONS = {
 };
 
 type Translate = (key: string) => string;
+const hoursPerPeriod = 24;
 
 export {SystemStatus};
 
@@ -168,15 +169,15 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
-  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string> {
+  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string | null> {
     const runningDate = new Date();
 
-    const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14));
-    let runningPeriod = periodSinceEpoch(runningDate);
+    const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14), hoursPerPeriod);
+    let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
 
     while (runningPeriod > lastCheckPeriod) {
-      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
-      runningPeriod -= 2;
+      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod).catch(() => null);
+      runningPeriod -= 1;
     }
   }
 
@@ -208,7 +209,7 @@ export class ExposureNotificationService {
   }
 
   private async performExposureStatusUpdate(): Promise<ExposureStatus> {
-    const exposureConfigutration = await this.backendInterface.getExposureConfiguration();
+    const exposureConfiguration = await this.backendInterface.getExposureConfiguration();
     const lastCheckDate = await (async () => {
       const timestamp = await this.storage.getItem('lastCheckTimeStamp');
       if (timestamp) {
@@ -229,16 +230,20 @@ export class ExposureNotificationService {
       return finalize({...currentStatus, needsSubmission: await this.calculateNeedsSubmission()});
     }
 
-    console.log('lastCheckDate', lastCheckDate);
     const generator = this.keysSinceLastFetch(lastCheckDate);
     while (true) {
       const {value: keysFilesUrl, done} = await generator.next();
       if (done) break;
-
-      const summary = await this.exposureNotification.detectExposure(exposureConfigutration, [keysFilesUrl]);
-      if (summary.matchedKeyCount > 0) {
-        const exposures = await this.exposureNotification.getExposureInformation(summary);
-        return finalize({type: 'exposed', exposures});
+      if (!keysFilesUrl) continue;
+      try {
+        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [`${keysFilesUrl}`]);
+        if (summary.matchedKeyCount > 0) {
+          const exposures = await this.exposureNotification.getExposureInformation(summary);
+          return finalize({type: 'exposed', exposures});
+        }
+      } catch (err) {
+        console.log({err});
+        continue;
       }
     }
     return finalize({type: 'monitoring'});
