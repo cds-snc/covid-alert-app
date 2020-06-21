@@ -28,6 +28,7 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
     />
   );
 };
+
 /*
 const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
   const toSettings = useCallback(() => {
