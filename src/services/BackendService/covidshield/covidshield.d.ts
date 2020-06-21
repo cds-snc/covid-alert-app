@@ -106,6 +106,12 @@ export namespace covidshield {
 
         /** KeyClaimResponse serverPublicKey */
         serverPublicKey?: (Uint8Array|null);
+
+        /** KeyClaimResponse triesRemaining */
+        triesRemaining?: (number|null);
+
+        /** KeyClaimResponse remainingBanDuration */
+        remainingBanDuration?: (google.protobuf.IDuration|null);
     }
 
     /** Represents a KeyClaimResponse. */
@@ -122,6 +128,12 @@ export namespace covidshield {
 
         /** KeyClaimResponse serverPublicKey. */
         public serverPublicKey: Uint8Array;
+
+        /** KeyClaimResponse triesRemaining. */
+        public triesRemaining: number;
+
+        /** KeyClaimResponse remainingBanDuration. */
+        public remainingBanDuration?: (google.protobuf.IDuration|null);
 
         /**
          * Creates a new KeyClaimResponse instance using the specified properties.
@@ -202,7 +214,8 @@ export namespace covidshield {
             UNKNOWN = 1,
             INVALID_ONE_TIME_CODE = 2,
             SERVER_ERROR = 3,
-            INVALID_KEY = 4
+            INVALID_KEY = 4,
+            TEMPORARY_BAN = 5
         }
     }
 
@@ -420,7 +433,8 @@ export namespace covidshield {
             INVALID_ROLLING_PERIOD = 10,
             INVALID_KEY_DATA = 11,
             INVALID_ROLLING_START_INTERVAL_NUMBER = 12,
-            INVALID_TRANSMISSION_RISK_LEVEL = 13
+            INVALID_TRANSMISSION_RISK_LEVEL = 13,
+            NO_KEYS_IN_PAYLOAD = 14
         }
     }
 
@@ -649,12 +663,6 @@ export namespace covidshield {
     /** Properties of a SignatureInfo. */
     interface ISignatureInfo {
 
-        /** SignatureInfo appBundleId */
-        appBundleId?: (string|null);
-
-        /** SignatureInfo androidPackage */
-        androidPackage?: (string|null);
-
         /** SignatureInfo verificationKeyVersion */
         verificationKeyVersion?: (string|null);
 
@@ -673,12 +681,6 @@ export namespace covidshield {
          * @param [properties] Properties to set
          */
         constructor(properties?: covidshield.ISignatureInfo);
-
-        /** SignatureInfo appBundleId. */
-        public appBundleId: string;
-
-        /** SignatureInfo androidPackage. */
-        public androidPackage: string;
 
         /** SignatureInfo verificationKeyVersion. */
         public verificationKeyVersion: string;
@@ -1164,6 +1166,102 @@ export namespace google {
 
             /**
              * Converts this Timestamp to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a Duration. */
+        interface IDuration {
+
+            /** Duration seconds */
+            seconds?: (number|Long|null);
+
+            /** Duration nanos */
+            nanos?: (number|null);
+        }
+
+        /** Represents a Duration. */
+        class Duration implements IDuration {
+
+            /**
+             * Constructs a new Duration.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IDuration);
+
+            /** Duration seconds. */
+            public seconds: (number|Long);
+
+            /** Duration nanos. */
+            public nanos: number;
+
+            /**
+             * Creates a new Duration instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Duration instance
+             */
+            public static create(properties?: google.protobuf.IDuration): google.protobuf.Duration;
+
+            /**
+             * Encodes the specified Duration message. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
+             * @param message Duration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IDuration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Duration message, length delimited. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
+             * @param message Duration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IDuration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a Duration message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns Duration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Duration;
+
+            /**
+             * Decodes a Duration message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns Duration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Duration;
+
+            /**
+             * Verifies a Duration message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a Duration message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Duration
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.Duration;
+
+            /**
+             * Creates a plain object from a Duration message. Also converts values to other types if specified.
+             * @param message Duration
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.Duration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Duration to JSON.
              * @returns JSON object
              */
             public toJSON(): { [k: string]: any };

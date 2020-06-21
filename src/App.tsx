@@ -17,7 +17,7 @@ import Reactotron from 'reactotron-react-native';
 import {NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {TestMode} from 'testMode';
-import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
+import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY, REGION} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
 import {SharedTranslations} from 'locale';
@@ -46,7 +46,7 @@ const App = () => {
     [locale],
   );
 
-  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY), []);
+  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, REGION), []);
 
   return (
     <I18nContext.Provider value={i18nManager}>
