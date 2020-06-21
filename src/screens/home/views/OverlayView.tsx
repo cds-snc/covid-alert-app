@@ -80,11 +80,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
           <SystemStatusOff i18n={i18n} />
         </Box>
       )}
-      {status !== SystemStatus.Active && (
+      {/* {status !== SystemStatus.Active && (
         <Box marginBottom="m" marginHorizontal="m">
           <BluetoothStatusOff i18n={i18n} />
         </Box>
-      )}
+      )}*/}
       {notificationWarning && (
         <Box marginBottom="m" marginHorizontal="m">
           <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
