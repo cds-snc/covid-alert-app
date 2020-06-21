@@ -40,7 +40,7 @@ const App = () => {
       new I18nManager({
         locale,
         onError(error) {
-          console.log(error.message);
+          console.log('>>> i18N', error);
         },
       }),
     [locale],

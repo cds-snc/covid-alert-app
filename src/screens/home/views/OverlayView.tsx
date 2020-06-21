@@ -9,13 +9,6 @@ import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
-  // const startExposureNotificationService = useStartExposureNotificationService();
-
-  // const enableExposureNotifications = useCallback(() => {
-  //   console.log('ccccc enableExposureNotifications');
-  //   startExposureNotificationService();
-  // }, [startExposureNotificationService]);
-
   const toSettings = useCallback(() => {
     Linking.openSettings();
   }, []);
