@@ -252,6 +252,8 @@
              * @interface IKeyClaimResponse
              * @property {covidshield.KeyClaimResponse.ErrorCode|null} [error] KeyClaimResponse error
              * @property {Uint8Array|null} [serverPublicKey] KeyClaimResponse serverPublicKey
+             * @property {number|null} [triesRemaining] KeyClaimResponse triesRemaining
+             * @property {google.protobuf.IDuration|null} [remainingBanDuration] KeyClaimResponse remainingBanDuration
              */
     
             /**
@@ -286,6 +288,22 @@
             KeyClaimResponse.prototype.serverPublicKey = $util.newBuffer([]);
     
             /**
+             * KeyClaimResponse triesRemaining.
+             * @member {number} triesRemaining
+             * @memberof covidshield.KeyClaimResponse
+             * @instance
+             */
+            KeyClaimResponse.prototype.triesRemaining = 0;
+    
+            /**
+             * KeyClaimResponse remainingBanDuration.
+             * @member {google.protobuf.IDuration|null|undefined} remainingBanDuration
+             * @memberof covidshield.KeyClaimResponse
+             * @instance
+             */
+            KeyClaimResponse.prototype.remainingBanDuration = null;
+    
+            /**
              * Creates a new KeyClaimResponse instance using the specified properties.
              * @function create
              * @memberof covidshield.KeyClaimResponse
@@ -313,6 +331,10 @@
                     writer.uint32(/* id 1, wireType 0 =*/8).int32(message.error);
                 if (message.serverPublicKey != null && Object.hasOwnProperty.call(message, "serverPublicKey"))
                     writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.serverPublicKey);
+                if (message.triesRemaining != null && Object.hasOwnProperty.call(message, "triesRemaining"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.triesRemaining);
+                if (message.remainingBanDuration != null && Object.hasOwnProperty.call(message, "remainingBanDuration"))
+                    $root.google.protobuf.Duration.encode(message.remainingBanDuration, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                 return writer;
             };
     
@@ -352,6 +374,12 @@
                         break;
                     case 2:
                         message.serverPublicKey = reader.bytes();
+                        break;
+                    case 3:
+                        message.triesRemaining = reader.uint32();
+                        break;
+                    case 4:
+                        message.remainingBanDuration = $root.google.protobuf.Duration.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -397,11 +425,20 @@
                     case 2:
                     case 3:
                     case 4:
+                    case 5:
                         break;
                     }
                 if (message.serverPublicKey != null && message.hasOwnProperty("serverPublicKey"))
                     if (!(message.serverPublicKey && typeof message.serverPublicKey.length === "number" || $util.isString(message.serverPublicKey)))
                         return "serverPublicKey: buffer expected";
+                if (message.triesRemaining != null && message.hasOwnProperty("triesRemaining"))
+                    if (!$util.isInteger(message.triesRemaining))
+                        return "triesRemaining: integer expected";
+                if (message.remainingBanDuration != null && message.hasOwnProperty("remainingBanDuration")) {
+                    var error = $root.google.protobuf.Duration.verify(message.remainingBanDuration);
+                    if (error)
+                        return "remainingBanDuration." + error;
+                }
                 return null;
             };
     
@@ -438,12 +475,23 @@
                 case 4:
                     message.error = 4;
                     break;
+                case "TEMPORARY_BAN":
+                case 5:
+                    message.error = 5;
+                    break;
                 }
                 if (object.serverPublicKey != null)
                     if (typeof object.serverPublicKey === "string")
                         $util.base64.decode(object.serverPublicKey, message.serverPublicKey = $util.newBuffer($util.base64.length(object.serverPublicKey)), 0);
                     else if (object.serverPublicKey.length)
                         message.serverPublicKey = object.serverPublicKey;
+                if (object.triesRemaining != null)
+                    message.triesRemaining = object.triesRemaining >>> 0;
+                if (object.remainingBanDuration != null) {
+                    if (typeof object.remainingBanDuration !== "object")
+                        throw TypeError(".covidshield.KeyClaimResponse.remainingBanDuration: object expected");
+                    message.remainingBanDuration = $root.google.protobuf.Duration.fromObject(object.remainingBanDuration);
+                }
                 return message;
             };
     
@@ -469,11 +517,17 @@
                         if (options.bytes !== Array)
                             object.serverPublicKey = $util.newBuffer(object.serverPublicKey);
                     }
+                    object.triesRemaining = 0;
+                    object.remainingBanDuration = null;
                 }
                 if (message.error != null && message.hasOwnProperty("error"))
                     object.error = options.enums === String ? $root.covidshield.KeyClaimResponse.ErrorCode[message.error] : message.error;
                 if (message.serverPublicKey != null && message.hasOwnProperty("serverPublicKey"))
                     object.serverPublicKey = options.bytes === String ? $util.base64.encode(message.serverPublicKey, 0, message.serverPublicKey.length) : options.bytes === Array ? Array.prototype.slice.call(message.serverPublicKey) : message.serverPublicKey;
+                if (message.triesRemaining != null && message.hasOwnProperty("triesRemaining"))
+                    object.triesRemaining = message.triesRemaining;
+                if (message.remainingBanDuration != null && message.hasOwnProperty("remainingBanDuration"))
+                    object.remainingBanDuration = $root.google.protobuf.Duration.toObject(message.remainingBanDuration, options);
                 return object;
             };
     
@@ -497,6 +551,7 @@
              * @property {number} INVALID_ONE_TIME_CODE=2 INVALID_ONE_TIME_CODE value
              * @property {number} SERVER_ERROR=3 SERVER_ERROR value
              * @property {number} INVALID_KEY=4 INVALID_KEY value
+             * @property {number} TEMPORARY_BAN=5 TEMPORARY_BAN value
              */
             KeyClaimResponse.ErrorCode = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -505,6 +560,7 @@
                 values[valuesById[2] = "INVALID_ONE_TIME_CODE"] = 2;
                 values[valuesById[3] = "SERVER_ERROR"] = 3;
                 values[valuesById[4] = "INVALID_KEY"] = 4;
+                values[valuesById[5] = "TEMPORARY_BAN"] = 5;
                 return values;
             })();
     
@@ -948,6 +1004,7 @@
                 case 11:
                 case 12:
                 case 13:
+                case 14:
                     break;
                 }
                 return null;
@@ -1018,6 +1075,10 @@
                 case 13:
                     message.error = 13;
                     break;
+                case "NO_KEYS_IN_PAYLOAD":
+                case 14:
+                    message.error = 14;
+                    break;
                 }
                 return message;
             };
@@ -1070,6 +1131,7 @@
              * @property {number} INVALID_KEY_DATA=11 INVALID_KEY_DATA value
              * @property {number} INVALID_ROLLING_START_INTERVAL_NUMBER=12 INVALID_ROLLING_START_INTERVAL_NUMBER value
              * @property {number} INVALID_TRANSMISSION_RISK_LEVEL=13 INVALID_TRANSMISSION_RISK_LEVEL value
+             * @property {number} NO_KEYS_IN_PAYLOAD=14 NO_KEYS_IN_PAYLOAD value
              */
             EncryptedUploadResponse.ErrorCode = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
@@ -1086,6 +1148,7 @@
                 values[valuesById[11] = "INVALID_KEY_DATA"] = 11;
                 values[valuesById[12] = "INVALID_ROLLING_START_INTERVAL_NUMBER"] = 12;
                 values[valuesById[13] = "INVALID_TRANSMISSION_RISK_LEVEL"] = 13;
+                values[valuesById[14] = "NO_KEYS_IN_PAYLOAD"] = 14;
                 return values;
             })();
     
@@ -1727,8 +1790,6 @@
              * Properties of a SignatureInfo.
              * @memberof covidshield
              * @interface ISignatureInfo
-             * @property {string|null} [appBundleId] SignatureInfo appBundleId
-             * @property {string|null} [androidPackage] SignatureInfo androidPackage
              * @property {string|null} [verificationKeyVersion] SignatureInfo verificationKeyVersion
              * @property {string|null} [verificationKeyId] SignatureInfo verificationKeyId
              * @property {string|null} [signatureAlgorithm] SignatureInfo signatureAlgorithm
@@ -1748,22 +1809,6 @@
                         if (properties[keys[i]] != null)
                             this[keys[i]] = properties[keys[i]];
             }
-    
-            /**
-             * SignatureInfo appBundleId.
-             * @member {string} appBundleId
-             * @memberof covidshield.SignatureInfo
-             * @instance
-             */
-            SignatureInfo.prototype.appBundleId = "";
-    
-            /**
-             * SignatureInfo androidPackage.
-             * @member {string} androidPackage
-             * @memberof covidshield.SignatureInfo
-             * @instance
-             */
-            SignatureInfo.prototype.androidPackage = "";
     
             /**
              * SignatureInfo verificationKeyVersion.
@@ -1813,10 +1858,6 @@
             SignatureInfo.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.appBundleId != null && Object.hasOwnProperty.call(message, "appBundleId"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.appBundleId);
-                if (message.androidPackage != null && Object.hasOwnProperty.call(message, "androidPackage"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.androidPackage);
                 if (message.verificationKeyVersion != null && Object.hasOwnProperty.call(message, "verificationKeyVersion"))
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.verificationKeyVersion);
                 if (message.verificationKeyId != null && Object.hasOwnProperty.call(message, "verificationKeyId"))
@@ -1857,12 +1898,6 @@
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
-                    case 1:
-                        message.appBundleId = reader.string();
-                        break;
-                    case 2:
-                        message.androidPackage = reader.string();
-                        break;
                     case 3:
                         message.verificationKeyVersion = reader.string();
                         break;
@@ -1907,12 +1942,6 @@
             SignatureInfo.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.appBundleId != null && message.hasOwnProperty("appBundleId"))
-                    if (!$util.isString(message.appBundleId))
-                        return "appBundleId: string expected";
-                if (message.androidPackage != null && message.hasOwnProperty("androidPackage"))
-                    if (!$util.isString(message.androidPackage))
-                        return "androidPackage: string expected";
                 if (message.verificationKeyVersion != null && message.hasOwnProperty("verificationKeyVersion"))
                     if (!$util.isString(message.verificationKeyVersion))
                         return "verificationKeyVersion: string expected";
@@ -1937,10 +1966,6 @@
                 if (object instanceof $root.covidshield.SignatureInfo)
                     return object;
                 var message = new $root.covidshield.SignatureInfo();
-                if (object.appBundleId != null)
-                    message.appBundleId = String(object.appBundleId);
-                if (object.androidPackage != null)
-                    message.androidPackage = String(object.androidPackage);
                 if (object.verificationKeyVersion != null)
                     message.verificationKeyVersion = String(object.verificationKeyVersion);
                 if (object.verificationKeyId != null)
@@ -1964,16 +1989,10 @@
                     options = {};
                 var object = {};
                 if (options.defaults) {
-                    object.appBundleId = "";
-                    object.androidPackage = "";
                     object.verificationKeyVersion = "";
                     object.verificationKeyId = "";
                     object.signatureAlgorithm = "";
                 }
-                if (message.appBundleId != null && message.hasOwnProperty("appBundleId"))
-                    object.appBundleId = message.appBundleId;
-                if (message.androidPackage != null && message.hasOwnProperty("androidPackage"))
-                    object.androidPackage = message.androidPackage;
                 if (message.verificationKeyVersion != null && message.hasOwnProperty("verificationKeyVersion"))
                     object.verificationKeyVersion = message.verificationKeyVersion;
                 if (message.verificationKeyId != null && message.hasOwnProperty("verificationKeyId"))
@@ -2979,6 +2998,230 @@
                 };
     
                 return Timestamp;
+            })();
+    
+            protobuf.Duration = (function() {
+    
+                /**
+                 * Properties of a Duration.
+                 * @memberof google.protobuf
+                 * @interface IDuration
+                 * @property {number|Long|null} [seconds] Duration seconds
+                 * @property {number|null} [nanos] Duration nanos
+                 */
+    
+                /**
+                 * Constructs a new Duration.
+                 * @memberof google.protobuf
+                 * @classdesc Represents a Duration.
+                 * @implements IDuration
+                 * @constructor
+                 * @param {google.protobuf.IDuration=} [properties] Properties to set
+                 */
+                function Duration(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * Duration seconds.
+                 * @member {number|Long} seconds
+                 * @memberof google.protobuf.Duration
+                 * @instance
+                 */
+                Duration.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+                /**
+                 * Duration nanos.
+                 * @member {number} nanos
+                 * @memberof google.protobuf.Duration
+                 * @instance
+                 */
+                Duration.prototype.nanos = 0;
+    
+                /**
+                 * Creates a new Duration instance using the specified properties.
+                 * @function create
+                 * @memberof google.protobuf.Duration
+                 * @static
+                 * @param {google.protobuf.IDuration=} [properties] Properties to set
+                 * @returns {google.protobuf.Duration} Duration instance
+                 */
+                Duration.create = function create(properties) {
+                    return new Duration(properties);
+                };
+    
+                /**
+                 * Encodes the specified Duration message. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.protobuf.Duration
+                 * @static
+                 * @param {google.protobuf.IDuration} message Duration message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Duration.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.seconds != null && Object.hasOwnProperty.call(message, "seconds"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int64(message.seconds);
+                    if (message.nanos != null && Object.hasOwnProperty.call(message, "nanos"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nanos);
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified Duration message, length delimited. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.protobuf.Duration
+                 * @static
+                 * @param {google.protobuf.IDuration} message Duration message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Duration.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+    
+                /**
+                 * Decodes a Duration message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.protobuf.Duration
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.protobuf.Duration} Duration
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Duration.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Duration();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.seconds = reader.int64();
+                            break;
+                        case 2:
+                            message.nanos = reader.int32();
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes a Duration message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.protobuf.Duration
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.protobuf.Duration} Duration
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Duration.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies a Duration message.
+                 * @function verify
+                 * @memberof google.protobuf.Duration
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                Duration.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.seconds != null && message.hasOwnProperty("seconds"))
+                        if (!$util.isInteger(message.seconds) && !(message.seconds && $util.isInteger(message.seconds.low) && $util.isInteger(message.seconds.high)))
+                            return "seconds: integer|Long expected";
+                    if (message.nanos != null && message.hasOwnProperty("nanos"))
+                        if (!$util.isInteger(message.nanos))
+                            return "nanos: integer expected";
+                    return null;
+                };
+    
+                /**
+                 * Creates a Duration message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.protobuf.Duration
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.protobuf.Duration} Duration
+                 */
+                Duration.fromObject = function fromObject(object) {
+                    if (object instanceof $root.google.protobuf.Duration)
+                        return object;
+                    var message = new $root.google.protobuf.Duration();
+                    if (object.seconds != null)
+                        if ($util.Long)
+                            (message.seconds = $util.Long.fromValue(object.seconds)).unsigned = false;
+                        else if (typeof object.seconds === "string")
+                            message.seconds = parseInt(object.seconds, 10);
+                        else if (typeof object.seconds === "number")
+                            message.seconds = object.seconds;
+                        else if (typeof object.seconds === "object")
+                            message.seconds = new $util.LongBits(object.seconds.low >>> 0, object.seconds.high >>> 0).toNumber();
+                    if (object.nanos != null)
+                        message.nanos = object.nanos | 0;
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from a Duration message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.protobuf.Duration
+                 * @static
+                 * @param {google.protobuf.Duration} message Duration
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                Duration.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        if ($util.Long) {
+                            var long = new $util.Long(0, 0, false);
+                            object.seconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        } else
+                            object.seconds = options.longs === String ? "0" : 0;
+                        object.nanos = 0;
+                    }
+                    if (message.seconds != null && message.hasOwnProperty("seconds"))
+                        if (typeof message.seconds === "number")
+                            object.seconds = options.longs === String ? String(message.seconds) : message.seconds;
+                        else
+                            object.seconds = options.longs === String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
+                    if (message.nanos != null && message.hasOwnProperty("nanos"))
+                        object.nanos = message.nanos;
+                    return object;
+                };
+    
+                /**
+                 * Converts this Duration to JSON.
+                 * @function toJSON
+                 * @memberof google.protobuf.Duration
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                Duration.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                return Duration;
             })();
     
             return protobuf;

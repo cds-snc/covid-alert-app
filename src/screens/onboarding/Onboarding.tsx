@@ -1,10 +1,10 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Button, ProgressCircles, Header, LanguageToggle} from 'components';
-import {StyleSheet, LayoutChangeEvent, LayoutRectangle} from 'react-native';
+import {useI18n} from '@shopify/react-i18n';
+import {Box, Button, Header, LanguageToggle, ProgressCircles} from 'components';
+import {LayoutChangeEvent, LayoutRectangle, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
-import {useI18n} from '@shopify/react-i18n';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
 import {Permissions} from './views/Permissions';

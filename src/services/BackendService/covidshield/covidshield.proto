@@ -1,5 +1,6 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
 
 package covidshield;
 option go_package="pkg/proto/covidshield";
@@ -31,9 +32,12 @@ message KeyClaimResponse {
     SERVER_ERROR = 3;
     // Indicates the key is invalid, or already registered.
     INVALID_KEY = 4;
+    TEMPORARY_BAN = 5;
   }
   optional ErrorCode error = 1;
   optional bytes server_public_key = 2; // 32 bytes
+  optional uint32 tries_remaining = 3;
+  optional google.protobuf.Duration remaining_ban_duration = 4;
 }
 
 // We are using a NaCl Box (Curve25519+XSalsa20+Poly1305) to encrypt and
@@ -86,6 +90,7 @@ message EncryptedUploadResponse {
     INVALID_KEY_DATA = 11;
     INVALID_ROLLING_START_INTERVAL_NUMBER = 12;
     INVALID_TRANSMISSION_RISK_LEVEL = 13;
+    NO_KEYS_IN_PAYLOAD = 14;
   }
   required ErrorCode error = 1;
 }
@@ -101,6 +106,9 @@ message Upload {
 // Remaining messages imported from:
 // https://developer.apple.com/documentation/exposurenotification/setting_up_an_exposure_notification_server
 //
+// And also referencing:
+// https://developers.google.com/android/exposure-notifications/exposure-key-file-format
+//
 // The format of the /keys endpoints is a stream of serialized File
 // messages, each length-prefixed with a big-endian uint32. Clients should take
 // care to verify that the batch_size from the headers matches the total number
@@ -110,7 +118,8 @@ message Upload {
 // range, the total content of the response will be "\x00\x00\x00\x00"; that
 // is, a big-endian uint32 of zero.
 //
-// In general, we don't change or add field definitions below this point.
+// In general, these definitions are copied from the resources above, but some
+// of the documentation is clarified or merged.
 
 message TemporaryExposureKeyExport {
   // Time window of keys in the file, based on arrival
@@ -118,7 +127,9 @@ message TemporaryExposureKeyExport {
   optional fixed64 start_timestamp = 1;
   optional fixed64 end_timestamp = 2;
 
-  // Region from which these keys came (for example, MCC).
+  // Region from which these keys came (for example, MCC, however, some schemes
+  // use e.g. ISO-3166-2. There's no apparent hard requirement by the protocol
+  // for the contents here).
   optional string region = 3;
 
   // Reserved for future use. Both batch_num and batch_size
@@ -134,23 +145,25 @@ message TemporaryExposureKeyExport {
 }
 
 message SignatureInfo {
-  // App Store app bundle ID.
-  optional string app_bundle_id = 1;
-
-  // Android app package name.
-  optional string android_package = 2;
+  // The first two fields have been deprecated
+  reserved 1, 2;
+  reserved "app_bundle_id", "android_package";
 
   // Key version in case the EN server signing key is rotated.
   optional string verification_key_version = 3;
 
-  // Additional information to uniquely identify the public
-  // key associated with the EN server's signing key
-  // (for example, the EN server might serve the app
-  // from different countries with different keys).
+  // Additional information to uniquely identify the public key associated with
+  // the EN server's signing key (for example, the EN server might serve the
+  // app from different countries with different keys).
+  //
+  // Three-digit mobile country code (MCC) for validating the key file.
+  // If a region has more than one MCC, the server can choose
+  // which MCC to use. This value does not have to match the client's MCC,
+  // but must correspond to one of the supported MCCs for its region.
   optional string verification_key_id = 4;
 
   // All keys must be signed using the SHA-256 with ECDSA algorithm.
-  // This field must contain the string "ecdsa-with-SHA256".
+  // This field must contain the string "1.2.840.10045.4.3.2".
   optional string signature_algorithm = 5;
 }
 

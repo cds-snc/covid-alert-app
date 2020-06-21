@@ -8,7 +8,7 @@ buildscript {
         targetSdkVersion = 28
 
         androidXCoreKtxVersion = "1.3.0"
-        andoridXSwipeRefreshLayoutVersion = "1.0.0"
+        androidXSwipeRefreshLayoutVersion = "1.0.0"
 
         coroutinesCoreVersion = "1.3.6"
         coroutinesAndroidVersion = "1.3.6"

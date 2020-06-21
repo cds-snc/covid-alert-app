@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Linking, NativeModules} from 'react-native';
+import {Linking} from 'react-native';
 import {useI18n} from '@shopify/react-i18n';
 import {Box, Text, Button, Icon, LastCheckedDisplay} from 'components';
 
