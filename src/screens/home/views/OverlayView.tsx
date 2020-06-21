@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import {Linking} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Box, InfoBlock, BoxProps} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
@@ -29,6 +28,7 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   );
 };
 
+/*
 const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
   const toSettings = useCallback(() => {
     Linking.openSettings();
@@ -45,6 +45,7 @@ const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
     />
   );
 };
+*/
 
 const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
   return (
@@ -80,11 +81,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
           <SystemStatusOff i18n={i18n} />
         </Box>
       )}
-      {status !== SystemStatus.Active && (
+      {/* {status !== SystemStatus.Active && (
         <Box marginBottom="m" marginHorizontal="m">
           <BluetoothStatusOff i18n={i18n} />
         </Box>
-      )}
+      )}*/}
       {notificationWarning && (
         <Box marginBottom="m" marginHorizontal="m">
           <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />

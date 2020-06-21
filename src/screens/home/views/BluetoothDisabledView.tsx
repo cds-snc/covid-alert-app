@@ -1,16 +1,11 @@
-import React, {useCallback} from 'react';
-import {Linking} from 'react-native';
+import React from 'react';
 import {useI18n} from '@shopify/react-i18n';
-import {Box, Text, Button, Icon, LastCheckedDisplay} from 'components';
+import {Box, Text, Icon} from 'components';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const BluetoothDisabledView = () => {
   const [i18n] = useI18n();
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-
   return (
     <BaseHomeView>
       <Box marginBottom="l">
@@ -22,10 +17,6 @@ export const BluetoothDisabledView = () => {
       <Text variant="bodyText" color="bodyText" textAlign="center">
         {i18n.translate('Home.EnableBluetoothCTA')}
       </Text>
-      <LastCheckedDisplay />
-      <Box alignSelf="stretch" marginTop="l">
-        <Button text={i18n.translate('Home.TurnOnBluetooth')} variant="bigFlat" onPress={toSettings} />
-      </Box>
     </BaseHomeView>
   );
 };
