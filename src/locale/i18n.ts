@@ -14,7 +14,7 @@ export const getBackgroundI18n = async (forceLocale?: string) => {
       const i18nManager = new I18nManager({
         locale,
         onError(error) {
-          console.log(error.message);
+          console.log('>>> i18N', error);
         },
       });
       const translations = (locale: string) => LOCALES[locale];
