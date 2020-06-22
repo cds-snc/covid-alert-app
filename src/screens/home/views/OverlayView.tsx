@@ -1,20 +1,17 @@
 import React, {useCallback} from 'react';
-import {Linking} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Box, InfoBlock, BoxProps} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {SystemStatus, useStartExposureNotificationService} from 'services/ExposureNotificationService';
+import {SystemStatus} from 'services/ExposureNotificationService';
+import {Linking} from 'react-native';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
-  const startExposureNotificationService = useStartExposureNotificationService();
-
-  const enableExposureNotifications = useCallback(() => {
-    console.log('ccccc enableExposureNotifications');
-    startExposureNotificationService();
-  }, [startExposureNotificationService]);
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
 
   return (
     <InfoBlock
@@ -22,7 +19,7 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
       title={i18n.translate('OverlayOpen.ExposureNotificationCardStatus')}
       titleBolded={i18n.translate('OverlayOpen.ExposureNotificationCardStatusOff')}
       text={i18n.translate('OverlayOpen.ExposureNotificationCardBody')}
-      button={{text: i18n.translate('OverlayOpen.ExposureNotificationCardAction'), action: enableExposureNotifications}}
+      button={{text: i18n.translate('OverlayOpen.ExposureNotificationCardAction'), action: toSettings}}
       backgroundColor="errorBackground"
       color="errorText"
     />
@@ -42,6 +39,7 @@ const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
       button={{text: i18n.translate('OverlayOpen.BluetoothCardAction'), action: toSettings}}
       backgroundColor="errorBackground"
       color="errorText"
+      showButton={false}
     />
   );
 };
@@ -75,12 +73,12 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
       <Box marginBottom="l">
         <StatusHeaderView enabled={status === SystemStatus.Active} />
       </Box>
-      {status !== SystemStatus.Active && (
+      {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
         <Box marginBottom="m" marginHorizontal="m">
           <SystemStatusOff i18n={i18n} />
         </Box>
       )}
-      {status !== SystemStatus.Active && (
+      {status === SystemStatus.BluetoothOff && (
         <Box marginBottom="m" marginHorizontal="m">
           <BluetoothStatusOff i18n={i18n} />
         </Box>
