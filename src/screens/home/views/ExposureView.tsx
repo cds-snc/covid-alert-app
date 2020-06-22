@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {useI18n} from '@shopify/react-i18n';
-import {Text, Button, Box} from 'components';
+import {Text, Button, Box, Icon} from 'components';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -17,6 +17,9 @@ export const ExposureView = () => {
 
   return (
     <BaseHomeView>
+      <Box marginBottom="l">
+        <Icon name="icon-warning" size={65} />
+      </Box>
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.ExposureDetected')}
         {/* No exposure detected */}
