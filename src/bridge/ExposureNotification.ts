@@ -28,7 +28,7 @@ export enum Status {
 
 export interface TemporaryExposureKey {
   keyData: string;
-  rollingStartIntervalNumber: number;
+  rollingStartNumber: number;
   rollingPeriod: number;
   transmissionRiskLevel: RiskLevel;
 }
