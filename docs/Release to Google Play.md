@@ -45,10 +45,10 @@ Assuming the build and compilation went well, you should now have an `AAB` file 
 
 ### Test the build
 
-You can launch a release version of your application with the following command:
+You can install release version of your application with the following command, then find the app in the drawer.
 
 ```
-yarn run-android-release
+yarn install-android-release
 ```
 
 
