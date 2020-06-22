@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "build-android-clean": "cd android && ./gradlew clean && cd ..",
-    "build-android-release": "cd android && ENVFILE=.env.production ./gradlew bundleRelease && cd ..",
+    "build-android-release": "cd android && ENVFILE=../.env.production ./gradlew clean && ENVFILE=../.env.production ./gradlew bundleRelease && cd ..",
     "bundle-android": "react-native bundle --dev false --platform android --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "bundle-ios": "react-native bundle --dev false --platform ios --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios",
     "codegen-protobuf": "pbjs -t static-module -o src/services/BackendService/covidshield/covidshield.js src/services/BackendService/covidshield/covidshield.proto && pbts -o src/services/BackendService/covidshield/covidshield.d.ts src/services/BackendService/covidshield/covidshield.js",
     "generate-translations": "node translations.js",
+    "install-android-release": "cd android && ENVFILE=../.env.production ./gradlew installRelease && cd ..",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pod-install": "pushd ios; bundle exec pod install; popd",
     "run-android": "react-native run-android --variant debug",
