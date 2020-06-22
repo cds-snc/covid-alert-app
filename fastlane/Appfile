@@ -1,5 +1,6 @@
 app_identifier "ca.tbs-sct.covid"
 apple_id ENV["APPLE_ID"]
+team_id ENV["TEAM_ID"]
 
 package_name "ca.canada.covid_notification"
 json_key_file "fastlane/certs/google-key.json"
