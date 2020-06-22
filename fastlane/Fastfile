@@ -29,9 +29,14 @@ end
 platform :android do
   lane :beta do
     gradle(
-      task: 'assemble',
+      task: 'bundle',
       build_type: 'Release',
       project_dir: 'android/'
+    )
+    upload_to_play_store(
+      track: 'beta',
+      release_status: 'draft',
+      aab: 'android/app/build/outputs/bundle/release/app-release.aab'
     )
   end
 end
