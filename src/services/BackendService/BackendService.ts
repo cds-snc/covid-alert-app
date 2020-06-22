@@ -69,8 +69,6 @@ export class BackendService implements BackendInterface {
         }),
       ),
     });
-    console.log(exposureKeys);
-    console.log(JSON.stringify(upload));
 
     const serializedUpload = covidshield.Upload.encode(upload).finish();
 
