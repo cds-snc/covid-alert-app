@@ -11,10 +11,10 @@ export const BluetoothDisabledView = () => {
       <Box marginBottom="l">
         <Icon name="icon-bluetooth-disabled" size={44} />
       </Box>
-      <Text textAlign="center" variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.BluetoothDisabled')}
       </Text>
-      <Text variant="bodyText" color="bodyText" textAlign="center">
+      <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate('Home.EnableBluetoothCTA')}
       </Text>
     </BaseHomeView>
