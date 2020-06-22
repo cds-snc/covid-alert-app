@@ -62,7 +62,7 @@ export class BackendService implements BackendInterface {
       keys: exposureKeys.map(key =>
         covidshield.TemporaryExposureKey.create({
           keyData: Buffer.from(key.keyData, 'base64'),
-          rollingStartIntervalNumber: key.rollingStartNumber,
+          // rollingStartIntervalNumber: key.rollingStartNumber,
           transmissionRiskLevel: key.transmissionRiskLevel,
           rollingPeriod: 144,
         }),
