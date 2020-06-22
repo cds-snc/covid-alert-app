@@ -2,8 +2,8 @@ import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Box, InfoBlock, BoxProps} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {SystemStatus} from 'services/ExposureNotificationService';
 import {Linking} from 'react-native';
+import {SystemStatus} from 'services/ExposureNotificationService';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
