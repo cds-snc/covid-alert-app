@@ -18,6 +18,7 @@ import IconShare from 'assets/icon-share.svg';
 import IconNotifications from 'assets/icon-notifications.svg';
 import IconLearn from 'assets/icon-learn.svg';
 import IconOffline from 'assets/icon-offline-2.svg';
+import IconWarning from 'assets/icon-warning.svg';
 import IconExposureNotificationsDisabled from 'assets/icon-exposure-notifications-disabled.svg';
 import IconExposureNotificationsOff from 'assets/icon-exposure-notifications-off.svg';
 import ProgressCircleEmpty from 'assets/progress-circle-empty.svg';
@@ -52,6 +53,7 @@ const ICONS = {
   'icon-offline': IconOffline,
   'icon-exposure-notifications-off': IconExposureNotificationsOff,
   'icon-exposure-notifications-disabled': IconExposureNotificationsDisabled,
+  'icon-warning': IconWarning,
   'header-logo-rings': HeaderLogoRings,
   'progress-circle-filled': ProgressCircleFilled,
   'progress-circle-empty': ProgressCircleEmpty,
