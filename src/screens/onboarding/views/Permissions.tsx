@@ -10,13 +10,18 @@ export const Permissions = () => {
       <Box flex={1} marginTop="xl" paddingHorizontal="xl">
         <Box marginTop="m">
           <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
-            {i18n.translate('OnboardingLocation.Title')}
+            {i18n.translate('OnboardingPermissions.Title')}
           </Text>
         </Box>
 
         <Box flexDirection="row" marginBottom="l">
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
-            {i18n.translate('OnboardingLocation.Intro')}
+            {i18n.translate('OnboardingPermissions.Body1')}
+          </Text>
+        </Box>
+        <Box flexDirection="row" marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
+            {i18n.translate('OnboardingPermissions.Body2')}
           </Text>
         </Box>
       </Box>

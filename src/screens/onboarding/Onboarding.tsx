@@ -12,9 +12,9 @@ import {Permissions} from './views/Permissions';
 import {Start} from './views/Start';
 import {YourData} from './views/YourData';
 
-type ViewKey = 'start' | 'location' | 'yourdata' | 'permissons';
+type ViewKey = 'start' | 'location' | 'yourdata' | 'permissions';
 
-const contentData: ViewKey[] = ['start', 'location', 'yourdata', 'permissons'];
+const contentData: ViewKey[] = ['start', 'location', 'yourdata', 'permissions'];
 const viewComponents = {
   start: Start,
   location: LocationTracking,
