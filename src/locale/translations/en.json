@@ -125,7 +125,7 @@
     "ActionEnd": "Done",
     "ActionBack": "Back"
   },
-  "OnboardingPermissions": {
+  "OnboardingLocation": {
     "Title": "No location tracking",
     "Intro": "StopCOVID does not use GPS or location services. It has no way of knowing:",
     "Body1": "your location",
@@ -140,6 +140,13 @@
     "Body2": "your contacts",
     "Body3": "any details about you or the people you’re near",
     "Body4": "your health information"
+  },
+  "OnboardingPermissions": {
+    "Title": "No actions without your permission",
+    "Body1": "Nothing is done without your permission.",
+    "Body2": "Even when you give permission, StopCOVID only shares the random codes from the phones of people you were near. It does not share any information about you.",
+    "PrivacyButtonCTA": "Read the privacy policy",
+    "HowItWorksCTA": "Read more about how it works"
   },
   "OnboardingStart": {
     "Title": "What StopCOVID does",
