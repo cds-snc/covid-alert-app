@@ -3,6 +3,7 @@ import {Linking} from 'react-native';
 import {Text, Box, ButtonMultiline, LastCheckedDisplay} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
+
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const NoExposureUncoveredRegionView = () => {
