@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Icon} from 'components';
+import {Box, BulletPointX, Text, Icon} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
 export const Permissions = () => {
@@ -20,38 +20,10 @@ export const Permissions = () => {
           </Text>
         </Box>
 
-        <Box flexDirection="row" marginBottom="l">
-          <Text marginTop="s" marginRight="m">
-            <Icon size={20} name="icon-x" />
-          </Text>
-          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
-            {i18n.translate('OnboardingPermissions.Body1')}
-          </Text>
-        </Box>
-        <Box flexDirection="row" marginBottom="l">
-          <Text marginTop="s" marginRight="m">
-            <Icon size={20} name="icon-x" />
-          </Text>
-          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
-            {i18n.translate('OnboardingPermissions.Body2')}
-          </Text>
-        </Box>
-        <Box flexDirection="row" alignItems="center" marginBottom="l">
-          <Text marginTop="s" marginRight="m">
-            <Icon size={20} name="icon-x" />
-          </Text>
-          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
-            {i18n.translate('OnboardingPermissions.Body3')}
-          </Text>
-        </Box>
-        <Box flexDirection="row" alignItems="center" marginBottom="l">
-          <Text marginTop="s" marginRight="m">
-            <Icon size={20} name="icon-x" />
-          </Text>
-          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
-            {i18n.translate('OnboardingPermissions.Body4')}
-          </Text>
-        </Box>
+        <BulletPointX text={i18n.translate('OnboardingPermissions.Body1')} />
+        <BulletPointX text={i18n.translate('OnboardingPermissions.Body2')} />
+        <BulletPointX text={i18n.translate('OnboardingPermissions.Body3')} />
+        <BulletPointX text={i18n.translate('OnboardingPermissions.Body4')} />
       </Box>
     </ScrollView>
   );
