@@ -20,9 +20,18 @@ const MainStack = createNativeStackNavigator();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
+    const stackIndex = useNavigationState(state => state.index);
     return (
       <SafeAreaProvider>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar
+          barStyle={
+            // On iOS 13+ keep light statusbar since the screen will be displayed in a modal with a
+            // dark background.
+            stackIndex > 0 && Platform.OS === 'ios' && parseInt(Platform.Version as string, 10) >= 13 && !Platform.isPad
+              ? 'light-content'
+              : 'dark-content'
+          }
+        />
         <Component {...props} />
       </SafeAreaProvider>
     );
@@ -49,12 +58,12 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const RegionPickerScreenWithNavBar = withDarkNav(RegionPickerScreen);
 const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
-const TutorialScreenWithNavBar = withLightNav(TutorialScreen);
-const DataSharingScreenWithNavBar = withLightNav(DataSharingScreen);
-const PrivacyScreenWithNavBar = withLightNav(PrivacyScreen);
-const SharingScreenWithNavBar = withLightNav(SharingScreen);
-const LanguageScreenWithNavBar = withLightNav(LanguageScreen);
-const RegionPickerSettingsScreenWithNavBar = withLightNav(RegionPickerSettingsScreen);
+const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
+const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
+const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
+const SharingScreenWithNavBar = withDarkNav(SharingScreen);
+const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
+const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
