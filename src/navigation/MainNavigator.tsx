@@ -20,18 +20,9 @@ const MainStack = createNativeStackNavigator();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
-    const stackIndex = useNavigationState(state => state.index);
     return (
       <SafeAreaProvider>
-        <StatusBar
-          barStyle={
-            // On iOS 13+ keep light statusbar since the screen will be displayed in a modal with a
-            // dark background.
-            stackIndex > 0 && Platform.OS === 'ios' && parseInt(Platform.Version as string, 10) >= 13 && !Platform.isPad
-              ? 'light-content'
-              : 'dark-content'
-          }
-        />
+        <StatusBar barStyle="light-content" />
         <Component {...props} />
       </SafeAreaProvider>
     );
@@ -42,7 +33,7 @@ const withDarkNav = (Component: React.ElementType) => {
 const withLightNav = (Component: React.ElementType) => {
   const ComponentWithLightNav = (props: any) => (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" />
       <Component {...props} />
     </SafeAreaProvider>
   );
