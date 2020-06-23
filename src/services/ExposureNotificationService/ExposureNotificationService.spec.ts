@@ -1,7 +1,7 @@
 /* eslint-disable require-atomic-updates */
 import {when} from 'jest-when';
 
-import {ExposureNotificationService} from './ExposureNotificationService';
+import {ExposureNotificationService, SystemStatus} from './ExposureNotificationService';
 
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
@@ -22,6 +22,7 @@ const bridge: any = {
   detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
+  getStatus: jest.fn().mockResolvedValue(SystemStatus.Active),
 };
 
 describe('ExposureNotificationService', () => {
@@ -123,6 +124,7 @@ describe('ExposureNotificationService', () => {
       args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
     );
 
+    await service.init();
     await service.start();
 
     expect(service.exposureStatus.get()).toStrictEqual(
@@ -147,6 +149,7 @@ describe('ExposureNotificationService', () => {
         .calledWith('submissionLastCompletedAt')
         .mockResolvedValue(new OriginalDate('2020-05-18T04:10:00+0000').toString());
 
+      await service.init();
       await service.start();
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
@@ -158,6 +161,7 @@ describe('ExposureNotificationService', () => {
       when(storage.getItem)
         .calledWith('submissionLastCompletedAt')
         .mockResolvedValue(new OriginalDate('2020-05-19T04:10:00+0000').getTime().toString());
+      await service.init();
       await service.start();
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
@@ -181,6 +185,7 @@ describe('ExposureNotificationService', () => {
       args.length > 0 ? new OriginalDate(...args) : new OriginalDate(currentDateString),
     );
 
+    await service.init();
     await service.start();
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(

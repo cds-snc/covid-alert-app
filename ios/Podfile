@@ -91,6 +91,8 @@ target 'CovidShield' do
 
   pod 'react-native-sensitive-info', :path => '../node_modules/react-native-sensitive-info'
 
+  pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'
+
   target 'CovidShieldTests' do
     inherit! :complete
     # Pods for testing
