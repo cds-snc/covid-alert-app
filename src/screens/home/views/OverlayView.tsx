@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Box, InfoBlock, BoxProps} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
-import {SystemStatus} from 'services/ExposureNotificationService';
+import {useExposureStatus, SystemStatus} from 'services/ExposureNotificationService';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -58,6 +58,38 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   );
 };
 
+const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
+  const navigation = useNavigation();
+  const [exposureStatus] = useExposureStatus();
+  if (exposureStatus.type === 'diagnosed') {
+    return (
+      <InfoBlock
+        titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
+        text={i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed')}
+        button={{
+          text: '',
+          action: () => {},
+        }}
+        backgroundColor="infoBlockNeutralBackground"
+        color="infoBlockBrightText"
+        showButton={false}
+      />
+    );
+  }
+  return (
+    <InfoBlock
+      titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
+      text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
+      button={{
+        text: i18n.translate('OverlayOpen.EnterCodeCardAction'),
+        action: () => navigation.navigate('DataSharing'),
+      }}
+      backgroundColor="infoBlockNeutralBackground"
+      color="infoBlockBrightText"
+    />
+  );
+};
+
 interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
@@ -66,7 +98,6 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, maxWidth}: Props) => {
   const [i18n] = useI18n();
-  const navigation = useNavigation();
 
   return (
     <Box maxWidth={maxWidth}>
@@ -89,16 +120,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
         </Box>
       )}
       <Box marginBottom="m" marginHorizontal="m">
-        <InfoBlock
-          titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
-          text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
-          button={{
-            text: i18n.translate('OverlayOpen.EnterCodeCardAction'),
-            action: () => navigation.navigate('DataSharing'),
-          }}
-          backgroundColor="infoBlockNeutralBackground"
-          color="infoBlockBrightText"
-        />
+        <ShareDiagnosisCode i18n={i18n} />
       </Box>
       <Box marginBottom="m" marginHorizontal="m">
         <InfoShareView />

@@ -1,6 +1,7 @@
 export {default as BottomSheet} from './BottomSheet';
 export * from './Box';
 export * from './Button';
+export * from './ButtonMultiline';
 export * from './CodeInput';
 export * from './Header';
 export * from './Icon';

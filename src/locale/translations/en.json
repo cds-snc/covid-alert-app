@@ -17,7 +17,8 @@
     "ExposureDetectedDetailed2": "This does not mean you’ve been infected. But you should probably take some action.",
     "SeeGuidance": "What now? See guidance.",
     "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
-    "How": "What's an exposure?",
+    "How": "Diagnosed with COVID-19?",
+    "CTA": "What to do next",
     "HowUrl": "https://www.canada.ca/",
     "SignalDataShared": "Thank you for helping to slow the spread",
     "SignalDataSharedDetailed": {
@@ -68,6 +69,8 @@
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
     "EnterCodeCardBody": "You were given an 8-digit number when you were diagnosed. This number tells StopCOVID to notify people you were near.",
     "EnterCodeCardAction": "Enter number",
+    "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
+    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.",
     "NotificationCardStatus": "Push notifications are ",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
