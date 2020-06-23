@@ -131,19 +131,20 @@
     "ActionBack": "Back"
   },
   "OnboardingPermissions": {
-    "Title": "Your location is not tracked",
-    "Body": "your location",
-    "Body2": "where you’ve been",
-    "Body3": "who you’ve been with"
+    "Title": "No location tracking",
+    "Intro": "StopCOVID does not use GPS or location services. It has no way of knowing:",
+    "Body1": "your location",
+    "Body2": "who you are",
+    "Body3": "where you’ve been",
+    "Body4": "who you’ve been with"
   },
   "YourData": {
-    "Title": "Your data and identity are private",
-    "Body": "StopCOVID does not know",
+    "Title": "Totally anonymous",
+    "Intro": "StopCOVID has no way of knowing:",
     "Body1": "your identity",
-    "Body2": "any identifiable information about you or your contacts",
-    "Body3": "your medical information, unless you choose to share it anonymously, if you test positive",
-    "Body4": "Data collected through this app is never shared without your permission",
-    "Body5": "Use of the app is voluntary. You can delete it at any time."
+    "Body2": "your contacts",
+    "Body3": "any details about you or the people you’re near",
+    "Body4": "your health information"
   },
   "OnboardingStart": {
     "Title": "What StopCOVID does",
