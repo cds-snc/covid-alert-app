@@ -31,6 +31,8 @@ import ShieldCovid from 'assets/shield-covid.svg';
 import MapleLeaf from 'assets/maple-leaf.svg';
 import ShieldDisabled from 'assets/shield-disabled.svg';
 import IconX from 'assets/icon-x.svg';
+import ThumbsUp from 'assets/thumbs-up.svg';
+import HandCaution from 'assets/hand-caution.svg';
 import StopCOVID from 'assets/StopCOVID.svg';
 
 const ICONS = {
@@ -67,6 +69,8 @@ const ICONS = {
   'shield-covid': ShieldCovid,
   'maple-leaf': MapleLeaf,
   'stop-covid': StopCOVID,
+  'thumbs-up': ThumbsUp,
+  'thumb-caution': HandCaution,
 };
 
 export type IconName = keyof typeof ICONS;
