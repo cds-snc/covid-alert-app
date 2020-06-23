@@ -31,41 +31,49 @@ if (__DEV__) {
     .connect();
 }
 
+const i18nManager = new I18nManager({
+  locale: 'en',
+  onError(error) {
+    console.log('>>> i18N', error);
+  },
+});
+
 const App = () => {
   useEffect(() => SplashScreen.hide(), []);
 
   const {locale} = useStorage();
-  const i18nManager = useMemo(
-    () =>
-      new I18nManager({
-        locale,
-        onError(error) {
-          console.log('>>> i18N', error);
-        },
-      }),
-    [locale],
-  );
-
-  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, REGION), []);
+  useEffect(() => {
+    i18nManager.update({locale});
+  }, [locale]);
 
   return (
     <I18nContext.Provider value={i18nManager}>
       <SharedTranslations>
-        <ExposureNotificationServiceProvider backendInterface={backendService}>
-          <DevPersistedNavigationContainer persistKey="navigationState">
-            {TEST_MODE ? (
-              <TestMode>
-                <MainNavigator />
-              </TestMode>
-            ) : (
-              <MainNavigator />
-            )}
-          </DevPersistedNavigationContainer>
-        </ExposureNotificationServiceProvider>
+        <MemoizedApp />
       </SharedTranslations>
     </I18nContext.Provider>
   );
 };
+
+const AppContent = () => {
+  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, REGION), []);
+
+  return (
+    <ExposureNotificationServiceProvider backendInterface={backendService}>
+      <DevPersistedNavigationContainer persistKey="navigationState">
+        {TEST_MODE ? (
+          <TestMode>
+            <MainNavigator />
+          </TestMode>
+        ) : (
+          <MainNavigator />
+        )}
+      </DevPersistedNavigationContainer>
+    </ExposureNotificationServiceProvider>
+  );
+};
+
+const MemoizedApp = React.memo(AppContent);
 
 const AppProvider = () => {
   return (
