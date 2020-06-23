@@ -17,7 +17,7 @@ import {Box} from './Box';
 import {Ripple} from './Ripple';
 import {Icon} from './Icon';
 
-export interface ButtonProps {
+export interface ButtonSingleLineProps {
   text?: string;
   onPress: () => void;
   variant: keyof Theme['buttonVariants'];
@@ -28,7 +28,7 @@ export interface ButtonProps {
   internalLink?: boolean;
 }
 
-export const Button = ({
+export const ButtonSingleLine = ({
   text,
   onPress,
   variant,
@@ -37,7 +37,7 @@ export const Button = ({
   loading,
   externalLink,
   internalLink,
-}: ButtonProps) => {
+}: ButtonSingleLineProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
   const variantProps = theme.buttonVariants[variant];
@@ -60,7 +60,7 @@ export const Button = ({
 
   const content = (
     <Box
-      borderRadius={4}
+      borderRadius={10}
       alignItems="center"
       justifyContent="center"
       style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
@@ -71,13 +71,25 @@ export const Button = ({
       {loading ? (
         <ActivityIndicator color={textColor} size="large" />
       ) : (
-        <>
-          <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
-            {text}
-          </Text>
-          {externalLink && <Icon name={externalArrowIcon} />}
-          {internalLink && <Icon name="icon-chevron" />}
-        </>
+        <Box flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
+          <Box flex={1} flexBasis="10%" style={{...styles.iconOffset}}>
+            {externalLink && <Icon name={externalArrowIcon} size={20} />}
+            {internalLink && <Icon name="icon-chevron" />}
+          </Box>
+          <Box flex={1} marginLeft="s" flexBasis="80%" alignItems="flex-start" justifyContent="flex-end">
+            <Text
+              style={{
+                ...styles.content,
+                color: textColor || buttonColor,
+                fontWeight,
+                fontFamily,
+                fontSize,
+              }}
+            >
+              {text}
+            </Text>
+          </Box>
+        </Box>
       )}
     </Box>
   );
@@ -103,10 +115,17 @@ export const Button = ({
 };
 
 const styles = StyleSheet.create({
+  iconOffset: {
+    marginTop: 2,
+    marginLeft: 20,
+  },
   stretch: {
     alignSelf: 'stretch',
   },
   content: {
     textAlign: 'center',
+  },
+  strong: {
+    fontWeight: 'bold',
   },
 });
