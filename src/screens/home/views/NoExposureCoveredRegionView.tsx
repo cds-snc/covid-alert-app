@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
-import {Text, Box, Button, LastCheckedDisplay} from 'components';
+import {Text, Box, ButtonMultiline, LastCheckedDisplay} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -25,7 +25,13 @@ export const NoExposureCoveredRegionView = () => {
       <LastCheckedDisplay textDark />
 
       <Box alignSelf="stretch" marginBottom="l">
-        <Button text={i18n.translate('Home.How')} variant="bigFlat" externalLink onPress={onAction} />
+        <ButtonMultiline
+          text={i18n.translate('Home.How')}
+          text1={i18n.translate('Home.CTA')}
+          variant="bigFlat"
+          internalLink
+          onPress={onAction}
+        />
       </Box>
     </BaseHomeView>
   );
