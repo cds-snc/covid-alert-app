@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 
 import {Box} from './Box';
