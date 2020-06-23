@@ -24,12 +24,15 @@
     "How": "Diagnosed with COVID-19?",
     "CTA": "What to do next",
     "HowUrl": "https://www.canada.ca/",
-    "SignalDataShared": "Thank you for helping to slow the spread",
-    "SignalDataSharedDetailed": {
-      "One": "For the next {number} day, you’ll get a daily message asking for your  information.\n\nTake care for yourself and your family during this time. ",
-      "Other": "For the next {number} days, you’ll get a daily message asking for your  information.\n\nTake care for yourself and your family during this time."
+    "DiagnosedView": {
+      "Title": "Thanks for helping fight COVID",
+      "Body1": {
+        "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
+        "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
+      },
+      "Body2": "You do not have to agree, even if you agreed the day before. It is your choice.",
+      "Body3": "Take care of yourself and your family during this time."
     },
-    "SignalDataSharedCTA": "Track your symptoms",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DailyShare": "Share your new information",
     "DailyShareDetailed": "Sharing your information helps others to know if they've been exposed to COVID-19. Then they can isolate and slow the spread to others. No details about who you are will be shared.",
