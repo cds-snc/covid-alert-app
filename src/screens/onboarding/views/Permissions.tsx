@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, BulletPointX, Text, Icon} from 'components';
+import {Box, BulletPointX, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
 export const Permissions = () => {
