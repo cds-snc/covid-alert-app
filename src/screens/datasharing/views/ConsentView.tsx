@@ -17,6 +17,7 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
   const {fetchAndSubmitKeys} = useReportDiagnosis();
 
   const toPrivacyPolicy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
+  const toHowItWorks = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
 
   const handleUpload = useCallback(async () => {
     setLoading(true);
@@ -61,7 +62,7 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
             <Button variant="text" text={i18n.translate('DataUpload.PrivacyPolicyLink')} onPress={toPrivacyPolicy} />
           </Box>
           <Box marginBottom="m">
-            <Button variant="text" text={i18n.translate('DataUpload.HowItWorksLink')} onPress={toPrivacyPolicy} />
+            <Button variant="text" text={i18n.translate('DataUpload.HowItWorksLink')} onPress={toHowItWorks} />
           </Box>
         </Box>
       </ScrollView>
