@@ -47,7 +47,7 @@ export const ExposureView = () => {
           onPress={onActionGuidance}
         />
       </Box>
-      <Box alignSelf="stretch" marginTop="s" marginBottom="l">
+      <Box alignSelf="stretch" marginTop="s" marginBottom="xl">
         <ButtonMultiline
           text={i18n.translate('Home.ExposureDetected.DiagnosedBtnText1')}
           text1={i18n.translate('Home.ExposureDetected.DiagnosedBtnText2')}
