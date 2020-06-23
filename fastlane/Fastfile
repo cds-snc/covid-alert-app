@@ -24,6 +24,27 @@ platform :ios do
     )
     upload_to_testflight
   end
+
+  lane :local do
+    get_certificates(
+      output_path: "fastlane/certs"
+    )
+    get_provisioning_profile(
+      output_path: "fastlane/certs"
+    )
+
+    build_app(
+      scheme: "CovidShield",
+      workspace: "./ios/CovidShield.xcworkspace",
+      export_method: "ad-hoc",
+      output_directory: "./build",
+      export_options: {
+        provisioningProfiles: {
+          "ca.tbs-sct.covid" => "ExposureNotification-ADHOC"
+        }
+      }
+    )
+  end
 end
 
 platform :android do
