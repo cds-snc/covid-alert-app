@@ -2,7 +2,7 @@
   "Home": {
     "NoExposureDetected": {
       "RegionCoveredTitle": "No exposure detected",
-      "RegionCoveredBody": "You have not been near anyone who reported a COVID diagnosis through this app.",
+      "RegionCoveredBody": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
       "NoRegionSetTitle": "Choose your province or territory",
       "NoRegionSetBody": "Provincial and territorial governments are working to support StopCOVID across Canada. In some places, people cannot yet report COVID-19 diagnoses through this app.",
       "RegionNotCoveredTitle": "No reporting in your province",
