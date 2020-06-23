@@ -79,6 +79,7 @@ coverage
 
 # Fastlane
 fastlane/report.xml
+fastlane/certs/*
 
 # ENV files
 ios/GoogleService-Info.plist
