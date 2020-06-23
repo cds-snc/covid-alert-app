@@ -22,7 +22,7 @@ const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
     return (
       <SafeAreaProvider>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="dark-content" />
         <Component {...props} />
       </SafeAreaProvider>
     );
@@ -33,7 +33,7 @@ const withDarkNav = (Component: React.ElementType) => {
 const withLightNav = (Component: React.ElementType) => {
   const ComponentWithLightNav = (props: any) => (
     <SafeAreaProvider>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <Component {...props} />
     </SafeAreaProvider>
   );
@@ -46,15 +46,15 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Tutorial: undefined;
 }
 
-const HomeScreenWithNavBar = withLightNav(HomeScreen);
-const RegionPickerScreenWithNavBar = withDarkNav(RegionPickerScreen);
+const HomeScreenWithNavBar = withDarkNav(HomeScreen);
+const RegionPickerScreenWithNavBar = withLightNav(RegionPickerScreen);
 const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
-const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
-const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
-const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
-const SharingScreenWithNavBar = withDarkNav(SharingScreen);
-const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
-const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
+const TutorialScreenWithNavBar = withLightNav(TutorialScreen);
+const DataSharingScreenWithNavBar = withLightNav(DataSharingScreen);
+const PrivacyScreenWithNavBar = withLightNav(PrivacyScreen);
+const SharingScreenWithNavBar = withLightNav(SharingScreen);
+const LanguageScreenWithNavBar = withLightNav(LanguageScreen);
+const RegionPickerSettingsScreenWithNavBar = withLightNav(RegionPickerSettingsScreen);
 
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
