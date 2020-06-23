@@ -8,20 +8,30 @@ interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
   text: string;
   icon: IconProps['name'];
+  lastItem: boolean;
 }
-const InfoShareItem = ({onPress, text, icon, ...touchableProps}: InfoShareItemProps) => (
+const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoShareItemProps) => (
   <>
     <TouchableOpacity onPress={onPress} accessibilityRole="button" {...touchableProps}>
-      <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
+      <Box
+        paddingVertical="s"
+        marginHorizontal="-m"
+        paddingHorizontal="m"
+        flexDirection="row"
+        alignContent="center"
+        justifyContent="space-between"
+        backgroundColor="infoBlockNeutralBackground"
+        borderRadius={5}
+      >
         <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
           {text}
         </Text>
         <Box alignSelf="center">
-          <Icon size={32} name={icon} />
+          <Icon size={25} name={icon} />
         </Box>
       </Box>
     </TouchableOpacity>
-    <Box height={1} marginHorizontal="-m" backgroundColor="overlayBackground" />
+    {!lastItem && <Box height={5} marginHorizontal="-m" backgroundColor="overlayBackground" />}
   </>
 );
 
@@ -40,7 +50,7 @@ export const InfoShareView = () => {
 
   return (
     <>
-      <Box paddingHorizontal="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground">
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden">
         <InfoShareItem
           onPress={onSymptomps}
           text={i18n.translate('Info.CheckSymptoms')}
@@ -50,7 +60,12 @@ export const InfoShareView = () => {
           accessibilityHint={i18n.translate('Home.ExternalLinkHint')}
         />
         {/* <InfoShareItem onPress={onShare} text={i18n.translate('Info.TellAFriend')} icon="icon-share" /> */}
-        <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
+        <InfoShareItem
+          lastItem={true}
+          onPress={onLearnMore}
+          text={i18n.translate('Info.LearnMore')}
+          icon="icon-chevron"
+        />
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground" marginTop="m">
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
