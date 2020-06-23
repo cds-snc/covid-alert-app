@@ -1,13 +1,13 @@
-import React, {useRef, useEffect} from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
-import {Box, Text} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import React, { useRef, useEffect } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
+import { Box, Text } from 'components';
+import { useI18n } from '@shopify/react-i18n';
 import LottieView from 'lottie-react-native';
-import {useReduceMotionPreference} from 'shared/useReduceMotionPreference';
+import { useReduceMotionPreference } from 'shared/useReduceMotionPreference';
 
-export type TutorialKey = 'step-1' | 'step-2' | 'step-3';
+export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5';
 
-export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3'];
+export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5'];
 
 const animationData = {
   'step-1': {
@@ -22,9 +22,17 @@ const animationData = {
     source: '',
     pauseFrame: 398,
   },
+  'step-4': {
+    source: '',
+    pauseFrame: 418,
+  },
+  'step-5': {
+    source: '',
+    pauseFrame: 438,
+  },
 };
 
-export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isActiveSlide: boolean}) => {
+export const TutorialContent = ({ item, isActiveSlide }: { item: TutorialKey; isActiveSlide: boolean }) => {
   const [i18n] = useI18n();
   const prefersReducedMotion = useReduceMotionPreference();
   // const {width: viewportWidth, height: viewportHeight} = useWindowDimensions();
@@ -39,12 +47,16 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
       animationRef.current?.reset();
     }
   }, [isActiveSlide, prefersReducedMotion, item]);
+
+  const itemTitle = i18n.translate(`Tutorial.${item}Title`);
   return (
     <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
       <Box flex={1} paddingVertical="xxl" paddingHorizontal="xxl">
-        <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-          {i18n.translate(`Tutorial.${item}Title`)}
-        </Text>
+        {itemTitle !== "" && (
+          <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
+            {itemTitle}
+          </Text>
+        )}
         <Text variant="bodyText" color="overlayBodyText">
           {i18n.translate(`Tutorial.${item}`)}
         </Text>
