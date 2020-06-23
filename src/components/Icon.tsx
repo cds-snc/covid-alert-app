@@ -7,6 +7,7 @@ import IconBluetoothDisabled from 'assets/icon-bluetooth-disabled.svg';
 import IconBluetoothOff from 'assets/icon-bluetooth-off.svg';
 import IconBluetooth from 'assets/icon-bluetooth.svg';
 import IconChevron from 'assets/icon-chevron.svg';
+import IconChevronWhite from 'assets/icon-chevron-white.svg';
 import IconClose from 'assets/icon-close.svg';
 import IconEnterCode from 'assets/icon-enter-code.svg';
 import IconExternalArrow from 'assets/icon-external-arrow.svg';
@@ -18,6 +19,7 @@ import IconShare from 'assets/icon-share.svg';
 import IconNotifications from 'assets/icon-notifications.svg';
 import IconLearn from 'assets/icon-learn.svg';
 import IconOffline from 'assets/icon-offline-2.svg';
+import IconWarning from 'assets/icon-warning.svg';
 import IconExposureNotificationsDisabled from 'assets/icon-exposure-notifications-disabled.svg';
 import IconExposureNotificationsOff from 'assets/icon-exposure-notifications-off.svg';
 import ProgressCircleEmpty from 'assets/progress-circle-empty.svg';
@@ -38,6 +40,7 @@ const ICONS = {
   'icon-bluetooth-off': IconBluetoothOff,
   'icon-check': IconCheck,
   'icon-chevron': IconChevron,
+  'icon-chevron-white': IconChevronWhite,
   'icon-close': IconClose,
   'icon-enter-code': IconEnterCode,
   'icon-ellipsis': Ellipsis,
@@ -52,6 +55,7 @@ const ICONS = {
   'icon-offline': IconOffline,
   'icon-exposure-notifications-off': IconExposureNotificationsOff,
   'icon-exposure-notifications-disabled': IconExposureNotificationsDisabled,
+  'icon-warning': IconWarning,
   'header-logo-rings': HeaderLogoRings,
   'progress-circle-filled': ProgressCircleFilled,
   'progress-circle-empty': ProgressCircleEmpty,

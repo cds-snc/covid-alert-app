@@ -17,6 +17,7 @@ export interface InfoBlockProps {
     text: string;
     action: () => void;
   };
+  showButton?: boolean;
 }
 
 export const InfoBlock = ({
@@ -27,6 +28,7 @@ export const InfoBlock = ({
   backgroundColor,
   title,
   titleBolded,
+  showButton,
 }: InfoBlockProps) => {
   return (
     <Box borderRadius={10} backgroundColor={backgroundColor} padding="m" alignItems="flex-start">
@@ -58,9 +60,15 @@ export const InfoBlock = ({
       <Text variant="bodyText" fontSize={16} color={color} marginBottom="m">
         {text}
       </Text>
-      <Box marginHorizontal="none" alignSelf="stretch">
-        <Button text={buttonText} onPress={action} variant="bigFlat" color={color} />
-      </Box>
+      {showButton ? (
+        <Box marginHorizontal="none" alignSelf="stretch">
+          <Button text={buttonText} onPress={action} variant="bigFlat" color={color} />
+        </Box>
+      ) : null}
     </Box>
   );
+};
+
+InfoBlock.defaultProps = {
+  showButton: true,
 };

@@ -160,5 +160,21 @@
   },
   "BottomSheet": {
     "Collapse": "Fermer"
+  },
+  "RegionalGuidanceURL": {
+    "CA": "https://www.canada.ca/fr/sante-publique/services/maladies/2019-nouveau-coronavirus/symptomes.html",
+    "AB": "",
+    "BC": "",
+    "MB": "https://www.gov.mb.ca/covid19/about/index.fr.html",
+    "NB": "https://www2.gnb.ca/content/gnb/fr/corporate/promo/covid-19.html",
+    "NL": "",
+    "NT": "https://www.gov.nt.ca/covid-19/fr/services/%C3%A0-propos-de-la-covid-19",
+    "NS": "https://novascotia.ca/coronavirus/when-to-seek-help/fr/",
+    "NU": "https://www.gov.nu.ca/fr/sante/information/covid-19-nouveau-coronavirus-0",
+    "ON": "https://covid-19.ontario.ca/fr",
+    "PE": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/covid-19-foire-aux-questions",
+    "QC": "https://www.quebec.ca/sante/problemes-de-sante/a-z/informations-generales-sur-le-coronavirus/",
+    "SK": "",
+    "YT": "https://yukon.ca/fr/6-steps-staying-safe-covid-19"
   }
 }
