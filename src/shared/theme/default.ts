@@ -190,13 +190,12 @@ const theme = {
       },
     },
     bigFlat: {
-      color: palette.brandBlue,
+      color: palette.linkBlue,
       height: 52,
       textColor: palette.white,
       fontFamily: 'Noto Sans',
       fontSize: 18,
-      borderWidth: undefined,
-
+      borderBottomWidth: 2,
       paddingHorizontal: 5,
       paddingVertical: 10,
 
@@ -211,7 +210,7 @@ const theme = {
       textColor: palette.black,
       fontFamily: 'Noto Sans',
       fontSize: 18,
-      borderWidth: undefined,
+      borderBottomWidth: 2,
       disabled: {},
     },
     bigFlatDarkGrey: {
