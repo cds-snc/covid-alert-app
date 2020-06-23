@@ -23,9 +23,3 @@ export const Header = () => {
     </TouchableWithoutFeedback>
   );
 };
-
-const styles = StyleSheet.create({
-  icon: {
-    marginTop: -10,
-  },
-});
