@@ -84,7 +84,19 @@ export class ExposureNotificationService {
     this.secureStorage = secureStorage;
   }
 
-  async init() {
+  async start(): Promise<void> {
+    if (this.starting) {
+      return;
+    }
+    this.starting = true;
+
+    try {
+      await this.exposureNotification.start();
+    } catch (_) {
+      // Noop because Exposure Notification framework is unavailable on device
+      return;
+    }
+
     await this.updateSystemStatus();
 
     // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
@@ -103,23 +115,7 @@ export class ExposureNotificationService {
     }
 
     await this.updateExposureStatus();
-  }
 
-  async start(): Promise<void> {
-    if (this.starting) {
-      return;
-    }
-    this.starting = true;
-
-    try {
-      await this.exposureNotification.start();
-    } catch (_) {
-      // Noop because Exposure Notification framework is unavailable on device
-      return;
-    }
-
-    await this.updateSystemStatus();
-    await this.updateExposureStatus();
     this.starting = false;
   }
 

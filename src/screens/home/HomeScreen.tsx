@@ -6,7 +6,6 @@ import {DevSettings} from 'react-native';
 import {checkNotifications, requestNotifications} from 'react-native-permissions';
 import {
   SystemStatus,
-  useExposureNotificationListener,
   useExposureStatus,
   useStartExposureNotificationService,
   useSystemStatus,
@@ -16,6 +15,7 @@ import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 
+import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
 import {RegionCase} from '../../shared/Region';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
@@ -70,13 +70,8 @@ const useNotificationPermissionStatus = (): [string, () => void] => {
 const Content = ({setBackgroundColor}: ContentProps) => {
   const {region} = useStorage();
   const regionCase = getRegionCase(region);
-  const [exposureStatus, updateExposureStatus] = useExposureStatus();
-  const [systemStatus, updateSystemStatus] = useSystemStatus();
-  const startExposureNotificationService = useStartExposureNotificationService();
-
-  useEffect(() => {
-    startExposureNotificationService();
-  }, [startExposureNotificationService]);
+  const [exposureStatus] = useExposureStatus();
+  const [systemStatus] = useSystemStatus();
 
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
@@ -107,8 +102,9 @@ const Content = ({setBackgroundColor}: ContentProps) => {
         case SystemStatus.BluetoothOff:
           return <BluetoothDisabledView />;
         case SystemStatus.Active:
-        case SystemStatus.Unknown:
           return getNoExposureView(regionCase);
+        default:
+          return null;
       }
   }
 };
@@ -123,10 +119,17 @@ export const HomeScreen = () => {
     }
   }, [navigation]);
 
-  const exposureNotificationListener = useExposureNotificationListener();
+  // This only initiate system status updater.
+  // The actual updates will be delivered in useSystemStatus().
+  const subscribeToStatusUpdates = useExposureNotificationSystemStatusAutomaticUpdater();
   useEffect(() => {
-    return exposureNotificationListener();
-  }, [exposureNotificationListener]);
+    return subscribeToStatusUpdates();
+  }, [subscribeToStatusUpdates]);
+
+  const startExposureNotificationService = useStartExposureNotificationService();
+  useEffect(() => {
+    startExposureNotificationService();
+  }, [startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();

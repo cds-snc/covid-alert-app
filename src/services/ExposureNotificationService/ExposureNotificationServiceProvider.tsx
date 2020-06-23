@@ -36,8 +36,6 @@ export const ExposureNotificationServiceProvider = ({
   children,
 }: ExposureNotificationServiceProviderProps) => {
   const [i18n] = useI18n();
-  const [ready, setReady] = useState(false);
-
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
@@ -51,13 +49,6 @@ export const ExposureNotificationServiceProvider = ({
   );
 
   useEffect(() => {
-    (async () => {
-      await exposureNotificationService.init();
-      setReady(true);
-    })();
-  }, [exposureNotificationService]);
-
-  useEffect(() => {
     backgroundScheduler.registerPeriodicTask(() => {
       return exposureNotificationService.updateExposureStatusInBackground();
     });
@@ -65,7 +56,7 @@ export const ExposureNotificationServiceProvider = ({
 
   return (
     <ExposureNotificationServiceContext.Provider value={exposureNotificationService}>
-      {ready && children}
+      {children}
     </ExposureNotificationServiceContext.Provider>
   );
 };
@@ -124,7 +115,7 @@ export function useReportDiagnosis() {
   };
 }
 
-export function useExposureNotificationListener() {
+export function useExposureNotificationSystemStatusAutomaticUpdater() {
   const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
   return useCallback(() => {
     const updateStatus = async (newState: AppStateStatus) => {
