@@ -5,9 +5,9 @@ import {useI18n} from '@shopify/react-i18n';
 import LottieView from 'lottie-react-native';
 import {useReduceMotionPreference} from 'shared/useReduceMotionPreference';
 
-export type TutorialKey = 'step-1' | 'step-2' | 'step-3';
+export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5' | 'step-6';
 
-export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3'];
+export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6'];
 
 const animationData = {
   'step-1': {
@@ -21,6 +21,18 @@ const animationData = {
   'step-3': {
     source: '',
     pauseFrame: 398,
+  },
+  'step-4': {
+    source: '',
+    pauseFrame: 418,
+  },
+  'step-5': {
+    source: '',
+    pauseFrame: 438,
+  },
+  'step-6': {
+    source: '',
+    pauseFrame: 458,
   },
 };
 
@@ -39,12 +51,17 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
       animationRef.current?.reset();
     }
   }, [isActiveSlide, prefersReducedMotion, item]);
+
+  const itemTitle = i18n.translate(`Tutorial.${item}Title`);
   return (
     <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
+      <Box marginTop="l">{/* image goes here */}</Box>
       <Box flex={1} paddingVertical="xxl" paddingHorizontal="xxl">
-        <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-          {i18n.translate(`Tutorial.${item}Title`)}
-        </Text>
+        {itemTitle !== '' && (
+          <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
+            {itemTitle}
+          </Text>
+        )}
         <Text variant="bodyText" color="overlayBodyText">
           {i18n.translate(`Tutorial.${item}`)}
         </Text>
