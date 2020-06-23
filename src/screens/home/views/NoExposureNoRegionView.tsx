@@ -27,7 +27,12 @@ export const NoExposureNoRegionView = () => {
       </Text>
 
       <Box alignSelf="stretch" marginBottom="l">
-        <Button text={i18n.translate('Home.ChooseRegionCTA')} variant="bigFlatGrey" internalLink onPress={onRegion} />
+        <Button
+          text={i18n.translate('Home.ChooseRegionCTA')}
+          variant="bigFlatDarkGrey"
+          internalLink
+          onPress={onRegion}
+        />
       </Box>
     </BaseHomeView>
   );

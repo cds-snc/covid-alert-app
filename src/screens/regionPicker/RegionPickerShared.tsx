@@ -45,7 +45,6 @@ const RegionItem_ = ({code, onPress, name, flagIcon, selected}: RegionItemProps)
     <TouchableOpacity onPress={() => onPress(code)} accessibilityRole="radio" accessibilityState={{selected}}>
       <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
         <Box flexDirection="row" alignItems="center" paddingVertical="s">
-          <Image source={flagIcon} style={regionStyles.flag} />
           <Text variant="bodyText" color="overlayBodyText" marginHorizontal="m">
             {name}
           </Text>
