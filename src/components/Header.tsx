@@ -2,6 +2,7 @@ import React, {useCallback} from 'react';
 import {TouchableWithoutFeedback, StyleSheet} from 'react-native';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {Theme} from 'shared/theme';
+
 import {Box} from './Box';
 import {Icon} from './Icon';
 import {Text} from './Text';
