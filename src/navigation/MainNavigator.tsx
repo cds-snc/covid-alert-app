@@ -39,15 +39,15 @@ const withDarkNav = (Component: React.ElementType) => {
   return ComponentWithDarkNav;
 };
 
-const withLightNav = (Component: React.ElementType) => {
-  const ComponentWithLightNav = (props: any) => (
-    <SafeAreaProvider>
-      <StatusBar barStyle="light-content" />
-      <Component {...props} />
-    </SafeAreaProvider>
-  );
-  return ComponentWithLightNav;
-};
+// const withLightNav = (Component: React.ElementType) => {
+//   const ComponentWithLightNav = (props: any) => (
+//     <SafeAreaProvider>
+//       <StatusBar barStyle="light-content" />
+//       <Component {...props} />
+//     </SafeAreaProvider>
+//   );
+//   return ComponentWithLightNav;
+// };
 
 export interface MainStackParamList extends Record<string, object | undefined> {
   Home: undefined;
