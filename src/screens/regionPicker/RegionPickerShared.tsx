@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Text, Icon} from 'components';
-import {StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import AbFlag from 'assets/flags/ab-flag.png';
 import BcFlag from 'assets/flags/bc-flag.png';
 import MbFlag from 'assets/flags/mb-flag.png';
@@ -40,7 +40,7 @@ export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[
   {code: 'YT', flagIcon: YtFlag},
 ];
 
-const RegionItem_ = ({code, onPress, name, flagIcon, selected}: RegionItemProps) => (
+const RegionItem_ = ({code, onPress, name, selected}: RegionItemProps) => (
   <>
     <TouchableOpacity onPress={() => onPress(code)} accessibilityRole="radio" accessibilityState={{selected}}>
       <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
