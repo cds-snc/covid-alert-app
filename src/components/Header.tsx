@@ -1,11 +1,9 @@
 import React, {useCallback} from 'react';
 import {TouchableWithoutFeedback, StyleSheet} from 'react-native';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
-import {Theme} from 'shared/theme';
 
 import {Box} from './Box';
 import {Icon} from './Icon';
-import {Text} from './Text';
 
 export interface HeaderProps {
   isOverlay?: boolean;
@@ -19,14 +17,7 @@ export const Header = () => {
   }, [navigation]);
   return (
     <TouchableWithoutFeedback onPress={onLogoPress}>
-      <Box
-        maxHeight={30}
-        // borderWidth={2}
-        // borderColor="bodyText"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <Box maxHeight={30} flexDirection="row" alignItems="center" justifyContent="center">
         <Icon size={129} name="stop-covid" />
       </Box>
     </TouchableWithoutFeedback>
