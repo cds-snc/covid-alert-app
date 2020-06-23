@@ -114,6 +114,8 @@
     "step-4": "If someone with the app is diagnosed with COVID-19, they can choose to upload all the codes their phone sent out. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.  ",
     "step-5Title": "",
     "step-5": "Every day, whenever it has an Internet connection, your phone will check the server. It gets a list of the random codes that were sent out by phones of people who reported a diagnosis with through the app.\n\nThe app deletes the codes it’s collected after 14 days.",
+    "step-6Title": "",
+    "step-6": "The app compares the list with the random codes it received from other phones.\n\nIf it finds codes that match, it looks to see how strong the Bluetooth signal was and how long you were near them. If the codes match an exposure, the app will let you know that you may have been exposed.\n\nThen you can isolate and read the public health guidance.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",

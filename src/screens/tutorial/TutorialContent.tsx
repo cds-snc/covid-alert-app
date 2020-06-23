@@ -5,9 +5,9 @@ import {useI18n} from '@shopify/react-i18n';
 import LottieView from 'lottie-react-native';
 import {useReduceMotionPreference} from 'shared/useReduceMotionPreference';
 
-export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5';
+export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5' | 'step-6';
 
-export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5'];
+export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6'];
 
 const animationData = {
   'step-1': {
@@ -29,6 +29,10 @@ const animationData = {
   'step-5': {
     source: '',
     pauseFrame: 438,
+  },
+  'step-6': {
+    source: '',
+    pauseFrame: 458,
   },
 };
 
