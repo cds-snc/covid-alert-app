@@ -60,7 +60,7 @@ export const Button = ({
 
   const content = (
     <Box
-      borderRadius={4}
+      borderRadius={10}
       alignItems="center"
       justifyContent="center"
       style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
@@ -71,13 +71,26 @@ export const Button = ({
       {loading ? (
         <ActivityIndicator color={textColor} size="large" />
       ) : (
-        <>
-          <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
-            {text}
-          </Text>
-          {externalLink && <Icon name={externalArrowIcon} />}
-          {internalLink && <Icon name="icon-chevron" />}
-        </>
+        <Box flex={1} flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
+          <Box flex={1} flexBasis="10%" style={{...styles.iconOffset}}>
+            {externalLink && <Icon name={externalArrowIcon} size={40} />}
+            {internalLink && <Icon name="icon-chevron" />}
+          </Box>
+          <Box flex={1} flexBasis="90%" alignItems="flex-start" justifyContent="flex-end">
+            <Text
+              style={{
+                ...styles.content,
+                color: textColor || buttonColor,
+                fontWeight,
+                fontFamily,
+                fontSize,
+                ...styles.strong,
+              }}
+            >
+              {text}
+            </Text>
+          </Box>
+        </Box>
       )}
     </Box>
   );
@@ -103,10 +116,18 @@ export const Button = ({
 };
 
 const styles = StyleSheet.create({
+  iconOffset: {
+    marginTop: -5,
+  },
   stretch: {
     alignSelf: 'stretch',
   },
   content: {
     textAlign: 'center',
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+  },
+  strong: {
+    fontWeight: 'bold',
   },
 });
