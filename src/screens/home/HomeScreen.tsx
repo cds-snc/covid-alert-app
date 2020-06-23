@@ -109,8 +109,6 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   // setBackgroundColor('exposureBackground');
   // return <ExposureView />;
 
-  return <BluetoothDisabledView />;
-
   switch (exposureStatus.type) {
     case 'exposed':
       return <ExposureView />;
