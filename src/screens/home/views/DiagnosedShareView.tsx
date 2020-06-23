@@ -9,9 +9,6 @@ import {BaseHomeView} from '../components/BaseHomeView';
 export const DiagnosedShareView = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
-  const toSymptomTracker = useCallback(() => {
-    Linking.openURL(i18n.translate('Home.SymptomTrackerUrl')).catch(err => console.error('An error occurred', err));
-  }, [i18n]);
   const toDataShare = useCallback(() => navigation.navigate('DataSharing'), [navigation]);
 
   return (
@@ -24,15 +21,6 @@ export const DiagnosedShareView = () => {
       </Text>
       <Box alignSelf="stretch" marginBottom="s">
         <Button text={i18n.translate('Home.ShareRandomIDsCTA')} variant="bigFlat" onPress={toDataShare} />
-      </Box>
-      <Box alignSelf="stretch" marginBottom="l">
-        <Button
-          text={i18n.translate('Home.SignalDataSharedCTA')}
-          variant="bigFlat"
-          color="bodyText"
-          externalLink
-          onPress={toSymptomTracker}
-        />
       </Box>
     </BaseHomeView>
   );

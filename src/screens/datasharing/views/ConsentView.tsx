@@ -40,26 +40,29 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
   return (
     <>
       <ScrollView style={styles.flex}>
-        <Box paddingHorizontal="l" marginBottom="m" marginTop="s" flexDirection="row">
-          <Icon name="icon-enter-code" />
-          <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="l">
-            {i18n.translate('DataUpload.ConsentBody')}
+        <Box paddingHorizontal="m">
+          <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+            {i18n.translate('DataUpload.ConsentTitle')}
           </Text>
-        </Box>
-        <Box paddingHorizontal="l" marginBottom="m" flexDirection="row">
-          <Icon name="icon-notify" />
-          <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="l">
+
+          <Text variant="bodyText" color="bodyText" marginBottom="m">
+            {i18n.translate('DataUpload.ConsentBody1')}
+          </Text>
+          <Text variant="bodyText" color="bodyText" marginBottom="m">
             {i18n.translate('DataUpload.ConsentBody2')}
           </Text>
-        </Box>
-        <Box paddingHorizontal="l" marginBottom="m" flexDirection="row">
-          <Icon name="icon-notifications" />
-          <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="l">
+          <Text variant="bodySubTitle" color="overlayBodyText" marginBottom="m">
+            {i18n.translate('DataUpload.ConsentSubtitle')}
+          </Text>
+          <Text variant="bodyText" color="bodyText" marginBottom="m">
             {i18n.translate('DataUpload.ConsentBody3')}
           </Text>
-        </Box>
-        <Box paddingHorizontal="l" marginBottom="m">
-          <Button variant="text" text={i18n.translate('DataUpload.PrivacyPolicyLink')} onPress={toPrivacyPolicy} />
+          <Box>
+            <Button variant="text" text={i18n.translate('DataUpload.PrivacyPolicyLink')} onPress={toPrivacyPolicy} />
+          </Box>
+          <Box marginBottom="m">
+            <Button variant="text" text={i18n.translate('DataUpload.HowItWorksLink')} onPress={toPrivacyPolicy} />
+          </Box>
         </Box>
       </ScrollView>
       <Box paddingHorizontal="m" marginBottom="m">

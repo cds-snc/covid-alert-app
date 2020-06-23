@@ -36,7 +36,7 @@ export const DataSharingScreen = () => {
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
         <Toolbar
-          title={isVerified ? i18n.translate('DataUpload.ConsentTitle') : ''}
+          title=""
           navIcon="icon-back-arrow"
           navText={i18n.translate('DataUpload.Cancel')}
           navLabel={i18n.translate('DataUpload.Cancel')}
