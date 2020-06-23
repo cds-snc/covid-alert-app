@@ -7,17 +7,19 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
+import {LocationTracking} from './views/LocationTracking';
 import {Permissions} from './views/Permissions';
 import {Start} from './views/Start';
 import {YourData} from './views/YourData';
 
-type ViewKey = 'start' | 'permissions' | 'yourdata';
+type ViewKey = 'start' | 'location' | 'yourdata' | 'permissons';
 
-const contentData: ViewKey[] = ['start', 'permissions', 'yourdata'];
+const contentData: ViewKey[] = ['start', 'location', 'yourdata', 'permissons'];
 const viewComponents = {
   start: Start,
-  permissions: Permissions,
+  location: LocationTracking,
   yourdata: YourData,
+  permissions: Permissions,
 };
 
 export const OnboardingScreen = () => {

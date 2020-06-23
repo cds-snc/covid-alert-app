@@ -1,9 +1,9 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text} from 'components';
+import {Box, BulletPointX, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
-export const Permissions = () => {
+export const LocationTracking = () => {
   const [i18n] = useI18n();
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
@@ -19,6 +19,11 @@ export const Permissions = () => {
             {i18n.translate('OnboardingLocation.Intro')}
           </Text>
         </Box>
+
+        <BulletPointX text={i18n.translate('OnboardingLocation.Body1')} />
+        <BulletPointX text={i18n.translate('OnboardingLocation.Body2')} />
+        <BulletPointX text={i18n.translate('OnboardingLocation.Body3')} />
+        <BulletPointX text={i18n.translate('OnboardingLocation.Body4')} />
       </Box>
     </ScrollView>
   );
