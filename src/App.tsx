@@ -42,7 +42,7 @@ const i18nManager = new I18nManager({
 const appInit = async () => {
   try {
     const locale = await AsyncStorage.getItem(Key.Locale);
-    if (locale) i18nManager.update({locale});
+    if (locale && locale !== i18nManager.details.locale) i18nManager.update({locale});
   } catch (error) {
     console.error(error);
   }

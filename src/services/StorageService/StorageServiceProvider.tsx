@@ -31,7 +31,7 @@ export const useStorage = () => {
   const setLocale = useMemo(
     () => (newLocale: string) => {
       storageService.setLocale(newLocale);
-      if (i18nManager && newLocale) i18nManager.update({locale: newLocale});
+      if (i18nManager && newLocale && newLocale !== i18nManager.details.locale) i18nManager.update({locale: newLocale});
     },
     [storageService, i18nManager],
   );
