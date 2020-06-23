@@ -208,5 +208,21 @@
     "QC": "Quebec",
     "SK": "Saskatchewan",
     "YT": "Yukon"
+  },
+  "RegionalGuidanceURL": {
+    "CA": "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/symptoms.html#s",
+    "AB": "",
+    "BC": "",
+    "MB": "https://www.gov.mb.ca/covid19/about/index.html",
+    "NB": "https://www2.gnb.ca/content/gnb/en/corporate/promo/covid-19.html",
+    "NL": "",
+    "NT": "https://www.gov.nt.ca/covid-19/en/services/about-covid-19",
+    "NS": "https://novascotia.ca/coronavirus/when-to-seek-help/",
+    "NU": "https://www.gov.nu.ca/health/information/covid-19-novel-coronavirus#Covid%20Facts",
+    "ON": "https://covid-19.ontario.ca/",
+    "PE": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-19-faqs",
+    "QC": "https://www.quebec.ca/en/health/health-issues/a-z/general-information-about-coronavirus/#c53183",
+    "SK": "",
+    "YT": "https://yukon.ca/en/health-and-wellness/covid-19/6-steps-staying-safe-covid-19"
   }
 }
