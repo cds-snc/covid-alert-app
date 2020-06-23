@@ -141,11 +141,14 @@
     "Body5": "Use of the app is voluntary. You can delete it at any time."
   },
   "OnboardingStart": {
-    "Title": "How it works",
-    "Body1": "Using Bluetooth, StopCOVID shares anonymous, randomly generated codes, with other app users nearby.",
-    "Body2": "If you have been exposed to COVID-19 by another app user in the past 14 days, you will receive an anonymous notification.",
+    "Title": "What StopCOVID does",
+    "Body1": "It notifies you if someone you’ve been near in the past 14 days reports a COVID-19 diagnosis through the app.",
+    "Body2": "It will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
     "Body3": "If you test positive for COVID-19, you can anonymously notify others who have been near you, in the past 14 days.",
-    "TutorialAction": "Learn how StopCOVID works"
+    "TutorialAction": "Learn how StopCOVID works",
+    "Title2": "Your choice",
+    "Body4": "You do not have to use it",
+    "Body5": "You can delete it anytime"
   },
   "Privacy": {
     "Title": "Privacy policy",
