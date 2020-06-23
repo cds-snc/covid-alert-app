@@ -1,5 +1,6 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import {I18nContext} from '@shopify/react-i18n';
 import {DevSettings} from 'react-native';
 
 import {StorageService} from './StorageService';
@@ -21,12 +22,19 @@ export const StorageServiceProvider = ({children}: StorageServiceProviderProps) 
 
 export const useStorage = () => {
   const storageService = useContext(StorageServiceContext)!;
+  const i18nManager = React.useContext(I18nContext);
 
   const [isOnboarding, setIsOnboarding] = useState(storageService.isOnboarding.value);
   const setOnboarded = useMemo(() => storageService.setOnboarded, [storageService.setOnboarded]);
 
   const [locale, setLocaleInternal] = useState(storageService.locale.value);
-  const setLocale = useMemo(() => storageService.setLocale, [storageService.setLocale]);
+  const setLocale = useMemo(
+    () => (newLocale: string) => {
+      storageService.setLocale(newLocale);
+      if (i18nManager && newLocale) i18nManager.update({locale: newLocale});
+    },
+    [storageService, i18nManager],
+  );
 
   const [region, setRegionInternal] = useState(storageService.region.value);
   const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);

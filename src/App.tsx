@@ -8,11 +8,12 @@
  * @format
  */
 import React, {useMemo, useEffect} from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import {I18nContext, I18nManager} from '@shopify/react-i18n';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {StorageServiceProvider, useStorage} from 'services/StorageService';
+import {StorageServiceProvider, Key} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
 import {NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -38,42 +39,43 @@ const i18nManager = new I18nManager({
   },
 });
 
-const App = () => {
-  useEffect(() => SplashScreen.hide(), []);
+const appInit = async () => {
+  try {
+    const locale = await AsyncStorage.getItem(Key.Locale);
+    if (locale) i18nManager.update({locale});
+  } catch (error) {
+    console.error(error);
+  }
 
-  const {locale} = useStorage();
+  // only hide splash screen after our init is done
+  SplashScreen.hide();
+};
+
+const App = () => {
   useEffect(() => {
-    i18nManager.update({locale});
-  }, [locale]);
+    appInit();
+  }, []);
+
+  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, REGION), []);
 
   return (
     <I18nContext.Provider value={i18nManager}>
       <SharedTranslations>
-        <MemoizedApp />
+        <ExposureNotificationServiceProvider backendInterface={backendService}>
+          <DevPersistedNavigationContainer persistKey="navigationState">
+            {TEST_MODE ? (
+              <TestMode>
+                <MainNavigator />
+              </TestMode>
+            ) : (
+              <MainNavigator />
+            )}
+          </DevPersistedNavigationContainer>
+        </ExposureNotificationServiceProvider>
       </SharedTranslations>
     </I18nContext.Provider>
   );
 };
-
-const AppContent = () => {
-  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, REGION), []);
-
-  return (
-    <ExposureNotificationServiceProvider backendInterface={backendService}>
-      <DevPersistedNavigationContainer persistKey="navigationState">
-        {TEST_MODE ? (
-          <TestMode>
-            <MainNavigator />
-          </TestMode>
-        ) : (
-          <MainNavigator />
-        )}
-      </DevPersistedNavigationContainer>
-    </ExposureNotificationServiceProvider>
-  );
-};
-
-const MemoizedApp = React.memo(AppContent);
 
 const AppProvider = () => {
   return (
