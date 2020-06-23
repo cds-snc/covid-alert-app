@@ -47,7 +47,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 }
 
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
-const RegionPickerScreenWithNavBar = withLightNav(RegionPickerScreen);
+const RegionPickerScreenWithNavBar = withDarkNav(RegionPickerScreen);
 const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
 const TutorialScreenWithNavBar = withLightNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withLightNav(DataSharingScreen);
