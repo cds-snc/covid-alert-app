@@ -2,14 +2,23 @@ import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {useI18n} from '@shopify/react-i18n';
 import {Text, Button, Box, Icon} from 'components';
+import {useStorage} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const ExposureView = () => {
+  const {region} = useStorage();
   const [i18n] = useI18n();
   const onActionGuidance = useCallback(() => {
-    Linking.openURL(i18n.translate('Home.GuidanceUrl')).catch(err => console.error('An error occurred', err));
-  }, [i18n]);
+    let url = i18n.translate(`RegionalGuidanceURL.CA`);
+    if (region !== undefined && region !== 'None') {
+      const regionalURL = i18n.translate(`RegionalGuidanceURL.${region}`);
+      if (regionalURL !== '') {
+        url = regionalURL;
+      }
+    }
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+  }, [i18n, region]);
 
   const onActionHow = useCallback(() => {
     Linking.openURL(i18n.translate('Home.HowUrl')).catch(err => console.error('An error occurred', err));
