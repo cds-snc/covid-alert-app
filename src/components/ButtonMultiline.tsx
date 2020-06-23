@@ -80,7 +80,7 @@ export const ButtonMultiline = ({
               {internalLink && <Icon name="icon-chevron-white" size={50} />}
             </Box>
 
-            <Box flex={1} flexBasis="90%" alignItems="flex-start" justifyContent="flex-end">
+            <Box flex={1} flexBasis="80%" alignItems="flex-start" justifyContent="flex-end">
               <Text
                 style={{
                   ...styles.content,
@@ -134,7 +134,5 @@ const styles = StyleSheet.create({
   },
   content: {
     textAlign: 'center',
-    paddingHorizontal: 5,
-    paddingVertical: 2,
   },
 });

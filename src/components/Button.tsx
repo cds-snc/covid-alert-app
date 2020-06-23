@@ -71,12 +71,12 @@ export const Button = ({
       {loading ? (
         <ActivityIndicator color={textColor} size="large" />
       ) : (
-        <Box flex={1} flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
+        <Box flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
           <Box flex={1} flexBasis="10%" style={{...styles.iconOffset}}>
-            {externalLink && <Icon name={externalArrowIcon} size={40} />}
+            {externalLink && <Icon name={externalArrowIcon} size={20} />}
             {internalLink && <Icon name="icon-chevron" />}
           </Box>
-          <Box flex={1} flexBasis="90%" alignItems="flex-start" justifyContent="flex-end">
+          <Box flex={1} marginLeft="s" flexBasis="80%" alignItems="flex-start" justifyContent="flex-end">
             <Text
               style={{
                 ...styles.content,
@@ -84,7 +84,6 @@ export const Button = ({
                 fontWeight,
                 fontFamily,
                 fontSize,
-                ...styles.strong,
               }}
             >
               {text}
@@ -117,15 +116,14 @@ export const Button = ({
 
 const styles = StyleSheet.create({
   iconOffset: {
-    marginTop: -5,
+    marginTop: 2,
+    marginLeft: 20,
   },
   stretch: {
     alignSelf: 'stretch',
   },
   content: {
     textAlign: 'center',
-    paddingHorizontal: 5,
-    paddingVertical: 2,
   },
   strong: {
     fontWeight: 'bold',

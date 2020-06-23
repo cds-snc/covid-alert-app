@@ -196,6 +196,10 @@ const theme = {
       fontFamily: 'Noto Sans',
       fontSize: 18,
       borderWidth: undefined,
+
+      paddingHorizontal: 5,
+      paddingVertical: 10,
+
       disabled: {
         color: palette.darkGrey,
         textColor: palette.bodyBlack,
@@ -203,7 +207,8 @@ const theme = {
     },
     bigFlatPurple: {
       color: palette.purple,
-      height: 52,
+      fontWeight: 'bold',
+      height: 30,
       textColor: palette.white,
       fontFamily: 'Noto Sans',
       fontSize: 18,
