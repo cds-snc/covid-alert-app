@@ -13,8 +13,10 @@ export const BaseHomeView = ({children, iconName}: BaseHomeViewProps) => {
     <SafeAreaView>
       <Header />
       <ScrollView style={styles.flex} contentContainerStyle={[styles.scrollContainer]} bounces={false}>
-        <Box marginTop="xxl">
-          <Icon name={iconName} size={110} />
+        <Box width="100%" justifyContent="flex-start" marginTop="xxl">
+          <Box style={{...styles.primaryIcon}}>
+            <Icon name={iconName} size={150} />
+          </Box>
         </Box>
         <Box flex={1} alignItems="flex-start" justifyContent="flex-end" marginHorizontal="xl">
           {children}
@@ -25,6 +27,7 @@ export const BaseHomeView = ({children, iconName}: BaseHomeViewProps) => {
 };
 
 const styles = StyleSheet.create({
+  primaryIcon: {marginLeft: 0, marginBottom: 30},
   flex: {
     flex: 1,
   },

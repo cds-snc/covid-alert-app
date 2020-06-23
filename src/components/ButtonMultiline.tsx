@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   },
   content: {
     textAlign: 'center',
-    paddingBottom: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
   },
 });

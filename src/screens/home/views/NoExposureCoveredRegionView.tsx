@@ -14,7 +14,7 @@ export const NoExposureCoveredRegionView = () => {
 
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
-    <BaseHomeView>
+    <BaseHomeView iconName="thumbs-up">
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected.RegionCoveredTitle')}
       </Text>
@@ -24,7 +24,7 @@ export const NoExposureCoveredRegionView = () => {
 
       <LastCheckedDisplay textDark />
 
-      <Box alignSelf="stretch" marginBottom="l">
+      <Box alignSelf="stretch" marginTop="s" marginBottom="l">
         <ButtonMultiline
           text={i18n.translate('Home.How')}
           text1={i18n.translate('Home.CTA')}
