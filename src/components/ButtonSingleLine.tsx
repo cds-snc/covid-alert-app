@@ -17,9 +17,8 @@ import {Box} from './Box';
 import {Ripple} from './Ripple';
 import {Icon} from './Icon';
 
-export interface ButtonMultilineProps {
+export interface ButtonSingleLineProps {
   text?: string;
-  text1?: string;
   onPress: () => void;
   variant: keyof Theme['buttonVariants'];
   color?: keyof Theme['colors'];
@@ -29,9 +28,8 @@ export interface ButtonMultilineProps {
   internalLink?: boolean;
 }
 
-export const ButtonMultiline = ({
+export const ButtonSingleLine = ({
   text,
-  text1,
   onPress,
   variant,
   color: buttonColorName,
@@ -39,7 +37,7 @@ export const ButtonMultiline = ({
   loading,
   externalLink,
   internalLink,
-}: ButtonMultilineProps) => {
+}: ButtonSingleLineProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
   const variantProps = theme.buttonVariants[variant];
@@ -73,31 +71,25 @@ export const ButtonMultiline = ({
       {loading ? (
         <ActivityIndicator color={textColor} size="large" />
       ) : (
-        <>
-          <Box flex={1} flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
-            <Box flex={1} flexBasis="10%" style={{...styles.iconOffset}}>
-              {externalLink && <Icon name={externalArrowIcon} size={50} />}
-              {internalLink && <Icon name="icon-chevron-white" size={50} />}
-            </Box>
-
-            <Box flex={1} flexBasis="80%" alignItems="flex-start" justifyContent="flex-end">
-              <Text
-                style={{
-                  ...styles.content,
-                  color: textColor || buttonColor,
-                  fontFamily,
-                  fontSize,
-                  ...styles.strong,
-                }}
-              >
-                {text}
-              </Text>
-              <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
-                {text1}
-              </Text>
-            </Box>
+        <Box flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
+          <Box flex={1} flexBasis="10%" style={{...styles.iconOffset}}>
+            {externalLink && <Icon name={externalArrowIcon} size={20} />}
+            {internalLink && <Icon name="icon-chevron" />}
           </Box>
-        </>
+          <Box flex={1} marginLeft="s" flexBasis="80%" alignItems="flex-start" justifyContent="flex-end">
+            <Text
+              style={{
+                ...styles.content,
+                color: textColor || buttonColor,
+                fontWeight,
+                fontFamily,
+                fontSize,
+              }}
+            >
+              {text}
+            </Text>
+          </Box>
+        </Box>
       )}
     </Box>
   );
@@ -124,15 +116,16 @@ export const ButtonMultiline = ({
 
 const styles = StyleSheet.create({
   iconOffset: {
-    marginTop: -10,
-  },
-  strong: {
-    fontWeight: 'bold',
+    marginTop: 2,
+    marginLeft: 20,
   },
   stretch: {
     alignSelf: 'stretch',
   },
   content: {
     textAlign: 'center',
+  },
+  strong: {
+    fontWeight: 'bold',
   },
 });
