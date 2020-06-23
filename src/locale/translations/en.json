@@ -11,9 +11,14 @@
     "ChooseRegionCTA": "Choose province or territory",
     "NoExposureDetectedDetailed1": "You have not been near anyone who reported a COVID diagnosis through this app.",
     "NoExposureDetectedDetailed2": "However, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app. ",
-    "ExposureDetected": "You’ve been exposed",
-    "ExposureDetectedDetailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
-    "ExposureDetectedDetailed2": "This does not mean you’ve been infected. But you should probably take some action.",
+    "ExposureDetected": {
+      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+      "DiagnosedBtnText2": "What to do next",
+      "Title": "You’ve been exposed",
+      "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
+      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action."
+    },
+
     "SeeGuidance": "What now? See guidance.",
     "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
     "How": "Diagnosed with COVID-19?",

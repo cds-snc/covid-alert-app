@@ -72,7 +72,7 @@ const ICONS = {
   'maple-leaf': MapleLeaf,
   'stop-covid': StopCOVID,
   'thumbs-up': ThumbsUp,
-  'thumb-caution': HandCaution,
+  'hand-caution': HandCaution,
 };
 
 export type IconName = keyof typeof ICONS;

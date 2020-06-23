@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {useI18n} from '@shopify/react-i18n';
-import {Text, Button, Box, Icon} from 'components';
+import {Text, Box, ButtonMultiline, ButtonSingleLine} from 'components';
 import {useStorage} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -25,28 +25,36 @@ export const ExposureView = () => {
   }, [i18n]);
 
   return (
-    <BaseHomeView>
-      <Box marginBottom="l">
-        <Icon name="icon-warning" size={65} />
-      </Box>
+    <BaseHomeView iconName="hand-caution">
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
-        {i18n.translate('Home.ExposureDetected')}
+        {i18n.translate('Home.ExposureDetected.Title')}
         {/* No exposure detected */}
       </Text>
       <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {i18n.translate('Home.ExposureDetectedDetailed1')}
+        {i18n.translate('Home.ExposureDetected.Detailed1')}
       </Text>
 
       <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {i18n.translate('Home.ExposureDetectedDetailed2')}
+        {i18n.translate('Home.ExposureDetected.Detailed2')}
       </Text>
 
       {/* <LastCheckedDisplay /> */}
       <Box alignSelf="stretch" marginTop="l" marginBottom="s">
-        <Button text={i18n.translate('Home.SeeGuidance')} variant="bigFlat" externalLink onPress={onActionGuidance} />
+        <ButtonSingleLine
+          text={i18n.translate('Home.SeeGuidance')}
+          variant="bigFlatPurple"
+          externalLink
+          onPress={onActionGuidance}
+        />
       </Box>
-      <Box alignSelf="stretch" marginBottom="s">
-        <Button text={i18n.translate('Home.How')} variant="bigFlat" externalLink onPress={onActionHow} />
+      <Box alignSelf="stretch" marginTop="s" marginBottom="xl">
+        <ButtonMultiline
+          text={i18n.translate('Home.ExposureDetected.DiagnosedBtnText1')}
+          text1={i18n.translate('Home.ExposureDetected.DiagnosedBtnText2')}
+          variant="bigFlat"
+          internalLink
+          onPress={onActionHow}
+        />
       </Box>
     </BaseHomeView>
   );

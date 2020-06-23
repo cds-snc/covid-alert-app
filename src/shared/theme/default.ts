@@ -30,11 +30,13 @@ export const palette = {
   danger25: '#FFC1B3',
   danger50: '#F7635D',
   pink: '#FFC1B3',
+  purple: '#573EC5',
 };
 
 const theme = {
   colors: {
     mainBackground: palette.neutralGrey,
+    purpleBackground: palette.purple,
     regionCoveredBackground: palette.mint,
     exposureBackground: palette.warn,
     offlineBackground: palette.pink,
@@ -190,6 +192,23 @@ const theme = {
     bigFlat: {
       color: palette.brandBlue,
       height: 52,
+      textColor: palette.white,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderWidth: undefined,
+
+      paddingHorizontal: 5,
+      paddingVertical: 10,
+
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    bigFlatPurple: {
+      color: palette.purple,
+      fontWeight: 'bold',
+      height: 30,
       textColor: palette.white,
       fontFamily: 'Noto Sans',
       fontSize: 18,
