@@ -64,7 +64,7 @@ const useNotificationPermissionStatus = (): [string, () => void] => {
       });
   };
 
-  return [status === 'granted' ? status : 'denied', request];
+  return [status, request];
 };
 
 const Content = ({setBackgroundColor}: ContentProps) => {
@@ -109,6 +109,44 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   }
 };
 
+const CollapsedContent = () => {
+  const [systemStatus] = useSystemStatus();
+  const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
+  const showNotificationWarning = notificationStatus === 'denied';
+
+  if (systemStatus === SystemStatus.Unknown) {
+    return null;
+  }
+
+  return (
+    <CollapsedOverlayView
+      status={systemStatus}
+      notificationWarning={showNotificationWarning}
+      turnNotificationsOn={turnNotificationsOn}
+    />
+  );
+};
+
+const BottomSheetContent = () => {
+  const [systemStatus] = useSystemStatus();
+  const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
+  const showNotificationWarning = notificationStatus !== 'granted';
+  const maxWidth = useMaxContentWidth();
+
+  if (systemStatus === SystemStatus.Unknown) {
+    return null;
+  }
+
+  return (
+    <OverlayView
+      status={systemStatus}
+      notificationWarning={showNotificationWarning}
+      turnNotificationsOn={turnNotificationsOn}
+      maxWidth={maxWidth}
+    />
+  );
+};
+
 export const HomeScreen = () => {
   const navigation = useNavigation();
   useEffect(() => {
@@ -131,21 +169,9 @@ export const HomeScreen = () => {
     startExposureNotificationService();
   }, [startExposureNotificationService]);
 
-  const [systemStatus] = useSystemStatus();
-  const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus === 'denied';
-
-  const collapsedContent = useMemo(
-    () => (
-      <CollapsedOverlayView
-        status={systemStatus}
-        notificationWarning={showNotificationWarning}
-        turnNotificationsOn={turnNotificationsOn}
-      />
-    ),
-    [showNotificationWarning, systemStatus, turnNotificationsOn],
-  );
-
+  const collapsedContent = useMemo(() => <CollapsedContent />, []);
+  const [notificationStatus] = useNotificationPermissionStatus();
+  const showNotificationWarning = notificationStatus !== 'granted';
   const maxWidth = useMaxContentWidth();
   const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
 
@@ -160,12 +186,7 @@ export const HomeScreen = () => {
         collapsedContent={collapsedContent}
         extraContent={showNotificationWarning}
       >
-        <OverlayView
-          status={systemStatus}
-          notificationWarning={showNotificationWarning}
-          turnNotificationsOn={turnNotificationsOn}
-          maxWidth={maxWidth}
-        />
+        <BottomSheetContent />
       </BottomSheet>
     </Box>
   );
