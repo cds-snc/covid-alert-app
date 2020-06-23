@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import { Box, Text } from 'components';
-import { useI18n } from '@shopify/react-i18n';
+import React, {useRef, useEffect} from 'react';
+import {StyleSheet, ScrollView} from 'react-native';
+import {Box, Text} from 'components';
+import {useI18n} from '@shopify/react-i18n';
 import LottieView from 'lottie-react-native';
-import { useReduceMotionPreference } from 'shared/useReduceMotionPreference';
+import {useReduceMotionPreference} from 'shared/useReduceMotionPreference';
 
 export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5';
 
@@ -32,7 +32,7 @@ const animationData = {
   },
 };
 
-export const TutorialContent = ({ item, isActiveSlide }: { item: TutorialKey; isActiveSlide: boolean }) => {
+export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isActiveSlide: boolean}) => {
   const [i18n] = useI18n();
   const prefersReducedMotion = useReduceMotionPreference();
   // const {width: viewportWidth, height: viewportHeight} = useWindowDimensions();
@@ -51,13 +51,9 @@ export const TutorialContent = ({ item, isActiveSlide }: { item: TutorialKey; is
   const itemTitle = i18n.translate(`Tutorial.${item}Title`);
   return (
     <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
-      <Box marginTop="l">
-        <Box style={styles.imagePlaceholder}>
-          {/* image goes here */}
-        </Box>
-      </Box>
+      <Box marginTop="l">{/* image goes here */}</Box>
       <Box flex={1} paddingVertical="xxl" paddingHorizontal="xxl">
-        {itemTitle !== "" && (
+        {itemTitle !== '' && (
           <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
             {itemTitle}
           </Text>
@@ -71,12 +67,6 @@ export const TutorialContent = ({ item, isActiveSlide }: { item: TutorialKey; is
 };
 
 const styles = StyleSheet.create({
-  imagePlaceholder: {
-    borderColor: '#B7B7B7',
-    borderWidth: 1,
-    width: 315,
-    height: 200,
-  },
   flex: {
     flex: 1,
   },
