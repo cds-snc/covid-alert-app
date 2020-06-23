@@ -17,6 +17,7 @@ import IconMessages from 'assets/icon-messages.svg';
 import IconNotify from 'assets/icon-notify.svg';
 import IconShare from 'assets/icon-share.svg';
 import IconNotifications from 'assets/icon-notifications.svg';
+import IconNoNotifications from 'assets/icon-no-notifications.svg';
 import IconLearn from 'assets/icon-learn.svg';
 import IconOffline from 'assets/icon-offline-2.svg';
 import IconWarning from 'assets/icon-warning.svg';
@@ -54,6 +55,7 @@ const ICONS = {
   'icon-notify': IconNotify,
   'icon-share': IconShare,
   'icon-notifications': IconNotifications,
+  'icon-no-notifications': IconNoNotifications,
   'icon-learn': IconLearn,
   'icon-offline': IconOffline,
   'icon-exposure-notifications-off': IconExposureNotificationsOff,
