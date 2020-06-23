@@ -205,6 +205,17 @@ const theme = {
         textColor: palette.bodyBlack,
       },
     },
+    bigFlatGrey: {
+      color: palette.fadedWhite,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderWidth: undefined,
+      paddingHorizontal: 5,
+      paddingVertical: 10,
+      disabled: {},
+    },
     bigFlatPurple: {
       color: palette.purple,
       fontWeight: 'bold',

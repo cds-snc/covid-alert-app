@@ -26,13 +26,8 @@ export const NoExposureNoRegionView = () => {
         {i18n.translate('Home.NoExposureDetected.NoRegionSetBody')}
       </Text>
 
-      <LastCheckedDisplay />
-
       <Box alignSelf="stretch" marginBottom="l">
-        <Button text={i18n.translate('Home.ChooseRegionCTA')} variant="bigFlat" onPress={onRegion} />
-      </Box>
-      <Box alignSelf="stretch" marginBottom="l">
-        <Button text={i18n.translate('Home.How')} variant="bigFlat" externalLink onPress={onAction} />
+        <Button text={i18n.translate('Home.ChooseRegionCTA')} variant="bigFlatGrey" internalLink onPress={onRegion} />
       </Box>
     </BaseHomeView>
   );
