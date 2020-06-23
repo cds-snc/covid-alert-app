@@ -34,6 +34,7 @@ import ShieldDisabled from 'assets/shield-disabled.svg';
 import IconX from 'assets/icon-x.svg';
 import ThumbsUp from 'assets/thumbs-up.svg';
 import HandCaution from 'assets/hand-caution.svg';
+import HandWave from 'assets/hand-wave.svg';
 import StopCOVID from 'assets/StopCOVID.svg';
 
 const ICONS = {
@@ -73,6 +74,7 @@ const ICONS = {
   'stop-covid': StopCOVID,
   'thumbs-up': ThumbsUp,
   'hand-caution': HandCaution,
+  'hand-wave': HandWave,
 };
 
 export type IconName = keyof typeof ICONS;
