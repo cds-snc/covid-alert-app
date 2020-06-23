@@ -31,6 +31,7 @@ import ShieldCovid from 'assets/shield-covid.svg';
 import MapleLeaf from 'assets/maple-leaf.svg';
 import ShieldDisabled from 'assets/shield-disabled.svg';
 import IconX from 'assets/icon-x.svg';
+import StopCOVID from 'assets/StopCOVID.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -65,6 +66,7 @@ const ICONS = {
   'shield-active': ShieldActive,
   'shield-covid': ShieldCovid,
   'maple-leaf': MapleLeaf,
+  'stop-covid': StopCOVID,
 };
 
 export type IconName = keyof typeof ICONS;
