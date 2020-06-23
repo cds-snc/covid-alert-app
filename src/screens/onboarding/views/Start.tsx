@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Icon} from 'components';
+import {Box, BulletPointX, Text, Icon} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
 export const Start = () => {
@@ -21,14 +21,8 @@ export const Start = () => {
             {i18n.translate('OnboardingStart.Body1')}
           </Text>
         </Box>
-        <Box flexDirection="row" marginBottom="l">
-          <Box marginTop="xxs">
-            <Icon size={20} name="icon-x" />
-          </Box>
-          <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="m">
-            {i18n.translate('OnboardingStart.Body2')}
-          </Text>
-        </Box>
+        <BulletPointX text={i18n.translate('OnboardingStart.Body2')} />
+
         <Box marginTop="m">
           <Text
             variant="bodyTitle"
@@ -39,12 +33,8 @@ export const Start = () => {
             {i18n.translate('OnboardingStart.Title2')}
           </Text>
         </Box>
-        <Box flexDirection="row" alignItems="center" marginBottom="l">
-          <Icon size={20} name="icon-x" />
-          <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="m">
-            {i18n.translate('OnboardingStart.Body4')}
-          </Text>
-        </Box>
+        <BulletPointX text={i18n.translate('OnboardingStart.Body4')} />
+
         <Box flexDirection="row" alignItems="center" marginBottom="l">
           <Icon size={23} name="icon-no-notifications" />
           <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="m">
