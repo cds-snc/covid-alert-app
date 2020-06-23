@@ -82,7 +82,7 @@ const Content = () => {
       return exposureStatus.needsSubmission ? <DiagnosedShareView /> : <DiagnosedView />;
     case 'monitoring':
     default:
-      if (!network.isConnected) return <NetworkDisabledView />;
+      if (!network.isConnected && network.type !== 'unknown') return <NetworkDisabledView />;
       switch (systemStatus) {
         case SystemStatus.Disabled:
         case SystemStatus.Restricted:
