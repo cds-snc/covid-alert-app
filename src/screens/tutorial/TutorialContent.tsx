@@ -51,6 +51,11 @@ export const TutorialContent = ({ item, isActiveSlide }: { item: TutorialKey; is
   const itemTitle = i18n.translate(`Tutorial.${item}Title`);
   return (
     <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
+      <Box marginTop="l">
+        <Box style={styles.imagePlaceholder}>
+          {/* image goes here */}
+        </Box>
+      </Box>
       <Box flex={1} paddingVertical="xxl" paddingHorizontal="xxl">
         {itemTitle !== "" && (
           <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
@@ -66,6 +71,12 @@ export const TutorialContent = ({ item, isActiveSlide }: { item: TutorialKey; is
 };
 
 const styles = StyleSheet.create({
+  imagePlaceholder: {
+    borderColor: '#B7B7B7',
+    borderWidth: 1,
+    width: 315,
+    height: 200,
+  },
   flex: {
     flex: 1,
   },
