@@ -21,7 +21,7 @@ import {TestMode} from 'testMode';
 import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY, REGION} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
-import {SharedTranslations} from 'locale';
+import {SharedTranslations, getSystemLocale} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 
 // grabs the ip address
@@ -33,7 +33,7 @@ if (__DEV__) {
 }
 
 const i18nManager = new I18nManager({
-  locale: 'en',
+  locale: getSystemLocale(),
   onError(error) {
     console.log('>>> i18N', error);
   },

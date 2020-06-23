@@ -1,6 +1,7 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {I18nContext} from '@shopify/react-i18n';
+import {getSystemLocale} from 'locale';
 import {DevSettings} from 'react-native';
 
 import {StorageService} from './StorageService';
@@ -45,7 +46,7 @@ export const useStorage = () => {
 
   const reset = useCallback(async () => {
     setOnboarded(false);
-    setLocale('en');
+    setLocale(getSystemLocale());
     setRegion(undefined);
     await AsyncStorage.clear();
     if (__DEV__) {

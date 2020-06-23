@@ -37,6 +37,7 @@
     "react-native-background-fetch": "^3.0.4",
     "react-native-config": "^1.1.0",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-localize": "^1.4.0",
     "react-native-markdown-display": "^6.1.0",
     "react-native-permissions": "^2.1.4",
     "react-native-reanimated": "^1.8.0",
