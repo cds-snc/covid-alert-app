@@ -69,6 +69,8 @@
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
     "EnterCodeCardBody": "You were given an 8-digit number when you were diagnosed. This number tells StopCOVID to notify people you were near.",
     "EnterCodeCardAction": "Enter number",
+    "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
+    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.",
     "NotificationCardStatus": "Push notifications are ",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
