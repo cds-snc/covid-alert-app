@@ -25,6 +25,7 @@ export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
           padding="m"
           flex={1}
           marginBottom="xs"
+          marginHorizontal="m"
           justifyContent="center"
           flexDirection="row"
         >
