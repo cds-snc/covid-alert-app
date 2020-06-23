@@ -15,11 +15,17 @@ export const Permissions = () => {
         </Box>
 
         <Box flexDirection="row" marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
+            {i18n.translate('OnboardingPermissions.Intro')}
+          </Text>
+        </Box>
+
+        <Box flexDirection="row" marginBottom="l">
           <Text marginTop="s" marginRight="m">
             <Icon size={20} name="icon-x" />
           </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
-            {i18n.translate('OnboardingPermissions.Body')}
+            {i18n.translate('OnboardingPermissions.Body1')}
           </Text>
         </Box>
         <Box flexDirection="row" marginBottom="l">
@@ -36,6 +42,14 @@ export const Permissions = () => {
           </Text>
           <Text variant="bodyText" color="overlayBodyText" marginRight="m">
             {i18n.translate('OnboardingPermissions.Body3')}
+          </Text>
+        </Box>
+        <Box flexDirection="row" alignItems="center" marginBottom="l">
+          <Text marginTop="s" marginRight="m">
+            <Icon size={20} name="icon-x" />
+          </Text>
+          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
+            {i18n.translate('OnboardingPermissions.Body4')}
           </Text>
         </Box>
       </Box>
