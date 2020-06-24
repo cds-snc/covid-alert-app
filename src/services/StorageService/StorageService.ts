@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Observable} from 'shared/Observable';
 import {Region} from 'shared/Region';
+import {getSystemLocale} from 'locale';
 
 export enum Key {
   IsOnboarded = 'IsOnboarded',
@@ -17,7 +18,7 @@ export class StorageService {
 
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
-    this.locale = new Observable<string>('en');
+    this.locale = new Observable<string>(getSystemLocale());
     this.ready = new Observable<boolean>(false);
     this.region = new Observable<Region | undefined>(undefined);
     this.init();
