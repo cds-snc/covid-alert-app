@@ -108,9 +108,6 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, maxWidth}: Props) => {
   const [i18n] = useI18n();
-  const navigation = useNavigation();
-
-  const onDiagnosed = useCallback(() => navigation.navigate('DataSharing'), [navigation]);
 
   return (
     <Box maxWidth={maxWidth}>
