@@ -14,10 +14,10 @@ export const NoExposureNoRegionView = () => {
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView>
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
-        {i18n.translate('Home.NoExposureDetected.NoRegionSetTitle')}
+        {i18n.translate('Home.NoExposureDetected.NoRegion.Title')}
       </Text>
       <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {i18n.translate('Home.NoExposureDetected.NoRegionSetBody')}
+        {i18n.translate('Home.NoExposureDetected.NoRegion.Body')}
       </Text>
 
       <Box alignSelf="stretch" marginBottom="l">
