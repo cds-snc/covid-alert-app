@@ -213,6 +213,10 @@
       "Body": "You should have been given an 8-digit number when you were diagnosed. You need to enter this number if you want StopCOVID to let people know they were exposed.\n\nThis is optional. It’s your choice. But you can help slow the spread of COVID-19 if you do it.",
       "CTA": "Enter Code",
       "NoCode": "No 8-digit number?"
+    },
+    "NoCode": {
+      "Title": "No 8-digit number?",
+      "Body": "Contact the person or office that gave you your results to get a number."
     }
   },
   "Notification": {

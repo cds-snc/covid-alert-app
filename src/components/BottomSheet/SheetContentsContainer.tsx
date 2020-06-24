@@ -20,12 +20,9 @@ export const SheetContentsContainer = ({children, isExpanded, toggleExpanded}: C
     </Box>
   );
 
-  if (isExpanded) {
-    return content;
-  }
-
   return (
     <TouchableHighlight
+      disabled={isExpanded}
       onPress={toggleExpanded}
       accessibilityRole="button"
       accessibilityLabel={

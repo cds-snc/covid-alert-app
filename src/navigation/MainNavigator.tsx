@@ -12,6 +12,7 @@ import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerScreen, RegionPickerSettingsScreen} from 'screens/regionPicker';
+import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 enableScreens();
@@ -64,6 +65,7 @@ const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const SharingScreenWithNavBar = withDarkNav(SharingScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
+const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
@@ -93,6 +95,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="Sharing" component={SharingScreenWithNavBar} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
+      <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
     </MainStack.Navigator>
   );
 };
