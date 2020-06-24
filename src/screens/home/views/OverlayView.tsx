@@ -114,7 +114,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
       <Box marginBottom="l">
         <StatusHeaderView enabled={status === SystemStatus.Active} />
       </Box>
-      <Box marginBottom="m" marginHorizontal="m">
+      <Box marginBottom="m" marginTop="xxl" marginHorizontal="m">
         <ShareDiagnosisCode i18n={i18n} />
       </Box>
       {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
