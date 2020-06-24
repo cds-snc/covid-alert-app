@@ -9,15 +9,15 @@
         "DiagnosedBtnText2": "What to do next"
       },
       "NoRegion": {
-        "Title": "Choose your province or territory",
-        "Body": "Provincial and territorial governments are working to support StopCOVID across Canada. \n\nIn some places, people cannot yet report a COVID-19 diagnosis through this app. "
+        "Title": "No exposure detected",
+        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next"
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
         "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn StopCOVID on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
-        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
-        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-        "DiagnosedBtnText2": "What to do next"
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html"
       }
     },
     "ExposureDetected": {
