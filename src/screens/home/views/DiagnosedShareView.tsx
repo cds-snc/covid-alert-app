@@ -4,7 +4,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {Text, Button, Box} from 'components';
 
 import {BaseHomeView} from '../components/BaseHomeView';
-
+// fix this
 export const DiagnosedShareView = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
