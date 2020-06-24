@@ -6,13 +6,11 @@ import {useI18n} from '@shopify/react-i18n';
 
 interface Props {
   onSuccess: () => void;
+  onNoCode: () => void;
 }
 
-export const Step1 = ({onSuccess}: Props) => {
+export const Step1 = ({onSuccess, onNoCode}: Props) => {
   const [i18n] = useI18n();
-  const navigation = useNavigation();
-
-  const toHowItWorks = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
 
   return (
     <>
@@ -29,7 +27,7 @@ export const Step1 = ({onSuccess}: Props) => {
             <Button variant="bigFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
           </Box>
           <Box marginBottom="m">
-            <Button variant="text" text={i18n.translate('DataUpload.Step1.NoCode')} onPress={toHowItWorks} />
+            <Button variant="text" text={i18n.translate('DataUpload.Step1.NoCode')} onPress={onNoCode} />
           </Box>
         </Box>
       </ScrollView>

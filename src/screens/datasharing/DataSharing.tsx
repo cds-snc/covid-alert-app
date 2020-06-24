@@ -9,6 +9,7 @@ import {useExposureStatus} from 'services/ExposureNotificationService';
 import {Step1} from './views/Step1';
 import {FormView} from './views/FormView';
 import {ConsentView} from './views/ConsentView';
+import {NoCodeView} from './views/NoCodeView';
 
 export const DataSharingScreen = () => {
   const navigation = useNavigation();
@@ -18,10 +19,12 @@ export const DataSharingScreen = () => {
   const [codeValue, setCodeValue] = useState('');
   const handleChange = useCallback(text => setCodeValue(text), []);
   const acceptStep1 = useCallback(() => setIsConfirmedStep1(true), []);
+  const onNoCode = useCallback(() => setHasNoCode(true), []);
 
   // if keySubmissionStatus is None we need the 1-time code, otherwise we should go right to consent
   const [isVerified, setIsVerified] = useState(exposureStatus.type === 'diagnosed');
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
+  const [hasNoCode, setHasNoCode] = useState(false);
   const onError = useCallback(() => {
     Alert.alert(i18n.translate('DataUpload.ErrorTitle'), i18n.translate('DataUpload.ErrorBody'), [
       {text: i18n.translate('DataUpload.ErrorAction')},
@@ -37,8 +40,10 @@ export const DataSharingScreen = () => {
   }, [navigation]);
 
   const getContent = () => {
-    if (!isConfirmedStep1) {
-      return <Step1 onSuccess={acceptStep1} />;
+    if (hasNoCode) {
+      return <NoCodeView />;
+    } else if (!isConfirmedStep1) {
+      return <Step1 onSuccess={acceptStep1} onNoCode={onNoCode} />;
     } else if (isVerified) {
       return <ConsentView onSuccess={handleUploaded} onError={onError} />;
     } else {
