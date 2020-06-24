@@ -427,9 +427,8 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - OpenSSL-Universal
-    - YogaKit
-  trunk:
     - SSZipArchive
+    - YogaKit
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -586,6 +585,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: a9744d92f0988d5a39fa1a6c223f54fe5f92743d
+PODFILE CHECKSUM: e7cac3cd4b99490112af6bbd306430b7f57343ca
 
 COCOAPODS: 1.8.4
