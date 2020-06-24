@@ -44,18 +44,14 @@ const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
   );
 };
 
-const NotificationStatusOff = ({i18n}: {action: () => void; i18n: I18n}) => {
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-
+const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
   return (
     <InfoButton
       title={i18n.translate('OverlayOpen.NotificationCardStatus')}
       color="mainBackground"
       internalLink
       text={i18n.translate('OverlayOpen.NotificationCardBody')}
-      onPress={toSettings}
+      onPress={action}
       variant="bigFlatNeutralGrey"
     />
   );
