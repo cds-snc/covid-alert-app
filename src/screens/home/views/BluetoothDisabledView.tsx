@@ -1,6 +1,7 @@
 import React from 'react';
 import {useI18n} from '@shopify/react-i18n';
 import {Text} from 'components';
+
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const BluetoothDisabledView = () => {

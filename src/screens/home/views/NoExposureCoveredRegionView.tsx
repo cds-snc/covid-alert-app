@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, LastCheckedDisplay} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const NoExposureCoveredRegionView = () => {
