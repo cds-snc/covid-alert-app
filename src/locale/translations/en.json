@@ -64,9 +64,9 @@
     "SystemStatus": "StopCOVID is ",
     "SystemStatusOn": "ON",
     "SystemStatusOff": "OFF",
-    "NotificationStatus": "Push notifications are ",
+    "NotificationStatus": "Notifications are ",
     "NotificationStatusOff": "OFF",
-    "TapPrompt": "Tap for more information"
+    "TapPrompt": "Tap for menu"
   },
   "OverlayOpen": {
     "BluetoothCardStatus": "Bluetooth is ",
