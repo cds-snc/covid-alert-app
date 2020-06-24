@@ -17,7 +17,8 @@ import {Box} from './Box';
 import {Ripple} from './Ripple';
 import {Icon} from './Icon';
 
-export interface ButtonProps {
+export interface InfoButtonProps {
+  title?: string;
   text?: string;
   onPress: () => void;
   variant: keyof Theme['buttonVariants'];
@@ -28,7 +29,8 @@ export interface ButtonProps {
   internalLink?: boolean;
 }
 
-export const Button = ({
+export const InfoButton = ({
+  title,
   text,
   onPress,
   variant,
@@ -37,14 +39,13 @@ export const Button = ({
   loading,
   externalLink,
   internalLink,
-}: ButtonProps) => {
+}: InfoButtonProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, color, borderWidth, height} = (themedStyles as unknown) as TextStyle &
-    ViewStyle;
+  const {fontSize, fontWeight, fontFamily, borderWidth, height} = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
 
@@ -63,7 +64,7 @@ export const Button = ({
       borderRadius={4}
       alignItems="center"
       justifyContent="center"
-      style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
+      style={{minHeight: height, borderWidth, borderColor: buttonColor, backgroundColor: buttonColor}}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
@@ -72,9 +73,12 @@ export const Button = ({
         <ActivityIndicator color={textColor} size="large" />
       ) : (
         <>
-          <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
-            {text}
-          </Text>
+          <Box>
+            <Text style={{...styles.contentBold, fontFamily, fontSize}}>{title}</Text>
+            <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
+              {text}
+            </Text>
+          </Box>
           <Box style={{...styles.chevronOffset}}>
             {externalLink && <Icon name={externalArrowIcon} />}
             {internalLink && <Icon size={40} name="icon-chevron" />}
@@ -107,6 +111,12 @@ export const Button = ({
 const styles = StyleSheet.create({
   stretch: {
     alignSelf: 'stretch',
+  },
+  contentBold: {
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'left',
+    marginRight: 20,
   },
   content: {
     textAlign: 'left',
