@@ -2,9 +2,9 @@ import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, ButtonSingleLine} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {useNavigation} from '@react-navigation/native';
 
 import {OnboardingHeader} from '../components/OnboardingHeader';
-import {useNavigation} from '@react-navigation/native';
 
 export const Permissions = () => {
   const [i18n] = useI18n();
