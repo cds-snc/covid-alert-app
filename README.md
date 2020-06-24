@@ -4,7 +4,7 @@
 
 ![Lint + Typscript](https://github.com/CovidShield/mobile/workflows/CI/badge.svg)
 
-Adapted from <https://github.com/CovidShield/mobile> ([see changes](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
+Adapted from <https://github.com/CovidShield/mobile> ([upstream](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
 
 This repository implements a React Native _client application_ for Apple/Google's [Exposure
 Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/). For more information on how this all works, read through the [COVID Shield Rationale](https://github.com/CovidShield/rationale).
