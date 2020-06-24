@@ -192,7 +192,7 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "FormIntro": "Enter your 8 digit number",
+    "FormIntro": "Enter your 8-digit number",
     "Action": "Submit",
     "InputLabel": "StopCOVID code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
