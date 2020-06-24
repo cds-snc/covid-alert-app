@@ -215,8 +215,22 @@
       "NoCode": "No 8-digit number?"
     },
     "NoCode": {
-      "Title": "No 8-digit number?",
-      "Body": "Contact the person or office that gave you your results to get a number."
+      "NoRegion": {
+        "Title": "You skipped choosing province or territory",
+        "Body": "In some provinces and territories, people cannot yet report a COVID-19 diagnosis through this app.\n\nTo find out if you can get an 8-digit number, you need to choose your area.",
+        "ChooseRegionCTA": "Choose province or territory"
+      },
+      "RegionCovered": {
+        "Title": "No 8-digit number?",
+        "Body": "Contact the person or office that gave you your results to get a number."
+      },
+      "RegionNotCovered": {
+        "Title": "No reporting yet in your area",
+        "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nYou will not be able to notify people you’ve been near that they were exposed. But you can still take steps to:",
+        "Body2": "keep your community safe.",
+        "Body3": "protect people and pets you live with.",
+        "Body4": "take care of yourself."
+      }
     }
   },
   "Notification": {
