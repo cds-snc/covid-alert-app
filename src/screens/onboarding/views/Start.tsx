@@ -3,16 +3,15 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {Box, BulletPointX, Text, Icon} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
+import {OnboardingHeader} from '../components/OnboardingHeader';
+
 export const Start = () => {
   const [i18n] = useI18n();
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box paddingHorizontal="xl">
-        <Box marginTop="m">
-          <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
-            {i18n.translate('OnboardingStart.Title')}
-          </Text>
-        </Box>
+      <Box flex={1} paddingHorizontal="xl" marginTop="xl">
+        <OnboardingHeader text={i18n.translate('OnboardingStart.Title')} />
+
         <Box flexDirection="row" marginBottom="l">
           <Box marginTop="xxxs">
             <Icon size={20} name="icon-notifications" />

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, InfoBlock, BoxProps} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
 import {useExposureStatus, SystemStatus} from 'services/ExposureNotificationService';
@@ -44,7 +44,23 @@ const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
   );
 };
 
-const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
+const NotificationStatusOff = ({i18n}: {action: () => void; i18n: I18n}) => {
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
+
+  return (
+    <InfoButton
+      title={i18n.translate('OverlayOpen.NotificationCardStatus')}
+      color="mainBackground"
+      internalLink
+      text={i18n.translate('OverlayOpen.NotificationCardBody')}
+      onPress={toSettings}
+      variant="bigFlatNeutralGrey"
+    />
+  );
+
+  /*
   return (
     <InfoBlock
       icon="icon-notifications"
@@ -56,6 +72,7 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
       color="overlayBodyText"
     />
   );
+  */
 };
 
 const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {

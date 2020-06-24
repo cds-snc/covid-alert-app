@@ -1,24 +1,33 @@
 {
   "Home": {
     "NoExposureDetected": {
-      "RegionCoveredTitle": "No exposure detected",
-      "RegionCoveredBody": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
-      "NoRegionSetTitle": "Choose your province or territory",
-      "NoRegionSetBody": "Provincial and territorial governments are working to support StopCOVID across Canada. In some places, people cannot yet report COVID-19 diagnoses through this app.",
-      "RegionNotCoveredTitle": "No reporting in your province",
-      "RegionNotCoveredBody": "We’re not able to say whether you’ve been exposed.\n\nPeople in your province or territory are not yet able to report a COVID diagnosis through this app.\n\nIt’s still good to keep placeholder_name on. That way, when people are able to report a diagnosis, we’ll know if you were near them."
+      "RegionCovered": {
+        "Title": "No exposure detected",
+        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next"
+      },
+      "NoRegion": {
+        "Title": "Choose your province or territory",
+        "Body": "Provincial and territorial governments are working to support StopCOVID across Canada. \n\nIn some places, people cannot yet report a COVID-19 diagnosis through this app. "
+      },
+      "RegionNotCovered": {
+        "Title": "No reporting yet in your area",
+        "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn StopCOVID on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next"
+      }
     },
-    "ChooseRegionCTA": "Choose province or territory",
-    "NoExposureDetectedDetailed1": "You have not been near anyone who reported a COVID diagnosis through this app.",
-    "NoExposureDetectedDetailed2": "However, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app. ",
     "ExposureDetected": {
-      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-      "DiagnosedBtnText2": "What to do next",
       "Title": "You’ve been exposed",
       "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
-      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action."
+      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action.",
+      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+      "DiagnosedBtnText2": "What to do next"
     },
-
+    "ChooseRegionCTA": "Choose province or territory",
     "SeeGuidance": "What now? See guidance.",
     "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
     "How": "Diagnosed with COVID-19?",
@@ -78,7 +87,7 @@
     "EnterCodeCardAction": "Enter number",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.",
-    "NotificationCardStatus": "Push notifications are ",
+    "NotificationCardStatus": "Enable notifications",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on push notifications",

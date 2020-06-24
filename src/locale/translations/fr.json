@@ -11,6 +11,7 @@
       "One": "Vous recevrez chaque jour, au cours des {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires.",
       "Other": "Vous recevrez chaque jour, au cours des {number} prochains jours, une notification vous demandant de partager vos identifiants aléatoires."
     },
+    "ChooseRegionCTA": "Sélectionnez une province ou un territoire",
     "SignalDataSharedCTA": "Suivez vos symptômes",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DailyShare": "Partagez vos nouveaux identifiants aléatoires",
@@ -39,6 +40,7 @@
       "Other": "Dernière vérification il y a {number} jours"
     }
   },
+
   "OverlayClosed": {
     "SystemStatus": "StopCOVID est ",
     "SystemStatusOn": "ACTIVÉ",
