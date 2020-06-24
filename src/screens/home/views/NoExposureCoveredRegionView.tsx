@@ -36,8 +36,8 @@ export const NoExposureCoveredRegionView = () => {
 
       <Box alignSelf="stretch" marginTop="s" marginBottom="l">
         <ButtonMultiline
-          text={i18n.translate('Home.NoExposureDetected.RegionCovered.BtnText1')}
-          text1={i18n.translate('Home.NoExposureDetected.RegionCovered.BtnText2')}
+          text={i18n.translate('Home.NoExposureDetected.RegionCovered.DiagnosedBtnText1')}
+          text1={i18n.translate('Home.NoExposureDetected.RegionCovered.DiagnosedBtnText2')}
           variant="bigFlat"
           internalLink
           onPress={onActionGuidance}

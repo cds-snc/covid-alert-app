@@ -75,8 +75,10 @@ export const Button = ({
           <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
             {text}
           </Text>
-          {externalLink && <Icon name={externalArrowIcon} />}
-          {internalLink && <Icon name="icon-chevron" />}
+          <Box style={{...styles.chevronOffset}}>
+            {externalLink && <Icon name={externalArrowIcon} />}
+            {internalLink && <Icon size={40} name="icon-chevron" />}
+          </Box>
         </>
       )}
     </Box>
@@ -107,6 +109,12 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   content: {
-    textAlign: 'center',
+    textAlign: 'left',
+    marginRight: 20,
+  },
+  chevronOffset: {
+    position: 'absolute',
+    right: 5,
+    top: 10,
   },
 });
