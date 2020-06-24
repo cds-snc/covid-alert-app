@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Observable} from 'shared/Observable';
 import {Region} from 'shared/Region';
 
-enum Key {
+export enum Key {
   IsOnboarded = 'IsOnboarded',
   Locale = 'Locale',
   Region = 'Region',

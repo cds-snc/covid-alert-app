@@ -8,11 +8,12 @@
  * @format
  */
 import React, {useMemo, useEffect} from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import {I18nContext, I18nManager} from '@shopify/react-i18n';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {StorageServiceProvider, useStorage} from 'services/StorageService';
+import {StorageServiceProvider, Key} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
 import {NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -31,20 +32,29 @@ if (__DEV__) {
     .connect();
 }
 
-const App = () => {
-  useEffect(() => SplashScreen.hide(), []);
+const i18nManager = new I18nManager({
+  locale: 'en',
+  onError(error) {
+    console.log('>>> i18N', error);
+  },
+});
 
-  const {locale} = useStorage();
-  const i18nManager = useMemo(
-    () =>
-      new I18nManager({
-        locale,
-        onError(error) {
-          console.log('>>> i18N', error);
-        },
-      }),
-    [locale],
-  );
+const appInit = async () => {
+  try {
+    const locale = await AsyncStorage.getItem(Key.Locale);
+    if (locale && locale !== i18nManager.details.locale) i18nManager.update({locale});
+  } catch (error) {
+    console.error(error);
+  }
+
+  // only hide splash screen after our init is done
+  SplashScreen.hide();
+};
+
+const App = () => {
+  useEffect(() => {
+    appInit();
+  }, []);
 
   const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, REGION), []);
 
