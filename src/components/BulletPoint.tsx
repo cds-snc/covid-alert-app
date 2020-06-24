@@ -6,11 +6,12 @@ interface BulletPointProps {
 }
 
 export const BulletPoint = ({text}: BulletPointProps) => {
+  const bullet = '\u25CF';
   return (
     <Box flexDirection="row">
       <Box marginRight="xs">
         <Text variant="bodyText" color="bodyText">
-          {'\u25CF'}
+          {bullet}
         </Text>
       </Box>
       <Text variant="bodyText" color="bodyText">
