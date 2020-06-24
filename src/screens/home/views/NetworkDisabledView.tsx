@@ -1,8 +1,8 @@
 import React from 'react';
-import { useI18n } from '@shopify/react-i18n';
-import { Box, Text, LastCheckedDisplay, Icon } from 'components';
+import {useI18n} from '@shopify/react-i18n';
+import {Box, Text, LastCheckedDisplay, Icon} from 'components';
 
-import { BaseHomeView } from '../components/BaseHomeView';
+import {BaseHomeView} from '../components/BaseHomeView';
 
 export const NetworkDisabledView = () => {
   const [i18n] = useI18n();
@@ -22,4 +22,3 @@ export const NetworkDisabledView = () => {
     </BaseHomeView>
   );
 };
-

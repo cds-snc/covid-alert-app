@@ -1,9 +1,8 @@
-import React, { useCallback } from 'react';
-import { useI18n } from '@shopify/react-i18n';
-import { Linking } from 'react-native';
-import { Text, Box, ButtonMultiline, Icon } from 'components';
+import React from 'react';
+import {useI18n} from '@shopify/react-i18n';
+import {Text, Box, Icon} from 'components';
 
-import { BaseHomeView } from '../components/BaseHomeView';
+import {BaseHomeView} from '../components/BaseHomeView';
 
 export const BluetoothDisabledView = () => {
   const [i18n] = useI18n();
