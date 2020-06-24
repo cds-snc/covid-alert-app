@@ -3,8 +3,8 @@ import {Box, InfoBlock, BoxProps, InfoButton, ButtonMultiline} from 'components'
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
 import {SystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
-
 import {useNavigation} from '@react-navigation/native';
+
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
