@@ -87,7 +87,7 @@
     "EnterCodeCardAction": "Enter number",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.",
-    "NotificationCardStatus": "Push notifications are ",
+    "NotificationCardStatus": "Enable notifications",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on push notifications",

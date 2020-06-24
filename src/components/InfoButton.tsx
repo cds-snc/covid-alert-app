@@ -17,9 +17,9 @@ import {Box} from './Box';
 import {Ripple} from './Ripple';
 import {Icon} from './Icon';
 
-export interface ButtonMultilineProps {
+export interface InfoButtonProps {
+  title?: string;
   text?: string;
-  text1?: string;
   onPress: () => void;
   variant: keyof Theme['buttonVariants'];
   color?: keyof Theme['colors'];
@@ -29,9 +29,9 @@ export interface ButtonMultilineProps {
   internalLink?: boolean;
 }
 
-export const ButtonMultiline = ({
+export const InfoButton = ({
+  title,
   text,
-  text1,
   onPress,
   variant,
   color: buttonColorName,
@@ -39,14 +39,13 @@ export const ButtonMultiline = ({
   loading,
   externalLink,
   internalLink,
-}: ButtonMultilineProps) => {
+}: InfoButtonProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, color, borderWidth, height} = (themedStyles as unknown) as TextStyle &
-    ViewStyle;
+  const {fontSize, fontWeight, fontFamily, borderWidth, height} = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
 
@@ -62,10 +61,10 @@ export const ButtonMultiline = ({
 
   const content = (
     <Box
-      borderRadius={10}
+      borderRadius={4}
       alignItems="center"
       justifyContent="center"
-      style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
+      style={{minHeight: height, borderWidth, borderColor: buttonColor, backgroundColor: buttonColor}}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
@@ -74,28 +73,15 @@ export const ButtonMultiline = ({
         <ActivityIndicator color={textColor} size="large" />
       ) : (
         <>
-          <Box flex={1} flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
-            <Box flex={1} flexBasis="10%" style={{...styles.iconOffset}}>
-              {externalLink && <Icon name={externalArrowIcon} size={50} />}
-              {internalLink && <Icon name="icon-chevron-white" size={50} />}
-            </Box>
-
-            <Box flex={1} flexBasis="90%" alignItems="flex-start" justifyContent="flex-end">
-              <Text
-                style={{
-                  ...styles.content,
-                  color: textColor || buttonColor,
-                  fontFamily,
-                  fontSize,
-                  ...styles.strong,
-                }}
-              >
-                {text}
-              </Text>
-              <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
-                {text1}
-              </Text>
-            </Box>
+          <Box>
+            <Text style={{...styles.contentBold, fontFamily, fontSize}}>{title}</Text>
+            <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
+              {text}
+            </Text>
+          </Box>
+          <Box style={{...styles.chevronOffset}}>
+            {externalLink && <Icon name={externalArrowIcon} />}
+            {internalLink && <Icon size={40} name="icon-chevron" />}
           </Box>
         </>
       )}
@@ -123,17 +109,22 @@ export const ButtonMultiline = ({
 };
 
 const styles = StyleSheet.create({
-  iconOffset: {
-    marginTop: -10,
-  },
-  strong: {
-    fontWeight: 'bold',
-  },
   stretch: {
     alignSelf: 'stretch',
   },
+  contentBold: {
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'left',
+    marginRight: 20,
+  },
   content: {
     textAlign: 'left',
-    marginLeft: 10,
+    marginRight: 20,
+  },
+  chevronOffset: {
+    position: 'absolute',
+    right: 5,
+    top: 10,
   },
 });
