@@ -1,5 +1,5 @@
-import React, {useCallback} from 'react';
-import {Text, Box, ButtonMultiline, LastCheckedDisplay} from 'components';
+import React from 'react';
+import {Text, LastCheckedDisplay} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
 
@@ -7,9 +7,6 @@ import {BaseHomeView} from '../components/BaseHomeView';
 
 export const NoExposureNoRegionView = () => {
   const [i18n] = useI18n();
-  const navigation = useNavigation();
-  const onDiagnosed = useCallback(() => navigation.navigate('DataSharing'), [navigation]);
-
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView>
