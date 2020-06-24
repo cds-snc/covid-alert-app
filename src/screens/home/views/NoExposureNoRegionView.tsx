@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, LastCheckedDisplay} from 'components';
-import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
 
 import {BaseHomeView} from '../components/BaseHomeView';
