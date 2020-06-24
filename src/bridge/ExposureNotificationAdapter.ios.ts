@@ -12,7 +12,7 @@ export default function ExposureNotificationAdapter(
       diagnosisKeysURLs: string[],
     ): Promise<ExposureSummary> => {
       if (diagnosisKeysURLs.length === 0) {
-        throw new Error('Attempt to call detectExposure with empty list if downloaded files');
+        throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }
       const keysZipUrl = diagnosisKeysURLs[0];
 
