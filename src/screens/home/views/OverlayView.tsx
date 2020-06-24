@@ -1,9 +1,10 @@
 import React, {useCallback} from 'react';
-import {Box, InfoBlock, BoxProps, InfoButton} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton, ButtonMultiline} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
-import {SystemStatus} from 'services/ExposureNotificationService';
+import {SystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
 
+import {useNavigation} from '@react-navigation/native';
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
@@ -70,6 +71,35 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   */
 };
 
+const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
+  const navigation = useNavigation();
+  const [exposureStatus] = useExposureStatus();
+  if (exposureStatus.type === 'diagnosed') {
+    return (
+      <InfoBlock
+        titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
+        text={i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed')}
+        button={{
+          text: '',
+          action: () => {},
+        }}
+        backgroundColor="infoBlockNeutralBackground"
+        color="infoBlockBrightText"
+        showButton={false}
+      />
+    );
+  }
+  return (
+    <ButtonMultiline
+      text={i18n.translate('Home.ExposureDetected.DiagnosedBtnText1')}
+      text1={i18n.translate('Home.ExposureDetected.DiagnosedBtnText2')}
+      variant="bigFlat"
+      internalLink
+      onPress={() => navigation.navigate('DataSharing')}
+    />
+  );
+};
+
 interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
@@ -78,11 +108,17 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, maxWidth}: Props) => {
   const [i18n] = useI18n();
+  const navigation = useNavigation();
+
+  const onDiagnosed = useCallback(() => navigation.navigate('DataSharing'), [navigation]);
 
   return (
     <Box maxWidth={maxWidth}>
       <Box marginBottom="l">
         <StatusHeaderView enabled={status === SystemStatus.Active} />
+      </Box>
+      <Box marginBottom="m" marginHorizontal="m">
+        <ShareDiagnosisCode i18n={i18n} />
       </Box>
       {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
         <Box marginBottom="m" marginHorizontal="m">
