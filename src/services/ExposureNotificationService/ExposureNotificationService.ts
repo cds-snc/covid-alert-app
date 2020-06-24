@@ -1,4 +1,5 @@
-import ExposureNotification, {ExposureInformation, Status as SystemStatus} from 'bridge/ExposureNotification';
+import {ExposureInformation, Status as SystemStatus} from 'bridge/ExposureNotificationAPI';
+import ExposureNotification from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {Observable} from 'shared/Observable';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
@@ -189,8 +190,8 @@ export class ExposureNotificationService {
     let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
 
     while (runningPeriod > lastCheckPeriod) {
-      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod).catch(() => null);
-      runningPeriod -= 1;
+      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
+      runningPeriod -= hoursPerPeriod;
     }
   }
 
@@ -249,9 +250,10 @@ export class ExposureNotificationService {
       if (done) break;
       if (!keysFilesUrl) continue;
       try {
-        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [`${keysFilesUrl}`]);
+        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFilesUrl]);
+
         if (summary.matchedKeyCount > 0) {
-          const exposures = await this.exposureNotification.getExposureInformation(summary);
+          const exposures = await this.exposureNotification.getExposureInformation(summary, 'User explanation');
           return finalize({type: 'exposed', exposures});
         }
       } catch (err) {
