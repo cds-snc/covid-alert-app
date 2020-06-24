@@ -1,9 +1,8 @@
 import React, {useCallback} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {Box, InfoBlock, BoxProps, InfoButton} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
-import {useExposureStatus, SystemStatus} from 'services/ExposureNotificationService';
+import {SystemStatus} from 'services/ExposureNotificationService';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -71,38 +70,6 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   */
 };
 
-const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
-  const navigation = useNavigation();
-  const [exposureStatus] = useExposureStatus();
-  if (exposureStatus.type === 'diagnosed') {
-    return (
-      <InfoBlock
-        titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
-        text={i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed')}
-        button={{
-          text: '',
-          action: () => {},
-        }}
-        backgroundColor="infoBlockNeutralBackground"
-        color="infoBlockBrightText"
-        showButton={false}
-      />
-    );
-  }
-  return (
-    <InfoBlock
-      titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
-      text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
-      button={{
-        text: i18n.translate('OverlayOpen.EnterCodeCardAction'),
-        action: () => navigation.navigate('DataSharing'),
-      }}
-      backgroundColor="infoBlockNeutralBackground"
-      color="infoBlockBrightText"
-    />
-  );
-};
-
 interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
@@ -132,9 +99,6 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
           <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
         </Box>
       )}
-      <Box marginBottom="m" marginHorizontal="m">
-        <ShareDiagnosisCode i18n={i18n} />
-      </Box>
       <Box marginBottom="m" marginHorizontal="m">
         <InfoShareView />
       </Box>
