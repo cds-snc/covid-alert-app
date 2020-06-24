@@ -44,18 +44,18 @@ export const NoCodeScreen = () => {
   switch (regionCase) {
     case 'noRegionSet':
       content = (
-        <Box paddingHorizontal="s">
+        <>
           <Content
             title={i18n.translate('DataUpload.NoCode.NoRegion.Title')}
             body={i18n.translate('DataUpload.NoCode.NoRegion.Body')}
           />
           <ButtonSingleLine
             text={i18n.translate('DataUpload.NoCode.NoRegion.ChooseRegionCTA')}
-            variant="bigFlatDarkGrey"
+            variant="bigFlatNeutralGrey"
             internalLink
             onPress={onChooseRegion}
           />
-        </Box>
+        </>
       );
       break;
     case 'regionNotCovered':
@@ -82,7 +82,9 @@ export const NoCodeScreen = () => {
           navLabel={i18n.translate('DataUpload.Cancel')}
           onIconClicked={close}
         />
-        <ScrollView style={styles.flex}>{content}</ScrollView>
+        <ScrollView style={styles.flex}>
+          <Box paddingHorizontal="s">{content}</Box>
+        </ScrollView>
       </SafeAreaView>
     </>
   );
