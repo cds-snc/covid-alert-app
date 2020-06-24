@@ -170,7 +170,6 @@ export const HomeScreen = () => {
     startExposureNotificationService();
   }, [startExposureNotificationService]);
 
-  const collapsedContent = useMemo(() => <CollapsedContent />, []);
   const [notificationStatus] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
   const maxWidth = useMaxContentWidth();
@@ -184,11 +183,10 @@ export const HomeScreen = () => {
       <BottomSheet
         // need to change the key here so bottom sheet is rerendered. This is because the snap points change.
         key={showNotificationWarning ? 'notifications-disabled' : 'notifications-enabled'}
-        collapsedContent={collapsedContent}
+        content={BottomSheetContent}
+        collapsed={CollapsedContent}
         extraContent={showNotificationWarning}
-      >
-        <BottomSheetContent />
-      </BottomSheet>
+      />
     </Box>
   );
 };

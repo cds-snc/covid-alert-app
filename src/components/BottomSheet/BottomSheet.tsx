@@ -13,12 +13,12 @@ import {SheetContentsContainer} from './SheetContentsContainer';
 const {abs, sub, pow} = Animated;
 
 export interface BottomSheetProps {
-  collapsedContent?: React.ReactElement;
-  children?: React.ReactElement;
+  collapsed?: React.ComponentType;
+  content: React.ComponentType;
   extraContent?: boolean;
 }
 
-const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProps) => {
+const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, extraContent}: BottomSheetProps) => {
   const bottomSheetPosition = useRef(new Animated.Value(1));
   const bottomSheetRef: React.Ref<BottomSheetRaw> = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -46,7 +46,7 @@ const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProp
 
   const expandedContentWrapper = (
     <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
-      {children}
+      <ContentComponent />
       <TouchableOpacity
         onPress={toggleExpanded}
         style={styles.collapseButton}
@@ -62,7 +62,7 @@ const BottomSheet = ({children, collapsedContent, extraContent}: BottomSheetProp
       <View style={styles.collapseContentHandleBar}>
         <Icon name="sheet-handle-bar" />
       </View>
-      {collapsedContent}
+      {CollapsedComponent ? <CollapsedComponent /> : null}
     </Animated.View>
   );
   const renderContent = useCallback(() => {
