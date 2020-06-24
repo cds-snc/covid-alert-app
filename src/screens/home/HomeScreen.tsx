@@ -86,7 +86,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
         return <NoExposureUncoveredRegionView />;
     }
   };
-
+  return <DiagnosedShareView />;
   switch (exposureStatus.type) {
     case 'exposed':
       return <ExposureView />;
