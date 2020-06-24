@@ -31,20 +31,6 @@ export const NoExposureUncoveredRegionView = () => {
       <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate('Home.NoExposureDetected.RegionNotCovered.Body')}
       </Text>
-
-      <LastCheckedDisplay textDark />
-
-      <Box alignSelf="stretch" marginBottom="l">
-        <Box alignSelf="stretch" marginTop="s" marginBottom="xl">
-          <ButtonMultiline
-            text={i18n.translate('Home.NoExposureDetected.RegionNotCovered.DiagnosedBtnText1')}
-            text1={i18n.translate('Home.NoExposureDetected.RegionNotCovered.DiagnosedBtnText2')}
-            variant="bigFlat"
-            internalLink
-            onPress={onActionGuidance}
-          />
-        </Box>
-      </Box>
     </BaseHomeView>
   );
 };
