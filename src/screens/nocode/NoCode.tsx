@@ -1,29 +1,11 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, SafeAreaView} from 'react-native';
-import {Box, Text, Toolbar, Button, ButtonSingleLine} from 'components';
+import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
-
-interface BulletPointProps {
-  text: string;
-}
-
-const BulletPoint = ({text}: BulletPointProps) => {
-  return (
-    <Box flexDirection="row">
-      <Box marginRight="xs">
-        <Text variant="bodyText" color="bodyText">
-          {'\u25CF'}
-        </Text>
-      </Box>
-      <Text variant="bodyText" color="bodyText">
-        {text}
-      </Text>
-    </Box>
-  );
-};
+import {BulletPoint} from 'components/BulletPoint';
 
 interface ContentProps {
   title: string;
