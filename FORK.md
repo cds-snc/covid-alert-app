@@ -1,6 +1,6 @@
 ## Syncing with upstream
 
-[CovidShield mobile](https://github.com/CovidShield/mobile)
+Upstream repo [CovidShield mobile](https://github.com/CovidShield/mobile)
 
 #### To pull in all upstream changes
 
