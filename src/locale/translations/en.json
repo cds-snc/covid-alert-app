@@ -1,35 +1,47 @@
 {
   "Home": {
     "NoExposureDetected": {
-      "RegionCoveredTitle": "No exposure detected",
-      "RegionCoveredBody": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
-      "NoRegionSetTitle": "Choose your province or territory",
-      "NoRegionSetBody": "Provincial and territorial governments are working to support StopCOVID across Canada. In some places, people cannot yet report COVID-19 diagnoses through this app.",
-      "RegionNotCoveredTitle": "No reporting in your province",
-      "RegionNotCoveredBody": "We’re not able to say whether you’ve been exposed.\n\nPeople in your province or territory are not yet able to report a COVID diagnosis through this app.\n\nIt’s still good to keep placeholder_name on. That way, when people are able to report a diagnosis, we’ll know if you were near them."
+      "RegionCovered": {
+        "Title": "No exposure detected",
+        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next"
+      },
+      "NoRegion": {
+        "Title": "No exposure detected",
+        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next"
+      },
+      "RegionNotCovered": {
+        "Title": "No reporting yet in your area",
+        "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn StopCOVID on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html"
+      }
     },
-    "ChooseRegionCTA": "Choose province or territory",
-    "NoExposureDetectedDetailed1": "You have not been near anyone who reported a COVID diagnosis through this app.",
-    "NoExposureDetectedDetailed2": "However, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app. ",
     "ExposureDetected": {
-      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-      "DiagnosedBtnText2": "What to do next",
       "Title": "You’ve been exposed",
       "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
-      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action."
+      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action.",
+      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+      "DiagnosedBtnText2": "What to do next"
     },
-
+    "ChooseRegionCTA": "Choose province or territory",
     "SeeGuidance": "What now? See guidance.",
     "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
     "How": "Diagnosed with COVID-19?",
     "CTA": "What to do next",
     "HowUrl": "https://www.canada.ca/",
-    "SignalDataShared": "Thank you for helping to slow the spread",
-    "SignalDataSharedDetailed": {
-      "One": "For the next {number} day, you’ll get a daily message asking for your  information.\n\nTake care for yourself and your family during this time. ",
-      "Other": "For the next {number} days, you’ll get a daily message asking for your  information.\n\nTake care for yourself and your family during this time."
+    "DiagnosedView": {
+      "Title": "Thanks for helping fight COVID",
+      "Body1": {
+        "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
+        "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
+      },
+      "Body2": "You do not have to agree, even if you agreed the day before. It is your choice.",
+      "Body3": "Take care of yourself and your family during this time."
     },
-    "SignalDataSharedCTA": "Track your symptoms",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DailyShare": "Share your new information",
     "DailyShareDetailed": "Sharing your information helps others to know if they've been exposed to COVID-19. Then they can isolate and slow the spread to others. No details about who you are will be shared.",
@@ -61,9 +73,9 @@
     "SystemStatus": "StopCOVID is ",
     "SystemStatusOn": "ON",
     "SystemStatusOff": "OFF",
-    "NotificationStatus": "Push notifications are ",
+    "NotificationStatus": "Notifications are ",
     "NotificationStatusOff": "OFF",
-    "TapPrompt": "Tap for more information"
+    "TapPrompt": "Tap for menu"
   },
   "OverlayOpen": {
     "BluetoothCardStatus": "Bluetooth is ",
@@ -75,7 +87,7 @@
     "EnterCodeCardAction": "Enter number",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.",
-    "NotificationCardStatus": "Push notifications are ",
+    "NotificationCardStatus": "Enable notifications",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on push notifications",
@@ -180,20 +192,28 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "FormIntro": "Please enter your 8 digit StopCOVID code.",
-    "Action": "Submit code",
+    "FormIntro": "Enter your 8-digit number",
+    "Action": "Submit",
     "InputLabel": "StopCOVID code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
-    "ConsentTitle": "Share your random IDs",
-    "ConsentBody": "You have been granted access by a health care professional to share the random IDs stored on your phone.",
-    "ConsentBody2": "If you share your random IDs, others with StopCOVID who have been near you in the past 14 days will receive a notification that they have possibly been exposed. This notification will not include any information about you.",
-    "ConsentBody3": "You will be notified once per day when new random IDs are available to be shared. You must grant permission each time for the random IDs to be shared. Sharing is voluntary.",
-    "PrivacyPolicyLink": "View privacy policy",
-    "ConsentAction": "I agree",
+    "ConsentTitle": "Now you can let StopCOVID notify people",
+    "ConsentBody1": "StopCOVID will ask your permission to upload your random codes from the past 14 days.",
+    "ConsentBody2": "Nobody will get any information about you or the time you were near them.",
+    "ConsentSubtitle": "Your choice",
+    "ConsentBody3": "It is your choice. You can help slow the spread of COVID-19 if you agree.",
+    "PrivacyPolicyLink": "How StopCOVID protects privacy",
+    "HowItWorksLink": "See how it works",
+    "ConsentAction": "Agree",
     "ShareToast": "Random IDs shared successfully",
     "ErrorTitle": "Code not recognized",
     "ErrorBody": "Your StopCOVID code could not be recognized. Please try again.",
-    "ErrorAction": "OK"
+    "ErrorAction": "OK",
+    "Step1": {
+      "Title": "Enter your 8-digit number",
+      "Body": "You should have been given an 8-digit number when you were diagnosed. You need to enter this number if you want StopCOVID to let people know they were exposed.\n\nThis is optional. It’s your choice. But you can help slow the spread of COVID-19 if you do it.",
+      "CTA": "Enter Code",
+      "NoCode": "No 8-digit number?"
+    }
   },
   "Notification": {
     "ExposedMessageTitle": "You’ve been exposed",

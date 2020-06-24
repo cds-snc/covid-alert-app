@@ -86,9 +86,9 @@ export const OnboardingScreen = () => {
             />
           )}
         </Box>
-        <Box flexDirection="row" padding="l">
+        <Box flexDirection="row" marginBottom="l">
           <Box flex={1}>{isStart ? LanguageButton : BackButton}</Box>
-          <Box flex={1} justifyContent="center">
+          <Box flex={0} justifyContent="center">
             <ProgressCircles alignSelf="center" numberOfSteps={contentData.length} activeStep={currentIndex + 1} />
           </Box>
           <Box flex={1}>
