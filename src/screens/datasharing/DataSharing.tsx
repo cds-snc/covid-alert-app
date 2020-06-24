@@ -56,7 +56,9 @@ export const DataSharingScreen = () => {
           navLabel={i18n.translate('DataUpload.Cancel')}
           onIconClicked={close}
         />
-        <ScrollView style={styles.flex}>{getContent()}</ScrollView>
+        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
+          {getContent()}
+        </ScrollView>
       </SafeAreaView>
     </Box>
   );
