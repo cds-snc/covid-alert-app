@@ -192,8 +192,8 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "FormIntro": "Please enter your 8 digit StopCOVID code.",
-    "Action": "Submit code",
+    "FormIntro": "Enter your 8-digit number",
+    "Action": "Submit",
     "InputLabel": "StopCOVID code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
     "ConsentTitle": "Now you can let StopCOVID notify people",
@@ -207,7 +207,13 @@
     "ShareToast": "Random IDs shared successfully",
     "ErrorTitle": "Code not recognized",
     "ErrorBody": "Your StopCOVID code could not be recognized. Please try again.",
-    "ErrorAction": "OK"
+    "ErrorAction": "OK",
+    "Step1": {
+      "Title": "Enter your 8-digit number",
+      "Body": "You should have been given an 8-digit number when you were diagnosed. You need to enter this number if you want StopCOVID to let people know they were exposed.\n\nThis is optional. It’s your choice. But you can help slow the spread of COVID-19 if you do it.",
+      "CTA": "Enter Code",
+      "NoCode": "No 8-digit number?"
+    }
   },
   "Notification": {
     "ExposedMessageTitle": "You’ve been exposed",
