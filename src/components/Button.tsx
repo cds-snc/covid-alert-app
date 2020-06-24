@@ -64,9 +64,9 @@ export const Button = ({
       alignItems="center"
       justifyContent="center"
       shadowColor="bodyText"
-      style={{backgroundColor: color, minHeight: height, borderBottomWidth, borderBottomColor: buttonColor}}
-      paddingHorizontal="m"
-      paddingVertical="m"
+      style={{backgroundColor: color, minHeight: height, borderBottomWidth, borderBottomColor: palette.fadedWhiteDark}}
+      paddingHorizontal="xxs"
+      paddingVertical="xxs"
       flexDirection="row"
     >
       {loading ? (
