@@ -20,16 +20,6 @@ export const NoExposureNoRegionView = () => {
         {i18n.translate('Home.NoExposureDetected.NoRegion.Body')}
       </Text>
       <LastCheckedDisplay textDark />
-
-      <Box alignSelf="stretch" marginTop="m" marginBottom="l">
-        <ButtonMultiline
-          text={i18n.translate('Home.NoExposureDetected.NoRegion.DiagnosedBtnText1')}
-          text1={i18n.translate('Home.NoExposureDetected.NoRegion.DiagnosedBtnText2')}
-          variant="bigFlat"
-          internalLink
-          onPress={onDiagnosed}
-        />
-      </Box>
     </BaseHomeView>
   );
 };
