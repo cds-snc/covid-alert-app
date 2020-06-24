@@ -77,7 +77,7 @@ export class ExposureNotificationService {
   ) {
     this.translate = translate;
     this.exposureNotification = exposureNotification;
-    this.systemStatus = new Observable<SystemStatus>(SystemStatus.Unknown);
+    this.systemStatus = new Observable<SystemStatus>(SystemStatus.Undefined);
     this.exposureStatus = new Observable<ExposureStatus>({type: 'monitoring'});
     this.backendInterface = backendInterface;
     this.storage = storage;
@@ -93,7 +93,7 @@ export class ExposureNotificationService {
     try {
       await this.exposureNotification.start();
     } catch (_) {
-      // Noop because Exposure Notification framework is unavailable on device
+      this.systemStatus.set(SystemStatus.Unknown);
       return;
     }
 

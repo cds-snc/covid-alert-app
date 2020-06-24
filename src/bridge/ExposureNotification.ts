@@ -19,6 +19,8 @@ export enum RiskLevel {
 }
 
 export enum Status {
+  // .Undefined is made up status to indicate js client that status hasn't been received from EN framework
+  Undefined = 'undefined',
   Unknown = 'unknown',
   Active = 'active',
   Disabled = 'disabled',
