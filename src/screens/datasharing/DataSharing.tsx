@@ -37,7 +37,6 @@ export const DataSharingScreen = () => {
   }, [navigation]);
 
   const getContent = () => {
-    console.log('hi');
     if (isVerified) {
       return <ConsentView onSuccess={handleUploaded} onError={onError} />;
     } else if (!isVerified && isConfirmedStep1) {
