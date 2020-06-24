@@ -37,12 +37,12 @@ export const DataSharingScreen = () => {
   }, [navigation]);
 
   const getContent = () => {
-    if (!isConfirmedStep1) {
-      return <Step1 onSuccess={acceptStep1} />;
-    } else if (isVerified) {
+    if (isVerified) {
       return <ConsentView onSuccess={handleUploaded} onError={onError} />;
-    } else {
+    } else if (!isVerified && isConfirmedStep1) {
       return <FormView value={codeValue} onChange={handleChange} onSuccess={handleVerify} onError={onError} />;
+    } else {
+      return <Step1 onSuccess={acceptStep1} />;
     }
   };
 
