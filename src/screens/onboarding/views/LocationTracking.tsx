@@ -13,7 +13,7 @@ export const LocationTracking = () => {
         <OnboardingHeader text={i18n.translate('OnboardingLocation.Title')} />
 
         <Box flexDirection="row" marginBottom="l">
-          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
+          <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('OnboardingLocation.Intro')}
           </Text>
         </Box>

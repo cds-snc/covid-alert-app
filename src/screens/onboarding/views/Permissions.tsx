@@ -12,13 +12,13 @@ export const Permissions = () => {
       <Box flex={1} marginTop="xl" paddingHorizontal="xl">
         <OnboardingHeader text={i18n.translate('OnboardingPermissions.Title')} />
 
-        <Box flexDirection="row" marginBottom="l">
-          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
+        <Box marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('OnboardingPermissions.Body1')}
           </Text>
         </Box>
-        <Box flexDirection="row" marginBottom="l">
-          <Text variant="bodyText" color="overlayBodyText" marginRight="m">
+        <Box marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('OnboardingPermissions.Body2')}
           </Text>
         </Box>

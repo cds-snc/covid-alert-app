@@ -9,7 +9,7 @@ export const Start = () => {
   const [i18n] = useI18n();
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box paddingHorizontal="xl">
+      <Box flex={1} paddingHorizontal="xl" marginTop="xl">
         <OnboardingHeader text={i18n.translate('OnboardingStart.Title')} />
 
         <Box flexDirection="row" marginBottom="l">
