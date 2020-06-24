@@ -72,11 +72,11 @@ export const ButtonSingleLine = ({
         <ActivityIndicator color={textColor} size="large" />
       ) : (
         <Box flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
-          <Box flex={1} flexBasis="10%" style={{...styles.iconOffset}}>
+          <Box flex={0} style={{...styles.iconOffset}}>
             {externalLink && <Icon name={externalArrowIcon} size={20} />}
             {internalLink && <Icon name="icon-chevron" />}
           </Box>
-          <Box flex={1} marginLeft="s" flexBasis="80%" alignItems="flex-start" justifyContent="flex-end">
+          <Box flex={1} marginLeft="s" alignItems="flex-start" justifyContent="flex-end">
             <Text
               style={{
                 ...styles.content,
@@ -122,9 +122,7 @@ const styles = StyleSheet.create({
   stretch: {
     alignSelf: 'stretch',
   },
-  content: {
-    textAlign: 'center',
-  },
+  content: {},
   strong: {
     fontWeight: 'bold',
   },
