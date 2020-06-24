@@ -1,1 +1,272 @@
-{"Home": {"NoExposureDetected": {"RegionCovered": {"Title": "No exposure detected", "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.", "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html", "DiagnosedBtnText1": "Diagnosed with COVID-19?", "DiagnosedBtnText2": "What to do next"}, "NoRegion": {"Title": "No exposure detected", "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.", "DiagnosedBtnText1": "Diagnosed with COVID-19?", "DiagnosedBtnText2": "What to do next"}, "RegionNotCovered": {"Title": "No reporting yet in your area", "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt\u2019s still helpful to turn StopCOVID on. That way, when people are able to report a diagnosis, you\u2019ll be notified if you were near them.", "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html"}}, "ExposureDetected": {"Title": "You\u2019ve been exposed", "Detailed1": "You\u2019ve been near someone who reported a COVID-19 diagnosis through the app.", "Detailed2": "This does not mean you\u2019ve been infected. But you should probably take some action.", "DiagnosedBtnText1": "Diagnosed with COVID-19?", "DiagnosedBtnText2": "What to do next"}, "ChooseRegionCTA": "S\u00e9lectionnez une province ou un territoire", "SeeGuidance": "Lire les directives du Canada sur la COVID-19", "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html", "How": "Diagnosed with COVID-19?", "CTA": "What to do next", "HowUrl": "https://www.canada.ca/", "DiagnosedView": {"Title": "Thanks for helping fight COVID", "Body1": {"One": "Tomorrow, you\u2019ll get your last notification asking permission to upload any new random codes your phone sent out.", "Other": "For the next {number} days, you\u2019ll get a daily notification asking permission to upload any new random codes your phone sent out."}, "Body2": "You do not have to agree, even if you agreed the day before. It is your choice.", "Body3": "Take care of yourself and your family during this time."}, "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete", "DailyShare": "Partagez vos nouveaux identifiants al\u00e9atoires", "DailyShareDetailed": "Partager vos donn\u00e9es aide les autres \u00e0 savoir s'ils ont possiblement \u00e9t\u00e9 expos\u00e9s \u00e0 la COVID-19.", "ShareRandomIDsCTA": "Partagez vos identifiants al\u00e9atoires", "BluetoothDisabled": "Le Bluetooth est d\u00e9sactiv\u00e9", "EnableBluetoothCTA": "Le Bluetooth est utilis\u00e9 pour collecter et partager des identifiants al\u00e9atoires n\u00e9cessaires au fonctionnement de StopCOVID.", "TurnOnBluetooth": "Activez le Bluetooth", "ExposureNotificationsDisabled": "Les notifications d'exposition \u00e0 la COVID-19 sont d\u00e9sactiv\u00e9es", "ExposureNotificationsDisabledDetailed": "Les notifications d'exposition \u00e0 la COVID-19 sont n\u00e9cessaires au fonctionnement de StopCOVID.", "EnableExposureNotificationsCTA": "Activez les notifications d'exposition \u00e0 la COVID-19", "NoConnectivity": "Aucune connexion Internet", "NoConnectivityDetailed": "StopCOVID a besoin d'un acc\u00e8s Internet pour continuer de v\u00e9rifier les expositions potentielles \u00e0 la COVID-19.", "AppName": "StopCOVID", "ExternalLinkHint": "Ouvre dans une nouvelle fen\u00eatre", "LastCheckedMinutes": {"One": "Derni\u00e8re v\u00e9rification il y a {number} minute", "Other": "Derni\u00e8re v\u00e9rification il y a {number} minutes"}, "LastCheckedHours": {"One": "Derni\u00e8re v\u00e9rification il y a {number} heure", "Other": "Derni\u00e8re v\u00e9rification il y a {number} heures"}, "LastCheckedDays": {"One": "Derni\u00e8re v\u00e9rification il y a {number} jour", "Other": "Derni\u00e8re v\u00e9rification il y a {number} jours"}}, "OverlayClosed": {"SystemStatus": "StopCOVID est ", "SystemStatusOn": "ACTIV\u00c9", "SystemStatusOff": "D\u00c9SACTIV\u00c9", "NotificationStatus": "Les notifications pouss\u00e9es sont ", "NotificationStatusOff": "D\u00c9SACTIV\u00c9ES", "TapPrompt": "Appuyez pour plus d'information"}, "OverlayOpen": {"BluetoothCardStatus": "Le Bluetooth est ", "BluetoothCardStatusOff": "D\u00c9SACTIV\u00c9", "BluetoothCardBody": "Le Bluetooth est utilis\u00e9 pour collecter et partager des identifiants al\u00e9atoires n\u00e9cessaires au fonctionnement de StopCOVID.", "BluetoothCardAction": "Activez le Bluetooth", "EnterCodeCardTitle": "Code StopCOVID", "EnterCodeCardBody": "Un professionel de la sant\u00e9 vous a-t-il demand\u00e9 d'entrer un code StopCOVID?", "EnterCodeCardAction": "Entrez le code", "EnterCodeCardTitleDiagnosed": "You\u2019re helping stop COVID", "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.", "NotificationCardStatus": "Les notifications pouss\u00e9es sont ", "NotificationCardStatusOff": "D\u00c9SACTIV\u00c9ES", "NotificationCardBody": "Vous ne recevrez pas de notifications pouss\u00e9es si vous avez possiblement \u00e9t\u00e9 expos\u00e9(e) \u00e0 la COVID-19. Les notifications spontan\u00e9es sont importantes pour aider \u00e0 ralentir la transmission de la COVID-19.", "NotificationCardAction": "Activez les notifications pouss\u00e9es", "ExposureNotificationCardStatus": "Les notifications d'exposition \u00e0 la COVID-19 sont ", "ExposureNotificationCardStatusOff": "D\u00c9SACTIV\u00c9ES", "ExposureNotificationCardBody": "Les notifications d'exposition \u00e0 la COVID-19 sont n\u00e9cessaires au fonctionnement de StopCOVID.", "ExposureNotificationCardAction": "Activez les notifications d'exposition"}, "Info": {"CheckSymptoms": "V\u00e9rifier vos sympt\u00f4mes", "SymptomsUrl": "https://ca.thrive.health/covid19/fr", "TellAFriend": "Partager l'application", "LearnMore": "Comment fonctionne StopCOVID", "ChangeLanguage": "Changer de langue", "ChangeRegion": "Change province or territory", "Privacy": "Lire la politique de confidentialit\u00e9"}, "LanguageSelect": {"Title": "Langue", "En": "English (Canada)", "Fr": "Fran\u00e7ais (Canada)", "PtBR": "Portugais (Br\u00e9sil)", "EnShort": "English", "FrShort": "Fran\u00e7ais", "PtBRShort": "Portugais (Br\u00e9sil)", "Close": "Retour"}, "Tutorial": {"step-1Title": "Comment fonctionne StopCOVID", "step-1": "Votre t\u00e9l\u00e9phone utilise la fonction Bluetooth pour collecter et partager des identifiants al\u00e9atoires avec d'autres t\u00e9l\u00e9phones \u00e0 proximit\u00e9 qui ont l'application StopCOVID. Ces identifiants sont conserv\u00e9s en toute s\u00e9curit\u00e9 sur chaque t\u00e9l\u00e9phone.", "step-2Title": "Si vous avez potentiellement \u00e9t\u00e9 expos\u00e9(e) \u00e0 la COVID-19", "step-2": "Vous recevrez une notification si, au cours des 14 derniers jours, vous avez \u00e9t\u00e9 \u00e0 proximit\u00e9 d'une personne ayant re\u00e7u un r\u00e9sultat de test positif \u00e0 la COVID-19.", "step-3Title": "Si vous recevez un r\u00e9sultat de test positif \u00e0 la COVID-19", "step-3": "Avisez anonymement ceux qui ont \u00e9t\u00e9 \u00e0 proximit\u00e9 de vous au cours des 14 derniers jours qu'ils ont possiblement \u00e9t\u00e9 expos\u00e9s \u00e0 la COVID-19.", "step-4Title": "", "step-4": "If someone with the app is diagnosed with COVID-19, they can choose to upload all the codes their phone sent out. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.  ", "step-5Title": "", "step-5": "Every day, whenever it has an Internet connection, your phone will check the server. It gets a list of the random codes that were sent out by phones of people who reported a diagnosis with through the app.\n\nThe app deletes the codes it\u2019s collected after 14 days.", "step-6Title": "", "step-6": "The app compares the list with the random codes it received from other phones.\n\nIf it finds codes that match, it looks to see how strong the Bluetooth signal was and how long you were near them. If the codes match an exposure, the app will let you know that you may have been exposed.\n\nThen you can isolate and read the public health guidance.", "ActionBack": "Pr\u00e9c\u00e9dent", "ActionNext": "Suivant", "ActionEnd": "Termin\u00e9", "Close": "Fermer"}, "Sharing": {"Title": "Partager l'application", "SubTitle": "Chaque personne utilisant StopCOVID aide \u00e0 ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donn\u00e9e priv\u00e9e.", "Platform-messages": "Partager avec Messages", "Platform-instagram": "Partager avec Instagram", "More": "Plus d'applications", "Message": "Joignez-vous \u00e0 moi pour aider \u00e0 ralentir la transmission de la COVID-19. T\u00e9l\u00e9chargez l'application StopCOVID : https://covidshield.app", "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png", "Close": "Fermer"}, "Onboarding": {"ActionNext": "Suivant", "ActionEnd": "Termin\u00e9", "ActionBack": "Pr\u00e9c\u00e9dent"}, "OnboardingLocation": {"Title": "No location tracking", "Intro": "StopCOVID does not use GPS or location services. It has no way of knowing:", "Body1": "your location", "Body2": "who you are", "Body3": "where you\u2019ve been", "Body4": "who you\u2019ve been with"}, "YourData": {"Title": "Totally anonymous", "Intro": "StopCOVID has no way of knowing:", "Body1": "your identity", "Body2": "your contacts", "Body3": "any details about you or the people you\u2019re near", "Body4": "your health information"}, "OnboardingPermissions": {"Title": "Vos donn\u00e9es sont priv\u00e9es", "Body1": "Nothing is done without your permission.", "Body2": "Vos identifiants al\u00e9atoires sont conserv\u00e9s sur votre t\u00e9l\u00e9phone exclusivement, \u00e0 moins que vous d\u00e9cidiez de les partager.", "PrivacyButtonCTA": "Read the privacy policy", "HowItWorksCTA": "Read more about how it works"}, "OnboardingStart": {"Title": "Prot\u00e9gez-vous, prot\u00e9gez les autres", "Body1": "Recevez une notification si vous avez potentiellement \u00e9t\u00e9 expos\u00e9(e) \u00e0 la COVID-19.", "Body2": "Si vous recevez un r\u00e9sultat de test positif \u00e0 la COVID-19, vous pouvez choisir de partager vos donn\u00e9es de fa\u00e7on anonyme pour aviser ceux qui ont possiblement \u00e9t\u00e9 expos\u00e9s.", "Body3": "If you test positive for COVID-19, you can anonymously notify others who have been near you, in the past 14 days.", "TutorialAction": "D\u00e9couvrez comment StopCOVID fonctionne", "Title2": "Your choice", "Body4": "You do not have to use it", "Body5": "You can delete it anytime"}, "Privacy": {"Title": "Politique de confidentialit\u00e9", "Close": "Fermer"}, "ThankYou": {"Title": "Merci d'aider", "Body": "Les notifications d\u2019exposition sont activ\u00e9es. Si StopCOVID d\u00e9tecte que vous avez possiblement \u00e9t\u00e9 expos\u00e9(e) \u00e0 la COVID-19, vous recevrez une notification.", "Dismiss": "OK"}, "DataUpload": {"Cancel": "Annuler", "FormIntro": "Entrez votre code StopCOVID \u00e0 8 chiffres.", "Action": "Soumettre le code", "InputLabel": "code StopCOVID", "InfoSmall": "Vos identifiants al\u00e9atoires ne seront pas partag\u00e9s, \u00e0 moins que vous donniez votre permission \u00e0 l'\u00e9tape suivante.", "ConsentTitle": "Partagez vos identifiants al\u00e9atoires", "ConsentBody1": "StopCOVID will ask your permission to upload your random codes from the past 14 days.", "ConsentBody2": "Si vous partagez vos identifiants al\u00e9atoires, ceux qui ont \u00e9t\u00e9 \u00e0 proximit\u00e9 de vous au cours des 14 derniers jours avec l'application StopCOVID recevront une notification les avisant qu'ils ont possiblement \u00e9t\u00e9 expos\u00e9s \u00e0 la COVID-19. Cette notification ne contiendra aucune information vous concernant.", "ConsentSubtitle": "Your choice", "ConsentBody3": "Vous recevrez une notification par jour lorsque de nouveaux identifiants al\u00e9atoires pourront \u00eatre partag\u00e9s. Vous devrez chaque fois donner votre autorisation pour que les identifiants al\u00e9atoires soient partag\u00e9s. Le partage est volontaire.", "PrivacyPolicyLink": "Voir la politique de confidentialit\u00e9", "HowItWorksLink": "See how it works", "ConsentAction": "J'accepte", "ShareToast": "Identifiants al\u00e9atoires partag\u00e9s avec succ\u00e8s", "ErrorTitle": "Code non reconnu", "ErrorBody": "Votre code StopCOVID n'a pas pu \u00eatre reconnu. Essayez de nouveau.", "ErrorAction": "OK", "Step1": {"Title": "Enter your 8-digit number", "Body": "You should have been given an 8-digit number when you were diagnosed. You need to enter this number if you want StopCOVID to let people know they were exposed.\n\nThis is optional. It\u2019s your choice. But you can help slow the spread of COVID-19 if you do it.", "CTA": "Enter Code", "NoCode": "No 8-digit number?"}}, "Notification": {"ExposedMessageTitle": "Vous avez possiblement \u00e9t\u00e9 expos\u00e9(e)", "ExposedMessageBody": "Selon vos identifiants al\u00e9atoires, au cours des 14 derniers jours, vous avez \u00e9t\u00e9 \u00e0 proximit\u00e9 d'une personne ayant re\u00e7u un r\u00e9sultat de test positif \u00e0 la COVID-19.", "OffMessageTitle": "StopCOVID est d\u00e9sactiv\u00e9", "OffMessageBody": "Activez StopCOVID pour recevoir une notification si vous avez potentiellement \u00e9t\u00e9 expos\u00e9(e) \u00e0 la COVID-19.", "DailyUploadNotificationTitle": "Partagez vos nouveaux identifiants al\u00e9atoires", "DailyUploadNotificationBody": "Partager vos donn\u00e9es aide les autres \u00e0 savoir s'ils ont possiblement \u00e9t\u00e9 expos\u00e9s \u00e0 la COVID-19."}, "Partners": {"Label": "Con\u00e7u en partenariat avec"}, "BottomSheet": {"Collapse": "Fermer", "OnStatus": "StopCOVID is on, Tap for more information", "OffStatus": "StopCOVID is off, Tap for more information"}, "RegionPicker": {"Title": "Where do you live?", "SettingsTitle": "Province or territory", "Close": "Close", "Body": "Choose the province or territory whose public health guidance you need to follow.\n\nThis information is only stored on your phone and will never be shared with anyone.", "Skip": "Skip", "GetStarted": "Get started", "Optional": "* Optional", "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick", "NL": "Newfoundland and Labrador", "NT": "Northwest Territories", "NS": "Nova Scotia", "NU": "Nunavut", "ON": "Ontario", "PE": "Prince Edward Island", "QC": "Quebec", "SK": "Saskatchewan", "YT": "Yukon"}, "RegionalGuidanceURL": {"CA": "https://www.canada.ca/fr/sante-publique/services/maladies/2019-nouveau-coronavirus/symptomes.html", "AB": "", "BC": "", "MB": "https://www.gov.mb.ca/covid19/about/index.fr.html", "NB": "https://www2.gnb.ca/content/gnb/fr/corporate/promo/covid-19.html", "NL": "", "NT": "https://www.gov.nt.ca/covid-19/fr/services/%C3%A0-propos-de-la-covid-19", "NS": "https://novascotia.ca/coronavirus/when-to-seek-help/fr/", "NU": "https://www.gov.nu.ca/fr/sante/information/covid-19-nouveau-coronavirus-0", "ON": "https://covid-19.ontario.ca/fr", "PE": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/covid-19-foire-aux-questions", "QC": "https://www.quebec.ca/sante/problemes-de-sante/a-z/informations-generales-sur-le-coronavirus/", "SK": "", "YT": "https://yukon.ca/fr/6-steps-staying-safe-covid-19"}}
+{
+  "BottomSheet": {
+    "Collapse": "Fermer",
+    "OffStatus": "StopCOVID is off, Tap for more information",
+    "OnStatus": "StopCOVID is on, Tap for more information"
+  },
+  "DataUpload": {
+    "Action": "Soumettre le code",
+    "Cancel": "Annuler",
+    "ConsentAction": "J'accepte",
+    "ConsentBody1": "StopCOVID will ask your permission to upload your random codes from the past 14 days.",
+    "ConsentBody2": "Si vous partagez vos identifiants aléatoires, ceux qui ont été à proximité de vous au cours des 14 derniers jours avec l'application StopCOVID recevront une notification les avisant qu'ils ont possiblement été exposés à la COVID-19. Cette notification ne contiendra aucune information vous concernant.",
+    "ConsentBody3": "Vous recevrez une notification par jour lorsque de nouveaux identifiants aléatoires pourront être partagés. Vous devrez chaque fois donner votre autorisation pour que les identifiants aléatoires soient partagés. Le partage est volontaire.",
+    "ConsentSubtitle": "Your choice",
+    "ConsentTitle": "Partagez vos identifiants aléatoires",
+    "ErrorAction": "OK",
+    "ErrorBody": "Votre code StopCOVID n'a pas pu être reconnu. Essayez de nouveau.",
+    "ErrorTitle": "Code non reconnu",
+    "FormIntro": "Entrez votre code StopCOVID à 8 chiffres.",
+    "HowItWorksLink": "See how it works",
+    "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
+    "InputLabel": "code StopCOVID",
+    "PrivacyPolicyLink": "Voir la politique de confidentialité",
+    "ShareToast": "Identifiants aléatoires partagés avec succès",
+    "Step1": {
+      "Body": "You should have been given an 8-digit number when you were diagnosed. You need to enter this number if you want StopCOVID to let people know they were exposed.\n\nThis is optional. It’s your choice. But you can help slow the spread of COVID-19 if you do it.",
+      "CTA": "Enter Code",
+      "NoCode": "No 8-digit number?",
+      "Title": "Enter your 8-digit number"
+    }
+  },
+  "Home": {
+    "AppName": "StopCOVID",
+    "BluetoothDisabled": "Le Bluetooth est désactivé",
+    "CTA": "What to do next",
+    "ChooseRegionCTA": "Sélectionnez une province ou un territoire",
+    "DailyShare": "Partagez vos nouveaux identifiants aléatoires",
+    "DailyShareDetailed": "Partager vos données aide les autres à savoir s'ils ont possiblement été exposés à la COVID-19.",
+    "DiagnosedView": {
+      "Body1": {
+        "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
+        "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
+      },
+      "Body2": "You do not have to agree, even if you agreed the day before. It is your choice.",
+      "Body3": "Take care of yourself and your family during this time.",
+      "Title": "Thanks for helping fight COVID"
+    },
+    "EnableBluetoothCTA": "Le Bluetooth est utilisé pour collecter et partager des identifiants aléatoires nécessaires au fonctionnement de StopCOVID.",
+    "EnableExposureNotificationsCTA": "Activez les notifications d'exposition à la COVID-19",
+    "ExposureDetected": {
+      "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
+      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action.",
+      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+      "DiagnosedBtnText2": "What to do next",
+      "Title": "You’ve been exposed"
+    },
+    "ExposureNotificationsDisabled": "Les notifications d'exposition à la COVID-19 sont désactivées",
+    "ExposureNotificationsDisabledDetailed": "Les notifications d'exposition à la COVID-19 sont nécessaires au fonctionnement de StopCOVID.",
+    "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
+    "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
+    "How": "Diagnosed with COVID-19?",
+    "HowUrl": "https://www.canada.ca/",
+    "LastCheckedDays": {
+      "One": "Dernière vérification il y a {number} jour",
+      "Other": "Dernière vérification il y a {number} jours"
+    },
+    "LastCheckedHours": {
+      "One": "Dernière vérification il y a {number} heure",
+      "Other": "Dernière vérification il y a {number} heures"
+    },
+    "LastCheckedMinutes": {
+      "One": "Dernière vérification il y a {number} minute",
+      "Other": "Dernière vérification il y a {number} minutes"
+    },
+    "NoConnectivity": "Aucune connexion Internet",
+    "NoConnectivityDetailed": "StopCOVID a besoin d'un accès Internet pour continuer de vérifier les expositions potentielles à la COVID-19.",
+    "NoExposureDetected": {
+      "NoRegion": {
+        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next",
+        "Title": "No exposure detected"
+      },
+      "RegionCovered": {
+        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next",
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+        "Title": "No exposure detected"
+      },
+      "RegionNotCovered": {
+        "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn StopCOVID on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+        "Title": "No reporting yet in your area"
+      }
+    },
+    "SeeGuidance": "Lire les directives du Canada sur la COVID-19",
+    "ShareRandomIDsCTA": "Partagez vos identifiants aléatoires",
+    "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
+    "TurnOnBluetooth": "Activez le Bluetooth"
+  },
+  "Info": {
+    "ChangeLanguage": "Changer de langue",
+    "ChangeRegion": "Change province or territory",
+    "CheckSymptoms": "Vérifier vos symptômes",
+    "LearnMore": "Comment fonctionne StopCOVID",
+    "Privacy": "Lire la politique de confidentialité",
+    "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
+    "TellAFriend": "Partager l'application"
+  },
+  "LanguageSelect": {
+    "Close": "Retour",
+    "En": "English (Canada)",
+    "EnShort": "English",
+    "Fr": "Français (Canada)",
+    "FrShort": "Français",
+    "PtBR": "Portugais (Brésil)",
+    "PtBRShort": "Portugais (Brésil)",
+    "Title": "Langue"
+  },
+  "Notification": {
+    "DailyUploadNotificationBody": "Partager vos données aide les autres à savoir s'ils ont possiblement été exposés à la COVID-19.",
+    "DailyUploadNotificationTitle": "Partagez vos nouveaux identifiants aléatoires",
+    "ExposedMessageBody": "Selon vos identifiants aléatoires, au cours des 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
+    "ExposedMessageTitle": "Vous avez possiblement été exposé(e)",
+    "OffMessageBody": "Activez StopCOVID pour recevoir une notification si vous avez potentiellement été exposé(e) à la COVID-19.",
+    "OffMessageTitle": "StopCOVID est désactivé"
+  },
+  "Onboarding": {
+    "ActionBack": "Précédent",
+    "ActionEnd": "Terminé",
+    "ActionNext": "Suivant"
+  },
+  "OnboardingLocation": {
+    "Body1": "your location",
+    "Body2": "who you are",
+    "Body3": "where you’ve been",
+    "Body4": "who you’ve been with",
+    "Intro": "StopCOVID does not use GPS or location services. It has no way of knowing:",
+    "Title": "No location tracking"
+  },
+  "OnboardingPermissions": {
+    "Body1": "Nothing is done without your permission.",
+    "Body2": "Vos identifiants aléatoires sont conservés sur votre téléphone exclusivement, à moins que vous décidiez de les partager.",
+    "HowItWorksCTA": "Read more about how it works",
+    "PrivacyButtonCTA": "Read the privacy policy",
+    "Title": "Vos données sont privées"
+  },
+  "OnboardingStart": {
+    "Body1": "Recevez une notification si vous avez potentiellement été exposé(e) à la COVID-19.",
+    "Body2": "Si vous recevez un résultat de test positif à la COVID-19, vous pouvez choisir de partager vos données de façon anonyme pour aviser ceux qui ont possiblement été exposés.",
+    "Body3": "If you test positive for COVID-19, you can anonymously notify others who have been near you, in the past 14 days.",
+    "Body4": "You do not have to use it",
+    "Body5": "You can delete it anytime",
+    "Title": "Protégez-vous, protégez les autres",
+    "Title2": "Your choice",
+    "TutorialAction": "Découvrez comment StopCOVID fonctionne"
+  },
+  "OverlayClosed": {
+    "NotificationStatus": "Les notifications poussées sont ",
+    "NotificationStatusOff": "DÉSACTIVÉES",
+    "SystemStatus": "StopCOVID est ",
+    "SystemStatusOff": "DÉSACTIVÉ",
+    "SystemStatusOn": "ACTIVÉ",
+    "TapPrompt": "Appuyez pour plus d'information"
+  },
+  "OverlayOpen": {
+    "BluetoothCardAction": "Activez le Bluetooth",
+    "BluetoothCardBody": "Le Bluetooth est utilisé pour collecter et partager des identifiants aléatoires nécessaires au fonctionnement de StopCOVID.",
+    "BluetoothCardStatus": "Le Bluetooth est ",
+    "BluetoothCardStatusOff": "DÉSACTIVÉ",
+    "EnterCodeCardAction": "Entrez le code",
+    "EnterCodeCardBody": "Un professionel de la santé vous a-t-il demandé d'entrer un code StopCOVID?",
+    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.",
+    "EnterCodeCardTitle": "Code StopCOVID",
+    "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
+    "ExposureNotificationCardAction": "Activez les notifications d'exposition",
+    "ExposureNotificationCardBody": "Les notifications d'exposition à la COVID-19 sont nécessaires au fonctionnement de StopCOVID.",
+    "ExposureNotificationCardStatus": "Les notifications d'exposition à la COVID-19 sont ",
+    "ExposureNotificationCardStatusOff": "DÉSACTIVÉES",
+    "NotificationCardAction": "Activez les notifications poussées",
+    "NotificationCardBody": "Vous ne recevrez pas de notifications poussées si vous avez possiblement été exposé(e) à la COVID-19. Les notifications spontanées sont importantes pour aider à ralentir la transmission de la COVID-19.",
+    "NotificationCardStatus": "Les notifications poussées sont ",
+    "NotificationCardStatusOff": "DÉSACTIVÉES"
+  },
+  "Partners": {
+    "Label": "Conçu en partenariat avec"
+  },
+  "Privacy": {
+    "Close": "Fermer",
+    "Title": "Politique de confidentialité"
+  },
+  "RegionPicker": {
+    "AB": "Alberta",
+    "BC": "British Columbia",
+    "Body": "Choose the province or territory whose public health guidance you need to follow.\n\nThis information is only stored on your phone and will never be shared with anyone.",
+    "Close": "Close",
+    "GetStarted": "Get started",
+    "MB": "Manitoba",
+    "NB": "New Brunswick",
+    "NL": "Newfoundland and Labrador",
+    "NS": "Nova Scotia",
+    "NT": "Northwest Territories",
+    "NU": "Nunavut",
+    "ON": "Ontario",
+    "Optional": "* Optional",
+    "PE": "Prince Edward Island",
+    "QC": "Quebec",
+    "SK": "Saskatchewan",
+    "SettingsTitle": "Province or territory",
+    "Skip": "Skip",
+    "Title": "Where do you live?",
+    "YT": "Yukon"
+  },
+  "RegionalGuidanceURL": {
+    "AB": "",
+    "BC": "",
+    "CA": "https://www.canada.ca/fr/sante-publique/services/maladies/2019-nouveau-coronavirus/symptomes.html",
+    "MB": "https://www.gov.mb.ca/covid19/about/index.fr.html",
+    "NB": "https://www2.gnb.ca/content/gnb/fr/corporate/promo/covid-19.html",
+    "NL": "",
+    "NS": "https://novascotia.ca/coronavirus/when-to-seek-help/fr/",
+    "NT": "https://www.gov.nt.ca/covid-19/fr/services/%C3%A0-propos-de-la-covid-19",
+    "NU": "https://www.gov.nu.ca/fr/sante/information/covid-19-nouveau-coronavirus-0",
+    "ON": "https://covid-19.ontario.ca/fr",
+    "PE": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/covid-19-foire-aux-questions",
+    "QC": "https://www.quebec.ca/sante/problemes-de-sante/a-z/informations-generales-sur-le-coronavirus/",
+    "SK": "",
+    "YT": "https://yukon.ca/fr/6-steps-staying-safe-covid-19"
+  },
+  "Sharing": {
+    "Close": "Fermer",
+    "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
+    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l'application StopCOVID : https://covidshield.app",
+    "More": "Plus d'applications",
+    "Platform-instagram": "Partager avec Instagram",
+    "Platform-messages": "Partager avec Messages",
+    "SubTitle": "Chaque personne utilisant StopCOVID aide à ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
+    "Title": "Partager l'application"
+  },
+  "ThankYou": {
+    "Body": "Les notifications d’exposition sont activées. Si StopCOVID détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
+    "Dismiss": "OK",
+    "Title": "Merci d'aider"
+  },
+  "Tutorial": {
+    "ActionBack": "Précédent",
+    "ActionEnd": "Terminé",
+    "ActionNext": "Suivant",
+    "Close": "Fermer",
+    "step-1": "Votre téléphone utilise la fonction Bluetooth pour collecter et partager des identifiants aléatoires avec d'autres téléphones à proximité qui ont l'application StopCOVID. Ces identifiants sont conservés en toute sécurité sur chaque téléphone.",
+    "step-1Title": "Comment fonctionne StopCOVID",
+    "step-2": "Vous recevrez une notification si, au cours des 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
+    "step-2Title": "Si vous avez potentiellement été exposé(e) à la COVID-19",
+    "step-3": "Avisez anonymement ceux qui ont été à proximité de vous au cours des 14 derniers jours qu'ils ont possiblement été exposés à la COVID-19.",
+    "step-3Title": "Si vous recevez un résultat de test positif à la COVID-19",
+    "step-4": "If someone with the app is diagnosed with COVID-19, they can choose to upload all the codes their phone sent out. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.  ",
+    "step-4Title": "",
+    "step-5": "Every day, whenever it has an Internet connection, your phone will check the server. It gets a list of the random codes that were sent out by phones of people who reported a diagnosis with through the app.\n\nThe app deletes the codes it’s collected after 14 days.",
+    "step-5Title": "",
+    "step-6": "The app compares the list with the random codes it received from other phones.\n\nIf it finds codes that match, it looks to see how strong the Bluetooth signal was and how long you were near them. If the codes match an exposure, the app will let you know that you may have been exposed.\n\nThen you can isolate and read the public health guidance.",
+    "step-6Title": ""
+  },
+  "YourData": {
+    "Body1": "your identity",
+    "Body2": "your contacts",
+    "Body3": "any details about you or the people you’re near",
+    "Body4": "your health information",
+    "Intro": "StopCOVID has no way of knowing:",
+    "Title": "Totally anonymous"
+  }
+}
