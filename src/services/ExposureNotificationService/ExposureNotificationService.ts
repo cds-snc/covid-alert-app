@@ -1,4 +1,4 @@
-import {ExposureInformation, Status as SystemStatus} from 'bridge/ExposureNotificationAPI';
+import {Status as SystemStatus, ExposureSummary} from 'bridge/ExposureNotificationAPI';
 import ExposureNotification from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {Observable} from 'shared/Observable';
@@ -29,7 +29,7 @@ export type ExposureStatus =
     }
   | {
       type: 'exposed';
-      exposures: ExposureInformation[];
+      summary: ExposureSummary;
       lastChecked?: string;
     }
   | {
@@ -257,8 +257,7 @@ export class ExposureNotificationService {
         const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFilesUrl]);
 
         if (summary.matchedKeyCount > 0) {
-          const exposures = await this.exposureNotification.getExposureInformation(summary, 'User explanation');
-          return finalize({type: 'exposed', exposures});
+          return finalize({type: 'exposed', summary});
         }
       } catch (err) {
         console.log({err});
