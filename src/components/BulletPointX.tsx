@@ -7,7 +7,7 @@ export const BulletPointX = ({text}: {text: string}) => {
       <Box marginTop="xxs">
         <Icon size={20} name="icon-x" />
       </Box>
-      <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="m">
+      <Text variant="bodyText" color="overlayBodyText" marginLeft="m">
         {text}
       </Text>
     </Box>
