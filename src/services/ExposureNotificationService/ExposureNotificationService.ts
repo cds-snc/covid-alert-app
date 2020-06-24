@@ -187,7 +187,7 @@ export class ExposureNotificationService {
     const runningDate = new Date();
 
     const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14), hoursPerPeriod);
-    let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod) - 1;
+    let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
 
     while (runningPeriod > lastCheckPeriod) {
       try {
