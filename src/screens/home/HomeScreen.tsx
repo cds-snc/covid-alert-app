@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, Box} from 'components';
