@@ -44,7 +44,7 @@ const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
   );
 };
 
-const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
+const NotificationStatusOff = ({i18n}: {action: () => void; i18n: I18n}) => {
   const toSettings = useCallback(() => {
     Linking.openSettings();
   }, []);
