@@ -104,7 +104,8 @@ const Content = ({setBackgroundColor}: ContentProps) => {
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
-          return null;
+          // return null;
+          return getNoExposureView(regionCase);
       }
   }
 };
@@ -114,9 +115,9 @@ const CollapsedContent = () => {
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus === 'denied';
 
-  if (systemStatus === SystemStatus.Unknown) {
-    return null;
-  }
+  // if (systemStatus === SystemStatus.Unknown) {
+  //   return null;
+  // }
 
   return (
     <CollapsedOverlayView
@@ -133,9 +134,9 @@ const BottomSheetContent = () => {
   const showNotificationWarning = notificationStatus !== 'granted';
   const maxWidth = useMaxContentWidth();
 
-  if (systemStatus === SystemStatus.Unknown) {
-    return null;
-  }
+  // if (systemStatus === SystemStatus.Unknown) {
+  //   return null;
+  // }
 
   return (
     <OverlayView

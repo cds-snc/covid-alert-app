@@ -77,6 +77,8 @@ PODS:
   - Permission-Notifications (2.1.4):
     - RNPermissions
   - RCTRequired (0.62.2)
+  - RCTSystemSetting (1.7.4):
+    - React
   - RCTTypeSafety (0.62.2):
     - FBLazyVector (= 0.62.2)
     - Folly (= 2018.10.22.00)
@@ -361,6 +363,7 @@ DEPENDENCIES:
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
+  - RCTSystemSetting (from `../node_modules/react-native-system-setting`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
   - React-Core (from `../node_modules/react-native/`)
@@ -433,6 +436,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/Notifications.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
+  RCTSystemSetting:
+    :path: "../node_modules/react-native-system-setting"
   RCTTypeSafety:
     :path: "../node_modules/react-native/Libraries/TypeSafety"
   React:
@@ -523,6 +528,7 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
   Permission-Notifications: d437cafc026900006d35981d35a2d694f883f44e
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
+  RCTSystemSetting: f3123e7de51bf918bc4243167ba2885a72bf09ec
   RCTTypeSafety: 93006131180074cffa227a1075802c89a49dd4ce
   React: 29a8b1a02bd764fb7644ef04019270849b9a7ac3
   React-Core: b12bffb3f567fdf99510acb716ef1abd426e0e05
@@ -559,6 +565,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: ba2be45a51812b2e2cdefcd103e87bf392bed0a9
+PODFILE CHECKSUM: a9744d92f0988d5a39fa1a6c223f54fe5f92743d
 
 COCOAPODS: 1.7.5
