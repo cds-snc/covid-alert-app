@@ -9,30 +9,9 @@
 #import <React/RCTConvert.h>
 
 
-@interface ENManagerMock : ENManager
-
-@end
-
-
-@implementation ENManagerMock
-
-- (void)getDiagnosisKeysWithCompletionHandler:(ENGetDiagnosisKeysHandler)completionHandler {
-  ENTemporaryExposureKey *key = ENTemporaryExposureKey.new;
-  key.keyData = [@"1234567812345678" dataUsingEncoding:NSUTF8StringEncoding];
-  key.rollingStartNumber = 123;
-  key.transmissionRiskLevel = 5;
-
-  NSArray *keys = @[key];
-  completionHandler(keys, nil);
-}
-
-@end
-
-
-typedef ENManager ENManagerImplementation ;
 
 @interface ExposureNotification ()
-@property (nonatomic, assign) NSMutableArray *reportedSummaries;
+@property (nonatomic) NSMutableArray *reportedSummaries;
 @end
 
 @implementation ExposureNotification
@@ -60,7 +39,7 @@ RCT_EXPORT_MODULE();
 RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
   if (self.enManager) return;
-  self.enManager = [ENManagerImplementation new];
+  self.enManager = [ENManager new];
 
   [self.enManager activateWithCompletionHandler:^(NSError * _Nullable error) {
     if (error) {
@@ -112,7 +91,7 @@ RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryW
       for (ENTemporaryExposureKey *key in keys) {
         [serialziedKeys addObject:@{
           @"keyData": [key.keyData base64EncodedStringWithOptions:0],
-          @"rollingStartNumber": @(key.rollingStartNumber),
+          @"rollingStartIntervalNumber": @(key.rollingStartNumber),
           @"rollingPeriod": @(key.rollingPeriod),
           @"transmissionRiskLevel": @(key.transmissionRiskLevel)
         }];
@@ -126,41 +105,54 @@ RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryW
 RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *)configDict diagnosisKeysURLs:(NSArray*)urls withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
   ENExposureConfiguration *configuration = [ENExposureConfiguration new];
-  if (configDict[@"metadata"]) {
-    configuration.metadata = configDict[@"metadata"];
-  }
-  if (configDict[@"minimumRiskScore"]) {
-    configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
-  }
-  if (configDict[@"attenuationLevelValues"]) {
-    configuration.attenuationLevelValues = configDict[@"attenuationLevelValues"];
-  }
-  if (configDict[@"attenuationWeight"]) {
-    configuration.attenuationWeight = [configDict[@"attenuationWeight"] doubleValue];
-  }
-  if (configDict[@"daysSinceLastExposureLevelValues"]) {
-    configuration.daysSinceLastExposureLevelValues = configDict[@"daysSinceLastExposureLevelValues"];
-  }
-  if (configDict[@"daysSinceLastExposureWeight"]) {
-    configuration.daysSinceLastExposureWeight = [configDict[@"daysSinceLastExposureWeight"] doubleValue];
-  }
-  if (configDict[@"durationLevelValues"]) {
-    configuration.durationLevelValues = configDict[@"durationLevelValues"];
-  }
-  if (configDict[@"durationWeight"]) {
-    configuration.durationWeight = [configDict[@"durationWeight"] doubleValue];
-  }
-  if (configDict[@"transmissionRiskLevelValues"]) {
-    configuration.transmissionRiskLevelValues = configDict[@"transmissionRiskLevelValues"];
-  }
-  if (configDict[@"transmissionRiskWeight"]) {
-    configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
-  }
+
+// TODO: this serialization producing configuration which EN rejects. will be fixed in a follow up
+
+//  if (configDict[@"metadata"]) {
+//    configuration.metadata = configDict[@"metadata"];
+//  }
+//  if (configDict[@"minimumRiskScore"]) {
+//    configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
+//  }
+//  if (configDict[@"attenuationLevelValues"]) {
+//    configuration.attenuationLevelValues = configDict[@"attenuationLevelValues"];
+//  }
+//  if (configDict[@"attenuationWeight"]) {
+//    configuration.attenuationWeight = [configDict[@"attenuationWeight"] doubleValue];
+//  }
+//  if (configDict[@"daysSinceLastExposureLevelValues"]) {
+//    configuration.daysSinceLastExposureLevelValues = configDict[@"daysSinceLastExposureLevelValues"];
+//  }
+//  if (configDict[@"daysSinceLastExposureWeight"]) {
+//    configuration.daysSinceLastExposureWeight = [configDict[@"daysSinceLastExposureWeight"] doubleValue];
+//  }
+//  if (configDict[@"durationLevelValues"]) {
+//    configuration.durationLevelValues = configDict[@"durationLevelValues"];
+//  }
+//  if (configDict[@"durationWeight"]) {
+//    configuration.durationWeight = [configDict[@"durationWeight"] doubleValue];
+//  }
+//  if (configDict[@"transmissionRiskLevelValues"]) {
+//    configuration.transmissionRiskLevelValues = configDict[@"transmissionRiskLevelValues"];
+//  }
+//  if (configDict[@"transmissionRiskWeight"]) {
+//    configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
+//  }
 
 
+  configuration.minimumRiskScore = 0;
+  configuration.attenuationLevelValues = @[@1, @2, @3, @4, @5, @6, @7, @8];
+  configuration.daysSinceLastExposureLevelValues = @[@1, @2, @3, @4, @5, @6, @7, @8];
+  configuration.durationLevelValues = @[@1, @2, @3, @4, @5, @6, @7, @8];
+  configuration.transmissionRiskLevelValues = @[@1, @2, @3, @4, @5, @6, @7, @8];
+
+  NSMutableArray *arr = [NSMutableArray new];
+  for (NSString *urlStr in urls) {
+    [arr addObject: [NSURL fileURLWithPath:urlStr]];
+  }
 
   [self.enManager detectExposuresWithConfiguration:configuration
-                                  diagnosisKeyURLs:urls
+                                  diagnosisKeyURLs:arr
                                  completionHandler:^(ENExposureDetectionSummary * _Nullable summary, NSError * _Nullable error) {
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
