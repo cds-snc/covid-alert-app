@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   onSuccess: () => void;
-  onNoCode: () => void;
 }
 
-export const Step1 = ({onSuccess, onNoCode}: Props) => {
+export const Step1 = ({onSuccess}: Props) => {
   const [i18n] = useI18n();
+
+  const navigation = useNavigation();
+  const onNoCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
 
   return (
     <>
