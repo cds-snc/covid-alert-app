@@ -192,8 +192,8 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "FormIntro": "Please enter your 8 digit StopCOVID code.",
-    "Action": "Submit code",
+    "FormIntro": "Enter your 8 digit number",
+    "Action": "Submit",
     "InputLabel": "StopCOVID code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
     "ConsentTitle": "Now you can let StopCOVID notify people",

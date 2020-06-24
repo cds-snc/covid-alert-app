@@ -29,14 +29,14 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
   return (
     <>
       <Box margin="xxl">
-        <Text variant="bodyText" textAlign="center" color="overlayBodyText" accessibilityRole="header">
+        <Text variant="bodyTitle" color="overlayBodyText" accessibilityRole="header">
           {i18n.translate('DataUpload.FormIntro')}
         </Text>
       </Box>
       <Box paddingHorizontal="m" marginBottom="m">
         <CodeInput value={value} onChange={onChange} accessibilityLabel={i18n.translate('DataUpload.InputLabel')} />
       </Box>
-      <Box flex={1} paddingHorizontal="m" marginBottom="m">
+      <Box flex={1} paddingHorizontal="xxl" marginBottom="m">
         <Button
           loading={loading}
           disabled={value.length !== 8}
@@ -44,9 +44,6 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
           text={i18n.translate('DataUpload.Action')}
           onPress={handleVerify}
         />
-        <Text variant="smallText" color="bodyTextSubdued" textAlign="center" marginTop="s">
-          {i18n.translate('DataUpload.InfoSmall')}
-        </Text>
       </Box>
     </>
   );
