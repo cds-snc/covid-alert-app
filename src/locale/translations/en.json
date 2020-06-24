@@ -53,7 +53,7 @@
     "ExposureNotificationsDisabledDetailed": "StopCOVID works by checking these messages.",
     "EnableExposureNotificationsCTA": "Turn on exposure notifications",
     "NoConnectivity": "StopCOVID is offline",
-    "NoConnectivityDetailed": "StopCOVID only works if there is internet access.",
+    "NoConnectivityDetailed": "StopCOVID only checks for exposure if your phone is connected to the Internet.",
     "AppName": "StopCOVID",
     "ExternalLinkHint": "Opens in a new window",
     "LastCheckedMinutes": {
