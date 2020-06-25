@@ -91,8 +91,8 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   }
   return (
     <ButtonMultiline
-      text={i18n.translate('Home.ExposureDetected.DiagnosedBtnText1')}
-      text1={i18n.translate('Home.ExposureDetected.DiagnosedBtnText2')}
+      text={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
+      text1={i18n.translate('OverlayOpen.EnterCodeCardAction')}
       variant="bigFlat"
       internalLink
       onPress={() => navigation.navigate('DataSharing')}
