@@ -10,9 +10,9 @@ interface BaseHomeViewProps {
 
 export const BaseHomeView = ({children, iconName}: BaseHomeViewProps) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.flex}>
       <Header />
-      <ScrollView style={styles.flex} contentContainerStyle={[styles.scrollContainer]} bounces={false}>
+      <ScrollView contentContainerStyle={[styles.scrollContainer]} bounces={false}>
         <Box width="100%" justifyContent="flex-start">
           <Box style={{...styles.primaryIcon}}>
             <Icon name={iconName} size={150} />
