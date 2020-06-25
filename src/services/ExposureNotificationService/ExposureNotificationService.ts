@@ -192,8 +192,9 @@ export class ExposureNotificationService {
     while (runningPeriod > lastCheckPeriod) {
       try {
         yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
-        // eslint-disable-next-line no-empty
-      } catch {}
+      } catch (err) {
+        console.log('Error while downloading key file:', err);
+      }
 
       runningPeriod -= 1;
     }
