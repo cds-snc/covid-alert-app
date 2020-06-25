@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import {useI18n} from '@shopify/react-i18n';
 import PushNotification from 'bridge/PushNotification';
-import {Box, Text} from 'components';
+import {Box, Button, Text} from 'components';
 import {useStorage} from 'services/StorageService';
 
 import {RadioButton} from './components/RadioButtons';
@@ -56,21 +56,21 @@ const DrawerContent = () => {
 
   return (
     <DrawerContentScrollView>
-      <Box>
+      <Box marginHorizontal="m">
         <Section>
           <Text paddingLeft="m" paddingRight="m" fontWeight="bold" paddingBottom="s" color="overlayBodyText">
-            Test menu
+            Demo menu
           </Text>
         </Section>
         <Section>
-          <Item title="Show sample notification" onPress={onShowSampleNotification} />
+          <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
         </Section>
         <Section>
           <Item title="Force screen" />
           <ScreenRadioSelector />
         </Section>
         <Section>
-          <Item title="Clear data" onPress={reset} />
+          <Button text="Clear data" onPress={reset} variant="danger50Flat" />
         </Section>
       </Box>
     </DrawerContentScrollView>
