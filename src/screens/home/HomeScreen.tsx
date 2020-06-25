@@ -28,7 +28,6 @@ import {NoExposureCoveredRegionView} from './views/NoExposureCoveredRegionView';
 import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
 import {OverlayView} from './views/OverlayView';
-
 import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
