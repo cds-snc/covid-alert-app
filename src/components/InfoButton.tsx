@@ -81,7 +81,7 @@ export const InfoButton = ({
           </Box>
           <Box style={{...styles.chevronOffset}}>
             {externalLink && <Icon name={externalArrowIcon} />}
-            {internalLink && <Icon size={40} name="icon-chevron" />}
+            {internalLink && <Icon size={25} name="icon-chevron" />}
           </Box>
         </>
       )}
