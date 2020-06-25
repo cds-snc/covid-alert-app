@@ -172,7 +172,7 @@ export const HomeScreen = () => {
   return (
     <NotificationPermissionStatusProvider>
       <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
-        <Box flex={1} maxWidth={maxWidth} paddingTop="m">
+        <Box flex={1} maxWidth={maxWidth} paddingTop="m" alignSelf="stretch">
           <Content setBackgroundColor={setBackgroundColor} />
         </Box>
         <BottomSheetWrapper />
