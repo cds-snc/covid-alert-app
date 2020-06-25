@@ -134,6 +134,8 @@ const CollapsedContent = () => {
   //   return null;
   // }
 
+  console.log('CollapsedContent', CollapsedContent);
+
   return (
     <CollapsedOverlayView
       status={systemStatus}

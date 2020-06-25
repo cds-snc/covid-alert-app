@@ -13,6 +13,9 @@ interface Props {
 
 export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
   const [i18n] = useI18n();
+
+  console.log('status', status);
+
   return (
     <Box>
       <Box marginBottom="m">
