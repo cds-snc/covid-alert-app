@@ -58,6 +58,7 @@ export const InfoShareView = () => {
           accessibilityLabel={i18n.translate('Info.CheckSymptoms')}
           accessibilityRole="link"
           accessibilityHint={i18n.translate('Home.ExternalLinkHint')}
+          lastItem={false}
         />
         {/* <InfoShareItem onPress={onShare} text={i18n.translate('Info.TellAFriend')} icon="icon-share" /> */}
         <InfoShareItem
@@ -68,9 +69,19 @@ export const InfoShareView = () => {
         />
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground" marginTop="m">
-        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
-        <InfoShareItem onPress={onRegion} text={i18n.translate('Info.ChangeRegion')} icon="icon-chevron" />
-        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
+        <InfoShareItem
+          onPress={onLanguage}
+          text={i18n.translate('Info.ChangeLanguage')}
+          icon="icon-chevron"
+          lastItem={false}
+        />
+        <InfoShareItem
+          onPress={onRegion}
+          text={i18n.translate('Info.ChangeRegion')}
+          icon="icon-chevron"
+          lastItem={false}
+        />
+        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" lastItem={false} />
       </Box>
     </>
   );
