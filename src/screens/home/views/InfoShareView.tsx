@@ -61,12 +61,7 @@ export const InfoShareView = () => {
           lastItem={false}
         />
         {/* <InfoShareItem onPress={onShare} text={i18n.translate('Info.TellAFriend')} icon="icon-share" /> */}
-        <InfoShareItem
-          lastItem={true}
-          onPress={onLearnMore}
-          text={i18n.translate('Info.LearnMore')}
-          icon="icon-chevron"
-        />
+        <InfoShareItem lastItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground" marginTop="m">
         <InfoShareItem
