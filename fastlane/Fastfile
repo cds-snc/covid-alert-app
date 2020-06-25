@@ -42,7 +42,7 @@ platform :ios do
       output_directory: "./build",
       export_options: {
         provisioningProfiles: {
-          "ca.gc.hcsc.canada.stopcovid" => ENV["PROFILE_ADHOC"]
+          ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
         }
       }
     )
