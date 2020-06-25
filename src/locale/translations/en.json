@@ -162,7 +162,8 @@
     "Body1": "your identity",
     "Body2": "your contacts",
     "Body3": "any details about you or the people you’re near",
-    "Body4": "your health information"
+    "Body4": "your health information",
+    "Body5": ""
   },
   "OnboardingPermissions": {
     "Title": "No actions without your permission",
