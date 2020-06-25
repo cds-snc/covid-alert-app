@@ -16,7 +16,7 @@ const ScreenRadioSelector = () => {
   const {forceScreen, setForceScreen} = useStorage();
   const screenData = [
     {displayName: 'None', value: 'None'},
-    {displayName: 'Exposured', value: 'ExposureView'},
+    {displayName: 'Exposed', value: 'ExposureView'},
     {displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView'},
   ];
   return (
