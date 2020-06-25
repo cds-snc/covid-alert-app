@@ -48,7 +48,10 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
   const expandedContentWrapper = useMemo(
     () => (
       <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
-        <ContentComponent />
+        <View style={styles.content}>
+          <ContentComponent />
+        </View>
+
         <View style={styles.collapseContentHandleBar}>
           <TouchableOpacity
             onPress={toggleExpanded}
@@ -56,7 +59,7 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
             accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
             accessibilityRole="button"
           >
-            <Icon name="sheet-handle-bar-close" />
+            <Icon name="sheet-handle-bar-close" size={44} />
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -67,9 +70,13 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
     () => (
       <Animated.View style={{...styles.collapseContent, opacity: pow(bottomSheetPosition.current, 2)}}>
         <View style={styles.collapseContentHandleBar}>
-          <Icon name="sheet-handle-bar" />
+          <Icon name="sheet-handle-bar" size={44} />
         </View>
-        {CollapsedComponent ? <CollapsedComponent /> : null}
+        {CollapsedComponent ? (
+          <View style={styles.content}>
+            <CollapsedComponent />
+          </View>
+        ) : null}
       </Animated.View>
     ),
     [CollapsedComponent],
@@ -107,6 +114,9 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
 };
 
 const styles = StyleSheet.create({
+  content: {
+    marginTop: 10,
+  },
   collapseContent: {
     position: 'absolute',
     width: '100%',
