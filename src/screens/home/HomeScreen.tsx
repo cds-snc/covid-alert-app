@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, Box} from 'components';
-import {DevSettings} from 'react-native';
+import {DevSettings, Linking} from 'react-native';
 import {checkNotifications, requestNotifications} from 'react-native-permissions';
 import {
   SystemStatus,
@@ -121,10 +121,14 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   }
 };
 
+const showPushNotificationPrompt = (notificationStatus: string) => {
+  return notificationStatus === 'denied' || notificationStatus === 'blocked';
+};
+
 const CollapsedContent = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus === 'denied';
+  const showNotificationWarning = showPushNotificationPrompt(notificationStatus);
 
   // if (systemStatus === SystemStatus.Unknown) {
   //   return null;
@@ -142,9 +146,11 @@ const CollapsedContent = () => {
 const BottomSheetContent = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
+  const showNotificationWarning = showPushNotificationPrompt(notificationStatus);
   const maxWidth = useMaxContentWidth();
-
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
   // if (systemStatus === SystemStatus.Unknown) {
   //   return null;
   // }
@@ -153,7 +159,7 @@ const BottomSheetContent = () => {
     <OverlayView
       status={systemStatus}
       notificationWarning={showNotificationWarning}
-      turnNotificationsOn={turnNotificationsOn}
+      turnNotificationsOn={notificationStatus === 'blocked' ? toSettings : turnNotificationsOn}
       maxWidth={maxWidth}
     />
   );
@@ -182,7 +188,7 @@ export const HomeScreen = () => {
   }, [startExposureNotificationService]);
 
   const [notificationStatus] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
+  const showNotificationWarning = showPushNotificationPrompt(notificationStatus);
   const maxWidth = useMaxContentWidth();
   const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
 
