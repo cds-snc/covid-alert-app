@@ -40,9 +40,10 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
   const {width, height} = useWindowDimensions();
   const snapPoints = [height, Math.max(width, height) * (extraContent ? 0.3 : 0.2)];
 
+  // Need to add snapPoints to set enough height when BottomSheet is collapsed
   useEffect(() => {
     bottomSheetRef.current?.snapTo(isExpanded ? 0 : 1);
-  }, [width, isExpanded]);
+  }, [width, isExpanded, snapPoints]);
 
   const expandedContentWrapper = useMemo(
     () => (
