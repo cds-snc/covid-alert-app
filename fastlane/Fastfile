@@ -50,7 +50,7 @@ platform :ios do
 end
 
 platform :android do
-  lane :test do
+  lane :internal do
     gradle(
       task: 'bundle',
       build_type: 'Release',
