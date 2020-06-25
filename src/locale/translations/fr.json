@@ -8,7 +8,7 @@
     "Action": "Envoyer",
     "Cancel": "Annuler",
     "ConsentAction": "Accepter",
-    "ConsentBody1": "StopCOVID vous demandera l’autorisation de téléverser vos codes aléatoires des 14 derniers jours.",
+    "ConsentBody1": "StopCOVID vous demandera l’autorisation de téléverser vos codes aléatoires des 14\u00A0derniers jours.",
     "ConsentBody2": "Personne ne recevra d’information sur vous ou sur le moment où vous avez été en proximité.",
     "ConsentBody3": "Il s’agit de votre choix. Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
     "ConsentSubtitle": "C’est votre choix",
@@ -16,34 +16,34 @@
     "ErrorAction": "OK",
     "ErrorBody": "Votre code StopCOVID n’a pas pu être reconnu. Veuillez essayer à nouveau.",
     "ErrorTitle": "Code non reconnu",
-    "FormIntro": "Entrez votre numéro à 8 chiffres.",
+    "FormIntro": "Entrez votre numéro à 8\u00A0chiffres.",
     "HowItWorksLink": "Comment StopCOVID fonctionne",
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
     "InputLabel": "code StopCOVID",
     "PrivacyPolicyLink": "Comment StopCOVID protège votre vie privée",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "Step1": {
-      "Body": "Vous devriez avoir reçu un numéro à 8 chiffres quand vous avez eu votre diagnostic. Vous devez entrer ce numéro si vous voulez que StopCOVID avise les personnes qu’elles ont été exposées.\n\nEntrer le code est optionnel. Vous avez le choix. Mais vous pouvez aider à ralentir la propagation de COVID-19 si vous le faites.",
+      "Body": "Vous devriez avoir reçu un numéro à 8\u00A0chiffres quand vous avez eu votre diagnostic. Vous devez entrer ce numéro si vous voulez que StopCOVID avise les personnes qu’elles ont été exposées.\n\nEntrer le code est optionnel. Vous avez le choix. Mais vous pouvez aider à ralentir la propagation de COVID-19 si vous le faites.",
       "CTA": "Entrer le numéro",
-      "NoCode": "Vous n’avez pas de numéro à 8 chiffres?",
-      "Title": "Entrez votre numéro à 8 chiffres"
+      "NoCode": "Vous n’avez pas de numéro à 8\u00A0chiffres?",
+      "Title": "Entrez votre numéro à 8\u00A0chiffres"
     },
     "NoCode": {
       "NoRegion": {
-        "Title": "You skipped choosing province or territory",
-        "Body": "In some provinces and territories, people cannot yet report a COVID-19 diagnosis through this app.\n\nTo find out if you can get an 8-digit number, you need to choose your area.",
-        "ChooseRegionCTA": "Choose province or territory"
+        "Title": "Vous n’avez pas choisi de province ou de territoire",
+        "Body": "Dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nPour savoir si vous pouvez obtenir un numéro à 8\u00A0chiffres, vous devez sélectionner votre région.",
+        "ChooseRegionCTA": "Sélectionner une province ou un territoire"
       },
       "RegionCovered": {
-        "Title": "No 8-digit number?",
-        "Body": "Contact the person or office that gave you your results to get a number."
+        "Title": "Vous n’avez pas de numéro à 8\u00A0chiffres?  ",
+        "Body": "Contactez la personne ou le bureau qui vous a donné vos résultats afin d’obtenir un numéro."
       },
       "RegionNotCovered": {
-        "Title": "No reporting yet in your area",
-        "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nYou will not be able to notify people you’ve been near that they were exposed. But you can still take steps to:",
-        "Body2": "keep your community safe.",
-        "Body3": "protect people and pets you live with.",
-        "Body4": "take care of yourself."
+        "Title": "Pas encore de signalement dans votre région",
+        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nVous ne pourrez pas aviser les personnes dont vous avez été à proximité qu’elles ont été exposées. Mais vous pouvez tout de même prendre des mesures pour :",
+        "Body2": "assurer la sécurité de votre communauté;",
+        "Body3": "protéger les personnes et les animaux vivant avec vous;",
+        "Body4": "prendre soin de vous."
       }
     }
   },
@@ -107,7 +107,7 @@
         "Title": "Aucune exposition détectée"
       },
       "RegionNotCovered": {
-        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer StopCOVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si vous avez été près d’elles.",
+        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer StopCOVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
         "Title": "Pas encore de signalement dans votre région"
       }
@@ -121,10 +121,10 @@
     "ChangeLanguage": "Modifier la langue",
     "ChangeRegion": "Modifier la province",
     "CheckSymptoms": "Vérifier vos symptômes",
-    "LearnMore": "Fonctionnement de StopCOVIDS",
+    "LearnMore": "Fonctionnement de StopCOVID",
     "Privacy": "Lire la politique de confidentialité",
     "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
-    "TellAFriend": "Partager l'application"
+    "TellAFriend": "Partager l’application"
   },
   "LanguageSelect": {
     "Close": "Retour",
@@ -198,7 +198,7 @@
     "ExposureNotificationCardStatus": "Les notifications d'exposition à la COVID-19 sont ",
     "ExposureNotificationCardStatusOff": "DÉSACTIVÉES",
     "NotificationCardAction": "Activer les notifications",
-    "NotificationCardBody": "Vous ne recevrez pas de notifications poussées si vous avez peut-être été exposé à la COVID-19. Le fait d’être rapidement notifié d’une exposition potentielle est important pour ralentir la propagation de COVID-19.",
+    "NotificationCardBody": "Vous ne recevrez pas de notifications poussées en cas d’exposition potentielle à la COVID-19. Le fait d’être rapidement notifié d’une exposition potentielle est important pour ralentir la propagation de COVID-19.",
     "NotificationCardStatus": "Activer les notifications ",
     "NotificationCardStatusOff": "DÉSACTIVÉES"
   },
@@ -267,15 +267,15 @@
     "ActionEnd": "Terminé",
     "ActionNext": "Suivant",
     "Close": "Fermer",
-    "step-1": "Après son installation, StopCOVID s’exécute en arrière-plan sans interrompre vos activités.\n\nAlors que vous vaquez à vos activités, votre téléphone émet un code aléatoire par Bluetooth toutes les 5 minutes. L’application change fréquemment les codes. Ainsi, ils ne peuvent pas servir à vous identifier.",
+    "step-1": "Après son installation, StopCOVID s’exécute en arrière-plan sans interrompre vos activités.\n\nAlors que vous vaquez à vos activités, votre téléphone émet un code aléatoire par Bluetooth toutes les 5\u00A0minutes. L’application change fréquemment les codes. Ainsi, ils ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement de StopCOVID",
-    "step-2": "Chaque fois qu’une personne ayant installé StopCOVID se trouve près de vous, son téléphone émet des codes aléatoires que votre téléphone collecte et stocke. De même, l’autre téléphone collecte et stocke les codes aléatoires émis par le vôtre.\n\nLes téléphones émettent des codes aléatoires toutes les 5 minutes. Ces codes sont stockés sur chacun des téléphones de façon sécurisée.",
+    "step-2": "Chaque fois qu’une personne ayant installé StopCOVID se trouve près de vous, son téléphone émet des codes aléatoires que votre téléphone collecte et stocke. De même, l’autre téléphone collecte et stocke les codes aléatoires émis par votre téléphone.\n\nLes téléphones émettent des codes aléatoires toutes les 5\u00A0minutes. Ces codes sont stockés sur chacun des téléphones de façon sécurisée.",
     "step-2Title": "",
     "step-3": "L’application estime à quelle distance se trouvent les autres téléphones ayant StopCOVID. Pour ce faire, elle utilise la puissance de leur signal Bluetooth.\n\nSi vous êtes à moins d’une certaine distance pendant plus d’un certain temps, l’application enregistre une exposition.",
     "step-3Title": "",
     "step-4": "Si une personne ayant l’application a un diagnostic de COVID-19, elle peut décider de téléverser tous les codes émis par son téléphone. Les codes vont vers un serveur central.\n\nLe serveur ne reçoit que les codes. Il ne reçoit aucune information sur la personne.",
     "step-4Title": "",
-    "step-5": "Chaque jour, votre téléphone vérifie le serveur quand il a une connexion Internet. Il obtient une liste de codes aléatoires émis par les téléphones des personnes qui ont signalé un diagnostic avec l’application.\n\nL’application supprime les codes collectés après 14 jours.",
+    "step-5": "Chaque jour, votre téléphone vérifie le serveur quand il a une connexion Internet. Il obtient une liste de codes aléatoires émis par les téléphones des personnes qui ont signalé un diagnostic avec l’application.\n\nL’application supprime les codes collectés après 14\u00A0jours.",
     "step-5Title": "",
     "step-6": "L’application compare la liste de codes avec les codes aléatoires reçus d’autres téléphones.\n\nSi elle trouve des codes identiques, elle vérifie la puissance du signal Bluetooth et la durée pendant laquelle vous avez été à proximité. Si les codes sont associés à une exposition, l’application vous dira que vous avez peut-être été exposé.\n\nVous pouvez alors vous isoler et lire les recommandations de santé publique.",
     "step-6Title": ""
