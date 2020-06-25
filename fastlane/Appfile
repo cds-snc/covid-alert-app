@@ -3,4 +3,4 @@ apple_id ENV["APPLE_ID"]
 team_id ENV["TEAM_ID"]
 
 package_name ENV["APP_ID_ANDROID"]
-json_key_file "fastlane/certs/android/google-api-account.json"
+json_key_file ENV["PLAY_STORE_CREDENTIALS"]
