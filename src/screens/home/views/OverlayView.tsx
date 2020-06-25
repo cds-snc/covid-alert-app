@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {Box, InfoBlock, BoxProps} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton, ButtonMultiline} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
-import {useExposureStatus, SystemStatus} from 'services/ExposureNotificationService';
+import {SystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
+import {useNavigation} from '@react-navigation/native';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -46,6 +46,18 @@ const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
 
 const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
   return (
+    <InfoButton
+      title={i18n.translate('OverlayOpen.NotificationCardStatus')}
+      color="mainBackground"
+      internalLink
+      text={i18n.translate('OverlayOpen.NotificationCardBody')}
+      onPress={action}
+      variant="bigFlatNeutralGrey"
+    />
+  );
+
+  /*
+  return (
     <InfoBlock
       icon="icon-notifications"
       title={i18n.translate('OverlayOpen.NotificationCardStatus')}
@@ -56,6 +68,7 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
       color="overlayBodyText"
     />
   );
+  */
 };
 
 const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
@@ -77,15 +90,12 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
     );
   }
   return (
-    <InfoBlock
-      titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
-      text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
-      button={{
-        text: i18n.translate('OverlayOpen.EnterCodeCardAction'),
-        action: () => navigation.navigate('DataSharing'),
-      }}
-      backgroundColor="infoBlockNeutralBackground"
-      color="infoBlockBrightText"
+    <ButtonMultiline
+      text={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
+      text1={i18n.translate('OverlayOpen.EnterCodeCardAction')}
+      variant="bigFlat"
+      internalLink
+      onPress={() => navigation.navigate('DataSharing')}
     />
   );
 };
@@ -104,6 +114,9 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
       <Box marginBottom="l">
         <StatusHeaderView enabled={status === SystemStatus.Active} />
       </Box>
+      <Box marginBottom="m" marginTop="xxl" marginHorizontal="m">
+        <ShareDiagnosisCode i18n={i18n} />
+      </Box>
       {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
         <Box marginBottom="m" marginHorizontal="m">
           <SystemStatusOff i18n={i18n} />
@@ -119,9 +132,6 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
           <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
         </Box>
       )}
-      <Box marginBottom="m" marginHorizontal="m">
-        <ShareDiagnosisCode i18n={i18n} />
-      </Box>
       <Box marginBottom="m" marginHorizontal="m">
         <InfoShareView />
       </Box>

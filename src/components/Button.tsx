@@ -43,7 +43,7 @@ export const Button = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, color, borderWidth, height} = (themedStyles as unknown) as TextStyle &
+  const {fontSize, fontWeight, fontFamily, color, borderBottomWidth, height} = (themedStyles as unknown) as TextStyle &
     ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
@@ -63,9 +63,10 @@ export const Button = ({
       borderRadius={4}
       alignItems="center"
       justifyContent="center"
-      style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
-      paddingHorizontal="m"
-      paddingVertical="m"
+      shadowColor="bodyText"
+      style={{backgroundColor: color, minHeight: height, borderBottomWidth, borderBottomColor: palette.fadedWhiteDark}}
+      paddingHorizontal="xxs"
+      paddingVertical="xxs"
       flexDirection="row"
     >
       {loading ? (
@@ -75,8 +76,10 @@ export const Button = ({
           <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
             {text}
           </Text>
-          {externalLink && <Icon name={externalArrowIcon} />}
-          {internalLink && <Icon name="icon-chevron" />}
+          <Box style={{...styles.chevronOffset}}>
+            {externalLink && <Icon name={externalArrowIcon} />}
+            {internalLink && <Icon size={40} name="icon-chevron" />}
+          </Box>
         </>
       )}
     </Box>
@@ -107,6 +110,12 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   content: {
-    textAlign: 'center',
+    textAlign: 'left',
+    marginRight: 20,
+  },
+  chevronOffset: {
+    position: 'absolute',
+    right: 5,
+    top: 10,
   },
 });

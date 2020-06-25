@@ -8,8 +8,8 @@ export const NetworkDisabledView = () => {
   const [i18n] = useI18n();
   return (
     <BaseHomeView>
-      <Box marginBottom="l">
-        <Icon name="icon-offline" size={44} />
+      <Box marginBottom="l" marginLeft="-xxl">
+        <Icon name="icon-bluetooth-disabled" size={152} />
       </Box>
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.NoConnectivity')}

@@ -13,7 +13,7 @@ export const ExposureNotificationsDisabledView = () => {
   }, []);
 
   return (
-    <BaseHomeView>
+    <BaseHomeView iconName="icon-bluetooth-disabled">
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.ExposureNotificationsDisabled')}
       </Text>

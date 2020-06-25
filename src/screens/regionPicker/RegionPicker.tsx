@@ -24,9 +24,6 @@ export const RegionPickerScreen = () => {
             <Text marginBottom="s" variant="bodyTitle" color="overlayBodyText" accessibilityRole="header">
               {i18n.translate('RegionPicker.Title')}
             </Text>
-            <Text variant="smallText" color="dangerText" accessibilityRole="header">
-              {i18n.translate('RegionPicker.Optional')}
-            </Text>
             <Text marginVertical="m" variant="bodyText" color="overlayBodyText">
               {i18n.translate('RegionPicker.Body')}
             </Text>
@@ -62,7 +59,7 @@ export const RegionPickerScreen = () => {
         >
           <Button
             text={i18n.translate(`RegionPicker.${selectedRegion === 'None' ? 'Skip' : 'GetStarted'}`)}
-            variant={selectedRegion === 'None' ? 'bigHollow' : 'bigFlat'}
+            variant={selectedRegion === 'None' ? 'thinFlatNeutralGrey' : 'thinFlat'}
             onPress={async () => {
               await setOnboarded(true);
               await persistRegion(selectedRegion);
