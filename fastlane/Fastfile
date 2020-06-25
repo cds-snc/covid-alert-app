@@ -18,7 +18,7 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: {
-          "ca.tbs-sct.covid" => "SapphireDevelopmentProfile"
+          ENV["APP_ID_IOS"] => ENV["PROFILE"]
         }
       }
     )
@@ -30,6 +30,8 @@ platform :ios do
       output_path: "fastlane/certs"
     )
     get_provisioning_profile(
+      adhoc: true,
+      provisioning_name: ENV["PROFILE_ADHOC"],
       output_path: "fastlane/certs"
     )
 
@@ -40,7 +42,7 @@ platform :ios do
       output_directory: "./build",
       export_options: {
         provisioningProfiles: {
-          "ca.tbs-sct.covid" => "ExposureNotification-ADHOC"
+          ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
         }
       }
     )
@@ -48,16 +50,25 @@ platform :ios do
 end
 
 platform :android do
-  lane :beta do
+  lane :internal do
     gradle(
       task: 'bundle',
       build_type: 'Release',
       project_dir: 'android/'
     )
     upload_to_play_store(
-      track: 'beta',
+      track: 'internal',
       release_status: 'draft',
-      aab: 'android/app/build/outputs/bundle/release/app-release.aab'
+      skip_upload_apk: true,
+      aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]
+    )
+  end
+
+  lane :local do
+    gradle(
+      task: 'assemble',
+      build_type: 'Release',
+      project_dir: 'android/'
     )
   end
 end
