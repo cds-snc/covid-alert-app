@@ -3,7 +3,6 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, Box} from 'components';
 import {DevSettings} from 'react-native';
-import {checkNotifications, requestNotifications} from 'react-native-permissions';
 import {
   SystemStatus,
   useExposureStatus,
@@ -30,7 +29,11 @@ import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
 import {OverlayView} from './views/OverlayView';
 
-type NotificationPermission = 'denied' | 'granted' | 'unavailable' | 'blocked';
+import {
+  useNotificationPermissionStatus,
+  NotificationPermissionStatusProvider,
+} from './components/NotificationPermissionStatus';
+
 type BackgroundColor = keyof Theme['colors'];
 
 interface ContentProps {
@@ -40,31 +43,6 @@ interface ContentProps {
 const strToBackgroundColor = (backgroundColor: string): BackgroundColor => {
   const color: BackgroundColor = backgroundColor as BackgroundColor;
   return color;
-};
-
-const useNotificationPermissionStatus = (): [string, () => void] => {
-  const [status, setStatus] = useState<NotificationPermission>('granted');
-
-  checkNotifications()
-    .then(({status}) => {
-      setStatus(status);
-    })
-    .catch(error => {
-      console.log(error);
-      setStatus('unavailable');
-    });
-
-  const request = () => {
-    requestNotifications(['alert'])
-      .then(({status}) => {
-        setStatus(status);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  return [status, request];
 };
 
 const Content = ({setBackgroundColor}: ContentProps) => {
@@ -159,6 +137,14 @@ const BottomSheetContent = () => {
   );
 };
 
+const BottomSheetWrapper = () => {
+  const [notificationStatus] = useNotificationPermissionStatus();
+  const showNotificationWarning = notificationStatus !== 'granted';
+  return (
+    <BottomSheet content={BottomSheetContent} collapsed={CollapsedContent} extraContent={showNotificationWarning} />
+  );
+};
+
 export const HomeScreen = () => {
   const navigation = useNavigation();
   useEffect(() => {
@@ -181,23 +167,17 @@ export const HomeScreen = () => {
     startExposureNotificationService();
   }, [startExposureNotificationService]);
 
-  const [notificationStatus] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
   const maxWidth = useMaxContentWidth();
   const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
 
   return (
-    <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
-      <Box flex={1} maxWidth={maxWidth} paddingTop="m">
-        <Content setBackgroundColor={setBackgroundColor} />
+    <NotificationPermissionStatusProvider>
+      <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
+        <Box flex={1} maxWidth={maxWidth} paddingTop="m">
+          <Content setBackgroundColor={setBackgroundColor} />
+        </Box>
+        <BottomSheetWrapper />
       </Box>
-      <BottomSheet
-        // need to change the key here so bottom sheet is rerendered. This is because the snap points change.
-        key={showNotificationWarning ? 'notifications-disabled' : 'notifications-enabled'}
-        content={BottomSheetContent}
-        collapsed={CollapsedContent}
-        extraContent={showNotificationWarning}
-      />
-    </Box>
+    </NotificationPermissionStatusProvider>
   );
 };
