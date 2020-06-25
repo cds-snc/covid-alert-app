@@ -164,6 +164,30 @@ cp debug.keystore ~/.android/debug.keystore
 
 Now you can run `yarn run-android` in your root folder.
 
+### [MacOS] Problem installing Cocoapods
+
+When following step _2.1.1 Install Cocoapods_ if you recieve an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
+
+```bash
+ERROR:  Loading command: install (LoadError)
+  dlopen(/Users/$home/ruby/2.6.5/x86_64-darwin18/openssl.bundle, 9): Library not loaded: /usr/local/opt/openssl/lib/libssl.1.0.0.dylib
+  Referenced from: /Users/$home/ruby/2.6.5/x86_64-darwin18/openssl.bundle
+ERROR:  While executing gem ... (NoMethodError)
+```
+
+This is because the version of Ruby you have installed does not have OpenSSL included.
+
+You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of ruby required with OpenSSL using the following steps:
+
+1. Install RVM following the instructions here: https://rvm.io/
+1. Run the following command to install the version of Ruby needed with OpenSSL included, this will take a few minutes so be patient.
+
+```bash
+rvm reinstall 2.6.5 --with-openssl-dir=/usr/local/opt/openssl
+```
+
+You should now be able to install cocoapods and gem commands should now work.
+
 ## ---------------------------------------------------------------------
 
 # Application mobile COVID Shield
