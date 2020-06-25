@@ -210,7 +210,7 @@ const theme = {
       textColor: palette.white,
       fontFamily: 'Noto Sans',
       fontSize: 18,
-      borderBottomWidth: 2,
+      borderBottomWidth: 4,
       paddingHorizontal: 5,
       paddingVertical: 10,
       disabled: {
@@ -233,7 +233,7 @@ const theme = {
       textColor: palette.black,
       fontFamily: 'Noto Sans',
       fontSize: 18,
-      borderBottomWidth: 2,
+      borderBottomWidth: 4,
       disabled: {},
     },
     bigFlatDarkGrey: {
