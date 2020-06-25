@@ -87,7 +87,6 @@ const Content = ({setBackgroundColor}: ContentProps) => {
     }
   };
 
-  return <ExposureView />;
   switch (exposureStatus.type) {
     case 'exposed':
       return <ExposureView />;
