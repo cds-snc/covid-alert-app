@@ -7160,10 +7160,10 @@ react-native-localize@^1.4.0:
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-1.4.0.tgz#4653596d066d0941c48f5404dc1c0d08b6950443"
   integrity sha512-W2MQxm6hzD549ZbZcbWzWtYJseY7S7WR2WgsNhm9ULmbwP7tXFfOTbkJjQoqgPXYSXogKN3srXhntVsNZL0Ksw==
 
-react-native-markdown-display@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-markdown-display/-/react-native-markdown-display-6.1.0.tgz#13b09b093b38fbc8beb5fd0fa71d5abec702e8ef"
-  integrity sha512-J0YmF7ep7svkdp5Tp5TM2Ib3cPd5Nsa+3JVvb2JMu62cCb/mICfdKw/WDJ9LH5jq/5Sr1E4CESyUXz5GIw4FUA==
+react-native-markdown-display@^6.1.2:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-markdown-display/-/react-native-markdown-display-6.1.4.tgz#374a59f1bad99eb00f3c8cd12c8bf35715733b3e"
+  integrity sha512-HjTN5lbShueu1x9QYUj6mJ9WtanzSGGDKc3+qybxjQnV/SikPYbEb0sRpSoUGbhJ0svZbUtUFV7V3pjcXeuEjg==
   dependencies:
     css-to-react-native "^3.0.0"
     markdown-it "^10.0.0"
