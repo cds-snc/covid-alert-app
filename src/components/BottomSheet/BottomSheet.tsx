@@ -49,14 +49,16 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
     () => (
       <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
         <ContentComponent />
-        <TouchableOpacity
-          onPress={toggleExpanded}
-          style={styles.collapseButton}
-          accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
-          accessibilityRole="button"
-        >
-          <Icon name="icon-chevron" />
-        </TouchableOpacity>
+        <View style={styles.collapseContentHandleBar}>
+          <TouchableOpacity
+            onPress={toggleExpanded}
+            style={styles.collapseButton}
+            accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+            accessibilityRole="button"
+          >
+            <Icon name="sheet-handle-bar-close" />
+          </TouchableOpacity>
+        </View>
       </Animated.View>
     ),
     [i18n, toggleExpanded],
@@ -116,16 +118,10 @@ const styles = StyleSheet.create({
     top: -24,
   },
   collapseButton: {
-    position: 'absolute',
-    top: 0,
-    right: 15,
     height: 30,
-    width: 30,
-    borderRadius: 15,
-    backgroundColor: 'rgba(118, 118, 128, 0.12)',
+    width: 44,
     alignItems: 'center',
     justifyContent: 'center',
-    transform: [{rotate: '90deg'}],
   },
   spacer: {
     marginBottom: -18,
