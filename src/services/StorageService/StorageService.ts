@@ -7,12 +7,14 @@ export enum Key {
   IsOnboarded = 'IsOnboarded',
   Locale = 'Locale',
   Region = 'Region',
+  ForceScreen = 'ForceScreen',
 }
 
 export class StorageService {
   isOnboarding: Observable<boolean>;
   locale: Observable<string>;
   region: Observable<Region | undefined>;
+  forceScreen: Observable<string | undefined>;
 
   ready: Observable<boolean>;
 
@@ -21,6 +23,7 @@ export class StorageService {
     this.locale = new Observable<string>(getSystemLocale());
     this.ready = new Observable<boolean>(false);
     this.region = new Observable<Region | undefined>(undefined);
+    this.forceScreen = new Observable<string | undefined>(undefined);
     this.init();
   }
 
@@ -39,6 +42,11 @@ export class StorageService {
     this.region.set(value);
   };
 
+  setForceScreen = async (value: string | undefined) => {
+    await AsyncStorage.setItem(Key.ForceScreen, value ? value : '');
+    this.forceScreen.set(value);
+  };
+
   private init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
@@ -48,6 +56,9 @@ export class StorageService {
 
     const region = ((await AsyncStorage.getItem(Key.Region)) as Region | undefined) || undefined;
     this.region.set(region);
+
+    const forceScreen = ((await AsyncStorage.getItem(Key.ForceScreen)) as string | undefined) || undefined;
+    this.forceScreen.set(forceScreen);
 
     this.ready.set(true);
   };

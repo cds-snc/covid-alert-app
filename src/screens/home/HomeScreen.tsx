@@ -76,6 +76,17 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
 
+  // this is for the test menu
+  const {forceScreen} = useStorage();
+  switch (forceScreen) {
+    case 'ExposureView':
+      return <ExposureView />;
+    case 'DiagnosedShareView':
+      return <DiagnosedShareView />;
+    default:
+      break;
+  }
+
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
       case 'noRegionSet':
