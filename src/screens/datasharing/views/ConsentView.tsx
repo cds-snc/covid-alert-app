@@ -67,7 +67,7 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
         </Box>
       </ScrollView>
       <Box paddingHorizontal="m" marginBottom="m">
-        <Button variant="bigFlat" text={i18n.translate('DataUpload.ConsentAction')} onPress={handleUpload} />
+        <Button variant="thinFlat" text={i18n.translate('DataUpload.ConsentAction')} onPress={handleUpload} />
       </Box>
     </>
   );

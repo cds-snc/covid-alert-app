@@ -43,7 +43,7 @@ export const Button = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, color, borderWidth, height} = (themedStyles as unknown) as TextStyle &
+  const {fontSize, fontWeight, fontFamily, color, borderBottomWidth, height} = (themedStyles as unknown) as TextStyle &
     ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
@@ -63,9 +63,10 @@ export const Button = ({
       borderRadius={4}
       alignItems="center"
       justifyContent="center"
-      style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
-      paddingHorizontal="m"
-      paddingVertical="m"
+      shadowColor="bodyText"
+      style={{backgroundColor: color, minHeight: height, borderBottomWidth, borderBottomColor: palette.fadedWhiteDark}}
+      paddingHorizontal="xxs"
+      paddingVertical="xxs"
       flexDirection="row"
     >
       {loading ? (

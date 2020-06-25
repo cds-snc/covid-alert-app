@@ -40,7 +40,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
         <Button
           loading={loading}
           disabled={value.length !== 8}
-          variant="bigFlat"
+          variant="thinFlat"
           text={i18n.translate('DataUpload.Action')}
           onPress={handleVerify}
         />
