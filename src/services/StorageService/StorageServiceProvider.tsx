@@ -40,9 +40,13 @@ export const useStorage = () => {
   const [region, setRegionInternal] = useState(storageService.region.value);
   const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);
 
+  const [forceScreen, setForceScreenInternal] = useState(storageService.forceScreen.value);
+  const setForceScreen = useMemo(() => storageService.setForceScreen, [storageService.setForceScreen]);
+
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
+  useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
@@ -62,8 +66,10 @@ export const useStorage = () => {
       setLocale,
       region,
       setRegion,
+      forceScreen,
+      setForceScreen,
       reset,
     }),
-    [isOnboarding, locale, region, reset, setLocale, setOnboarded, setRegion],
+    [forceScreen, isOnboarding, locale, region, reset, setForceScreen, setLocale, setOnboarded, setRegion],
   );
 };
