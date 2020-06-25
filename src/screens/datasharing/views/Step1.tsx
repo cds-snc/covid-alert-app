@@ -1,8 +1,8 @@
 import React, {useCallback} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   onSuccess: () => void;
@@ -10,9 +10,9 @@ interface Props {
 
 export const Step1 = ({onSuccess}: Props) => {
   const [i18n] = useI18n();
-  const navigation = useNavigation();
 
-  const toHowItWorks = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
+  const navigation = useNavigation();
+  const onNoCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
 
   return (
     <>
@@ -29,7 +29,7 @@ export const Step1 = ({onSuccess}: Props) => {
             <Button variant="bigFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
           </Box>
           <Box marginBottom="m">
-            <Button variant="text" text={i18n.translate('DataUpload.Step1.NoCode')} onPress={toHowItWorks} />
+            <Button variant="text" text={i18n.translate('DataUpload.Step1.NoCode')} onPress={onNoCode} />
           </Box>
         </Box>
       </ScrollView>

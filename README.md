@@ -4,7 +4,7 @@
 
 ![Lint + Typscript](https://github.com/CovidShield/mobile/workflows/CI/badge.svg)
 
-Adapted from <https://github.com/CovidShield/mobile> ([see changes](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
+Adapted from <https://github.com/CovidShield/mobile> ([upstream](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
 
 This repository implements a React Native _client application_ for Apple/Google's [Exposure
 Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/). For more information on how this all works, read through the [COVID Shield Rationale](https://github.com/CovidShield/rationale).
@@ -163,6 +163,30 @@ cp debug.keystore ~/.android/debug.keystore
 ```
 
 Now you can run `yarn run-android` in your root folder.
+
+### [MacOS] Problem installing Cocoapods
+
+When following step _2.1.1 Install Cocoapods_ if you recieve an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
+
+```bash
+ERROR:  Loading command: install (LoadError)
+  dlopen(/Users/$home/ruby/2.6.5/x86_64-darwin18/openssl.bundle, 9): Library not loaded: /usr/local/opt/openssl/lib/libssl.1.0.0.dylib
+  Referenced from: /Users/$home/ruby/2.6.5/x86_64-darwin18/openssl.bundle
+ERROR:  While executing gem ... (NoMethodError)
+```
+
+This is because the version of Ruby you have installed does not have OpenSSL included.
+
+You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of ruby required with OpenSSL using the following steps:
+
+1. Install RVM following the instructions here: https://rvm.io/
+1. Run the following command to install the version of Ruby needed with OpenSSL included, this will take a few minutes so be patient.
+
+```bash
+rvm reinstall 2.6.5 --with-openssl-dir=/usr/local/opt/openssl
+```
+
+You should now be able to install cocoapods and gem commands should now work.
 
 ## ---------------------------------------------------------------------
 
