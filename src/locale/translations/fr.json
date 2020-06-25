@@ -136,6 +136,7 @@
     "Body2": "votre identité",
     "Body3": "les endroits où vous êtes allé",
     "Body4": "les personnes avec qui vous avez été",
+    "Body5": "Vous pouvez le supprimer à tout moment",
     "Intro": "StopCOVID n’utilise pas le GPS ou les services de localisation. Il n’a aucun moyen de connaître :",
     "Title": "Aucun suivi de position"
   },
@@ -266,6 +267,7 @@
     "Body2": "vos contacts",
     "Body3": "toute précision sur vous ou sur les personnes à proximité",
     "Body4": "vos informations de santé",
+    "Body5": "",
     "Intro": "StopCOVID n’a aucun moyen de connaître :",
     "Title": "Complètement anonyme"
   }
