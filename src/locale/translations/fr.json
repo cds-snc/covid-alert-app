@@ -204,8 +204,8 @@
     "ExposureNotificationCardStatus": "Les notifications d'exposition à la COVID-19 sont ",
     "ExposureNotificationCardStatusOff": "DÉSACTIVÉES",
     "NotificationCardAction": "Activer les notifications",
-    "NotificationCardBody": "Vous ne recevrez pas de notifications poussées en cas d’exposition potentielle à la COVID-19. Le fait d’être rapidement notifié d’une exposition potentielle est important pour ralentir la propagation de COVID-19.",
-    "NotificationCardStatus": "Activer les notifications ",
+    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
+    "NotificationCardStatus": "Les notifications poussées sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES"
   },
   "Partners": {
