@@ -5,24 +5,24 @@ import {useI18n} from '@shopify/react-i18n';
 
 import {OnboardingHeader} from '../components/OnboardingHeader';
 
-export const Start = () => {
+export const WhatItsNot = () => {
   const [i18n] = useI18n();
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} paddingHorizontal="xl" marginTop="xl">
         <OnboardingHeader
-          text={i18n.translate('Onboarding.Start.Title')}
-          imageSrc={require('assets/onboarding-start.png')}
+          text={i18n.translate('Onboarding.WhatItsNot.Title')}
+          imageSrc={require('assets/onboarding-neighbourhood.png')}
         />
 
         <Box marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('Onboarding.Start.Body1')}
+            {i18n.translate('Onboarding.WhatItsNot.Body1')}
           </Text>
         </Box>
         <Box marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('Onboarding.Start.Body2')}
+            {i18n.translate('Onboarding.WhatItsNot.Body2')}
           </Text>
         </Box>
       </Box>

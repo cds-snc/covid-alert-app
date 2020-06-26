@@ -10,7 +10,7 @@ export const NoExposureCoveredRegionView = () => {
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
       </Text>
       <Text variant="bodyText" color="bodyText" marginBottom="m">
