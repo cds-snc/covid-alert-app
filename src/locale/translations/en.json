@@ -111,8 +111,12 @@
     "Start": {
       "Title": "Join the effort to slow the spread",
       "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
-      "Body2": "That way, you can isolate right away and stop the spread.",
-      "TutorialAction": "Learn how StopCOVID works"
+      "Body2": "That way, you can isolate right away and stop the spread."
+    },
+    "WhatItsNot": {
+      "Title": "What COVID Alert does not do",
+      "Body1": "The app will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
+      "Body2": "It will not tell you about outbreaks in your city or neighbourhood."
     },
     "Anonymous": {
       "Title": "Totally Anonymous",

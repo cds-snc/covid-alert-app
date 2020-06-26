@@ -7,20 +7,20 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
-import {Anonymous} from './views/Anonymous';
-import {Permissions} from './views/Permissions';
 import {Start} from './views/Start';
-import {YourData} from './views/YourData';
+import {WhatItsNot} from './views/WhatItsNot';
+import {Anonymous} from './views/Anonymous';
 import {HowItWorks} from './views/HowItWorks';
+import {Permissions} from './views/Permissions';
 
-type ViewKey = 'start' | 'anonymous' | 'yourdata' | 'permissions' | 'howItWorks';
+type ViewKey = 'start' | 'whatItsNot' | 'anonymous' | 'yourdata' | 'permissions' | 'howItWorks';
 
-const contentData: ViewKey[] = ['start', 'anonymous', 'howItWorks', 'yourdata', 'permissions'];
+const contentData: ViewKey[] = ['start', 'whatItsNot', 'anonymous', 'howItWorks', 'permissions'];
 const viewComponents = {
   start: Start,
+  whatItsNot: WhatItsNot,
   anonymous: Anonymous,
   howItWorks: HowItWorks,
-  yourdata: YourData,
   permissions: Permissions,
 };
 
