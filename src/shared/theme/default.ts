@@ -148,7 +148,7 @@ const theme = {
       textColor: palette.black,
       fontFamily: 'Noto Sans',
       fontSize: 18,
-      borderWidth: undefined,
+      borderBottomWidth: 4,
       disabled: {
         color: palette.darkGrey,
         textColor: palette.bodyBlack,
