@@ -149,36 +149,36 @@
     "ActionEnd": "Terminé",
     "ActionNext": "Suivant",
     "Start": {
-      "Title": "Join the effort to slow the spread",
-      "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
-      "Body2": "That way, you can isolate right away and stop the spread."
+      "Title": "Joignez-vous à l’effort commun pour ralentir la propagation ",
+      "Body1": "Alerte COVID vous avise si jamais une personne dont vous avez été à proximité signale un test positif à l’application. ",
+      "Body2": "Ainsi, vous pouvez rapidement vous isoler pour freiner la propagation de la COVID-19."
     },
     "WhatItsNot": {
-      "Title": "What COVID Alert does not do",
-      "Body1": "The app will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
-      "Body2": "It will not tell you about outbreaks in your city or neighbourhood."
+      "Title": "Ce qu’Alerte COVID ne fait pas",
+      "Body1": "L’application ne vous dira pas sur-le-champ que vous êtes près d’une personne ayant eu un diagnostic.",
+      "Body2": "Elle ne vous renseignera pas sur les vagues de COVID-19 dans votre ville ou votre quartier."
     },
     "Anonymous": {
-      "Title": "Totally Anonymous",
-      "Body1": "COVID Alert does not use GPS or location services.",
-      "Body2": "It has no way of knowing:",
-      "Bullet1": "your location",
-      "Bullet2": "your name or address",
-      "Bullet3": "your phone's contacts",
-      "Bullet4": "your health information"
+      "Title": "Totalement anonyme",
+      "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
+      "Body2": "Elle n’a aucun moyen de connaître\u00A0:",
+      "Bullet1": "votre position",
+      "Bullet2": "votre nom ou votre adresse",
+      "Bullet3": "les contacts de votre téléphone",
+      "Bullet4": "vos informations de santé"
     },
     "HowItWorks": {
-      "Title": "How it works",
-      "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
-      "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
-      "Body3": "If you’ve been near one of those codes in the past 14 days, you’ll get a notification.",
-      "HowItWorksCTA": "Learn more about how it works"
+      "Title": "Fonctionnement",
+      "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
+      "Body2": "Chaque jour, elle vérifie une liste de code aléatoires provenant des personnes ayant signalé un test positif à l’application.",
+      "Body3": "Si votre téléphone a reçu l’un de ces codes au cours des 14\u00A0derniers jours, vous recevrez une notification.",
+      "HowItWorksCTA": "En savoir plus sur le fonctionnement"
     },
     "Permissions": {
-      "Title": "The app will now ask your permission",
-      "Body1": "Allow the app to start logging random codes or “random IDs” when you’re near other phones. The app will access the date, duration and signal strength related to the random codes, but they never leave your phone.",
-      "Body2": "You’ll also need to enable push notifications.",
-      "PrivacyButtonCTA": "Learn more about privacy"
+      "Title": "L’application demandera votre autorisation",
+      "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. Elle connaîtra la date, la durée et la puissance de signal associées à ces codes aléatoires, mais ces données restent sur votre téléphone. ",
+      "Body2": "Vous devez aussi activer les notifications poussées.",
+      "PrivacyButtonCTA": "En savoir plus sur la confidentialité"
     }
   },
   "OverlayClosed": {
