@@ -14,14 +14,13 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   }, []);
 
   return (
-    <InfoBlock
-      icon="icon-exposure-notifications-off"
-      title={i18n.translate('OverlayOpen.ExposureNotificationCardStatus')}
-      titleBolded={i18n.translate('OverlayOpen.ExposureNotificationCardStatusOff')}
+    <InfoButton
+      title={i18n.translate('OverlayOpen.ExposureNotificationCardAction')}
       text={i18n.translate('OverlayOpen.ExposureNotificationCardBody')}
-      button={{text: i18n.translate('OverlayOpen.ExposureNotificationCardAction'), action: toSettings}}
-      backgroundColor="errorBackground"
-      color="errorText"
+      color="danger25Background"
+      variant="danger50Flat"
+      internalLink
+      onPress={toSettings}
     />
   );
 };
@@ -31,15 +30,13 @@ const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
     Linking.openSettings();
   }, []);
   return (
-    <InfoBlock
-      icon="icon-bluetooth-off"
-      title={i18n.translate('OverlayOpen.BluetoothCardStatus')}
-      titleBolded={i18n.translate('OverlayOpen.BluetoothCardStatusOff')}
+    <InfoButton
+      title={i18n.translate('OverlayOpen.BluetoothCardAction')}
+      color="danger25Background"
+      internalLink
+      variant="danger50Flat"
       text={i18n.translate('OverlayOpen.BluetoothCardBody')}
-      button={{text: i18n.translate('OverlayOpen.BluetoothCardAction'), action: toSettings}}
-      backgroundColor="errorBackground"
-      color="errorText"
-      showButton={false}
+      onPress={toSettings}
     />
   );
 };

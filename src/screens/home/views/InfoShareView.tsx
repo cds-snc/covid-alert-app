@@ -63,7 +63,7 @@ export const InfoShareView = () => {
         {/* <InfoShareItem onPress={onShare} text={i18n.translate('Info.TellAFriend')} icon="icon-share" /> */}
         <InfoShareItem lastItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
       </Box>
-      <Box paddingHorizontal="m" borderRadius={10} backgroundColor="infoBlockNeutralBackground" marginTop="m">
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginTop="m">
         <InfoShareItem
           onPress={onLanguage}
           text={i18n.translate('Info.ChangeLanguage')}
@@ -76,7 +76,7 @@ export const InfoShareView = () => {
           icon="icon-chevron"
           lastItem={false}
         />
-        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" lastItem={false} />
+        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" lastItem />
       </Box>
     </>
   );
