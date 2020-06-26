@@ -50,13 +50,7 @@ export const InfoShareView = () => {
 
   return (
     <>
-      <Box
-        paddingHorizontal="m"
-        borderRadius={10}
-        overflow="hidden"
-        backgroundColor="infoBlockNeutralBackground"
-        marginBottom="m"
-      >
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
         <InfoShareItem
           onPress={onRegion}
           text={i18n.translate('Info.ChangeRegion')}
