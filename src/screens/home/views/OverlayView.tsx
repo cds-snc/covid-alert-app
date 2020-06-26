@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Box, InfoBlock, BoxProps, InfoButton, ButtonMultiline} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
 import {SystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
