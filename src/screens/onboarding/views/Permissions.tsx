@@ -10,36 +10,27 @@ export const Permissions = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
-  const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} marginTop="xl" paddingHorizontal="xl">
-        <OnboardingHeader text={i18n.translate('OnboardingPermissions.Title')} />
+        <OnboardingHeader text={i18n.translate('Onboarding.Permissions.Title')} />
         <Box marginBottom="l">
           <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('OnboardingPermissions.Body1')}
+            {i18n.translate('Onboarding.Permissions.Body1')}
           </Text>
         </Box>
         <Box marginBottom="l">
           <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('OnboardingPermissions.Body2')}
+            {i18n.translate('Onboarding.Permissions.Body2')}
           </Text>
         </Box>
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box marginTop="xxs">
             <ButtonSingleLine
-              text={i18n.translate('OnboardingPermissions.PrivacyButtonCTA')}
+              text={i18n.translate('Onboarding.Permissions.PrivacyButtonCTA')}
               variant="bigFlatNeutralGrey"
               internalLink
               onPress={onPrivacy}
-            />
-          </Box>
-          <Box marginTop="xxs">
-            <ButtonSingleLine
-              text={i18n.translate('OnboardingPermissions.HowItWorksCTA')}
-              variant="bigFlatNeutralGrey"
-              internalLink
-              onPress={onLearnMore}
             />
           </Box>
         </Box>

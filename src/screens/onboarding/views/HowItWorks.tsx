@@ -13,21 +13,26 @@ export const HowItWorks = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} marginTop="xl" paddingHorizontal="xl">
-        <OnboardingHeader text={i18n.translate('HowItWorks.Title')} />
+        <OnboardingHeader text={i18n.translate('Onboarding.HowItWorks.Title')} />
         <Box marginBottom="l">
           <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('HowItWorks.Body1')}
+            {i18n.translate('Onboarding.HowItWorks.Body1')}
           </Text>
         </Box>
         <Box marginBottom="l">
           <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('OnboardingPermissions.Body2')}
+            {i18n.translate('Onboarding.HowItWorks.Body2')}
+          </Text>
+        </Box>
+        <Box marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText">
+            {i18n.translate('Onboarding.HowItWorks.Body3')}
           </Text>
         </Box>
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box marginTop="xxs">
             <ButtonSingleLine
-              text={i18n.translate('OnboardingPermissions.HowItWorksCTA')}
+              text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
               variant="bigFlatNeutralGrey"
               internalLink
               onPress={onLearnMore}

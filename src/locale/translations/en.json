@@ -107,29 +107,37 @@
   "Onboarding": {
     "ActionNext": "Next",
     "ActionEnd": "Done",
-    "ActionBack": "Back"
+    "ActionBack": "Back",
+    "Start": {
+      "Title": "Join the effort to slow the spread",
+      "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
+      "Body2": "That way, you can isolate right away and stop the spread.",
+      "TutorialAction": "Learn how StopCOVID works"
+    },
+    "Anonymous": {
+      "Title": "Totally Anonymous",
+      "Body1": "COVID Alert does not use GPS or location services.",
+      "Body2": "It has no way of knowing:",
+      "Bullet1": "your location",
+      "Bullet2": "your name or address",
+      "Bullet3": "your phone's contacts",
+      "Bullet4": "your health information"
+    },
+    "HowItWorks": {
+      "Title": "How it works",
+      "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
+      "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
+      "Body3": "If you’ve been near one of those codes in the past 14 days, you’ll get a notification.",
+      "HowItWorksCTA": "Learn more about how it works"
+    },
+    "Permissions": {
+      "Title": "The app will now ask your permission",
+      "Body1": "Allow the app to start logging random codes or “random IDs” when you’re near other phones. The app will access the date, duration and signal strength related to the random codes, but they never leave your phone.",
+      "Body2": "You’ll also need to enable push notifications.",
+      "PrivacyButtonCTA": "Learn more about privacy"
+    }
   },
-  "OnboardingPermissions": {
-    "Title": "Your data is private",
-    "Body": "StopCOVID takes a privacy-first approach to exposure notification.",
-    "Body2": "Your random IDs are stored exgclusively on your phone unless you choose to share them.",
-    "Body3": "Use of StopCOVID is voluntary. You can delete your random IDs at any time."
-  },
-  "OnboardingStart": {
-    "Title": "Join the effort to slow the spread",
-    "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
-    "Body2": "That way, you can isolate right away and stop the spread.",
-    "TutorialAction": "Learn how StopCOVID works"
-  },
-  "OnboardingLocation": {
-    "Title": "Totally Anonymous",
-    "Body1": "COVID Alert does not use GPS or location services.",
-    "Body2": "It has no way of knowing:",
-    "Bullet1": "your location",
-    "Bullet2": "your name or address",
-    "Bullet3": "your phone's contacts",
-    "Bullet4": "your health information"
-  },
+
   "Privacy": {
     "Title": "Privacy policy",
     "Close": "Close"
