@@ -52,7 +52,6 @@ const Content = ({setBackgroundColor}: ContentProps) => {
 
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
-  return <BluetoothDisabledView />;
   // this is for the test menu
   const {forceScreen} = useStorage();
   switch (forceScreen) {

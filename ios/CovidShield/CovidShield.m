@@ -37,7 +37,12 @@ RCT_REMAP_METHOD(downloadDiagnosisKeysFile, downloadDiagnosisKeysFileWithURL:(NS
              [NSString stringWithContentsOfURL:location encoding:NSUTF8StringEncoding error:nil], nil);
       return;
     }
-    resolve(location);
+    NSURL *temporaryDirectoryURL = [NSURL fileURLWithPath: NSTemporaryDirectory() isDirectory: YES];
+
+    NSURL* destination = [temporaryDirectoryURL URLByAppendingPathComponent: [NSString stringWithFormat:@"%@.zip", [[NSUUID UUID] UUIDString]]];
+
+    [[NSFileManager defaultManager] copyItemAtURL:location toURL:destination error:nil];
+    resolve(destination.path);
   }] resume];
 }
 

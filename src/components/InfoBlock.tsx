@@ -54,7 +54,7 @@ export const InfoBlock = ({
       </Text>
       {showButton ? (
         <Box marginHorizontal="none" alignSelf="stretch">
-          <Button text={buttonText} onPress={action} variant="bigFlat" color={color} />
+          <Button text={buttonText} onPress={action} variant="thinFlat" color={color} />
         </Box>
       ) : null}
     </Box>

@@ -11,22 +11,20 @@ export const DiagnosedShareView = () => {
   const toDataShare = useCallback(() => navigation.navigate('DataSharing'), [navigation]);
 
   return (
-    <BaseHomeView>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+    <BaseHomeView iconName="hand-wave">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.DailyShare')}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
+      <Text variant="bodyText" color="bodyText" marginBottom="m">
         {i18n.translate('Home.DailyShareDetailed')}
       </Text>
-      <Box alignSelf="stretch" marginBottom="s">
-        <Box alignSelf="stretch" marginTop="l" marginBottom="s">
-          <ButtonSingleLine
-            text={i18n.translate('Home.ShareRandomIDsCTA')}
-            variant="bigFlatPurple"
-            externalLink
-            onPress={toDataShare}
-          />
-        </Box>
+      <Box alignSelf="stretch" marginTop="xxl" marginBottom="xl">
+        <ButtonSingleLine
+          text={i18n.translate('Home.ShareRandomIDsCTA')}
+          variant="bigFlatPurple"
+          externalLink
+          onPress={toDataShare}
+        />
       </Box>
     </BaseHomeView>
   );

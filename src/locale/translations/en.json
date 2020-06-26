@@ -87,13 +87,13 @@
     "EnterCodeCardAction": "Enter number",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.",
-    "NotificationCardStatus": "Enable notifications",
+    "NotificationCardStatus": "Push notifications are off",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on push notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardStatusOff": "OFF",
-    "ExposureNotificationCardBody": "Exposure notifications are needed for COVID Alert to work.",
+    "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
     "ExposureNotificationCardAction": "Turn on exposure notifications"
   },
   "Info": {
@@ -146,41 +146,39 @@
   "Onboarding": {
     "ActionNext": "Next",
     "ActionEnd": "Done",
-    "ActionBack": "Back"
-  },
-  "OnboardingLocation": {
-    "Title": "No location tracking",
-    "Intro": "COVID Alert does not use GPS or location services. It has no way of knowing:",
-    "Body1": "your location",
-    "Body2": "who you are",
-    "Body3": "where you’ve been",
-    "Body4": "who you’ve been with"
-  },
-  "YourData": {
-    "Title": "Totally anonymous",
-    "Intro": "COVID Alert has no way of knowing:",
-    "Body1": "your identity",
-    "Body2": "your contacts",
-    "Body3": "any details about you or the people you’re near",
-    "Body4": "your health information",
-    "Body5": ""
-  },
-  "OnboardingPermissions": {
-    "Title": "No actions without your permission",
-    "Body1": "Nothing is done without your permission.",
-    "Body2": "Even when you give permission, COVID Alert only shares the random codes from the phones of people you were near. It does not share any information about you.",
-    "PrivacyButtonCTA": "Read the privacy policy",
-    "HowItWorksCTA": "Read more about how it works"
-  },
-  "OnboardingStart": {
-    "Title": "What COVID Alert does",
-    "Body1": "It notifies you if someone you’ve been near in the past 14 days reports a COVID-19 diagnosis through the app.",
-    "Body2": "It will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
-    "Body3": "If you test positive for COVID-19, you can anonymously notify others who have been near you, in the past 14 days.",
-    "TutorialAction": "Learn how COVID Alert works",
-    "Title2": "Your choice",
-    "Body4": "You do not have to use it",
-    "Body5": "You can delete it anytime"
+    "ActionBack": "Back",
+    "Start": {
+      "Title": "Join the effort to slow the spread",
+      "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
+      "Body2": "That way, you can isolate right away and stop the spread."
+    },
+    "WhatItsNot": {
+      "Title": "What COVID Alert does not do",
+      "Body1": "The app will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
+      "Body2": "It will not tell you about outbreaks in your city or neighbourhood."
+    },
+    "Anonymous": {
+      "Title": "Totally Anonymous",
+      "Body1": "COVID Alert does not use GPS or location services.",
+      "Body2": "It has no way of knowing:",
+      "Bullet1": "your location",
+      "Bullet2": "your name or address",
+      "Bullet3": "your phone's contacts",
+      "Bullet4": "your health information"
+    },
+    "HowItWorks": {
+      "Title": "How it works",
+      "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
+      "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
+      "Body3": "If you’ve been near one of those codes in the past 14 days, you’ll get a notification.",
+      "HowItWorksCTA": "Learn more about how it works"
+    },
+    "Permissions": {
+      "Title": "The app will now ask your permission",
+      "Body1": "Allow the app to start logging random codes or “random IDs” when you’re near other phones. The app will access the date, duration and signal strength related to the random codes, but they never leave your phone.",
+      "Body2": "You’ll also need to enable push notifications.",
+      "PrivacyButtonCTA": "Learn more about privacy"
+    }
   },
   "Privacy": {
     "Title": "Privacy policy",
