@@ -49,13 +49,13 @@ export const DataSharingScreen = () => {
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Toolbar
+        {/* <Toolbar
           title=""
           navIcon="icon-back-arrow"
           navText={i18n.translate('DataUpload.Cancel')}
           navLabel={i18n.translate('DataUpload.Cancel')}
           onIconClicked={close}
-        />
+        /> */}
         <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
           {getContent()}
         </ScrollView>

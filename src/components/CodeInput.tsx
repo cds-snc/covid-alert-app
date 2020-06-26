@@ -36,9 +36,20 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
               /* eslint-disable-next-line react/no-array-index-key */
               key={`input-${x}`}
               flex={1}
-              marginHorizontal="xs"
-              borderBottomWidth={1.5}
-              borderBottomColor={inputBorderColor(value, x)}
+              marginHorizontal="s"
+              paddingTop="m"
+              // borderTopWidth={1.5}
+              // borderTopColor={inputBorderColor(value, x)}
+              // borderRightWidth={1.5}
+              // borderRightColor={inputBorderColor(value, x)}
+              // borderLeftWidth={1.5}
+              // borderRadius={1.5}
+              // borderLeftColor={inputBorderColor(value, x)}
+              // borderBottomWidth={1.5}
+              // borderBottomColor={inputBorderColor(value, x)}
+              borderWidth={1.5}
+              borderRadius={5}
+              borderColor={inputBorderColor(value, x)}
             >
               <Text variant="codeInput" color="overlayBodyText" textAlign="center" marginBottom="s">
                 {characterToDisplay}
