@@ -131,9 +131,6 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
           <BluetoothStatusOff i18n={i18n} />
         </Box>
       )}
-      <Box marginBottom="m" marginHorizontal="m">
-        <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
-      </Box>
       {notificationWarning && (
         <Box marginBottom="m" marginHorizontal="m">
           <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
