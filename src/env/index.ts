@@ -16,7 +16,7 @@ export const RETRIEVE_URL = Config.RETRIEVE_URL;
 
 export const HMAC_KEY = Config.HMAC_KEY;
 
-export const REGION = parseInt(Config.REGION, 10);
+export const REGION = parseInt(Config.REGION, 10) || 302;
 
 export const TEST_MODE = Config.TEST_MODE === 'true' || false;
 

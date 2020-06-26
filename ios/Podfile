@@ -111,12 +111,3 @@ target 'CovidShield' do
     flipper_post_install(installer)
   end
 end
-
-target 'CovidShield-tvOS' do
-  # Pods for CovidShield-tvOS
-
-  target 'CovidShield-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-end

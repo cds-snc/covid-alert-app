@@ -22,20 +22,20 @@ export const ExposureView = () => {
 
   return (
     <BaseHomeView iconName="hand-caution">
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.ExposureDetected.Title')}
         {/* No exposure detected */}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
+      <Text variant="bodyText" color="bodyText" marginBottom="m">
         {i18n.translate('Home.ExposureDetected.Detailed1')}
       </Text>
 
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
+      <Text variant="bodyText" color="bodyText">
         {i18n.translate('Home.ExposureDetected.Detailed2')}
       </Text>
 
       {/* <LastCheckedDisplay /> */}
-      <Box alignSelf="stretch" marginTop="l" marginBottom="s">
+      <Box alignSelf="stretch" marginTop="xxl" marginBottom="xl">
         <ButtonSingleLine
           text={i18n.translate('Home.SeeGuidance')}
           variant="bigFlatPurple"

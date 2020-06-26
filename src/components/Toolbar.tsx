@@ -40,8 +40,8 @@ export const Toolbar = ({title, navText, navIcon, navLabel, onIconClicked}: Tool
     );
   }
   return (
-    <Box flexDirection="row" alignItems="center" minHeight={56} paddingHorizontal="s">
-      <Box paddingHorizontal="xs">
+    <Box flexDirection="row" alignItems="center" minHeight={56}>
+      <Box>
         <Button text={navText} variant="text" onPress={onIconClicked} />
       </Box>
       {title !== '' && (
