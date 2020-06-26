@@ -128,10 +128,10 @@ const styles = StyleSheet.create({
     top: -24,
   },
   collapseButton: {
-    height: 30,
-    width: 44,
+    height: 50,
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   spacer: {
     marginBottom: -18,
