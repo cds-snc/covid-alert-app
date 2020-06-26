@@ -81,7 +81,7 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
           action: () => {},
         }}
         backgroundColor="infoBlockNeutralBackground"
-        color="infoBlockBrightText"
+        color="bodyText"
         showButton={false}
       />
     );
@@ -95,7 +95,7 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
         action: () => navigation.navigate('DataSharing'),
       }}
       backgroundColor="infoBlockNeutralBackground"
-      color="infoBlockBrightText"
+      color="bodyText"
       showButton
     />
   );
