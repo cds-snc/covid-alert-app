@@ -147,33 +147,39 @@
   "Onboarding": {
     "ActionBack": "Précédent",
     "ActionEnd": "Terminé",
-    "ActionNext": "Suivant"
-  },
-  "OnboardingLocation": {
-    "Body1": "votre position",
-    "Body2": "votre identité",
-    "Body3": "les endroits où vous êtes allé",
-    "Body4": "les personnes avec qui vous avez été",
-    "Body5": "Vous pouvez le supprimer à tout moment",
-    "Intro": "Alerte COVID n’utilise pas le GPS ou les services de localisation. Il n’a aucun moyen de connaître :",
-    "Title": "Aucun suivi de position"
-  },
-  "OnboardingPermissions": {
-    "Body1": "Rien n’est fait sans votre autorisation.",
-    "Body2": "Même quand vous donnez votre autorisation, Alerte COVID ne partage que les codes aléatoires des téléphones dont vous avez été à proximité. Il ne partage aucune information sur vous.",
-    "HowItWorksCTA": "Lire sur le fonctionnement de Alerte COVID",
-    "PrivacyButtonCTA": "Lire la politique de confidentialité",
-    "Title": "Aucune action sans votre autorisation"
-  },
-  "OnboardingStart": {
-    "Body1": "Il vous avise si au cours des 14 derniers jours, vous avez été à proximité d’une personne ayant signalé un diagnostic de COVID-19 avec l’application.",
-    "Body2": "Il ne vous dira pas en temps réel si vous êtes à proximité d’une personne ayant eu un diagnostic.",
-    "Body3": "If you test positive for COVID-19, you can anonymously notify others who have been near you, in the past 14 days.",
-    "Body4": "Vous n’êtes pas tenu de l’utiliser",
-    "Body5": "Vous pouvez le supprimer à tout moment",
-    "Title": "Ce que fait Alerte COVID",
-    "Title2": "Vous avez le choix",
-    "TutorialAction": "Découvrez comment Alerte COVID fonctionne"
+    "ActionNext": "Suivant",
+    "Start": {
+      "Title": "Join the effort to slow the spread",
+      "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
+      "Body2": "That way, you can isolate right away and stop the spread."
+    },
+    "WhatItsNot": {
+      "Title": "What COVID Alert does not do",
+      "Body1": "The app will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
+      "Body2": "It will not tell you about outbreaks in your city or neighbourhood."
+    },
+    "Anonymous": {
+      "Title": "Totally Anonymous",
+      "Body1": "COVID Alert does not use GPS or location services.",
+      "Body2": "It has no way of knowing:",
+      "Bullet1": "your location",
+      "Bullet2": "your name or address",
+      "Bullet3": "your phone's contacts",
+      "Bullet4": "your health information"
+    },
+    "HowItWorks": {
+      "Title": "How it works",
+      "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
+      "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
+      "Body3": "If you’ve been near one of those codes in the past 14 days, you’ll get a notification.",
+      "HowItWorksCTA": "Learn more about how it works"
+    },
+    "Permissions": {
+      "Title": "The app will now ask your permission",
+      "Body1": "Allow the app to start logging random codes or “random IDs” when you’re near other phones. The app will access the date, duration and signal strength related to the random codes, but they never leave your phone.",
+      "Body2": "You’ll also need to enable push notifications.",
+      "PrivacyButtonCTA": "Learn more about privacy"
+    }
   },
   "OverlayClosed": {
     "NotificationStatus": "Notifications ",
