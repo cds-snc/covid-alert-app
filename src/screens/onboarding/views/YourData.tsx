@@ -10,7 +10,7 @@ export const YourData = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} marginTop="xl" paddingHorizontal="xl">
-        <OnboardingHeader text={i18n.translate('YourData.Title')} />
+        <OnboardingHeader text={i18n.translate('YourData.Title')} imageSrc={require('assets/onboarding-nogps.png')} />
 
         <Box flexDirection="row" marginBottom="l">
           <Text variant="bodyText" color="overlayBodyText">
