@@ -40,22 +40,28 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
   const {width, height} = useWindowDimensions();
   const snapPoints = [height, Math.max(width, height) * (extraContent ? 0.3 : 0.2)];
 
+  // Need to add snapPoints to set enough height when BottomSheet is collapsed
   useEffect(() => {
     bottomSheetRef.current?.snapTo(isExpanded ? 0 : 1);
-  }, [width, isExpanded]);
+  }, [width, isExpanded, snapPoints]);
 
   const expandedContentWrapper = useMemo(
     () => (
       <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
-        <ContentComponent />
-        <TouchableOpacity
-          onPress={toggleExpanded}
-          style={styles.collapseButton}
-          accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
-          accessibilityRole="button"
-        >
-          <Icon name="icon-chevron" />
-        </TouchableOpacity>
+        <View style={styles.content}>
+          <ContentComponent />
+        </View>
+
+        <View style={styles.collapseContentHandleBar}>
+          <TouchableOpacity
+            onPress={toggleExpanded}
+            style={styles.collapseButton}
+            accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+            accessibilityRole="button"
+          >
+            <Icon name="sheet-handle-bar-close" size={44} />
+          </TouchableOpacity>
+        </View>
       </Animated.View>
     ),
     [i18n, toggleExpanded],
@@ -64,9 +70,13 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
     () => (
       <Animated.View style={{...styles.collapseContent, opacity: pow(bottomSheetPosition.current, 2)}}>
         <View style={styles.collapseContentHandleBar}>
-          <Icon name="sheet-handle-bar" />
+          <Icon name="sheet-handle-bar" size={44} />
         </View>
-        {CollapsedComponent ? <CollapsedComponent /> : null}
+        {CollapsedComponent ? (
+          <View style={styles.content}>
+            <CollapsedComponent />
+          </View>
+        ) : null}
       </Animated.View>
     ),
     [CollapsedComponent],
@@ -104,6 +114,9 @@ const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, 
 };
 
 const styles = StyleSheet.create({
+  content: {
+    marginTop: 10,
+  },
   collapseContent: {
     position: 'absolute',
     width: '100%',
@@ -115,16 +128,10 @@ const styles = StyleSheet.create({
     top: -24,
   },
   collapseButton: {
-    position: 'absolute',
-    top: 0,
-    right: 15,
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-    backgroundColor: 'rgba(118, 118, 128, 0.12)',
+    height: 50,
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
-    transform: [{rotate: '90deg'}],
+    justifyContent: 'flex-start',
   },
   spacer: {
     marginBottom: -18,

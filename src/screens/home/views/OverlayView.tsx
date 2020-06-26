@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Box, InfoBlock, BoxProps, InfoButton, ButtonMultiline} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
 import {SystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
@@ -90,12 +90,16 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
     );
   }
   return (
-    <ButtonMultiline
-      text={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
-      text1={i18n.translate('OverlayOpen.EnterCodeCardAction')}
-      variant="bigFlat"
-      internalLink
-      onPress={() => navigation.navigate('DataSharing')}
+    <InfoBlock
+      titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
+      text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
+      button={{
+        text: i18n.translate('OverlayOpen.EnterCodeCardAction'),
+        action: () => navigation.navigate('DataSharing'),
+      }}
+      backgroundColor="infoBlockNeutralBackground"
+      color="infoBlockBrightText"
+      showButton
     />
   );
 };

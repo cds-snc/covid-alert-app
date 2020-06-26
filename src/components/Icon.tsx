@@ -23,10 +23,13 @@ import IconOffline from 'assets/icon-offline-2.svg';
 import IconWarning from 'assets/icon-warning.svg';
 import IconExposureNotificationsDisabled from 'assets/icon-exposure-notifications-disabled.svg';
 import IconExposureNotificationsOff from 'assets/icon-exposure-notifications-off.svg';
+import CovidAlertEn from 'assets/covid-alert-en.svg';
+import CovidAlertFr from 'assets/covid-alert-fr.svg';
 import ProgressCircleEmpty from 'assets/progress-circle-empty.svg';
 import ProgressCircleFilled from 'assets/progress-circle-filled.svg';
 import ShareHeading from 'assets/share-heading.svg';
 import SheetHandleBar from 'assets/sheet-handle-bar.svg';
+import SheetHandleBarClose from 'assets/sheet-handle-bar-close.svg';
 import ShieldActive from 'assets/shield-active.svg';
 import ShieldCovid from 'assets/shield-covid.svg';
 import MapleLeaf from 'assets/maple-leaf.svg';
@@ -62,11 +65,14 @@ const ICONS = {
   'icon-exposure-notifications-off': IconExposureNotificationsOff,
   'icon-exposure-notifications-disabled': IconExposureNotificationsDisabled,
   'icon-warning': IconWarning,
+  'covid-alert-en': CovidAlertEn,
+  'covid-alert-fr': CovidAlertFr,
   'header-logo-rings': HeaderLogoRings,
   'progress-circle-filled': ProgressCircleFilled,
   'progress-circle-empty': ProgressCircleEmpty,
   'share-heading': ShareHeading,
   'sheet-handle-bar': SheetHandleBar,
+  'sheet-handle-bar-close': SheetHandleBarClose,
   'shield-disabled': ShieldDisabled,
   'shield-active': ShieldActive,
   'shield-covid': ShieldCovid,

@@ -43,7 +43,7 @@ export const Button = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, color, borderWidth, height} = (themedStyles as unknown) as TextStyle &
+  const {fontSize, fontWeight, fontFamily, color, borderBottomWidth, height} = (themedStyles as unknown) as TextStyle &
     ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
@@ -60,10 +60,11 @@ export const Button = ({
 
   const content = (
     <Box
-      borderRadius={4}
+      borderRadius={5}
       alignItems="center"
       justifyContent="center"
-      style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
+      shadowColor="bodyText"
+      style={{backgroundColor: color, minHeight: height, borderBottomWidth, borderBottomColor: palette.fadedWhiteDark}}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
@@ -77,7 +78,7 @@ export const Button = ({
           </Text>
           <Box style={{...styles.chevronOffset}}>
             {externalLink && <Icon name={externalArrowIcon} />}
-            {internalLink && <Icon size={40} name="icon-chevron" />}
+            {internalLink && <Icon size={25} name="icon-chevron" />}
           </Box>
         </>
       )}
@@ -92,7 +93,7 @@ export const Button = ({
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleContainerBorderRadius={4} onPress={onPressHandler} {...accessibilityProps}>
+      <Ripple rippleContainerBorderRadius={5} onPress={onPressHandler} {...accessibilityProps}>
         {content}
       </Ripple>
     );
@@ -110,11 +111,9 @@ const styles = StyleSheet.create({
   },
   content: {
     textAlign: 'left',
-    marginRight: 20,
   },
   chevronOffset: {
     position: 'absolute',
-    right: 5,
-    top: 10,
+    right: 15,
   },
 });

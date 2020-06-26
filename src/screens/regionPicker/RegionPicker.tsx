@@ -59,7 +59,7 @@ export const RegionPickerScreen = () => {
         >
           <Button
             text={i18n.translate(`RegionPicker.${selectedRegion === 'None' ? 'Skip' : 'GetStarted'}`)}
-            variant={selectedRegion === 'None' ? 'bigFlatNeutralGrey' : 'bigFlat'}
+            variant={selectedRegion === 'None' ? 'thinFlatNeutralGrey' : 'thinFlat'}
             onPress={async () => {
               await setOnboarded(true);
               await persistRegion(selectedRegion);

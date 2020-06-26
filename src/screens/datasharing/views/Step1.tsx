@@ -26,7 +26,7 @@ export const Step1 = ({onSuccess}: Props) => {
             {i18n.translate('DataUpload.Step1.Body')}
           </Text>
           <Box>
-            <Button variant="bigFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
+            <Button variant="thinFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
           </Box>
           <Box marginBottom="m">
             <Button variant="text" text={i18n.translate('DataUpload.Step1.NoCode')} onPress={onNoCode} />

@@ -1,4 +1,5 @@
-import ExposureNotification, {ExposureInformation, Status as SystemStatus} from 'bridge/ExposureNotification';
+import {Status as SystemStatus, ExposureSummary} from 'bridge/ExposureNotificationAPI';
+import ExposureNotification from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {Observable} from 'shared/Observable';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
@@ -28,7 +29,7 @@ export type ExposureStatus =
     }
   | {
       type: 'exposed';
-      exposures: ExposureInformation[];
+      summary: ExposureSummary;
       lastChecked?: string;
     }
   | {
@@ -189,7 +190,12 @@ export class ExposureNotificationService {
     let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
 
     while (runningPeriod > lastCheckPeriod) {
-      yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod).catch(() => null);
+      try {
+        yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
+      } catch (err) {
+        console.log('Error while downloading key file:', err);
+      }
+
       runningPeriod -= 1;
     }
   }
@@ -249,10 +255,10 @@ export class ExposureNotificationService {
       if (done) break;
       if (!keysFilesUrl) continue;
       try {
-        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [`${keysFilesUrl}`]);
+        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFilesUrl]);
+
         if (summary.matchedKeyCount > 0) {
-          const exposures = await this.exposureNotification.getExposureInformation(summary);
-          return finalize({type: 'exposed', exposures});
+          return finalize({type: 'exposed', summary});
         }
       } catch (err) {
         console.log({err});

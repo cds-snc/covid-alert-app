@@ -8,6 +8,7 @@ export const palette = {
   faded: 'rgba(255, 255, 255, 0.3)',
   fadedTextWhite: 'rgba(255, 255, 255, 0.65)',
   fadedWhite: 'rgba(0, 0, 0, 0.2)',
+  fadedWhiteDark: 'rgba(0, 0, 0, 0.4)',
   successLight: '#D8EECA',
   success: '#278400',
   successDark: '#003620',
@@ -147,7 +148,7 @@ const theme = {
       textColor: palette.black,
       fontFamily: 'Noto Sans',
       fontSize: 18,
-      borderWidth: undefined,
+      borderBottomWidth: 4,
       disabled: {
         color: palette.darkGrey,
         textColor: palette.bodyBlack,
@@ -195,11 +196,23 @@ const theme = {
       textColor: palette.white,
       fontFamily: 'Noto Sans',
       fontSize: 18,
-      borderWidth: undefined,
-
+      borderBottomWidth: undefined,
       paddingHorizontal: 5,
       paddingVertical: 10,
-
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    thinFlat: {
+      color: palette.linkBlue,
+      height: 52,
+      textColor: palette.white,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderBottomWidth: 4,
+      paddingHorizontal: 5,
+      paddingVertical: 10,
       disabled: {
         color: palette.darkGrey,
         textColor: palette.bodyBlack,
@@ -211,7 +224,16 @@ const theme = {
       textColor: palette.black,
       fontFamily: 'Noto Sans',
       fontSize: 18,
-      borderWidth: undefined,
+      borderBottomWidth: undefined,
+      disabled: {},
+    },
+    thinFlatNeutralGrey: {
+      color: palette.neutralGrey,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'Noto Sans',
+      fontSize: 18,
+      borderBottomWidth: 4,
       disabled: {},
     },
     bigFlatDarkGrey: {
