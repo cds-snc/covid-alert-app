@@ -18,7 +18,7 @@ export const BaseHomeView = ({children, iconName}: BaseHomeViewProps) => {
             <Icon name={iconName} size={150} />
           </Box>
         </Box>
-        <Box flex={1} alignItems="flex-start" justifyContent="flex-start" marginHorizontal="xl">
+        <Box width="100%" flex={1} alignItems="flex-start" justifyContent="flex-start" paddingHorizontal="m">
           {children}
         </Box>
       </ScrollView>
