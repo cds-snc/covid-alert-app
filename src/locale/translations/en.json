@@ -100,10 +100,10 @@
     "CheckSymptoms": "Check symptoms",
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
-    "LearnMore": "How COVID Alert works",
+    "LearnMore": "How it works",
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
-    "Privacy": "Read privacy policy"
+    "Privacy": "How it protects your privacy"
   },
   "LanguageSelect": {
     "Title": "Language",
