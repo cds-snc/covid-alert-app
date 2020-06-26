@@ -13,7 +13,7 @@ import {Anonymous} from './views/Anonymous';
 import {HowItWorks} from './views/HowItWorks';
 import {Permissions} from './views/Permissions';
 
-type ViewKey = 'start' | 'whatItsNot' | 'anonymous' | 'yourdata' | 'permissions' | 'howItWorks';
+type ViewKey = 'start' | 'whatItsNot' | 'anonymous' | 'permissions' | 'howItWorks';
 
 const contentData: ViewKey[] = ['start', 'whatItsNot', 'anonymous', 'howItWorks', 'permissions'];
 const viewComponents = {
