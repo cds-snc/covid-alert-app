@@ -10,9 +10,12 @@ export const Anonymous = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} marginTop="xl" paddingHorizontal="xl">
-        <OnboardingHeader text={i18n.translate('Onboarding.Anonymous.Title')} />
+        <OnboardingHeader
+          text={i18n.translate('Onboarding.Anonymous.Title')}
+          imageSrc={require('assets/onboarding-nogps.png')}
+        />
 
-        <Box flexDirection="row" marginBottom="l">
+        <Box flexDirection="row" marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('Onboarding.Anonymous.Body1')}
           </Text>

@@ -10,7 +10,10 @@ export const Start = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} paddingHorizontal="xl" marginTop="xl">
-        <OnboardingHeader text={i18n.translate('Onboarding.Start.Title')} />
+        <OnboardingHeader
+          text={i18n.translate('Onboarding.Start.Title')}
+          imageSrc={require('assets/onboarding-start.png')}
+        />
 
         <Box marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">

@@ -10,7 +10,10 @@ export const WhatItsNot = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} paddingHorizontal="xl" marginTop="xl">
-        <OnboardingHeader text={i18n.translate('Onboarding.WhatItsNot.Title')} />
+        <OnboardingHeader
+          text={i18n.translate('Onboarding.WhatItsNot.Title')}
+          imageSrc={require('assets/onboarding-neighbourhood.png')}
+        />
 
         <Box marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">

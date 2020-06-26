@@ -13,8 +13,11 @@ export const Permissions = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} marginTop="xl" paddingHorizontal="xl">
-        <OnboardingHeader text={i18n.translate('Onboarding.Permissions.Title')} />
-        <Box marginBottom="l">
+        <OnboardingHeader
+          text={i18n.translate('Onboarding.Permissions.Title')}
+          imageSrc={require('assets/onboarding-enable.png')}
+        />
+        <Box marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('Onboarding.Permissions.Body1')}
           </Text>
@@ -25,7 +28,7 @@ export const Permissions = () => {
           </Text>
         </Box>
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
-          <Box marginTop="xxs">
+          <Box>
             <ButtonSingleLine
               text={i18n.translate('Onboarding.Permissions.PrivacyButtonCTA')}
               variant="bigFlatNeutralGrey"

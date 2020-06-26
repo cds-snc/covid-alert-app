@@ -13,13 +13,16 @@ export const HowItWorks = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box flex={1} marginTop="xl" paddingHorizontal="xl">
-        <OnboardingHeader text={i18n.translate('Onboarding.HowItWorks.Title')} />
-        <Box marginBottom="l">
+        <OnboardingHeader
+          text={i18n.translate('Onboarding.HowItWorks.Title')}
+          imageSrc={require('assets/onboarding-howitworks.png')}
+        />
+        <Box marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('Onboarding.HowItWorks.Body1')}
           </Text>
         </Box>
-        <Box marginBottom="l">
+        <Box marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('Onboarding.HowItWorks.Body2')}
           </Text>
@@ -30,7 +33,7 @@ export const HowItWorks = () => {
           </Text>
         </Box>
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
-          <Box marginTop="xxs">
+          <Box>
             <ButtonSingleLine
               text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
               variant="bigFlatNeutralGrey"
