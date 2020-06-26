@@ -101,50 +101,59 @@ RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryW
   }];
 }
 
+NSArray *map(NSArray* array, id (^transform)(id value)) {
+  NSMutableArray *acc = [NSMutableArray new];
+  for (id value in array) {
+    [acc addObject:transform(value)];
+  }
+  return acc.copy;
+}
+
+NSArray *mapIntValues(NSArray *arr) {
+  return map(arr, ^NSNumber *(NSNumber *value) {
+    return @([value intValue]);
+  });
+}
 
 RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *)configDict diagnosisKeysURLs:(NSArray*)urls withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
   ENExposureConfiguration *configuration = [ENExposureConfiguration new];
 
-// TODO: this serialization producing configuration which EN rejects. will be fixed in a follow up
+  if (configDict[@"metadata"]) {
+    configuration.metadata = configDict[@"metadata"];
+  }
 
-//  if (configDict[@"metadata"]) {
-//    configuration.metadata = configDict[@"metadata"];
-//  }
-//  if (configDict[@"minimumRiskScore"]) {
-//    configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
-//  }
-//  if (configDict[@"attenuationLevelValues"]) {
-//    configuration.attenuationLevelValues = configDict[@"attenuationLevelValues"];
-//  }
-//  if (configDict[@"attenuationWeight"]) {
-//    configuration.attenuationWeight = [configDict[@"attenuationWeight"] doubleValue];
-//  }
-//  if (configDict[@"daysSinceLastExposureLevelValues"]) {
-//    configuration.daysSinceLastExposureLevelValues = configDict[@"daysSinceLastExposureLevelValues"];
-//  }
-//  if (configDict[@"daysSinceLastExposureWeight"]) {
-//    configuration.daysSinceLastExposureWeight = [configDict[@"daysSinceLastExposureWeight"] doubleValue];
-//  }
-//  if (configDict[@"durationLevelValues"]) {
-//    configuration.durationLevelValues = configDict[@"durationLevelValues"];
-//  }
-//  if (configDict[@"durationWeight"]) {
-//    configuration.durationWeight = [configDict[@"durationWeight"] doubleValue];
-//  }
-//  if (configDict[@"transmissionRiskLevelValues"]) {
-//    configuration.transmissionRiskLevelValues = configDict[@"transmissionRiskLevelValues"];
-//  }
-//  if (configDict[@"transmissionRiskWeight"]) {
-//    configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
-//  }
+  if (configDict[@"minimumRiskScore"]) {
+    configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
+  }
+  
+  if (configDict[@"attenuationLevelValues"]) {
+    configuration.attenuationLevelValues = mapIntValues(configDict[@"attenuationLevelValues"]);
+  }
+  
+  if (configDict[@"attenuationWeight"]) {
+    configuration.attenuationWeight = [configDict[@"attenuationWeight"] doubleValue];
+  }
+  if (configDict[@"daysSinceLastExposureLevelValues"]) {
+    configuration.daysSinceLastExposureLevelValues = mapIntValues(configDict[@"daysSinceLastExposureLevelValues"]);
+  }
+  if (configDict[@"daysSinceLastExposureWeight"]) {
+    configuration.daysSinceLastExposureWeight = [configDict[@"daysSinceLastExposureWeight"] doubleValue];
+  }
+  if (configDict[@"durationLevelValues"]) {
+    configuration.durationLevelValues = mapIntValues(configDict[@"durationLevelValues"]);
+  }
+  if (configDict[@"durationWeight"]) {
+    configuration.durationWeight = [configDict[@"durationWeight"] doubleValue];
+  }
+  if (configDict[@"transmissionRiskLevelValues"]) {
+    configuration.transmissionRiskLevelValues = mapIntValues(configDict[@"transmissionRiskLevelValues"]);
+  }
+  if (configDict[@"transmissionRiskWeight"]) {
+    configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
+  }
 
 
-  configuration.minimumRiskScore = 0;
-  configuration.attenuationLevelValues = @[@1, @2, @3, @4, @5, @6, @7, @8];
-  configuration.daysSinceLastExposureLevelValues = @[@1, @2, @3, @4, @5, @6, @7, @8];
-  configuration.durationLevelValues = @[@1, @2, @3, @4, @5, @6, @7, @8];
-  configuration.transmissionRiskLevelValues = @[@1, @2, @3, @4, @5, @6, @7, @8];
 
   NSMutableArray *arr = [NSMutableArray new];
   for (NSString *urlStr in urls) {
