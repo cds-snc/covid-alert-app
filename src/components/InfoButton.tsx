@@ -61,7 +61,7 @@ export const InfoButton = ({
 
   const content = (
     <Box
-      borderRadius={4}
+      borderRadius={10}
       alignItems="center"
       justifyContent="center"
       style={{minHeight: height, borderWidth, borderColor: buttonColor, backgroundColor: buttonColor}}
@@ -96,7 +96,7 @@ export const InfoButton = ({
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleContainerBorderRadius={4} onPress={onPressHandler} {...accessibilityProps}>
+      <Ripple rippleContainerBorderRadius={10} onPress={onPressHandler} {...accessibilityProps}>
         {content}
       </Ripple>
     );
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   },
   chevronOffset: {
     position: 'absolute',
-    right: 5,
-    top: 10,
+    right: 15,
+    top: 15,
   },
 });

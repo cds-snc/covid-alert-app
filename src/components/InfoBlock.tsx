@@ -49,7 +49,7 @@ export const InfoBlock = ({
           </Text>
         </Box>
       )}
-      <Text variant="bodyText" fontSize={16} color={color} marginBottom="m">
+      <Text variant="bodyText" color={color} marginBottom="m">
         {text}
       </Text>
       {showButton ? (
