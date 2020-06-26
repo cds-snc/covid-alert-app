@@ -12,32 +12,14 @@ export const Start = () => {
       <Box flex={1} paddingHorizontal="xl" marginTop="xl">
         <OnboardingHeader text={i18n.translate('OnboardingStart.Title')} />
 
-        <Box flexDirection="row" marginBottom="l">
-          <Box marginTop="xxxs">
-            <Icon size={20} name="icon-notifications" />
-          </Box>
-          <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="m">
+        <Box marginBottom="m">
+          <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('OnboardingStart.Body1')}
           </Text>
         </Box>
-        <BulletPointX text={i18n.translate('OnboardingStart.Body2')} />
-
-        <Box marginTop="m">
-          <Text
-            variant="bodyTitle"
-            color="overlayBodyText"
-            marginBottom="l"
-            // accessibilityRole="header"
-          >
-            {i18n.translate('OnboardingStart.Title2')}
-          </Text>
-        </Box>
-        <BulletPointX text={i18n.translate('OnboardingStart.Body4')} />
-
-        <Box flexDirection="row" alignItems="center" marginBottom="l">
-          <Icon size={23} name="icon-no-notifications" />
-          <Text variant="bodyText" color="overlayBodyText" marginLeft="m" marginRight="m">
-            {i18n.translate('OnboardingStart.Body5')}
+        <Box marginBottom="m">
+          <Text variant="bodyText" color="overlayBodyText">
+            {i18n.translate('OnboardingStart.Body2')}
           </Text>
         </Box>
       </Box>

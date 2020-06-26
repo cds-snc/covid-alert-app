@@ -14,14 +14,19 @@ export const LocationTracking = () => {
 
         <Box flexDirection="row" marginBottom="l">
           <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('OnboardingLocation.Intro')}
+            {i18n.translate('OnboardingLocation.Body1')}
+          </Text>
+        </Box>
+        <Box flexDirection="row" marginBottom="l">
+          <Text variant="bodyText" color="overlayBodyText">
+            {i18n.translate('OnboardingLocation.Body2')}
           </Text>
         </Box>
 
-        <BulletPointX text={i18n.translate('OnboardingLocation.Body1')} />
-        <BulletPointX text={i18n.translate('OnboardingLocation.Body2')} />
-        <BulletPointX text={i18n.translate('OnboardingLocation.Body3')} />
-        <BulletPointX text={i18n.translate('OnboardingLocation.Body4')} />
+        <BulletPointX text={i18n.translate('OnboardingLocation.Bullet1')} />
+        <BulletPointX text={i18n.translate('OnboardingLocation.Bullet2')} />
+        <BulletPointX text={i18n.translate('OnboardingLocation.Bullet3')} />
+        <BulletPointX text={i18n.translate('OnboardingLocation.Bullet4')} />
       </Box>
     </ScrollView>
   );
