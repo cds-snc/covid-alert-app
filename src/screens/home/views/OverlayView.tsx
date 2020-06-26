@@ -26,17 +26,17 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
 };
 
 const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
   return (
-    <InfoButton
-      title={i18n.translate('OverlayOpen.BluetoothCardAction')}
-      color="danger25Background"
-      internalLink
-      variant="danger50Flat"
+    <InfoBlock
+      titleBolded={i18n.translate('OverlayOpen.BluetoothCardAction')}
+      backgroundColor="danger25Background"
+      color="bodyText"
+      button={{
+        text: '',
+        action: () => {},
+      }}
       text={i18n.translate('OverlayOpen.BluetoothCardBody')}
-      onPress={toSettings}
+      showButton={false}
     />
   );
 };
