@@ -7,7 +7,6 @@ import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
-import {SharingScreen} from 'screens/sharing';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
