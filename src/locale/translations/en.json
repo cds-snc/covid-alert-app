@@ -196,27 +196,35 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "FormIntro": "Enter your 8-digit number",
-    "Action": "Submit",
-    "InputLabel": "COVID Alert code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
-    "ConsentTitle": "Now you can let COVID Alert notify people",
-    "ConsentBody1": "COVID Alert will ask your permission to upload your random codes from the past 14 days.",
-    "ConsentBody2": "Nobody will get any information about you or the time you were near them.",
-    "ConsentSubtitle": "Your choice",
-    "ConsentBody3": "It is your choice. You can help slow the spread of COVID-19 if you agree.",
-    "PrivacyPolicyLink": "How COVID Alert protects privacy",
-    "HowItWorksLink": "See how it works",
-    "ConsentAction": "Agree",
     "ShareToast": "Random IDs shared successfully",
     "ErrorTitle": "Code not recognized",
     "ErrorBody": "Your COVID Alert code could not be recognized. Please try again.",
     "ErrorAction": "OK",
     "Step1": {
-      "Title": "Enter your 8-digit number",
-      "Body": "You should have been given an 8-digit number when you were diagnosed. You need to enter this number if you want COVID Alert to let people know they were exposed.\n\nThis is optional. It’s your choice. But you can help slow the spread of COVID-19 if you do it.",
+      "Title": "Let people know they may have been exposed",
+      "Body1a": "Step 1. ",
+      "Body1b": "Enter the number you got when you were diagnosed.",
+      "Body2a": "Step 2. ",
+      "Body2b": "Agree that COVID Alert can let people know they were exposed.",
+      "Body3a": "Step 3. ",
+      "Body3b": "Allow your phone to share your random codes anonymously.",
       "CTA": "Enter number",
       "NoCode": "No 8-digit number?"
+    },
+    "FormView": {
+      "Title": "Enter your 8-digit number",
+      "Body": "Enter the number you got when you were diagnosed.",
+      "Action": "Submit",
+      "InputLabel": "COVID Alert 8-digit number"
+    },
+    "ConsentView": {
+      "Title": "Now you can upload your codes",
+      "Body1": "Your phone will ask your permission to upload your random codes or “random IDs” from the past 14 days.",
+      "Body2a": "Nobody will get any information about you ",
+      "Body2b": "or the time you were near them.",
+      "Body3": "You can help slow the spread of COVID-19 if you agree.",
+      "Action": "Agree"
     },
     "NoCode": {
       "NoRegion": {

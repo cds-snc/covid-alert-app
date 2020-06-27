@@ -5,28 +5,36 @@
     "OnStatus": "Alerte COVID est ACTIVÉ, Appuyez pour voir le menu"
   },
   "DataUpload": {
-    "Action": "Envoyer",
     "Cancel": "Annuler",
-    "ConsentAction": "Accepter",
-    "ConsentBody1": "Alerte COVID vous demandera l’autorisation de téléverser vos codes aléatoires des 14\u00A0derniers jours.",
-    "ConsentBody2": "Personne ne recevra d’information sur vous ou sur le moment où vous avez été en proximité.",
-    "ConsentBody3": "Il s’agit de votre choix. Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
-    "ConsentSubtitle": "C’est votre choix",
-    "ConsentTitle": "Permettre à Alerte COVID d’aviser les autres personnes",
     "ErrorAction": "OK",
     "ErrorBody": "Votre code Alerte COVID n’a pas pu être reconnu. Veuillez essayer à nouveau.",
     "ErrorTitle": "Code non reconnu",
-    "FormIntro": "Entrez votre numéro à 8\u00A0chiffres.",
-    "HowItWorksLink": "Comment Alerte COVID fonctionne",
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
-    "InputLabel": "code Alerte COVID",
-    "PrivacyPolicyLink": "Comment Alerte COVID protège votre vie privée",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "Step1": {
-      "Body": "Vous devriez avoir reçu un numéro à 8\u00A0chiffres quand vous avez eu votre diagnostic. Vous devez entrer ce numéro si vous voulez que Alerte COVID avise les personnes qu’elles ont été exposées.\n\nEntrer le code est optionnel. Vous avez le choix. Mais vous pouvez aider à ralentir la propagation de COVID-19 si vous le faites.",
+      "Title": "Aviser les autres personnes d’une exposition potentielle",
+      "Body1a": "Étape 1 : ",
+      "Body1b": "Vous entrez le numéro reçu lors de votre diagnostic.",
+      "Body2a": "Étape 2 : ",
+      "Body2b": "Vous acceptez qu’Alerte COVID avise les personnes qu’elles ont été exposées.",
+      "Body3a": "Étape 3 : ",
+      "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires de façon anonyme.",
       "CTA": "Entrer le numéro",
-      "NoCode": "Vous n’avez pas de numéro à 8\u00A0chiffres?",
-      "Title": "Entrez votre numéro à 8\u00A0chiffres"
+      "NoCode": "Vous n’avez pas de numéro à 8 chiffres?"
+    },
+    "FormView": {
+      "Title": "Entrez votre numéro à 8 chiffres",
+      "Body": "Entrez le numéro que vous avez reçu lors de votre diagnostic.",
+      "Action": "Envoyer",
+      "InputLabel": "code Alerte COVID"
+    },
+    "ConsentView": {
+      "Title": "Vous pouvez maintenant téléverser vos codes",
+      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
+      "Body2a": "Personne ne recevra d’information sur vous ",
+      "Body2b": "ou sur le moment où vous avez été en proximité.",
+      "Body3": "Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
+      "Action": "Accepter"
     },
     "NoCode": {
       "NoRegion": {

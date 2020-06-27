@@ -1,5 +1,4 @@
 import React, {useCallback, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {ActivityIndicator, ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
@@ -12,12 +11,8 @@ interface Props {
 
 export const ConsentView = ({onSuccess, onError}: Props) => {
   const [i18n] = useI18n();
-  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys} = useReportDiagnosis();
-
-  const toPrivacyPolicy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
-  const toHowItWorks = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
 
   const handleUpload = useCallback(async () => {
     setLoading(true);
@@ -42,32 +37,21 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
     <>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
-            {i18n.translate('DataUpload.ConsentTitle')}
+          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+            {i18n.translate('DataUpload.ConsentView.Title')}
           </Text>
 
-          <Text variant="bodyText" color="bodyText" marginBottom="m">
-            {i18n.translate('DataUpload.ConsentBody1')}
+          <Text marginBottom="m">{i18n.translate('DataUpload.ConsentView.Body1')}</Text>
+          <Text marginBottom="m">
+            <Text fontWeight="bold">{i18n.translate('DataUpload.ConsentView.Body2a')}</Text>
+            <Text>{i18n.translate('DataUpload.ConsentView.Body2b')}</Text>
           </Text>
-          <Text variant="bodyText" color="bodyText" marginBottom="m">
-            {i18n.translate('DataUpload.ConsentBody2')}
-          </Text>
-          <Text variant="bodySubTitle" color="overlayBodyText" marginBottom="m">
-            {i18n.translate('DataUpload.ConsentSubtitle')}
-          </Text>
-          <Text variant="bodyText" color="bodyText" marginBottom="m">
-            {i18n.translate('DataUpload.ConsentBody3')}
-          </Text>
-          <Box>
-            <Button variant="text" text={i18n.translate('DataUpload.PrivacyPolicyLink')} onPress={toPrivacyPolicy} />
-          </Box>
-          <Box marginBottom="m">
-            <Button variant="text" text={i18n.translate('DataUpload.HowItWorksLink')} onPress={toHowItWorks} />
-          </Box>
+
+          <Text marginBottom="l">{i18n.translate('DataUpload.ConsentView.Body3')}</Text>
         </Box>
       </ScrollView>
-      <Box paddingHorizontal="m" marginBottom="m">
-        <Button variant="thinFlat" text={i18n.translate('DataUpload.ConsentAction')} onPress={handleUpload} />
+      <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
+        <Button variant="thinFlat" text={i18n.translate('DataUpload.ConsentView.Action')} onPress={handleUpload} />
       </Box>
     </>
   );
