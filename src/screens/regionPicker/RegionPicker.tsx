@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Text, Button} from 'components';
+import {Box, Text, Button, Header} from 'components';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
@@ -20,6 +20,7 @@ export const RegionPickerScreen = () => {
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={regionStyles.flex}>
         <ScrollView style={regionStyles.flex}>
+          <Header />
           <Box flex={1} paddingHorizontal="m" paddingTop="m">
             <Text marginBottom="s" variant="bodyTitle" color="overlayBodyText" accessibilityRole="header">
               {i18n.translate('RegionPicker.Title')}

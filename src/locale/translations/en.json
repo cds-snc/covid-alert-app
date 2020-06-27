@@ -259,6 +259,12 @@
     "OnStatus": "COVID Alert is on, Tap for more information",
     "OffStatus": "COVID Alert is off, Tap for more information"
   },
+  "RegionLanding": {
+    "Title": "Choose your province or territory",
+    "Body1": "Provincial and territorial governments are working to support COVID Alert across Canada.",
+    "Body2": "In some places, people cannot yet report a COVID-19 diagnosis through this app.",
+    "RegionSelectBtn": "Choose province or territory"
+  },
   "RegionPicker": {
     "Title": "Where do you live?",
     "SettingsTitle": "Province or territory",
