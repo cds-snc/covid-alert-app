@@ -49,7 +49,7 @@
     "react-native-snap-carousel": "^3.9.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",
-    "react-native-system-setting": "^1.7.4",
+    "react-native-system-setting": "1.7.4",
     "react-native-zip-archive": "^5.0.2",
     "reanimated-bottom-sheet": "^1.0.0-alpha.20",
     "tweetnacl": "^1.0.3",
