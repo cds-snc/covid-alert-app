@@ -6,8 +6,10 @@ import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {Region} from 'shared/Region';
 import {useNavigation} from '@react-navigation/native';
+
 import {regionStyles} from './RegionPickerShared';
-import {RegionPickerScreen} from './';
+
+import {RegionPickerScreen} from '.';
 
 interface LandingContentProps {
   showPicker: () => void;
