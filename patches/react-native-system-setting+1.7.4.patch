@@ -1,0 +1,21 @@
+diff --git a/node_modules/react-native-system-setting/ios/RTCSystemSetting.m b/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
+index c94aaad..6099e57 100644
+--- a/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
++++ b/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
+@@ -8,7 +8,6 @@
+ 
+ #import "RTCSystemSetting.h"
+ #import <SystemConfiguration/CaptiveNetwork.h>
+-#import <CoreLocation/CoreLocation.h>
+ #import <CoreTelephony/CTTelephonyNetworkInfo.h>
+ #import <ifaddrs.h>
+ #import <net/if.h>
+@@ -122,7 +121,7 @@ +(BOOL)requiresMainQueueSetup{
+ }
+ 
+ RCT_EXPORT_METHOD(isLocationEnabled:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
+-    resolve([NSNumber numberWithBool:[CLLocationManager locationServicesEnabled]]);
++    resolve(@NO);
+ }
+ 
+ RCT_EXPORT_METHOD(switchBluetooth){
