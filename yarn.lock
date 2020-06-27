@@ -7128,10 +7128,10 @@ react-native-background-fetch@^3.0.4:
     plist "^3.0.1"
     xcode "^2.0.0"
 
-react-native-config@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.1.0.tgz#e59ee672ca6cd36599d86b806b22b129f1631ca2"
-  integrity sha512-1L/2TMvuLeY9YUqcCdEwu7bAHjm7/CazrZ98itoA9uD+wkkYTigZEbA1BTkYk+rVaIRj/5cBJsI9gN4OmNhG8g==
+react-native-config@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.2.1.tgz#f80454fc58ea89b549819ccb4bdab26518a9f0db"
+  integrity sha512-u7MDku3fUUKAtxfUFLLwnj4htBYO840EBGdlDB9ry/eX1TY+asHwULaUkAj9x+pJo4vSpIp8GtYxxi8dLzDtJw==
 
 react-native-fit-image@^1.5.5:
   version "1.5.5"
