@@ -52,8 +52,6 @@
     "BluetoothDisabled": "Bluetooth désactivé",
     "CTA": "Prochaines étapes",
     "ChooseRegionCTA": "Sélectionnez une province ou un territoire",
-    "DailyShare": "Partagez vos nouveaux identifiants aléatoires",
-    "DailyShareDetailed": "Partager vos données aide les autres à savoir s'ils ont possiblement été exposés à la COVID-19.",
     "DiagnosedView": {
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
@@ -62,6 +60,12 @@
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant. Vous avez le choix.",
       "Body3": "Prenez soin de vous et de votre famille pendant ce temps.",
       "Title": "Merci d’aider à lutter contre la COVID"
+    },
+    "DiagnosedShareView": {
+      "Title": "Téléverser les nouveaux codes aléatoires",
+      "Body1": "Le temps est venu de téléverser les nouveaux codes aléatoires émis par votre téléphone lors de la dernière journée.",
+      "Body2": "Personne ne recevra d’information sur vous ou sur le moment de votre proximité.",
+      "ButtonCTA": "Téléverser les codes"
     },
     "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour que Alerte COVID fonctionne.",
     "EnableExposureNotificationsCTA": "Activez les notifications d'exposition à la COVID-19",
@@ -113,7 +117,6 @@
       }
     },
     "SeeGuidance": "Que faire maintenant? Lisez les recommandations.",
-    "ShareRandomIDsCTA": "Partagez vos identifiants aléatoires",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "TurnOnBluetooth": "Activez Bluetooth"
   },
