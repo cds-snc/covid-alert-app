@@ -16,6 +16,7 @@ import app.covidshield.extensions.toWritableArray
 import app.covidshield.extensions.toWritableMap
 import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
+import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
 import app.covidshield.utils.ActivityResultHelper
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -37,14 +38,17 @@ import kotlin.coroutines.CoroutineContext
 
 private const val SUMMARY_HIDDEN_KEY = "_summaryIdx"
 
-class ExposureNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope, ActivityResultHelper {
+private typealias Token = String
+
+class ExposureNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope, ActivityResultHelper, ExposureNotificationBroadcastReceiver.Helper {
 
     private val exposureNotificationClient by lazy {
         Nearby.getExposureNotificationClient(context.applicationContext)
     }
 
-    private var startResolutionCompleter: CompletableDeferred<Any>? = null
-    private var getTekResolutionCompleter: CompletableDeferred<Any>? = null
+    private var startResolutionCompleter: CompletableDeferred<Unit>? = null
+    private var getTekResolutionCompleter: CompletableDeferred<Unit>? = null
+    private var detectExposureResolutionCompleters = hashMapOf<Token, CompletableDeferred<Token>?>()
 
     private val bluetoothAdapter get() = BluetoothAdapter.getDefaultAdapter()
 
@@ -94,6 +98,12 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
             exposureNotificationClient.provideDiagnosisKeys(files, exposureConfiguration, token).await()
 
+            // Wait for ExposureNotificationBroadcastReceiver
+            val completer = CompletableDeferred<Token>()
+            detectExposureResolutionCompleters[token] = completer
+            completer.await()
+            detectExposureResolutionCompleters.remove(token)
+
             files.forEach { it.cleanup() }
             val exposureSummary = exposureNotificationClient.getExposureSummary(token).await()
             val summary = exposureSummary.toSummary()
@@ -124,6 +134,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     private suspend fun startInternal() {
         val activity = currentActivity ?: throw IllegalStateException("Invalid activity")
+        startResolutionCompleter?.await()
         try {
             exposureNotificationClient.start().await()
         } catch (exception: Exception) {
@@ -156,6 +167,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     private suspend fun getTemporaryExposureKeyHistoryInternal(): List<ExposureKey> {
         val activity = currentActivity ?: throw IllegalStateException("Invalid activity")
+        getTekResolutionCompleter?.await()
         try {
             val tekKeys = exposureNotificationClient.temporaryExposureKeyHistory.await()
             return tekKeys.map { it.toExposureKey() }
@@ -226,6 +238,11 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                 completer?.completeExceptionally(Exception())
             }
         }
+    }
+
+    override fun onReceive(token: String) {
+        val completer = detectExposureResolutionCompleters[token] ?: return
+        completer.complete(token)
     }
 
     companion object {

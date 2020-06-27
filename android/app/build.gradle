@@ -208,7 +208,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:$googlePlayServicesBaseVersion"
     implementation "com.google.android.gms:play-services-tasks:$googlePlayServicesTasksVersion"
 
-    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    implementation "androidx.work:work-runtime-ktx:$workVersion"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesAndroidVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion"
