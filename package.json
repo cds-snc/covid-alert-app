@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "postinstall": "patch-package",
     "bundle-android": "react-native bundle --dev false --platform android --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "bundle-ios": "react-native bundle --dev false --platform ios --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios",
     "codegen-protobuf": "pbjs -t static-module -o src/services/BackendService/covidshield/covidshield.js src/services/BackendService/covidshield/covidshield.proto && pbts -o src/services/BackendService/covidshield/covidshield.d.ts src/services/BackendService/covidshield/covidshield.js",
@@ -76,6 +77,7 @@
     "jest": "25.1.0",
     "jest-when": "^2.7.1",
     "metro-react-native-babel-preset": "^0.58.0",
+    "patch-package": "^6.2.2",
     "prettier": "1.19.1",
     "prettier-eslint": "^9.0.0",
     "protobufjs": "^6.9.0",
