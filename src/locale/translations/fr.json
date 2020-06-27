@@ -4,6 +4,12 @@
     "OffStatus": "Alerte COVID est DÉSACTIVÉ, Appuyez pour voir le menu",
     "OnStatus": "Alerte COVID est ACTIVÉ, Appuyez pour voir le menu"
   },
+  "RegionLanding": {
+    "Title": "Sélectionnez votre province ou territoire",
+    "Body1": "Les gouvernements provinciaux et territoriaux s’efforcent de rendre Alerte COVID utilisable partout au Canada.",
+    "Body2": "Dans certains endroits, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
+    "RegionSelectBtn": "Sélectionnez une province ou un territoire"
+  },
   "DataUpload": {
     "Cancel": "Annuler",
     "ErrorAction": "OK",
@@ -48,7 +54,7 @@
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
-        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nVous ne pourrez pas aviser les personnes dont vous avez été à proximité qu’elles ont été exposées. Mais vous pouvez tout de même prendre des mesures pour :",
+        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nVous ne pourrez pas aviser les personnes dont vous avez été à proximité qu’elles ont été exposées. Mais vous pouvez tout de même prendre des mesures pour :",
         "Body2": "assurer la sécurité de votre communauté;",
         "Body3": "protéger les personnes et les animaux vivant avec vous;",
         "Body4": "prendre soin de vous."
@@ -305,7 +311,7 @@
     "Body3": "toute précision sur vous ou sur les personnes à proximité",
     "Body4": "vos informations de santé",
     "Body5": "",
-    "Intro": "Alerte COVID n’a aucun moyen de connaître :",
+    "Intro": "Alerte COVID n’a aucun moyen de connaître :",
     "Title": "Complètement anonyme"
   }
 }
