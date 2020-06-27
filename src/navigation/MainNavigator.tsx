@@ -7,7 +7,6 @@ import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
-import {SharingScreen} from 'screens/sharing';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
@@ -62,7 +61,6 @@ const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
-const SharingScreenWithNavBar = withDarkNav(SharingScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
@@ -92,7 +90,6 @@ const MainNavigator = () => {
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
       <MainStack.Screen name="DataSharing" component={DataSharingScreenWithNavBar} />
       <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
-      <MainStack.Screen name="Sharing" component={SharingScreenWithNavBar} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />

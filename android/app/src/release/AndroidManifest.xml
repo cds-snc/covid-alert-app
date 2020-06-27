@@ -8,18 +8,4 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:node="remove" />
-
-    <application>
-
-        <provider
-            android:name="cl.json.RNShareFileProvider"
-            android:authorities="app.covidshield.release.rnshare.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:node="remove">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/share_download_paths" />
-        </provider>
-    </application>
 </manifest>
