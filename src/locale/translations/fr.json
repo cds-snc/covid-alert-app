@@ -5,7 +5,10 @@
     "OnStatus": "Alerte COVID est ACTIVÉ, Appuyez pour voir le menu"
   },
   "RegionLanding": {
-    "Title": "Choose your province or territory"
+    "Title": "Sélectionnez votre province ou territoire",
+    "Body1": "Les gouvernements provinciaux et territoriaux s’efforcent de rendre Alerte COVID utilisable partout au Canada.",
+    "Body2": "Dans certains endroits, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
+    "RegionSelectBtn": "Sélectionnez une province ou un territoire"
   },
   "DataUpload": {
     "Action": "Envoyer",
