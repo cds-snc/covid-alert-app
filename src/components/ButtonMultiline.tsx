@@ -74,13 +74,19 @@ export const ButtonMultiline = ({
         <ActivityIndicator color={textColor} size="large" />
       ) : (
         <>
-          <Box flex={1} flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
-            <Box flex={1} flexBasis="10%" style={{...styles.iconOffset}}>
-              {externalLink && <Icon name={externalArrowIcon} size={50} />}
-              {internalLink && <Icon name="icon-chevron-white" size={50} />}
+          <Box
+            flex={1}
+            flexBasis="100%"
+            flexDirection="row-reverse"
+            alignItems="flex-start"
+            justifyContent="flex-start"
+          >
+            <Box flexBasis={25} style={{...styles.iconOffset}}>
+              {externalLink && <Icon name={externalArrowIcon} size={25} />}
+              {internalLink && <Icon name="icon-chevron-white" size={25} />}
             </Box>
 
-            <Box flex={1} flexBasis="80%" alignItems="flex-start" justifyContent="flex-end">
+            <Box flex={1} flexBasis="90%" alignItems="flex-start" justifyContent="flex-end">
               <Text
                 style={{
                   ...styles.content,
@@ -124,7 +130,7 @@ export const ButtonMultiline = ({
 
 const styles = StyleSheet.create({
   iconOffset: {
-    marginTop: -10,
+    marginTop: 0,
   },
   strong: {
     fontWeight: 'bold',
@@ -133,6 +139,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   content: {
-    textAlign: 'center',
+    textAlign: 'left',
+    marginLeft: 10,
   },
 });

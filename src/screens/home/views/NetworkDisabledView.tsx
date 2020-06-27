@@ -8,17 +8,17 @@ export const NetworkDisabledView = () => {
   const [i18n] = useI18n();
   return (
     <BaseHomeView>
-      <Box marginBottom="l">
-        <Icon name="icon-offline" size={44} />
+      <Box marginBottom="l" marginLeft="-xxl">
+        <Icon name="icon-bluetooth-disabled" size={152} />
       </Box>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.NoConnectivity')}
       </Text>
-      <Text variant="bodyText" color="bodyText">
+      <Text variant="bodyText" color="bodyText" marginBottom="m">
         {i18n.translate('Home.NoConnectivityDetailed')}
       </Text>
       <LastCheckedDisplay />
-      <Box marginTop="l" marginBottom="l" />
+      <Box marginBottom="xxl" />
     </BaseHomeView>
   );
 };

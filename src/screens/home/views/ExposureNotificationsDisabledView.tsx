@@ -13,14 +13,14 @@ export const ExposureNotificationsDisabledView = () => {
   }, []);
 
   return (
-    <BaseHomeView>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+    <BaseHomeView iconName="icon-bluetooth-disabled">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.ExposureNotificationsDisabled')}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
+      <Text variant="bodyText" color="bodyText" marginBottom="m">
         {i18n.translate('Home.ExposureNotificationsDisabledDetailed')}
       </Text>
-      <Box alignSelf="stretch" marginBottom="l">
+      <Box alignSelf="stretch" marginBottom="xl" marginTop="xl">
         <Button
           internalLink
           text={i18n.translate('Home.EnableExposureNotificationsCTA')}

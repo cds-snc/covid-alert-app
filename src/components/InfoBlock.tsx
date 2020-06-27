@@ -38,31 +38,23 @@ export const InfoBlock = ({
         </Box>
       )}
       {(title || titleBolded) && (
-        <Box marginBottom="m" justifyContent="flex-start" flexDirection="row" flexWrap="wrap">
-          {title && (
-            <Text variant="overlayTitle" accessibilityRole="header" color={color}>
-              {title}
-            </Text>
-          )}
-          {titleBolded && (
-            <Text
-              variant="overlayTitle"
-              accessibilityRole="header"
-              color={color}
-              fontFamily="Noto Sans"
-              fontWeight="bold"
-            >
-              {titleBolded}
-            </Text>
-          )}
+        <Box marginBottom="m" justifyContent="center" flexDirection="row" flexWrap="wrap">
+          <Text variant="overlayTitle" accessibilityRole="header" textAlign="center">
+            {title && <Text color={color}>{title}</Text>}
+            {titleBolded && (
+              <Text color={color} fontFamily="Noto Sans" fontWeight="bold">
+                {titleBolded}
+              </Text>
+            )}
+          </Text>
         </Box>
       )}
-      <Text variant="bodyText" fontSize={16} color={color} marginBottom="m">
+      <Text variant="bodyText" color={color} marginBottom="m">
         {text}
       </Text>
       {showButton ? (
         <Box marginHorizontal="none" alignSelf="stretch">
-          <Button text={buttonText} onPress={action} variant="bigFlat" color={color} />
+          <Button text={buttonText} onPress={action} variant="thinFlat" color={color} />
         </Box>
       ) : null}
     </Box>

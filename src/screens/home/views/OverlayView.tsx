@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {Box, InfoBlock, BoxProps} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
-import {useExposureStatus, SystemStatus} from 'services/ExposureNotificationService';
+import {SystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
+import {useNavigation} from '@react-navigation/native';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -14,37 +14,46 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   }, []);
 
   return (
-    <InfoBlock
-      icon="icon-exposure-notifications-off"
-      title={i18n.translate('OverlayOpen.ExposureNotificationCardStatus')}
-      titleBolded={i18n.translate('OverlayOpen.ExposureNotificationCardStatusOff')}
+    <InfoButton
+      title={i18n.translate('OverlayOpen.ExposureNotificationCardAction')}
       text={i18n.translate('OverlayOpen.ExposureNotificationCardBody')}
-      button={{text: i18n.translate('OverlayOpen.ExposureNotificationCardAction'), action: toSettings}}
-      backgroundColor="errorBackground"
-      color="errorText"
+      color="danger25Background"
+      variant="danger50Flat"
+      internalLink
+      onPress={toSettings}
     />
   );
 };
 
 const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
   return (
     <InfoBlock
-      icon="icon-bluetooth-off"
-      title={i18n.translate('OverlayOpen.BluetoothCardStatus')}
-      titleBolded={i18n.translate('OverlayOpen.BluetoothCardStatusOff')}
+      titleBolded={i18n.translate('OverlayOpen.BluetoothCardAction')}
+      backgroundColor="danger25Background"
+      color="bodyText"
+      button={{
+        text: '',
+        action: () => {},
+      }}
       text={i18n.translate('OverlayOpen.BluetoothCardBody')}
-      button={{text: i18n.translate('OverlayOpen.BluetoothCardAction'), action: toSettings}}
-      backgroundColor="errorBackground"
-      color="errorText"
       showButton={false}
     />
   );
 };
 
 const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
+  return (
+    <InfoButton
+      title={i18n.translate('OverlayOpen.NotificationCardStatus')}
+      color="mainBackground"
+      internalLink
+      text={i18n.translate('OverlayOpen.NotificationCardBody')}
+      onPress={action}
+      variant="bigFlatNeutralGrey"
+    />
+  );
+
+  /*
   return (
     <InfoBlock
       icon="icon-notifications"
@@ -56,6 +65,7 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
       color="overlayBodyText"
     />
   );
+  */
 };
 
 const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
@@ -71,7 +81,7 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
           action: () => {},
         }}
         backgroundColor="infoBlockNeutralBackground"
-        color="infoBlockBrightText"
+        color="bodyText"
         showButton={false}
       />
     );
@@ -85,7 +95,8 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
         action: () => navigation.navigate('DataSharing'),
       }}
       backgroundColor="infoBlockNeutralBackground"
-      color="infoBlockBrightText"
+      color="bodyText"
+      showButton
     />
   );
 };
@@ -104,6 +115,9 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
       <Box marginBottom="l">
         <StatusHeaderView enabled={status === SystemStatus.Active} />
       </Box>
+      <Box marginBottom="m" marginTop="xxl" marginHorizontal="m">
+        <ShareDiagnosisCode i18n={i18n} />
+      </Box>
       {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
         <Box marginBottom="m" marginHorizontal="m">
           <SystemStatusOff i18n={i18n} />
@@ -119,9 +133,6 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, m
           <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
         </Box>
       )}
-      <Box marginBottom="m" marginHorizontal="m">
-        <ShareDiagnosisCode i18n={i18n} />
-      </Box>
       <Box marginBottom="m" marginHorizontal="m">
         <InfoShareView />
       </Box>

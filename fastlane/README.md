@@ -30,9 +30,14 @@ fastlane ios local
 ----
 
 ## Android
-### android beta
+### android internal
 ```
-fastlane android beta
+fastlane android internal
+```
+
+### android local
+```
+fastlane android local
 ```
 
 

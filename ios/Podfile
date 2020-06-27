@@ -91,6 +91,10 @@ target 'CovidShield' do
 
   pod 'react-native-sensitive-info', :path => '../node_modules/react-native-sensitive-info'
 
+  pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'
+
+  pod 'RNLocalize', :path => '../node_modules/react-native-localize'
+
   target 'CovidShieldTests' do
     inherit! :complete
     # Pods for testing
@@ -105,14 +109,5 @@ target 'CovidShield' do
   add_flipper_pods!
   post_install do |installer|
     flipper_post_install(installer)
-  end
-end
-
-target 'CovidShield-tvOS' do
-  # Pods for CovidShield-tvOS
-
-  target 'CovidShield-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
   end
 end

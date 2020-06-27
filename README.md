@@ -1,23 +1,22 @@
-[La version française suit.](#---------------------------------------------------------------------)
+[La version française suit.](#application-mobile-covid-shield)
 
 # COVID Shield Mobile App
 
 ![Lint + Typscript](https://github.com/CovidShield/mobile/workflows/CI/badge.svg)
 
-Adapted from <https://github.com/CovidShield/mobile> ([see changes](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
+Adapted from <https://github.com/CovidShield/mobile> ([upstream](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
 
 This repository implements a React Native _client application_ for Apple/Google's [Exposure
 Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/). For more information on how this all works, read through the [COVID Shield Rationale](https://github.com/CovidShield/rationale).
 
 - [Overview](#overview)
-
 - [Local development](#local-development)
 - [Customization](#customization)
 - [Localization](#localization)
 
 ## Overview
 
-This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Shield Diagnosis Server](https://github.com/CovidShield/backend) to provide a reference for how a client application for exposure notifications could work.
+This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Shield Diagnosis Server](https://github.com/cds-snc/covid-shield-server) to provide a reference for how a client application for exposure notifications could work.
 
 ## Local development
 
@@ -106,7 +105,7 @@ Note that: Test menu is enabled if the environment config file (`.env*`) has `TE
 
 ## Customization
 
-You can customize the look and feel of the app largely by editing values found in the [Theme File](https://github.com/CovidShield/mobile/blob/master/src/shared/theme.ts)
+You can customize the look and feel of the app largely by editing values found in the [Theme File](https://github.com/CovidShield/mobile/blob/master/src/shared/theme.ts).
 
 ## Localization
 
@@ -164,7 +163,31 @@ cp debug.keystore ~/.android/debug.keystore
 
 Now you can run `yarn run-android` in your root folder.
 
-## ---------------------------------------------------------------------
+### [MacOS] Problem installing Cocoapods
+
+When following step _2.1.1 Install Cocoapods_ if you recieve an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
+
+```bash
+ERROR:  Loading command: install (LoadError)
+  dlopen(/Users/$home/ruby/2.6.5/x86_64-darwin18/openssl.bundle, 9): Library not loaded: /usr/local/opt/openssl/lib/libssl.1.0.0.dylib
+  Referenced from: /Users/$home/ruby/2.6.5/x86_64-darwin18/openssl.bundle
+ERROR:  While executing gem ... (NoMethodError)
+```
+
+This is because the version of Ruby you have installed does not have OpenSSL included.
+
+You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of ruby required with OpenSSL using the following steps:
+
+1. Install RVM following the instructions here: https://rvm.io/
+1. Run the following command to install the version of Ruby needed with OpenSSL included, this will take a few minutes so be patient.
+
+```bash
+rvm reinstall 2.6.5 --with-openssl-dir=/usr/local/opt/openssl
+```
+
+You should now be able to install cocoapods and gem commands should now work.
+
+____
 
 # Application mobile COVID Shield
 
@@ -176,14 +199,13 @@ Ce dépôt met en œuvre une _application client_ React Native pour le cadriciel
 d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, éclairé par [l’orientation fournie par le commissaire à la protection de la vie privée du Canada](https://priv.gc.ca/fr/opc-news/speeches/2020/s-d_20200507/). Pour en savoir plus sur la façon dont tout cela fonctionne, lisez la [justification du COVID Shield](https://github.com/CovidShield/rationale).
 
 - [Aperçu](#aperçu)
-
 - [Développement local](#développement-local)
 - [Personnalisation](#personnalisation)
 - [Localisation](#localisation)
 
 ## Aperçu
 
-Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic COVID Shield](https://github.com/CovidShield/backend) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
+Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic COVID Shield](https://github.com/cds-snc/covid-shield-server) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
 
 ## Développement local
 
@@ -295,9 +317,9 @@ yarn generate-translations
 
 ## Qui a conçu COVID Shield?
 
-COVID Shield a été conçu à l’origine par des [bénévoles de Shopify](https://www.covidshield.app/). Il a été [diffusé gratuitement en vertu d’une licence ouverte flexible](https://github.com/CovidShield/mobile).
+COVID Shield a été développé à l’origine par [des bénévoles de Shopify](https://www.covidshield.app/). Il a été [diffusé gratuitement en vertu d’une licence ouverte flexible](https://github.com/CovidShield/server).
 
-Ce dépôt est élaboré par le [Service numérique canadien](https://numerique.canada.ca/). Vous pouvez nous joindre à <cds-snc@tbs-sct.gc.ca>.
+Ce dépôt est maintenu par le [Service numérique canadien](https://numerique.canada.ca/). Vous pouvez nous joindre à <cds-snc@tbs-sct.gc.ca>.
 
 ## Résolution de problèmes
 

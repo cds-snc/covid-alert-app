@@ -1,7 +1,7 @@
 /* eslint-disable require-atomic-updates */
 import {when} from 'jest-when';
 
-import {ExposureNotificationService} from './ExposureNotificationService';
+import {ExposureNotificationService, LAST_CHECK_TIMESTAMP} from './ExposureNotificationService';
 
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
@@ -22,6 +22,7 @@ const bridge: any = {
   detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
+  getStatus: jest.fn().mockResolvedValue('active'),
 };
 
 describe('ExposureNotificationService', () => {
@@ -86,11 +87,11 @@ describe('ExposureNotificationService', () => {
     });
 
     when(storage.getItem)
-      .calledWith('lastCheckTimeStamp')
+      .calledWith(LAST_CHECK_TIMESTAMP)
       .mockResolvedValue(new OriginalDate('2020-05-18T04:10:00+0000').getTime());
 
     await service.updateExposureStatus();
-    expect(storage.setItem).toHaveBeenCalledWith('lastCheckTimeStamp', `${currentDatetime.getTime()}`);
+    expect(storage.setItem).toHaveBeenCalledWith(LAST_CHECK_TIMESTAMP, `${currentDatetime.getTime()}`);
   });
 
   it('enters Diagnosed flow when start keys submission process', async () => {

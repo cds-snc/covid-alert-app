@@ -7,18 +7,20 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
-import {LocationTracking} from './views/LocationTracking';
-import {Permissions} from './views/Permissions';
 import {Start} from './views/Start';
-import {YourData} from './views/YourData';
+import {WhatItsNot} from './views/WhatItsNot';
+import {Anonymous} from './views/Anonymous';
+import {HowItWorks} from './views/HowItWorks';
+import {Permissions} from './views/Permissions';
 
-type ViewKey = 'start' | 'location' | 'yourdata' | 'permissions';
+type ViewKey = 'start' | 'whatItsNot' | 'anonymous' | 'permissions' | 'howItWorks';
 
-const contentData: ViewKey[] = ['start', 'location', 'yourdata', 'permissions'];
+const contentData: ViewKey[] = ['start', 'whatItsNot', 'anonymous', 'howItWorks', 'permissions'];
 const viewComponents = {
   start: Start,
-  location: LocationTracking,
-  yourdata: YourData,
+  whatItsNot: WhatItsNot,
+  anonymous: Anonymous,
+  howItWorks: HowItWorks,
   permissions: Permissions,
 };
 
@@ -86,9 +88,9 @@ export const OnboardingScreen = () => {
             />
           )}
         </Box>
-        <Box flexDirection="row" padding="l">
+        <Box flexDirection="row" marginBottom="l">
           <Box flex={1}>{isStart ? LanguageButton : BackButton}</Box>
-          <Box flex={1} justifyContent="center">
+          <Box flex={0} justifyContent="center">
             <ProgressCircles alignSelf="center" numberOfSteps={contentData.length} activeStep={currentIndex + 1} />
           </Box>
           <Box flex={1}>

@@ -13,17 +13,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		195904142488B84300430369 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 195904162488B84300430369 /* Launch Screen.storyboard */; };
-		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* CovidShieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CovidShieldTests.m */; };
 		7482404F246F9C0E009F68EA /* CovidShield.m in Sources */ = {isa = PBXBuildFile; fileRef = 7482404E246F9C0E009F68EA /* CovidShield.m */; };
 		74B6941E245F15B20077B9DA /* ExposureNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6941D245F15B20077B9DA /* ExposureNotification.m */; };
-		8DF9A2955489329AFD47D944 /* libPods-CovidShield-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 643730E3E57CC675D488E2BC /* libPods-CovidShield-tvOS.a */; };
 		92B51DEAB84B429696C44822 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190AEBD50CE3434EBCFCFBB4 /* NotoSans-Bold.ttf */; };
 		9DCF98527548A48AED34959C /* libPods-CovidShield-CovidShieldTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */; };
 		A10A691626414D8AABBB659C /* Device-Large.png in Resources */ = {isa = PBXBuildFile; fileRef = 431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */; };
-		A5B29C19B17A2E25480B88CE /* libPods-CovidShield-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 097F1398729006FEB2A771FC /* libPods-CovidShield-tvOSTests.a */; };
 		BA054BD27C1A8657F6BF95BB /* libPods-CovidShield.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52445CBEB4F2B88669022976 /* libPods-CovidShield.a */; };
 		E0C908AD8D97409895BCF901 /* img_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B4DC3E27534960AEAA5640 /* img_0.png */; };
 		E1EAAA13E1C84385A63D42EA /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E93E71E0D77549B3926CABCB /* NotoSans-Regular.ttf */; };
@@ -37,13 +31,6 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = CovidShield;
 		};
-		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "CovidShield-tvOS";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -51,7 +38,6 @@
 		00E356EE1AD99517003FC87E /* CovidShieldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CovidShieldTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* CovidShieldTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CovidShieldTests.m; sourceTree = "<group>"; };
-		097F1398729006FEB2A771FC /* libPods-CovidShield-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* CovidShield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CovidShield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CovidShield/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CovidShield/AppDelegate.m; sourceTree = "<group>"; };
@@ -64,29 +50,20 @@
 		195904172488B85500430369 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
 		195904192488B85E00430369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
 		1A0CE02FD9160E9B9AF76381 /* Pods-CovidShield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.release.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.release.xcconfig"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* CovidShield-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CovidShield-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* CovidShield-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CovidShield-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Device-Large.png"; path = "../src/assets/animation/images/Device-Large.png"; sourceTree = "<group>"; };
 		4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.release.xcconfig"; sourceTree = "<group>"; };
 		52445CBEB4F2B88669022976 /* libPods-CovidShield.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		643730E3E57CC675D488E2BC /* libPods-CovidShield-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7482404D246F9C0E009F68EA /* CovidShield.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CovidShield.h; path = CovidShield/CovidShield.h; sourceTree = "<group>"; };
 		7482404E246F9C0E009F68EA /* CovidShield.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CovidShield.m; path = CovidShield/CovidShield.m; sourceTree = "<group>"; };
 		7482405524773294009F68EA /* Config.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.release.xcconfig; sourceTree = "<group>"; };
 		74824056247732A5009F68EA /* Config.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.debug.xcconfig; sourceTree = "<group>"; };
 		74B6941C245F15B20077B9DA /* ExposureNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ExposureNotification.h; path = CovidShield/ExposureNotification.h; sourceTree = "<group>"; };
 		74B6941D245F15B20077B9DA /* ExposureNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ExposureNotification.m; path = CovidShield/ExposureNotification.m; sourceTree = "<group>"; };
-		7781F71836B103A188BA11A8 /* Pods-CovidShield-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-tvOS.release.xcconfig"; path = "Target Support Files/Pods-CovidShield-tvOS/Pods-CovidShield-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-CovidShieldTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B4DC3E27534960AEAA5640 /* img_0.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = img_0.png; path = ../src/assets/animation/images/img_0.png; sourceTree = "<group>"; };
-		BAD0A9B82492A30500F1EEC8 /* CovidShieldDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CovidShieldDebug.entitlements; path = CovidShield/CovidShieldDebug.entitlements; sourceTree = "<group>"; };
-		C3C62E531ADF4C4A8E004927 /* Pods-CovidShield-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield-tvOSTests/Pods-CovidShield-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		C8C6BC10F3A019B49411B60B /* Pods-CovidShield-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-CovidShield-tvOSTests/Pods-CovidShield-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		D59BC3EC50A0ADA445499A7C /* Pods-CovidShield-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield-tvOS/Pods-CovidShield-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		DB9A1444C934C41C93EB531F /* Pods-CovidShield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.debug.xcconfig"; sourceTree = "<group>"; };
 		E93E71E0D77549B3926CABCB /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSans-Regular.ttf"; path = "../src/assets/fonts/NotoSans-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FA11CCD8EB9EB39453E3C0AA /* Pods-CovidShield-CovidShieldTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FAA4C78E2EF7441687865846 /* img_0.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = img_0.svg; path = ../src/assets/animation/images/img_0.svg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,22 +82,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA054BD27C1A8657F6BF95BB /* libPods-CovidShield.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E4781E0B4A5D006451C7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8DF9A2955489329AFD47D944 /* libPods-CovidShield-tvOS.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48D1E0B4A5D006451C7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A5B29C19B17A2E25480B88CE /* libPods-CovidShield-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +108,6 @@
 		13B07FAE1A68108700A75B9A /* CovidShield */ = {
 			isa = PBXGroup;
 			children = (
-				BAD0A9B82492A30500F1EEC8 /* CovidShieldDebug.entitlements */,
 				179621B4246C643100B9FC0D /* CovidShield.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -178,11 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				52445CBEB4F2B88669022976 /* libPods-CovidShield.a */,
 				77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */,
-				643730E3E57CC675D488E2BC /* libPods-CovidShield-tvOS.a */,
-				097F1398729006FEB2A771FC /* libPods-CovidShield-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -194,10 +151,6 @@
 				1A0CE02FD9160E9B9AF76381 /* Pods-CovidShield.release.xcconfig */,
 				FA11CCD8EB9EB39453E3C0AA /* Pods-CovidShield-CovidShieldTests.debug.xcconfig */,
 				4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */,
-				D59BC3EC50A0ADA445499A7C /* Pods-CovidShield-tvOS.debug.xcconfig */,
-				7781F71836B103A188BA11A8 /* Pods-CovidShield-tvOS.release.xcconfig */,
-				C3C62E531ADF4C4A8E004927 /* Pods-CovidShield-tvOSTests.debug.xcconfig */,
-				C8C6BC10F3A019B49411B60B /* Pods-CovidShield-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -234,8 +187,6 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* CovidShield.app */,
 				00E356EE1AD99517003FC87E /* CovidShieldTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* CovidShield-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* CovidShield-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -283,45 +234,6 @@
 			productReference = 13B07F961A680F5B00A75B9A /* CovidShield.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* CovidShield-tvOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "CovidShield-tvOS" */;
-			buildPhases = (
-				707BB83007AC3A634EF5224D /* [CP] Check Pods Manifest.lock */,
-				FD10A7F122414F3F0027D42C /* Start Packager */,
-				2D02E4771E0B4A5D006451C7 /* Sources */,
-				2D02E4781E0B4A5D006451C7 /* Frameworks */,
-				2D02E4791E0B4A5D006451C7 /* Resources */,
-				2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "CovidShield-tvOS";
-			productName = "CovidShield-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* CovidShield-tvOS.app */;
-			productType = "com.apple.product-type.application";
-		};
-		2D02E48F1E0B4A5D006451C7 /* CovidShield-tvOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "CovidShield-tvOSTests" */;
-			buildPhases = (
-				FAD4787DE13724CBAFA0A57A /* [CP] Check Pods Manifest.lock */,
-				2D02E48C1E0B4A5D006451C7 /* Sources */,
-				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
-				2D02E48E1E0B4A5D006451C7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
-			);
-			name = "CovidShield-tvOSTests";
-			productName = "CovidShield-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* CovidShield-tvOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -335,18 +247,9 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = S49952WKLY;
+						DevelopmentTeam = J7J9Q6KTWJ;
 						LastSwiftMigration = 1120;
 						ProvisioningStyle = Manual;
-					};
-					2D02E47A1E0B4A5D006451C7 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-					};
-					2D02E48F1E0B4A5D006451C7 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
 				};
 			};
@@ -366,8 +269,6 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* CovidShield */,
 				00E356ED1AD99517003FC87E /* CovidShieldTests */,
-				2D02E47A1E0B4A5D006451C7 /* CovidShield-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* CovidShield-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -391,21 +292,6 @@
 				1328B72A4DDB4713970A0673 /* img_0.svg in Resources */,
 				92B51DEAB84B429696C44822 /* NotoSans-Bold.ttf in Resources */,
 				E1EAAA13E1C84385A63D42EA /* NotoSans-Regular.ttf in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E4791E0B4A5D006451C7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48E1E0B4A5D006451C7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,20 +334,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
 		31452B1ADB3776B36C665CB4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -478,28 +350,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-CovidShield-CovidShieldTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		707BB83007AC3A634EF5224D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CovidShield-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -524,48 +374,7 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb\" \"${SRCROOT}/..\" \"${SRCROOT}/Generated.xcconfig\"\n";
 		};
-		FAD4787DE13724CBAFA0A57A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CovidShield-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Start Packager";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FD10A7F122414F3F0027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -606,23 +415,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D02E4771E0B4A5D006451C7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */,
-				2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48C1E0B4A5D006451C7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DCD954D1E0B4F2C00145EB5 /* CovidShieldTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -630,11 +422,6 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* CovidShield */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
-		};
-		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* CovidShield-tvOS */;
-			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -706,7 +493,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = S49952WKLY;
+				DEVELOPMENT_TEAM = J7J9Q6KTWJ;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -720,9 +507,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_IOS)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ca.gc.hcsc.canada.stopcovid";
 				PRODUCT_NAME = CovidShield;
-				PROVISIONING_PROFILE_SPECIFIER = SapphireDevelopmentProfile;
+				PROVISIONING_PROFILE_SPECIFIER = "Stop COVID Development Profile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -738,7 +525,7 @@
 				CODE_SIGN_ENTITLEMENTS = CovidShield/CovidShield.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = S49952WKLY;
+				DEVELOPMENT_TEAM = J7J9Q6KTWJ;
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -749,119 +536,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_IOS)";
 				PRODUCT_NAME = CovidShield;
-				PROVISIONING_PROFILE_SPECIFIER = "ExposureNotification-APPSTORE";
+				PROVISIONING_PROFILE_SPECIFIER = "Stop COVID App Store Profile";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
-		2D02E4971E0B4A5E006451C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D59BC3EC50A0ADA445499A7C /* Pods-CovidShield-tvOS.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "CovidShield-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.CovidShield-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Debug;
-		};
-		2D02E4981E0B4A5E006451C7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7781F71836B103A188BA11A8 /* Pods-CovidShield-tvOS.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "CovidShield-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.CovidShield-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Release;
-		};
-		2D02E4991E0B4A5E006451C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C3C62E531ADF4C4A8E004927 /* Pods-CovidShield-tvOSTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "CovidShield-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.CovidShield-tvOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CovidShield-tvOS.app/CovidShield-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
-			};
-			name = Debug;
-		};
-		2D02E49A1E0B4A5E006451C7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8C6BC10F3A019B49411B60B /* Pods-CovidShield-tvOSTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "CovidShield-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.CovidShield-tvOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CovidShield-tvOS.app/CovidShield-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};
@@ -995,24 +672,6 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "CovidShield-tvOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D02E4971E0B4A5E006451C7 /* Debug */,
-				2D02E4981E0B4A5E006451C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "CovidShield-tvOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D02E4991E0B4A5E006451C7 /* Debug */,
-				2D02E49A1E0B4A5E006451C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

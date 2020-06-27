@@ -1,24 +1,33 @@
 {
   "Home": {
     "NoExposureDetected": {
-      "RegionCoveredTitle": "No exposure detected",
-      "RegionCoveredBody": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
-      "NoRegionSetTitle": "Choose your province or territory",
-      "NoRegionSetBody": "Provincial and territorial governments are working to support StopCOVID across Canada. In some places, people cannot yet report COVID-19 diagnoses through this app.",
-      "RegionNotCoveredTitle": "No reporting in your province",
-      "RegionNotCoveredBody": "We’re not able to say whether you’ve been exposed.\n\nPeople in your province or territory are not yet able to report a COVID diagnosis through this app.\n\nIt’s still good to keep placeholder_name on. That way, when people are able to report a diagnosis, we’ll know if you were near them."
+      "RegionCovered": {
+        "Title": "No exposure detected",
+        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next"
+      },
+      "NoRegion": {
+        "Title": "No exposure detected",
+        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
+        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+        "DiagnosedBtnText2": "What to do next"
+      },
+      "RegionNotCovered": {
+        "Title": "No reporting yet in your area",
+        "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn COVID Alert on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html"
+      }
     },
-    "ChooseRegionCTA": "Choose province or territory",
-    "NoExposureDetectedDetailed1": "You have not been near anyone who reported a COVID diagnosis through this app.",
-    "NoExposureDetectedDetailed2": "However, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app. ",
     "ExposureDetected": {
-      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-      "DiagnosedBtnText2": "What to do next",
       "Title": "You’ve been exposed",
       "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
-      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action."
+      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action.",
+      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
+      "DiagnosedBtnText2": "What to do next"
     },
-
+    "ChooseRegionCTA": "Choose province or territory",
     "SeeGuidance": "What now? See guidance.",
     "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
     "How": "Diagnosed with COVID-19?",
@@ -34,18 +43,21 @@
       "Body3": "Take care of yourself and your family during this time."
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
-    "DailyShare": "Share your new information",
-    "DailyShareDetailed": "Sharing your information helps others to know if they've been exposed to COVID-19. Then they can isolate and slow the spread to others. No details about who you are will be shared.",
-    "ShareRandomIDsCTA": "Notify people you've been near",
+    "DiagnosedShareView": {
+      "Title": "Upload new random codes",
+      "Body1": "It's time to upload the new random codes your phone sent out in the last day.",
+      "Body2": "Nobody will get any information abouot you or the time you were near them.",
+      "ButtonCTA": "Upload new codes"
+    },
     "BluetoothDisabled": "Bluetooth is off",
-    "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so StopCOVID can work.",
+    "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "TurnOnBluetooth": "Turn on Bluetooth",
     "ExposureNotificationsDisabled": "Exposure messages are off",
-    "ExposureNotificationsDisabledDetailed": "StopCOVID works by checking these messages.",
+    "ExposureNotificationsDisabledDetailed": "COVID Alert works by checking these messages.",
     "EnableExposureNotificationsCTA": "Turn on exposure notifications",
-    "NoConnectivity": "StopCOVID is offline",
-    "NoConnectivityDetailed": "StopCOVID only works if there is internet access.",
-    "AppName": "StopCOVID",
+    "NoConnectivity": "COVID Alert is offline",
+    "NoConnectivityDetailed": "COVID Alert only checks for exposure if your phone is connected to the Internet.",
+    "AppName": "COVID Alert",
     "ExternalLinkHint": "Opens in a new window",
     "LastCheckedMinutes": {
       "One": "Last checked {number} minute ago",
@@ -61,7 +73,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "StopCOVID is ",
+    "SystemStatus": "COVID Alert is ",
     "SystemStatusOn": "ON",
     "SystemStatusOff": "OFF",
     "NotificationStatus": "Notifications are ",
@@ -71,27 +83,27 @@
   "OverlayOpen": {
     "BluetoothCardStatus": "Bluetooth is ",
     "BluetoothCardStatusOff": "OFF",
-    "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so StopCOVID can work.",
+    "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
-    "EnterCodeCardBody": "You were given an 8-digit number when you were diagnosed. This number tells StopCOVID to notify people you were near.",
+    "EnterCodeCardBody": "You were given an 8-digit number when you were diagnosed. This number tells COVID Alert to notify people you were near.",
     "EnterCodeCardAction": "Enter number",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread.",
-    "NotificationCardStatus": "Push notifications are ",
+    "NotificationCardStatus": "Push notifications are off",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on push notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardStatusOff": "OFF",
-    "ExposureNotificationCardBody": "Exposure notifications are needed for StopCOVID to work.",
+    "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
     "ExposureNotificationCardAction": "Turn on exposure notifications"
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
-    "LearnMore": "How StopCOVID works",
+    "LearnMore": "How COVID Alert works",
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
     "Privacy": "Read privacy policy"
@@ -107,12 +119,12 @@
     "Close": "Back"
   },
   "Tutorial": {
-    "step-1Title": "How StopCOVID works",
-    "step-1": "Once you set up StopCOVID, the app runs in the background and will not interrupt your activities.\n\nWhile you go about your day, your phone uses Bluetooth to send out a random code every 5 minutes. The app changes its random codes frequently, so they cannot be used to identify you.",
+    "step-1Title": "How COVID Alert works",
+    "step-1": "Once you set up COVID Alert, the app runs in the background and will not interrupt your activities.\n\nWhile you go about your day, your phone uses Bluetooth to send out a random code every 5 minutes. The app changes its random codes frequently, so they cannot be used to identify you.",
     "step-2Title": "",
-    "step-2": "Whenever you’re near someone else who has StopCOVID installed, their phone will also send out random codes that your phone will collect and store. Meanwhile, their phone will collect and store the random codes that your phone sends out.\n\nThe phones send codes every 5 minutes. The random codes are stored securely on each phone.",
+    "step-2": "Whenever you’re near someone else who has COVID Alert installed, their phone will also send out random codes that your phone will collect and store. Meanwhile, their phone will collect and store the random codes that your phone sends out.\n\nThe phones send codes every 5 minutes. The random codes are stored securely on each phone.",
     "step-3Title": "",
-    "step-3": "The app estimates how far away other phones with StopCOVID are. To do this, it uses the strength of their Bluetooth signals.\n\nIf you’re closer than a certain distance for more than a certain amount of time, the app will record an exposure.",
+    "step-3": "The app estimates how far away other phones with COVID Alert are. To do this, it uses the strength of their Bluetooth signals.\n\nIf you’re closer than a certain distance for more than a certain amount of time, the app will record an exposure.",
     "step-4Title": "",
     "step-4": "If someone with the app is diagnosed with COVID-19, they can choose to upload all the codes their phone sent out. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.  ",
     "step-5Title": "",
@@ -125,52 +137,51 @@
     "Close": "Close"
   },
   "Sharing": {
-    "Title": "Tell your friends about StopCOVID",
-    "SubTitle": "Every person using StopCOVID helps to slow the spread of COVID-19. Sharing this app will not share any of your personal information.",
+    "Title": "Tell your friends about COVID Alert",
+    "SubTitle": "Every person using COVID Alert helps to slow the spread of COVID-19. Sharing this app will not share any of your personal information.",
     "Platform-messages": "Share to Messages",
     "Platform-instagram": "Share to Instagram",
     "More": "More apps",
-    "Message": "Join me in helping to slow the spread of COVID-19. Download the StopCOVID app: https://covidshield.app",
+    "Message": "Join me in helping to slow the spread of COVID-19. Download the COVID Alert app: https://covidshield.app",
     "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
     "Close": "Close"
   },
   "Onboarding": {
     "ActionNext": "Next",
     "ActionEnd": "Done",
-    "ActionBack": "Back"
-  },
-  "OnboardingLocation": {
-    "Title": "No location tracking",
-    "Intro": "StopCOVID does not use GPS or location services. It has no way of knowing:",
-    "Body1": "your location",
-    "Body2": "who you are",
-    "Body3": "where you’ve been",
-    "Body4": "who you’ve been with"
-  },
-  "YourData": {
-    "Title": "Totally anonymous",
-    "Intro": "StopCOVID has no way of knowing:",
-    "Body1": "your identity",
-    "Body2": "your contacts",
-    "Body3": "any details about you or the people you’re near",
-    "Body4": "your health information"
-  },
-  "OnboardingPermissions": {
-    "Title": "No actions without your permission",
-    "Body1": "Nothing is done without your permission.",
-    "Body2": "Even when you give permission, StopCOVID only shares the random codes from the phones of people you were near. It does not share any information about you.",
-    "PrivacyButtonCTA": "Read the privacy policy",
-    "HowItWorksCTA": "Read more about how it works"
-  },
-  "OnboardingStart": {
-    "Title": "What StopCOVID does",
-    "Body1": "It notifies you if someone you’ve been near in the past 14 days reports a COVID-19 diagnosis through the app.",
-    "Body2": "It will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
-    "Body3": "If you test positive for COVID-19, you can anonymously notify others who have been near you, in the past 14 days.",
-    "TutorialAction": "Learn how StopCOVID works",
-    "Title2": "Your choice",
-    "Body4": "You do not have to use it",
-    "Body5": "You can delete it anytime"
+    "ActionBack": "Back",
+    "Start": {
+      "Title": "Join the effort to slow the spread",
+      "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
+      "Body2": "That way, you can isolate right away and stop the spread."
+    },
+    "WhatItsNot": {
+      "Title": "What COVID Alert does not do",
+      "Body1": "The app will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
+      "Body2": "It will not tell you about outbreaks in your city or neighbourhood."
+    },
+    "Anonymous": {
+      "Title": "Totally Anonymous",
+      "Body1": "COVID Alert does not use GPS or location services.",
+      "Body2": "It has no way of knowing:",
+      "Bullet1": "your location",
+      "Bullet2": "your name or address",
+      "Bullet3": "your phone's contacts",
+      "Bullet4": "your health information"
+    },
+    "HowItWorks": {
+      "Title": "How it works",
+      "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
+      "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
+      "Body3": "If you’ve been near one of those codes in the past 14 days, you’ll get a notification.",
+      "HowItWorksCTA": "Learn more about how it works"
+    },
+    "Permissions": {
+      "Title": "The app will now ask your permission",
+      "Body1": "Allow the app to start logging random codes or “random IDs” when you’re near other phones. The app will access the date, duration and signal strength related to the random codes, but they never leave your phone.",
+      "Body2": "You’ll also need to enable push notifications.",
+      "PrivacyButtonCTA": "Learn more about privacy"
+    }
   },
   "Privacy": {
     "Title": "Privacy policy",
@@ -178,31 +189,57 @@
   },
   "ThankYou": {
     "Title": "Thank you for helping",
-    "Body": "Exposure notifications are on. You will receive a message if StopCOVID detects that you've been near someone who has reported a COVID-19 diagnosis.",
+    "Body": "Exposure notifications are on. You will receive a message if COVID Alert detects that you've been near someone who has reported a COVID-19 diagnosis.",
     "Dismiss": "Dismiss"
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "FormIntro": "Please enter your 8 digit StopCOVID code.",
-    "Action": "Submit code",
-    "InputLabel": "StopCOVID code",
+    "FormIntro": "Enter your 8-digit number",
+    "Action": "Submit",
+    "InputLabel": "COVID Alert code",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
-    "ConsentTitle": "Share your random IDs",
-    "ConsentBody": "You have been granted access by a health care professional to share the random IDs stored on your phone.",
-    "ConsentBody2": "If you share your random IDs, others with StopCOVID who have been near you in the past 14 days will receive a notification that they have possibly been exposed. This notification will not include any information about you.",
-    "ConsentBody3": "You will be notified once per day when new random IDs are available to be shared. You must grant permission each time for the random IDs to be shared. Sharing is voluntary.",
-    "PrivacyPolicyLink": "View privacy policy",
-    "ConsentAction": "I agree",
+    "ConsentTitle": "Now you can let COVID Alert notify people",
+    "ConsentBody1": "COVID Alert will ask your permission to upload your random codes from the past 14 days.",
+    "ConsentBody2": "Nobody will get any information about you or the time you were near them.",
+    "ConsentSubtitle": "Your choice",
+    "ConsentBody3": "It is your choice. You can help slow the spread of COVID-19 if you agree.",
+    "PrivacyPolicyLink": "How COVID Alert protects privacy",
+    "HowItWorksLink": "See how it works",
+    "ConsentAction": "Agree",
     "ShareToast": "Random IDs shared successfully",
     "ErrorTitle": "Code not recognized",
-    "ErrorBody": "Your StopCOVID code could not be recognized. Please try again.",
-    "ErrorAction": "OK"
+    "ErrorBody": "Your COVID Alert code could not be recognized. Please try again.",
+    "ErrorAction": "OK",
+    "Step1": {
+      "Title": "Enter your 8-digit number",
+      "Body": "You should have been given an 8-digit number when you were diagnosed. You need to enter this number if you want COVID Alert to let people know they were exposed.\n\nThis is optional. It’s your choice. But you can help slow the spread of COVID-19 if you do it.",
+      "CTA": "Enter number",
+      "NoCode": "No 8-digit number?"
+    },
+    "NoCode": {
+      "NoRegion": {
+        "Title": "You skipped choosing province or territory",
+        "Body": "In some provinces and territories, people cannot yet report a COVID-19 diagnosis through this app.\n\nTo find out if you can get an 8-digit number, you need to choose your area.",
+        "ChooseRegionCTA": "Choose province or territory"
+      },
+      "RegionCovered": {
+        "Title": "No 8-digit number?",
+        "Body": "Contact the person or office that gave you your results to get a number."
+      },
+      "RegionNotCovered": {
+        "Title": "No reporting yet in your area",
+        "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nYou will not be able to notify people you’ve been near that they were exposed. But you can still take steps to:",
+        "Body2": "keep your community safe.",
+        "Body3": "protect people and pets you live with.",
+        "Body4": "take care of yourself."
+      }
+    }
   },
   "Notification": {
     "ExposedMessageTitle": "You’ve been exposed",
     "ExposedMessageBody": "You’ve been near someone who reported a COVID-19 diagnosis through the app.\n\nThis does not mean you’ve been infected. But you should probably take some action.",
-    "OffMessageTitle": "StopCOVID is off",
-    "OffMessageBody": "Turn on StopCOVID to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
+    "OffMessageTitle": "COVID Alert is off",
+    "OffMessageBody": "Turn on COVID Alert to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Share your new informatin about people you were near",
     "DailyUploadNotificationBody": "Sharing your information helps people know if they've been exposed to COVID-19. Then they can isolate and slow the spread to others. No details about who you are will be shared."
   },
@@ -211,8 +248,8 @@
   },
   "BottomSheet": {
     "Collapse": "Close",
-    "OnStatus": "StopCOVID is on, Tap for more information",
-    "OffStatus": "StopCOVID is off, Tap for more information"
+    "OnStatus": "COVID Alert is on, Tap for more information",
+    "OffStatus": "COVID Alert is off, Tap for more information"
   },
   "RegionLanding": {
     "Title": "Choose your province or territory"
@@ -249,7 +286,7 @@
     "NT": "https://www.gov.nt.ca/covid-19/en/services/about-covid-19",
     "NS": "https://novascotia.ca/coronavirus/when-to-seek-help/",
     "NU": "https://www.gov.nu.ca/health/information/covid-19-novel-coronavirus#Covid%20Facts",
-    "ON": "https://covid-19.ontario.ca/",
+    "ON": "https://covid-19.ontario.ca/covid-19-assessment-centres",
     "PE": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-19-faqs",
     "QC": "https://www.quebec.ca/en/health/health-issues/a-z/general-information-about-coronavirus/#c53183",
     "SK": "",
