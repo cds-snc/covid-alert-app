@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Button} from 'components';
+import {Box, Text, Button, ButtonSingleLine} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 
@@ -18,18 +18,33 @@ export const Step1 = ({onSuccess}: Props) => {
     <>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
             {i18n.translate('DataUpload.Step1.Title')}
           </Text>
 
-          <Text variant="bodyText" color="bodyText" marginBottom="l">
-            {i18n.translate('DataUpload.Step1.Body')}
+          <Text marginBottom="l">
+            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body1a')}</Text>
+            <Text>{i18n.translate('DataUpload.Step1.Body1b')}</Text>
           </Text>
-          <Box>
+          <Text marginBottom="l">
+            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body2a')}</Text>
+            <Text>{i18n.translate('DataUpload.Step1.Body2b')}</Text>
+          </Text>
+          <Text marginBottom="l">
+            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body3a')}</Text>
+            <Text>{i18n.translate('DataUpload.Step1.Body3b')}</Text>
+          </Text>
+
+          <Box marginTop="m">
             <Button variant="thinFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
           </Box>
-          <Box marginBottom="m">
-            <Button variant="text" text={i18n.translate('DataUpload.Step1.NoCode')} onPress={onNoCode} />
+          <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
+            <ButtonSingleLine
+              text={i18n.translate('DataUpload.Step1.NoCode')}
+              variant="bigFlatNeutralGrey"
+              internalLink
+              onPress={onNoCode}
+            />
           </Box>
         </Box>
       </ScrollView>

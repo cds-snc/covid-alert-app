@@ -30,18 +30,25 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
     <>
       <Box marginHorizontal="m" marginBottom="l">
         <Text variant="bodyTitle" color="overlayBodyText" accessibilityRole="header">
-          {i18n.translate('DataUpload.FormIntro')}
+          {i18n.translate('DataUpload.FormView.Title')}
         </Text>
       </Box>
+      <Box marginHorizontal="m" marginBottom="l">
+        <Text color="overlayBodyText">{i18n.translate('DataUpload.FormView.Body')}</Text>
+      </Box>
       <Box marginBottom="m">
-        <CodeInput value={value} onChange={onChange} accessibilityLabel={i18n.translate('DataUpload.InputLabel')} />
+        <CodeInput
+          value={value}
+          onChange={onChange}
+          accessibilityLabel={i18n.translate('DataUpload.FormView.InputLabel')}
+        />
       </Box>
       <Box flex={1} marginHorizontal="m" marginBottom="m">
         <Button
           loading={loading}
           disabled={value.length !== 8}
           variant="thinFlat"
-          text={i18n.translate('DataUpload.Action')}
+          text={i18n.translate('DataUpload.FormView.Action')}
           onPress={handleVerify}
         />
       </Box>
