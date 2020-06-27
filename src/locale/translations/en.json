@@ -214,6 +214,9 @@
     "OnStatus": "StopCOVID is on, Tap for more information",
     "OffStatus": "StopCOVID is off, Tap for more information"
   },
+  "RegionLanding": {
+    "Title": "Choose your province or territory"
+  },
   "RegionPicker": {
     "Title": "Where do you live?",
     "SettingsTitle": "Province or territory",

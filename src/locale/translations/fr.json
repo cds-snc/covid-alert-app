@@ -158,8 +158,39 @@
   "Partners": {
     "Label": "Conçu en partenariat avec"
   },
+<<<<<<< province-landing
   "BottomSheet": {
     "Collapse": "Fermer"
+=======
+  "Privacy": {
+    "Close": "Fermer",
+    "Title": "Politique de confidentialité"
+  },
+  "RegionLanding": {
+    "Title": "Sélectionnez votre province ou territoire"
+  },
+  "RegionPicker": {
+    "AB": "Alberta",
+    "BC": "Colombie-Britannique",
+    "Body": "Sélectionnez la province ou le territoire dont vous devez suivre les recommandations de santé publique.\n\nCette information est stockée sur votre téléphone uniquement et ne sera jamais transmise à d’autres personnes.",
+    "Close": "Fermer",
+    "GetStarted": "Commencer",
+    "MB": "Manitoba",
+    "NB": "Nouveau-Brunswick",
+    "NL": "Terre-Neuve-et-Labrador",
+    "NS": "Nouvelle-Écosse",
+    "NT": "Territoires du Nord-Ouest",
+    "NU": "Nunavut",
+    "ON": "Ontario",
+    "Optional": "* Facultatif",
+    "PE": "Île-du-Prince-Édouard",
+    "QC": "Québec",
+    "SK": "Saskatchewan",
+    "SettingsTitle": "Province ou territoire",
+    "Skip": "Ignorer",
+    "Title": "Où habitez-vous?",
+    "YT": "Yukon"
+>>>>>>> local
   },
   "RegionalGuidanceURL": {
     "CA": "https://www.canada.ca/fr/sante-publique/services/maladies/2019-nouveau-coronavirus/symptomes.html",

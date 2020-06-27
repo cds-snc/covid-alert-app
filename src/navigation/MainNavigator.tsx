@@ -11,7 +11,12 @@ import {SharingScreen} from 'screens/sharing';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
+<<<<<<< province-landing
 import {RegionPickerScreen, RegionPickerSettingsScreen} from 'screens/regionPicker';
+=======
+import {RegionLandingScreen, RegionPickerSettingsScreen} from 'screens/regionPicker';
+import {NoCodeScreen} from 'screens/nocode/NoCode';
+>>>>>>> local
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 enableScreens();
@@ -56,7 +61,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 }
 
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
-const RegionPickerScreenWithNavBar = withDarkNav(RegionPickerScreen);
+const RegionLandingScreenWithNavBar = withDarkNav(RegionLandingScreen);
 const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
@@ -73,7 +78,7 @@ const OnboardingNavigator = () => {
       initialRouteName="OnboardingTutorial"
     >
       <OnboardingStack.Screen name="OnboardingTutorial" component={OnboardingScreenWithNavBar} />
-      <OnboardingStack.Screen name="RegionPicker" component={RegionPickerScreenWithNavBar} />
+      <OnboardingStack.Screen name="RegionPicker" component={RegionLandingScreenWithNavBar} />
     </OnboardingStack.Navigator>
   );
 };
