@@ -141,7 +141,9 @@
     "LearnMore": "Fonctionnement de Alerte COVID",
     "Privacy": "Lire la politique de confidentialité",
     "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
-    "TellAFriend": "Partager l’application"
+    "TellAFriend": "Partager l’application",
+    "SettingsTitle": "Paramètres",
+    "InformationTitle": "Renseignements"
   },
   "LanguageSelect": {
     "Close": "Retour",

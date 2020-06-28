@@ -106,7 +106,9 @@
     "LearnMore": "How COVID Alert works",
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
-    "Privacy": "Read privacy policy"
+    "Privacy": "Read privacy policy",
+    "SettingsTitle": "Settings",
+    "InformationTitle": "Information"
   },
   "LanguageSelect": {
     "Title": "Language",

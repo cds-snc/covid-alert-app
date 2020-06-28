@@ -38,11 +38,6 @@ const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoS
 export const InfoShareView = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
-  // const onSymptomps = useCallback(() => {
-  //   Linking.openURL(i18n.translate('Info.SymptomsUrl')).catch(err => console.error('An error occurred', err));
-  // }, [i18n]);
-
-  // const onShare = useCallback(() => navigation.navigate('Sharing'), [navigation]);
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
@@ -50,6 +45,9 @@ export const InfoShareView = () => {
 
   return (
     <>
+      <Box marginTop="l" marginBottom="m">
+        <Text variant="overlayTitle">{i18n.translate('Info.SettingsTitle')}</Text>
+      </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
         <InfoShareItem
           onPress={onRegion}
@@ -59,8 +57,10 @@ export const InfoShareView = () => {
         />
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" lastItem />
       </Box>
-      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden">
-        {/* <InfoShareItem onPress={onShare} text={i18n.translate('Info.TellAFriend')} icon="icon-share" /> */}
+      <Box marginTop="l" marginBottom="m">
+        <Text variant="overlayTitle">{i18n.translate('Info.InformationTitle')}</Text>
+      </Box>
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
         <InfoShareItem
           lastItem={false}
           onPress={onLearnMore}
