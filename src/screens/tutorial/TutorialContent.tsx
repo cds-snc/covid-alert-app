@@ -1,67 +1,56 @@
-import React, {useRef, useEffect} from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import React from 'react';
+import {StyleSheet, ScrollView, ImageSourcePropType} from 'react-native';
 import {Box, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
-import LottieView from 'lottie-react-native';
-import {useReduceMotionPreference} from 'shared/useReduceMotionPreference';
+import {OnboardingHeader} from '../onboarding/components/OnboardingHeader';
 
 export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5' | 'step-6';
 
 export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6'];
 
-const animationData = {
+interface myObjInterface {
+  [key: string]: {source: ImageSourcePropType};
+}
+
+export const imageData: myObjInterface = {
   'step-1': {
-    source: '',
-    pauseFrame: 0,
+    source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-2': {
-    source: '',
-    pauseFrame: 378,
+    source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-3': {
-    source: '',
-    pauseFrame: 398,
+    source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-4': {
-    source: '',
-    pauseFrame: 418,
+    source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-5': {
-    source: '',
-    pauseFrame: 438,
+    source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-6': {
-    source: '',
-    pauseFrame: 458,
+    source: require('assets/onboarding-neighbourhood.png'),
   },
 };
 
-export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isActiveSlide: boolean}) => {
+export const TutorialContent = ({
+  item,
+  currentIndex,
+}: {
+  item: TutorialKey;
+  currentIndex: number;
+  isActiveSlide: boolean;
+}) => {
   const [i18n] = useI18n();
-  const prefersReducedMotion = useReduceMotionPreference();
-  // const {width: viewportWidth, height: viewportHeight} = useWindowDimensions();
-  const animationRef: React.Ref<LottieView> = useRef(null);
-  useEffect(() => {
-    // need to stop if user prefers reduced animations
-    if (prefersReducedMotion) {
-      animationRef.current?.play(animationData[item].pauseFrame, animationData[item].pauseFrame);
-    } else if (isActiveSlide) {
-      animationRef.current?.play();
-    } else {
-      animationRef.current?.reset();
-    }
-  }, [isActiveSlide, prefersReducedMotion, item]);
+
+  const step: string = `step-${currentIndex}`;
+  const image = imageData[step].source;
 
   const itemTitle = i18n.translate(`Tutorial.${item}Title`);
   return (
-    <ScrollView style={styles.flex} contentContainerStyle={styles.center}>
-      <Box marginTop="l">{/* image goes here */}</Box>
-      <Box flex={1} paddingVertical="xxl" paddingHorizontal="xxl">
-        {itemTitle !== '' && (
-          <Text marginTop="xxl" color="overlayBodyText" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-            {itemTitle}
-          </Text>
-        )}
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+      <Box paddingVertical="s" paddingHorizontal="xxl">
+        <OnboardingHeader imageSrc={image} text={itemTitle} />
         <Text variant="bodyText" color="overlayBodyText">
           {i18n.translate(`Tutorial.${item}`)}
         </Text>
@@ -70,7 +59,15 @@ export const TutorialContent = ({item, isActiveSlide}: {item: TutorialKey; isAct
   );
 };
 
+TutorialContent.defaultProps = {
+  currentIndex: 1,
+};
+
 const styles = StyleSheet.create({
+  content: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   flex: {
     flex: 1,
   },
