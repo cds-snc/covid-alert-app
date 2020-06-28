@@ -98,24 +98,26 @@ export const OnboardingScreen = () => {
                 itemHeight={layout.height}
                 onSnapToItem={newIndex => setCurrentIndex(newIndex)}
               />
-              <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5"></Box>
-              <Pagination
-                dotContainerStyle={styles.dotContainerStyle}
-                activeDotIndex={currentIndex + 1}
-                dotsLength={contentData.length}
-                renderDots={(activeIndex, total) => {
-                  const stepText = i18n.translate('Onboarding.Step');
-                  const ofText = i18n.translate('Onboarding.Of');
-                  const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
-                  return (
-                    <Box paddingBottom="xxl" style={styles.dotWrapperStyle}>
-                      <Text color="gray2" variant="bodyText">
-                        {text}
-                      </Text>
-                    </Box>
-                  );
-                }}
-              />
+
+              <Box justifyContent="center">
+                <Box height={10} maxHeight={10} borderTopWidth={2} borderTopColor="gray5"></Box>
+                <Pagination
+                  activeDotIndex={currentIndex + 1}
+                  dotsLength={contentData.length}
+                  renderDots={(activeIndex, total) => {
+                    const stepText = i18n.translate('Onboarding.Step');
+                    const ofText = i18n.translate('Onboarding.Of');
+                    const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
+                    return (
+                      <Box paddingBottom="xxl" style={styles.dotWrapperStyle}>
+                        <Text color="gray2" variant="bodyText">
+                          {text}
+                        </Text>
+                      </Box>
+                    );
+                  }}
+                />
+              </Box>
             </View>
           )}
         </Box>
@@ -138,8 +140,8 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  dotContainerStyle: {},
   dotWrapperStyle: {
+    marginTop: -18,
     marginBottom: 20,
     fontSize: 20,
   },
