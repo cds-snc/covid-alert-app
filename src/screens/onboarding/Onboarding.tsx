@@ -88,7 +88,7 @@ export const OnboardingScreen = () => {
 
         <Box flex={1} paddingTop="m" justifyContent="center" onLayout={onLayout}>
           {layout && (
-            <View style={{marginTop: 50}}>
+            <View style={styles.viewOffset}>
               <Carousel
                 ref={carouselRef}
                 data={contentData}
@@ -98,7 +98,7 @@ export const OnboardingScreen = () => {
                 itemHeight={layout.height}
                 onSnapToItem={newIndex => setCurrentIndex(newIndex)}
               />
-              <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5"></Box>
+              <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
               <Pagination
                 dotContainerStyle={styles.dotContainerStyle}
                 activeDotIndex={currentIndex + 1}
@@ -135,6 +135,9 @@ export const OnboardingScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  viewOffset: {
+    marginTop: 50,
+  },
   flex: {
     flex: 1,
   },

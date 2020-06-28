@@ -76,7 +76,7 @@ export const Button = ({
       ) : (
         <>
           {backButton && (
-            <Box style={{marginTop: 1}} marginRight="s">
+            <Box style={styles.backIcon} marginRight="s">
               <Icon size={14} name="icon-chevron-back" />
             </Box>
           )}
@@ -122,5 +122,8 @@ const styles = StyleSheet.create({
   chevronOffset: {
     position: 'absolute',
     right: 15,
+  },
+  backIcon: {
+    marginTop: 1,
   },
 });
