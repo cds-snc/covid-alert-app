@@ -1,9 +1,7 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text} from 'components';
+import {Box, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
-
-import {OnboardingHeader} from '../components/OnboardingHeader';
 
 export const WhatItsNot = () => {
   const [i18n] = useI18n();

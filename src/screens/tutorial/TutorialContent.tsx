@@ -1,23 +1,22 @@
 import React from 'react';
 import {StyleSheet, ScrollView, ImageSourcePropType} from 'react-native';
-import {Box, Text} from 'components';
+import {Box, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
-import {OnboardingHeader} from '../onboarding/components/OnboardingHeader';
 
 export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5' | 'step-6';
 
 export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6'];
 
-interface myObjInterface {
+interface ImageDataInterface {
   [key: string]: {source: ImageSourcePropType};
 }
 
-export const imageData: myObjInterface = {
+export const imageData: ImageDataInterface = {
   'step-1': {
     source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-2': {
-    source: require('assets/onboarding-neighbourhood.png'),
+    source: require('assets/how-it-works-exposures.png'),
   },
   'step-3': {
     source: require('assets/onboarding-neighbourhood.png'),
@@ -43,7 +42,7 @@ export const TutorialContent = ({
 }) => {
   const [i18n] = useI18n();
 
-  const step: string = `step-${currentIndex}`;
+  const step = `step-${currentIndex}`;
   const image = imageData[step].source;
 
   const itemTitle = i18n.translate(`Tutorial.${item}Title`);
