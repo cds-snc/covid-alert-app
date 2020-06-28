@@ -74,15 +74,13 @@
   },
   "OverlayClosed": {
     "SystemStatus": "COVID Alert is ",
-    "SystemStatusOn": "ON",
-    "SystemStatusOff": "OFF",
+    "SystemStatusOn": "active",
+    "SystemStatusOff": "off",
     "NotificationStatus": "Notifications are ",
-    "NotificationStatusOff": "OFF",
+    "NotificationStatusOff": "off",
     "TapPrompt": "Tap for menu"
   },
   "OverlayOpen": {
-    "BluetoothCardStatus": "Bluetooth is ",
-    "BluetoothCardStatusOff": "OFF",
     "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
@@ -96,7 +94,6 @@
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on push notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
-    "ExposureNotificationCardStatusOff": "OFF",
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
     "ExposureNotificationCardAction": "Turn on exposure notifications"
   },
@@ -150,6 +147,8 @@
     "Close": "Close"
   },
   "Onboarding": {
+    "Step": "Step",
+    "Of": "of",
     "ActionNext": "Next",
     "ActionEnd": "Done",
     "ActionBack": "Back",

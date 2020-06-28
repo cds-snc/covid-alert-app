@@ -26,6 +26,7 @@ export interface ButtonProps {
   loading?: boolean;
   externalLink?: boolean;
   internalLink?: boolean;
+  backButton?: boolean;
 }
 
 export const Button = ({
@@ -37,6 +38,7 @@ export const Button = ({
   loading,
   externalLink,
   internalLink,
+  backButton,
 }: ButtonProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
@@ -73,6 +75,11 @@ export const Button = ({
         <ActivityIndicator color={textColor} size="large" />
       ) : (
         <>
+          {backButton && (
+            <Box style={styles.backIcon} marginRight="s">
+              <Icon size={14} name="icon-chevron-back" />
+            </Box>
+          )}
           <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
             {text}
           </Text>
@@ -115,5 +122,8 @@ const styles = StyleSheet.create({
   chevronOffset: {
     position: 'absolute',
     right: 15,
+  },
+  backIcon: {
+    marginTop: 1,
   },
 });
