@@ -67,7 +67,7 @@ export const OnboardingScreen = () => {
     <Button
       backButton
       text={i18n.translate('Onboarding.ActionBack')}
-      color="linkText"
+      textColor="linkText"
       variant="subduedText"
       onPress={prevItem}
     />
