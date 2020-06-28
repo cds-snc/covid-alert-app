@@ -72,13 +72,12 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
 const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   const navigation = useNavigation();
   const [exposureStatus] = useExposureStatus();
-  if (exposureStatus.type !== 'diagnosed') return null;
-  const daysLeft = daysBetween(new Date(), exposureStatus.cycleEndsAt);
-  const bodyText =
-    i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed') +
-    i18n.translate('OverlayOpen.EnterCodeCardDiagnosedCountdown', {number: daysLeft});
 
   if (exposureStatus.type === 'diagnosed') {
+    const daysLeft = daysBetween(new Date(), exposureStatus.cycleEndsAt);
+    const bodyText =
+      i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed') +
+      i18n.translate('OverlayOpen.EnterCodeCardDiagnosedCountdown', {number: daysLeft});
     return (
       <InfoBlock
         titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
