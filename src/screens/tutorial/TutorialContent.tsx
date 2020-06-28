@@ -3,9 +3,9 @@ import {StyleSheet, ScrollView, ImageSourcePropType} from 'react-native';
 import {Box, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
-export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5' | 'step-6';
+export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4';
 
-export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6'];
+export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4'];
 
 interface ImageDataInterface {
   [key: string]: {source: ImageSourcePropType};
@@ -16,19 +16,13 @@ export const imageData: ImageDataInterface = {
     source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-2': {
-    source: require('assets/how-it-works-exposures.png'),
+    source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-3': {
     source: require('assets/onboarding-neighbourhood.png'),
   },
   'step-4': {
-    source: require('assets/onboarding-neighbourhood.png'),
-  },
-  'step-5': {
-    source: require('assets/onboarding-neighbourhood.png'),
-  },
-  'step-6': {
-    source: require('assets/onboarding-neighbourhood.png'),
+    source: require('assets/how-it-works-exposures.png'),
   },
 };
 

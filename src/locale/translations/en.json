@@ -44,10 +44,10 @@
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
-      "Title": "Upload new random codes",
-      "Body1": "It's time to upload the new random codes your phone sent out in the last day.",
-      "Body2": "Nobody will get any information abouot you or the time you were near them.",
-      "ButtonCTA": "Upload new codes"
+      "Title": "Upload random codes",
+      "Body1": "Thanks for helping slow the spread!",
+      "Body2": "Reminder: To help keep people safe, you need to upload your random codes every day, especially if you have to leave your home.",
+      "ButtonCTA": "Upload random codes"
     },
     "BluetoothDisabled": "Bluetooth is off",
     "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
@@ -127,10 +127,6 @@
     "step-3": "If someone with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.",
     "step-4Title": "Looking for exposures",
     "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you've been exposed and gives you guidance.",
-    "step-5Title": "Step 5",
-    "step-5": "Every day, whenever it has an Internet connection, your phone will check the server. It gets a list of the random codes that were sent out by phones of people who reported a diagnosis with through the app.\n\nThe app deletes the codes it’s collected after 14 days.",
-    "step-6Title": "Step 6",
-    "step-6": "The app compares the list with the random codes it received from other phones.\n\nIf it finds codes that match, it looks to see how strong the Bluetooth signal was and how long you were near them. If the codes match an exposure, the app will let you know that you may have been exposed.\n\nThen you can isolate and read the public health guidance.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
