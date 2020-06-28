@@ -22,12 +22,24 @@ export const DataSharingScreen = () => {
   // if keySubmissionStatus is None we need the 1-time code, otherwise we should go right to consent
   const [isVerified, setIsVerified] = useState(exposureStatus.type === 'diagnosed');
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
-  const onError = useCallback(() => {
-    Alert.alert(i18n.translate('DataUpload.ErrorTitle'), i18n.translate('DataUpload.ErrorBody'), [
-      {text: i18n.translate('DataUpload.ErrorAction')},
+  const onErrorForm = useCallback(() => {
+    Alert.alert(i18n.translate('DataUpload.FormView.ErrorTitle'), i18n.translate('DataUpload.FormView.ErrorBody'), [
+      {text: i18n.translate('DataUpload.FormView.ErrorAction')},
     ]);
     setIsVerified(false);
   }, [i18n]);
+
+  const onErrorConsent = useCallback(() => {
+    Alert.alert(
+      i18n.translate('DataUpload.ConsentView.ErrorTitle'),
+      i18n.translate('DataUpload.ConsentView.ErrorBody'),
+      [{text: i18n.translate('DataUpload.ForConsentViewm.ErrorAction')}],
+    );
+    // todo: go back when they click okay. is that possible?
+    // Alert.alert()
+    navigation.goBack();
+  }, [i18n, navigation]);
+
   const handleVerify = useCallback(async () => {
     setIsVerified(true);
   }, []);
@@ -38,9 +50,9 @@ export const DataSharingScreen = () => {
 
   const getContent = () => {
     if (isVerified) {
-      return <ConsentView onSuccess={handleUploaded} onError={onError} />;
+      return <ConsentView onSuccess={handleUploaded} onError={onErrorConsent} />;
     } else if (!isVerified && isConfirmedStep1) {
-      return <FormView value={codeValue} onChange={handleChange} onSuccess={handleVerify} onError={onError} />;
+      return <FormView value={codeValue} onChange={handleChange} onSuccess={handleVerify} onError={onErrorForm} />;
     } else {
       return <Step1 onSuccess={acceptStep1} />;
     }
