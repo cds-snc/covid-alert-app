@@ -1,8 +1,8 @@
 import React, {useState, useCallback, useRef} from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
-import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
+import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Button, ProgressCircles, Toolbar} from 'components';
+import {Box, Button, Toolbar, Text} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 
@@ -30,7 +30,13 @@ export const TutorialScreen = () => {
 
   const renderItem = useCallback(
     ({item}: {item: TutorialKey}) => {
-      return <TutorialContent item={item} isActiveSlide={tutorialData[currentStep] === item} />;
+      return (
+        <TutorialContent
+          item={item}
+          currentIndex={currentStep + 1}
+          isActiveSlide={tutorialData[currentStep] === item}
+        />
+      );
     },
     [currentStep],
   );
@@ -71,15 +77,31 @@ export const TutorialScreen = () => {
             onSnapToItem={newIndex => setCurrentStep(newIndex)}
           />
         )}
-        <Box flexDirection="row" padding="l">
+        <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
           <Box flex={1}>
             {!isStart && (
               <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="subduedText" onPress={prevItem} />
             )}
           </Box>
-          <Box flex={1} justifyContent="center">
-            <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
-          </Box>
+
+          <Pagination
+            dotContainerStyle={styles.dotContainerStyle}
+            activeDotIndex={currentStep + 1}
+            dotsLength={tutorialData.length}
+            renderDots={(activeIndex, total) => {
+              const stepText = i18n.translate('Onboarding.Step');
+              const ofText = i18n.translate('Onboarding.Of');
+              const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
+              return (
+                <Box style={styles.dotWrapperStyle}>
+                  <Text color="gray2" variant="bodyText">
+                    {text}
+                  </Text>
+                </Box>
+              );
+            }}
+          />
+
           <Box flex={1}>
             <Button
               text={i18n.translate(`Tutorial.Action${isEnd ? 'End' : 'Next'}`)}
@@ -97,8 +119,9 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  animationBase: {
-    position: 'absolute',
-    top: 0,
+  dotContainerStyle: {},
+  dotWrapperStyle: {
+    marginTop: -14,
+    fontSize: 20,
   },
 });

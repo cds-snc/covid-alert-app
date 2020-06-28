@@ -1,9 +1,7 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, BulletPointX, Text} from 'components';
+import {Box, BulletPointX, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
-
-import {OnboardingHeader} from '../components/OnboardingHeader';
 
 export const Anonymous = () => {
   const [i18n] = useI18n();

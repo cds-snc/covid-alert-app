@@ -1,10 +1,8 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, ButtonSingleLine, BulletPointCheck} from 'components';
+import {Box, Text, ButtonSingleLine, BulletPointCheck, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
-
-import {OnboardingHeader} from '../components/OnboardingHeader';
 
 export const HowItWorks = () => {
   const [i18n] = useI18n();
