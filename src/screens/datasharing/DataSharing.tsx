@@ -29,16 +29,13 @@ export const DataSharingScreen = () => {
     setIsVerified(false);
   }, [i18n]);
 
-  const onErrorConsent = useCallback(() => {
+  const onErrorConsent = () => {
     Alert.alert(
       i18n.translate('DataUpload.ConsentView.ErrorTitle'),
       i18n.translate('DataUpload.ConsentView.ErrorBody'),
       [{text: i18n.translate('DataUpload.ForConsentViewm.ErrorAction')}],
     );
-    // todo: go back when they click okay. is that possible?
-    // Alert.alert()
-    navigation.goBack();
-  }, [i18n, navigation]);
+  };
 
   const handleVerify = useCallback(async () => {
     setIsVerified(true);
