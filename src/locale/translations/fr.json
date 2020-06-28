@@ -202,17 +202,15 @@
   },
   "OverlayClosed": {
     "NotificationStatus": "Notifications ",
-    "NotificationStatusOff": "DÉSACTIVÉES",
+    "NotificationStatusOff": "désactivé",
     "SystemStatus": "Alerte COVID est ",
-    "SystemStatusOff": "DÉSACTIVÉ",
-    "SystemStatusOn": "ACTIVÉ",
+    "SystemStatusOff": "désactivé",
+    "SystemStatusOn": "activé",
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
     "BluetoothCardAction": "Activer Bluetooth",
     "BluetoothCardBody": "Vous devez l’activer dans les réglages de votre téléphone pour que Alerte COVID fonctionne.",
-    "BluetoothCardStatus": "Bluetooth ",
-    "BluetoothCardStatusOff": "DÉSACTIVÉ",
     "EnterCodeCardAction": "Entrez le code",
     "EnterCodeCardBody": "Un professionel de la santé vous a-t-il demandé d'entrer un code Alerte COVID?",
     "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation du virus.",
@@ -221,7 +219,6 @@
     "ExposureNotificationCardAction": "Activez les notifications d'exposition",
     "ExposureNotificationCardBody": "Les notifications d'exposition à la COVID-19 sont nécessaires au fonctionnement de Alerte COVID.",
     "ExposureNotificationCardStatus": "Les notifications d'exposition à la COVID-19 sont ",
-    "ExposureNotificationCardStatusOff": "DÉSACTIVÉES",
     "NotificationCardAction": "Activer les notifications",
     "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
     "NotificationCardStatus": "Les notifications poussées sont désactivées",
