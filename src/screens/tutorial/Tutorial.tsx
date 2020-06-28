@@ -6,27 +6,7 @@ import {Box, Button, ProgressCircles, Toolbar, Text} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 
-import {TutorialContent, tutorialData, TutorialKey, imageData} from './TutorialContent';
-
-/*
-            <Pagination
-              dotContainerStyle={styles.dotContainerStyle}
-              activeDotIndex={currentStep + 1}
-              dotsLength={tutorialData.length}
-              renderDots={(activeIndex, total) => {
-                const stepText = i18n.translate('Onboarding.Step');
-                const ofText = i18n.translate('Onboarding.Of');
-                const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
-                return (
-                  <Box paddingBottom="xxl" style={styles.dotWrapperStyle}>
-                    <Text color="gray2" variant="bodyText">
-                      {text}
-                    </Text>
-                  </Box>
-                );
-              }}
-            />
-            */
+import {TutorialContent, tutorialData, TutorialKey} from './TutorialContent';
 
 export const TutorialScreen = () => {
   const navigation = useNavigation();
@@ -51,7 +31,11 @@ export const TutorialScreen = () => {
   const renderItem = useCallback(
     ({item}: {item: TutorialKey}) => {
       return (
-        <TutorialContent item={item} currentStep={currentStep} isActiveSlide={tutorialData[currentStep] === item} />
+        <TutorialContent
+          item={item}
+          currentIndex={currentStep + 1}
+          isActiveSlide={tutorialData[currentStep] === item}
+        />
       );
     },
     [currentStep],
@@ -93,15 +77,31 @@ export const TutorialScreen = () => {
             onSnapToItem={newIndex => setCurrentStep(newIndex)}
           />
         )}
-        <Box flexDirection="row" padding="l">
+        <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
           <Box flex={1}>
             {!isStart && (
               <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="subduedText" onPress={prevItem} />
             )}
           </Box>
-          <Box flex={1} justifyContent="center">
-            <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
-          </Box>
+
+          <Pagination
+            dotContainerStyle={styles.dotContainerStyle}
+            activeDotIndex={currentStep + 1}
+            dotsLength={tutorialData.length}
+            renderDots={(activeIndex, total) => {
+              const stepText = i18n.translate('Onboarding.Step');
+              const ofText = i18n.translate('Onboarding.Of');
+              const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
+              return (
+                <Box style={styles.dotWrapperStyle}>
+                  <Text color="gray2" variant="bodyText">
+                    {text}
+                  </Text>
+                </Box>
+              );
+            }}
+          />
+
           <Box flex={1}>
             <Button
               text={i18n.translate(`Tutorial.Action${isEnd ? 'End' : 'Next'}`)}
@@ -116,19 +116,12 @@ export const TutorialScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  viewOffset: {
-    marginTop: 50,
-  },
   flex: {
     flex: 1,
   },
   dotContainerStyle: {},
   dotWrapperStyle: {
-    marginBottom: 20,
+    marginTop: -14,
     fontSize: 20,
-  },
-  animationBase: {
-    position: 'absolute',
-    top: 0,
   },
 });
