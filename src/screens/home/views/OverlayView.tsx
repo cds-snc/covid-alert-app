@@ -4,6 +4,7 @@ import {useI18n, I18n} from '@shopify/react-i18n';
 import {Linking} from 'react-native';
 import {SystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
+import {daysBetween} from 'shared/date-fns';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -71,11 +72,17 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
 const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   const navigation = useNavigation();
   const [exposureStatus] = useExposureStatus();
+  if (exposureStatus.type !== 'diagnosed') return null;
+  const daysLeft = daysBetween(new Date(), exposureStatus.cycleEndsAt);
+  const bodyText =
+    i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed') +
+    i18n.translate('OverlayOpen.EnterCodeCardDiagnosedCountdown', {number: daysLeft});
+
   if (exposureStatus.type === 'diagnosed') {
     return (
       <InfoBlock
         titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
-        text={i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed')}
+        text={bodyText}
         button={{
           text: '',
           action: () => {},

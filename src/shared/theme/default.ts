@@ -32,10 +32,13 @@ export const palette = {
   danger50: '#F7635D',
   pink: '#FFC1B3',
   purple: '#573EC5',
+  gray2: '#585858',
+  link: '#2B4380',
 };
 
 const theme = {
   colors: {
+    linkText: palette.link,
     mainBackground: palette.neutralGrey,
     purpleBackground: palette.purple,
     regionCoveredBackground: palette.mint,
@@ -69,6 +72,8 @@ const theme = {
     divider: palette.fadedWhite,
     lighterBlueBackground: palette.lighterBlue,
     buttonGrey: palette.buttonGrey,
+    gray2: palette.gray2,
+    gray5: palette.neutralGrey,
   },
   spacing: {
     /* eslint-disable id-length */
