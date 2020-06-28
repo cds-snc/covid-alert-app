@@ -1,8 +1,8 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {View, StyleSheet, useWindowDimensions} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Button, ProgressCircles, Toolbar, Text} from 'components';
+import {Box, Button, Toolbar, Text} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 
