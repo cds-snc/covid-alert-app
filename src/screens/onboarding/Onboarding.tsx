@@ -88,7 +88,7 @@ export const OnboardingScreen = () => {
 
         <Box flex={1} paddingTop="m" justifyContent="center" onLayout={onLayout}>
           {layout && (
-            <View style={{marginTop: 50}}>
+            <View style={styles.padView}>
               <Carousel
                 ref={carouselRef}
                 data={contentData}
@@ -100,7 +100,7 @@ export const OnboardingScreen = () => {
               />
 
               <Box justifyContent="center">
-                <Box height={10} maxHeight={10} borderTopWidth={2} borderTopColor="gray5"></Box>
+                <Box height={10} maxHeight={10} borderTopWidth={2} borderTopColor="gray5" />
                 <Pagination
                   activeDotIndex={currentIndex + 1}
                   dotsLength={contentData.length}
@@ -137,6 +137,9 @@ export const OnboardingScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  padView: {
+    marginTop: 50,
+  },
   flex: {
     flex: 1,
   },
