@@ -2,9 +2,9 @@ import React, {useCallback, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
 import {Box, Button, Header, LanguageToggle, ProgressCircles} from 'components';
-import {LayoutChangeEvent, LayoutRectangle, StyleSheet} from 'react-native';
+import {View, Text, LayoutChangeEvent, LayoutRectangle, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
+import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 
 import {Start} from './views/Start';
@@ -77,15 +77,31 @@ export const OnboardingScreen = () => {
         <Header />
         <Box flex={1} justifyContent="center" onLayout={onLayout}>
           {layout && (
-            <Carousel
-              ref={carouselRef}
-              data={contentData}
-              renderItem={renderItem}
-              sliderWidth={layout.width}
-              itemWidth={layout.width}
-              itemHeight={layout.height}
-              onSnapToItem={newIndex => setCurrentIndex(newIndex)}
-            />
+            <View>
+              <Carousel
+                ref={carouselRef}
+                data={contentData}
+                renderItem={renderItem}
+                sliderWidth={layout.width}
+                itemWidth={layout.width}
+                itemHeight={layout.height}
+                onSnapToItem={newIndex => setCurrentIndex(newIndex)}
+              />
+              <Pagination
+                activeDotIndex={currentIndex + 1}
+                dotsLength={contentData.length}
+                renderDots={(activeIndex, total) => {
+                  const stepText = i18n.translate('Onboarding.Step');
+                  const ofText = i18n.translate('Onboarding.Of');
+                  const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
+                  return (
+                    <Box>
+                      <Text>{text}</Text>
+                    </Box>
+                  );
+                }}
+              />
+            </View>
           )}
         </Box>
         <Box flexDirection="row" marginBottom="l">

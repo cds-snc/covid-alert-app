@@ -149,6 +149,8 @@
     "Close": "Close"
   },
   "Onboarding": {
+    "Step": "Step",
+    "Of": "of",
     "ActionNext": "Next",
     "ActionEnd": "Done",
     "ActionBack": "Back",

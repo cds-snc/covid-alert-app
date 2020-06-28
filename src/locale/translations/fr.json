@@ -164,6 +164,8 @@
     "OffMessageTitle": "Alerte COVID est désactivé"
   },
   "Onboarding": {
+    "Step": "Step",
+    "Of": "of",
     "ActionBack": "Précédent",
     "ActionEnd": "Terminé",
     "ActionNext": "Suivant",
