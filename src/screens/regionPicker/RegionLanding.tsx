@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Text, Button, Header} from 'components';
 import {ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -6,6 +6,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {Region} from 'shared/Region';
 import {useNavigation} from '@react-navigation/native';
+import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {regionStyles} from './RegionPickerShared';
 
@@ -22,6 +23,11 @@ const LandingContent = ({showPicker}: LandingContentProps) => {
   const [selectedRegion] = useState<Region>('None');
   const navigation = useNavigation();
   const {setOnboarded} = useStorage();
+
+  const startExposureNotificationService = useStartExposureNotificationService();
+  useEffect(() => {
+    startExposureNotificationService();
+  }, [startExposureNotificationService]);
 
   return (
     <Box flex={1} backgroundColor="overlayBackground">
