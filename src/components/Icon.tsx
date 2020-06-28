@@ -1,5 +1,6 @@
 import React from 'react';
 import IconCheck from 'assets/check.svg';
+import IconGreenCheck from 'assets/green-check.svg';
 import Ellipsis from 'assets/ellipsis.svg';
 import HeaderLogoRings from 'assets/header-logo-rings.svg';
 import IconBackArrow from 'assets/icon-back-arrow.svg';
@@ -7,6 +8,7 @@ import IconBluetoothDisabled from 'assets/icon-bluetooth-disabled.svg';
 import IconBluetoothOff from 'assets/icon-bluetooth-off.svg';
 import IconBluetooth from 'assets/icon-bluetooth.svg';
 import IconChevron from 'assets/icon-chevron.svg';
+import IconChevronBack from 'assets/icon-chevron-back.svg';
 import IconChevronWhite from 'assets/icon-chevron-white.svg';
 import IconClose from 'assets/icon-close.svg';
 import IconEnterCode from 'assets/icon-enter-code.svg';
@@ -47,7 +49,9 @@ const ICONS = {
   'icon-bluetooth-disabled': IconBluetoothDisabled,
   'icon-bluetooth-off': IconBluetoothOff,
   'icon-check': IconCheck,
+  'icon-green-check': IconGreenCheck,
   'icon-chevron': IconChevron,
+  'icon-chevron-back': IconChevronBack,
   'icon-chevron-white': IconChevronWhite,
   'icon-close': IconClose,
   'icon-enter-code': IconEnterCode,
