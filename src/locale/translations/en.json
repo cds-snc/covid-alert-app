@@ -44,10 +44,10 @@
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
-      "Title": "Upload new random codes",
-      "Body1": "It's time to upload the new random codes your phone sent out in the last day.",
-      "Body2": "Nobody will get any information abouot you or the time you were near them.",
-      "ButtonCTA": "Upload new codes"
+      "Title": "Upload random codes",
+      "Body1": "Thanks for helping slow the spread!",
+      "Body2": "Reminder: To help keep people safe, you need to upload your random codes every day, especially if you have to leave your home.",
+      "ButtonCTA": "Upload random codes"
     },
     "BluetoothDisabled": "Bluetooth is off",
     "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
