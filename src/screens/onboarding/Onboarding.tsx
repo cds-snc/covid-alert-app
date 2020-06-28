@@ -1,7 +1,7 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
-import {Box, Button, Header, LanguageToggle, Text} from 'components';
+import {Box, Button, LanguageToggle, Text} from 'components';
 import {View, LayoutChangeEvent, LayoutRectangle, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
@@ -67,7 +67,7 @@ export const OnboardingScreen = () => {
     <Button
       backButton
       text={i18n.translate('Onboarding.ActionBack')}
-      textColor="linkText"
+      color="linkText"
       variant="subduedText"
       onPress={prevItem}
     />

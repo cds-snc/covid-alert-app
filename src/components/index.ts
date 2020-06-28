@@ -3,6 +3,7 @@ export * from './Box';
 export * from './Button';
 export * from './InfoButton';
 export * from './BulletPointX';
+export * from './BulletPointCheck';
 export * from './ButtonMultiline';
 export * from './ButtonSingleLine';
 export * from './CodeInput';

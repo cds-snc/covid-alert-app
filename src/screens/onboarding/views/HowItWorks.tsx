@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, ButtonSingleLine} from 'components';
+import {Box, Text, ButtonSingleLine, BulletPointCheck} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 
@@ -17,21 +17,15 @@ export const HowItWorks = () => {
           text={i18n.translate('Onboarding.HowItWorks.Title')}
           imageSrc={require('assets/onboarding-howitworks.png')}
         />
+
+        <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body1')} />
+        <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body2')} />
+        <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body3')} />
+
         <Box marginBottom="m">
-          <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('Onboarding.HowItWorks.Body1')}
-          </Text>
+          <Text variant="bodyText" color="overlayBodyText"></Text>
         </Box>
-        <Box marginBottom="m">
-          <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('Onboarding.HowItWorks.Body2')}
-          </Text>
-        </Box>
-        <Box marginBottom="l">
-          <Text variant="bodyText" color="overlayBodyText">
-            {i18n.translate('Onboarding.HowItWorks.Body3')}
-          </Text>
-        </Box>
+
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box>
             <ButtonSingleLine
