@@ -6,22 +6,26 @@ import {View, LayoutChangeEvent, LayoutRectangle, StyleSheet} from 'react-native
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
+// import {Region} from '../../shared/Region';
+// import {useStorage} from 'services/StorageService';
 
 import {Start} from './views/Start';
 import {WhatItsNot} from './views/WhatItsNot';
 import {Anonymous} from './views/Anonymous';
 import {HowItWorks} from './views/HowItWorks';
 import {Permissions} from './views/Permissions';
+import {RegionPickerScreen} from 'screens/regionPicker';
 
-type ViewKey = 'start' | 'whatItsNot' | 'anonymous' | 'permissions' | 'howItWorks';
+type ViewKey = 'start' | 'whatItsNot' | 'anonymous' | 'howItWorks' | 'permissions' | 'region';
 
-const contentData: ViewKey[] = ['start', 'whatItsNot', 'anonymous', 'howItWorks', 'permissions'];
+const contentData: ViewKey[] = ['start', 'whatItsNot', 'anonymous', 'howItWorks', 'permissions', 'region'];
 const viewComponents = {
   start: Start,
   whatItsNot: WhatItsNot,
   anonymous: Anonymous,
   howItWorks: HowItWorks,
   permissions: Permissions,
+  region: RegionPickerScreen,
 };
 
 export const OnboardingScreen = () => {
@@ -29,6 +33,10 @@ export const OnboardingScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
   const navigation = useNavigation();
+
+  //const region: Region = useStorage();
+
+  // const {setRegion: persistRegion} = useStorage();
 
   const maxWidth = useMaxContentWidth();
 
@@ -47,7 +55,11 @@ export const OnboardingScreen = () => {
   const nextItem = useCallback(() => {
     if (carouselRef.current) {
       if (currentIndex === contentData.length - 1) {
-        navigation.navigate('RegionPicker');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        });
+
         return;
       }
       (carouselRef.current! as CarouselStatic<ViewKey>).snapToNext();
@@ -62,6 +74,16 @@ export const OnboardingScreen = () => {
 
   const isStart = currentIndex === 0;
   const isEnd = currentIndex === contentData.length - 1;
+
+  const region = false;
+
+  let endText = 'EndSkip';
+  let endColor = 'thinFlatNeutralGrey';
+
+  if (isEnd && region) {
+    endText = 'End';
+    endColor = 'thinFlat';
+  }
 
   const BackButton = (
     <Button
@@ -122,11 +144,11 @@ export const OnboardingScreen = () => {
 
         <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
           <Box flex={1}>
-            <Button
-              text={i18n.translate(`Onboarding.Action${isEnd ? 'End' : 'Next'}`)}
-              variant="thinFlat"
-              onPress={nextItem}
-            />
+            {isEnd ? (
+              <Button text={i18n.translate(`Onboarding.Action${endText}`)} variant={`${endColor}`} onPress={nextItem} />
+            ) : (
+              <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
+            )}
           </Box>
         </Box>
       </SafeAreaView>
