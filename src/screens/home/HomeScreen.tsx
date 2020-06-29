@@ -100,7 +100,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
 const CollapsedContent = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus === 'denied';
+  const showNotificationWarning = notificationStatus !== 'granted';
 
   // if (systemStatus === SystemStatus.Unknown) {
   //   return null;
