@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
+import SafeAreaViewAndroid from 'components/SafeAreaViewAndroid';
 
 interface ContentProps {
   title: string;
@@ -74,7 +75,7 @@ export const NoCodeScreen = () => {
   }
   return (
     <>
-      <SafeAreaView style={styles.flex}>
+      <SafeAreaView style={SafeAreaViewAndroid.AndroidSafeArea}>
         <Toolbar
           title=""
           navIcon="icon-back-arrow"
