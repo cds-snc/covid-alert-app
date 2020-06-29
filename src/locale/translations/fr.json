@@ -23,10 +23,10 @@
       "Body3a": "Étape 3 : ",
       "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires de façon anonyme.",
       "CTA": "Entrer le numéro",
-      "NoCode": "Vous n’avez pas de numéro à 8 chiffres?"
+      "NoCode": "Vous n’avez pas de numéro à 8\u00A0chiffres?"
     },
     "FormView": {
-      "Title": "Entrez votre numéro à 8 chiffres",
+      "Title": "Entrez votre numéro à 8\u00A0chiffres",
       "Body": "Entrez le numéro que vous avez reçu lors de votre diagnostic.",
       "Action": "Envoyer",
       "InputLabel": "code Alerte COVID",
@@ -38,11 +38,11 @@
       "Title": "Vous pouvez maintenant téléverser vos codes",
       "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
       "Body2a": "Personne ne recevra d’information sur vous ",
-      "Body2b": "ou sur le moment où vous avez été en proximité.",
+      "Body2b": "ou sur le moment de votre proximité.",
       "Body3": "Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
       "Action": "Accepter",
-      "ErrorTitle": "Random codes could not be uploaded",
-      "ErrorBody": "You did not give permission.",
+      "ErrorTitle": "Les codes aléatoires n’ont pas pu être téléversés",
+      "ErrorBody": "Vous n’avez pas donné votre autorisation.",
       "ErrorAction": "OK"
     },
     "NoCode": {
@@ -57,7 +57,7 @@
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
-        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nVous ne pourrez pas aviser les personnes dont vous avez été à proximité qu’elles ont été exposées. Mais vous pouvez tout de même prendre des mesures pour :",
+        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nVous ne pourrez pas aviser les personnes qui ont été près de vous d’une exposition. Mais vous pouvez tout de même prendre des mesures pour :",
         "Body2": "assurer la sécurité de votre communauté;",
         "Body3": "protéger les personnes et les animaux vivant avec vous;",
         "Body4": "prendre soin de vous."
@@ -175,18 +175,18 @@
     "ActionNext": "Suivant",
     "Start": {
       "Title": "Joignez-vous à l’effort commun pour ralentir la propagation ",
-      "Body1": "Alerte COVID vous avise si jamais une personne dont vous avez été à proximité signale un test positif à l’application. ",
-      "Body2": "Ainsi, vous pouvez rapidement vous isoler pour freiner la propagation de la COVID-19."
+      "Body1": "Alerte COVID vous permet d’aviser des personnes de façon anonyme si jamais vous recevez un test positif de COVID-19 après avoir été près d’elles. ",
+      "Body2": "Ainsi, les personnes peuvent rapidement s’isoler pour freiner la propagation de COVID-19."
     },
     "WhatItsNot": {
       "Title": "Ce qu’Alerte COVID ne fait pas",
       "Body1": "L’application ne vous dira pas sur-le-champ que vous êtes près d’une personne ayant eu un diagnostic.",
-      "Body2": "Elle ne vous renseignera pas sur les vagues de COVID-19 dans votre ville ou votre quartier."
+      "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre ville ou votre quartier."
     },
     "Anonymous": {
       "Title": "Totalement anonyme",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
-      "Body2": "Elle n’a aucun moyen de connaître\u00A0:",
+      "Body2": "L’application n’a aucun moyen de connaître\u00A0:",
       "Bullet1": "votre position",
       "Bullet2": "votre nom ou votre adresse",
       "Bullet3": "les contacts de votre téléphone",
@@ -195,14 +195,14 @@
     "HowItWorks": {
       "Title": "Fonctionnement",
       "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
-      "Body2": "Chaque jour, elle vérifie une liste de code aléatoires provenant des personnes ayant signalé un test positif à l’application.",
+      "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
       "Body3": "Si votre téléphone a reçu l’un de ces codes au cours des 14\u00A0derniers jours, vous recevrez une notification.",
       "HowItWorksCTA": "En savoir plus sur le fonctionnement"
     },
     "Permissions": {
       "Title": "L’application demandera votre autorisation",
-      "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. Elle connaîtra la date, la durée et la puissance de signal associées à ces codes aléatoires, mais ces données restent sur votre téléphone. ",
-      "Body2": "Vous devez aussi activer les notifications poussées.",
+      "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
+      "Body2": "Vous devrez aussi activer les notifications poussées.",
       "PrivacyButtonCTA": "En savoir plus sur la confidentialité"
     }
   },
@@ -215,7 +215,7 @@
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
-    "BluetoothCardAction": "Activer Bluetooth",
+    "BluetoothCardAction": "Activez Bluetooth",
     "BluetoothCardBody": "Vous devez l’activer dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardAction": "Entrer le numéro",
     "EnterCodeCardBody": "Vous avez reçu un numéro à 8 chiffres lors de votre diagnostic. Ce numéro dit à l’application d’aviser les personnes qui ont été près de vous.",
