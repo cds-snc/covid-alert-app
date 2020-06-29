@@ -168,10 +168,10 @@
       "Title": "Totally Anonymous",
       "Body1": "COVID Alert does not use GPS or location services.",
       "Body2": "It has no way of knowing:",
-      "Bullet1": "your location",
-      "Bullet2": "your name or address",
-      "Bullet3": "your phone's contacts",
-      "Bullet4": "your health information"
+      "Bullet1": "Your location.",
+      "Bullet2": "Your name or address.",
+      "Bullet3": "Your phone's contacts.",
+      "Bullet4": "Your health information."
     },
     "HowItWorks": {
       "Title": "How it works",
