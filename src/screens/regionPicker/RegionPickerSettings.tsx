@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar} from 'components';
+import {Box, Toolbar, Text} from 'components';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
@@ -32,6 +32,9 @@ export const RegionPickerSettingsScreen = () => {
           onIconClicked={close}
         />
         <ScrollView style={regionStyles.flex}>
+          <Text paddingHorizontal="l" marginVertical="m" variant="bodyText" color="overlayBodyText">
+            {i18n.translate('RegionPicker.Body')}
+          </Text>
           <Box flex={1} paddingHorizontal="m">
             <Box
               marginTop="l"

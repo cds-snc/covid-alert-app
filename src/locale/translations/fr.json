@@ -12,9 +12,6 @@
   },
   "DataUpload": {
     "Cancel": "Annuler",
-    "ErrorAction": "OK",
-    "ErrorBody": "Votre code Alerte COVID n’a pas pu être reconnu. Veuillez essayer à nouveau.",
-    "ErrorTitle": "Code non reconnu",
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "Step1": {
@@ -32,7 +29,10 @@
       "Title": "Entrez votre numéro à 8 chiffres",
       "Body": "Entrez le numéro que vous avez reçu lors de votre diagnostic.",
       "Action": "Envoyer",
-      "InputLabel": "code Alerte COVID"
+      "InputLabel": "code Alerte COVID",
+      "ErrorAction": "OK",
+      "ErrorBody": "Votre code Alerte COVID n’a pas pu être reconnu. Veuillez essayer à nouveau.",
+      "ErrorTitle": "Code non reconnu"
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
@@ -40,7 +40,10 @@
       "Body2a": "Personne ne recevra d’information sur vous ",
       "Body2b": "ou sur le moment où vous avez été en proximité.",
       "Body3": "Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
-      "Action": "Accepter"
+      "Action": "Accepter",
+      "ErrorTitle": "Random codes could not be uploaded",
+      "ErrorBody": "You did not give permission.",
+      "ErrorAction": "OK"
     },
     "NoCode": {
       "NoRegion": {

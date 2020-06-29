@@ -146,7 +146,8 @@
     "Step": "Step",
     "Of": "of",
     "ActionNext": "Next",
-    "ActionEnd": "Done",
+    "ActionEndSkip": "Skip",
+    "ActionEnd": "Get Started",
     "ActionBack": "Back",
     "Start": {
       "Title": "Join the effort to slow the spread",
@@ -194,9 +195,6 @@
     "Cancel": "Cancel",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
     "ShareToast": "Random IDs shared successfully",
-    "ErrorTitle": "Code not recognized",
-    "ErrorBody": "Your COVID Alert code could not be recognized. Please try again.",
-    "ErrorAction": "OK",
     "Step1": {
       "Title": "Let people know they may have been exposed",
       "Body1a": "Step 1. ",
@@ -212,7 +210,10 @@
       "Title": "Enter your 8-digit number",
       "Body": "Enter the number you got when you were diagnosed.",
       "Action": "Submit",
-      "InputLabel": "COVID Alert 8-digit number"
+      "InputLabel": "COVID Alert 8-digit number",
+      "ErrorTitle": "Code not recognized",
+      "ErrorBody": "Your COVID Alert code could not be recognized. Please try again.",
+      "ErrorAction": "OK"
     },
     "ConsentView": {
       "Title": "Now you can upload your codes",
@@ -220,7 +221,10 @@
       "Body2a": "Nobody will get any information about you ",
       "Body2b": "or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
-      "Action": "Agree"
+      "Action": "Agree",
+      "ErrorTitle": "Random codes could not be uploaded",
+      "ErrorBody": "You did not give permission.",
+      "ErrorAction": "OK"
     },
     "NoCode": {
       "NoRegion": {
@@ -264,10 +268,10 @@
     "RegionSelectBtn": "Choose province or territory"
   },
   "RegionPicker": {
-    "Title": "Where do you live?",
+    "Title": "Choose your province or territory",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
-    "Body": "Choose the province or territory whose public health guidance you need to follow.\n\nThis information is only stored on your phone and will never be shared with anyone.",
+    "Body": "This information is only stored on your phone and will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "Optional": "* Optional",

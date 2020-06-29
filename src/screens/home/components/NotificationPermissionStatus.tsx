@@ -9,8 +9,6 @@ interface NotificationPermissionStatusContextProps {
   request: () => void;
 }
 
-const noop: NotificationPermissionStatusContextProps['request'] = () => Promise.resolve('unavailable');
-
 const NotificationPermissionStatusContext = React.createContext<NotificationPermissionStatusContextProps>({} as any);
 
 interface NotificationPermissionStatusProviderProps {
@@ -19,7 +17,6 @@ interface NotificationPermissionStatusProviderProps {
 
 export const NotificationPermissionStatusProvider = ({children}: NotificationPermissionStatusProviderProps) => {
   const [status, setStatus] = useState<NotificationPermissionStatusContextProps['status']>('granted');
-  const [request, setRequest] = useState<NotificationPermissionStatusContextProps['request']>(noop);
 
   useEffect(() => {
     const {callable, cancelable} = createCancellableCallbackPromise<Status>(
@@ -33,19 +30,20 @@ export const NotificationPermissionStatusProvider = ({children}: NotificationPer
     return cancelable;
   }, []);
 
-  useEffect(() => {
-    const {callable, cancelable} = createCancellableCallbackPromise<Status>(
+  const {callable: request, cancelable} = useMemo(() => {
+    return createCancellableCallbackPromise<Status>(
       () =>
         requestNotifications(['alert'])
           .then(({status}) => status)
           .catch(() => 'unavailable'),
       setStatus,
     );
-    setRequest(() => callable);
-    return cancelable;
   }, []);
+  useEffect(() => {
+    return cancelable;
+  }, [cancelable]);
 
-  const props = useMemo(() => ({status, request}), [status, request]);
+  const props = useMemo(() => request && {status, request}, [status, request]);
 
   return (
     <NotificationPermissionStatusContext.Provider value={props}>

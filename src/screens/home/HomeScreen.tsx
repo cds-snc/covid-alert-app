@@ -49,6 +49,10 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   const regionCase = getRegionCase(region);
   const [exposureStatus] = useExposureStatus();
   const [systemStatus] = useSystemStatus();
+  const [, turnNotificationsOn] = useNotificationPermissionStatus();
+  useEffect(() => {
+    return turnNotificationsOn();
+  }, [turnNotificationsOn]);
 
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
@@ -100,7 +104,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
 const CollapsedContent = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus === 'denied';
+  const showNotificationWarning = notificationStatus !== 'granted';
 
   // if (systemStatus === SystemStatus.Unknown) {
   //   return null;
