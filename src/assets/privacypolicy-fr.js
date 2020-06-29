@@ -1,42 +1,43 @@
-const privacy = `# Politique de confidentialité
+const privacy = `# Votre vie privée est protégée
 
-*L’application de notification d’exposition et ses serveurs ne recueillent ni ne stockent aucun de vos renseignements personnels.*
+Alerte COVID suit tous les principes du Commissariat à la protection de la vie privée du Canada sur les applications de traçage pour protéger la vie privée des personnes.
 
-Note : L'application n'a pas encore été publiée. Cette politique sera mise à jour avant sa publication, afin de fournir les informations les plus précises possibles.
+Le service Alerte COVID ne collecte ni ne stocke aucun de vos renseignements personnels.
 
-## Données que l’application collecte et retient
+## Données collectées et stockées par l’application*
+- Les codes aléatoires émis par votre téléphone, pendant 14 jours.
+- Les codes aléatoires émis par les autres téléphones à proximité, pendant 14 jours.
 
-- Codes générés aléatoirement par votre téléphone, des 14 derniers jours
-- Codes générés aléatoirement par d'autres téléphones près de chez vous, au cours des 14 derniers jours
+Les codes aléatoires ne sont stockés et utilisés qu’aux fins d’intervention contre la COVID-19.
 
-## Comment l’application sécurise ces données
+### Protection des données
+- L’application ne peut pas établir de lien entre vous et les codes aléatoires.
+- Votre téléphone chiffre les codes aléatoires. Votre autorisation est requise avant que votre téléphone transmette les codes aléatoires à Alerte COVID.
+- Aucune donnée ne sera transmise sans votre autorisation explicite.
 
-- Ces codes aléatoires ne peuvent pas être reliés à vous par l’application.
-- Votre téléphone chiffre ces données. Votre téléphone vérifiera avec auprès de vous avant de les partager avec l’application.
-
-## L’application n'a aucun moyen de connaître ou de partager
-
-- Votre localisation
-- Où vous avez été
-- Avec qui vous avez été
-- Votre identité
-- Vos contacts
-- Tout détail sur les personnes près de vous
-- Informations sur votre santé
+### Alerte COVID n’a aucun moyen de connaître ou de transmettre :
+- votre position,
+- votre nom ou votre adresse,
+- les contacts de votre téléphone,
+- vos informations de santé.
 
 ## Données partagées par l’application
+### Rien n’est fait sans votre autorisation
+- Quand vous donnez votre autorisation, seuls les codes aléatoires de votre téléphone sont partagés.
+- Seuls l’application et son serveur auront accès aux codes aléatoires.
 
-- *Si vous obtenez un résultat positif au test COVID-19 et que vous entrez le code unique fourni par votre prestataire de soins :*
-  * Avec votre consentement, vos codes générés aléatoirement au cours des 14 derniers jours seront partagés avec le serveur de l’application. Cela informera les personnes dont les téléphones étaient proches de vous qu’elles pussent être exposées à la COVID-19.
-  * Pendant les 13 jours qui suivent le signalement d'un test positif, l'application vous demandera la permission de partager avec le serveur vos codes générés aléatoirement ces jours-là, afin que les personnes dont vous étiez proche puissent être averties.
-- *Si une personne dont vous étiez proche reçoit un diagnostic positif à la COVID-19*, vos renseignements personnels ne sont pas partagés avec cette personne ou le serveur. La correspondance entre les codes aléatoires COVID-positifs et les codes aléatoires de votre propre téléphone se fait sur votre téléphone.
-- *Rien n'est partagé sans votre autorisation.* Même lorsque vous donnez votre autorisation, les seules informations qui sont partagées sont les codes aléatoires de votre téléphone.
-- *Rien n'est partagé avec des tiers.* Seuls l'application et les serveurs auront accès aux codes générés aléatoirement.
+### Si vous avez un diagnostic de COVID-19
+- Vous pouvez décider de partager vos codes aléatoires des 14 derniers jours avec un serveur central.
+- Si vous partagez vos codes, personne ne recevra d’information sur vous ou sur le moment de votre proximité.
+- On vous demandera aussi l’autorisation de téléverser vos codes aléatoires pendant les 13 jours suivants.
+
+### Si vous avez été près d’une personne qui signale un diagnostic
+- Aucun de vos renseignements personnels n’est partagé avec d’autres personnes.
 
 ## Suppression de vos données
-
-- Les codes générés aléatoirement à partir de votre téléphone et des autres téléphones à proximité de vous sont automatiquement supprimés 14 jours après leur génération.
-- Vous pouvez désinstaller l'application à tout moment, et les codes sur votre téléphone seront automatiquement supprimés. Si vous avez téléversé vos codes générés aléatoirement, ils seront automatiquement supprimés du serveur 14 jours après avoir été générés.
+- Tous les codes aléatoires, qu’ils proviennent de votre téléphone ou d’autres téléphones, sont supprimés après 14 jours.
+- Vous pouvez supprimer l’application à tout moment, supprimant du même coup les codes aléatoires de votre téléphone.
+- Si vous avez téléversé vos codes aléatoires avant de supprimer l’application, les codes aléatoires seront supprimés du serveur après 14 jours.
 `;
 
 export default privacy;
