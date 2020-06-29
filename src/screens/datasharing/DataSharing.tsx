@@ -22,12 +22,12 @@ export const DataSharingScreen = () => {
   // if keySubmissionStatus is None we need the 1-time code, otherwise we should go right to consent
   const [isVerified, setIsVerified] = useState(exposureStatus.type === 'diagnosed');
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
-  const onErrorForm = useCallback(() => {
+  const onErrorForm = () => {
     Alert.alert(i18n.translate('DataUpload.FormView.ErrorTitle'), i18n.translate('DataUpload.FormView.ErrorBody'), [
       {text: i18n.translate('DataUpload.FormView.ErrorAction')},
     ]);
     setIsVerified(false);
-  }, [i18n]);
+  };
 
   const onErrorConsent = () => {
     Alert.alert(

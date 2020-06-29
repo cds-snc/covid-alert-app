@@ -222,7 +222,7 @@
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
       "Action": "Agree",
       "ErrorTitle": "Random codes could not be uploaded",
-      "ErrorBody": "You did not give permission to upload your random codes.",
+      "ErrorBody": "You did not give permission.",
       "ErrorAction": "OK"
     },
     "NoCode": {
