@@ -40,12 +40,12 @@ export const ExposureNotificationServiceProvider = ({
     () =>
       new ExposureNotificationService(
         backendInterface,
-        i18n.translate,
+        i18n,
         storage || AsyncStorage,
         secureStorage || SecureStorage,
         exposureNotification || ExposureNotification,
       ),
-    [backendInterface, exposureNotification, i18n.translate, secureStorage, storage],
+    [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );
 
   useEffect(() => {

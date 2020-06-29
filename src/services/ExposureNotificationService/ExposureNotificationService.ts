@@ -3,6 +3,7 @@ import ExposureNotification from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {Observable} from 'shared/Observable';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
+import {I18n} from '@shopify/react-i18n';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -17,7 +18,6 @@ const SECURE_OPTIONS = {
 
 export const LAST_CHECK_TIMESTAMP = 'lastCheckTimeStamp';
 
-type Translate = (key: string) => string;
 const hoursPerPeriod = 24;
 
 export {SystemStatus};
@@ -63,7 +63,7 @@ export class ExposureNotificationService {
   private exposureNotification: typeof ExposureNotification;
   private backendInterface: BackendInterface;
 
-  private translate: Translate;
+  private i18n: I18n;
   private storage: PersistencyProvider;
   private secureStorage: SecurePersistencyProvider;
 
@@ -71,12 +71,12 @@ export class ExposureNotificationService {
 
   constructor(
     backendInterface: BackendInterface,
-    translate: Translate,
+    i18n: I18n,
     storage: PersistencyProvider,
     secureStorage: SecurePersistencyProvider,
     exposureNotification: typeof ExposureNotification,
   ) {
-    this.translate = translate;
+    this.i18n = i18n;
     this.exposureNotification = exposureNotification;
     this.systemStatus = new Observable<SystemStatus>(SystemStatus.Undefined);
     this.exposureStatus = new Observable<ExposureStatus>({type: 'monitoring'});
@@ -130,15 +130,15 @@ export class ExposureNotificationService {
     const status = await this.updateExposureStatus();
     if (status.type === 'exposed') {
       PushNotification.presentLocalNotification({
-        alertTitle: this.translate('Notification.ExposedMessageTitle'),
-        alertBody: this.translate('Notification.ExposedMessageBody'),
+        alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
+        alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
       });
     }
 
     if (status.type === 'diagnosed' && status.needsSubmission) {
       PushNotification.presentLocalNotification({
-        alertTitle: this.translate('Notification.DailyUploadNotificationTitle'),
-        alertBody: this.translate('Notification.DailyUploadNotificationBody'),
+        alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
+        alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
       });
     }
   }
