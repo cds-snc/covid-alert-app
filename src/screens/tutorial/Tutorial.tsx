@@ -1,8 +1,8 @@
 import React, {useState, useCallback, useRef} from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
-import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
+import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Button, Toolbar, Text} from 'components';
+import {Box, Button, Toolbar, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 
@@ -83,24 +83,9 @@ export const TutorialScreen = () => {
               <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="subduedText" onPress={prevItem} />
             )}
           </Box>
-
-          <Pagination
-            dotContainerStyle={styles.dotContainerStyle}
-            activeDotIndex={currentStep + 1}
-            dotsLength={tutorialData.length}
-            renderDots={(activeIndex, total) => {
-              const stepText = i18n.translate('Onboarding.Step');
-              const ofText = i18n.translate('Onboarding.Of');
-              const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
-              return (
-                <Box style={styles.dotWrapperStyle}>
-                  <Text color="gray2" variant="bodyText">
-                    {text}
-                  </Text>
-                </Box>
-              );
-            }}
-          />
+          <Box flex={1} justifyContent="center">
+            <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
+          </Box>
 
           <Box flex={1}>
             <Button
