@@ -297,12 +297,16 @@
     "Close": "Fermer",
     "step-1": "Après son installation, l’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement d’Alerte COVID",
+    "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
     "step-2": "L’application estime la distance entre vous et les autres grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2\u00A0mètres pendant plus de 15\u00A0minutes, l’application enregistre une exposition.",
     "step-2Title": "Qu’est-ce qu’une exposition?",
+    "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
     "step-3": "Si une personne ayant l’application a un diagnostic de COVID-19, elle peut décider de téléverser tous les codes aléatoires émis par son téléphone vers un serveur central.\n\nLe serveur ne reçoit que les codes. Il ne reçoit aucune information personnelle.",
     "step-3Title": "Quand une personne reçoit un test positif",
+    "step-3AltText": "Dessin à la main d’un téléphone mobile téléversant un code chiffré vers un nuage.",
     "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste des codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et elle vous donnera des recommandations.",
-    "step-4Title": "Découverte des expositions"
+    "step-4Title": "Découverte des expositions",
+    "step-4AltText": "Dessin à la main d’un téléphone mobile émettant une liste de codes chiffrés. L’icône de la loupe de recherche met en évidence l’un des codes de la liste."
   },
   "YourData": {
     "Body1": "votre identité",

@@ -14,7 +14,7 @@ export const ItemView = ({item, image}: ItemViewProps) => {
   const [i18n] = useI18n();
   return (
     <>
-      <Image style={styles.image} source={image} />
+      <Image style={styles.image} source={image} accessibilityLabel={i18n.translate(`Tutorial.${item}AltText`)} />
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate(`Tutorial.${item}Title`)}
       </Text>
