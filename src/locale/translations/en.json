@@ -146,7 +146,8 @@
     "Step": "Step",
     "Of": "of",
     "ActionNext": "Next",
-    "ActionEnd": "Done",
+    "ActionEndSkip": "Skip",
+    "ActionEnd": "Get Started",
     "ActionBack": "Back",
     "Start": {
       "Title": "Join the effort to slow the spread",
@@ -267,10 +268,10 @@
     "RegionSelectBtn": "Choose province or territory"
   },
   "RegionPicker": {
-    "Title": "Where do you live?",
+    "Title": "Choose your province or territory",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
-    "Body": "Choose the province or territory whose public health guidance you need to follow.\n\nThis information is only stored on your phone and will never be shared with anyone.",
+    "Body": "This information is only stored on your phone and will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "Optional": "* Optional",
