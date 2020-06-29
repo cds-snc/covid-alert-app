@@ -79,10 +79,11 @@
       "Title": "Merci d’aider à lutter contre la COVID"
     },
     "DiagnosedShareView": {
-      "Title": "Téléverser les codes aléatoires",
-      "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel : Pour assurer la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
-      "ButtonCTA": "Téléverser les codes aléatoires"
+      "Title": "Merci d’aider à ralentir la propagation",
+      "Body1": "Lors des 14 jours qui suivent le premier téléversement de vos codes aléatoires, on vous demandera de téléverser tout nouveau code aléatoire émis par votre téléphone.",
+      "Body2": "Personne ne recevra d’information sur vous",
+      "Body3": "ou sur le moment de votre proximité.",
+      "ButtonCTA": "Téléverser vos codes aléatoires"
     },
     "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnableExposureNotificationsCTA": "Activez les notifications d'exposition à la COVID-19",
