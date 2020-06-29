@@ -1,29 +1,20 @@
 import React from 'react';
-import {StyleSheet, ScrollView, ImageSourcePropType} from 'react-native';
-import {Box, Text, OnboardingHeader} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {StyleSheet, ScrollView} from 'react-native';
+import {Box} from 'components';
+import {Step1} from './views/Step1';
+import {Step2} from './views/Step2';
+import {Step3} from './views/Step3';
+import {Step4} from './views/Step4';
 
 export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4';
 
 export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4'];
 
-interface ImageDataInterface {
-  [key: string]: {source: ImageSourcePropType};
-}
-
-export const imageData: ImageDataInterface = {
-  'step-1': {
-    source: require('assets/onboarding-neighbourhood.png'),
-  },
-  'step-2': {
-    source: require('assets/onboarding-neighbourhood.png'),
-  },
-  'step-3': {
-    source: require('assets/onboarding-neighbourhood.png'),
-  },
-  'step-4': {
-    source: require('assets/how-it-works-exposures.png'),
-  },
+const viewComponents = {
+  'step-1': Step1,
+  'step-2': Step2,
+  'step-3': Step3,
+  'step-4': Step4,
 };
 
 export const TutorialContent = ({
@@ -34,19 +25,11 @@ export const TutorialContent = ({
   currentIndex: number;
   isActiveSlide: boolean;
 }) => {
-  const [i18n] = useI18n();
-
-  const step = `step-${currentIndex}`;
-  const image = imageData[step].source;
-
-  const itemTitle = i18n.translate(`Tutorial.${item}Title`);
+  const Item = viewComponents[item];
   return (
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+    <ScrollView key={currentIndex} showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box paddingVertical="s" paddingHorizontal="xxl">
-        <OnboardingHeader imageSrc={image} text={itemTitle} />
-        <Text variant="bodyText" color="overlayBodyText">
-          {i18n.translate(`Tutorial.${item}`)}
-        </Text>
+        <Item />
       </Box>
     </ScrollView>
   );
