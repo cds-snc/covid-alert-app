@@ -19,7 +19,10 @@ export const DiagnosedShareView = () => {
         {i18n.translate('Home.DiagnosedShareView.Body1')}
       </Text>
       <Text variant="bodyText" color="bodyText" marginBottom="m">
-        {i18n.translate('Home.DiagnosedShareView.Body2')}
+        <Text variant="bodyText" color="bodyText" marginBottom="m">
+          {i18n.translate('Home.DiagnosedShareView.Body2') + ' '}
+        </Text>
+        {i18n.translate('Home.DiagnosedShareView.Body3')}
       </Text>
       <Box alignSelf="stretch" marginTop="xl" marginBottom="xl">
         <Button text={i18n.translate('Home.DiagnosedShareView.ButtonCTA')} variant="thinFlat" onPress={toDataShare} />
