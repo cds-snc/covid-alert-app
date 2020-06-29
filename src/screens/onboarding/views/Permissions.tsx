@@ -10,7 +10,7 @@ export const Permissions = () => {
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box flex={1} marginTop="s" paddingHorizontal="xl">
+      <Box flex={1} paddingHorizontal="xl">
         <OnboardingHeader
           text={i18n.translate('Onboarding.Permissions.Title')}
           imageSrc={require('assets/onboarding-enable.png')}

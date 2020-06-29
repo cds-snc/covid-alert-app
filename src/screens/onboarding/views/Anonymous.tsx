@@ -7,7 +7,7 @@ export const Anonymous = () => {
   const [i18n] = useI18n();
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box flex={1} marginTop="s" paddingHorizontal="xl">
+      <Box flex={1} paddingHorizontal="xl">
         <OnboardingHeader
           text={i18n.translate('Onboarding.Anonymous.Title')}
           imageSrc={require('assets/onboarding-nogps.png')}
