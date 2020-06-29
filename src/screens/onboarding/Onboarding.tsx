@@ -8,6 +8,7 @@ import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerScreen} from 'screens/regionPicker';
+import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {Start} from './views/Start';
 import {WhatItsNot} from './views/WhatItsNot';
@@ -33,7 +34,7 @@ export const OnboardingScreen = () => {
   const carouselRef = useRef(null);
   const navigation = useNavigation();
   const {region, setRegion, setOnboarded} = useStorage();
-
+  const startExposureNotificationService = useStartExposureNotificationService();
   const maxWidth = useMaxContentWidth();
 
   const renderItem = useCallback(
@@ -59,9 +60,13 @@ export const OnboardingScreen = () => {
 
         return;
       }
+      if (currentIndex === contentData.length - 2) {
+        // we want the EN permission dialogue to appear on the last step.
+        startExposureNotificationService();
+      }
       (carouselRef.current! as CarouselStatic<ViewKey>).snapToNext();
     }
-  }, [currentIndex, navigation, setOnboarded]);
+  }, [currentIndex, navigation, setOnboarded, startExposureNotificationService]);
 
   const prevItem = useCallback(() => {
     setRegion(undefined);
