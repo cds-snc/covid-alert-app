@@ -6,15 +6,14 @@ import {View, LayoutChangeEvent, LayoutRectangle, StyleSheet} from 'react-native
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
-// import {Region} from '../../shared/Region';
-// import {useStorage} from 'services/StorageService';
+import {useStorage} from 'services/StorageService';
+import {RegionPickerScreen} from 'screens/regionPicker';
 
 import {Start} from './views/Start';
 import {WhatItsNot} from './views/WhatItsNot';
 import {Anonymous} from './views/Anonymous';
 import {HowItWorks} from './views/HowItWorks';
 import {Permissions} from './views/Permissions';
-import {RegionPickerScreen} from 'screens/regionPicker';
 
 type ViewKey = 'start' | 'whatItsNot' | 'anonymous' | 'howItWorks' | 'permissions' | 'region';
 
@@ -33,10 +32,7 @@ export const OnboardingScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
   const navigation = useNavigation();
-
-  //const region: Region = useStorage();
-
-  // const {setRegion: persistRegion} = useStorage();
+  const {region, setRegion, setOnboarded} = useStorage();
 
   const maxWidth = useMaxContentWidth();
 
@@ -52,9 +48,10 @@ export const OnboardingScreen = () => {
     [maxWidth],
   );
 
-  const nextItem = useCallback(() => {
+  const nextItem = useCallback(async () => {
     if (carouselRef.current) {
       if (currentIndex === contentData.length - 1) {
+        await setOnboarded(true);
         navigation.reset({
           index: 0,
           routes: [{name: 'Home'}],
@@ -64,25 +61,24 @@ export const OnboardingScreen = () => {
       }
       (carouselRef.current! as CarouselStatic<ViewKey>).snapToNext();
     }
-  }, [currentIndex, navigation]);
+  }, [currentIndex, navigation, setOnboarded]);
 
   const prevItem = useCallback(() => {
+    setRegion(undefined);
     if (carouselRef.current) {
       (carouselRef.current! as CarouselStatic<ViewKey>).snapToPrev();
     }
-  }, []);
+  }, [setRegion]);
 
   const isStart = currentIndex === 0;
   const isEnd = currentIndex === contentData.length - 1;
 
-  const region = false;
-
   let endText = 'EndSkip';
-  let endColor = 'thinFlatNeutralGrey';
+  let endBtnStyle = '';
 
-  if (isEnd && region) {
+  if (isEnd && region && region !== 'None') {
     endText = 'End';
-    endColor = 'thinFlat';
+    endBtnStyle = 'ready';
   }
 
   const BackButton = (
@@ -145,7 +141,11 @@ export const OnboardingScreen = () => {
         <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
           <Box flex={1}>
             {isEnd ? (
-              <Button text={i18n.translate(`Onboarding.Action${endText}`)} variant={`${endColor}`} onPress={nextItem} />
+              <Button
+                text={i18n.translate(`Onboarding.Action${endText}`)}
+                variant={endBtnStyle === 'ready' ? 'thinFlat' : 'thinFlatNeutralGrey'}
+                onPress={nextItem}
+              />
             ) : (
               <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
             )}
