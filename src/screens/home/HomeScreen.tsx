@@ -78,6 +78,11 @@ const Content = ({setBackgroundColor}: ContentProps) => {
     }
   };
 
+  // this case should be highest priority - if bluetooth is off, the app doesn't work
+  if (systemStatus === SystemStatus.BluetoothOff) {
+    return <BluetoothDisabledView />;
+  }
+
   switch (exposureStatus.type) {
     case 'exposed':
       return <ExposureView />;
@@ -90,8 +95,6 @@ const Content = ({setBackgroundColor}: ContentProps) => {
         case SystemStatus.Disabled:
         case SystemStatus.Restricted:
           return <ExposureNotificationsDisabledView />;
-        case SystemStatus.BluetoothOff:
-          return <BluetoothDisabledView />;
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
