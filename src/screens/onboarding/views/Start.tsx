@@ -7,7 +7,7 @@ export const Start = () => {
   const [i18n] = useI18n();
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box flex={1} paddingHorizontal="xl" marginTop="xl">
+      <Box flex={1} paddingHorizontal="xl">
         <OnboardingHeader
           text={i18n.translate('Onboarding.Start.Title')}
           imageSrc={require('assets/onboarding-start.png')}

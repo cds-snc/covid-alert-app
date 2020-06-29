@@ -49,6 +49,10 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   const regionCase = getRegionCase(region);
   const [exposureStatus] = useExposureStatus();
   const [systemStatus] = useSystemStatus();
+  const [, turnNotificationsOn] = useNotificationPermissionStatus();
+  useEffect(() => {
+    return turnNotificationsOn();
+  }, [turnNotificationsOn]);
 
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
