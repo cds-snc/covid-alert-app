@@ -15,7 +15,7 @@ import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from './Box';
 import {Ripple} from './Ripple';
-import {Icon} from './Icon';
+import {Icon, IconName} from './Icon';
 
 export interface ButtonProps {
   text?: string;
@@ -27,6 +27,7 @@ export interface ButtonProps {
   externalLink?: boolean;
   internalLink?: boolean;
   backButton?: boolean;
+  iconName?: IconName;
 }
 
 export const Button = ({
@@ -39,6 +40,7 @@ export const Button = ({
   externalLink,
   internalLink,
   backButton,
+  iconName,
 }: ButtonProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
@@ -86,6 +88,7 @@ export const Button = ({
           <Box style={{...styles.chevronOffset}}>
             {externalLink && <Icon name={externalArrowIcon} />}
             {internalLink && <Icon size={25} name="icon-chevron" />}
+            {iconName && <Icon size={25} name={iconName} />}
           </Box>
         </>
       )}
