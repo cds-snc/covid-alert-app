@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {ItemView} from './ItemView';
 
 export const Step1 = () => {

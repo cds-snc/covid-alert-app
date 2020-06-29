@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
 import {Box} from 'components';
+
 import {Step1} from './views/Step1';
 import {Step2} from './views/Step2';
 import {Step3} from './views/Step3';
