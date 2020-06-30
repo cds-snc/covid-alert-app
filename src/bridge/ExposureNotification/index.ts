@@ -16,5 +16,6 @@ export {
   ExposureConfiguration,
   ExposureInformation,
   ExposureNotification,
-} from './ExposureNotificationAPI';
+} from './types';
+
 export default ExposureNotificationAdapter(NativeModules.ExposureNotification);

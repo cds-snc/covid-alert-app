@@ -1,6 +1,6 @@
 import {unzip} from 'react-native-zip-archive';
 
-import {ExposureNotification, ExposureConfiguration, ExposureSummary} from './ExposureNotificationAPI';
+import {ExposureNotification, ExposureConfiguration, ExposureSummary} from './types';
 
 export default function ExposureNotificationAdapter(
   exposureNotificationAPI: ExposureNotification,

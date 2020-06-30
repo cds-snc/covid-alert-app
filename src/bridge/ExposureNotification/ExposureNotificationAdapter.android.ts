@@ -1,4 +1,4 @@
-import {ExposureNotification, ExposureSummary, ExposureInformation} from './ExposureNotificationAPI';
+import {ExposureNotification, ExposureSummary, ExposureInformation} from './types';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: any): ExposureNotification {
   return {

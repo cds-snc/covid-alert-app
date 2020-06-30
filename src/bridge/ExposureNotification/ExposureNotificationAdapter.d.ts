@@ -1,4 +1,4 @@
-import {ExposureNotification} from './ExposureNotificationAPI';
+import {ExposureNotification} from './types';
 
 declare function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotification): ExposureNotification;
 
