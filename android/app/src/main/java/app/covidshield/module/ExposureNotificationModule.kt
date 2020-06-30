@@ -95,18 +95,18 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             val exposureConfiguration = configuration.parse(Configuration::class.java).toExposureConfiguration()
             val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
             val token = "${UUID.randomUUID()}-${Date().time}"
-            log("detectExposure", mapOf("token" to token))
+            log("detectExposure", mapOf("token" to token, "files" to files))
 
             exposureNotificationClient.provideDiagnosisKeys(files, exposureConfiguration, token).await()
-
-            // Clean up files after feeding to the framework
-            files.forEach { it.cleanup() }
 
             // Wait for ExposureNotificationBroadcastReceiver
             val completer = CompletableDeferred<Token>()
             detectExposureResolutionCompleters[token] = completer
             completer.await()
             detectExposureResolutionCompleters.remove(token)
+
+            // Clean up files after feeding to the framework
+            files.forEach { it.cleanup() }
 
             val exposureSummary = exposureNotificationClient.getExposureSummary(token).await()
             val summary = exposureSummary.toSummary()

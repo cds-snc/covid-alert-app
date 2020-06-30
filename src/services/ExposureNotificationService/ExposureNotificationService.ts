@@ -1,5 +1,4 @@
-import ExposureNotification from 'bridge/ExposureNotification';
-import {ExposureSummary, Status as SystemStatus} from 'bridge/ExposureNotificationAPI';
+import ExposureNotification, {ExposureSummary, Status as SystemStatus} from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
@@ -249,21 +248,24 @@ export class ExposureNotificationService {
       return finalize({...currentStatus, needsSubmission: await this.calculateNeedsSubmission()});
     }
 
+    const keysFileUrls: string[] = [];
     const generator = this.keysSinceLastFetch(lastCheckDate);
     while (true) {
-      const {value: keysFilesUrl, done} = await generator.next();
+      const {value: keysFileUrl, done} = await generator.next();
       if (done) break;
-      if (!keysFilesUrl) continue;
-      try {
-        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFilesUrl]);
-        if (summary.matchedKeyCount > 0) {
-          return finalize({type: 'exposed', summary});
-        }
-      } catch (err) {
-        console.log({err});
-        continue;
-      }
+      if (!keysFileUrl) continue;
+      keysFileUrls.push(keysFileUrl);
     }
+
+    try {
+      const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      if (summary.matchedKeyCount > 0) {
+        return finalize({type: 'exposed', summary});
+      }
+    } catch (error) {
+      console.log('>>> detectExposure', error);
+    }
+
     return finalize({type: 'monitoring'});
   }
 }
