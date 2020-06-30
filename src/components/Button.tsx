@@ -47,8 +47,15 @@ export const Button = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, color, borderBottomWidth, height} = (themedStyles as unknown) as TextStyle &
-    ViewStyle;
+  const {
+    fontSize,
+    fontWeight,
+    fontFamily,
+    color,
+    borderBottomWidth,
+    height,
+    borderBottomColor,
+  } = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
 
@@ -68,7 +75,12 @@ export const Button = ({
       alignItems="center"
       justifyContent="center"
       shadowColor="bodyText"
-      style={{backgroundColor: color, minHeight: height, borderBottomWidth, borderBottomColor: palette.fadedWhiteDark}}
+      style={{
+        backgroundColor: color,
+        minHeight: height,
+        borderBottomWidth,
+        borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
+      }}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
