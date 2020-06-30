@@ -173,6 +173,7 @@
     "ActionBack": "Précédent",
     "ActionEnd": "Terminé",
     "ActionNext": "Suivant",
+    "ActionEndSkip": "Ignorer",
     "Start": {
       "Title": "Joignez-vous à l’effort commun pour ralentir la propagation ",
       "Body1": "Alerte COVID vous permet d’aviser des personnes de façon anonyme si jamais vous recevez un test positif de COVID-19 après avoir été près d’elles. ",
