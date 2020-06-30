@@ -273,7 +273,7 @@
     "RegionSelectBtn": "Choose province or territory"
   },
   "RegionPicker": {
-    "Title": "Where do you live? (Optional)",
+    "Title": "Where do you live? (optional)",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
     "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
