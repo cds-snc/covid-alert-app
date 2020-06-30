@@ -242,7 +242,7 @@
   "RegionPicker": {
     "AB": "Alberta",
     "BC": "Colombie-Britannique",
-    "Body": "Sélectionnez la province ou le territoire dont vous devez suivre les recommandations de santé publique.\n\nCette information est stockée sur votre téléphone uniquement et ne sera jamais transmise à d’autres personnes.",
+    "Body": "Dans certaines régions, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nLa région où vous habitez ne sera transmise à personne.\n\nSélectionner une région est facultatif. On vous dira si votre région est prise en charge.",
     "Close": "Fermer",
     "GetStarted": "Commencer",
     "MB": "Manitoba",
