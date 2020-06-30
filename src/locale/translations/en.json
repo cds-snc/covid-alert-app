@@ -155,9 +155,9 @@
     "ActionEnd": "Get Started",
     "ActionBack": "Back",
     "Start": {
-      "Title": "Join the effort to slow the spread",
-      "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
-      "Body2": "That way, you can isolate right away and stop the spread."
+      "Title": "Together, let’s slow the spread of COVID-19",
+      "Body1": "COVID Alert helps us break the cycle of infection. The app can let people know of possible exposures before any symptoms appear. ",
+      "Body2": "That way, we can take care of ourselves and protect our communities."
     },
     "WhatItsNot": {
       "Title": "What COVID Alert does not do",
@@ -252,11 +252,11 @@
   },
   "Notification": {
     "ExposedMessageTitle": "You’ve been exposed",
-    "ExposedMessageBody": "You’ve been near someone who reported a COVID-19 diagnosis through the app.\n\nThis does not mean you’ve been infected. But you should probably take some action.",
+    "ExposedMessageBody": "You’ve been near someone who reported a COVID-19 diagnosis through the app. Read guidance.",
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
-    "DailyUploadNotificationTitle": "Share your new informatin about people you were near",
-    "DailyUploadNotificationBody": "Sharing your information helps people know if they've been exposed to COVID-19. Then they can isolate and slow the spread to others. No details about who you are will be shared."
+    "DailyUploadNotificationTitle": "Upload new random codes",
+    "DailyUploadNotificationBody": "You do not have to agree, even if you agreed the day before. But you can help slow the spread of COVID-19 if you do.\n\nTake care of yourself and your family during this time."
   },
   "Partners": {
     "Label": "Developed in partnership with"
@@ -273,10 +273,10 @@
     "RegionSelectBtn": "Choose province or territory"
   },
   "RegionPicker": {
-    "Title": "Where do you live?",
+    "Title": "Where do you live? (Optional)",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
-    "Body": "In some places, people cannot yet report a COVID-19 diagnosis through this app.\n\nYour region will never be shared with anyone.\n\nChoosing a region is optional. It will tell you if your area is supported.",
+    "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "Optional": "* Optional",
