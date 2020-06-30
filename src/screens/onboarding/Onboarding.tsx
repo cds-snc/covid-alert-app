@@ -1,7 +1,7 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
-import {Box, Button, LanguageToggle, Text} from 'components';
+import {Box, Button, Text} from 'components';
 import {View, LayoutChangeEvent, LayoutRectangle, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
@@ -96,7 +96,6 @@ export const OnboardingScreen = () => {
       onPress={prevItem}
     />
   );
-  const LanguageButton = <LanguageToggle />;
 
   const [layout, setLayout] = useState<LayoutRectangle | undefined>();
   const onLayout = useCallback(({nativeEvent: {layout}}: LayoutChangeEvent) => {
@@ -107,10 +106,12 @@ export const OnboardingScreen = () => {
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
         <Box flexDirection="row">
-          <Box align-self="flex-start">{isStart ? LanguageButton : BackButton}</Box>
+          <Box align-self="flex-start" style={isStart ? styles.spacer : null}>
+            {isStart ? null : BackButton}
+          </Box>
         </Box>
 
-        <Box flex={1} paddingTop="m" justifyContent="center" onLayout={onLayout}>
+        <Box flex={1} paddingTop="s" justifyContent="center" onLayout={onLayout}>
           {layout && (
             <View style={styles.viewOffset}>
               <Carousel
@@ -163,6 +164,9 @@ export const OnboardingScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  spacer: {
+    marginBottom: 57,
+  },
   viewOffset: {
     marginTop: 50,
   },
