@@ -40,23 +40,32 @@ export const useStorage = () => {
   const [region, setRegionInternal] = useState(storageService.region.value);
   const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);
 
+  const [onboardedDatetime, setOnboardedDatetimeInternal] = useState(storageService.onboardedDatetime.value);
+  const setOnboardedDatetime = useMemo(() => storageService.setOnboardedDatetime, [
+    storageService.setOnboardedDatetime,
+  ]);
+
   const [forceScreen, setForceScreenInternal] = useState(storageService.forceScreen.value);
   const setForceScreen = useMemo(() => storageService.setForceScreen, [storageService.setForceScreen]);
 
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
+  useEffect(() => storageService.onboardedDatetime.observe(setOnboardedDatetimeInternal), [
+    storageService.onboardedDatetime,
+  ]);
   useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
     setLocale(getSystemLocale());
     setRegion(undefined);
+    setOnboardedDatetime(undefined);
     await AsyncStorage.clear();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setRegion]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion]);
 
   return useMemo(
     () => ({
@@ -67,9 +76,23 @@ export const useStorage = () => {
       region,
       setRegion,
       forceScreen,
+      setOnboardedDatetime,
+      onboardedDatetime,
       setForceScreen,
       reset,
     }),
-    [forceScreen, isOnboarding, locale, region, reset, setForceScreen, setLocale, setOnboarded, setRegion],
+    [
+      forceScreen,
+      isOnboarding,
+      locale,
+      onboardedDatetime,
+      region,
+      reset,
+      setForceScreen,
+      setLocale,
+      setOnboarded,
+      setOnboardedDatetime,
+      setRegion,
+    ],
   );
 };

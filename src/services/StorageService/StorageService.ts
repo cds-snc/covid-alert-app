@@ -7,6 +7,7 @@ export enum Key {
   IsOnboarded = 'IsOnboarded',
   Locale = 'Locale',
   Region = 'Region',
+  OnboardedDatetime = 'OnboardedDatetime',
   ForceScreen = 'ForceScreen',
 }
 
@@ -14,6 +15,7 @@ export class StorageService {
   isOnboarding: Observable<boolean>;
   locale: Observable<string>;
   region: Observable<Region | undefined>;
+  onboardedDatetime: Observable<Date | undefined>;
   forceScreen: Observable<string | undefined>;
 
   ready: Observable<boolean>;
@@ -23,6 +25,7 @@ export class StorageService {
     this.locale = new Observable<string>(getSystemLocale());
     this.ready = new Observable<boolean>(false);
     this.region = new Observable<Region | undefined>(undefined);
+    this.onboardedDatetime = new Observable<Date | undefined>(undefined);
     this.forceScreen = new Observable<string | undefined>(undefined);
     this.init();
   }
@@ -42,6 +45,11 @@ export class StorageService {
     this.region.set(value);
   };
 
+  setOnboardedDatetime = async (value: Date | undefined) => {
+    await AsyncStorage.setItem(Key.OnboardedDatetime, value ? value.toISOString() : '');
+    this.onboardedDatetime.set(value);
+  };
+
   setForceScreen = async (value: string | undefined) => {
     await AsyncStorage.setItem(Key.ForceScreen, value ? value : '');
     this.forceScreen.set(value);
@@ -56,6 +64,11 @@ export class StorageService {
 
     const region = ((await AsyncStorage.getItem(Key.Region)) as Region | undefined) || undefined;
     this.region.set(region);
+
+    const onboardedDatetimeStr =
+      ((await AsyncStorage.getItem(Key.OnboardedDatetime)) as string | undefined) || undefined;
+    const onboardedDatetime = onboardedDatetimeStr ? new Date(onboardedDatetimeStr) : undefined;
+    this.onboardedDatetime.set(onboardedDatetime);
 
     const forceScreen = ((await AsyncStorage.getItem(Key.ForceScreen)) as string | undefined) || undefined;
     this.forceScreen.set(forceScreen);

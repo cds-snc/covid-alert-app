@@ -1,11 +1,18 @@
 import React from 'react';
 import {Text, LastCheckedDisplay} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {useStorage} from 'services/StorageService';
+import {hoursFromNow} from 'shared/date-fns';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {AllSetView} from '../components/AllSetView';
 
 export const NoExposureNoRegionView = () => {
   const [i18n] = useI18n();
+  const {onboardedDatetime} = useStorage();
+  if (onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
+    return <AllSetView bodyText={i18n.translate('Home.NoExposureDetected.NoRegion.AllSetBody')} />;
+  }
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView>
