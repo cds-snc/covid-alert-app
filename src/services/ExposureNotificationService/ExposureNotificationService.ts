@@ -1,9 +1,10 @@
-import {Status as SystemStatus, ExposureSummary} from 'bridge/ExposureNotificationAPI';
 import ExposureNotification from 'bridge/ExposureNotification';
+import {ExposureSummary, Status as SystemStatus} from 'bridge/ExposureNotificationAPI';
 import PushNotification from 'bridge/PushNotification';
-import {Observable} from 'shared/Observable';
+import {TEST_MODE} from 'env';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
+import {Observable} from 'shared/Observable';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -144,7 +145,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(): Promise<ExposureStatus> {
-    if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
+    if (!TEST_MODE && this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
       this.exposureStatusUpdatePromise = null;
       return input;
@@ -237,10 +238,10 @@ export class ExposureNotificationService {
       return undefined;
     })();
 
-    const finalize = (status: ExposureStatus) => {
+    const finalize = async (status: ExposureStatus) => {
       const timestamp = `${new Date().getTime()}`;
       this.exposureStatus.set({...status, lastChecked: timestamp});
-      this.storage.setItem(LAST_CHECK_TIMESTAMP, timestamp);
+      await this.storage.setItem(LAST_CHECK_TIMESTAMP, timestamp);
       return this.exposureStatus.get();
     };
 
@@ -256,7 +257,6 @@ export class ExposureNotificationService {
       if (!keysFilesUrl) continue;
       try {
         const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFilesUrl]);
-
         if (summary.matchedKeyCount > 0) {
           return finalize({type: 'exposed', summary});
         }

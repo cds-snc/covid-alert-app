@@ -94,9 +94,13 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         promise.launch(this) {
             val exposureConfiguration = configuration.parse(Configuration::class.java).toExposureConfiguration()
             val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
-            val token = UUID.randomUUID().toString()
+            val token = "${UUID.randomUUID()}-${Date().time}"
+            log("detectExposure", mapOf("token" to token))
 
             exposureNotificationClient.provideDiagnosisKeys(files, exposureConfiguration, token).await()
+
+            // Clean up files after feeding to the framework
+            files.forEach { it.cleanup() }
 
             // Wait for ExposureNotificationBroadcastReceiver
             val completer = CompletableDeferred<Token>()
@@ -104,9 +108,10 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             completer.await()
             detectExposureResolutionCompleters.remove(token)
 
-            files.forEach { it.cleanup() }
             val exposureSummary = exposureNotificationClient.getExposureSummary(token).await()
             val summary = exposureSummary.toSummary()
+            log("detectExposure", mapOf("token" to token, "summary" to summary))
+
             promise.resolve(summary.toWritableMap().apply {
                 putString(SUMMARY_HIDDEN_KEY, token)
             })
