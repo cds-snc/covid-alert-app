@@ -61,20 +61,24 @@ export const OnboardingScreen = () => {
 
         return;
       }
-      if (currentIndex === contentData.length - 2) {
-        // we want the EN permission dialogue to appear on the last step.
-        startExposureNotificationService();
-      }
       (carouselRef.current! as CarouselStatic<ViewKey>).snapToNext();
     }
-  }, [currentIndex, navigation, setOnboarded, startExposureNotificationService]);
+  }, [currentIndex, navigation, setOnboarded, setOnboardedDatetime]);
+
+  const onSnapToNewPage = (index: number) => {
+    if (index === contentData.length - 2) {
+      // we want the EN permission dialogue to appear on the last step.
+      startExposureNotificationService();
+      // we want region cleared on this step as well
+      setRegion(undefined);
+    }
+  };
 
   const prevItem = useCallback(() => {
-    setRegion(undefined);
     if (carouselRef.current) {
       (carouselRef.current! as CarouselStatic<ViewKey>).snapToPrev();
     }
-  }, [setRegion]);
+  }, []);
 
   const isStart = currentIndex === 0;
   const isEnd = currentIndex === contentData.length - 1;
@@ -120,7 +124,10 @@ export const OnboardingScreen = () => {
                 sliderWidth={layout.width}
                 itemWidth={layout.width}
                 itemHeight={layout.height}
-                onSnapToItem={newIndex => setCurrentIndex(newIndex)}
+                onSnapToItem={newIndex => {
+                  setCurrentIndex(newIndex);
+                  onSnapToNewPage(newIndex);
+                }}
               />
               <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
               <Pagination
