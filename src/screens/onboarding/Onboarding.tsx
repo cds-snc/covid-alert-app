@@ -66,10 +66,13 @@ export const OnboardingScreen = () => {
   }, [currentIndex, navigation, setOnboarded, setOnboardedDatetime]);
 
   const onSnapToNewPage = (index: number) => {
-    if (index === contentData.length - 2) {
-      // we want the EN permission dialogue to appear on the last step.
+    // we want the EN permission dialogue to appear on the last step.
+    if (index === contentData.length - 1) {
       startExposureNotificationService();
-      // we want region cleared on this step as well
+    }
+
+    // we want region cleared on the 2nd last step
+    if (index === contentData.length - 2) {
       setRegion(undefined);
     }
   };
