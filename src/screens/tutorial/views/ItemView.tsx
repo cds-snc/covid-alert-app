@@ -28,8 +28,9 @@ export const ItemView = ({item, image}: ItemViewProps) => {
 const styles = StyleSheet.create({
   image: {
     width: '100%',
-    height: 273,
+    height: 189,
     marginBottom: 30,
     resizeMode: 'contain',
+    alignSelf: 'center',
   },
 });
