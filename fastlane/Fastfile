@@ -22,7 +22,9 @@ platform :ios do
         }
       }
     )
-    upload_to_testflight
+    upload_to_testflight(
+      groups: ENV["TEST_GROUPS"]
+    )
   end
 
   lane :local do
