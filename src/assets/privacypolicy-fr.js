@@ -4,7 +4,7 @@ Alerte COVID suit tous les principes du Commissariat à la protection de la vie 
 
 Le service Alerte COVID ne collecte ni ne stocke aucun de vos renseignements personnels.
 
-## Données collectées et stockées par l’application*
+## Données collectées et stockées par l’application
 - Les codes aléatoires émis par votre téléphone, pendant 14 jours.
 - Les codes aléatoires émis par les autres téléphones à proximité, pendant 14 jours.
 
