@@ -242,7 +242,7 @@
   "RegionPicker": {
     "AB": "Alberta",
     "BC": "Colombie-Britannique",
-    "Body": "Dans certaines régions, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nLa région où vous habitez ne sera jamais transmise à personne.\n\nVous avez l’option de sélectionner une région. On vous dira si l’application fonctionne où vous habitez.",
+    "Body": "Sélectionnez votre région pour savoir si vous pouvez signaler un diagnostic à l’aide de l’application.\n\nLa région où vous habitez ne sera jamais transmise à personne.",
     "Close": "Fermer",
     "GetStarted": "Commencer",
     "MB": "Manitoba",
@@ -258,7 +258,7 @@
     "SK": "Saskatchewan",
     "SettingsTitle": "Province ou territoire",
     "Skip": "Ignorer",
-    "Title": "Où habitez-vous?",
+    "Title": "Où habitez-vous? (facultatif)",
     "YT": "Yukon"
   },
   "RegionalGuidanceURL": {
