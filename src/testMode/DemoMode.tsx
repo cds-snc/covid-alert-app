@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import {useI18n} from '@shopify/react-i18n';
 import PushNotification from 'bridge/PushNotification';
-import {Box, Button, Text} from 'components';
+import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
 
 import {RadioButton} from './components/RadioButtons';
@@ -104,6 +104,9 @@ const DrawerContent = () => {
         <Section>
           <Item title="Skip 'You're all set'" />
           <SkipAllSetRadioSelector />
+        </Section>
+        <Section>
+          <LanguageToggle />
         </Section>
         <Section>
           <Button text="Clear data" onPress={reset} variant="danger50Flat" />
