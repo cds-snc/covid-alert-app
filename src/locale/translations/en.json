@@ -273,10 +273,10 @@
     "RegionSelectBtn": "Choose province or territory"
   },
   "RegionPicker": {
-    "Title": "Choose your province or territory",
+    "Title": "Where do you live?",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
-    "Body": "Choose the province or territory whose public health guidance you need to follow.\n\nThis information is only stored on your phone and will never be shared with anyone.",
+    "Body": "In some places, people cannot yet report a COVID-19 diagnosis through this app.\n\nYour region will never be shared with anyone.\n\nChoosing a region is optional. It will tell you if your area is supported.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "Optional": "* Optional",
