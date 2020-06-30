@@ -8,7 +8,7 @@ The COVID Alert service does not collect or store any personal information about
 - Random codes from your phone, for 14 days.
 - Random codes from other phones near you, for 14 days.
 
-The random codes are only stored and used for the purpose of responding to COVID-19
+The random codes are only stored and used for the purpose of responding to COVID-19.
 
 ### How the data is protected
 
