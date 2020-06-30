@@ -19,7 +19,8 @@ export const AllSetView = ({bodyText}: {bodyText: string}) => {
         backgroundColor="green2"
         borderRadius={10}
         paddingVertical="m"
-        paddingHorizontal="s"
+        paddingLeft="s"
+        paddingRight="m"
         flexDirection="row"
         marginTop="m"
         marginBottom="xl"

@@ -9,8 +9,9 @@ import {AllSetView} from '../components/AllSetView';
 
 export const NoExposureUncoveredRegionView = () => {
   const [i18n] = useI18n();
-  const {onboardedDatetime} = useStorage();
-  if (onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
+  const {onboardedDatetime, skipAllSet} = useStorage();
+
+  if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return <AllSetView bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')} />;
   }
   return (

@@ -42,6 +42,38 @@ const ScreenRadioSelector = () => {
   );
 };
 
+const SkipAllSetRadioSelector = () => {
+  const {skipAllSet, setSkipAllSet} = useStorage();
+  const screenData = [
+    {displayName: 'False', value: 'false'},
+    {displayName: 'True', value: 'true'},
+  ];
+  // console.log('skipAllSet', skipAllSet);
+  return (
+    <Box
+      marginTop="l"
+      paddingHorizontal="m"
+      borderRadius={10}
+      backgroundColor="infoBlockNeutralBackground"
+      accessibilityRole="radiogroup"
+    >
+      {screenData.map(x => {
+        return (
+          <RadioButton
+            key={x.displayName}
+            selected={skipAllSet.toString() === x.value}
+            onPress={val => {
+              setSkipAllSet(val === 'true');
+            }}
+            name={x.displayName}
+            value={x.value}
+          />
+        );
+      })}
+    </Box>
+  );
+};
+
 const DrawerContent = () => {
   const [i18n] = useI18n();
 
@@ -68,6 +100,10 @@ const DrawerContent = () => {
         <Section>
           <Item title="Force screen" />
           <ScreenRadioSelector />
+        </Section>
+        <Section>
+          <Item title="Skip 'You're all set'" />
+          <SkipAllSetRadioSelector />
         </Section>
         <Section>
           <Button text="Clear data" onPress={reset} variant="danger50Flat" />

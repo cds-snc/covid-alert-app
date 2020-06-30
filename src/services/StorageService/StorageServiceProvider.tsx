@@ -48,6 +48,9 @@ export const useStorage = () => {
   const [forceScreen, setForceScreenInternal] = useState(storageService.forceScreen.value);
   const setForceScreen = useMemo(() => storageService.setForceScreen, [storageService.setForceScreen]);
 
+  const [skipAllSet, setSkipAllSetInternal] = useState(storageService.skipAllSet.value);
+  const setSkipAllSet = useMemo(() => storageService.setSkipAllSet, [storageService.setSkipAllSet]);
+
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
@@ -55,17 +58,19 @@ export const useStorage = () => {
     storageService.onboardedDatetime,
   ]);
   useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
+  useEffect(() => storageService.skipAllSet.observe(setSkipAllSetInternal), [storageService.skipAllSet]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
     setLocale(getSystemLocale());
     setRegion(undefined);
     setOnboardedDatetime(undefined);
+    setSkipAllSet(false);
     await AsyncStorage.clear();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet]);
 
   return useMemo(
     () => ({
@@ -75,10 +80,12 @@ export const useStorage = () => {
       setLocale,
       region,
       setRegion,
-      forceScreen,
-      setOnboardedDatetime,
       onboardedDatetime,
+      setOnboardedDatetime,
+      forceScreen,
       setForceScreen,
+      skipAllSet,
+      setSkipAllSet,
       reset,
     }),
     [
@@ -87,12 +94,14 @@ export const useStorage = () => {
       locale,
       onboardedDatetime,
       region,
+      skipAllSet,
       reset,
       setForceScreen,
       setLocale,
       setOnboarded,
       setOnboardedDatetime,
       setRegion,
+      setSkipAllSet,
     ],
   );
 };

@@ -9,6 +9,7 @@ export enum Key {
   Region = 'Region',
   OnboardedDatetime = 'OnboardedDatetime',
   ForceScreen = 'ForceScreen',
+  SkipAllSet = 'SkipAllSet',
 }
 
 export class StorageService {
@@ -17,6 +18,7 @@ export class StorageService {
   region: Observable<Region | undefined>;
   onboardedDatetime: Observable<Date | undefined>;
   forceScreen: Observable<string | undefined>;
+  skipAllSet: Observable<boolean>;
 
   ready: Observable<boolean>;
 
@@ -27,6 +29,7 @@ export class StorageService {
     this.region = new Observable<Region | undefined>(undefined);
     this.onboardedDatetime = new Observable<Date | undefined>(undefined);
     this.forceScreen = new Observable<string | undefined>(undefined);
+    this.skipAllSet = new Observable<boolean>(false);
     this.init();
   }
 
@@ -55,6 +58,11 @@ export class StorageService {
     this.forceScreen.set(value);
   };
 
+  setSkipAllSet = async (value: boolean) => {
+    await AsyncStorage.setItem(Key.SkipAllSet, value ? '1' : '0');
+    this.skipAllSet.set(value);
+  };
+
   private init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
@@ -72,6 +80,9 @@ export class StorageService {
 
     const forceScreen = ((await AsyncStorage.getItem(Key.ForceScreen)) as string | undefined) || undefined;
     this.forceScreen.set(forceScreen);
+
+    const skipAllSet = (await AsyncStorage.getItem(Key.SkipAllSet)) === '1';
+    this.skipAllSet.set(skipAllSet);
 
     this.ready.set(true);
   };
