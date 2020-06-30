@@ -156,6 +156,7 @@ const theme = {
       fontFamily: 'Noto Sans',
       fontSize: 18,
       borderBottomWidth: 4,
+      borderBottomColor: palette.brandRed,
       disabled: {
         color: palette.darkGrey,
         textColor: palette.bodyBlack,
@@ -220,6 +221,7 @@ const theme = {
       borderBottomWidth: 4,
       paddingHorizontal: 5,
       paddingVertical: 10,
+      borderBottomColor: palette.brandBlue,
       disabled: {
         color: palette.darkGrey,
         textColor: palette.bodyBlack,
@@ -241,6 +243,7 @@ const theme = {
       fontFamily: 'Noto Sans',
       fontSize: 18,
       borderBottomWidth: 4,
+      borderBottomColor: palette.darkGrey,
       disabled: {},
     },
     bigFlatDarkGrey: {
