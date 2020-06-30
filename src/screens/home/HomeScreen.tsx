@@ -49,6 +49,10 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   const regionCase = getRegionCase(region);
   const [exposureStatus] = useExposureStatus();
   const [systemStatus] = useSystemStatus();
+  const [, turnNotificationsOn] = useNotificationPermissionStatus();
+  useEffect(() => {
+    return turnNotificationsOn();
+  }, [turnNotificationsOn]);
 
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
@@ -74,6 +78,11 @@ const Content = ({setBackgroundColor}: ContentProps) => {
     }
   };
 
+  // this case should be highest priority - if bluetooth is off, the app doesn't work
+  if (systemStatus === SystemStatus.BluetoothOff) {
+    return <BluetoothDisabledView />;
+  }
+
   switch (exposureStatus.type) {
     case 'exposed':
       return <ExposureView />;
@@ -86,8 +95,6 @@ const Content = ({setBackgroundColor}: ContentProps) => {
         case SystemStatus.Disabled:
         case SystemStatus.Restricted:
           return <ExposureNotificationsDisabledView />;
-        case SystemStatus.BluetoothOff:
-          return <BluetoothDisabledView />;
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
@@ -100,7 +107,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
 const CollapsedContent = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus === 'denied';
+  const showNotificationWarning = notificationStatus !== 'granted';
 
   // if (systemStatus === SystemStatus.Unknown) {
   //   return null;

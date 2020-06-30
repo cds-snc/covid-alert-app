@@ -10,7 +10,7 @@ export const HowItWorks = () => {
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box flex={1} marginTop="xl" paddingHorizontal="xl">
+      <Box flex={1} paddingHorizontal="xl">
         <OnboardingHeader
           text={i18n.translate('Onboarding.HowItWorks.Title')}
           imageSrc={require('assets/onboarding-howitworks.png')}

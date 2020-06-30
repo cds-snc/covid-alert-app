@@ -1,31 +1,31 @@
 {
   "Home": {
     "NoExposureDetected": {
+      "AllSetTipTitle": "TIP: ",
+      "AllSetTipBody": "Use a passcode, PIN, or other ways of locking your phone while Bluetooth is on.",
+      "AllSetTitle": "You're all set",
       "RegionCovered": {
         "Title": "No exposure detected",
         "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
         "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
-        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-        "DiagnosedBtnText2": "What to do next"
+        "AllSetBody": "Your phone is now running Bluetooth to collect codes from nearby phones."
       },
       "NoRegion": {
         "Title": "No exposure detected",
         "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
-        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-        "DiagnosedBtnText2": "What to do next"
+        "AllSetBody": "Your phone is now running Bluetooth to collect codes from nearby phones.\n\nIf you’re outside Ontario, people in your area cannot yet report a diagnosis through the app.\n\nIt’s still helpful to keep COVID Alert on. That way, when people are able to report a diagnosis, you’ll find out if you were near them."
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
         "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn COVID Alert on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
-        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html"
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+        "AllSetBody": "Now you can just forget about the app unless you get a notification.\n\nBut people in your area cannot yet report a diagnosis through the app.\n\nIt’s still helpful to keep COVID Alert on. That way, when people are able to report a diagnosis, you’ll find out if you were near them.\n\nWe’ll let you know as soon as your area supports COVID Alert."
       }
     },
     "ExposureDetected": {
       "Title": "You’ve been exposed",
       "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
-      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action.",
-      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-      "DiagnosedBtnText2": "What to do next"
+      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action."
     },
     "ChooseRegionCTA": "Choose province or territory",
     "SeeGuidance": "What now? See guidance.",
@@ -44,10 +44,11 @@
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
-      "Title": "Upload random codes",
-      "Body1": "Thanks for helping slow the spread!",
-      "Body2": "Reminder: To help keep people safe, you need to upload your random codes every day, especially if you have to leave your home.",
-      "ButtonCTA": "Upload random codes"
+      "Title": "Help slow the spread",
+      "Body1": "Uploading your random codes helps people know if they've been exposed to COVID-19. Then they can isolate right away and the slow the spread to others.",
+      "Body2": "Nobody will get any information about you ",
+      "Body3": "or the time you were near them.",
+      "ButtonCTA": "Upload your random codes"
     },
     "BluetoothDisabled": "Bluetooth is off",
     "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
@@ -120,12 +121,16 @@
   },
   "Tutorial": {
     "step-1Title": "How COVID Alert works",
+    "step-1AltText": "A hand-drawn illustration of a mobile phone in a pocket, sending and receiving signals.",
     "step-1": "The app runs in the background and will not interrupt your activities.\n\nWhenever you’re near someone else with COVID Alert, both phones exchange random codes every 5 minutes.\n\nThe random codes change often and cannot be used to identify you. ",
     "step-2Title": "What’s an exposure?",
+    "step-2AltText": "A hand-drawn illustration of 2 mobile phones side-by-side with a timer clock connecting both phones.",
     "step-2": "The app estimates how near people are from the strength of Bluetooth signals.\n\nIf you’re closer than 2 metres for more than 15 minutes, the app will record an exposure.",
     "step-3Title": "Getting a positive test",
+    "step-3AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
     "step-3": "If someone with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.",
     "step-4Title": "Looking for exposures",
+    "step-4AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
     "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you've been exposed and gives you guidance.",
     "ActionBack": "Back",
     "ActionNext": "Next",
@@ -146,7 +151,8 @@
     "Step": "Step",
     "Of": "of",
     "ActionNext": "Next",
-    "ActionEnd": "Done",
+    "ActionEndSkip": "Skip",
+    "ActionEnd": "Get Started",
     "ActionBack": "Back",
     "Start": {
       "Title": "Join the effort to slow the spread",
@@ -162,10 +168,10 @@
       "Title": "Totally Anonymous",
       "Body1": "COVID Alert does not use GPS or location services.",
       "Body2": "It has no way of knowing:",
-      "Bullet1": "your location",
-      "Bullet2": "your name or address",
-      "Bullet3": "your phone's contacts",
-      "Bullet4": "your health information"
+      "Bullet1": "Your location.",
+      "Bullet2": "Your name or address.",
+      "Bullet3": "Your phone's contacts.",
+      "Bullet4": "Your health information."
     },
     "HowItWorks": {
       "Title": "How it works",
@@ -194,9 +200,6 @@
     "Cancel": "Cancel",
     "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
     "ShareToast": "Random IDs shared successfully",
-    "ErrorTitle": "Code not recognized",
-    "ErrorBody": "Your COVID Alert code could not be recognized. Please try again.",
-    "ErrorAction": "OK",
     "Step1": {
       "Title": "Let people know they may have been exposed",
       "Body1a": "Step 1. ",
@@ -212,7 +215,10 @@
       "Title": "Enter your 8-digit number",
       "Body": "Enter the number you got when you were diagnosed.",
       "Action": "Submit",
-      "InputLabel": "COVID Alert 8-digit number"
+      "InputLabel": "COVID Alert 8-digit number",
+      "ErrorTitle": "Code not recognized",
+      "ErrorBody": "Your COVID Alert code could not be recognized. Please try again.",
+      "ErrorAction": "OK"
     },
     "ConsentView": {
       "Title": "Now you can upload your codes",
@@ -220,7 +226,10 @@
       "Body2a": "Nobody will get any information about you ",
       "Body2b": "or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
-      "Action": "Agree"
+      "Action": "Agree",
+      "ErrorTitle": "Random codes could not be uploaded",
+      "ErrorBody": "You did not give permission.",
+      "ErrorAction": "OK"
     },
     "NoCode": {
       "NoRegion": {
@@ -264,10 +273,10 @@
     "RegionSelectBtn": "Choose province or territory"
   },
   "RegionPicker": {
-    "Title": "Where do you live?",
+    "Title": "Choose your province or territory",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
-    "Body": "Choose the province or territory whose public health guidance you need to follow.\n\nThis information is only stored on your phone and will never be shared with anyone.",
+    "Body": "This information is only stored on your phone and will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "Optional": "* Optional",

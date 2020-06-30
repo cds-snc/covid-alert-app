@@ -12,9 +12,6 @@
   },
   "DataUpload": {
     "Cancel": "Annuler",
-    "ErrorAction": "OK",
-    "ErrorBody": "Votre code Alerte COVID n’a pas pu être reconnu. Veuillez essayer à nouveau.",
-    "ErrorTitle": "Code non reconnu",
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "Step1": {
@@ -26,21 +23,27 @@
       "Body3a": "Étape 3 : ",
       "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires de façon anonyme.",
       "CTA": "Entrer le numéro",
-      "NoCode": "Vous n’avez pas de numéro à 8 chiffres?"
+      "NoCode": "Vous n’avez pas de numéro à 8\u00A0chiffres?"
     },
     "FormView": {
-      "Title": "Entrez votre numéro à 8 chiffres",
+      "Title": "Entrez votre numéro à 8\u00A0chiffres",
       "Body": "Entrez le numéro que vous avez reçu lors de votre diagnostic.",
       "Action": "Envoyer",
-      "InputLabel": "code Alerte COVID"
+      "InputLabel": "code Alerte COVID",
+      "ErrorAction": "OK",
+      "ErrorBody": "Votre code Alerte COVID n’a pas pu être reconnu. Veuillez essayer à nouveau.",
+      "ErrorTitle": "Code non reconnu"
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
       "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
       "Body2a": "Personne ne recevra d’information sur vous ",
-      "Body2b": "ou sur le moment où vous avez été en proximité.",
+      "Body2b": "ou sur le moment de votre proximité.",
       "Body3": "Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
-      "Action": "Accepter"
+      "Action": "Accepter",
+      "ErrorTitle": "Les codes aléatoires n’ont pas pu être téléversés",
+      "ErrorBody": "Vous n’avez pas donné votre autorisation.",
+      "ErrorAction": "OK"
     },
     "NoCode": {
       "NoRegion": {
@@ -54,7 +57,7 @@
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
-        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nVous ne pourrez pas aviser les personnes dont vous avez été à proximité qu’elles ont été exposées. Mais vous pouvez tout de même prendre des mesures pour :",
+        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nVous ne pourrez pas aviser les personnes qui ont été près de vous d’une exposition. Mais vous pouvez tout de même prendre des mesures pour :",
         "Body2": "assurer la sécurité de votre communauté;",
         "Body3": "protéger les personnes et les animaux vivant avec vous;",
         "Body4": "prendre soin de vous."
@@ -76,18 +79,17 @@
       "Title": "Merci d’aider à lutter contre la COVID"
     },
     "DiagnosedShareView": {
-      "Title": "Téléverser les codes aléatoires",
-      "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel : Pour assurer la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
-      "ButtonCTA": "Téléverser les codes aléatoires"
+      "Title": "Merci d’aider à ralentir la propagation",
+      "Body1": "Lors des 14 jours qui suivent le premier téléversement de vos codes aléatoires, on vous demandera de téléverser tout nouveau code aléatoire émis par votre téléphone.",
+      "Body2": "Personne ne recevra d’information sur vous ",
+      "Body3": "ou sur le moment de votre proximité.",
+      "ButtonCTA": "Téléverser vos codes aléatoires"
     },
     "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnableExposureNotificationsCTA": "Activez les notifications d'exposition à la COVID-19",
     "ExposureDetected": {
       "Detailed1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec cette application.",
       "Detailed2": "Cela ne veut pas dire que vous êtes infecté. Mais vous devriez probablement prendre quelques mesures.",
-      "DiagnosedBtnText1": "Vous avez la COVID-19?",
-      "DiagnosedBtnText2": "Prochaines étapes",
       "Title": "Vous avez été exposé"
     },
     "ExposureNotificationsDisabled": "Les notifications d'exposition à la COVID-19 sont désactivées",
@@ -111,23 +113,25 @@
     "NoConnectivity": "Alerte COVID est hors ligne",
     "NoConnectivityDetailed": "Alerte COVID vérifie s’il y a des expositions seulement quand votre téléphone est connecté à Internet.",
     "NoExposureDetected": {
+      "AllSetTipTitle": "CONSEIL : ",
+      "AllSetTipBody": "Utilisez un code, un schéma ou un autre moyen de verrouiller votre téléphone quand Bluetooth est activé.",
+      "AllSetTitle": "Vous voilà prêt!",
       "NoRegion": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
-        "DiagnosedBtnText1": "Vous avez la COVID-19?",
-        "DiagnosedBtnText2": "Prochaines étapes",
-        "Title": "Aucune exposition détectée"
+        "Title": "Aucune exposition détectée",
+        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
       },
       "RegionCovered": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
-        "DiagnosedBtnText1": "Vous avez la COVID-19?",
-        "DiagnosedBtnText2": "Prochaines étapes",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-        "Title": "Aucune exposition détectée"
+        "Title": "Aucune exposition détectée",
+        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
       },
       "RegionNotCovered": {
         "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-        "Title": "Pas encore de signalement dans votre région"
+        "Title": "Pas encore de signalement dans votre région",
+        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
       }
     },
     "SeeGuidance": "Que faire maintenant? Lisez les recommandations.",
@@ -164,25 +168,25 @@
     "OffMessageTitle": "Alerte COVID est désactivé"
   },
   "Onboarding": {
-    "Step": "Step",
-    "Of": "of",
+    "Step": "Étape",
+    "Of": "de",
     "ActionBack": "Précédent",
     "ActionEnd": "Terminé",
     "ActionNext": "Suivant",
     "Start": {
       "Title": "Joignez-vous à l’effort commun pour ralentir la propagation ",
-      "Body1": "Alerte COVID vous avise si jamais une personne dont vous avez été à proximité signale un test positif à l’application. ",
-      "Body2": "Ainsi, vous pouvez rapidement vous isoler pour freiner la propagation de la COVID-19."
+      "Body1": "Alerte COVID vous permet d’aviser des personnes de façon anonyme si jamais vous recevez un test positif de COVID-19 après avoir été près d’elles. ",
+      "Body2": "Ainsi, les personnes peuvent rapidement s’isoler pour freiner la propagation de COVID-19."
     },
     "WhatItsNot": {
       "Title": "Ce qu’Alerte COVID ne fait pas",
       "Body1": "L’application ne vous dira pas sur-le-champ que vous êtes près d’une personne ayant eu un diagnostic.",
-      "Body2": "Elle ne vous renseignera pas sur les vagues de COVID-19 dans votre ville ou votre quartier."
+      "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre ville ou votre quartier."
     },
     "Anonymous": {
       "Title": "Totalement anonyme",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
-      "Body2": "Elle n’a aucun moyen de connaître\u00A0:",
+      "Body2": "L’application n’a aucun moyen de connaître\u00A0:",
       "Bullet1": "votre position",
       "Bullet2": "votre nom ou votre adresse",
       "Bullet3": "les contacts de votre téléphone",
@@ -191,14 +195,14 @@
     "HowItWorks": {
       "Title": "Fonctionnement",
       "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
-      "Body2": "Chaque jour, elle vérifie une liste de code aléatoires provenant des personnes ayant signalé un test positif à l’application.",
+      "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
       "Body3": "Si votre téléphone a reçu l’un de ces codes au cours des 14\u00A0derniers jours, vous recevrez une notification.",
       "HowItWorksCTA": "En savoir plus sur le fonctionnement"
     },
     "Permissions": {
       "Title": "L’application demandera votre autorisation",
-      "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. Elle connaîtra la date, la durée et la puissance de signal associées à ces codes aléatoires, mais ces données restent sur votre téléphone. ",
-      "Body2": "Vous devez aussi activer les notifications poussées.",
+      "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
+      "Body2": "Vous devrez aussi activer les notifications poussées.",
       "PrivacyButtonCTA": "En savoir plus sur la confidentialité"
     }
   },
@@ -211,7 +215,7 @@
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
-    "BluetoothCardAction": "Activer Bluetooth",
+    "BluetoothCardAction": "Activez Bluetooth",
     "BluetoothCardBody": "Vous devez l’activer dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardAction": "Entrer le numéro",
     "EnterCodeCardBody": "Vous avez reçu un numéro à 8 chiffres lors de votre diagnostic. Ce numéro dit à l’application d’aviser les personnes qui ont été près de vous.",
@@ -294,12 +298,16 @@
     "Close": "Fermer",
     "step-1": "Après son installation, l’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement d’Alerte COVID",
-    "step-2": "L’application estime la distance entre vous et les autres grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2\u00A0mètres pendant plus de 15\u00A0minutes, l’application enregistre une exposition.",
+    "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
+    "step-2": "L’application estime la distance entre vous et d’autres personnes grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2 mètres pendant plus de 15 minutes, l’application enregistre une exposition.",
     "step-2Title": "Qu’est-ce qu’une exposition?",
+    "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
     "step-3": "Si une personne ayant l’application a un diagnostic de COVID-19, elle peut décider de téléverser tous les codes aléatoires émis par son téléphone vers un serveur central.\n\nLe serveur ne reçoit que les codes. Il ne reçoit aucune information personnelle.",
     "step-3Title": "Quand une personne reçoit un test positif",
-    "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste des codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et elle vous donnera des recommandations.",
-    "step-4Title": "Découverte des expositions"
+    "step-3AltText": "Dessin à la main d’un téléphone mobile téléversant un code chiffré vers un nuage.",
+    "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste de codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et elle vous donnera des recommandations.",
+    "step-4Title": "Découverte des expositions",
+    "step-4AltText": "Dessin à la main d’un téléphone mobile émettant une liste de codes chiffrés. L’icône de la loupe de recherche met en évidence l’un des codes de la liste."
   },
   "YourData": {
     "Body1": "votre identité",
