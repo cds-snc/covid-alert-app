@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet, SafeAreaView} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
-import SafeAreaViewAndroid from 'components/SafeAreaViewAndroid';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 interface ContentProps {
   title: string;
@@ -74,8 +74,8 @@ export const NoCodeScreen = () => {
       break;
   }
   return (
-    <>
-      <SafeAreaView style={SafeAreaViewAndroid.AndroidSafeArea}>
+    <Box flex={1}>
+      <SafeAreaView style={styles.flex}>
         <Toolbar
           title=""
           navIcon="icon-back-arrow"
@@ -87,7 +87,7 @@ export const NoCodeScreen = () => {
           <Box paddingHorizontal="s">{content}</Box>
         </ScrollView>
       </SafeAreaView>
-    </>
+    </Box>
   );
 };
 
