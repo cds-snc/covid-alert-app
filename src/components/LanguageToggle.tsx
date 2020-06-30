@@ -11,5 +11,5 @@ export const LanguageToggle = () => {
   }, [i18n.locale, setLocale]);
   const label = i18n.locale === 'en' ? 'LanguageSelect.FrShort' : 'LanguageSelect.EnShort';
 
-  return <Button text={i18n.translate(label)} variant="subduedText" onPress={toggle} />;
+  return <Button text={i18n.translate(label)} variant="bigFlat" onPress={toggle} />;
 };
