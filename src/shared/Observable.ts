@@ -102,3 +102,9 @@ export class Observable<T> {
     return this.subscriptions.add(cb);
   }
 }
+
+export class MapObservable<T> extends Observable<T> {
+  append(partial: Partial<T>) {
+    this.set({...this.get(), ...partial});
+  }
+}

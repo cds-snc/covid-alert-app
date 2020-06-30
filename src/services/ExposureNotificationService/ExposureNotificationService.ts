@@ -2,40 +2,42 @@ import ExposureNotification, {ExposureSummary, Status as SystemStatus} from 'bri
 import PushNotification from 'bridge/PushNotification';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
-import {Observable} from 'shared/Observable';
+import {Observable, MapObservable} from 'shared/Observable';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
-const SUBMISSION_CYCLE_STARTED_AT = 'submissionCycleStartedAt';
-const SUBMISSION_LAST_COMPLETED_AT = 'submissionLastCompletedAt';
 
 const SECURE_OPTIONS = {
   sharedPreferencesName: 'covidShieldSharedPreferences',
   keychainService: 'covidShieldKeychain',
 };
 
-export const LAST_CHECK_TIMESTAMP = 'lastCheckTimeStamp';
+const EXPOSURE_STATUS = 'exposureStatus';
 
 const hoursPerPeriod = 24;
+
+const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export {SystemStatus};
 
 export type ExposureStatus =
   | {
       type: 'monitoring';
-      lastChecked?: string;
+      lastChecked?: number;
     }
   | {
       type: 'exposed';
       summary: ExposureSummary;
-      lastChecked?: string;
+      lastChecked?: number;
     }
   | {
       type: 'diagnosed';
       needsSubmission: boolean;
-      cycleEndsAt: Date;
-      lastChecked?: string;
+      submissionLastCompletedAt?: number;
+      cycleStartAt: number;
+      cycleEndsAt: number;
+      lastChecked?: number;
     };
 
 export interface PersistencyProvider {
@@ -55,7 +57,7 @@ export interface SecureStorageOptions {
 
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
-  exposureStatus: Observable<ExposureStatus>;
+  exposureStatus: MapObservable<ExposureStatus>;
 
   private starting = false;
 
@@ -78,7 +80,7 @@ export class ExposureNotificationService {
     this.i18n = i18n;
     this.exposureNotification = exposureNotification;
     this.systemStatus = new Observable<SystemStatus>(SystemStatus.Undefined);
-    this.exposureStatus = new Observable<ExposureStatus>({type: 'monitoring'});
+    this.exposureStatus = new MapObservable<ExposureStatus>({type: 'monitoring'});
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
@@ -99,21 +101,11 @@ export class ExposureNotificationService {
 
     await this.updateSystemStatus();
 
-    // we check the lastCheckTimeStamp on start to make sure it gets populated even if the server doesn't run
-    const timestamp = await this.storage.getItem(LAST_CHECK_TIMESTAMP);
-    const submissionCycleStartedAtStr = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);
-    if (submissionCycleStartedAtStr) {
-      this.exposureStatus.set({
-        type: 'diagnosed',
-        cycleEndsAt: addDays(new Date(parseInt(submissionCycleStartedAtStr, 10)), 14),
-        // let updateExposureStatus() deal with that
-        needsSubmission: false,
-      });
-    }
-    if (timestamp) {
-      this.exposureStatus.set({...this.exposureStatus.get(), lastChecked: timestamp});
-    }
-
+    const exposureStatus = await this.storage
+      .getItem(EXPOSURE_STATUS)
+      .then(value => JSON.parse(value || ''))
+      .catch(() => null);
+    this.exposureStatus.append(exposureStatus || {});
     await this.updateExposureStatus();
 
     this.starting = false;
@@ -156,12 +148,12 @@ export class ExposureNotificationService {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
     await this.secureStorage.setItem(SUBMISSION_AUTH_KEYS, serialized, SECURE_OPTIONS);
-    const submissionCycleStartAt = new Date();
-    await this.storage.setItem(SUBMISSION_CYCLE_STARTED_AT, submissionCycleStartAt.getTime().toString());
-    this.exposureStatus.set({
+    const cycleStartAt = new Date();
+    this.exposureStatus.append({
       type: 'diagnosed',
       needsSubmission: true,
-      cycleEndsAt: addDays(submissionCycleStartAt, 14),
+      cycleStartAt: cycleStartAt.getTime(),
+      cycleEndsAt: addDays(cycleStartAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
     });
   }
 
@@ -177,22 +169,20 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
-  private async submissionCycleEndsAt(): Promise<Date> {
-    const cycleStart = await this.storage.getItem(SUBMISSION_CYCLE_STARTED_AT);
-    return addDays(cycleStart ? new Date(parseInt(cycleStart, 10)) : new Date(), 14);
-  }
-
   private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string | null> {
     const runningDate = new Date();
 
-    const lastCheckPeriod = periodSinceEpoch(lastFetchDate || addDays(runningDate, -14), hoursPerPeriod);
+    const lastCheckPeriod = periodSinceEpoch(
+      lastFetchDate || addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE),
+      hoursPerPeriod,
+    );
     let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
 
     while (runningPeriod > lastCheckPeriod) {
       try {
         yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
       } catch (err) {
-        console.log('Error while downloading key file:', err);
+        console.log('>>> error while downloading key file:', err);
       }
 
       runningPeriod -= 1;
@@ -201,20 +191,19 @@ export class ExposureNotificationService {
 
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
-    if (currentStatus.type === 'diagnosed') {
-      await this.storage.setItem(SUBMISSION_LAST_COMPLETED_AT, new Date().getTime().toString());
-      this.exposureStatus.set({...currentStatus, needsSubmission: false});
-    }
+    if (currentStatus.type !== 'diagnosed') return;
+    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: Date.now()});
   }
 
   private async calculateNeedsSubmission(): Promise<boolean> {
-    const lastSubmittedStr = await this.storage.getItem(SUBMISSION_LAST_COMPLETED_AT);
-    const submissionCycleEnds = await this.submissionCycleEndsAt();
-    if (!lastSubmittedStr) {
-      return true;
-    }
+    const exposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type !== 'diagnosed') return false;
 
-    const lastSubmittedDay = new Date(parseInt(lastSubmittedStr, 10));
+    const lastSubmittedStr = exposureStatus.submissionLastCompletedAt;
+    if (!lastSubmittedStr) return true;
+
+    const submissionCycleEnds = addDays(new Date(exposureStatus.cycleStartAt), EXPOSURE_NOTIFICATION_CYCLE);
+    const lastSubmittedDay = new Date(lastSubmittedStr);
     const today = new Date();
 
     if (daysBetween(lastSubmittedDay, submissionCycleEnds) <= 0) {
@@ -229,23 +218,29 @@ export class ExposureNotificationService {
   private async performExposureStatusUpdate(): Promise<ExposureStatus> {
     const exposureConfiguration = await this.backendInterface.getExposureConfiguration();
     const lastCheckDate = await (async () => {
-      const timestamp = await this.storage.getItem(LAST_CHECK_TIMESTAMP);
+      const timestamp = this.exposureStatus.get().lastChecked;
       if (timestamp) {
-        return new Date(parseInt(timestamp, 10));
+        return new Date(timestamp);
       }
       return undefined;
     })();
 
-    const finalize = async (status: ExposureStatus) => {
-      const timestamp = `${new Date().getTime()}`;
-      this.exposureStatus.set({...status, lastChecked: timestamp});
-      await this.storage.setItem(LAST_CHECK_TIMESTAMP, timestamp);
-      return this.exposureStatus.get();
+    const finalize = async (status: Partial<ExposureStatus> = {}) => {
+      const timestamp = Date.now();
+      this.exposureStatus.append({...status, lastChecked: timestamp});
+      const exposureStatus = this.exposureStatus.get();
+      await this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(exposureStatus));
+      return exposureStatus;
     };
 
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type === 'diagnosed') {
-      return finalize({...currentStatus, needsSubmission: await this.calculateNeedsSubmission()});
+      return finalize({needsSubmission: await this.calculateNeedsSubmission()});
+    } else if (
+      currentStatus.type === 'exposed' &&
+      currentStatus.summary.daysSinceLastExposure >= EXPOSURE_NOTIFICATION_CYCLE
+    ) {
+      return finalize({type: 'monitoring'});
     }
 
     const keysFileUrls: string[] = [];
@@ -266,6 +261,6 @@ export class ExposureNotificationService {
       console.log('>>> detectExposure', error);
     }
 
-    return finalize({type: 'monitoring'});
+    return finalize();
   }
 }
