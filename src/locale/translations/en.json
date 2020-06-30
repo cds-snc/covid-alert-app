@@ -1,31 +1,31 @@
 {
   "Home": {
     "NoExposureDetected": {
+      "AllSetTipTitle": "TIP: ",
+      "AllSetTipBody": "Use a passcode, PIN, or other ways of locking your phone while Bluetooth is on.",
+      "AllSetTitle": "You're all set",
       "RegionCovered": {
         "Title": "No exposure detected",
         "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
         "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
-        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-        "DiagnosedBtnText2": "What to do next"
+        "AllSetBody": "Your phone is now running Bluetooth to collect codes from nearby phones."
       },
       "NoRegion": {
         "Title": "No exposure detected",
         "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
-        "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-        "DiagnosedBtnText2": "What to do next"
+        "AllSetBody": "Your phone is now running Bluetooth to collect codes from nearby phones.\n\nIf you’re outside Ontario, people in your area cannot yet report a diagnosis through the app.\n\nIt’s still helpful to keep COVID Alert on. That way, when people are able to report a diagnosis, you’ll find out if you were near them."
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
         "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn COVID Alert on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
-        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html"
+        "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
+        "AllSetBody": "Now you can just forget about the app unless you get a notification.\n\nBut people in your area cannot yet report a diagnosis through the app.\n\nIt’s still helpful to keep COVID Alert on. That way, when people are able to report a diagnosis, you’ll find out if you were near them.\n\nWe’ll let you know as soon as your area supports COVID Alert."
       }
     },
     "ExposureDetected": {
       "Title": "You’ve been exposed",
       "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
-      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action.",
-      "DiagnosedBtnText1": "Diagnosed with COVID-19?",
-      "DiagnosedBtnText2": "What to do next"
+      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action."
     },
     "ChooseRegionCTA": "Choose province or territory",
     "SeeGuidance": "What now? See guidance.",

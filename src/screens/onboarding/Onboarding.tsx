@@ -33,7 +33,7 @@ export const OnboardingScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
   const navigation = useNavigation();
-  const {region, setRegion, setOnboarded} = useStorage();
+  const {region, setRegion, setOnboarded, setOnboardedDatetime} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
   const maxWidth = useMaxContentWidth();
 
@@ -53,6 +53,7 @@ export const OnboardingScreen = () => {
     if (carouselRef.current) {
       if (currentIndex === contentData.length - 1) {
         await setOnboarded(true);
+        await setOnboardedDatetime(new Date());
         navigation.reset({
           index: 0,
           routes: [{name: 'Home'}],

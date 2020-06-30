@@ -34,6 +34,7 @@ export const palette = {
   purple: '#573EC5',
   gray2: '#585858',
   link: '#2B4380',
+  green2: '#C9E7DE',
 };
 
 const theme = {
@@ -74,6 +75,7 @@ const theme = {
     buttonGrey: palette.buttonGrey,
     gray2: palette.gray2,
     gray5: palette.neutralGrey,
+    green2: palette.green2,
   },
   spacing: {
     /* eslint-disable id-length */

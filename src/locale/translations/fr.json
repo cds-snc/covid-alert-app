@@ -90,8 +90,6 @@
     "ExposureDetected": {
       "Detailed1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec cette application.",
       "Detailed2": "Cela ne veut pas dire que vous êtes infecté. Mais vous devriez probablement prendre quelques mesures.",
-      "DiagnosedBtnText1": "Vous avez la COVID-19?",
-      "DiagnosedBtnText2": "Prochaines étapes",
       "Title": "Vous avez été exposé"
     },
     "ExposureNotificationsDisabled": "Les notifications d'exposition à la COVID-19 sont désactivées",
@@ -115,23 +113,25 @@
     "NoConnectivity": "Alerte COVID est hors ligne",
     "NoConnectivityDetailed": "Alerte COVID vérifie s’il y a des expositions seulement quand votre téléphone est connecté à Internet.",
     "NoExposureDetected": {
+      "AllSetTipTitle": "CONSEIL : ",
+      "AllSetTipBody": "Utilisez un code, un schéma ou un autre moyen de verrouiller votre téléphone quand Bluetooth est activé.",
+      "AllSetTitle": "Vous voilà prêt!",
       "NoRegion": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
-        "DiagnosedBtnText1": "Vous avez la COVID-19?",
-        "DiagnosedBtnText2": "Prochaines étapes",
-        "Title": "Aucune exposition détectée"
+        "Title": "Aucune exposition détectée",
+        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
       },
       "RegionCovered": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
-        "DiagnosedBtnText1": "Vous avez la COVID-19?",
-        "DiagnosedBtnText2": "Prochaines étapes",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-        "Title": "Aucune exposition détectée"
+        "Title": "Aucune exposition détectée",
+        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
       },
       "RegionNotCovered": {
         "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-        "Title": "Pas encore de signalement dans votre région"
+        "Title": "Pas encore de signalement dans votre région",
+        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
       }
     },
     "SeeGuidance": "Que faire maintenant? Lisez les recommandations.",
