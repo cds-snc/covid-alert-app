@@ -9,7 +9,9 @@ const server: any = {
   claimOneTimeCode: jest.fn(),
   reportDiagnosisKeys: jest.fn(),
 };
-const translate: any = {};
+const i18n: any = {
+  translate: jest.fn().mockReturnValue('foo'),
+};
 const storage: any = {
   getItem: jest.fn().mockResolvedValue(null),
   setItem: jest.fn().mockResolvedValueOnce(undefined),
@@ -31,7 +33,7 @@ describe('ExposureNotificationService', () => {
   const OriginalDate = global.Date;
   const dateSpy = jest.spyOn(global, 'Date');
   beforeEach(() => {
-    service = new ExposureNotificationService(server, translate, storage, secureStorage, bridge);
+    service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge);
   });
 
   afterEach(() => {
