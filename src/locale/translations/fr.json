@@ -140,7 +140,7 @@
   },
   "Info": {
     "ChangeLanguage": "Modifier la langue",
-    "ChangeRegion": "Modifier la province",
+    "ChangeRegion": "Modifier la province ou le territoire",
     "CheckSymptoms": "Vérifier vos symptômes",
     "LearnMore": "Fonctionnement d’Alerte COVID",
     "Privacy": "Lire la politique de confidentialité",
@@ -188,10 +188,10 @@
       "Title": "Totalement anonyme",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
       "Body2": "L’application n’a aucun moyen de connaître\u00A0:",
-      "Bullet1": "votre position",
-      "Bullet2": "votre nom ou votre adresse",
-      "Bullet3": "les contacts de votre téléphone",
-      "Bullet4": "vos informations de santé"
+      "Bullet1": "votre position,",
+      "Bullet2": "votre nom ou votre adresse,",
+      "Bullet3": "les contacts de votre téléphone,",
+      "Bullet4": "vos informations de santé."
     },
     "HowItWorks": {
       "Title": "Fonctionnement",
