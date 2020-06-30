@@ -1,7 +1,7 @@
 /* eslint-disable require-atomic-updates */
 import {when} from 'jest-when';
 
-import {ExposureNotificationService, LAST_CHECK_TIMESTAMP} from './ExposureNotificationService';
+import {ExposureNotificationService, EXPOSURE_STATUS} from './ExposureNotificationService';
 
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
@@ -30,6 +30,35 @@ const bridge: any = {
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
   getStatus: jest.fn().mockResolvedValue('active'),
 };
+
+/**
+ * Utils for comparing jsonString
+ */
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace jest {
+    interface Expect {
+      jsonStringContaining<E = {}>(obj: E): any;
+    }
+  }
+}
+expect.extend({
+  jsonStringContaining(jsonString, partial) {
+    const json = JSON.parse(jsonString);
+    const pass =
+      Object.keys(partial).filter(key => JSON.stringify(partial[key]) !== JSON.stringify(json[key])).length === 0;
+    if (!pass) {
+      return {
+        pass,
+        message: () => `expect ${jsonString} to contain ${partial}`,
+      };
+    }
+    return {
+      message: () => '',
+      pass,
+    };
+  },
+});
 
 describe('ExposureNotificationService', () => {
   let service: ExposureNotificationService;
@@ -60,20 +89,25 @@ describe('ExposureNotificationService', () => {
       return new OriginalDate(args);
     });
 
-    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-19T06:10:00+0000').getTime());
+    service.exposureStatus.append({
+      lastChecked: new OriginalDate('2020-05-19T06:10:00+0000').getTime(),
+    });
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(0);
 
     server.retrieveDiagnosisKeys.mockClear();
 
-    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-18T05:10:00+0000').getTime());
-
+    service.exposureStatus.append({
+      lastChecked: new OriginalDate('2020-05-18T05:10:00+0000').getTime(),
+    });
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
 
     server.retrieveDiagnosisKeys.mockClear();
-    storage.getItem.mockResolvedValue(new OriginalDate('2020-05-17T23:10:00+0000').getTime());
 
+    service.exposureStatus.append({
+      lastChecked: new OriginalDate('2020-05-17T23:10:00+0000').getTime(),
+    });
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
@@ -92,12 +126,17 @@ describe('ExposureNotificationService', () => {
       return new OriginalDate(args);
     });
 
-    when(storage.getItem)
-      .calledWith(LAST_CHECK_TIMESTAMP)
-      .mockResolvedValue(new OriginalDate('2020-05-18T04:10:00+0000').getTime());
+    service.exposureStatus.append({
+      lastChecked: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
+    });
 
     await service.updateExposureStatus();
-    expect(storage.setItem).toHaveBeenCalledWith(LAST_CHECK_TIMESTAMP, `${currentDatetime.getTime()}`);
+    expect(storage.setItem).toHaveBeenCalledWith(
+      EXPOSURE_STATUS,
+      expect.jsonStringContaining({
+        lastChecked: currentDatetime.getTime(),
+      }),
+    );
   });
 
   it('enters Diagnosed flow when start keys submission process', async () => {
@@ -116,7 +155,7 @@ describe('ExposureNotificationService', () => {
     expect(service.exposureStatus.get()).toStrictEqual(
       expect.objectContaining({
         type: 'diagnosed',
-        cycleEndsAt: expect.any(OriginalDate),
+        cycleEndsAt: expect.any(Number),
         needsSubmission: true,
       }),
     );
@@ -124,8 +163,13 @@ describe('ExposureNotificationService', () => {
 
   it('restores "diagnosed" status from storage', async () => {
     when(storage.getItem)
-      .calledWith('submissionCycleStartedAt')
-      .mockResolvedValueOnce(new OriginalDate('2020-05-18T04:10:00+0000').toString());
+      .calledWith(EXPOSURE_STATUS)
+      .mockResolvedValueOnce(
+        JSON.stringify({
+          type: 'diagnosed',
+          cycleStartsAt: new OriginalDate('2020-05-18T04:10:00+0000').toString(),
+        }),
+      );
     dateSpy.mockImplementation((...args) =>
       args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
     );
@@ -144,27 +188,30 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((...args) =>
         args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
       );
-      when(storage.getItem)
-        .calledWith('submissionCycleStartedAt')
-        .mockResolvedValue(new OriginalDate('2020-05-14T04:10:00+0000').toString());
+      service.exposureStatus.append({
+        type: 'diagnosed',
+        cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
+      });
     });
 
     it('for positive', async () => {
-      when(storage.getItem)
-        .calledWith('submissionLastCompletedAt')
-        .mockResolvedValue(new OriginalDate('2020-05-18T04:10:00+0000').toString());
+      service.exposureStatus.append({
+        submissionLastCompletedAt: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
+      });
 
       await service.start();
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          needsSubmission: false,
+          needsSubmission: true,
         }),
       );
     });
+
     it('for negative', async () => {
-      when(storage.getItem)
-        .calledWith('submissionLastCompletedAt')
-        .mockResolvedValue(new OriginalDate('2020-05-19T04:10:00+0000').getTime().toString());
+      service.exposureStatus.append({
+        submissionLastCompletedAt: new OriginalDate('2020-05-19T04:10:00+0000').getTime(),
+      });
+
       await service.start();
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
@@ -177,12 +224,12 @@ describe('ExposureNotificationService', () => {
   it('needsSubmission status recalculates daily', async () => {
     let currentDateString = '2020-05-19T04:10:00+0000';
 
-    when(storage.getItem)
-      .calledWith('submissionCycleStartedAt')
-      .mockResolvedValue(new OriginalDate('2020-05-14T04:10:00+0000').getTime().toString());
-    when(storage.getItem)
-      .calledWith('submissionLastCompletedAt')
-      .mockResolvedValue(null);
+    service.exposureStatus.append({
+      type: 'diagnosed',
+      needsSubmission: false,
+      cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
+      submissionLastCompletedAt: null,
+    });
 
     dateSpy.mockImplementation((...args) =>
       args.length > 0 ? new OriginalDate(...args) : new OriginalDate(currentDateString),
@@ -201,17 +248,19 @@ describe('ExposureNotificationService', () => {
     await service.fetchAndSubmitKeys();
 
     expect(storage.setItem).toHaveBeenCalledWith(
-      'submissionLastCompletedAt',
-      new OriginalDate(currentDateString).getTime().toString(),
+      EXPOSURE_STATUS,
+      expect.jsonStringContaining({
+        submissionLastCompletedAt: new OriginalDate(currentDateString).getTime(),
+      }),
     );
 
     expect(service.exposureStatus.get()).toStrictEqual(
       expect.objectContaining({type: 'diagnosed', needsSubmission: false}),
     );
 
-    when(storage.getItem)
-      .calledWith('submissionLastCompletedAt')
-      .mockResolvedValue(new OriginalDate(currentDateString).getTime().toString());
+    service.exposureStatus.append({
+      submissionLastCompletedAt: new OriginalDate(currentDateString).getTime(),
+    });
 
     // advance day forward
     currentDateString = '2020-05-21T04:10:00+0000';
@@ -223,9 +272,9 @@ describe('ExposureNotificationService', () => {
 
     // advance 14 days
     currentDateString = '2020-05-30T04:10:00+0000';
-    when(storage.getItem)
-      .calledWith('submissionLastCompletedAt')
-      .mockResolvedValue(new OriginalDate('2020-05-28T04:10:00+0000').getTime().toString());
+    service.exposureStatus.append({
+      submissionLastCompletedAt: new OriginalDate('2020-05-28T04:10:00+0000').getTime(),
+    });
 
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(

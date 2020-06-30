@@ -13,7 +13,7 @@ const SECURE_OPTIONS = {
   keychainService: 'covidShieldKeychain',
 };
 
-const EXPOSURE_STATUS = 'exposureStatus';
+export const EXPOSURE_STATUS = 'exposureStatus';
 
 const hoursPerPeriod = 24;
 
@@ -35,7 +35,7 @@ export type ExposureStatus =
       type: 'diagnosed';
       needsSubmission: boolean;
       submissionLastCompletedAt?: number;
-      cycleStartAt: number;
+      cycleStartsAt: number;
       cycleEndsAt: number;
       lastChecked?: number;
     };
@@ -84,6 +84,9 @@ export class ExposureNotificationService {
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
+    this.exposureStatus.observe(status => {
+      this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
+    });
   }
 
   async start(): Promise<void> {
@@ -101,10 +104,7 @@ export class ExposureNotificationService {
 
     await this.updateSystemStatus();
 
-    const exposureStatus = await this.storage
-      .getItem(EXPOSURE_STATUS)
-      .then(value => JSON.parse(value || ''))
-      .catch(() => null);
+    const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append(exposureStatus || {});
     await this.updateExposureStatus();
 
@@ -152,7 +152,7 @@ export class ExposureNotificationService {
     this.exposureStatus.append({
       type: 'diagnosed',
       needsSubmission: true,
-      cycleStartAt: cycleStartAt.getTime(),
+      cycleStartsAt: cycleStartAt.getTime(),
       cycleEndsAt: addDays(cycleStartAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
     });
   }
@@ -192,7 +192,7 @@ export class ExposureNotificationService {
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== 'diagnosed') return;
-    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: Date.now()});
+    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: new Date().getTime()});
   }
 
   private async calculateNeedsSubmission(): Promise<boolean> {
@@ -202,7 +202,7 @@ export class ExposureNotificationService {
     const lastSubmittedStr = exposureStatus.submissionLastCompletedAt;
     if (!lastSubmittedStr) return true;
 
-    const submissionCycleEnds = addDays(new Date(exposureStatus.cycleStartAt), EXPOSURE_NOTIFICATION_CYCLE);
+    const submissionCycleEnds = addDays(new Date(exposureStatus.cycleStartsAt), EXPOSURE_NOTIFICATION_CYCLE);
     const lastSubmittedDay = new Date(lastSubmittedStr);
     const today = new Date();
 
@@ -226,11 +226,9 @@ export class ExposureNotificationService {
     })();
 
     const finalize = async (status: Partial<ExposureStatus> = {}) => {
-      const timestamp = Date.now();
+      const timestamp = new Date().getTime();
       this.exposureStatus.append({...status, lastChecked: timestamp});
-      const exposureStatus = this.exposureStatus.get();
-      await this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(exposureStatus));
-      return exposureStatus;
+      return this.exposureStatus.get();
     };
 
     const currentStatus = this.exposureStatus.get();
