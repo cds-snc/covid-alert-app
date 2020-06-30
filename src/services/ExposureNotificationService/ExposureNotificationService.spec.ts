@@ -3,6 +3,10 @@ import {when} from 'jest-when';
 
 import {ExposureNotificationService, LAST_CHECK_TIMESTAMP} from './ExposureNotificationService';
 
+jest.mock('react-native-zip-archive', () => ({
+  unzip: jest.fn(),
+}));
+
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),

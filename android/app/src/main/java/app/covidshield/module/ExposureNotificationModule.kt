@@ -16,6 +16,7 @@ import app.covidshield.extensions.toWritableArray
 import app.covidshield.extensions.toWritableMap
 import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
+import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
 import app.covidshield.utils.ActivityResultHelper
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -37,14 +38,17 @@ import kotlin.coroutines.CoroutineContext
 
 private const val SUMMARY_HIDDEN_KEY = "_summaryIdx"
 
-class ExposureNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope, ActivityResultHelper {
+private typealias Token = String
+
+class ExposureNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope, ActivityResultHelper, ExposureNotificationBroadcastReceiver.Helper {
 
     private val exposureNotificationClient by lazy {
         Nearby.getExposureNotificationClient(context.applicationContext)
     }
 
-    private var startResolutionCompleter: CompletableDeferred<Any>? = null
-    private var getTekResolutionCompleter: CompletableDeferred<Any>? = null
+    private var startResolutionCompleter: CompletableDeferred<Unit>? = null
+    private var getTekResolutionCompleter: CompletableDeferred<Unit>? = null
+    private var detectExposureResolutionCompleters = hashMapOf<Token, CompletableDeferred<Token>?>()
 
     private val bluetoothAdapter get() = BluetoothAdapter.getDefaultAdapter()
 
@@ -90,13 +94,24 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         promise.launch(this) {
             val exposureConfiguration = configuration.parse(Configuration::class.java).toExposureConfiguration()
             val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
-            val token = UUID.randomUUID().toString()
+            val token = "${UUID.randomUUID()}-${Date().time}"
+            log("detectExposure", mapOf("token" to token))
 
             exposureNotificationClient.provideDiagnosisKeys(files, exposureConfiguration, token).await()
 
+            // Clean up files after feeding to the framework
             files.forEach { it.cleanup() }
+
+            // Wait for ExposureNotificationBroadcastReceiver
+            val completer = CompletableDeferred<Token>()
+            detectExposureResolutionCompleters[token] = completer
+            completer.await()
+            detectExposureResolutionCompleters.remove(token)
+
             val exposureSummary = exposureNotificationClient.getExposureSummary(token).await()
             val summary = exposureSummary.toSummary()
+            log("detectExposure", mapOf("token" to token, "summary" to summary))
+
             promise.resolve(summary.toWritableMap().apply {
                 putString(SUMMARY_HIDDEN_KEY, token)
             })
@@ -124,6 +139,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     private suspend fun startInternal() {
         val activity = currentActivity ?: throw IllegalStateException("Invalid activity")
+        startResolutionCompleter?.await()
         try {
             exposureNotificationClient.start().await()
         } catch (exception: Exception) {
@@ -156,6 +172,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     private suspend fun getTemporaryExposureKeyHistoryInternal(): List<ExposureKey> {
         val activity = currentActivity ?: throw IllegalStateException("Invalid activity")
+        getTekResolutionCompleter?.await()
         try {
             val tekKeys = exposureNotificationClient.temporaryExposureKeyHistory.await()
             return tekKeys.map { it.toExposureKey() }
@@ -226,6 +243,11 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                 completer?.completeExceptionally(Exception())
             }
         }
+    }
+
+    override fun onReceive(token: String) {
+        val completer = detectExposureResolutionCompleters[token] ?: return
+        completer.complete(token)
     }
 
     companion object {

@@ -19,7 +19,11 @@ buildscript {
         googlePlayServicesBaseVersion = "17.2.1"
         googlePlayServicesTasksVersion = "17.0.2"
 
+        gsonVersion = "2.8.6"
+
         kotlinVersion = "1.3.72"
+
+        workVersion = "2.3.4"
     }
     repositories {
         google()

@@ -6,6 +6,7 @@ import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
+import {TRANSMISSION_RISK_LEVEL} from 'env';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -26,7 +27,8 @@ export class BackendService implements BackendInterface {
   async retrieveDiagnosisKeys(period: number) {
     const message = `${this.region}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
-    return downloadDiagnosisKeysFile(`${this.retrieveUrl}/retrieve/${this.region}/${period}/${hmac}`);
+    const url = `${this.retrieveUrl}/retrieve/${this.region}/${period}/${hmac}`;
+    return downloadDiagnosisKeysFile(url);
   }
 
   async getExposureConfiguration() {
@@ -63,7 +65,9 @@ export class BackendService implements BackendInterface {
       keys: exposureKeys.map(key =>
         covidshield.TemporaryExposureKey.create({
           keyData: Buffer.from(key.keyData, 'base64'),
-          transmissionRiskLevel: key.transmissionRiskLevel,
+          transmissionRiskLevel:
+            TRANSMISSION_RISK_LEVEL ||
+            key.transmissionRiskLevel /* See transmissionRiskLevel https://developers.google.com/android/exposure-notifications/exposure-notifications-api#temporaryexposurekey */,
           rollingStartIntervalNumber: key.rollingStartIntervalNumber,
           rollingPeriod: key.rollingPeriod,
         }),
