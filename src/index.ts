@@ -38,5 +38,7 @@ if (__DEV__) {
     'Require cycle:',
     // From 'react-native-snap-carousel', see https://github.com/archriss/react-native-snap-carousel/issues/672.
     'Calling `getNode()` on the ref of an Animated component is no longer necessary',
+    // From 'react-native-zip-archive'.
+    'Sending `zipArchiveProgressEvent` with no listeners registered.',
   ]);
 }
