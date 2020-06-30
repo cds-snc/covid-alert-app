@@ -48,7 +48,7 @@ const SkipAllSetRadioSelector = () => {
     {displayName: 'False', value: 'false'},
     {displayName: 'True', value: 'true'},
   ];
-  // console.log('skipAllSet', skipAllSet);
+
   return (
     <Box
       marginTop="l"
