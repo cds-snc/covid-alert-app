@@ -24,7 +24,7 @@ BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
   const i18n = await getBackgroundI18n();
   const exposureNotificationService = new ExposureNotificationService(
     backendService,
-    i18n.translate,
+    i18n,
     AsyncStorage,
     SecureStorage,
     ExposureNotification,
