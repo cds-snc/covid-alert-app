@@ -126,6 +126,10 @@ yarn generate-translations
 5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
 6. Add the new option in Xcode `Localizations` settings (Project -> CovidShield -> Info tab -> Localizations) and make sure `Launch Screen.storyboard` is checked.
 
+## Test plan
+
+See [Test Plan](./TEST_PLAN.md)
+
 ## Who built COVID Shield?
 
 COVID Shield was originally developed by [volunteers at Shopify](https://www.covidshield.app/). It was [released free of charge under a flexible open-source license](https://github.com/CovidShield/mobile).
