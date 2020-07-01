@@ -1,6 +1,8 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {Platform} from 'react-native';
 
+const BACKGROUND_TASK_ID = 'com.covidsheild.exposure-notification';
+
 interface PeriodicTask {
   (): Promise<void>;
 }
@@ -14,10 +16,14 @@ const registerPeriodicTask = (task: PeriodicTask) => {
       stopOnTerminate: false,
     },
     async taskId => {
-      await task();
-      BackgroundFetch.finish(taskId);
+      if (taskId === BACKGROUND_TASK_ID) {
+        await task();
+        BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true});
+        BackgroundFetch.finish(taskId);
+      }
     },
   );
+  BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true});
 };
 
 const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
