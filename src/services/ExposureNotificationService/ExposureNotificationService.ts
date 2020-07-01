@@ -89,11 +89,18 @@ export class ExposureNotificationService {
     });
   }
 
+  async init() {
+    const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
+    this.exposureStatus.append(exposureStatus || {});
+  }
+
   async start(): Promise<void> {
     if (this.starting) {
       return;
     }
     this.starting = true;
+
+    await this.init();
 
     try {
       await this.exposureNotification.start();
@@ -103,9 +110,6 @@ export class ExposureNotificationService {
     }
 
     await this.updateSystemStatus();
-
-    const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
-    this.exposureStatus.append(exposureStatus || {});
     await this.updateExposureStatus();
 
     this.starting = false;
