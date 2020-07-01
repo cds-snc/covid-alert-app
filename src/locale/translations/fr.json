@@ -72,7 +72,7 @@
     "DiagnosedView": {
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
-        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout code aléatoire émis par votre téléphone."
+        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
       },
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant. Vous avez le choix.",
       "Body3": "Prenez soin de vous et de votre famille pendant ce temps.",
@@ -119,7 +119,7 @@
       "NoRegion": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
         "Title": "Aucune exposition détectée",
-        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
+        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activé.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       },
       "RegionCovered": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
@@ -131,7 +131,7 @@
         "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
         "Title": "Pas encore de signalement dans votre région",
-        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
+        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activé.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       }
     },
     "SeeGuidance": "Que faire maintenant? Lisez les recommandations.",
@@ -160,11 +160,11 @@
     "Title": "Langue"
   },
   "Notification": {
-    "DailyUploadNotificationBody": "Partager vos données aide les autres à savoir s'ils ont possiblement été exposés à la COVID-19.",
-    "DailyUploadNotificationTitle": "Partagez vos nouveaux identifiants aléatoires",
-    "ExposedMessageBody": "Selon vos identifiants aléatoires, au cours des 14 derniers jours, vous avez été à proximité d'une personne ayant reçu un résultat de test positif à la COVID-19.",
-    "ExposedMessageTitle": "Vous avez possiblement été exposé(e)",
-    "OffMessageBody": "Activez Alerte COVID pour recevoir une notification si vous avez potentiellement été exposé(e) à la COVID-19.",
+    "DailyUploadNotificationBody": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant. Mais vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.\n\nPrenez soin de vous et de votre famille pendant ce temps.",
+    "DailyUploadNotificationTitle": "Téléversez vos nouveaux codes aléatoires",
+    "ExposedMessageBody": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Lisez les recommandations.",
+    "ExposedMessageTitle": "Vous avez été exposé",
+    "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
     "OffMessageTitle": "Alerte COVID est désactivé"
   },
   "Onboarding": {
