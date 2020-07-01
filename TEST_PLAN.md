@@ -2,11 +2,9 @@
 
 This test plan shows how to test Exposure Notfications (EN) in different scenarios and environments.
 
-- [Overview](#overview)
-- [User experience](#user-experience)
-- [Local development](#local-development)
-- [Customization](#customization)
-- [Localization](#localization)
+- [Accessing EN framework on device](#accessing-en-framework-on-device)
+- [Test exposed state on the same day without notification (as developer)](#test-exposed-state-on-the-same-day-without-notification-as-developer)
+- [Test exposed state with notification (as end user)](#test-exposed-state-with-notification-as-end-user)
 
 ## Accessing EN framework on device
 
