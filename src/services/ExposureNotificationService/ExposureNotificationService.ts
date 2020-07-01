@@ -157,12 +157,12 @@ export class ExposureNotificationService {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
     await this.secureStorage.setItem(SUBMISSION_AUTH_KEYS, serialized, SECURE_OPTIONS);
-    const cycleStartAt = new Date();
+    const cycleStartsAt = new Date();
     this.exposureStatus.append({
       type: 'diagnosed',
       needsSubmission: true,
-      cycleStartsAt: cycleStartAt.getTime(),
-      cycleEndsAt: addDays(cycleStartAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
+      cycleStartsAt: cycleStartsAt.getTime(),
+      cycleEndsAt: addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
     });
   }
 

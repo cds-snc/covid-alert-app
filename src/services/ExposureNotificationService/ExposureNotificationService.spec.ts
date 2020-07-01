@@ -228,6 +228,7 @@ describe('ExposureNotificationService', () => {
       type: 'diagnosed',
       needsSubmission: false,
       cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
+      cycleEndsAt: new OriginalDate('2020-05-28T04:10:00+0000').getTime(),
       submissionLastCompletedAt: null,
     });
 
@@ -277,8 +278,6 @@ describe('ExposureNotificationService', () => {
     });
 
     await service.updateExposureStatus();
-    expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({type: 'diagnosed', needsSubmission: false}),
-    );
+    expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: 'monitoring'}));
   });
 });
