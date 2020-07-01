@@ -6,7 +6,7 @@ import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
-import {TRANSMISSION_RISK_LEVEL} from 'env';
+import {TRANSMISSION_RISK_LEVEL, REGION} from 'env';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -32,8 +32,7 @@ export class BackendService implements BackendInterface {
   }
 
   async getExposureConfiguration() {
-    const region = 'ON';
-    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`)).json();
+    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${REGION}.json`)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
