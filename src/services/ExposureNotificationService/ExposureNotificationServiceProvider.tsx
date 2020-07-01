@@ -61,15 +61,19 @@ export const ExposureNotificationServiceProvider = ({
   );
 };
 
+export function useExposureNotificationService() {
+  return useContext(ExposureNotificationServiceContext)!;
+}
+
 export function useStartExposureNotificationService(): () => Promise<void> {
-  const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
+  const exposureNotificationService = useExposureNotificationService();
   return useCallback(async () => {
     await exposureNotificationService.start();
   }, [exposureNotificationService]);
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {
-  const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
+  const exposureNotificationService = useExposureNotificationService();
   const [state, setState] = useState<SystemStatus>(exposureNotificationService.systemStatus.get());
   const update = useCallback(() => {
     exposureNotificationService.updateSystemStatus();
@@ -85,7 +89,7 @@ export function useSystemStatus(): [SystemStatus, () => void] {
 }
 
 export function useExposureStatus(): [ExposureStatus, () => void] {
-  const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
+  const exposureNotificationService = useExposureNotificationService();
   const [state, setState] = useState<ExposureStatus>(exposureNotificationService.exposureStatus.get());
   const update = useCallback(() => {
     exposureNotificationService.updateExposureStatus();
@@ -99,7 +103,7 @@ export function useExposureStatus(): [ExposureStatus, () => void] {
 }
 
 export function useReportDiagnosis() {
-  const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
+  const exposureNotificationService = useExposureNotificationService();
   const startSubmission = useCallback(
     (oneTimeCode: string) => {
       return exposureNotificationService.startKeysSubmission(oneTimeCode);
@@ -116,7 +120,7 @@ export function useReportDiagnosis() {
 }
 
 export function useExposureNotificationSystemStatusAutomaticUpdater() {
-  const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
+  const exposureNotificationService = useExposureNotificationService();
   return useCallback(() => {
     const updateStatus = async (newState: AppStateStatus) => {
       if (newState === 'active') {
