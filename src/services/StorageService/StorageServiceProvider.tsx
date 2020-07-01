@@ -40,15 +40,15 @@ export const useStorage = () => {
   const [region, setRegionInternal] = useState(storageService.region.get());
   const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);
 
-  const [onboardedDatetime, setOnboardedDatetimeInternal] = useState(storageService.onboardedDatetime.value);
+  const [onboardedDatetime, setOnboardedDatetimeInternal] = useState(storageService.onboardedDatetime.get());
   const setOnboardedDatetime = useMemo(() => storageService.setOnboardedDatetime, [
     storageService.setOnboardedDatetime,
   ]);
 
-  const [forceScreen, setForceScreenInternal] = useState(storageService.forceScreen.value);
+  const [forceScreen, setForceScreenInternal] = useState(storageService.forceScreen.get());
   const setForceScreen = useMemo(() => storageService.setForceScreen, [storageService.setForceScreen]);
 
-  const [skipAllSet, setSkipAllSetInternal] = useState(storageService.skipAllSet.value);
+  const [skipAllSet, setSkipAllSetInternal] = useState(storageService.skipAllSet.get());
   const setSkipAllSet = useMemo(() => storageService.setSkipAllSet, [storageService.setSkipAllSet]);
 
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
