@@ -50,9 +50,25 @@ Note: Because the server doesn't return Temporary Exposure Keys (TEKs) for curre
       1. Clear data or re-install the app.
       1. Go through onboarding flow.
       1. Expect to see the app changes to exposed state `You have possibly been exposed to COVID-19`.
+   1. If you uninstall the app and re-install, expect to see exposed status show immediately after onboarding flow.
 
 ## Test exposed state with notification (as end user)
 
-This test runs everything on production. That means you only receive notification on the next date. Same date testing doesn't work for this scenario.
+This test runs everything on production. That means you only receive notification on the next date. Same date testing doesn't work for this scenario. `Test mode` cannot be used in this scenario.
 
-TBD
+1. Build and run the app on two devices.
+1. Go through onboarding flow on both devices. Make sure EN and bluetooth are turned on properly.
+1. Access EN framework on device (step above). In debug mode On Android, make sure `Bypass app signature check` and `Return all TEKs immediately` toggle are ENABLED.
+1. (Optional) Disable and re-enable `COVID-19 Exposure Notifications` (Android) or `COVID-19 Exposure Notifications` (iOS). This forces the EN framework to re-scan Bluetooth Random IDs.
+1. On 1st device:
+   1. Get OneTimeCode from server.
+   1. Enter the code to set the device to positive.
+   1. Verify that the positive state shows as expected.
+1. On 2nd device:
+   1. Leave it approximately close to 1st device overnight.
+      1. On Android, you can close the app completely or just minimize it. The app can run in the background even after being closed.
+      1. On iOS, it's recommended to just minimize the app.
+   1. Expect to see notification saying `You have possibly been exposed to COVID-19`.
+   1. Tap on notification will open the app.
+   1. Expect to see exposed status showing in the app.
+   1. If you uninstall the app and re-install, expect to see exposed status show immediately after onboarding flow.
