@@ -46,7 +46,7 @@ Note: Because the server doesn't return Temporary Exposure Keys (TEKs) for curre
       1. Press on app logo or swipe right to left to show `Test Mode`.
       1. Press on `Clear exposure history and run check`. This will force the app to re-fetch all TEKs from the last 14 days.
       1. Expect to see the app changes to exposed state `You have possibly been exposed to COVID-19`.
-   2. If you don't have `Test Mode`:
+   1. If you don't have `Test Mode`:
       1. Clear data or re-install the app.
       1. Go through onboarding flow.
       1. Expect to see the app changes to exposed state `You have possibly been exposed to COVID-19`.
