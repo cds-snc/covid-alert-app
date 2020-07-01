@@ -114,7 +114,7 @@ export class ExposureNotificationService {
   async updateSystemStatus(): Promise<SystemStatus> {
     const status = await this.exposureNotification.getStatus();
     this.systemStatus.set(status);
-    return this.systemStatus.value;
+    return this.systemStatus.get();
   }
 
   async updateExposureStatusInBackground() {

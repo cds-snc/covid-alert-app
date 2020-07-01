@@ -25,10 +25,10 @@ export const useStorage = () => {
   const storageService = useContext(StorageServiceContext)!;
   const i18nManager = React.useContext(I18nContext);
 
-  const [isOnboarding, setIsOnboarding] = useState(storageService.isOnboarding.value);
+  const [isOnboarding, setIsOnboarding] = useState(storageService.isOnboarding.get());
   const setOnboarded = useMemo(() => storageService.setOnboarded, [storageService.setOnboarded]);
 
-  const [locale, setLocaleInternal] = useState(storageService.locale.value);
+  const [locale, setLocaleInternal] = useState(storageService.locale.get());
   const setLocale = useMemo(
     () => (newLocale: string) => {
       storageService.setLocale(newLocale);
@@ -37,7 +37,7 @@ export const useStorage = () => {
     [storageService, i18nManager],
   );
 
-  const [region, setRegionInternal] = useState(storageService.region.value);
+  const [region, setRegionInternal] = useState(storageService.region.get());
   const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);
 
   const [onboardedDatetime, setOnboardedDatetimeInternal] = useState(storageService.onboardedDatetime.value);
