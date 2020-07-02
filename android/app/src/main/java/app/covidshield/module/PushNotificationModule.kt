@@ -81,13 +81,16 @@ class PushNotificationModule(context: ReactApplicationContext) : ReactContextBas
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-        val id = UUID.randomUUID().hashCode()
-        notificationManager.notify(id, builder.build())
+        notificationManager.notify(config.uuid.hashCode(), builder.build())
     }
 }
 
 private class PushNotificationConfig(
+    @SerializedName("uuid") private val _uuid: String?,
     @SerializedName("alertAction") val action: String?,
     @SerializedName("alertBody") val body: String?,
     @SerializedName("alertTitle") val title: String?
-)
+) {
+
+    val uuid get() = _uuid ?: "app.covidshield.exposure-notification"
+}
