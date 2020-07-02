@@ -15,22 +15,22 @@ const SECURE_OPTIONS = {
 
 export const EXPOSURE_STATUS = 'exposureStatus';
 
-const hoursPerPeriod = 24;
+export const HOURS_PER_PERIOD = 24;
 
-const EXPOSURE_NOTIFICATION_CYCLE = 14;
+export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export {SystemStatus};
 
 export type ExposureStatus =
   | {
       type: 'monitoring';
-      lastCheckedPriod?: number;
+      lastCheckedPeriod?: number;
       lastCheckedTimestamp?: number;
     }
   | {
       type: 'exposed';
       summary: ExposureSummary;
-      lastCheckedPriod?: number;
+      lastCheckedPeriod?: number;
       lastCheckedTimestamp?: number;
     }
   | {
@@ -39,7 +39,7 @@ export type ExposureStatus =
       submissionLastCompletedAt?: number;
       cycleStartsAt: number;
       cycleEndsAt: number;
-      lastCheckedPriod?: number;
+      lastCheckedPeriod?: number;
       lastCheckedTimestamp?: number;
     };
 
@@ -206,13 +206,13 @@ export class ExposureNotificationService {
   }
 
   private async *keysSinceLastFetch(
-    _lastCheckedPriod?: number,
+    _lastCheckedPeriod?: number,
   ): AsyncGenerator<{keysFileUrl: string; period: number} | null> {
     const runningDate = new Date();
 
     const lastCheckedPeriod =
-      _lastCheckedPriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), hoursPerPeriod);
-    let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
+      _lastCheckedPeriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
+    let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
 
     while (runningPeriod > lastCheckedPeriod) {
       try {
@@ -254,26 +254,26 @@ export class ExposureNotificationService {
     }
 
     const keysFileUrls: string[] = [];
-    const generator = this.keysSinceLastFetch(currentStatus.lastCheckedPriod);
-    let lastCheckedPriod = currentStatus.lastCheckedPriod;
+    const generator = this.keysSinceLastFetch(currentStatus.lastCheckedPeriod);
+    let lastCheckedPeriod = currentStatus.lastCheckedPeriod;
     while (true) {
       const {value, done} = await generator.next();
       if (done) break;
       if (!value) continue;
       const {keysFileUrl, period} = value;
-      lastCheckedPriod = Math.max(lastCheckedPriod || 0, period);
+      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
       keysFileUrls.push(keysFileUrl);
     }
 
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       if (summary.matchedKeyCount > 0) {
-        return finalize({type: 'exposed', summary, lastCheckedPriod});
+        return finalize({type: 'exposed', summary, lastCheckedPeriod});
       }
     } catch (error) {
       console.log('>>> detectExposure', error);
     }
 
-    return finalize({lastCheckedPriod});
+    return finalize({lastCheckedPeriod});
   }
 }
