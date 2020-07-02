@@ -3,8 +3,9 @@
 This test plan shows how to test Exposure Notfications (EN) in different scenarios and environments.
 
 - [Accessing EN framework on device](#accessing-en-framework-on-device)
-- [Test exposed state on the same day without notification (as developer)](#test-exposed-state-on-the-same-day-without-notification-as-developer)
+- [Test exposed state on the same date without notification (as developer)](#test-exposed-state-on-the-same-date-without-notification-as-developer)
 - [Test exposed state with notification (as end user)](#test-exposed-state-with-notification-as-end-user)
+- [Troubleshooting](#troubleshooting)
 
 ## Accessing EN framework on device
 
@@ -12,7 +13,7 @@ This test plan shows how to test Exposure Notfications (EN) in different scenari
 
 Device Settings > Google > COVID-19 Exposure Notifications
 
-| ![image](https://user-images.githubusercontent.com/5274722/86290989-5c007100-bbbc-11ea-9088-a8f038513c37.png) | ![image](https://user-images.githubusercontent.com/5274722/86290997-5e62cb00-bbbc-11ea-89d3-85aff4b4c620.png) | ![image](https://user-images.githubusercontent.com/5274722/86291000-602c8e80-bbbc-11ea-9444-ef8a6c90b04e.png) |
+| ![image](https://user-images.githubusercontent.com/5274722/86290989-5c007100-bbbc-11ea-9088-a8f038513c37.png) | ![image](https://user-images.githubusercontent.com/5274722/86290997-5e62cb00-bbbc-11ea-89d3-85aff4b4c620.png) | ![image](https://user-images.githubusercontent.com/5274722/86415961-9a6a5e80-bc96-11ea-84c3-715af6a7bf75.png) |
 | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 
 
@@ -24,7 +25,7 @@ Device Settings > Privacy > Bluetooth > COVID-19 Exposure Logging
 | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 
 
-## Test exposed state on the same day without notification (as developer)
+## Test exposed state on the same date without notification (as developer)
 
 This test could be applied for all environments: Android + Android, iOS + iOS, Android + iOS.
 
@@ -33,7 +34,7 @@ Note: Because the server doesn't return Temporary Exposure Keys (TEKs) for curre
 1. Run server locally, set `SUBMIT_URL` and `RETRIEVE_URL` in `.env` accordingly.
 1. Build and run the app on two devices.
 1. Go through onboarding flow on both devices. Make sure EN and bluetooth are turned on properly.
-1. Access EN framework on device (step above). In debug mode On Android, make sure `Bypass app signature check` and `Return all TEKs immediately` toggle are ENABLED.
+1. For Android only, see `Debug mode` section below.
 1. Disable and re-enable `COVID-19 Exposure Notifications` (Android) or `COVID-19 Exposure Notifications` (iOS). This forces the EN framework to re-scan Bluetooth Random IDs.
 1. On 1st device:
    1. Get OneTimeCode from server.
@@ -70,3 +71,16 @@ This test runs everything on production. That means you only receive notificatio
    1. Tap on notification will open the app.
    1. Expect to see exposed status showing in the app.
    1. If you uninstall the app and re-install, expect to see exposed status show immediately after onboarding flow.
+
+## Troubleshooting
+
+### [Android] Debug mode
+
+`Debug mode` is only available for developer email that has been whitelisted by Google to test EN. With this mode, you can use any APP_ID / Package Name that have been whitelisted by Google, ex: `com.google.android.apps.exposurenotification` to test the framework.
+
+- If you have `Debug mode`, make sure `Bypass app signature check` and `Return all TEKs immediately` toggle are ENABLED.
+- If you don't, you have to use app with APP_ID / Package Name that has been whitelisted with correct signed key.
+
+### [General] Why same date testing doesn't work for me?
+
+On devices that haven't been using any apps supporting Google / Apple Exposure Notifications before, the device hasn't been generating / collecting Temporary Exposure Keys (TEKs) yet. So, there is no key to submit to server after you enter OneTimeCode. In this case, the only option is to come back the next date and test again. Make sure you EN and bluetooth are enabled properly.
