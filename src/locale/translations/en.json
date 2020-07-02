@@ -23,9 +23,10 @@
       }
     },
     "ExposureDetected": {
-      "Title": "You’ve been exposed",
-      "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
-      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action."
+      "Title": "You’ve been exposed in the last 14 days",
+      "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+      "Title2": "What now?",
+      "Body2": "You’re at risk of being infected. *You need to isolate for 14 days.*"
     },
     "ChooseRegionCTA": "Choose province or territory",
     "SeeGuidance": "What now? See guidance",
