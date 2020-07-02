@@ -90,3 +90,7 @@ android/app/google-services.json
 
 # generated files
 ios/assets
+
+.vscode/launch.json
+ios/CovidShield.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+yarn generate-translations.txt
