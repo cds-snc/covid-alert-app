@@ -74,7 +74,7 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   const [exposureStatus] = useExposureStatus();
 
   if (exposureStatus.type === 'diagnosed') {
-    const daysLeft = daysBetween(new Date(), exposureStatus.cycleEndsAt);
+    const daysLeft = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt));
     const bodyText =
       i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed') +
       i18n.translate('OverlayOpen.EnterCodeCardDiagnosedCountdown', {number: daysLeft});

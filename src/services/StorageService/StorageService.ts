@@ -67,7 +67,7 @@ export class StorageService {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
 
-    const locale = (await AsyncStorage.getItem(Key.Locale)) || this.locale.value;
+    const locale = (await AsyncStorage.getItem(Key.Locale)) || this.locale.get();
     this.locale.set(locale);
 
     const region = ((await AsyncStorage.getItem(Key.Region)) as Region | undefined) || undefined;

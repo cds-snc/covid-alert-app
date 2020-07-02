@@ -2,6 +2,9 @@
 #
 .DS_Store
 
+
+.env.production
+
 # Xcode
 #
 build/
@@ -55,6 +58,8 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+*/fastlane/screenshots
+google-api-account.json
 
 # CocoaPods
 /ios/Pods/
