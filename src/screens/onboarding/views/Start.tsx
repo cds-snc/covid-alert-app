@@ -12,7 +12,7 @@ export const Start = () => {
           text={i18n.translate('Onboarding.Start.Title')}
           imageSrc={require('assets/onboarding-start.png')}
           accessible
-          accessibilityLabel={i18n.translate('Onboarding.Start.Title')}
+          accessibilityLabel={i18n.translate('Onboarding.Start.ImageAltText')}
         />
 
         <Box marginBottom="m">

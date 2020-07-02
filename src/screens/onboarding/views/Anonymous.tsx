@@ -12,7 +12,7 @@ export const Anonymous = () => {
           text={i18n.translate('Onboarding.Anonymous.Title')}
           imageSrc={require('assets/onboarding-nogps.png')}
           accessible
-          accessibilityLabel={i18n.translate('Onboarding.Anonymous.Title')}
+          accessibilityLabel={i18n.translate('Onboarding.Anonymous.ImageAltText')}
         />
 
         <Box flexDirection="row" marginBottom="m">

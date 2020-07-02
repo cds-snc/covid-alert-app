@@ -15,7 +15,7 @@ export const HowItWorks = () => {
           text={i18n.translate('Onboarding.HowItWorks.Title')}
           imageSrc={require('assets/onboarding-howitworks.png')}
           accessible
-          accessibilityLabel={i18n.translate('Onboarding.HowItWorks.Title')}
+          accessibilityLabel={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
         />
 
         <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body1')} />
