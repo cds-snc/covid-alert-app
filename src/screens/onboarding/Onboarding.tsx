@@ -73,7 +73,7 @@ export const OnboardingScreen = () => {
         </Box>
       );
     },
-    [maxWidth, isEnd],
+    [maxWidth, isEnd, region],
   );
 
   const nextItem = useCallback(async () => {
