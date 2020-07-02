@@ -24,12 +24,14 @@ export {SystemStatus};
 export type ExposureStatus =
   | {
       type: 'monitoring';
-      lastChecked?: number;
+      lastCheckedPriod?: number;
+      lastCheckedTimestamp?: number;
     }
   | {
       type: 'exposed';
       summary: ExposureSummary;
-      lastChecked?: number;
+      lastCheckedPriod?: number;
+      lastCheckedTimestamp?: number;
     }
   | {
       type: 'diagnosed';
@@ -37,7 +39,8 @@ export type ExposureStatus =
       submissionLastCompletedAt?: number;
       cycleStartsAt: number;
       cycleEndsAt: number;
-      lastChecked?: number;
+      lastCheckedPriod?: number;
+      lastCheckedTimestamp?: number;
     };
 
 export interface PersistencyProvider {
@@ -96,7 +99,7 @@ export class ExposureNotificationService {
 
   async init() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
-    this.exposureStatus.append(exposureStatus || {});
+    this.exposureStatus.append({...exposureStatus});
   }
 
   async start(): Promise<void> {
@@ -178,26 +181,6 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
-  private async *keysSinceLastFetch(lastFetchDate?: Date): AsyncGenerator<string | null> {
-    const runningDate = new Date();
-
-    const lastCheckPeriod = periodSinceEpoch(
-      lastFetchDate || addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE),
-      hoursPerPeriod,
-    );
-    let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
-
-    while (runningPeriod > lastCheckPeriod) {
-      try {
-        yield await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
-      } catch (err) {
-        console.log('>>> error while downloading key file:', err);
-      }
-
-      runningPeriod -= 1;
-    }
-  }
-
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== 'diagnosed') return;
@@ -222,19 +205,34 @@ export class ExposureNotificationService {
     return false;
   }
 
+  private async *keysSinceLastFetch(
+    _lastCheckedPriod?: number,
+  ): AsyncGenerator<{keysFileUrl: string; period: number} | null> {
+    const runningDate = new Date();
+
+    const lastCheckedPeriod =
+      _lastCheckedPriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), hoursPerPeriod);
+    let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
+
+    while (runningPeriod > lastCheckedPeriod) {
+      try {
+        const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
+        const period = runningPeriod;
+        yield {keysFileUrl, period};
+      } catch (err) {
+        console.log('>>> error while downloading key file:', err);
+      }
+
+      runningPeriod -= 1;
+    }
+  }
+
   private async performExposureStatusUpdate(): Promise<void> {
     const exposureConfiguration = await this.backendInterface.getExposureConfiguration();
-    const lastCheckDate = await (async () => {
-      const timestamp = this.exposureStatus.get().lastChecked;
-      if (timestamp) {
-        return new Date(timestamp);
-      }
-      return undefined;
-    })();
 
     const finalize = async (status: Partial<ExposureStatus> = {}) => {
       const timestamp = new Date().getTime();
-      this.exposureStatus.append({...status, lastChecked: timestamp});
+      this.exposureStatus.append({...status, lastCheckedTimestamp: timestamp});
     };
 
     const currentStatus = this.exposureStatus.get();
@@ -256,23 +254,26 @@ export class ExposureNotificationService {
     }
 
     const keysFileUrls: string[] = [];
-    const generator = this.keysSinceLastFetch(lastCheckDate);
+    const generator = this.keysSinceLastFetch(currentStatus.lastCheckedPriod);
+    let lastCheckedPriod = currentStatus.lastCheckedPriod;
     while (true) {
-      const {value: keysFileUrl, done} = await generator.next();
+      const {value, done} = await generator.next();
       if (done) break;
-      if (!keysFileUrl) continue;
+      if (!value) continue;
+      const {keysFileUrl, period} = value;
+      lastCheckedPriod = Math.max(lastCheckedPriod || 0, period);
       keysFileUrls.push(keysFileUrl);
     }
 
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       if (summary.matchedKeyCount > 0) {
-        return finalize({type: 'exposed', summary});
+        return finalize({type: 'exposed', summary, lastCheckedPriod});
       }
     } catch (error) {
       console.log('>>> detectExposure', error);
     }
 
-    return finalize();
+    return finalize({lastCheckedPriod});
   }
 }
