@@ -59,6 +59,13 @@ export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: MapObservable<ExposureStatus>;
 
+  /**
+   * Visible for testing only
+   * We can make this private until ExposureNotificationClient.ACTION_EXPOSURE_NOT_FOUND is available in Android EN framework
+   * Ref https://developers.google.com/android/exposure-notifications/exposure-notifications-api#broadcast-receivers
+   **/
+  exposureStatusUpdatePromise: Promise<void> | null = null;
+
   private starting = false;
 
   private exposureNotification: typeof ExposureNotification;
@@ -67,8 +74,6 @@ export class ExposureNotificationService {
   private i18n: I18n;
   private storage: PersistencyProvider;
   private secureStorage: SecurePersistencyProvider;
-
-  private exposureStatusUpdatePromise: Promise<void> | null = null;
 
   constructor(
     backendInterface: BackendInterface,
@@ -152,12 +157,12 @@ export class ExposureNotificationService {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
     await this.secureStorage.setItem(SUBMISSION_AUTH_KEYS, serialized, SECURE_OPTIONS);
-    const cycleStartAt = new Date();
+    const cycleStartsAt = new Date();
     this.exposureStatus.append({
       type: 'diagnosed',
       needsSubmission: true,
-      cycleStartsAt: cycleStartAt.getTime(),
-      cycleEndsAt: addDays(cycleStartAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
+      cycleStartsAt: cycleStartsAt.getTime(),
+      cycleEndsAt: addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
     });
   }
 
@@ -203,19 +208,17 @@ export class ExposureNotificationService {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== 'diagnosed') return false;
 
-    const lastSubmittedStr = exposureStatus.submissionLastCompletedAt;
-    if (!lastSubmittedStr) return true;
-
-    const submissionCycleEnds = addDays(new Date(exposureStatus.cycleStartsAt), EXPOSURE_NOTIFICATION_CYCLE);
-    const lastSubmittedDay = new Date(lastSubmittedStr);
     const today = new Date();
+    const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
+    // we're done submitting keys
+    if (daysBetween(today, cycleEndsAt) <= 0) return false;
 
-    if (daysBetween(lastSubmittedDay, submissionCycleEnds) <= 0) {
-      // we're done submitting keys
-      return false;
-    } else if (daysBetween(lastSubmittedDay, today) > 0) {
-      return true;
-    }
+    const submissionLastCompletedAt = exposureStatus.submissionLastCompletedAt;
+    if (!submissionLastCompletedAt) return true;
+
+    const lastSubmittedDay = new Date(submissionLastCompletedAt);
+    if (daysBetween(lastSubmittedDay, today) > 0) return true;
+
     return false;
   }
 
@@ -235,13 +238,21 @@ export class ExposureNotificationService {
     };
 
     const currentStatus = this.exposureStatus.get();
+
     if (currentStatus.type === 'diagnosed') {
+      const today = new Date();
+      const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
+      if (daysBetween(today, cycleEndsAt) <= 0) {
+        this.exposureStatus.set({type: 'monitoring'});
+        return finalize();
+      }
       return finalize({needsSubmission: await this.calculateNeedsSubmission()});
     } else if (
       currentStatus.type === 'exposed' &&
       currentStatus.summary.daysSinceLastExposure >= EXPOSURE_NOTIFICATION_CYCLE
     ) {
-      return finalize({type: 'monitoring'});
+      this.exposureStatus.set({type: 'monitoring'});
+      return finalize();
     }
 
     const keysFileUrls: string[] = [];

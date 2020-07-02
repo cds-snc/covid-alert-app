@@ -3,10 +3,14 @@ import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/
 import {useI18n} from '@shopify/react-i18n';
 import PushNotification from 'bridge/PushNotification';
 import {Box, Text} from 'components';
-import {SystemStatus, useSystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
+import {
+  SystemStatus,
+  useSystemStatus,
+  useExposureStatus,
+  useExposureNotificationService,
+} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 import {ExposureSummary} from 'bridge/ExposureNotification';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import {MockProvider, useMock} from './MockProvider';
 import {Item} from './views/Item';
@@ -72,6 +76,8 @@ const DrawerContent = () => {
     });
   }, [mock.backend]);
 
+  const exposureNotificationService = useExposureNotificationService();
+
   return (
     <DrawerContentScrollView>
       <Box>
@@ -108,7 +114,8 @@ const DrawerContent = () => {
                 title="Clear exposure history and run check"
                 onPress={async () => {
                   console.log('forcing refresh...');
-                  await AsyncStorage.removeItem('lastCheckTimeStamp');
+                  exposureNotificationService.exposureStatusUpdatePromise = null;
+                  exposureNotificationService.exposureStatus.set({type: 'monitoring'});
                   updateExposureStatus();
                 }}
               />
