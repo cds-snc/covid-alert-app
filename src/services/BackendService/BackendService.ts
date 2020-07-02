@@ -30,7 +30,6 @@ export class BackendService implements BackendInterface {
     const message = `${this.region}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${this.region}/${period}/${hmac}`;
-    console.log('ccccc url', url);
     return downloadDiagnosisKeysFile(url);
   }
 
