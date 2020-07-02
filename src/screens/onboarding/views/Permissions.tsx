@@ -14,6 +14,8 @@ export const Permissions = () => {
         <OnboardingHeader
           text={i18n.translate('Onboarding.Permissions.Title')}
           imageSrc={require('assets/onboarding-enable.png')}
+          accessible
+          accessibilityLabel={i18n.translate('Onboarding.Permissions.Title')}
         />
         <Box marginBottom="m">
           <Text variant="bodyText" color="overlayBodyText">
