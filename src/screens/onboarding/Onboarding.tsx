@@ -176,7 +176,7 @@ export const OnboardingScreen = () => {
                 pagingEnabled
                 disableIntervalMomentum
                 onViewableItemsChanged={onViewableItemsChanged}
-                viewabilityConfig={VIEWABILITY_CONFIG}
+                viewabilityConfig={viewabilityConfig}
               />
             </View>
           )}

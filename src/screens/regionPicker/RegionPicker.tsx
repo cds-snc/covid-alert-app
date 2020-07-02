@@ -1,7 +1,6 @@
 import React from 'react';
 import {Box, Text} from 'components';
 import {ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 
