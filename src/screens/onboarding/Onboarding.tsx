@@ -72,23 +72,26 @@ export const OnboardingScreen = () => {
     (flatListRef.current! as FlatList<ViewKey>).scrollToIndex({index: currentIndex - 1});
   }, [currentIndex]);
 
-  const onViewableItemsChanged = useCallback(({viewableItems}) => {
-    if (viewableItems.length <= 0) {
-      return;
-    }
-    const index: number = viewableItems[0].index;
-    setCurrentIndex(index);
+  const onViewableItemsChanged = useCallback(
+    ({viewableItems}) => {
+      if (viewableItems.length <= 0) {
+        return;
+      }
+      const index: number = viewableItems[0].index;
+      setCurrentIndex(index);
 
-    // we want the EN permission dialogue to appear on the last step.
-    if (index === contentData.length - 1) {
-      startExposureNotificationService();
-    }
+      // we want the EN permission dialogue to appear on the last step.
+      if (index === contentData.length - 1) {
+        startExposureNotificationService();
+      }
 
-    // we want region cleared on the 2nd last step
-    if (index === contentData.length - 2) {
-      setRegion(undefined);
-    }
-  }, []);
+      // we want region cleared on the 2nd last step
+      if (index === contentData.length - 2) {
+        setRegion(undefined);
+      }
+    },
+    [setRegion, startExposureNotificationService],
+  );
 
   const renderItem = useCallback(
     ({item}: {item: ViewKey}) => {
@@ -130,7 +133,7 @@ export const OnboardingScreen = () => {
         </Box>
       );
     },
-    [currentIndex, windowWidth, maxWidth, isEnd, region, nextItem, endText],
+    [currentIndex, windowWidth, maxWidth, isEnd, region, nextItem, endText, endBtnStyle, i18n],
   );
 
   const BackButton = (
