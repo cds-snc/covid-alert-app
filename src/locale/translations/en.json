@@ -13,13 +13,13 @@
       "NoRegion": {
         "Title": "No exposure detected",
         "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
-        "AllSetBody": "Your phone is now running Bluetooth to collect codes from nearby phones.\n\nIf you’re outside Ontario, people in your area cannot yet report a diagnosis through the app.\n\nIt’s still helpful to keep COVID Alert on. That way, when people are able to report a diagnosis, you’ll find out if you were near them."
+        "AllSetBody": "We’ll let you know as soon as people outside Ontario can report a diagnosis through COVID Alert.\n\nIt’s still helpful to keep COVID Alert on.\n\nThat way, when people are able to report a diagnosis, you’ll find out if you were near them."
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
         "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn COVID Alert on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
         "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
-        "AllSetBody": "Now you can just forget about the app unless you get a notification.\n\nBut people in your area cannot yet report a diagnosis through the app.\n\nIt’s still helpful to keep COVID Alert on. That way, when people are able to report a diagnosis, you’ll find out if you were near them.\n\nWe’ll let you know as soon as your area supports COVID Alert."
+        "AllSetBody": "We’ll let you know as soon as people in your area can report a diagnosis through COVID Alert.\n\nIt’s still helpful to keep COVID Alert on.\n\nThat way, when people are able to report a diagnosis, you’ll find out if you were near them."
       }
     },
     "ExposureDetected": {
@@ -34,7 +34,7 @@
     "CTA": "What to do next",
     "HowUrl": "https://www.canada.ca/",
     "DiagnosedView": {
-      "Title": "Thanks for helping fight COVID",
+      "Title": "Thanks for helping fight COVID-19",
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
         "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
@@ -87,8 +87,8 @@
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
     "EnterCodeCardBody": "You were given an 8-digit number when you were diagnosed. This number tells COVID Alert to notify people you were near.",
     "EnterCodeCardAction": "Enter number",
-    "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
-    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread. ",
+    "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
+    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
     "EnterCodeCardDiagnosedCountdown": "{number} out of 14 days left!",
     "NotificationCardStatus": "Push notifications are off",
     "NotificationCardStatusOff": "OFF",
@@ -155,9 +155,9 @@
     "ActionEnd": "Get Started",
     "ActionBack": "Back",
     "Start": {
-      "Title": "Join the effort to slow the spread",
-      "Body1": "COVID Alert notifies you if someone you’ve been near tells the app they tested positive.",
-      "Body2": "That way, you can isolate right away and stop the spread."
+      "Title": "Together, let’s slow the spread of COVID-19",
+      "Body1": "COVID Alert helps us break the cycle of infection. The app can let people know of possible exposures before any symptoms appear. ",
+      "Body2": "That way, we can take care of ourselves and protect our communities."
     },
     "WhatItsNot": {
       "Title": "What COVID Alert does not do",
@@ -198,8 +198,8 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
-    "ShareToast": "Random IDs shared successfully",
+    "InfoSmall": "Your random codess will not be uploaded unless you give permission in the next step.",
+    "ShareToast": "Random codes uploaded successfully",
     "Step1": {
       "Title": "Let people know they may have been exposed",
       "Body1a": "Step 1. ",
@@ -244,19 +244,19 @@
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
         "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nYou will not be able to notify people you’ve been near that they were exposed. But you can still take steps to:",
-        "Body2": "keep your community safe.",
-        "Body3": "protect people and pets you live with.",
-        "Body4": "take care of yourself."
+        "Body2": "Keep your community safe.",
+        "Body3": "Protect people and pets you live with.",
+        "Body4": "Take care of yourself."
       }
     }
   },
   "Notification": {
     "ExposedMessageTitle": "You’ve been exposed",
-    "ExposedMessageBody": "You’ve been near someone who reported a COVID-19 diagnosis through the app.\n\nThis does not mean you’ve been infected. But you should probably take some action.",
+    "ExposedMessageBody": "You’ve been near someone who reported a COVID-19 diagnosis through the app. Read guidance.",
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
-    "DailyUploadNotificationTitle": "Share your new informatin about people you were near",
-    "DailyUploadNotificationBody": "Sharing your information helps people know if they've been exposed to COVID-19. Then they can isolate and slow the spread to others. No details about who you are will be shared."
+    "DailyUploadNotificationTitle": "Upload new random codes",
+    "DailyUploadNotificationBody": "You do not have to agree, even if you agreed the day before. But you can help slow the spread of COVID-19 if you do.\n\nTake care of yourself and your family during this time."
   },
   "Partners": {
     "Label": "Developed in partnership with"
@@ -273,10 +273,10 @@
     "RegionSelectBtn": "Choose province or territory"
   },
   "RegionPicker": {
-    "Title": "Choose your province or territory",
+    "Title": "Where do you live? (optional)",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
-    "Body": "This information is only stored on your phone and will never be shared with anyone.",
+    "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "Optional": "* Optional",

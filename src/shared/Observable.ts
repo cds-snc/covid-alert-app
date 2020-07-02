@@ -82,8 +82,8 @@ class Subscriptions<T> {
 }
 
 export class Observable<T> {
-  value: T;
-  subscriptions: Subscriptions<T> = new Subscriptions();
+  private value: T;
+  private subscriptions: Subscriptions<T> = new Subscriptions();
 
   constructor(defaultValue: T) {
     this.value = defaultValue;
@@ -100,5 +100,11 @@ export class Observable<T> {
 
   observe(cb: (value: T) => void): () => void {
     return this.subscriptions.add(cb);
+  }
+}
+
+export class MapObservable<T> extends Observable<T> {
+  append(partial: Partial<T>) {
+    this.set({...this.get(), ...partial});
   }
 }
