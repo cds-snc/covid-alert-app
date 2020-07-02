@@ -1,16 +1,45 @@
 import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
 
 import {BackendService} from './BackendService';
+import {covidshield} from './covidshield';
 
-const mockUpload = jest.fn();
-
-jest.mock('./covidshield', () => ({
-  covidshield: {
-    Upload: mockUpload,
+jest.mock('tweetnacl', () => ({
+  __esModule: true,
+  default: {
+    box: jest.fn(),
   },
 }));
 
-jest.mock('../../bridge/CovidShield', () => ({}));
+jest.mock('./covidshield', () => ({
+  covidshield: {
+    Upload: {
+      create: jest.fn(),
+      encode: () => ({
+        finish: jest.fn(),
+      }),
+    },
+    TemporaryExposureKey: {
+      create: jest.fn(),
+    },
+    EncryptedUploadRequest: {
+      encode: () => ({
+        finish: jest.fn(),
+      }),
+    },
+    EncryptedUploadResponse: {
+      decode: jest.fn(),
+    },
+  },
+}));
+
+jest.mock('../../bridge/CovidShield', () => ({
+  getRandomBytes: jest.fn(),
+  downloadDiagnosisKeysFile: jest.fn(),
+}));
+
+jest.mock('../../shared/fetch', () => ({
+  blobFetch: () => Promise.resolve([]),
+}));
 
 /**
  * Utils for comparing jsonString
@@ -54,15 +83,15 @@ function generateRandomKeys(numberOfKeys: number) {
 
 describe('BackendService', () => {
   beforeEach(() => {
-    mockUpload.mockClear();
-    mockUpload.mockReset();
+    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   describe('reportDiagnosisKeys', () => {
-    it('filters duplicated rollingStartIntervalNumber', () => {
+    it('filters duplicated rollingStartIntervalNumber', async () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 0);
 
-      backendService.reportDiagnosisKeys(
+      await backendService.reportDiagnosisKeys(
         {
           clientPrivateKey: 'mock',
           clientPublicKey: 'mock',
@@ -79,11 +108,38 @@ describe('BackendService', () => {
         ],
       );
 
-      expect(mockUpload).toHaveBeenCalledWith(
+      expect(covidshield.Upload.create).toHaveBeenCalledWith(
         expect.objectContaining({
           keys: expect.toHaveLength(10),
         }),
       );
+    });
+
+    it('returns last 14 keys if there is more than 14', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 0);
+      const keys = generateRandomKeys(20);
+
+      await backendService.reportDiagnosisKeys(
+        {
+          clientPrivateKey: 'mock',
+          clientPublicKey: 'mock',
+          serverPublicKey: 'mock',
+        },
+        keys,
+      );
+
+      expect(covidshield.Upload.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          keys: expect.toHaveLength(14),
+        }),
+      );
+      keys
+        .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
+        .splice(0, 14)
+        .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}))
+        .forEach(value => {
+          expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
+        });
     });
   });
 });
