@@ -88,14 +88,16 @@
     "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnableExposureNotificationsCTA": "Activez les notifications d'exposition à la COVID-19",
     "ExposureDetected": {
-      "Detailed1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec cette application.",
-      "Detailed2": "Cela ne veut pas dire que vous êtes infecté. Mais vous devriez probablement prendre quelques mesures.",
-      "Title": "Vous avez été exposé"
+      "Title": "Vous avez été exposé au cours des 14 derniers jours",
+      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15 minutes ou plus.",
+      "Title2": "Que faire maintenant?",
+      "Body2": "Vous êtes à risque d’être infecté. ",
+      "Body3": "Vous devez vous isoler pendant 14 jours.",
+      "HowToIsolateCTA": "Comment s’isoler"
     },
     "ExposureNotificationsDisabled": "Les notifications d'exposition à la COVID-19 sont désactivées",
     "ExposureNotificationsDisabledDetailed": "Les notifications d’exposition à la COVID-19 sont nécessaires au fonctionnement d’Alerte COVID.",
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
-    "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
     "How": "Diagnosed with COVID-19?",
     "HowUrl": "https://www.canada.ca/",
     "LastCheckedDays": {
@@ -134,9 +136,17 @@
         "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activé.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       }
     },
-    "SeeGuidance": "Que faire maintenant? Lisez les recommandations.",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "TurnOnBluetooth": "Activez Bluetooth"
+  },
+  "HowToIsolate": {
+    "Title": "Comment vous isoler",
+    "Intro": "Faites votre possible pour :",
+    "Body1": "Rester à la maison, sauf si vous avez besoin de soins médicaux.",
+    "Body2": "Éviter les transports publics comme les autobus et les taxis.",
+    "Body3": "Demander de l’aide pour recevoir votre épicerie et vos provisions à votre porte.",
+    "Body4": "Utiliser une pièce et une salle de bain séparées des autres de votre maison, si possible.",
+    "Body5": "Porter un masque de façon sécuritaire chaque fois qu’il n’est pas possible de suivre les mesures ci-dessus."
   },
   "Info": {
     "ChangeLanguage": "Modifier la langue",
@@ -261,21 +271,63 @@
     "Title": "Où habitez-vous? (facultatif)",
     "YT": "Yukon"
   },
-  "RegionalGuidanceURL": {
-    "AB": "",
-    "BC": "",
-    "CA": "https://www.canada.ca/fr/sante-publique/services/maladies/2019-nouveau-coronavirus/symptomes.html",
-    "MB": "https://www.gov.mb.ca/covid19/about/index.fr.html",
-    "NB": "https://www2.gnb.ca/content/gnb/fr/corporate/promo/covid-19.html",
-    "NL": "",
-    "NS": "https://novascotia.ca/coronavirus/when-to-seek-help/fr/",
-    "NT": "https://www.gov.nt.ca/covid-19/fr/services/%C3%A0-propos-de-la-covid-19",
-    "NU": "https://www.gov.nu.ca/fr/sante/information/covid-19-nouveau-coronavirus-0",
-    "ON": "https://covid-19.ontario.ca/fr/centres-devaluation-de-la-covid-19",
-    "PE": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/covid-19-foire-aux-questions",
-    "QC": "https://www.quebec.ca/sante/problemes-de-sante/a-z/informations-generales-sur-le-coronavirus/",
-    "SK": "",
-    "YT": "https://yukon.ca/fr/6-steps-staying-safe-covid-19"
+  "RegionalGuidance": {
+    "CA": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://ca.thrive.health/covid19/fr"
+    },
+    "AB": {
+      "CTA": "Découvrez si vous devriez vous faire tester (lien en anglais seulement)",
+      "URL": "https://myhealth.alberta.ca/Journey/COVID-19/Pages/PubAsympIsolate.aspx"
+    },
+    "BC": {
+      "CTA": "Découvrez si vous devriez vous faire tester (lien en anglais seulement)",
+      "URL": "https://bc.thrive.health/covid19/en"
+    },
+    "MB": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://covid19.soinscommunsmb.ca/covid19/outil-de-depistage/"
+    },
+    "NB": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://www2.gnb.ca/content/gnb/fr/ministeres/bmhc/maladies_transmissibles/content/maladies_respiratoires/coronavirus/expositionaucoronavirus.html#/app/symptom-checker/guides/399/what-to-do"
+    },
+    "NL": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://www.811healthline.ca/fr/autoevaluation-pour-la-covid-19/"
+    },
+    "NT": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://www.surveymonkey.com/r/tno-auto-evaluation-covid-19"
+    },
+    "NS": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://novascotia.ca/coronavirus/when-to-seek-help/fr/#if-exposed"
+    },
+    "NU": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://nu.thrive.health/covid19/fr"
+    },
+    "ON": {
+      "CTA": "Lieux pour se faire tester",
+      "URL": "https://covid-19.ontario.ca/emplacements-centres-devaluation/"
+    },
+    "PE": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/auto-isolement-pour-lutter-contre-la-covid-19"
+    },
+    "QC": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/consignes-isolement-personne-en-contact-covid-19/"
+    },
+    "SK": {
+      "CTA": "Découvrez si vous devriez vous faire tester (lien en anglais seulement)",
+      "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/covid-19-self-assessment"
+    },
+    "YT": {
+      "CTA": "Découvrez si vous devriez vous faire tester",
+      "URL": "https://service.yukon.ca/fr/covid-19-auto-evaluation/"
+    }
   },
   "Sharing": {
     "Close": "Fermer",

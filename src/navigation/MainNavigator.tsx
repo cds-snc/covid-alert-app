@@ -12,6 +12,7 @@ import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerSettingsScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
+import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 enableScreens();
@@ -63,6 +64,7 @@ const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
+const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
 
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
@@ -91,6 +93,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
+      <MainStack.Screen name="HowToIsolate" component={HowToIsolateWithNavBar} />
     </MainStack.Navigator>
   );
 };

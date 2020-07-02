@@ -12,9 +12,9 @@ export interface LastCheckedDisplayProps {
 export const LastCheckedDisplay = ({textDark}: LastCheckedDisplayProps) => {
   const [i18n] = useI18n();
   const [exposureStatus] = useExposureStatus();
-  if (!exposureStatus.lastChecked) return null;
+  if (!exposureStatus.lastCheckedTimestamp) return null;
 
-  const lastCheckedDate = new Date(exposureStatus.lastChecked);
+  const lastCheckedDate = new Date(exposureStatus.lastCheckedTimestamp);
   const daysDiff = daysFromNow(lastCheckedDate);
   const hoursDiff = hoursFromNow(lastCheckedDate);
   const minutesDiff = Math.max(minutesFromNow(lastCheckedDate), 1);
