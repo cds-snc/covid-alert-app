@@ -37,16 +37,43 @@ export const OnboardingScreen = () => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const maxWidth = useMaxContentWidth();
 
+  const isStart = currentIndex === 0;
+  const isEnd = currentIndex === contentData.length - 1;
+
+  let endText = 'EndSkip';
+  let endBtnStyle = '';
+
+  if (isEnd && region && region !== 'None') {
+    endText = 'End';
+    endBtnStyle = 'ready';
+  }
+
+  const [layout, setLayout] = useState<LayoutRectangle | undefined>();
+  const onLayout = useCallback(({nativeEvent: {layout}}: LayoutChangeEvent) => {
+    setLayout(layout);
+  }, []);
+
   const renderItem = useCallback(
     ({item}: {item: ViewKey}) => {
       const ItemComponent = viewComponents[item];
       return (
-        <Box maxWidth={maxWidth} alignSelf="center">
+        <Box maxWidth={maxWidth} alignSelf="center" style={isEnd ? styles.itemEnd : styles.item}>
           <ItemComponent />
+          <Box margin="m">
+            {isEnd ? (
+              <Button
+                text={i18n.translate(`Onboarding.Action${endText}`)}
+                variant={endBtnStyle === 'ready' ? 'thinFlat' : 'thinFlatNeutralGrey'}
+                onPress={nextItem}
+              />
+            ) : (
+              <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
+            )}
+          </Box>
         </Box>
       );
     },
-    [maxWidth],
+    [maxWidth, isEnd],
   );
 
   const nextItem = useCallback(async () => {
@@ -83,17 +110,6 @@ export const OnboardingScreen = () => {
     }
   }, []);
 
-  const isStart = currentIndex === 0;
-  const isEnd = currentIndex === contentData.length - 1;
-
-  let endText = 'EndSkip';
-  let endBtnStyle = '';
-
-  if (isEnd && region && region !== 'None') {
-    endText = 'End';
-    endBtnStyle = 'ready';
-  }
-
   const BackButton = (
     <Button
       backButton
@@ -103,11 +119,6 @@ export const OnboardingScreen = () => {
       onPress={prevItem}
     />
   );
-
-  const [layout, setLayout] = useState<LayoutRectangle | undefined>();
-  const onLayout = useCallback(({nativeEvent: {layout}}: LayoutChangeEvent) => {
-    setLayout(layout);
-  }, []);
 
   return (
     <Box flex={1} backgroundColor="overlayBackground">
@@ -154,26 +165,18 @@ export const OnboardingScreen = () => {
             </View>
           )}
         </Box>
-
-        <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
-          <Box flex={1}>
-            {isEnd ? (
-              <Button
-                text={i18n.translate(`Onboarding.Action${endText}`)}
-                variant={endBtnStyle === 'ready' ? 'thinFlat' : 'thinFlatNeutralGrey'}
-                onPress={nextItem}
-              />
-            ) : (
-              <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
-            )}
-          </Box>
-        </Box>
       </SafeAreaView>
     </Box>
   );
 };
 
 const styles = StyleSheet.create({
+  item: {
+    marginBottom: 0,
+  },
+  itemEnd: {
+    marginBottom: 180,
+  },
   spacer: {
     marginBottom: 57,
   },
