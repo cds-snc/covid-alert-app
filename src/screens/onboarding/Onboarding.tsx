@@ -4,7 +4,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {Box, Button, Text} from 'components';
 import {View, LayoutChangeEvent, LayoutRectangle, StyleSheet, FlatList, Dimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
+import {Pagination} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerScreen} from 'screens/regionPicker';
@@ -31,12 +31,12 @@ const viewComponents = {
 export const OnboardingScreen = () => {
   const [i18n] = useI18n();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const carouselRef = useRef(null);
   const flatListRef = useRef(null);
   const navigation = useNavigation();
   const {region, setRegion, setOnboarded, setOnboardedDatetime} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
   const maxWidth = useMaxContentWidth();
+  const windowWidth = Dimensions.get('window').width;
 
   const isStart = currentIndex === 0;
   const isEnd = currentIndex === contentData.length - 1;
@@ -54,20 +54,7 @@ export const OnboardingScreen = () => {
     setLayout(layout);
   }, []);
 
-  const renderItem = useCallback(
-    ({item}: {item: ViewKey}) => {
-      const ItemComponent = viewComponents[item];
-      return (
-        <Box width={Dimensions.get('window').width} maxWidth={maxWidth} alignSelf="center">
-          <ItemComponent />
-        </Box>
-      );
-    },
-    [maxWidth, isEnd, region],
-  );
-
   const nextItem = useCallback(async () => {
-    // if (carouselRef.current) {
     if (currentIndex === contentData.length - 1) {
       await setOnboarded(true);
       await setOnboardedDatetime(new Date());
@@ -79,36 +66,11 @@ export const OnboardingScreen = () => {
       return;
     }
     (flatListRef.current! as FlatList<ViewKey>).scrollToIndex({index: currentIndex + 1});
-    //   (carouselRef.current! as CarouselStatic<ViewKey>).snapToNext();
-    // }
   }, [currentIndex, navigation, setOnboarded, setOnboardedDatetime]);
-
-  // const onSnapToNewPage = (index: number) => {
-  //   // we want the EN permission dialogue to appear on the last step.
-  //   if (index === contentData.length - 1) {
-  //     startExposureNotificationService();
-  //   }
-
-  //   // we want region cleared on the 2nd last step
-  //   if (index === contentData.length - 2) {
-  //     setRegion(undefined);
-  //   }
-  // };
 
   const prevItem = useCallback(() => {
     (flatListRef.current! as FlatList<ViewKey>).scrollToIndex({index: currentIndex - 1});
-    // if (carouselRef.current) {
-    //   (carouselRef.current! as CarouselStatic<ViewKey>).snapToPrev();
-    // }
   }, [currentIndex]);
-
-  const onScrollEnd = useCallback(e => {
-    let contentOffset = e.nativeEvent.contentOffset;
-    let viewSize = e.nativeEvent.layoutMeasurement;
-
-    let pageNum = Math.floor(contentOffset.x / viewSize.width);
-    setCurrentIndex(pageNum);
-  }, []);
 
   const onViewableItemsChanged = useCallback(({viewableItems}) => {
     if (viewableItems.length <= 0) {
@@ -128,6 +90,49 @@ export const OnboardingScreen = () => {
     }
   }, []);
 
+  const renderItem = useCallback(
+    ({item}: {item: ViewKey}) => {
+      const ItemComponent = viewComponents[item];
+      return (
+        <Box width={windowWidth} maxWidth={maxWidth} alignSelf="center">
+          <ItemComponent />
+          <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
+          <Pagination
+            dotContainerStyle={styles.dotContainerStyle}
+            activeDotIndex={currentIndex + 1}
+            dotsLength={contentData.length}
+            renderDots={(activeIndex, total) => {
+              const stepText = i18n.translate('Onboarding.Step');
+              const ofText = i18n.translate('Onboarding.Of');
+              const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
+              return (
+                <Box paddingBottom="none" style={styles.dotWrapperStyle}>
+                  <Text color="gray2" variant="bodyText">
+                    {text}
+                  </Text>
+                </Box>
+              );
+            }}
+          />
+          <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
+            <Box flex={1}>
+              {isEnd ? (
+                <Button
+                  text={i18n.translate(`Onboarding.Action${endText}`)}
+                  variant={endBtnStyle === 'ready' ? 'thinFlat' : 'thinFlatNeutralGrey'}
+                  onPress={nextItem}
+                />
+              ) : (
+                <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
+              )}
+            </Box>
+          </Box>
+        </Box>
+      );
+    },
+    [currentIndex, windowWidth, maxWidth, isEnd, region, nextItem, endText],
+  );
+
   const BackButton = (
     <Button
       backButton
@@ -137,6 +142,7 @@ export const OnboardingScreen = () => {
       onPress={prevItem}
     />
   );
+
   const VIEWABILITY_CONFIG = {
     minimumViewTime: 50,
     viewAreaCoveragePercentThreshold: 100,
@@ -151,7 +157,7 @@ export const OnboardingScreen = () => {
           </Box>
         </Box>
 
-        <Box flex={1} paddingTop="s" justifyContent="center" onLayout={onLayout}>
+        <Box flex={1} justifyContent="center" onLayout={onLayout}>
           {layout && (
             <View style={styles.viewOffset}>
               <FlatList
@@ -162,60 +168,15 @@ export const OnboardingScreen = () => {
                 horizontal
                 snapToAlignment="center"
                 showsHorizontalScrollIndicator={false}
-                snapToInterval={Dimensions.get('window').width}
+                snapToInterval={windowWidth}
                 decelerationRate="fast"
                 pagingEnabled
                 disableIntervalMomentum
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={VIEWABILITY_CONFIG}
               />
-              {/* <Carousel
-                ref={carouselRef}
-                data={contentData}
-                disableIntervalMomentum
-                renderItem={renderItem}
-                sliderWidth={layout.width}
-                itemWidth={layout.width}
-                itemHeight={layout.height}
-                onSnapToItem={newIndex => {
-                  setCurrentIndex(newIndex);
-                  onSnapToNewPage(newIndex);
-                }}
-              /> */}
-              <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
-              <Pagination
-                dotContainerStyle={styles.dotContainerStyle}
-                activeDotIndex={currentIndex + 1}
-                dotsLength={contentData.length}
-                renderDots={(activeIndex, total) => {
-                  const stepText = i18n.translate('Onboarding.Step');
-                  const ofText = i18n.translate('Onboarding.Of');
-                  const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
-                  return (
-                    <Box paddingBottom="xxl" style={styles.dotWrapperStyle}>
-                      <Text color="gray2" variant="bodyText">
-                        {text}
-                      </Text>
-                    </Box>
-                  );
-                }}
-              />
             </View>
           )}
-        </Box>
-
-        <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
-          <Box flex={1}>
-            {isEnd ? (
-              <Button
-                text={i18n.translate(`Onboarding.Action${endText}`)}
-                variant={endBtnStyle === 'ready' ? 'thinFlat' : 'thinFlatNeutralGrey'}
-                onPress={nextItem}
-              />
-            ) : (
-              <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
-            )}
-          </Box>
         </Box>
       </SafeAreaView>
     </Box>
@@ -227,14 +188,14 @@ const styles = StyleSheet.create({
     marginBottom: 57,
   },
   viewOffset: {
-    marginTop: 50,
+    marginTop: 0,
   },
   flex: {
     flex: 1,
   },
   dotContainerStyle: {},
   dotWrapperStyle: {
-    marginBottom: 20,
+    marginBottom: 0,
     fontSize: 20,
   },
 });
