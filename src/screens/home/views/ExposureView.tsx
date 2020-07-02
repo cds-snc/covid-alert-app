@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {Linking} from 'react-native';
 import {useI18n} from '@shopify/react-i18n';
 import {Text, Box, ButtonSingleLine} from 'components';
@@ -9,6 +10,7 @@ import {BaseHomeView} from '../components/BaseHomeView';
 export const ExposureView = () => {
   const {region} = useStorage();
   const [i18n] = useI18n();
+  const navigation = useNavigation();
   const onActionGuidance = useCallback(() => {
     let url = i18n.translate(`RegionalGuidanceURL.CA`);
     if (region !== undefined && region !== 'None') {
@@ -19,6 +21,7 @@ export const ExposureView = () => {
     }
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
   }, [i18n, region]);
+  const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
 
   return (
     <BaseHomeView iconName="hand-caution">
@@ -34,13 +37,20 @@ export const ExposureView = () => {
         {i18n.translate('Home.ExposureDetected.Detailed2')}
       </Text>
 
-      {/* <LastCheckedDisplay /> */}
-      <Box alignSelf="stretch" marginTop="xxl" marginBottom="xl">
+      <Box alignSelf="stretch" marginTop="xxl" marginBottom="m">
         <ButtonSingleLine
           text={i18n.translate('Home.SeeGuidance')}
           variant="bigFlatPurple"
           externalLink
           onPress={onActionGuidance}
+        />
+      </Box>
+      <Box alignSelf="stretch" marginBottom="xl">
+        <ButtonSingleLine
+          text={i18n.translate('Home.ExposureDetected.HowToIsolateCTA')}
+          variant="bigFlatDarkGrey"
+          onPress={onHowToIsolate}
+          internalLink
         />
       </Box>
     </BaseHomeView>

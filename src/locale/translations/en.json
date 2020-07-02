@@ -25,7 +25,8 @@
     "ExposureDetected": {
       "Title": "You’ve been exposed",
       "Detailed1": "You’ve been near someone who reported a COVID-19 diagnosis through the app.",
-      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action."
+      "Detailed2": "This does not mean you’ve been infected. But you should probably take some action.",
+      "HowToIsolateCTA": "How to isolate"
     },
     "ChooseRegionCTA": "Choose province or territory",
     "SeeGuidance": "What now? See guidance",
@@ -309,5 +310,14 @@
     "QC": "https://www.quebec.ca/en/health/health-issues/a-z/general-information-about-coronavirus/#c53183",
     "SK": "",
     "YT": "https://yukon.ca/en/health-and-wellness/covid-19/6-steps-staying-safe-covid-19"
+  },
+  "HowToIsolate": {
+    "Title": "How to isolate",
+    "Intro": "Try your best to:",
+    "Body1": "Stay home unless it’s to get medical care.",
+    "Body2": "Avoid public transportation like buses or taxis.",
+    "Body3": "Ask for help to get groceries and supplies dropped off at your door.",
+    "Body4": "Stay in a separate room and use a separate bathroom from others in your home, if possible.",
+    "Body5": "Wear a mask safely any time you cannot take the above actions."
   }
 }

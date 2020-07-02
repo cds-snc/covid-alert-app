@@ -90,7 +90,8 @@
     "ExposureDetected": {
       "Detailed1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec cette application.",
       "Detailed2": "Cela ne veut pas dire que vous êtes infecté. Mais vous devriez probablement prendre quelques mesures.",
-      "Title": "Vous avez été exposé"
+      "Title": "Vous avez été exposé",
+      "HowToIsolateCTA": "Comment s’isoler"
     },
     "ExposureNotificationsDisabled": "Les notifications d'exposition à la COVID-19 sont désactivées",
     "ExposureNotificationsDisabledDetailed": "Les notifications d’exposition à la COVID-19 sont nécessaires au fonctionnement d’Alerte COVID.",
@@ -137,6 +138,15 @@
     "SeeGuidance": "Que faire maintenant? Lisez les recommandations.",
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "TurnOnBluetooth": "Activez Bluetooth"
+  },
+  "HowToIsolate": {
+    "Title": "Comment vous isoler",
+    "Intro": "Faites votre possible pour :",
+    "Body1": "Rester à la maison, sauf si vous avez besoin de soins médicaux.",
+    "Body2": "Éviter les transports publics comme les autobus et les taxis.",
+    "Body3": "Demander de l’aide pour recevoir votre épicerie et vos provisions à votre porte.",
+    "Body4": "Utiliser une pièce et une salle de bain séparées des autres de votre maison, si possible.",
+    "Body5": "Porter un masque de façon sécuritaire chaque fois qu’il n’est pas possible de suivre les mesures ci-dessus."
   },
   "Info": {
     "ChangeLanguage": "Modifier la langue",
