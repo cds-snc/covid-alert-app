@@ -146,7 +146,7 @@ export const OnboardingScreen = () => {
     />
   );
 
-  const VIEWABILITY_CONFIG = {
+  const viewabilityConfig = {
     minimumViewTime: 50,
     viewAreaCoveragePercentThreshold: 100,
   };
