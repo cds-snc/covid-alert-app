@@ -176,8 +176,9 @@ export class ExposureNotificationService {
     }
     const auth = JSON.parse(submissionKeysStr) as SubmissionKeySet;
     const diagnosisKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
-
-    await this.backendInterface.reportDiagnosisKeys(auth, diagnosisKeys);
+    if (diagnosisKeys.length > 0) {
+      await this.backendInterface.reportDiagnosisKeys(auth, diagnosisKeys);
+    }
     await this.recordKeySubmission();
   }
 
