@@ -198,7 +198,7 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "InfoSmall": "Your random codess will not be uploaded unless you give permission in the next step.",
+    "InfoSmall": "Your random codes will not be uploaded unless you give permission in the next step.",
     "ShareToast": "Random codes uploaded successfully",
     "Step1": {
       "Title": "Let people know they may have been exposed",
