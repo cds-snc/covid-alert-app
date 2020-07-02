@@ -26,11 +26,11 @@
       "Title": "You’ve been exposed in the last 14 days",
       "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
       "Title2": "What now?",
-      "Body2": "You’re at risk of being infected. *You need to isolate for 14 days.*"
+      "Body2": "You’re at risk of being infected. ",
+      "Body3": "You need to isolate for 14 days.",
+      "HowToIsolateCTA": "How to isolate"
     },
     "ChooseRegionCTA": "Choose province or territory",
-    "SeeGuidance": "What now? See guidance",
-    "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
     "How": "Diagnosed with COVID-19?",
     "CTA": "What to do next",
     "HowUrl": "https://www.canada.ca/",
@@ -295,20 +295,71 @@
     "SK": "Saskatchewan",
     "YT": "Yukon"
   },
-  "RegionalGuidanceURL": {
-    "CA": "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/symptoms.html#s",
-    "AB": "",
-    "BC": "",
-    "MB": "https://www.gov.mb.ca/covid19/about/index.html",
-    "NB": "https://www2.gnb.ca/content/gnb/en/corporate/promo/covid-19.html",
-    "NL": "",
-    "NT": "https://www.gov.nt.ca/covid-19/en/services/about-covid-19",
-    "NS": "https://novascotia.ca/coronavirus/when-to-seek-help/",
-    "NU": "https://www.gov.nu.ca/health/information/covid-19-novel-coronavirus#Covid%20Facts",
-    "ON": "https://covid-19.ontario.ca/covid-19-assessment-centres",
-    "PE": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-19-faqs",
-    "QC": "https://www.quebec.ca/en/health/health-issues/a-z/general-information-about-coronavirus/#c53183",
-    "SK": "",
-    "YT": "https://yukon.ca/en/health-and-wellness/covid-19/6-steps-staying-safe-covid-19"
+  "RegionalGuidance": {
+    "CA": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://ca.thrive.health/covid19/en"
+    },
+    "AB": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://myhealth.alberta.ca/Journey/COVID-19/Pages/PubAsympIsolate.aspx"
+    },
+    "BC": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://bc.thrive.health/covid19/en"
+    },
+    "MB": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://sharedhealthmb.ca/covid19/screening-tool/"
+    },
+    "NB": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://www2.gnb.ca/content/gnb/en/departments/ocmoh/cdc/content/respiratory_diseases/coronavirus/coronavirusexposure.html#/app/symptom-checker/guides/399/what-to-do"
+    },
+    "NL": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://nl.thrive.health/covid19/en"
+    },
+    "NT": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://www.surveymonkey.com/r/nwt-covid19-self-assessment"
+    },
+    "NS": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://novascotia.ca/coronavirus/when-to-seek-help/#if-exposed"
+    },
+    "NU": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://nu.thrive.health/covid19/en"
+    },
+    "ON": {
+      "CTA": "Where to get tested",
+      "URL": "https://covid-19.ontario.ca/assessment-centre-locations/"
+    },
+    "PE": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-19-self-isolation"
+    },
+    "QC": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/instructions-for-people-who-have-been-in-contact-with-a-confirmed-case-of-covid-19/"
+    },
+    "SK": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/covid-19-self-assessment"
+    },
+    "YT": {
+      "CTA": "Find out if you need to be tested",
+      "URL": "https://service.yukon.ca/en/covid-19-self-assessment/"
+    }
+  },
+  "HowToIsolate": {
+    "Title": "How to isolate",
+    "Intro": "Try your best to:",
+    "Body1": "Stay home unless it’s to get medical care.",
+    "Body2": "Avoid public transportation like buses or taxis.",
+    "Body3": "Ask for help to get groceries and supplies dropped off at your door.",
+    "Body4": "Stay in a separate room and use a separate bathroom from others in your home, if possible.",
+    "Body5": "Wear a mask safely any time you cannot take the above actions."
   }
 }
