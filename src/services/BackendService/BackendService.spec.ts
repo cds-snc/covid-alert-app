@@ -88,33 +88,6 @@ describe('BackendService', () => {
   });
 
   describe('reportDiagnosisKeys', () => {
-    it('filters duplicated rollingStartIntervalNumber', async () => {
-      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 0);
-
-      await backendService.reportDiagnosisKeys(
-        {
-          clientPrivateKey: 'mock',
-          clientPublicKey: 'mock',
-          serverPublicKey: 'mock',
-        },
-        [
-          ...generateRandomKeys(10),
-          {
-            keyData: '',
-            rollingPeriod: 10,
-            rollingStartIntervalNumber: 0,
-            transmissionRiskLevel: 0,
-          },
-        ],
-      );
-
-      expect(covidshield.Upload.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          keys: expect.toHaveLength(10),
-        }),
-      );
-    });
-
     it('returns last 14 keys if there is more than 14', async () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 0);
       const keys = generateRandomKeys(20);

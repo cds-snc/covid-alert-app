@@ -63,14 +63,7 @@ export class BackendService implements BackendInterface {
   async reportDiagnosisKeys(keyPair: SubmissionKeySet, _exposureKeys: TemporaryExposureKey[]) {
     // Ref https://github.com/CovidShield/mobile/issues/192
     const filteredExposureKeys = Object.values(
-      _exposureKeys
-        .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
-        .filter((value, index, array) => {
-          const previousIndex = array.findIndex(
-            lookup => lookup.rollingStartIntervalNumber === value.rollingStartIntervalNumber,
-          );
-          return previousIndex === index;
-        }),
+      _exposureKeys.sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
 
