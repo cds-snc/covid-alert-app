@@ -82,8 +82,8 @@ class Subscriptions<T> {
 }
 
 export class Observable<T> {
-  value: T;
-  subscriptions: Subscriptions<T> = new Subscriptions();
+  private value: T;
+  private subscriptions: Subscriptions<T> = new Subscriptions();
 
   constructor(defaultValue: T) {
     this.value = defaultValue;

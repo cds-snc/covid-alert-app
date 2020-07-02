@@ -70,7 +70,7 @@ export function useStartExposureNotificationService(): () => Promise<void> {
 
 export function useSystemStatus(): [SystemStatus, () => void] {
   const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
-  const [state, setState] = useState<SystemStatus>(exposureNotificationService.systemStatus.value);
+  const [state, setState] = useState<SystemStatus>(exposureNotificationService.systemStatus.get());
   const update = useCallback(() => {
     exposureNotificationService.updateSystemStatus();
   }, [exposureNotificationService]);
@@ -86,7 +86,7 @@ export function useSystemStatus(): [SystemStatus, () => void] {
 
 export function useExposureStatus(): [ExposureStatus, () => void] {
   const exposureNotificationService = useContext(ExposureNotificationServiceContext)!;
-  const [state, setState] = useState<ExposureStatus>(exposureNotificationService.exposureStatus.value);
+  const [state, setState] = useState<ExposureStatus>(exposureNotificationService.exposureStatus.get());
   const update = useCallback(() => {
     exposureNotificationService.updateExposureStatus();
   }, [exposureNotificationService]);
