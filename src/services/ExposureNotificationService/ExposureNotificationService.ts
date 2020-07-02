@@ -68,7 +68,7 @@ export class ExposureNotificationService {
   private storage: PersistencyProvider;
   private secureStorage: SecurePersistencyProvider;
 
-  private exposureStatusUpdatePromise: Promise<ExposureStatus> | null = null;
+  private exposureStatusUpdatePromise: Promise<void> | null = null;
 
   constructor(
     backendInterface: BackendInterface,
@@ -111,22 +111,22 @@ export class ExposureNotificationService {
     this.starting = false;
   }
 
-  async updateSystemStatus(): Promise<SystemStatus> {
+  async updateSystemStatus(): Promise<void> {
     const status = await this.exposureNotification.getStatus();
     this.systemStatus.set(status);
-    return this.systemStatus.get();
   }
 
   async updateExposureStatusInBackground() {
-    const status = await this.updateExposureStatus();
-    if (status.type === 'exposed') {
+    const lastStatus = this.exposureStatus.get();
+    await this.updateExposureStatus();
+    const currentStatus = this.exposureStatus.get();
+    if (lastStatus.type === 'monitoring' && currentStatus.type === 'exposed') {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
         alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
       });
     }
-
-    if (status.type === 'diagnosed' && status.needsSubmission) {
+    if (currentStatus.type === 'diagnosed' && currentStatus.needsSubmission) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
         alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
@@ -134,7 +134,7 @@ export class ExposureNotificationService {
     }
   }
 
-  async updateExposureStatus(): Promise<ExposureStatus> {
+  async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
       this.exposureStatusUpdatePromise = null;
@@ -215,7 +215,7 @@ export class ExposureNotificationService {
     return false;
   }
 
-  private async performExposureStatusUpdate(): Promise<ExposureStatus> {
+  private async performExposureStatusUpdate(): Promise<void> {
     const exposureConfiguration = await this.backendInterface.getExposureConfiguration();
     const lastCheckDate = await (async () => {
       const timestamp = this.exposureStatus.get().lastChecked;
@@ -228,7 +228,6 @@ export class ExposureNotificationService {
     const finalize = async (status: Partial<ExposureStatus> = {}) => {
       const timestamp = new Date().getTime();
       this.exposureStatus.append({...status, lastChecked: timestamp});
-      return this.exposureStatus.get();
     };
 
     const currentStatus = this.exposureStatus.get();
