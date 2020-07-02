@@ -11,39 +11,41 @@ export const ExposureView = () => {
   const {region} = useStorage();
   const [i18n] = useI18n();
   const navigation = useNavigation();
-  const onActionGuidance = useCallback(() => {
-    let url = i18n.translate(`RegionalGuidanceURL.CA`);
+  const getGuidanceURL = useCallback(() => {
     if (region !== undefined && region !== 'None') {
-      const regionalURL = i18n.translate(`RegionalGuidanceURL.${region}`);
-      if (regionalURL !== '') {
-        url = regionalURL;
-      }
+      return i18n.translate(`RegionalGuidance.${region}.URL`);
     }
-    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+    return i18n.translate(`RegionalGuidance.CA.URL`);
   }, [i18n, region]);
+
+  const getGuidanceCTA = useCallback(() => {
+    if (region !== undefined && region !== 'None') {
+      return i18n.translate(`RegionalGuidance.${region}.CTA`);
+    }
+    return i18n.translate(`RegionalGuidance.CA.CTA`);
+  }, [i18n, region]);
+
+  const onActionGuidance = useCallback(() => {
+    Linking.openURL(getGuidanceURL()).catch(err => console.error('An error occurred', err));
+  }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
 
   return (
     <BaseHomeView iconName="hand-caution">
-      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+      <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.ExposureDetected.Title')}
-        {/* No exposure detected */}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="m">
-        {i18n.translate('Home.ExposureDetected.Detailed1')}
+      <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
+      <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
+        {i18n.translate('Home.ExposureDetected.Title2')}
       </Text>
-
-      <Text variant="bodyText" color="bodyText">
-        {i18n.translate('Home.ExposureDetected.Detailed2')}
+      <Text>
+        <Text>{i18n.translate('Home.ExposureDetected.Body2')}</Text>
+        <Text fontWeight="bold">{i18n.translate('Home.ExposureDetected.Body3')}</Text>
       </Text>
 
       <Box alignSelf="stretch" marginTop="xxl" marginBottom="m">
-        <ButtonSingleLine
-          text={i18n.translate('Home.SeeGuidance')}
-          variant="bigFlatPurple"
-          externalLink
-          onPress={onActionGuidance}
-        />
+        <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
       </Box>
       <Box alignSelf="stretch" marginBottom="xl">
         <ButtonSingleLine
