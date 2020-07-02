@@ -239,8 +239,8 @@
         "ChooseRegionCTA": "Choose province or territory"
       },
       "RegionCovered": {
-        "Title": "No 8-digit number?",
-        "Body": "Contact the person or office that gave you your results to get a number."
+        "Title": "Get an 8-digit number",
+        "Body": "If you’ve tested positive in Ontario:\n\n1. Log in to the COVID-19 Test Results Website.\n\n2. Go to your test results page.\n\n3. Copy the 8-digit number.\n\n4. Come back here and enter the number."
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
