@@ -11,6 +11,8 @@ import {TRANSMISSION_RISK_LEVEL, REGION} from 'env';
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
+const MAX_UPLOAD_KEYS = 14;
+
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
   submitUrl: string;
@@ -28,6 +30,7 @@ export class BackendService implements BackendInterface {
     const message = `${this.region}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${this.region}/${period}/${hmac}`;
+    console.log('ccccc url', url);
     return downloadDiagnosisKeysFile(url);
   }
 
@@ -58,7 +61,16 @@ export class BackendService implements BackendInterface {
     };
   }
 
-  async reportDiagnosisKeys(keyPair: SubmissionKeySet, exposureKeys: TemporaryExposureKey[]) {
+  async reportDiagnosisKeys(keyPair: SubmissionKeySet, _exposureKeys: TemporaryExposureKey[]) {
+    const filteredExposureKeys = Object.values(
+      _exposureKeys
+        .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
+        .reduce((acc, value) => {
+          return {...acc, [value.rollingStartIntervalNumber]: value};
+        }, {} as {[key in number]: TemporaryExposureKey}),
+    );
+    const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
+
     const upload = covidshield.Upload.create({
       timestamp: {seconds: Math.floor(new Date().getTime() / 1000)},
       keys: exposureKeys.map(key =>
