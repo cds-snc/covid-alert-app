@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Linking} from 'react-native';
 import {useI18n} from '@shopify/react-i18n';
-import {Text, Box, Button, ButtonSingleLine} from 'components';
+import {Text, Box, ButtonSingleLine} from 'components';
 import {useStorage} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -37,7 +37,6 @@ export const ExposureView = () => {
         {i18n.translate('Home.ExposureDetected.Detailed2')}
       </Text>
 
-      {/* <LastCheckedDisplay /> */}
       <Box alignSelf="stretch" marginTop="xxl" marginBottom="m">
         <ButtonSingleLine
           text={i18n.translate('Home.SeeGuidance')}
