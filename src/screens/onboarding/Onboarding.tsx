@@ -2,7 +2,7 @@ import React, {useCallback, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
 import {Box, Button, Text} from 'components';
-import {View, LayoutChangeEvent, LayoutRectangle, StyleSheet} from 'react-native';
+import {View, LayoutChangeEvent, LayoutRectangle, StyleSheet, FlatList, Dimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
@@ -32,6 +32,7 @@ export const OnboardingScreen = () => {
   const [i18n] = useI18n();
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
+  const flatListRef = useRef(null);
   const navigation = useNavigation();
   const {region, setRegion, setOnboarded, setOnboardedDatetime} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -57,19 +58,8 @@ export const OnboardingScreen = () => {
     ({item}: {item: ViewKey}) => {
       const ItemComponent = viewComponents[item];
       return (
-        <Box maxWidth={maxWidth} alignSelf="center" style={isEnd ? styles.itemEnd : styles.item}>
+        <Box width={Dimensions.get('window').width} maxWidth={maxWidth} alignSelf="center">
           <ItemComponent />
-          <Box margin="m">
-            {isEnd ? (
-              <Button
-                text={i18n.translate(`Onboarding.Action${endText}`)}
-                variant={endBtnStyle === 'ready' ? 'thinFlat' : 'thinFlatNeutralGrey'}
-                onPress={nextItem}
-              />
-            ) : (
-              <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
-            )}
-          </Box>
         </Box>
       );
     },
@@ -77,22 +67,56 @@ export const OnboardingScreen = () => {
   );
 
   const nextItem = useCallback(async () => {
-    if (carouselRef.current) {
-      if (currentIndex === contentData.length - 1) {
-        await setOnboarded(true);
-        await setOnboardedDatetime(new Date());
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'Home'}],
-        });
+    // if (carouselRef.current) {
+    if (currentIndex === contentData.length - 1) {
+      await setOnboarded(true);
+      await setOnboardedDatetime(new Date());
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
 
-        return;
-      }
-      (carouselRef.current! as CarouselStatic<ViewKey>).snapToNext();
+      return;
     }
+    (flatListRef.current! as FlatList<ViewKey>).scrollToIndex({index: currentIndex + 1});
+    //   (carouselRef.current! as CarouselStatic<ViewKey>).snapToNext();
+    // }
   }, [currentIndex, navigation, setOnboarded, setOnboardedDatetime]);
 
-  const onSnapToNewPage = (index: number) => {
+  // const onSnapToNewPage = (index: number) => {
+  //   // we want the EN permission dialogue to appear on the last step.
+  //   if (index === contentData.length - 1) {
+  //     startExposureNotificationService();
+  //   }
+
+  //   // we want region cleared on the 2nd last step
+  //   if (index === contentData.length - 2) {
+  //     setRegion(undefined);
+  //   }
+  // };
+
+  const prevItem = useCallback(() => {
+    (flatListRef.current! as FlatList<ViewKey>).scrollToIndex({index: currentIndex - 1});
+    // if (carouselRef.current) {
+    //   (carouselRef.current! as CarouselStatic<ViewKey>).snapToPrev();
+    // }
+  }, [currentIndex]);
+
+  const onScrollEnd = useCallback(e => {
+    let contentOffset = e.nativeEvent.contentOffset;
+    let viewSize = e.nativeEvent.layoutMeasurement;
+
+    let pageNum = Math.floor(contentOffset.x / viewSize.width);
+    setCurrentIndex(pageNum);
+  }, []);
+
+  const onViewableItemsChanged = useCallback(({viewableItems}) => {
+    if (viewableItems.length <= 0) {
+      return;
+    }
+    const index: number = viewableItems[0].index;
+    setCurrentIndex(index);
+
     // we want the EN permission dialogue to appear on the last step.
     if (index === contentData.length - 1) {
       startExposureNotificationService();
@@ -101,12 +125,6 @@ export const OnboardingScreen = () => {
     // we want region cleared on the 2nd last step
     if (index === contentData.length - 2) {
       setRegion(undefined);
-    }
-  };
-
-  const prevItem = useCallback(() => {
-    if (carouselRef.current) {
-      (carouselRef.current! as CarouselStatic<ViewKey>).snapToPrev();
     }
   }, []);
 
@@ -119,6 +137,10 @@ export const OnboardingScreen = () => {
       onPress={prevItem}
     />
   );
+  const VIEWABILITY_CONFIG = {
+    minimumViewTime: 50,
+    viewAreaCoveragePercentThreshold: 100,
+  };
 
   return (
     <Box flex={1} backgroundColor="overlayBackground">
@@ -132,9 +154,25 @@ export const OnboardingScreen = () => {
         <Box flex={1} paddingTop="s" justifyContent="center" onLayout={onLayout}>
           {layout && (
             <View style={styles.viewOffset}>
-              <Carousel
+              <FlatList
+                ref={flatListRef}
+                data={contentData}
+                renderItem={renderItem}
+                keyExtractor={item => item}
+                horizontal
+                snapToAlignment="center"
+                showsHorizontalScrollIndicator={false}
+                snapToInterval={Dimensions.get('window').width}
+                decelerationRate="fast"
+                pagingEnabled
+                disableIntervalMomentum
+                onViewableItemsChanged={onViewableItemsChanged}
+                viewabilityConfig={VIEWABILITY_CONFIG}
+              />
+              {/* <Carousel
                 ref={carouselRef}
                 data={contentData}
+                disableIntervalMomentum
                 renderItem={renderItem}
                 sliderWidth={layout.width}
                 itemWidth={layout.width}
@@ -143,7 +181,7 @@ export const OnboardingScreen = () => {
                   setCurrentIndex(newIndex);
                   onSnapToNewPage(newIndex);
                 }}
-              />
+              /> */}
               <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
               <Pagination
                 dotContainerStyle={styles.dotContainerStyle}
@@ -165,18 +203,26 @@ export const OnboardingScreen = () => {
             </View>
           )}
         </Box>
+
+        <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
+          <Box flex={1}>
+            {isEnd ? (
+              <Button
+                text={i18n.translate(`Onboarding.Action${endText}`)}
+                variant={endBtnStyle === 'ready' ? 'thinFlat' : 'thinFlatNeutralGrey'}
+                onPress={nextItem}
+              />
+            ) : (
+              <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
+            )}
+          </Box>
+        </Box>
       </SafeAreaView>
     </Box>
   );
 };
 
 const styles = StyleSheet.create({
-  item: {
-    marginBottom: 0,
-  },
-  itemEnd: {
-    marginBottom: 180,
-  },
   spacer: {
     marginBottom: 57,
   },

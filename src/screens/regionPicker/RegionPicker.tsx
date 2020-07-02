@@ -12,7 +12,7 @@ export const RegionPickerScreen = () => {
   const {region, setRegion} = useStorage();
 
   return (
-    <Box justifyContent="flex-start" backgroundColor="overlayBackground">
+    <Box style={regionStyles.flex} justifyContent="flex-start" backgroundColor="overlayBackground">
       <SafeAreaView style={regionStyles.flex}>
         <ScrollView style={regionStyles.flex}>
           <Box flex={1} paddingHorizontal="m">
