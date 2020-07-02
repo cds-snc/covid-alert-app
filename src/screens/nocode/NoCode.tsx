@@ -16,7 +16,7 @@ interface ContentProps {
 
 const Content = ({title, body, list}: ContentProps) => {
   return (
-    <Box paddingHorizontal="m">
+    <Box>
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {title}
       </Text>
@@ -52,7 +52,7 @@ export const NoCodeScreen = () => {
           />
           <ButtonSingleLine
             text={i18n.translate('DataUpload.NoCode.NoRegion.ChooseRegionCTA')}
-            variant="bigFlatNeutralGrey"
+            variant="bigFlatDarkGrey"
             internalLink
             onPress={onChooseRegion}
           />
@@ -84,7 +84,7 @@ export const NoCodeScreen = () => {
           onIconClicked={close}
         />
         <ScrollView style={styles.flex}>
-          <Box paddingHorizontal="s">{content}</Box>
+          <Box paddingHorizontal="m">{content}</Box>
         </ScrollView>
       </SafeAreaView>
     </Box>
