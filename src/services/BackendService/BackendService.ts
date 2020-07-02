@@ -11,6 +11,8 @@ import {TRANSMISSION_RISK_LEVEL, REGION} from 'env';
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
+const MAX_UPLOAD_KEYS = 14;
+
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
   submitUrl: string;
@@ -58,7 +60,13 @@ export class BackendService implements BackendInterface {
     };
   }
 
-  async reportDiagnosisKeys(keyPair: SubmissionKeySet, exposureKeys: TemporaryExposureKey[]) {
+  async reportDiagnosisKeys(keyPair: SubmissionKeySet, _exposureKeys: TemporaryExposureKey[]) {
+    // Ref https://github.com/CovidShield/mobile/issues/192
+    const filteredExposureKeys = Object.values(
+      _exposureKeys.sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
+    );
+    const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
+
     const upload = covidshield.Upload.create({
       timestamp: {seconds: Math.floor(new Date().getTime() / 1000)},
       keys: exposureKeys.map(key =>
