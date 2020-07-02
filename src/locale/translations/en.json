@@ -34,7 +34,7 @@
     "CTA": "What to do next",
     "HowUrl": "https://www.canada.ca/",
     "DiagnosedView": {
-      "Title": "Thanks for helping fight COVID",
+      "Title": "Thanks for helping fight COVID-19",
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
         "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
@@ -87,8 +87,8 @@
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
     "EnterCodeCardBody": "You were given an 8-digit number when you were diagnosed. This number tells COVID Alert to notify people you were near.",
     "EnterCodeCardAction": "Enter number",
-    "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID",
-    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to stop the spread. ",
+    "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
+    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
     "EnterCodeCardDiagnosedCountdown": "{number} out of 14 days left!",
     "NotificationCardStatus": "Push notifications are off",
     "NotificationCardStatusOff": "OFF",
@@ -198,8 +198,8 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
-    "InfoSmall": "Your random IDs will not be shared unless you give permission in the next step.",
-    "ShareToast": "Random IDs shared successfully",
+    "InfoSmall": "Your random codess will not be uploaded unless you give permission in the next step.",
+    "ShareToast": "Random codes uploaded successfully",
     "Step1": {
       "Title": "Let people know they may have been exposed",
       "Body1a": "Step 1. ",
@@ -244,9 +244,9 @@
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
         "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nYou will not be able to notify people you’ve been near that they were exposed. But you can still take steps to:",
-        "Body2": "keep your community safe.",
-        "Body3": "protect people and pets you live with.",
-        "Body4": "take care of yourself."
+        "Body2": "Keep your community safe.",
+        "Body3": "Protect people and pets you live with.",
+        "Body4": "Take care of yourself."
       }
     }
   },
