@@ -39,13 +39,14 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
     fun downloadDiagnosisKeysFile(url: String, promise: Promise) {
         promise.launch(this) {
             val request = Request.Builder().url(url).build()
-            val response = okHttpClient.newCall(request).execute()
-            if (response.code() != 200) {
-                throw IOException()
+            okHttpClient.newCall(request).execute().use { response ->
+                if (response.code() != 200) {
+                    throw IOException()
+                }
+                val bytes = response.body()?.bytes() ?: throw IOException()
+                val fileName = writeFile(bytes)
+                promise.resolve(fileName)
             }
-            val bytes = response.body()?.bytes() ?: throw IOException()
-            val fileName = writeFile(bytes)
-            promise.resolve(fileName)
         }
     }
 
