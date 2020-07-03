@@ -152,7 +152,7 @@ const theme = {
     danger50Flat: {
       color: palette.danger50,
       height: 52,
-      textColor: palette.black,
+      textColor: palette.white,
       fontFamily: 'Noto Sans',
       fontSize: 18,
       borderBottomWidth: 4,
