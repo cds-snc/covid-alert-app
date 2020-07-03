@@ -17,9 +17,11 @@ interface ContentProps {
 }
 
 const Content = ({title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
-  const onCTA = () => {
-    externalLinkCTA && Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err));
-  };
+  const onCTA =
+    externalLinkCTA &&
+    useCallback(() => {
+      Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err));
+    }, [externalLinkCTA]);
   return (
     <Box>
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
