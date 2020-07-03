@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, ButtonSingleLine, BulletPointCheck, OnboardingHeader} from 'components';
+import {Box, ButtonSingleLine, BulletPointCheck, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 
@@ -22,11 +22,7 @@ export const HowItWorks = () => {
         <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body2')} />
         <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body3')} />
 
-        <Box marginBottom="m">
-          <Text variant="bodyText" color="overlayBodyText" />
-        </Box>
-
-        <Box alignSelf="stretch" marginTop="m" marginBottom="l">
+        <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
           <Box>
             <ButtonSingleLine
               text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
