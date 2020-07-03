@@ -199,7 +199,7 @@ const theme = {
       },
     },
     bigFlat: {
-      color: palette.brandBlue,
+      color: palette.linkBlue,
       height: 52,
       textColor: palette.white,
       fontFamily: 'Noto Sans',
