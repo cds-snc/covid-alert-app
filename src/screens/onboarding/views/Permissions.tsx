@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, ButtonSingleLine, OnboardingHeader} from 'components';
+import {Box, Button, Text, ButtonSingleLine, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 
@@ -10,6 +10,8 @@ export const Permissions = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
+
+  const onNext = useCallback(() => navigation.navigate('NoCode'), [navigation]);
   return (
     <BaseOnboardingView>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
@@ -42,6 +44,7 @@ export const Permissions = () => {
           </Box>
         </Box>
       </ScrollView>
+      <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={onNext} />
     </BaseOnboardingView>
   );
 };

@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, OnboardingHeader} from 'components';
+import {Box, Button, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {useNavigation} from '@react-navigation/native';
 
 import {BaseOnboardingView} from '../components/BaseOnboardingView';
 
 export const Start = () => {
   const [i18n] = useI18n();
+  const navigation = useNavigation();
+
+  const onNext = useCallback(() => navigation.navigate('OnboardingWhatItsNot'), [navigation]);
+
   return (
     <BaseOnboardingView>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
@@ -30,6 +35,9 @@ export const Start = () => {
           </Box>
         </Box>
       </ScrollView>
+      <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
+        <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={onNext} />
+      </Box>
     </BaseOnboardingView>
   );
 };

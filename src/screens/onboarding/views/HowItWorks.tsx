@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, ButtonSingleLine, BulletPointCheck, OnboardingHeader} from 'components';
+import {Box, Button, Text, ButtonSingleLine, BulletPointCheck, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 
@@ -10,6 +10,8 @@ export const HowItWorks = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
+  const onNext = useCallback(() => navigation.navigate('OnboardingPermissions'), [navigation]);
+
   return (
     <BaseOnboardingView>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
@@ -41,6 +43,7 @@ export const HowItWorks = () => {
           </Box>
         </Box>
       </ScrollView>
+      <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={onNext} />
     </BaseOnboardingView>
   );
 };

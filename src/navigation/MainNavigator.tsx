@@ -14,6 +14,11 @@ import {RegionPickerSettingsScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Start} from 'screens/onboarding/views/Start';
+import {Permissions} from 'screens/onboarding/views/Permissions';
+import {Anonymous} from 'screens/onboarding/views/Anonymous';
+import {HowItWorks} from 'screens/onboarding/views/HowItWorks';
+import {WhatItsNot} from 'screens/onboarding/views/WhatItsNot';
 
 enableScreens();
 
@@ -57,7 +62,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 }
 
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
-const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
+// const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
@@ -66,6 +71,12 @@ const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScr
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
 
+const OnboardingStartWithNavBar = withDarkNav(Start);
+const OnboardingPermissionsWithNavBar = withDarkNav(Permissions);
+const OnboardingAnonymousWithNavBar = withDarkNav(Anonymous);
+const OnboardingHowItWorksWithNavBar = withDarkNav(HowItWorks);
+const OnboardingWhatItsNotWithNavBar = withDarkNav(WhatItsNot);
+
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
   return (
@@ -73,7 +84,11 @@ const OnboardingNavigator = () => {
       screenOptions={{stackAnimation: 'fade', headerShown: false}}
       initialRouteName="OnboardingTutorial"
     >
-      <OnboardingStack.Screen name="OnboardingTutorial" component={OnboardingScreenWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingStart" component={OnboardingStartWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingPermissions" component={OnboardingPermissionsWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingAnonymous" component={OnboardingAnonymousWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingHowItWorks" component={OnboardingHowItWorksWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingWhatItsNot" component={OnboardingWhatItsNotWithNavBar} />
     </OnboardingStack.Navigator>
   );
 };

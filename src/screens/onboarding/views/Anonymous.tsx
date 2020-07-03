@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, BulletPointX, Text, OnboardingHeader} from 'components';
+import {Box, Button, BulletPointX, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {useNavigation} from '@react-navigation/native';
 
 import {BaseOnboardingView} from '../components/BaseOnboardingView';
 
 export const Anonymous = () => {
   const [i18n] = useI18n();
+  const navigation = useNavigation();
+  const onNext = useCallback(() => navigation.navigate('OnboardingHowItWorks'), [navigation]);
   return (
     <BaseOnboardingView>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
@@ -35,6 +38,7 @@ export const Anonymous = () => {
           <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet4')} />
         </Box>
       </ScrollView>
+      <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={onNext} />
     </BaseOnboardingView>
   );
 };

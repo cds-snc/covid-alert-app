@@ -7,26 +7,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel, {CarouselStatic, Pagination} from 'react-native-snap-carousel';
 import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 import {useStorage} from 'services/StorageService';
-import {RegionPickerScreen} from 'screens/regionPicker';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
-
-import {Start} from './views/Start';
-import {WhatItsNot} from './views/WhatItsNot';
-import {Anonymous} from './views/Anonymous';
-import {HowItWorks} from './views/HowItWorks';
-import {Permissions} from './views/Permissions';
 
 type ViewKey = 'start' | 'whatItsNot' | 'anonymous' | 'howItWorks' | 'permissions' | 'region';
 
 const contentData: ViewKey[] = ['start', 'whatItsNot', 'anonymous', 'howItWorks', 'permissions', 'region'];
-const viewComponents = {
-  start: Start,
-  whatItsNot: WhatItsNot,
-  anonymous: Anonymous,
-  howItWorks: HowItWorks,
-  permissions: Permissions,
-  region: RegionPickerScreen,
-};
 
 export const BaseOnboardingView = ({children}: {children: React.ReactNode}) => {
   const [i18n] = useI18n();
@@ -155,7 +140,7 @@ export const BaseOnboardingView = ({children}: {children: React.ReactNode}) => {
             </View>
           )}
         </Box>
-
+        {/*
         <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
           <Box flex={1}>
             {isEnd ? (
@@ -168,7 +153,7 @@ export const BaseOnboardingView = ({children}: {children: React.ReactNode}) => {
               <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
             )}
           </Box>
-        </Box>
+        </Box> */}
       </SafeAreaView>
     </Box>
   );
