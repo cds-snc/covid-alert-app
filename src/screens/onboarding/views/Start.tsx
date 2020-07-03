@@ -3,8 +3,9 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Button, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {BaseOnboardingView} from '../components/BaseOnboardingView';
+import {NextButton} from '../components/NextButton';
 
 export const Start = () => {
   const [i18n] = useI18n();
@@ -13,32 +14,34 @@ export const Start = () => {
   const onNext = useCallback(() => navigation.navigate('OnboardingWhatItsNot'), [navigation]);
 
   return (
-    <BaseOnboardingView>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-        <Box flex={1} paddingHorizontal="xl">
-          <OnboardingHeader
-            text={i18n.translate('Onboarding.Start.Title')}
-            imageSrc={require('assets/onboarding-start.png')}
-            accessible
-            accessibilityLabel={i18n.translate('Onboarding.Start.ImageAltText')}
-          />
+    <Box flex={1} backgroundColor="overlayBackground">
+      <SafeAreaView style={styles.flex}>
+        <Box flex={1} paddingTop="s" justifyContent="center">
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+            <Box flex={1} paddingHorizontal="xl">
+              <OnboardingHeader
+                text={i18n.translate('Onboarding.Start.Title')}
+                imageSrc={require('assets/onboarding-start.png')}
+                accessible
+                accessibilityLabel={i18n.translate('Onboarding.Start.ImageAltText')}
+              />
 
-          <Box marginBottom="m">
-            <Text variant="bodyText" color="overlayBodyText">
-              {i18n.translate('Onboarding.Start.Body1')}
-            </Text>
-          </Box>
-          <Box marginBottom="m">
-            <Text variant="bodyText" color="overlayBodyText">
-              {i18n.translate('Onboarding.Start.Body2')}
-            </Text>
-          </Box>
+              <Box marginBottom="m">
+                <Text variant="bodyText" color="overlayBodyText">
+                  {i18n.translate('Onboarding.Start.Body1')}
+                </Text>
+              </Box>
+              <Box marginBottom="m">
+                <Text variant="bodyText" color="overlayBodyText">
+                  {i18n.translate('Onboarding.Start.Body2')}
+                </Text>
+              </Box>
+            </Box>
+          </ScrollView>
+          <NextButton onNext={onNext} />
         </Box>
-      </ScrollView>
-      <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
-        <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={onNext} />
-      </Box>
-    </BaseOnboardingView>
+      </SafeAreaView>
+    </Box>
   );
 };
 
@@ -46,5 +49,8 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     justifyContent: 'center',
+  },
+  flex: {
+    flex: 1,
   },
 });

@@ -3,8 +3,10 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Button, Text, ButtonSingleLine, BulletPointCheck, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {BaseOnboardingView} from '../components/BaseOnboardingView';
+import {BackButton} from '../components/BackButton';
+import {NextButton} from '../components/NextButton';
 
 export const HowItWorks = () => {
   const [i18n] = useI18n();
@@ -13,38 +15,43 @@ export const HowItWorks = () => {
   const onNext = useCallback(() => navigation.navigate('OnboardingPermissions'), [navigation]);
 
   return (
-    <BaseOnboardingView>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-        <Box flex={1} paddingHorizontal="xl">
-          <OnboardingHeader
-            text={i18n.translate('Onboarding.HowItWorks.Title')}
-            imageSrc={require('assets/onboarding-howitworks.png')}
-            accessible
-            accessibilityLabel={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
-          />
-
-          <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body1')} />
-          <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body2')} />
-          <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body3')} />
-
-          <Box marginBottom="m">
-            <Text variant="bodyText" color="overlayBodyText" />
-          </Box>
-
-          <Box alignSelf="stretch" marginTop="m" marginBottom="l">
-            <Box>
-              <ButtonSingleLine
-                text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
-                variant="bigFlatNeutralGrey"
-                internalLink
-                onPress={onLearnMore}
+    <Box flex={1} backgroundColor="overlayBackground">
+      <SafeAreaView style={styles.flex}>
+        <Box flex={1} paddingTop="s" justifyContent="center">
+          <BackButton />
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+            <Box flex={1} paddingHorizontal="xl">
+              <OnboardingHeader
+                text={i18n.translate('Onboarding.HowItWorks.Title')}
+                imageSrc={require('assets/onboarding-howitworks.png')}
+                accessible
+                accessibilityLabel={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
               />
+
+              <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body1')} />
+              <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body2')} />
+              <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body3')} />
+
+              <Box marginBottom="m">
+                <Text variant="bodyText" color="overlayBodyText" />
+              </Box>
+
+              <Box alignSelf="stretch" marginTop="m" marginBottom="l">
+                <Box>
+                  <ButtonSingleLine
+                    text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
+                    variant="bigFlatNeutralGrey"
+                    internalLink
+                    onPress={onLearnMore}
+                  />
+                </Box>
+              </Box>
             </Box>
-          </Box>
+          </ScrollView>
+          <NextButton onNext={onNext} />
         </Box>
-      </ScrollView>
-      <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={onNext} />
-    </BaseOnboardingView>
+      </SafeAreaView>
+    </Box>
   );
 };
 
@@ -52,5 +59,8 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     justifyContent: 'center',
+  },
+  flex: {
+    flex: 1,
   },
 });
