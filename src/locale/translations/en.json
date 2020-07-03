@@ -54,9 +54,9 @@
     "BluetoothDisabled": "Bluetooth is off",
     "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "TurnOnBluetooth": "Turn on Bluetooth",
-    "ExposureNotificationsDisabled": "Exposure messages are off",
-    "ExposureNotificationsDisabledDetailed": "COVID Alert works by checking these messages.",
-    "EnableExposureNotificationsCTA": "Turn on exposure notifications",
+    "ExposureNotificationsDisabled": "COVID Alert is off",
+    "ExposureNotificationsDisabledDetailed": "You did not enable COVID Alert. The app needs your permission to work.",
+    "EnableExposureNotificationsCTA": "Enable COVID Alert",
     "NoConnectivity": "COVID Alert is offline",
     "NoConnectivityDetailed": "COVID Alert only checks for exposure if your phone is connected to the Internet.",
     "AppName": "COVID Alert",
@@ -244,8 +244,8 @@
         "ChooseRegionCTA": "Choose province or territory"
       },
       "RegionCovered": {
-        "Title": "No 8-digit number?",
-        "Body": "Contact the person or office that gave you your results to get a number."
+        "Title": "Get an 8-digit number",
+        "Body": "If you’ve tested positive in Ontario:\n\n1. Log in to the COVID-19 Test Results Website.\n\n2. Go to your test results page.\n\n3. Copy the 8-digit number.\n\n4. Come back here and enter the number."
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
