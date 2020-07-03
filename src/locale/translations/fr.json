@@ -186,16 +186,19 @@
     "ActionEndSkip": "Ignorer",
     "Start": {
       "Title": "Unissons-nous pour ralentir la propagation de COVID-19",
+      "ImageAltText": "Dessin à la main avec plusieurs personnes différentes dedans. Leurs chemins en lignes pointillées se croisent et mènent à un téléphone intelligent plus bas.",
       "Body1": "Alerte COVID nous aide à briser le cycle d’infection. L’application permet d’aviser les personnes en cas d’exposition potentielle avant même que des symptômes apparaissent. ",
       "Body2": "Nous pouvons ainsi prendre soin de nous et protéger nos communautés."
     },
     "WhatItsNot": {
       "Title": "Ce qu’Alerte COVID ne fait pas",
+      "ImageAltText": "Dessin à la main d’une rue sinueuse avec plusieurs maisons et un immeuble en hauteur. De petites infobulles apparaissent au-dessus de chaque bâtiment.",
       "Body1": "L’application ne vous dira pas sur-le-champ que vous êtes près d’une personne ayant eu un diagnostic.",
       "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre ville ou votre quartier."
     },
     "Anonymous": {
       "Title": "Totalement anonyme",
+      "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
       "Body2": "L’application n’a aucun moyen de connaître\u00A0:",
       "Bullet1": "votre position,",
@@ -205,6 +208,7 @@
     },
     "HowItWorks": {
       "Title": "Fonctionnement",
+      "ImageAltText": "Dessin à la main de 3 téléphones mobiles émettant des codes aléatoires en utilisant Bluetooth.",
       "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
       "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
       "Body3": "Si votre téléphone a reçu l’un de ces codes au cours des 14\u00A0derniers jours, vous recevrez une notification.",
@@ -212,6 +216,7 @@
     },
     "Permissions": {
       "Title": "L’application demandera votre autorisation",
+      "ImageAltText": "Dessin à la main d’un téléphone mobile dont l’écran affiche une fenêtre de dialogue avec un X rouge et un crochet vert.",
       "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
       "Body2": "Vous devrez aussi activer les notifications poussées.",
       "PrivacyButtonCTA": "En savoir plus sur la confidentialité"

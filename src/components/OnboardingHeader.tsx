@@ -5,12 +5,16 @@ import {Image, StyleSheet, ImageSourcePropType} from 'react-native';
 interface OnboardingHeaderProps {
   text: string;
   imageSrc?: ImageSourcePropType;
+  accessible?: boolean;
+  accessibilityLabel?: string;
 }
 
-export const OnboardingHeader = ({text, imageSrc}: OnboardingHeaderProps) => {
+export const OnboardingHeader = ({text, imageSrc, accessible, accessibilityLabel}: OnboardingHeaderProps) => {
   return (
     <Box>
-      {imageSrc && <Image style={styles.image} source={imageSrc} />}
+      {imageSrc && (
+        <Image accessible={accessible} accessibilityLabel={accessibilityLabel} style={styles.image} source={imageSrc} />
+      )}
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
         {text}
       </Text>
