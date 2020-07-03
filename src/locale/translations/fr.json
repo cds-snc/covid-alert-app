@@ -54,17 +54,17 @@
       "RegionCovered": {
         "ON": {
           "Title": "Obtenir un numéro à 8 chiffres",
-          "Body": "Si vous avez reçu un test positif en Ontario :\n\n1. Connectez-vous au site Web des Résultats du test de diagnostic de la COVID-19\n\n2.Allez à la page de résultats de votre test.\n\n3.Copiez le numéro à 8 chiffres.\n\n4.Revenez ici et entrez le numéro.",
+          "Body": "Si vous avez reçu un test positif en Ontario :\n\n1. Connectez-vous au site Web des Résultats du test de diagnostic de la COVID-19\n\n2.Allez à la page de résultats de votre test.\n\n3.Copiez le numéro à 8\u00A0chiffres.\n\n4.Revenez ici et entrez le numéro.",
           "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
           "Link": "https://covid19results.ehealthontario.ca:4443/login"
         }
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
-        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nVous ne pourrez pas aviser les personnes qui ont été près de vous d’une exposition. Mais vous pouvez tout de même prendre des mesures pour :",
-        "Body2": "assurer la sécurité de votre communauté;",
-        "Body3": "protéger les personnes et les animaux vivant avec vous;",
-        "Body4": "prendre soin de vous."
+        "Body": "Les personnes de votre région ne peuvent pas encore obtenir un numéro à 8\u00A0chiffres.\n\nVous ne pourrez pas aviser les personnes d’une exposition. Mais vous pouvez tout de même vous isoler pendant 14\u00A0jours, et ainsi :",
+        "Body2": "Assurer la sécurité de votre communauté.",
+        "Body3": "Protéger les personnes et les animaux vivant avec vous.",
+        "Body4": "Prendre soin de vous."
       }
     }
   },
@@ -90,17 +90,17 @@
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
     "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
-    "EnableExposureNotificationsCTA": "Activez les notifications d'exposition à la COVID-19",
+    "EnableExposureNotificationsCTA": "Activer Alerte COVID",
     "ExposureDetected": {
-      "Title": "Vous avez été exposé au cours des 14 derniers jours",
-      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15 minutes ou plus.",
+      "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
       "Title2": "Que faire maintenant?",
       "Body2": "Vous êtes à risque d’être infecté. ",
-      "Body3": "Vous devez vous isoler pendant 14 jours.",
-      "HowToIsolateCTA": "Comment s’isoler"
+      "Body3": "Vous devez vous isoler pendant 14\u00A0jours.",
+      "HowToIsolateCTA": "Comment vous isoler"
     },
-    "ExposureNotificationsDisabled": "Les notifications d'exposition à la COVID-19 sont désactivées",
-    "ExposureNotificationsDisabledDetailed": "Les notifications d’exposition à la COVID-19 sont nécessaires au fonctionnement d’Alerte COVID.",
+    "ExposureNotificationsDisabled": "Alerte COVID est désactivé",
+    "ExposureNotificationsDisabledDetailed": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
     "How": "Diagnosed with COVID-19?",
     "HowUrl": "https://www.canada.ca/",
@@ -150,7 +150,7 @@
     "Body2": "Éviter les transports publics comme les autobus et les taxis.",
     "Body3": "Demander de l’aide pour recevoir votre épicerie et vos provisions à votre porte.",
     "Body4": "Utiliser une pièce et une salle de bain séparées des autres de votre maison, si possible.",
-    "Body5": "Porter un masque de façon sécuritaire chaque fois qu’il n’est pas possible de suivre les mesures ci-dessus."
+    "Body5": "Porter un masque de façon sécuritaire dès que vous ne pouvez pas suivre les mesures ci-dessus."
   },
   "Info": {
     "ChangeLanguage": "Modifier la langue",
@@ -161,7 +161,7 @@
     "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
     "TellAFriend": "Partager l’application",
     "SettingsTitle": "Paramètres",
-    "InformationTitle": "Renseignements"
+    "InformationTitle": "À propos d’Alerte COVID"
   },
   "LanguageSelect": {
     "Close": "Retour",
@@ -174,7 +174,7 @@
     "Title": "Langue"
   },
   "Notification": {
-    "DailyUploadNotificationBody": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant. Mais vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.\n\nPrenez soin de vous et de votre famille pendant ce temps.",
+    "DailyUploadNotificationBody": "Aidez à ralentir la propagation de COVID-19 en téléversant vos nouveaux codes aléatoires.",
     "DailyUploadNotificationTitle": "Téléversez vos nouveaux codes aléatoires",
     "ExposedMessageBody": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Lisez les recommandations.",
     "ExposedMessageTitle": "Vous avez été exposé",
@@ -198,7 +198,7 @@
       "Title": "Ce qu’Alerte COVID ne fait pas",
       "ImageAltText": "Dessin à la main d’une rue sinueuse avec plusieurs maisons et un immeuble en hauteur. De petites infobulles apparaissent au-dessus de chaque bâtiment.",
       "Body1": "L’application ne vous dira pas sur-le-champ que vous êtes près d’une personne ayant eu un diagnostic.",
-      "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre ville ou votre quartier."
+      "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre collectivité."
     },
     "Anonymous": {
       "Title": "Totalement anonyme",
@@ -238,7 +238,7 @@
     "BluetoothCardAction": "Activez Bluetooth",
     "BluetoothCardBody": "Vous devez l’activer dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardAction": "Entrer le numéro",
-    "EnterCodeCardBody": "Vous avez reçu un numéro à 8 chiffres lors de votre diagnostic. Ce numéro dit à l’application d’aviser les personnes qui ont été près de vous.",
+    "EnterCodeCardBody": "Vous avez besoin d’un numéro à 8\u00A0chiffres pour aviser les autres personnes d’une exposition.",
     "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de COVID-19. ",
     "EnterCodeCardDiagnosedCountdown": "Il reste {number} jours sur 14!",
     "EnterCodeCardTitle": "Vous avez la COVID-19?",
