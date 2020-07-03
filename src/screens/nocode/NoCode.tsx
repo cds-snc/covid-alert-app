@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
+import {ScrollView, StyleSheet, Linking} from 'react-native';
+import {Box, Text, Toolbar, ButtonSingleLine, ButtonMultiline} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
@@ -12,9 +12,14 @@ interface ContentProps {
   title: string;
   body: string;
   list?: string[];
+  externalLinkText?: string;
+  externalLinkCTA?: string;
 }
 
-const Content = ({title, body, list}: ContentProps) => {
+const Content = ({title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
+  const onCTA = () => {
+    externalLinkCTA && Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err));
+  };
   return (
     <Box>
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
@@ -24,6 +29,7 @@ const Content = ({title, body, list}: ContentProps) => {
         {body}
       </Text>
       {list && list.map(item => <BulletPoint key={item} text={item} />)}
+      {externalLinkText && <ButtonMultiline variant="bigFlat" text={externalLinkText} onPress={onCTA} externalLink />}
     </Box>
   );
 };
@@ -38,8 +44,10 @@ export const NoCodeScreen = () => {
   const regionCase = getRegionCase(region);
   let content = (
     <Content
-      title={i18n.translate('DataUpload.NoCode.RegionCovered.Title')}
-      body={i18n.translate('DataUpload.NoCode.RegionCovered.Body')}
+      title={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Title`)}
+      body={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body`)}
+      externalLinkText={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.CTA`)}
+      externalLinkCTA={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Link`)}
     />
   );
   switch (regionCase) {
