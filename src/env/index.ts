@@ -16,7 +16,7 @@ export const RETRIEVE_URL = Config.RETRIEVE_URL;
 
 export const HMAC_KEY = Config.HMAC_KEY;
 
-export const REGION = parseInt(Config.REGION, 10) || 302;
+export const MCC_CODE = parseInt(Config.MCC_CODE, 10) || 302;
 
 export const TRANSMISSION_RISK_LEVEL = parseInt(Config.TRANSMISSION_RISK_LEVEL, 10);
 

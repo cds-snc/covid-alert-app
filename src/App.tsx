@@ -13,12 +13,12 @@ import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationCo
 import {I18nContext, I18nManager} from '@shopify/react-i18n';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {StorageServiceProvider, Key} from 'services/StorageService';
+import {StorageServiceProvider, Key, useStorageService} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
 import {NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {DemoMode} from 'testMode';
-import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY, REGION} from 'env';
+import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
 import {SharedTranslations, getSystemLocale} from 'locale';
@@ -56,7 +56,11 @@ const App = () => {
     appInit();
   }, []);
 
-  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, REGION), []);
+  const storageService = useStorageService();
+  const backendService = useMemo(
+    () => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region),
+    [],
+  );
 
   return (
     <I18nContext.Provider value={i18nManager}>
