@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
-import {Text, Button, Box} from 'components';
+import {Text, ButtonSingleLine, Box} from 'components';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -23,7 +23,7 @@ export const DiagnosedShareView = () => {
         {i18n.translate('Home.DiagnosedShareView.Body3')}
       </Text>
       <Box alignSelf="stretch" marginTop="xl" marginBottom="xl">
-        <Button
+        <ButtonSingleLine
           text={i18n.translate('Home.DiagnosedShareView.ButtonCTA')}
           variant="bigFlat"
           onPress={toDataShare}

@@ -15,7 +15,7 @@ import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from './Box';
 import {Ripple} from './Ripple';
-import {Icon} from './Icon';
+import {Icon, IconName} from './Icon';
 
 export interface ButtonSingleLineProps {
   text?: string;
@@ -26,6 +26,7 @@ export interface ButtonSingleLineProps {
   loading?: boolean;
   externalLink?: boolean;
   internalLink?: boolean;
+  iconName?: IconName;
 }
 
 export const ButtonSingleLine = ({
@@ -37,6 +38,7 @@ export const ButtonSingleLine = ({
   loading,
   externalLink,
   internalLink,
+  iconName,
 }: ButtonSingleLineProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
@@ -75,6 +77,7 @@ export const ButtonSingleLine = ({
           <Box flex={0} style={{...styles.iconOffset}}>
             {externalLink && <Icon name={externalArrowIcon} size={20} />}
             {internalLink && <Icon name="icon-chevron" />}
+            {iconName && <Icon size={25} name={iconName} />}
           </Box>
           <Box flex={1} marginLeft="s" alignItems="flex-start" justifyContent="flex-end">
             <Text
