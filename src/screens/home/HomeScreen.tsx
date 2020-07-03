@@ -152,7 +152,6 @@ const BottomSheetWrapper = () => {
   const previousStatus = usePrevious(currentStatus);
 
   useLayoutEffect(() => {
-    console.log('eeeeeeeeeeeeeeeeee', currentStatus, previousStatus);
     if (previousStatus === 'monitoring' && currentStatus === 'diagnosed') {
       bottomSheetRef.current?.collapse();
     }
