@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, Box} from 'components';
@@ -32,6 +32,8 @@ import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
+import {BottomSheetBahavior} from 'components/BottomSheet/BottomSheet';
+import {usePrevious} from 'shared/usePrevious';
 
 type BackgroundColor = keyof Theme['colors'];
 
@@ -143,10 +145,25 @@ const BottomSheetContent = () => {
 };
 
 const BottomSheetWrapper = () => {
+  const bottomSheetRef = useRef<BottomSheetBahavior>(null);
   const [notificationStatus] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
+
+  const [exposueStatus] = useExposureStatus();
+  const previousExposureStatus = usePrevious(exposueStatus);
+  useEffect(() => {
+    if (previousExposureStatus?.type === 'monitoring' && exposueStatus.type === 'diagnosed') {
+      bottomSheetRef.current?.collapse();
+    }
+  }, [exposueStatus.type, previousExposureStatus]);
+
   return (
-    <BottomSheet content={BottomSheetContent} collapsed={CollapsedContent} extraContent={showNotificationWarning} />
+    <BottomSheet
+      ref={bottomSheetRef}
+      content={BottomSheetContent}
+      collapsed={CollapsedContent}
+      extraContent={showNotificationWarning}
+    />
   );
 };
 
