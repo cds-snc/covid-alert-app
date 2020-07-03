@@ -1,12 +1,11 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Button, BulletPointX, Text, OnboardingHeader} from 'components';
+import {Box, BulletPointX, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {BackButton} from '../components/BackButton';
-import {NextButton} from '../components/NextButton';
+import {BackButton, NextButton, StepText} from '../components';
 
 export const Anonymous = () => {
   const [i18n] = useI18n();
@@ -43,6 +42,8 @@ export const Anonymous = () => {
               <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet4')} />
             </Box>
           </ScrollView>
+          <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
+          <StepText index={3} />
           <NextButton onNext={onNext} />
         </Box>
       </SafeAreaView>

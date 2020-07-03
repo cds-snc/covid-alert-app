@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Button, Text, OnboardingHeader} from 'components';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {Box, Text, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {NextButton} from '../components/NextButton';
+import {NextButton, StepText} from '../components';
 
 export const Start = () => {
   const [i18n] = useI18n();
@@ -25,7 +25,6 @@ export const Start = () => {
                 accessible
                 accessibilityLabel={i18n.translate('Onboarding.Start.ImageAltText')}
               />
-
               <Box marginBottom="m">
                 <Text variant="bodyText" color="overlayBodyText">
                   {i18n.translate('Onboarding.Start.Body1')}
@@ -38,6 +37,8 @@ export const Start = () => {
               </Box>
             </Box>
           </ScrollView>
+          <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
+          <StepText index={1} />
           <NextButton onNext={onNext} />
         </Box>
       </SafeAreaView>
@@ -53,4 +54,7 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
+  // viewOffset: {
+  //   marginTop: 50,
+  // },
 });

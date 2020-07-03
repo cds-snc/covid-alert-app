@@ -5,8 +5,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {BackButton} from '../components/BackButton';
-import {NextButton} from '../components/NextButton';
+import {BackButton, NextButton, StepText} from '../components';
 
 export const HowItWorks = () => {
   const [i18n] = useI18n();
@@ -17,8 +16,8 @@ export const HowItWorks = () => {
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
+        <BackButton />
         <Box flex={1} paddingTop="s" justifyContent="center">
-          <BackButton />
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
             <Box flex={1} paddingHorizontal="xl">
               <OnboardingHeader
@@ -48,6 +47,8 @@ export const HowItWorks = () => {
               </Box>
             </Box>
           </ScrollView>
+          <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
+          <StepText index={4} />
           <NextButton onNext={onNext} />
         </Box>
       </SafeAreaView>

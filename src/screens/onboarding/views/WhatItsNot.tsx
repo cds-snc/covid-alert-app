@@ -5,8 +5,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {BackButton} from '../components/BackButton';
-import {NextButton} from '../components/NextButton';
+import {BackButton, NextButton, StepText} from '../components';
 
 export const WhatItsNot = () => {
   const [i18n] = useI18n();
@@ -39,6 +38,8 @@ export const WhatItsNot = () => {
               </Box>
             </Box>
           </ScrollView>
+          <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
+          <StepText index={2} />
           <NextButton onNext={onNext} />
         </Box>
       </SafeAreaView>

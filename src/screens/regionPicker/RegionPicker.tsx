@@ -4,7 +4,7 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
-import {BackButton} from 'screens/onboarding/components/BackButton';
+import {BackButton, NextButton, StepText} from 'screens/onboarding/components';
 import {useNavigation} from '@react-navigation/native';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
@@ -32,7 +32,7 @@ export const RegionPickerScreen = () => {
         <BackButton />
         <Box flex={1} paddingTop="s" justifyContent="center">
           <ScrollView style={regionStyles.flex}>
-            <Box flex={1} paddingHorizontal="m">
+            <Box flex={1} paddingHorizontal="xl">
               <Text marginBottom="s" variant="bodyTitle" color="overlayBodyText" accessibilityRole="header">
                 {i18n.translate('RegionPicker.Title')}
               </Text>
@@ -62,6 +62,9 @@ export const RegionPickerScreen = () => {
               </Box>
             </Box>
           </ScrollView>
+          <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
+          <StepText index={6} />
+          <NextButton onNext={onNext} />
         </Box>
       </SafeAreaView>
     </Box>
