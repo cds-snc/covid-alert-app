@@ -57,7 +57,6 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
   // this is for the test menu
-  return <ExposureNotificationsDisabledView />;
   const {forceScreen} = useStorage();
   switch (forceScreen) {
     case 'ExposureView':
