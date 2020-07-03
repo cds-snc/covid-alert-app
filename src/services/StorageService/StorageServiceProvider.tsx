@@ -21,6 +21,10 @@ export const StorageServiceProvider = ({children}: StorageServiceProviderProps) 
   return <StorageServiceContext.Provider value={storageService}>{ready && children}</StorageServiceContext.Provider>;
 };
 
+export const useStorageService = () => {
+  return useContext(StorageServiceContext);
+};
+
 export const useStorage = () => {
   const storageService = useContext(StorageServiceContext)!;
   const i18nManager = React.useContext(I18nContext);
