@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef, useEffect, useMemo} from 'react';
+import React, {forwardRef, useState, useCallback, useRef, useEffect, useMemo, useImperativeHandle} from 'react';
 import {View, StyleSheet, TouchableOpacity, useWindowDimensions} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useSafeArea} from 'react-native-safe-area-context';
@@ -18,18 +18,31 @@ export interface BottomSheetProps {
   extraContent?: boolean;
 }
 
-const BottomSheet = ({content: ContentComponent, collapsed: CollapsedComponent, extraContent}: BottomSheetProps) => {
+export interface BottomSheetBahavior {
+  expand(): void;
+  collapse(): void;
+}
+
+const BottomSheetInternal = (
+  {content: ContentComponent, collapsed: CollapsedComponent, extraContent}: BottomSheetProps,
+  ref: React.Ref<BottomSheetBahavior>,
+) => {
   const bottomSheetPosition = useRef(new Animated.Value(1));
   const bottomSheetRef: React.Ref<BottomSheetRaw> = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [i18n] = useI18n();
   const toggleExpanded = useCallback(() => {
-    if (isExpanded) {
-      bottomSheetRef.current?.snapTo(1);
-    } else {
-      bottomSheetRef.current?.snapTo(0);
-    }
-  }, [isExpanded]);
+    setIsExpanded(isExpanded => !isExpanded);
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    expand: () => {
+      setIsExpanded(true);
+    },
+    collapse: () => {
+      setIsExpanded(false);
+    },
+  }));
 
   const insets = useSafeArea();
   const renderHeader = useCallback(() => <Box height={insets.top} />, [insets.top]);
@@ -138,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomSheet;
+export const BottomSheet = forwardRef(BottomSheetInternal);
