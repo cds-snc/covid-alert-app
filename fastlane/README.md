@@ -26,6 +26,11 @@ fastlane ios beta
 fastlane ios local
 ```
 
+### ios publish
+```
+fastlane ios publish
+```
+
 
 ----
 
@@ -38,6 +43,11 @@ fastlane android internal
 ### android local
 ```
 fastlane android local
+```
+
+### android publish
+```
+fastlane android publish
 ```
 
 

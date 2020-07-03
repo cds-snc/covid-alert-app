@@ -6,12 +6,14 @@ platform :ios do
       build_number: latest_testflight_build_number + 1,
       xcodeproj: "ios/CovidShield.xcodeproj"
     )
+
     get_certificates(
       output_path: "fastlane/certs"
     )
     get_provisioning_profile(
       output_path: "fastlane/certs"
     )
+
     build_app(
       scheme: "CovidShield",
       workspace: "./ios/CovidShield.xcworkspace",
@@ -22,8 +24,10 @@ platform :ios do
         }
       }
     )
+
+    groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
-      groups: ENV["TEST_GROUPS"]
+      groups: groups
     )
   end
 
@@ -49,15 +53,43 @@ platform :ios do
       }
     )
   end
+
+  lane :publish do
+    # ensure_git_branch
+    # ensure_git_status_clean
+    local
+
+    set_github_release(
+      repository_name: "cds-snc/covid-shield-mobile",
+      api_token: ENV["GITHUB_TOKEN"],
+      name: prompt(
+        text: "Release name: "
+      ),
+      tag_name: prompt(
+        text: "Tag name: "
+      ),
+      description: changelog_from_git_commits(
+        merge_commit_filtering: "only_include_merges"
+      ),
+      commitish: "master",
+      upload_assets: ["build/CovidShield.ipa"]
+    )
+  end
 end
 
 platform :android do
-  lane :internal do
+  private_lane :build do |options|
+    task = (options[:bundle] ? "bundle" : "assemble")
     gradle(
-      task: 'bundle',
+      task: task,
       build_type: 'Release',
       project_dir: 'android/'
     )
+  end
+
+  lane :internal do
+    build(bundle: true)
+
     upload_to_play_store(
       track: 'internal',
       release_status: 'draft',
@@ -67,10 +99,28 @@ platform :android do
   end
 
   lane :local do
-    gradle(
-      task: 'assemble',
-      build_type: 'Release',
-      project_dir: 'android/'
+    build
+  end
+
+  lane :publish do
+    # ensure_git_branch
+    # ensure_git_status_clean
+    build
+
+    set_github_release(
+      repository_name: "cds-snc/covid-shield-mobile",
+      api_token: ENV["GITHUB_TOKEN"],
+      name: prompt(
+        text: "Release name: "
+      ),
+      tag_name: prompt(
+        text: "Tag name: "
+      ),
+      description: changelog_from_git_commits(
+        merge_commit_filtering: "only_include_merges"
+      ),
+      commitish: "master",
+      upload_assets: ["android/app/build/outputs/apk/release/app-release.apk"]
     )
   end
 end
