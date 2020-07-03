@@ -31,10 +31,6 @@ export const HowItWorks = () => {
               <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body2')} />
               <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body3')} />
 
-              <Box marginBottom="m">
-                <Text variant="bodyText" color="overlayBodyText" />
-              </Box>
-
               <Box alignSelf="stretch" marginTop="m" marginBottom="l">
                 <Box>
                   <ButtonSingleLine
