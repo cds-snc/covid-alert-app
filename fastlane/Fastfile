@@ -2,6 +2,9 @@ fastlane_version '2.53.1'
 
 platform :ios do
   lane :beta do
+    ensure_git_branch
+    ensure_git_status_clean
+
     increment_build_number(
       build_number: latest_testflight_build_number + 1,
       xcodeproj: "ios/CovidShield.xcodeproj"
@@ -88,6 +91,8 @@ platform :android do
   end
 
   lane :internal do
+    ensure_git_branch
+    ensure_git_status_clean
     build(bundle: true)
 
     upload_to_play_store(
