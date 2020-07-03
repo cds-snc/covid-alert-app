@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
 import {Button, Box} from 'components';
 
-export const BackButton = () => {
+export const BackButton = ({onBack}: {onBack?: any}) => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
   const prevItem = useCallback(() => {
@@ -17,7 +17,7 @@ export const BackButton = () => {
           text={i18n.translate('Onboarding.ActionBack')}
           color="linkText"
           variant="subduedText"
-          onPress={prevItem}
+          onPress={onBack ? onBack : prevItem}
         />
       </Box>
     </Box>

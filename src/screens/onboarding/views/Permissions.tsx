@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Button, Text, ButtonSingleLine, OnboardingHeader} from 'components';
+import {Box, Text, ButtonSingleLine, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -10,9 +10,11 @@ import {BackButton, NextButton, StepText} from '../components';
 export const Permissions = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
+
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
 
   const onNext = useCallback(() => navigation.navigate('OnboardingRegion'), [navigation]);
+
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>

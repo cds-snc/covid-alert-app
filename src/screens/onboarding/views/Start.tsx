@@ -16,6 +16,7 @@ export const Start = () => {
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
+        <Box style={styles.spacer} />
         <Box flex={1} paddingTop="s" justifyContent="center">
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
             <Box flex={1} paddingHorizontal="xl">
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  // viewOffset: {
-  //   marginTop: 50,
-  // },
+  spacer: {
+    marginBottom: 57,
+  },
 });

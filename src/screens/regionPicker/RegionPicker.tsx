@@ -17,7 +17,10 @@ export const RegionPickerScreen = () => {
   const navigation = useNavigation();
   const startExposureNotificationService = useStartExposureNotificationService();
   startExposureNotificationService();
-
+  const onBack = useCallback(async () => {
+    await setRegion(undefined);
+    navigation.goBack();
+  }, [navigation, setRegion]);
   const onNext = useCallback(async () => {
     await setOnboarded(true);
     await setOnboardedDatetime(new Date());
@@ -26,10 +29,12 @@ export const RegionPickerScreen = () => {
       routes: [{name: 'Home'}],
     });
   }, [navigation, setOnboarded, setOnboardedDatetime]);
+  const isRegionSet = Boolean(region && region !== 'None');
+
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
-        <BackButton />
+        <BackButton onBack={onBack} />
         <Box flex={1} paddingTop="s" justifyContent="center">
           <ScrollView style={regionStyles.flex}>
             <Box flex={1} paddingHorizontal="xl">
@@ -64,7 +69,7 @@ export const RegionPickerScreen = () => {
           </ScrollView>
           <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
           <StepText index={6} />
-          <NextButton onNext={onNext} />
+          <NextButton onNext={onNext} isEnd isRegionSet={isRegionSet} />
         </Box>
       </SafeAreaView>
     </Box>
