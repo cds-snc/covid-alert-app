@@ -11,33 +11,26 @@ export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4';
 
 export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4'];
 
-const viewComponents = {
+const viewComponents: {[key in TutorialKey]: React.ComponentType} = {
   'step-1': Step1,
   'step-2': Step2,
   'step-3': Step3,
   'step-4': Step4,
 };
 
-export const TutorialContent = ({
-  item,
-  currentIndex,
-}: {
+export interface TutorialContentProps {
   item: TutorialKey;
-  currentIndex: number;
-  isActiveSlide: boolean;
-}) => {
+}
+
+export const TutorialContent = ({item}: TutorialContentProps) => {
   const Item = viewComponents[item];
   return (
-    <ScrollView key={currentIndex} showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
       <Box paddingVertical="s" paddingHorizontal="xxl">
         <Item />
       </Box>
     </ScrollView>
   );
-};
-
-TutorialContent.defaultProps = {
-  currentIndex: 1,
 };
 
 const styles = StyleSheet.create({

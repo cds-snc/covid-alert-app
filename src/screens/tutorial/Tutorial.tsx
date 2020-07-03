@@ -14,15 +14,6 @@ export const TutorialScreen = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [i18n] = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
-  const [carouselVisible, setCarousalVisible] = useState(false);
-
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setCarousalVisible(true);
-    });
-
-    return unsubscribe;
-  }, [navigation]);
 
   const isStart = currentStep === 0;
   const isEnd = currentStep === tutorialData.length - 1;
@@ -31,11 +22,7 @@ export const TutorialScreen = () => {
     return (
       <Box flex={1} width={viewportWidth}>
         <View>
-          <TutorialContent
-            item={item}
-            currentIndex={currentStep + 1}
-            isActiveSlide={tutorialData[currentStep] === item}
-          />
+          <TutorialContent item={item} key={item} />
         </View>
       </Box>
     );
@@ -75,19 +62,19 @@ export const TutorialScreen = () => {
           navLabel={i18n.translate('Tutorial.Close')}
           onIconClicked={close}
         />
-        {carouselVisible && (
-          <FlatList
-            ref={flatListRef}
-            data={tutorialData}
-            renderItem={renderItem}
-            keyExtractor={item => item}
-            showsHorizontalScrollIndicator={false}
-            onViewableItemsChanged={onViewableItemsChanged}
-            horizontal
-            disableIntervalMomentum
-            pagingEnabled
-          />
-        )}
+
+        <FlatList
+          ref={flatListRef}
+          data={tutorialData}
+          renderItem={renderItem}
+          keyExtractor={item => item}
+          showsHorizontalScrollIndicator={false}
+          onViewableItemsChanged={onViewableItemsChanged}
+          horizontal
+          disableIntervalMomentum
+          pagingEnabled
+        />
+
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
           <Box flex={1}>
             {!isStart && (
