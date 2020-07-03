@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {BottomSheet, Box} from 'components';
+import {BottomSheet, BottomSheetBahavior, Box} from 'components';
 import {DevSettings} from 'react-native';
 import {
   SystemStatus,
@@ -13,6 +13,7 @@ import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
+import {usePrevious} from 'shared/usePrevious';
 
 import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
 import {RegionCase} from '../../shared/Region';
@@ -143,10 +144,26 @@ const BottomSheetContent = () => {
 };
 
 const BottomSheetWrapper = () => {
+  const bottomSheetRef = useRef<BottomSheetBahavior>(null);
   const [notificationStatus] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
+
+  const currentStatus = useExposureStatus()[0].type;
+  const previousStatus = usePrevious(currentStatus);
+
+  useLayoutEffect(() => {
+    if (previousStatus === 'monitoring' && currentStatus === 'diagnosed') {
+      bottomSheetRef.current?.collapse();
+    }
+  }, [currentStatus, previousStatus]);
+
   return (
-    <BottomSheet content={BottomSheetContent} collapsed={CollapsedContent} extraContent={showNotificationWarning} />
+    <BottomSheet
+      ref={bottomSheetRef}
+      content={BottomSheetContent}
+      collapsed={CollapsedContent}
+      extraContent={showNotificationWarning}
+    />
   );
 };
 
