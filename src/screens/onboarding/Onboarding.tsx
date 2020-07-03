@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     marginBottom: 57,
   },
   viewOffset: {
-    marginTop: 50,
+    marginTop: 60,
   },
   flex: {
     flex: 1,
