@@ -1,5 +1,22 @@
 fastlane_version '2.53.1'
 
+lane :github do
+  set_github_release(
+    repository_name: "cds-snc/covid-shield-mobile",
+    api_token: ENV["GITHUB_TOKEN"],
+    name: prompt(
+      text: "Release name (ex: Android v19): "
+    ),
+    tag_name: prompt(
+      text: "Tag (ex: android-v19): "
+    ),
+    description: changelog_from_git_commits(
+      merge_commit_filtering: "only_include_merges"
+    ),
+    commitish: "master",
+  )
+end
+
 platform :ios do
   lane :beta do
     ensure_git_branch
@@ -32,6 +49,8 @@ platform :ios do
     upload_to_testflight(
       groups: groups
     )
+
+    github
   end
 
   lane :local do
@@ -54,28 +73,6 @@ platform :ios do
           ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
         }
       }
-    )
-  end
-
-  lane :publish do
-    ensure_git_branch
-    ensure_git_status_clean
-    local
-
-    set_github_release(
-      repository_name: "cds-snc/covid-shield-mobile",
-      api_token: ENV["GITHUB_TOKEN"],
-      name: prompt(
-        text: "Release name: "
-      ),
-      tag_name: prompt(
-        text: "Tag name: "
-      ),
-      description: changelog_from_git_commits(
-        merge_commit_filtering: "only_include_merges"
-      ),
-      commitish: "master",
-      upload_assets: ["build/CovidShield.ipa"]
     )
   end
 end
@@ -101,31 +98,11 @@ platform :android do
       skip_upload_apk: true,
       aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]
     )
+
+    github
   end
 
   lane :local do
     build
-  end
-
-  lane :publish do
-    ensure_git_branch
-    ensure_git_status_clean
-    build
-
-    set_github_release(
-      repository_name: "cds-snc/covid-shield-mobile",
-      api_token: ENV["GITHUB_TOKEN"],
-      name: prompt(
-        text: "Release name: "
-      ),
-      tag_name: prompt(
-        text: "Tag name: "
-      ),
-      description: changelog_from_git_commits(
-        merge_commit_filtering: "only_include_merges"
-      ),
-      commitish: "master",
-      upload_assets: ["android/app/build/outputs/apk/release/app-release.apk"]
-    )
   end
 end
