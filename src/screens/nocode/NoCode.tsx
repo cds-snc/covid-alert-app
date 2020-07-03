@@ -17,11 +17,15 @@ interface ContentProps {
 }
 
 const Content = ({title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
-  const onCTA =
-    externalLinkCTA &&
-    useCallback(() => {
-      Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err));
-    }, [externalLinkCTA]);
+  const externalLinkButton =
+    externalLinkCTA && externalLinkText ? (
+      <ButtonMultiline
+        variant="bigFlat"
+        text={externalLinkText}
+        onPress={() => Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err))}
+        externalLink
+      />
+    ) : null;
   return (
     <Box>
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
@@ -31,9 +35,7 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
         {body}
       </Text>
       {list && list.map(item => <BulletPoint key={item} text={item} />)}
-      {externalLinkText && (
-        <ButtonMultiline variant="bigFlat" text={externalLinkText} onPress={() => onCTA} externalLink />
-      )}
+      {externalLinkButton}
     </Box>
   );
 };
