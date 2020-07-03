@@ -34,7 +34,7 @@ Note: Because the server doesn't return Temporary Exposure Keys (TEKs) for curre
 1. Run server locally, set `SUBMIT_URL` and `RETRIEVE_URL` in `.env` accordingly.
 1. Build and run the app on two devices.
 1. Go through onboarding flow on both devices. Make sure EN and bluetooth are turned on properly.
-1. For Android only, see `Debug mode` section below.
+1. For Android only, see [`Debug mode`](#android-debug-mode) section below.
 1. Disable and re-enable `COVID-19 Exposure Notifications` (Android) or `COVID-19 Exposure Notifications` (iOS). This forces the EN framework to re-scan Bluetooth Random IDs.
 1. On 1st device:
    1. Get OneTimeCode from server.
@@ -53,21 +53,59 @@ Note: Because the server doesn't return Temporary Exposure Keys (TEKs) for curre
 
 ## Test exposed state with notification (as end user)
 
-This test runs everything on production. That means you only receive notification on the next date. Same date testing doesn't work for this scenario. `Test mode` cannot be used in this scenario.
+This test runs everything on production. That means you only receive notification on the next one or two dates. Same date testing doesn't work for this scenario. `Test mode` cannot be used in this scenario.
+
+### Scenario 1: two devices that haven't been used any Exposure Notifications app before.
+
+![image](https://user-images.githubusercontent.com/5274722/86470811-2e294280-bd0a-11ea-84bd-f1eb95b8dd6b.png)
 
 1. Build and run the app on two devices.
 1. Go through onboarding flow on both devices. Make sure EN and bluetooth are turned on properly.
-1. Access EN framework on device (step above). In debug mode On Android, make sure `Bypass app signature check` and `Return all TEKs immediately` toggle are ENABLED.
-1. (Optional) Disable and re-enable `COVID-19 Exposure Notifications` (Android) or `COVID-19 Exposure Notifications` (iOS). This forces the EN framework to re-scan Bluetooth Random IDs.
+1. For Android only, see [`Debug mode`](#android-debug-mode) section below.
+1. Keep two devices approximately close together for about 5 minutes.
+1. On 1st device:
+   1. Get OneTimeCode from server.
+   1. Enter the code to set the device to positive.
+   1. Verify that the positive state shows as expected.
+1. Wait for next date (UTC timezone).
+1. On 1st device:
+   1. Expect to receive reminder notification about uploading new RANDOM_IDs.
+   1. Submit new RANDOM_IDs.
+1. On 2nd device:
+   1. Open app.
+   1. Expect the app in still in monitoring state.
+1. Wait for next date (UTC timezone).
+1. On 1st device:
+   1. Expect to receive reminder notification about uploading new RANDOM_IDs.
+   1. Submit new RANDOM_IDs.
+1. On 2nd device:
+   1. Expect to receive exposed notification saying `You have possibly been exposed to COVID-19`.
+   1. Tap on notification will open the app.
+   1. Expect to see exposed status showing in the app.
+   1. If you uninstall the app and re-install, expect to see exposed status show immediately after onboarding flow.
+
+### Scenario 2: two devices that haven't been used any Exposure Notifications app before.
+
+![image](https://user-images.githubusercontent.com/5274722/86470819-31243300-bd0a-11ea-9b30-60119d08386b.png)
+
+1. Build and run the app on two devices.
+1. Go through onboarding flow on both devices. Make sure EN and bluetooth are turned on properly.
+1. For Android only, see [`Debug mode`](#android-debug-mode) section below.
+1. Keep two devices approximately close together for about 5 minutes.
+1. Wait for next date (UTC timezone).
 1. On 1st device:
    1. Get OneTimeCode from server.
    1. Enter the code to set the device to positive.
    1. Verify that the positive state shows as expected.
 1. On 2nd device:
-   1. Leave it approximately close to 1st device overnight.
-      1. On Android, you can close the app completely or just minimize it. The app can run in the background even after being closed.
-      1. On iOS, it's recommended to just minimize the app.
-   1. Expect to see notification saying `You have possibly been exposed to COVID-19`.
+   1. Open app.
+   1. Expect the app in still in monitoring state.
+1. Wait for next date (UTC timezone).
+1. On 1st device:
+   1. Expect to receive reminder notification about uploading new RANDOM_IDs.
+   1. Submit new RANDOM_IDs.
+1. On 2nd device:
+   1. Expect to receive exposed notification saying `You have possibly been exposed to COVID-19`.
    1. Tap on notification will open the app.
    1. Expect to see exposed status showing in the app.
    1. If you uninstall the app and re-install, expect to see exposed status show immediately after onboarding flow.
@@ -78,9 +116,16 @@ This test runs everything on production. That means you only receive notificatio
 
 `Debug mode` is only available for developer email that has been whitelisted by Google to test EN. With this mode, you can use any APP_ID / Package Name that have been whitelisted by Google, ex: `com.google.android.apps.exposurenotification` to test the framework.
 
-- If you have `Debug mode`, make sure `Bypass app signature check` and `Return all TEKs immediately` toggle are ENABLED.
+- If you have `Debug mode`, make sure `Bypass app signature check` toggle are ENABLED.
 - If you don't, you have to use app with APP_ID / Package Name that has been whitelisted with correct signed key.
 
 ### [General] Why same date testing doesn't work for me?
 
 On devices that haven't been using any apps supporting Google / Apple Exposure Notifications before, the device hasn't been generating / collecting Temporary Exposure Keys (TEKs) yet. So, there is no key to submit to server after you enter OneTimeCode. In this case, the only option is to come back the next date and test again. Make sure you EN and bluetooth are enabled properly.
+
+### [General] What timezone is the app using for notification?
+
+There are two types of notification:
+
+- `Reminder notification`: it's about uploading new RANDOM_IDs and uses device timer.
+- `Exposed notification`: it's about user has been exposed to COVID-19 and uses UTC timezone.
