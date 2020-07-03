@@ -15,7 +15,7 @@ import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from './Box';
 import {Ripple} from './Ripple';
-import {Icon} from './Icon';
+import {Icon, IconName} from './Icon';
 
 export interface ButtonSingleLineProps {
   text?: string;
@@ -26,6 +26,7 @@ export interface ButtonSingleLineProps {
   loading?: boolean;
   externalLink?: boolean;
   internalLink?: boolean;
+  iconName?: IconName;
 }
 
 export const ButtonSingleLine = ({
@@ -37,6 +38,7 @@ export const ButtonSingleLine = ({
   loading,
   externalLink,
   internalLink,
+  iconName,
 }: ButtonSingleLineProps) => {
   const [i18n] = useI18n();
   const theme = useTheme<Theme>();
@@ -72,10 +74,21 @@ export const ButtonSingleLine = ({
         <ActivityIndicator color={textColor} size="large" />
       ) : (
         <Box flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
-          <Box flex={0} style={{...styles.iconOffset}}>
-            {externalLink && <Icon name={externalArrowIcon} size={20} />}
-            {internalLink && <Icon name="icon-chevron" />}
-          </Box>
+          {externalLink && (
+            <Box flex={0} style={{...styles.iconOffsetExternal}}>
+              <Icon name={externalArrowIcon} size={20} />
+            </Box>
+          )}
+          {internalLink && (
+            <Box flex={0} style={{...styles.iconOffsetChevron}}>
+              <Icon size={25} name="icon-chevron" />
+            </Box>
+          )}
+          {iconName && (
+            <Box flex={0} style={{...styles.iconOffsetChevron}}>
+              <Icon size={25} name={iconName} />
+            </Box>
+          )}
           <Box flex={1} marginLeft="s" alignItems="flex-start" justifyContent="flex-end">
             <Text
               style={{
@@ -115,8 +128,12 @@ export const ButtonSingleLine = ({
 };
 
 const styles = StyleSheet.create({
-  iconOffset: {
+  iconOffsetExternal: {
     marginTop: 2,
+    marginLeft: 20,
+  },
+  iconOffsetChevron: {
+    marginTop: -2,
     marginLeft: 20,
   },
   stretch: {

@@ -1,5 +1,5 @@
 import {useI18n} from '@shopify/react-i18n';
-import {Box, Button, Text} from 'components';
+import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
 
@@ -21,10 +21,10 @@ export const ExposureNotificationsDisabledView = () => {
         {i18n.translate('Home.ExposureNotificationsDisabledDetailed')}
       </Text>
       <Box alignSelf="stretch" marginBottom="xl" marginTop="xl">
-        <Button
-          internalLink
+        <ButtonSingleLine
           text={i18n.translate('Home.EnableExposureNotificationsCTA')}
           variant="danger50Flat"
+          internalLink
           onPress={toSettings}
         />
       </Box>
