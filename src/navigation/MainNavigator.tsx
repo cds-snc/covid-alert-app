@@ -7,13 +7,13 @@ import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
-import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
-import {RegionPickerSettingsScreen} from 'screens/regionPicker';
+import {RegionPickerSettingsScreen, RegionPickerScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Start, Permissions, Anonymous, HowItWorks, WhatItsNot} from 'screens/onboarding';
 
 enableScreens();
 
@@ -57,7 +57,6 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 }
 
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
-const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
@@ -66,14 +65,23 @@ const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScr
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
 
+const OnboardingStartWithNavBar = withDarkNav(Start);
+const OnboardingWhatItsNotWithNavBar = withDarkNav(WhatItsNot);
+const OnboardingAnonymousWithNavBar = withDarkNav(Anonymous);
+const OnboardingHowItWorksWithNavBar = withDarkNav(HowItWorks);
+const OnboardingPermissionsWithNavBar = withDarkNav(Permissions);
+const OnboardingRegionWithNavBar = withDarkNav(RegionPickerScreen);
+
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
   return (
-    <OnboardingStack.Navigator
-      screenOptions={{stackAnimation: 'fade', headerShown: false}}
-      initialRouteName="OnboardingTutorial"
-    >
-      <OnboardingStack.Screen name="OnboardingTutorial" component={OnboardingScreenWithNavBar} />
+    <OnboardingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="OnboardingStart">
+      <OnboardingStack.Screen name="OnboardingStart" component={OnboardingStartWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingWhatItsNot" component={OnboardingWhatItsNotWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingAnonymous" component={OnboardingAnonymousWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingHowItWorks" component={OnboardingHowItWorksWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingPermissions" component={OnboardingPermissionsWithNavBar} />
+      <OnboardingStack.Screen name="OnboardingRegion" component={OnboardingRegionWithNavBar} />
     </OnboardingStack.Navigator>
   );
 };
