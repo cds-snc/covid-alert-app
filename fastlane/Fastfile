@@ -55,8 +55,8 @@ platform :ios do
   end
 
   lane :publish do
-    # ensure_git_branch
-    # ensure_git_status_clean
+    ensure_git_branch
+    ensure_git_status_clean
     local
 
     set_github_release(
@@ -103,8 +103,8 @@ platform :android do
   end
 
   lane :publish do
-    # ensure_git_branch
-    # ensure_git_status_clean
+    ensure_git_branch
+    ensure_git_status_clean
     build
 
     set_github_release(
