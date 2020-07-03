@@ -103,12 +103,12 @@
     "CheckSymptoms": "Check symptoms",
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
-    "LearnMore": "How COVID Alert works",
+    "LearnMore": "How it works",
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
     "Privacy": "Read privacy policy",
     "SettingsTitle": "Settings",
-    "InformationTitle": "Information"
+    "InformationTitle": "About COVID Alert"
   },
   "LanguageSelect": {
     "Title": "Language",
@@ -165,7 +165,7 @@
       "Title": "What COVID Alert does not do",
       "ImageAltText": "A hand-drawn illustration with many houses and a high-rise building on a curving street. Small message bubbles appear above each home.",
       "Body1": "The app will not tell you in the moment if you’re currently near someone who’s been diagnosed.",
-      "Body2": "It will not tell you about outbreaks in your city or neighbourhood."
+      "Body2": "It will not tell you about outbreaks in your community."
     },
     "Anonymous": {
       "Title": "Totally Anonymous",
@@ -215,7 +215,7 @@
       "Body3a": "Step 3. ",
       "Body3b": "Allow your phone to share your random codes anonymously.",
       "CTA": "Enter number",
-      "NoCode": "No 8-digit number?"
+      "NoCode": "Need an 8-digit number?"
     },
     "FormView": {
       "Title": "Enter your 8-digit number",
