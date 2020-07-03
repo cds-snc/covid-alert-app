@@ -57,7 +57,10 @@ const App = () => {
   }, []);
 
   const storageService = useStorageService();
-  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region), []);
+  const backendService = useMemo(
+    () => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region),
+    [],
+  );
 
   return (
     <I18nContext.Provider value={i18nManager}>

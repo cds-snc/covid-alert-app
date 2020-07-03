@@ -22,7 +22,12 @@ export class BackendService implements BackendInterface {
   hmacKey: string;
   region: Observable<Region | undefined> | undefined;
 
-  constructor(retrieveUrl: string, submitUrl: string, hmacKey: string, region: Observable<Region | undefined> | undefined) {
+  constructor(
+    retrieveUrl: string,
+    submitUrl: string,
+    hmacKey: string,
+    region: Observable<Region | undefined> | undefined,
+  ) {
     this.retrieveUrl = retrieveUrl;
     this.submitUrl = submitUrl;
     this.hmacKey = hmacKey;
