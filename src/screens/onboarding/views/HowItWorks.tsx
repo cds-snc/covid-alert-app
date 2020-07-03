@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, ButtonSingleLine, BulletPointCheck, OnboardingHeader} from 'components';
+import {Box, ButtonSingleLine, BulletPointCheck, OnboardingHeader} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 
