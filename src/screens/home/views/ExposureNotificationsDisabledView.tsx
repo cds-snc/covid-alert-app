@@ -24,7 +24,7 @@ export const ExposureNotificationsDisabledView = () => {
         <ButtonSingleLine
           text={i18n.translate('Home.EnableExposureNotificationsCTA')}
           variant="danger50Flat"
-          iconName="icon-chevron-white"
+          internalLink
           onPress={toSettings}
         />
       </Box>
