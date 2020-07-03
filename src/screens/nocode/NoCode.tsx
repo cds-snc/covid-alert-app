@@ -31,7 +31,9 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
         {body}
       </Text>
       {list && list.map(item => <BulletPoint key={item} text={item} />)}
-      {externalLinkText && <ButtonMultiline variant="bigFlat" text={externalLinkText} onPress={onCTA} externalLink />}
+      {externalLinkText && (
+        <ButtonMultiline variant="bigFlat" text={externalLinkText} onPress={() => onCTA} externalLink />
+      )}
     </Box>
   );
 };
