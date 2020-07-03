@@ -86,7 +86,7 @@
     "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
-    "EnterCodeCardBody": "You were given an 8-digit number when you were diagnosed. This number tells COVID Alert to notify people you were near.",
+    "EnterCodeCardBody": "You need an 8-digit number to let people know they’ve been exposed.",
     "EnterCodeCardAction": "Enter number",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
@@ -253,7 +253,7 @@
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
-        "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nYou will not be able to notify people you’ve been near that they were exposed. But you can still take steps to:",
+        "Body": "People in your area cannot yet get an 8-digit number.\n\nYou will not be able to let people know they were exposed. But you can still isolate for 14 days, and:",
         "Body2": "Keep your community safe.",
         "Body3": "Protect people and pets you live with.",
         "Body4": "Take care of yourself."
@@ -266,7 +266,7 @@
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
-    "DailyUploadNotificationBody": "You do not have to agree, even if you agreed the day before. But you can help slow the spread of COVID-19 if you do.\n\nTake care of yourself and your family during this time."
+    "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes."
   },
   "Partners": {
     "Label": "Developed in partnership with"

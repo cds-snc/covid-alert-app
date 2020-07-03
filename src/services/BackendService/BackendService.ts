@@ -6,7 +6,10 @@ import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
-import {TRANSMISSION_RISK_LEVEL, REGION} from 'env';
+import {MCC_CODE, TRANSMISSION_RISK_LEVEL} from 'env';
+
+import {Observable} from '../../shared/Observable';
+import {Region} from '../../shared/Region';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -17,9 +20,14 @@ export class BackendService implements BackendInterface {
   retrieveUrl: string;
   submitUrl: string;
   hmacKey: string;
-  region: number;
+  region: Observable<Region | undefined> | undefined;
 
-  constructor(retrieveUrl: string, submitUrl: string, hmacKey: string, region: number) {
+  constructor(
+    retrieveUrl: string,
+    submitUrl: string,
+    hmacKey: string,
+    region: Observable<Region | undefined> | undefined,
+  ) {
     this.retrieveUrl = retrieveUrl;
     this.submitUrl = submitUrl;
     this.hmacKey = hmacKey;
@@ -27,14 +35,15 @@ export class BackendService implements BackendInterface {
   }
 
   async retrieveDiagnosisKeys(period: number) {
-    const message = `${this.region}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
+    const message = `${MCC_CODE}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
-    const url = `${this.retrieveUrl}/retrieve/${this.region}/${period}/${hmac}`;
+    const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${period}/${hmac}`;
     return downloadDiagnosisKeysFile(url);
   }
 
   async getExposureConfiguration() {
-    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${REGION}.json`)).json();
+    const region = this.region?.get();
+    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
