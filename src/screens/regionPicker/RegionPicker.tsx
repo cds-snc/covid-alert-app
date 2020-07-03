@@ -1,17 +1,31 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Box, Text} from 'components';
 import {ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {BackButton} from 'screens/onboarding/components/BackButton';
+import {useNavigation} from '@react-navigation/native';
+import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {regionData, RegionItem, regionStyles} from './RegionPickerShared';
 
 export const RegionPickerScreen = () => {
   const [i18n] = useI18n();
-  const {region, setRegion} = useStorage();
+  const {region, setRegion, setOnboarded, setOnboardedDatetime} = useStorage();
 
+  const navigation = useNavigation();
+  const startExposureNotificationService = useStartExposureNotificationService();
+  startExposureNotificationService();
+
+  const onNext = useCallback(async () => {
+    await setOnboarded(true);
+    await setOnboardedDatetime(new Date());
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Home'}],
+    });
+  }, [navigation, setOnboarded, setOnboardedDatetime]);
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
