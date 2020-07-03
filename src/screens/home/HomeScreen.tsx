@@ -1,7 +1,7 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {BottomSheet, Box} from 'components';
+import {BottomSheet, BottomSheetBahavior, Box} from 'components';
 import {DevSettings} from 'react-native';
 import {
   SystemStatus,
@@ -13,6 +13,7 @@ import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
+import {usePrevious} from 'shared/usePrevious';
 
 import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
 import {RegionCase} from '../../shared/Region';
@@ -32,8 +33,6 @@ import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
-import {BottomSheetBahavior} from 'components/BottomSheet/BottomSheet';
-import {usePrevious} from 'shared/usePrevious';
 
 type BackgroundColor = keyof Theme['colors'];
 
@@ -149,13 +148,15 @@ const BottomSheetWrapper = () => {
   const [notificationStatus] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
 
-  const [exposueStatus] = useExposureStatus();
-  const previousExposureStatus = usePrevious(exposueStatus);
-  useEffect(() => {
-    if (previousExposureStatus?.type === 'monitoring' && exposueStatus.type === 'diagnosed') {
+  const currentStatus = useExposureStatus()[0].type;
+  const previousStatus = usePrevious(currentStatus);
+
+  useLayoutEffect(() => {
+    console.log('eeeeeeeeeeeeeeeeee', currentStatus, previousStatus);
+    if (previousStatus === 'monitoring' && currentStatus === 'diagnosed') {
       bottomSheetRef.current?.collapse();
     }
-  }, [exposueStatus.type, previousExposureStatus]);
+  }, [currentStatus, previousStatus]);
 
   return (
     <BottomSheet

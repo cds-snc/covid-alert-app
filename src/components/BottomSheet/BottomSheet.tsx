@@ -23,31 +23,26 @@ export interface BottomSheetBahavior {
   collapse(): void;
 }
 
-const BottomSheet = (
+const BottomSheetInternal = (
   {content: ContentComponent, collapsed: CollapsedComponent, extraContent}: BottomSheetProps,
   ref: React.Ref<BottomSheetBahavior>,
 ) => {
   const bottomSheetPosition = useRef(new Animated.Value(1));
-
   const bottomSheetRef: React.Ref<BottomSheetRaw> = useRef(null);
-  useImperativeHandle(ref, () => ({
-    expand: () => {
-      bottomSheetRef.current?.snapTo(1);
-    },
-    collapse: () => {
-      bottomSheetRef.current?.snapTo(0);
-    },
-  }));
-
   const [isExpanded, setIsExpanded] = useState(false);
   const [i18n] = useI18n();
   const toggleExpanded = useCallback(() => {
-    if (isExpanded) {
-      bottomSheetRef.current?.snapTo(1);
-    } else {
-      bottomSheetRef.current?.snapTo(0);
-    }
-  }, [isExpanded]);
+    setIsExpanded(isExpanded => !isExpanded);
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    expand: () => {
+      setIsExpanded(true);
+    },
+    collapse: () => {
+      setIsExpanded(false);
+    },
+  }));
 
   const insets = useSafeArea();
   const renderHeader = useCallback(() => <Box height={insets.top} />, [insets.top]);
@@ -156,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default forwardRef(BottomSheet);
+export const BottomSheet = forwardRef(BottomSheetInternal);
