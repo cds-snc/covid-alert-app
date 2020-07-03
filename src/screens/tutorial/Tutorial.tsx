@@ -1,6 +1,5 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {StyleSheet, useWindowDimensions, View} from 'react-native';
-import Carousel, {CarouselStatic} from 'react-native-snap-carousel';
+import {StyleSheet, useWindowDimensions, View, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, Toolbar, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -11,7 +10,7 @@ import {TutorialContent, tutorialData, TutorialKey} from './TutorialContent';
 export const TutorialScreen = () => {
   const navigation = useNavigation();
   const {width: viewportWidth} = useWindowDimensions();
-  const carouselRef = useRef(null);
+  const flatListRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [i18n] = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
@@ -28,35 +27,42 @@ export const TutorialScreen = () => {
   const isStart = currentStep === 0;
   const isEnd = currentStep === tutorialData.length - 1;
 
-  const renderItem = useCallback(
-    ({item}: {item: TutorialKey}) => {
-      return (
-        <View key={currentStep + 1}>
+  const renderItem = useCallback(({item}: {item: TutorialKey}) => {
+    return (
+      <Box flex={1} width={viewportWidth}>
+        <View>
           <TutorialContent
             item={item}
             currentIndex={currentStep + 1}
             isActiveSlide={tutorialData[currentStep] === item}
           />
         </View>
-      );
-    },
-    [currentStep],
-  );
+      </Box>
+    );
+  }, []);
 
   const nextItem = useCallback(() => {
-    if (carouselRef.current) {
+    if (flatListRef.current) {
       if (isEnd) {
         close();
         return;
       }
-      (carouselRef.current! as CarouselStatic<TutorialKey>).snapToNext();
+      (flatListRef.current! as FlatList<TutorialKey>).scrollToIndex({index: currentStep + 1});
     }
-  }, [close, isEnd]);
+  }, [close, isEnd, currentStep]);
 
   const prevItem = useCallback(() => {
-    if (carouselRef.current) {
-      (carouselRef.current! as CarouselStatic<TutorialKey>).snapToPrev();
+    if (flatListRef.current) {
+      (flatListRef.current! as FlatList<TutorialKey>).scrollToIndex({index: currentStep - 1});
     }
+  }, [currentStep]);
+
+  const onViewableItemsChanged = useCallback(({viewableItems}) => {
+    if (viewableItems.length <= 0) {
+      return;
+    }
+    const index: number = viewableItems[0].index;
+    setCurrentStep(index);
   }, []);
 
   return (
@@ -70,13 +76,16 @@ export const TutorialScreen = () => {
           onIconClicked={close}
         />
         {carouselVisible && (
-          <Carousel
-            ref={carouselRef}
+          <FlatList
+            ref={flatListRef}
             data={tutorialData}
             renderItem={renderItem}
-            sliderWidth={viewportWidth}
-            itemWidth={viewportWidth}
-            onSnapToItem={newIndex => setCurrentStep(newIndex)}
+            keyExtractor={item => item}
+            showsHorizontalScrollIndicator={false}
+            onViewableItemsChanged={onViewableItemsChanged}
+            horizontal
+            disableIntervalMomentum
+            pagingEnabled
           />
         )}
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
