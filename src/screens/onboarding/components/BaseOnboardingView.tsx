@@ -106,54 +106,11 @@ export const BaseOnboardingView = ({children}: {children: React.ReactNode}) => {
         <Box flex={1} paddingTop="s" justifyContent="center" onLayout={onLayout}>
           {layout && (
             <View style={styles.viewOffset}>
-              {/* <Carousel
-                ref={carouselRef}
-                data={contentData}
-                renderItem={renderItem}
-                sliderWidth={layout.width}
-                itemWidth={layout.width}
-                itemHeight={layout.height}
-                onSnapToItem={newIndex => {
-                  setCurrentIndex(newIndex);
-                  onSnapToNewPage(newIndex);
-                }}
-              /> */}
               <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
-              {/* <Pagination
-                dotContainerStyle={styles.dotContainerStyle}
-                activeDotIndex={currentIndex + 1}
-                dotsLength={contentData.length}
-                renderDots={(activeIndex, total) => {
-                  const stepText = i18n.translate('Onboarding.Step');
-                  const ofText = i18n.translate('Onboarding.Of');
-                  const text = `${stepText} ${activeIndex} ${ofText} ${total}`;
-                  return (
-                    <Box paddingBottom="xxl" style={styles.dotWrapperStyle}>
-                      <Text color="gray2" variant="bodyText">
-                        {text}
-                      </Text>
-                    </Box>
-                  );
-                }}
-              /> */}
               {children}
             </View>
           )}
         </Box>
-        {/*
-        <Box paddingHorizontal="m" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
-          <Box flex={1}>
-            {isEnd ? (
-              <Button
-                text={i18n.translate(`Onboarding.Action${endText}`)}
-                variant={endBtnStyle === 'ready' ? 'thinFlat' : 'thinFlatNeutralGrey'}
-                onPress={nextItem}
-              />
-            ) : (
-              <Button text={i18n.translate('Onboarding.ActionNext')} variant="thinFlat" onPress={nextItem} />
-            )}
-          </Box>
-        </Box> */}
       </SafeAreaView>
     </Box>
   );
