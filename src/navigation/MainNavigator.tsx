@@ -7,18 +7,13 @@ import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
-import {OnboardingScreen} from 'screens/onboarding';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerSettingsScreen, RegionPickerScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Start} from 'screens/onboarding/views/Start';
-import {Permissions} from 'screens/onboarding/views/Permissions';
-import {Anonymous} from 'screens/onboarding/views/Anonymous';
-import {HowItWorks} from 'screens/onboarding/views/HowItWorks';
-import {WhatItsNot} from 'screens/onboarding/views/WhatItsNot';
+import {Start, Permissions, Anonymous, HowItWorks, WhatItsNot} from 'screens/onboarding';
 
 enableScreens();
 
@@ -62,7 +57,6 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 }
 
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
-// const OnboardingScreenWithNavBar = withDarkNav(OnboardingScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
