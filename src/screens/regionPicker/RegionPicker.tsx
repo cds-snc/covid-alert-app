@@ -35,9 +35,9 @@ export const RegionPickerScreen = () => {
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
         <BackButton onBack={onBack} />
-        <Box flex={1} paddingTop="s" justifyContent="center">
+        <Box flex={1} justifyContent="center">
           <ScrollView style={regionStyles.flex}>
-            <Box flex={1} paddingHorizontal="xl">
+            <Box flex={1} paddingHorizontal="l">
               <Text marginBottom="s" variant="bodyTitle" color="overlayBodyText" accessibilityRole="header">
                 {i18n.translate('RegionPicker.Title')}
               </Text>
