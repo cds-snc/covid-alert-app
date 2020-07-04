@@ -422,7 +422,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
@@ -434,10 +434,9 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - OpenSSL-Universal
+    - Sentry
     - SSZipArchive
     - YogaKit
-  trunk:
-    - Sentry
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -600,4 +599,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0c65bc53d3b3fc855c000ffe8e723d581980164f
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.7.5
