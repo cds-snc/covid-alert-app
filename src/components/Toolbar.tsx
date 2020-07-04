@@ -30,7 +30,7 @@ export const Toolbar = ({title, navText, navIcon, navLabel, onIconClicked}: Tool
   if (Platform.OS === 'android') {
     return (
       <Box flex={1} flexDirection="row" alignItems="center" justifyContent="flex-start" padding="none" maxHeight={56}>
-        {navIcon && <TouchableIcon iconName={navIcon} label={navLabel} onPress={onIconClicked} />}
+        {navIcon && <TouchableIcon iconName={navIcon} label={navLabel} onPress={onIconClicked} containerSize={96} />}
         <Box padding="m">
           <Text variant="bodySubTitle" color="overlayBodyText" accessibilityRole="header">
             {title}

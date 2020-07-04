@@ -20,7 +20,7 @@ export const TouchableIcon = ({iconName, iconSize, containerSize = 56, label, on
   };
 
   const content = (
-    <Box width={containerSize} height={containerSize} justifyContent="center" alignItems="center">
+    <Box paddingRight="xl" width={containerSize} height={containerSize} justifyContent="center" alignItems="center">
       <Icon name={iconName} size={iconSize} />
     </Box>
   );
@@ -30,7 +30,6 @@ export const TouchableIcon = ({iconName, iconSize, containerSize = 56, label, on
       <Ripple
         rippleSize={containerSize}
         rippleContainerBorderRadius={containerSize}
-        rippleCentered
         onPress={onPress}
         {...accessibilityProps}
       >
