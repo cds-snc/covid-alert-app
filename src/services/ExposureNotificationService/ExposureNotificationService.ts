@@ -221,7 +221,7 @@ export class ExposureNotificationService {
         const period = runningPeriod;
         yield {keysFileUrl, period};
       } catch (err) {
-        console.error('Error while downloading key file:', err);
+        console.warn('Error while downloading key file:', err);
       }
 
       runningPeriod -= 1;
@@ -277,7 +277,7 @@ export class ExposureNotificationService {
         return finalize({type: 'exposed', summary, lastCheckedPeriod});
       }
     } catch (error) {
-      console.error('detectExposure:', error);
+      console.warn('detectExposure:', error);
     }
 
     return finalize({lastCheckedPeriod});
