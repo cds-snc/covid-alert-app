@@ -12,6 +12,9 @@ import {BackendService} from 'services/BackendService';
 import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
 import {ExposureNotificationService} from 'services/ExposureNotificationService';
 import {getBackgroundI18n} from 'locale';
+import * as Sentry from '@sentry/react-native';
+import {CaptureConsole} from '@sentry/integrations';
+import DeviceInfo from 'react-native-device-info';
 
 import {name as appName} from '../app.json';
 
@@ -36,6 +39,19 @@ BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
 });
 
 if (__DEV__) {
+  try {
+    Sentry.init({
+      dsn: 'https://06aac26a0bfc4d3b96b85cd835eaee55@o142744.ingest.sentry.io/5309250',
+      enableAutoSessionTracking: true,
+      // Sessions close after app is 10 seconds in the background.
+      sessionTrackingIntervalMillis: 10000,
+      integrations: [new CaptureConsole()],
+    });
+    Sentry.setUser({uniqueId: DeviceInfo.getUniqueId()});
+  } catch (error) {
+    console.error('Unable to init senty', error);
+  }
+
   YellowBox.ignoreWarnings([
     // Triggered by a lot of third party modules and not really actionable.
     'Require cycle:',

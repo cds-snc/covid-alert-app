@@ -221,7 +221,7 @@ export class ExposureNotificationService {
         const period = runningPeriod;
         yield {keysFileUrl, period};
       } catch (err) {
-        console.log('>>> error while downloading key file:', err);
+        console.error('Error while downloading key file:', err);
       }
 
       runningPeriod -= 1;
@@ -229,6 +229,7 @@ export class ExposureNotificationService {
   }
 
   private async performExposureStatusUpdate(): Promise<void> {
+    console.info(`performExposureStatusUpdate()`);
     const exposureConfiguration = await this.backendInterface.getExposureConfiguration();
 
     const finalize = async (status: Partial<ExposureStatus> = {}) => {
@@ -266,13 +267,17 @@ export class ExposureNotificationService {
       keysFileUrls.push(keysFileUrl);
     }
 
+    console.debug(`Fetched keys count: ${keysFileUrls.length} lastCheckedPeriod: ${lastCheckedPeriod}`);
+
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      console.debug(`Summary Matched Key Count: ${summary.matchedKeyCount}`);
       if (summary.matchedKeyCount > 0) {
+        console.debug(`Matched key: ${summary}`);
         return finalize({type: 'exposed', summary, lastCheckedPeriod});
       }
     } catch (error) {
-      console.log('>>> detectExposure', error);
+      console.error('detectExposure:', error);
     }
 
     return finalize({lastCheckedPeriod});
