@@ -24,8 +24,8 @@ export const ItemView = ({item, image}: ItemViewProps) => {
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessible accessibilityRole="header">
         {i18n.translate(`Tutorial.${item}Title`)}
       </Text>
-      {bodyText.map((text, index) => (
-        <Text key={index} variant="bodyText" color="overlayBodyText" marginBottom="l">
+      {bodyText.map(text => (
+        <Text key={text} variant="bodyText" color="overlayBodyText" marginBottom="l">
           {text}
         </Text>
       ))}
