@@ -26,7 +26,7 @@ export const TutorialContent = ({item}: TutorialContentProps) => {
   const Item = viewComponents[item];
   return (
     <ScrollView style={styles.flex} showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box paddingVertical="s" paddingHorizontal="xxl">
+      <Box paddingHorizontal="l">
         <Item />
       </Box>
     </ScrollView>
@@ -36,12 +36,8 @@ export const TutorialContent = ({item}: TutorialContentProps) => {
 const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
-    justifyContent: 'center',
   },
   flex: {
     flex: 1,
-  },
-  center: {
-    alignItems: 'center',
   },
 });
