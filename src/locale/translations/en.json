@@ -118,7 +118,7 @@
     "EnShort": "English",
     "FrShort": "Français",
     "PtBRShort": "Portuguese (Brazil)",
-    "Close": "Back"
+    "Close": "Cancel"
   },
   "Tutorial": {
     "step-1Title": "How COVID Alert works",
@@ -136,7 +136,7 @@
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
-    "Close": "Close"
+    "Close": "Cancel"
   },
   "Sharing": {
     "Title": "Tell your friends about COVID Alert",
@@ -195,7 +195,7 @@
   },
   "Privacy": {
     "Title": "Privacy policy",
-    "Close": "Close"
+    "Close": "Cancel"
   },
   "ThankYou": {
     "Title": "Thank you for helping",
@@ -285,7 +285,7 @@
   "RegionPicker": {
     "Title": "Where do you live? (optional)",
     "SettingsTitle": "Province or territory",
-    "Close": "Close",
+    "Close": "Cancel",
     "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
