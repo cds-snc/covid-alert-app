@@ -6,8 +6,6 @@
 	<string>development</string>
 	<key>com.apple.developer.exposure-notification</key>
 	<true/>
-	<key>com.apple.developer.exposure-notification-test</key>
-	<true/>
 	<key>com.apple.developer.exposure-notification-test-skip-file-verification</key>
 	<true/>
 </dict>
