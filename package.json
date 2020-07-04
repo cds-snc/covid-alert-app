@@ -14,7 +14,9 @@
     "run-ios": "react-native run-ios",
     "start": "react-native start --reset-cache",
     "test": "jest",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
@@ -56,7 +58,8 @@
     "react-native-zip-archive": "^5.0.2",
     "reanimated-bottom-sheet": "^1.0.0-alpha.20",
     "tweetnacl": "^1.0.3",
-    "yarn": "^1.22.4"
+    "yarn": "^1.22.4",
+    "snyk": "^1.360.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -88,5 +91,6 @@
     "reactotron-react-native": "^3.2.1",
     "ts-jest": "25.2.1",
     "typescript": "^3.8.3"
-  }
+  },
+  "snyk": true
 }
