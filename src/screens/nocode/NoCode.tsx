@@ -48,16 +48,32 @@ export const NoCodeScreen = () => {
 
   const {region} = useStorage();
   const regionCase = getRegionCase(region);
-  let content = (
-    <Content
-      title={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Title`)}
-      body={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body`)}
-      externalLinkText={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.CTA`)}
-      externalLinkCTA={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Link`)}
-    />
-  );
+  let content = null;
   switch (regionCase) {
-    case 'noRegionSet':
+    case 'regionNotCovered':
+      content = (
+        <Content
+          title={i18n.translate('DataUpload.NoCode.RegionNotCovered.Title')}
+          body={i18n.translate('DataUpload.NoCode.RegionNotCovered.Body')}
+          list={[
+            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body2'),
+            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body3'),
+            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body4'),
+          ]}
+        />
+      );
+      break;
+    case 'regionCovered':
+      content = (
+        <Content
+          title={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Title`)}
+          body={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body`)}
+          externalLinkText={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.CTA`)}
+          externalLinkCTA={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Link`)}
+        />
+      );
+      break;
+    default:
       content = (
         <>
           <Content
@@ -73,22 +89,9 @@ export const NoCodeScreen = () => {
         </>
       );
       break;
-    case 'regionNotCovered':
-      content = (
-        <Content
-          title={i18n.translate('DataUpload.NoCode.RegionNotCovered.Title')}
-          body={i18n.translate('DataUpload.NoCode.RegionNotCovered.Body')}
-          list={[
-            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body2'),
-            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body3'),
-            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body4'),
-          ]}
-        />
-      );
-      break;
   }
   return (
-    <Box flex={1}>
+    <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
         <Toolbar
           title=""
