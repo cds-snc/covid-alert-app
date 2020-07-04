@@ -40,6 +40,19 @@ const withDarkNav = (Component: React.ElementType) => {
   return ComponentWithDarkNav;
 };
 
+const withDarkNavNonModal = (Component: React.ElementType) => {
+  const ComponentWithDarkNav = (props: any) => {
+    // for onboarding, we don't use modal navigation
+    return (
+      <SafeAreaProvider>
+        <StatusBar barStyle="dark-content" />
+        <Component {...props} />
+      </SafeAreaProvider>
+    );
+  };
+  return ComponentWithDarkNav;
+};
+
 // const withLightNav = (Component: React.ElementType) => {
 //   const ComponentWithLightNav = (props: any) => (
 //     <SafeAreaProvider>
@@ -65,12 +78,12 @@ const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScr
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
 
-const OnboardingStartWithNavBar = withDarkNav(Start);
-const OnboardingWhatItsNotWithNavBar = withDarkNav(WhatItsNot);
-const OnboardingAnonymousWithNavBar = withDarkNav(Anonymous);
-const OnboardingHowItWorksWithNavBar = withDarkNav(HowItWorks);
-const OnboardingPermissionsWithNavBar = withDarkNav(Permissions);
-const OnboardingRegionWithNavBar = withDarkNav(RegionPickerScreen);
+const OnboardingStartWithNavBar = withDarkNavNonModal(Start);
+const OnboardingWhatItsNotWithNavBar = withDarkNavNonModal(WhatItsNot);
+const OnboardingAnonymousWithNavBar = withDarkNavNonModal(Anonymous);
+const OnboardingHowItWorksWithNavBar = withDarkNavNonModal(HowItWorks);
+const OnboardingPermissionsWithNavBar = withDarkNavNonModal(Permissions);
+const OnboardingRegionWithNavBar = withDarkNavNonModal(RegionPickerScreen);
 
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
