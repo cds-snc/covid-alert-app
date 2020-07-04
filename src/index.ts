@@ -6,7 +6,7 @@ import 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import SecureStorage from 'react-native-sensitive-info';
 import ExposureNotification from 'bridge/ExposureNotification';
-import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL} from 'env';
+import {HMAC_KEY, RETRIEVE_URL, SENTRY_DSN, SUBMIT_URL} from 'env';
 import {AppRegistry, YellowBox} from 'react-native';
 import {BackendService} from 'services/BackendService';
 import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
@@ -41,7 +41,7 @@ BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
 if (__DEV__) {
   try {
     Sentry.init({
-      dsn: 'https://06aac26a0bfc4d3b96b85cd835eaee55@o142744.ingest.sentry.io/5309250',
+      dsn: SENTRY_DSN,
       enableAutoSessionTracking: true,
       // Sessions close after app is 10 seconds in the background.
       sessionTrackingIntervalMillis: 10000,
