@@ -13,14 +13,14 @@ interface TouchableIconProps {
   onPress(): void;
 }
 
-export const TouchableIcon = ({iconName, iconSize, containerSize = 56, label, onPress}: TouchableIconProps) => {
+export const TouchableIcon = ({iconName, iconSize, containerSize = 66, label, onPress}: TouchableIconProps) => {
   const accessibilityProps = {
     accessibilityRole: 'button' as 'button',
     accessibilityLabel: label,
   };
 
   const content = (
-    <Box paddingRight="xl" width={containerSize} height={containerSize} justifyContent="center" alignItems="center">
+    <Box width={containerSize} height={containerSize} justifyContent="center" alignItems="center">
       <Icon name={iconName} size={iconSize} />
     </Box>
   );
