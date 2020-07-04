@@ -17,9 +17,9 @@ export const Start = () => {
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
         <Box style={styles.spacer} />
-        <Box flex={1} paddingTop="s" justifyContent="center">
+        <Box flex={1} justifyContent="center">
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-            <Box flex={1} paddingHorizontal="xl">
+            <Box flex={1} paddingHorizontal="l">
               <OnboardingHeader
                 text={i18n.translate('Onboarding.Start.Title')}
                 imageSrc={require('assets/onboarding-start.png')}
