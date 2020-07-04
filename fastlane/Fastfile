@@ -11,7 +11,8 @@ lane :github do
       text: "Tag (ex: android-v19): "
     ),
     description: changelog_from_git_commits(
-      merge_commit_filtering: "only_include_merges"
+      merge_commit_filtering: "only_include_merges",
+      pretty: "- %b [%s]"
     ),
     commitish: "master",
   )
