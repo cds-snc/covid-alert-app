@@ -12,6 +12,7 @@ interface ItemViewProps {
 
 export const ItemView = ({item, image}: ItemViewProps) => {
   const [i18n] = useI18n();
+  const bodyText = i18n.translate(`Tutorial.${item}`).split(/\n\n/g);
   return (
     <>
       <Image
@@ -23,9 +24,11 @@ export const ItemView = ({item, image}: ItemViewProps) => {
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessible accessibilityRole="header">
         {i18n.translate(`Tutorial.${item}Title`)}
       </Text>
-      <Text variant="bodyText" accessible color="overlayBodyText">
-        {i18n.translate(`Tutorial.${item}`)}
-      </Text>
+      {bodyText.map(text => (
+        <Text key={text} variant="bodyText" color="overlayBodyText" marginBottom="l">
+          {text}
+        </Text>
+      ))}
     </>
   );
 };
