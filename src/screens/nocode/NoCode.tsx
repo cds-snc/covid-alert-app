@@ -22,7 +22,7 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
       <ButtonMultiline
         variant="bigFlat"
         text={externalLinkText}
-        onPress={() => Linking.openURL(externalLinkCTA).catch(err => console.warn('An error occurred', err))}
+        onPress={() => Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err))}
         externalLink
       />
     ) : null;

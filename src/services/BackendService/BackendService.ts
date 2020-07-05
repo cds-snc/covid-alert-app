@@ -35,23 +35,18 @@ export class BackendService implements BackendInterface {
   }
 
   async retrieveDiagnosisKeys(period: number) {
-    console.info(`retrieveDiagnosisKeys(${period})`);
     const message = `${MCC_CODE}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${period}/${hmac}`;
-    console.info(`downloadDiagnosisKeysFile(${url})`);
     return downloadDiagnosisKeysFile(url);
   }
 
   async getExposureConfiguration() {
     const region = this.region?.get();
-    const url = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
-    console.debug(`getExposureConfiguration: ${url}`);
-    return (await fetch(url)).json();
+    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
-    console.info(`claimOneTimeCode(${oneTimeCode})`);
     const randomBytes = await getRandomBytes(32);
     nacl.setPRNG(buff => {
       buff.set(randomBytes, 0);
@@ -67,8 +62,6 @@ export class BackendService implements BackendInterface {
     const clientPrivateKey = Buffer.from(keyPair.secretKey).toString('base64');
     const clientPublicKey = Buffer.from(keyPair.publicKey).toString('base64');
 
-    console.debug(`serverPublicKey: ${serverPublicKey}, clientPublicKey: ${clientPublicKey}`);
-
     return {
       serverPublicKey,
       clientPrivateKey,
@@ -77,7 +70,6 @@ export class BackendService implements BackendInterface {
   }
 
   async reportDiagnosisKeys(keyPair: SubmissionKeySet, _exposureKeys: TemporaryExposureKey[]) {
-    console.info(`reportDiagnosisKeys(keyPair: ${keyPair}, exposureKeys: ${_exposureKeys}`);
     // Ref https://github.com/CovidShield/mobile/issues/192
     const filteredExposureKeys = Object.values(
       _exposureKeys.sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
@@ -107,12 +99,10 @@ export class BackendService implements BackendInterface {
     const nonce = await getRandomBytes(24);
     const encryptedPayload = nacl.box(serializedUpload, nonce, serverPublicKey, clientPrivate);
 
-    console.debug(`Uploading encrypted diagnosis keys`);
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
   }
 
   private async keyClaim(code: string, keyPair: nacl.BoxKeyPair): Promise<covidshield.KeyClaimResponse> {
-    console.debug(`keyClaim(${code})`);
     const uploadPayload = covidshield.KeyClaimRequest.create({
       oneTimeCode: code,
       appPublicKey: keyPair.publicKey,

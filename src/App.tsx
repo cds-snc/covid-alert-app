@@ -40,16 +40,14 @@ const i18nManager = new I18nManager({
 });
 
 const appInit = async () => {
-  console.info('App.appInit()');
   try {
     const locale = await AsyncStorage.getItem(Key.Locale);
     if (locale && locale !== i18nManager.details.locale) i18nManager.update({locale});
   } catch (error) {
-    console.warn(error);
+    console.error(error);
   }
 
   // only hide splash screen after our init is done
-  console.info('SplashScreen.hide()');
   SplashScreen.hide();
 };
 
