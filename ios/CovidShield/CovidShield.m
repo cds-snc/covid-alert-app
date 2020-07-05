@@ -19,7 +19,7 @@ RCT_REMAP_METHOD(getRandomBytes, randomBytesWithSize:(NSUInteger)size withResolv
     NSString *base64encoded = [[[NSData alloc] initWithBytes:buff length:size] base64EncodedStringWithOptions:0];
     resolve(base64encoded);
   }
-
+  free(buff);
 }
 
 RCT_REMAP_METHOD(downloadDiagnosisKeysFile, downloadDiagnosisKeysFileWithURL:(NSString *)url WithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
