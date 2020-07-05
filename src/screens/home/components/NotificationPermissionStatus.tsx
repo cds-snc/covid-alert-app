@@ -16,8 +16,7 @@ interface NotificationPermissionStatusProviderProps {
 }
 
 export const NotificationPermissionStatusProvider = ({children}: NotificationPermissionStatusProviderProps) => {
-  const [status, setStatus] = useState<NotificationPermissionStatusContextProps['status']>('granted');
-
+  const [status, setStatus] = useState<NotificationPermissionStatusContextProps['status']>('blocked');
   useEffect(() => {
     const {callable, cancelable} = createCancellableCallbackPromise<Status>(
       () =>
