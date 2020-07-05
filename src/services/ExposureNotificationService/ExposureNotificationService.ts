@@ -265,8 +265,8 @@ export class ExposureNotificationService {
       lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
       keysFileUrls.push(keysFileUrl);
     }
-
-    console.debug(`Fetched keys count: ${keysFileUrls.length} lastCheckedPeriod: ${lastCheckedPeriod}`);
+    console.debug('keysFileUrls', keysFileUrls);
+    console.debug(`lastCheckedPeriod: ${lastCheckedPeriod}`);
 
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
