@@ -60,6 +60,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
         keyboardType="number-pad"
         autoCorrect={false}
         autoCompleteType="off"
+        autoFocus
         returnKeyType="done"
         accessibilityLabel={accessibilityLabel}
         caretHidden
