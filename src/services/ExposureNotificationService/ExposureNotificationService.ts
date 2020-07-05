@@ -266,9 +266,13 @@ export class ExposureNotificationService {
       keysFileUrls.push(keysFileUrl);
     }
 
+    console.debug(`Fetched keys count: ${keysFileUrls.length} lastCheckedPeriod: ${lastCheckedPeriod}`);
+
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      console.debug(`Summary Matched Key Count: ${summary.matchedKeyCount}`);
       if (summary.matchedKeyCount > 0) {
+        console.debug(`Matched key: ${summary}`);
         return finalize({type: 'exposed', summary, lastCheckedPeriod});
       }
     } catch (error) {
