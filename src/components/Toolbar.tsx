@@ -5,7 +5,6 @@ import {Box} from './Box';
 import {Button} from './Button';
 import {IconProps} from './Icon';
 import {Text} from './Text';
-import {TouchableIcon} from './TouchableIcon';
 
 export interface ToolbarProps {
   title: string;
@@ -15,7 +14,7 @@ export interface ToolbarProps {
   navLabel?: string;
 }
 
-export const Toolbar = ({title, navText, navIcon, navLabel, onIconClicked}: ToolbarProps) => {
+export const Toolbar = ({title, navText, onIconClicked}: ToolbarProps) => {
   useEffect(() => {
     if (Platform.OS !== 'android') {
       return;
@@ -27,18 +26,6 @@ export const Toolbar = ({title, navText, navIcon, navLabel, onIconClicked}: Tool
     return () => subscription.remove();
   }, [onIconClicked]);
 
-  if (Platform.OS === 'android') {
-    return (
-      <Box flex={1} flexDirection="row" alignItems="center" justifyContent="flex-start" padding="none" maxHeight={56}>
-        {navIcon && <TouchableIcon iconName={navIcon} label={navLabel} onPress={onIconClicked} iconSize={48} />}
-        <Box padding="m">
-          <Text variant="bodySubTitle" color="overlayBodyText" accessibilityRole="header">
-            {title}
-          </Text>
-        </Box>
-      </Box>
-    );
-  }
   return (
     <Box flexDirection="row" alignItems="center" minHeight={56}>
       <Box>
