@@ -13,7 +13,7 @@ interface TouchableIconProps {
   onPress(): void;
 }
 
-export const TouchableIcon = ({iconName, iconSize, containerSize = 56, label, onPress}: TouchableIconProps) => {
+export const TouchableIcon = ({iconName, iconSize, containerSize = 66, label, onPress}: TouchableIconProps) => {
   const accessibilityProps = {
     accessibilityRole: 'button' as 'button',
     accessibilityLabel: label,
@@ -30,7 +30,6 @@ export const TouchableIcon = ({iconName, iconSize, containerSize = 56, label, on
       <Ripple
         rippleSize={containerSize}
         rippleContainerBorderRadius={containerSize}
-        rippleCentered
         onPress={onPress}
         {...accessibilityProps}
       >
