@@ -119,8 +119,6 @@
     "NoConnectivity": "Alerte COVID est hors ligne",
     "NoConnectivityDetailed": "Alerte COVID vérifie s’il y a des expositions seulement quand votre téléphone est connecté à Internet.",
     "NoExposureDetected": {
-      "AllSetTipTitle": "CONSEIL : ",
-      "AllSetTipBody": "Utilisez un code, un schéma ou un autre moyen de verrouiller votre téléphone quand Bluetooth est activé.",
       "AllSetTitle": "Vous voilà prêt!",
       "NoRegion": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
