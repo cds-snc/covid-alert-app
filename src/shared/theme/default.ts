@@ -35,6 +35,7 @@ export const palette = {
   gray2: '#585858',
   link: '#2B4380',
   green2: '#C9E7DE',
+  greenCheck: '#33D1A1',
 };
 
 const theme = {
@@ -64,7 +65,7 @@ const theme = {
     errorBackground: palette.errorLight,
     errorText: palette.error,
     infoBlockBrightBackground: palette.lightBlue,
-    infoBlockBrightText: palette.brandBlue,
+    infoBlockBrightText: palette.greenCheck,
     infoBlockNeutralBackground: palette.neutralGrey,
     infoBlockNeutralText: palette.bodyBlack,
     infoBlockBlackBackground: palette.bodyBlack,
