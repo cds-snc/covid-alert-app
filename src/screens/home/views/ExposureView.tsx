@@ -26,7 +26,7 @@ export const ExposureView = () => {
   }, [i18n, region]);
 
   const onActionGuidance = useCallback(() => {
-    Linking.openURL(getGuidanceURL()).catch(err => console.warn('An error occurred', err));
+    Linking.openURL(getGuidanceURL()).catch(err => console.error('An error occurred', err));
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
 

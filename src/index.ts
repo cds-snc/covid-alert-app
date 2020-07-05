@@ -49,7 +49,7 @@ if (__DEV__) {
     });
     Sentry.setUser({uniqueId: DeviceInfo.getUniqueId()});
   } catch (error) {
-    console.warn('Unable to init senty', error);
+    console.error('Unable to init senty', error);
   }
 
   YellowBox.ignoreWarnings([
