@@ -33,7 +33,7 @@ export const DataSharingScreen = () => {
     Alert.alert(
       i18n.translate('DataUpload.ConsentView.ErrorTitle'),
       i18n.translate('DataUpload.ConsentView.ErrorBody'),
-      [{text: i18n.translate('DataUpload.ForConsentViewm.ErrorAction')}],
+      [{text: i18n.translate('DataUpload.FormView.ErrorAction')}],
     );
   };
 
