@@ -37,7 +37,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
               key={`input-${x}`}
               flex={1}
               marginHorizontal="xs"
-              borderBottomWidth={1.5}
+              borderBottomWidth={3}
               borderBottomColor={inputBorderColor(value, x)}
             >
               <Text variant="codeInput" color="overlayBodyText" textAlign="center" marginBottom="s">
