@@ -95,3 +95,6 @@ android/app/google-services.json
 
 # generated files
 ios/assets
+
+.env.debug
+.env.debug.production

@@ -161,6 +161,15 @@ android {
                 keyPassword project.env.get('STOPCOVID_UPLOAD_KEY_PASSWORD')
             }
         }
+
+        debug {
+            if (project.env.get('STOPCOVID_UPLOAD_STORE_FILE')) {
+                storeFile file(project.env.get('STOPCOVID_UPLOAD_STORE_FILE'))
+                storePassword project.env.get('STOPCOVID_UPLOAD_STORE_PASSWORD')
+                keyAlias project.env.get('STOPCOVID_UPLOAD_KEY_ALIAS')
+                keyPassword project.env.get('STOPCOVID_UPLOAD_KEY_PASSWORD')
+            }
+        }
     }
     buildTypes {
         debug {

@@ -48,6 +48,11 @@ fastlane android internal
 fastlane android local
 ```
 
+### android debug
+```
+fastlane android debug
+```
+
 
 ----
 
