@@ -25,12 +25,9 @@ export const Header = () => {
   const onLogoPress = useCallback(() => {
     navigation.dispatch(DrawerActions.openDrawer());
   }, [navigation]);
+
   if (TEST_MODE) {
-    return (
-      <TouchableWithoutFeedback onPress={onLogoPress}>
-        <BasicHeader />
-      </TouchableWithoutFeedback>
-    );
+    return <TouchableWithoutFeedback onPress={onLogoPress}>{BasicHeader()}</TouchableWithoutFeedback>;
   }
   return <BasicHeader />;
 };
