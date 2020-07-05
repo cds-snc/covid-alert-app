@@ -40,6 +40,7 @@ BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
 
 if (__DEV__) {
   try {
+    /*
     Sentry.init({
       dsn: SENTRY_DSN,
       enableAutoSessionTracking: true,
@@ -48,6 +49,7 @@ if (__DEV__) {
       integrations: [new CaptureConsole()],
     });
     Sentry.setUser({uniqueId: DeviceInfo.getUniqueId()});
+    */
   } catch (error) {
     console.warn('Unable to init senty', error);
   }

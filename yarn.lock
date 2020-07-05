@@ -1281,7 +1281,7 @@
     "@sentry/utils" "5.19.0"
     tslib "^1.9.3"
 
-"@sentry/integrations@^5.16.1", "@sentry/integrations@^5.19.0":
+"@sentry/integrations@^5.16.1":
   version "5.19.0"
   resolved "https://registry.yarnpkg.com/@sentry/integrations/-/integrations-5.19.0.tgz#2efe8eaa8d1c26ba92f99af941c9dd922efbb94e"
   integrity sha512-vCmej1zfumVRKnxKw0RlwVjZ/TWBJZTAWIzqoAxXZyo67bKRy3fP408nj0QL5QAWKw+sUelqvzNqvY94cy+b0w==
