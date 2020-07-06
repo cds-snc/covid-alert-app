@@ -6,16 +6,13 @@ before_all do
 end
 
 desc "Creates a Github Release"
-lane :github do
+lane :github do |options|
   set_github_release(
     repository_name: "cds-snc/covid-shield-mobile",
     api_token: ENV["GITHUB_TOKEN"],
-    name: prompt(
-      text: "Release name (ex: Android v19): "
-    ),
-    tag_name: prompt(
-      text: "Tag (ex: android-v19): "
-    ),
+    name: "#{options[:platform]}  v#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})",
+    tag_name: "#{options[:platform]}-v#{ENV['APP_VERSION_NAME']}-#{ENV['APP_VERSION_CODE']}",
+
     description: default_changelog,
     commitish: "master",
   )
@@ -29,13 +26,13 @@ lane :default_changelog do
   ),
   Actions.lane_context[SharedValues::FL_CHANGELOG] = changelog
   puts changelog
-  changelog
+  changelog.join(' ')
 end
 
 platform :ios do
   desc "Submit a new Covid Alert beta build to Apple TestFlight"
   lane :beta do
-    # ensure_git_branch
+    ensure_git_branch
 
     get_certificates(
       output_path: "fastlane/certs"
@@ -63,7 +60,7 @@ platform :ios do
       build_number: ENV["APP_VERSION_CODE"],
     )
 
-    github
+    github(platform: 'iOS')
   end
 
   desc "Builds a local iOS adhoc .ipa"
@@ -124,7 +121,7 @@ platform :android do
       aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]
     )
 
-    github
+    github(platform: "Android")
   end
 
   desc "Builds a local .apk for Android"
