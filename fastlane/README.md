@@ -19,7 +19,12 @@ or alternatively using `brew cask install fastlane`
 ```
 fastlane github
 ```
-
+Creates a Github Release
+### default_changelog
+```
+fastlane default_changelog
+```
+Returns a default changelog.
 
 ----
 
@@ -28,12 +33,12 @@ fastlane github
 ```
 fastlane ios beta
 ```
-
+Submit a new Covid Alert beta build to Apple TestFlight
 ### ios local
 ```
 fastlane ios local
 ```
-
+Builds a local iOS adhoc .ipa
 
 ----
 
@@ -42,12 +47,12 @@ fastlane ios local
 ```
 fastlane android internal
 ```
-
+Pushes a new build to Google Play Internal Testing Track
 ### android local
 ```
 fastlane android local
 ```
-
+Builds a local .apk for Android
 
 ----
 
