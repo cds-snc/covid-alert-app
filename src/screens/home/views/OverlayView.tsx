@@ -140,6 +140,9 @@ export const OverlayView = ({
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <View style={styles.content}>
         <Box maxWidth={maxWidth}>
+          <Box marginBottom="s">
+            <StatusHeaderView enabled={status === SystemStatus.Active} />
+          </Box>
           <View style={styles.collapseContentHandleBar}>
             <TouchableOpacity
               onPress={bottomSheetBehavior.collapse}
@@ -150,9 +153,6 @@ export const OverlayView = ({
               <Icon name="sheet-handle-bar-close" size={36} />
             </TouchableOpacity>
           </View>
-          <Box marginBottom="s">
-            <StatusHeaderView enabled={status === SystemStatus.Active} />
-          </Box>
           <Box marginBottom="m" marginTop="s" marginHorizontal="m">
             <ShareDiagnosisCode i18n={i18n} />
           </Box>
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     top: -32,
   },
   collapseButton: {
-    height: 36,
+    height: 48,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',

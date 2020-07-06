@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {TouchableHighlight, View, StyleSheet} from 'react-native';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import Animated, {pow} from 'react-native-reanimated';
 import {Box, Text, BottomSheetBehavior, Icon} from 'components';
 import {useI18n} from '@shopify/react-i18n';
@@ -22,12 +22,12 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
   }, [notificationWarning, bottomSheetBehavior]);
 
   return (
-    <TouchableHighlight onPress={bottomSheetBehavior.expand}>
-      <Animated.View style={{...styles.collapseContent, opacity: pow(bottomSheetBehavior.callbackNode, 2)}}>
-        <View style={styles.collapseContentHandleBar}>
-          <Icon name="sheet-handle-bar" size={36} />
-        </View>
+    <TouchableOpacity onPress={bottomSheetBehavior.expand}>
+      <Animated.View style={{opacity: pow(bottomSheetBehavior.callbackNode, 2)}}>
         <View style={styles.content}>
+          <View style={styles.collapseContentHandleBar}>
+            <Icon name="sheet-handle-bar" size={36} />
+          </View>
           <Box>
             <Box marginBottom="m">
               <StatusHeaderView enabled={status === SystemStatus.Active} />
@@ -63,17 +63,14 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
           </Box>
         </View>
       </Animated.View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   content: {
-    marginTop: 10,
-  },
-  collapseContent: {
-    position: 'absolute',
-    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   collapseContentHandleBar: {
     position: 'absolute',

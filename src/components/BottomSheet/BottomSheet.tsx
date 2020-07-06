@@ -71,12 +71,20 @@ const BottomSheetInternal = (
       <SheetContentsContainer>
         <>
           <View
+            style={styles.collapseContent}
             accessibilityElementsHidden={isExpanded}
             importantForAccessibility={isExpanded ? 'no-hide-descendants' : undefined}
+            pointerEvents={isExpanded ? 'none' : undefined}
           >
             {collapsedComponentWrapper}
           </View>
-          <View pointerEvents={isExpanded ? undefined : 'none'}>{expandedComponentWrapper}</View>
+          <View
+            pointerEvents={isExpanded ? undefined : 'none'}
+            accessibilityElementsHidden={!isExpanded}
+            importantForAccessibility={isExpanded ? undefined : 'no-hide-descendants'}
+          >
+            {expandedComponentWrapper}
+          </View>
         </>
       </SheetContentsContainer>
     );
@@ -105,6 +113,10 @@ const BottomSheetInternal = (
 const styles = StyleSheet.create({
   spacer: {
     marginBottom: -18,
+  },
+  collapseContent: {
+    position: 'absolute',
+    width: '100%',
   },
 });
 
