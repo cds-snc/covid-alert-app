@@ -6,7 +6,7 @@ before_all do
 end
 
 desc "Creates a Github Release"
-lane :github do |options|
+lane :create_github_release do |options|
   set_github_release(
     repository_name: "cds-snc/covid-shield-mobile",
     api_token: ENV["GITHUB_TOKEN"],
@@ -60,7 +60,7 @@ platform :ios do
       build_number: ENV["APP_VERSION_CODE"],
     )
 
-    github(platform: 'iOS')
+    create_github_release(platform: 'iOS')
   end
 
   desc "Builds a local iOS adhoc .ipa"
@@ -121,7 +121,7 @@ platform :android do
       aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]
     )
 
-    github(platform: "Android")
+    create_github_release(platform: "Android")
   end
 
   desc "Builds a local .apk for Android"

@@ -15,9 +15,9 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
-### github
+### create_github_release
 ```
-fastlane github
+fastlane create_github_release
 ```
 Creates a Github Release
 ### default_changelog
