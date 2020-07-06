@@ -1,3 +1,4 @@
+import {Platform} from 'react-native';
 import ExposureNotification, {ExposureSummary, Status as SystemStatus} from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
@@ -5,7 +6,6 @@ import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
-import {Platform} from 'react-native';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 
