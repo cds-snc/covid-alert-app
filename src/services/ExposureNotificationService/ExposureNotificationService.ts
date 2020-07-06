@@ -1,5 +1,9 @@
 import {Platform} from 'react-native';
-import ExposureNotification, {ExposureSummary, Status as SystemStatus} from 'bridge/ExposureNotification';
+import ExposureNotification, {
+  ExposureConfiguration,
+  ExposureSummary,
+  Status as SystemStatus,
+} from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
@@ -190,7 +194,7 @@ export class ExposureNotificationService {
    * If the exposureConfiguration is not available from the server for some reason,
    * try and use a previously stored configuration, or use the default configuration bundled with the app.
    */
-  async getAlternateExposureConfiguration() {
+  async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
     try {
       const exposureConfigurationStr = await this.secureStorage.getItem(EXPOSURE_CONFIGURATION, SECURE_OPTIONS);
       if (exposureConfigurationStr) {
@@ -252,7 +256,7 @@ export class ExposureNotificationService {
   }
 
   private async performExposureStatusUpdate(): Promise<void> {
-    let exposureConfiguration;
+    let exposureConfiguration: ExposureConfiguration;
     try {
       exposureConfiguration = await this.backendInterface.getExposureConfiguration();
       console.info('Using downloaded exposureConfiguration.');
@@ -264,7 +268,7 @@ export class ExposureNotificationService {
       } else {
         console.error('Netowrk error: Unable to download exposureConfiguration.', error);
       }
-      exposureConfiguration = this.getAlternateExposureConfiguration();
+      exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
 
     const finalize = async (status: Partial<ExposureStatus> = {}) => {
