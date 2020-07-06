@@ -40,7 +40,7 @@ The random codes are only stored and used for the purpose of responding to COVID
 ## Deleting your data
 - All random codes, whether from your phone or others, are deleted after 15 days.
 - You can delete the app at any time, and the random codes on your phone will be automatically deleted.
-- If you had uploaded your random codes before deleting the app, the random codes will be deleted from the server after 14 days.
+- If you had uploaded your random codes before deleting the app, the random codes will be deleted from the server after 15 days.
 `;
 
 export default privacy;
