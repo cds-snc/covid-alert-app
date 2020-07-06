@@ -1,7 +1,8 @@
 import React, {useCallback} from 'react';
-import {Box, InfoBlock, BoxProps, InfoButton} from 'components';
+import Animated, {sub, abs} from 'react-native-reanimated';
+import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {Linking, Platform} from 'react-native';
+import {Linking, Platform, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
@@ -123,37 +124,76 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
   turnNotificationsOn: () => void;
+  bottomSheetBehavior: BottomSheetBehavior;
 }
 
-export const OverlayView = ({status, notificationWarning, turnNotificationsOn, maxWidth}: Props) => {
+export const OverlayView = ({
+  status,
+  notificationWarning,
+  turnNotificationsOn,
+  maxWidth,
+  bottomSheetBehavior,
+}: Props) => {
   const [i18n] = useI18n();
 
   return (
-    <Box maxWidth={maxWidth}>
-      <Box marginBottom="s">
-        <StatusHeaderView enabled={status === SystemStatus.Active} />
-      </Box>
-      <Box marginBottom="m" marginTop="s" marginHorizontal="m">
-        <ShareDiagnosisCode i18n={i18n} />
-      </Box>
-      {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
-        <Box marginBottom="m" marginHorizontal="m">
-          <SystemStatusOff i18n={i18n} />
+    <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
+      <View style={styles.content}>
+        <Box maxWidth={maxWidth}>
+          <View style={styles.collapseContentHandleBar}>
+            <TouchableOpacity
+              onPress={bottomSheetBehavior.collapse}
+              style={styles.collapseButton}
+              accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+              accessibilityRole="button"
+            >
+              <Icon name="sheet-handle-bar-close" size={36} />
+            </TouchableOpacity>
+          </View>
+          <Box marginBottom="s">
+            <StatusHeaderView enabled={status === SystemStatus.Active} />
+          </Box>
+          <Box marginBottom="m" marginTop="s" marginHorizontal="m">
+            <ShareDiagnosisCode i18n={i18n} />
+          </Box>
+          {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
+            <Box marginBottom="m" marginHorizontal="m">
+              <SystemStatusOff i18n={i18n} />
+            </Box>
+          )}
+          {status === SystemStatus.BluetoothOff && (
+            <Box marginBottom="m" marginHorizontal="m">
+              <BluetoothStatusOff i18n={i18n} />
+            </Box>
+          )}
+          {notificationWarning && (
+            <Box marginBottom="m" marginHorizontal="m">
+              <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
+            </Box>
+          )}
+          <Box marginBottom="m" marginHorizontal="m">
+            <InfoShareView />
+          </Box>
         </Box>
-      )}
-      {status === SystemStatus.BluetoothOff && (
-        <Box marginBottom="m" marginHorizontal="m">
-          <BluetoothStatusOff i18n={i18n} />
-        </Box>
-      )}
-      {notificationWarning && (
-        <Box marginBottom="m" marginHorizontal="m">
-          <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
-        </Box>
-      )}
-      <Box marginBottom="m" marginHorizontal="m">
-        <InfoShareView />
-      </Box>
-    </Box>
+      </View>
+    </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  content: {
+    marginTop: 10,
+  },
+  collapseContentHandleBar: {
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'center',
+    top: -32,
+  },
+  collapseButton: {
+    height: 36,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+});
