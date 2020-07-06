@@ -1,3 +1,4 @@
+import {Platform} from 'react-native';
 import ExposureNotification, {ExposureSummary, Status as SystemStatus} from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
@@ -261,7 +262,12 @@ export class ExposureNotificationService {
       if (done) break;
       if (!value) continue;
       const {keysFileUrl, period} = value;
-      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+
+      // Temporarily disable persisting lastCheckPeriod on Android
+      // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
+      if (Platform.OS !== 'android') {
+        lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+      }
 
       try {
         const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFileUrl]);
