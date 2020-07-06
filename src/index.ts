@@ -38,20 +38,20 @@ BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
   await exposureNotificationService.updateExposureStatusInBackground();
 });
 
-if (__DEV__) {
-  try {
-    Sentry.init({
-      dsn: SENTRY_DSN,
-      enableAutoSessionTracking: true,
-      // Sessions close after app is 10 seconds in the background.
-      sessionTrackingIntervalMillis: 10000,
-      integrations: [new CaptureConsole()],
-    });
-    Sentry.setUser({uniqueId: DeviceInfo.getUniqueId()});
-  } catch (error) {
-    console.error('Unable to init senty', error);
-  }
+try {
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    enableAutoSessionTracking: true,
+    // Sessions close after app is 10 seconds in the background.
+    sessionTrackingIntervalMillis: 10000,
+    integrations: [new CaptureConsole()],
+  });
+  Sentry.setUser({uniqueId: DeviceInfo.getUniqueId()});
+} catch (error) {
+  console.error('Unable to init Sentry', error);
+}
 
+if (__DEV__) {
   YellowBox.ignoreWarnings([
     // Triggered by a lot of third party modules and not really actionable.
     'Require cycle:',
