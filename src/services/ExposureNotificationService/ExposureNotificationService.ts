@@ -254,7 +254,6 @@ export class ExposureNotificationService {
       return finalize();
     }
 
-    const keysFileUrls: string[] = [];
     const generator = this.keysSinceLastFetch(currentStatus.lastCheckedPeriod);
     let lastCheckedPeriod = currentStatus.lastCheckedPeriod;
     while (true) {
@@ -263,16 +262,15 @@ export class ExposureNotificationService {
       if (!value) continue;
       const {keysFileUrl, period} = value;
       lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
-      keysFileUrls.push(keysFileUrl);
-    }
 
-    try {
-      const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-      if (summary.matchedKeyCount > 0) {
-        return finalize({type: 'exposed', summary, lastCheckedPeriod});
+      try {
+        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFileUrl]);
+        if (summary.matchedKeyCount > 0) {
+          return finalize({type: 'exposed', summary, lastCheckedPeriod});
+        }
+      } catch (error) {
+        console.log('>>> detectExposure', error);
       }
-    } catch (error) {
-      console.log('>>> detectExposure', error);
     }
 
     return finalize({lastCheckedPeriod});

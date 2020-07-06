@@ -14,6 +14,7 @@ import app.covidshield.extensions.toInformation
 import app.covidshield.extensions.toSummary
 import app.covidshield.extensions.toWritableArray
 import app.covidshield.extensions.toWritableMap
+import app.covidshield.extensions.withDelay
 import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
 import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
@@ -30,7 +31,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationSt
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
@@ -112,6 +112,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             // Temporary setTimeout as the EN framework doesn't return summary if no keys are matched
             // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
             withDelay(DETECT_EXPOSURE_TIMEOUT) {
+                log("detectExposure timeout", mapOf("token" to token))
                 onReceive(token)
             }
 
@@ -129,11 +130,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                 putString(SUMMARY_HIDDEN_KEY, token)
             })
         }
-    }
-
-    suspend fun <T> withDelay(timeMillis: Long, block: suspend CoroutineScope.() -> T): T {
-        delay(timeMillis)
-        return block()
     }
 
     @ReactMethod
