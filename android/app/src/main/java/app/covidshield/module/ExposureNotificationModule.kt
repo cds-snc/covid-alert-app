@@ -30,9 +30,9 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationSt
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withTimeout
 import java.io.File
 import java.util.*
 import kotlin.coroutines.CoroutineContext
@@ -111,7 +111,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
             // Temporary setTimeout as the EN framework doesn't return summary if no keys are matched
             // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
-            withTimeout(DETECT_EXPOSURE_TIMEOUT) {
+            withDelay(DETECT_EXPOSURE_TIMEOUT) {
                 onReceive(token)
             }
 
@@ -129,6 +129,11 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                 putString(SUMMARY_HIDDEN_KEY, token)
             })
         }
+    }
+
+    suspend fun <T> withDelay(timeMillis: Long, block: suspend CoroutineScope.() -> T): T {
+        delay(timeMillis)
+        return block()
     }
 
     @ReactMethod
