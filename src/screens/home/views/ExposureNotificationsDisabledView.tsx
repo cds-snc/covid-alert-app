@@ -1,16 +1,26 @@
 import {useI18n} from '@shopify/react-i18n';
 import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
-import {Linking} from 'react-native';
+import {Linking, Platform} from 'react-native';
+import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const ExposureNotificationsDisabledView = () => {
   const [i18n] = useI18n();
+  const startExposureNotificationService = useStartExposureNotificationService();
 
   const toSettings = useCallback(() => {
     Linking.openSettings();
   }, []);
+
+  const onPress = () => {
+    if (Platform.OS === 'android') {
+      startExposureNotificationService();
+      return;
+    }
+    return toSettings();
+  };
 
   return (
     <BaseHomeView iconName="icon-bluetooth-disabled">
@@ -25,7 +35,7 @@ export const ExposureNotificationsDisabledView = () => {
           text={i18n.translate('Home.EnableExposureNotificationsCTA')}
           variant="danger50Flat"
           internalLink
-          onPress={toSettings}
+          onPress={onPress}
         />
       </Box>
     </BaseHomeView>
