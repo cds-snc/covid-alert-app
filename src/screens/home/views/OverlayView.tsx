@@ -1,8 +1,12 @@
 import React, {useCallback} from 'react';
 import {Box, InfoBlock, BoxProps, InfoButton} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {Linking} from 'react-native';
-import {SystemStatus, useExposureStatus} from 'services/ExposureNotificationService';
+import {Linking, Platform} from 'react-native';
+import {
+  SystemStatus,
+  useExposureStatus,
+  useStartExposureNotificationService,
+} from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
 import {daysBetween} from 'shared/date-fns';
 
@@ -10,6 +14,14 @@ import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
+  const startExposureNotificationService = useStartExposureNotificationService();
+  const onPress = () => {
+    if (Platform.OS === 'android') {
+      startExposureNotificationService();
+      return;
+    }
+    return toSettings();
+  };
   const toSettings = useCallback(() => {
     Linking.openSettings();
   }, []);
@@ -21,7 +33,7 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
       color="danger25Background"
       variant="danger50Flat"
       internalLink
-      onPress={toSettings}
+      onPress={onPress}
     />
   );
 };
