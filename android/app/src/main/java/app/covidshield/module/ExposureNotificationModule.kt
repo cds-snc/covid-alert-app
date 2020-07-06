@@ -32,6 +32,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeout
 import java.io.File
 import java.util.*
 import kotlin.coroutines.CoroutineContext
@@ -39,6 +40,11 @@ import kotlin.coroutines.CoroutineContext
 private const val SUMMARY_HIDDEN_KEY = "_summaryIdx"
 
 private typealias Token = String
+
+private const val START_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9001
+private const val GET_TEK_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9002
+
+private const val DETECT_EXPOSURE_TIMEOUT = 20000L
 
 class ExposureNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope, ActivityResultHelper, ExposureNotificationBroadcastReceiver.Helper {
 
@@ -102,6 +108,13 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             // Wait for ExposureNotificationBroadcastReceiver
             val completer = CompletableDeferred<Token>()
             detectExposureResolutionCompleters[token] = completer
+
+            // Temporary setTimeout as the EN framework doesn't return summary if no keys are matched
+            // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
+            withTimeout(DETECT_EXPOSURE_TIMEOUT) {
+                onReceive(token)
+            }
+
             completer.await()
             detectExposureResolutionCompleters.remove(token)
 
@@ -248,12 +261,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     override fun onReceive(token: String) {
         val completer = detectExposureResolutionCompleters[token] ?: return
         completer.complete(token)
-    }
-
-    companion object {
-
-        private const val START_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9001
-        private const val GET_TEK_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9002
     }
 }
 
