@@ -1,8 +1,8 @@
-import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
+import React, {useCallback, useEffect, useState, useRef, useLayoutEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBahavior, Box} from 'components';
-import {DevSettings} from 'react-native';
+import {DevSettings, Linking} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
@@ -128,7 +128,10 @@ const BottomSheetContent = () => {
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
   const maxWidth = useMaxContentWidth();
-
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
+  const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
   // if (systemStatus === SystemStatus.Unknown) {
   //   return null;
   // }
@@ -137,7 +140,7 @@ const BottomSheetContent = () => {
     <OverlayView
       status={systemStatus}
       notificationWarning={showNotificationWarning}
-      turnNotificationsOn={turnNotificationsOn}
+      turnNotificationsOn={turnNotificationsOnFn}
       maxWidth={maxWidth}
     />
   );
