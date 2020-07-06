@@ -8,5 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@drawable/launch_screen" />
+        android:src="@drawable/launch_screen"
+        android:contentDescription="@string/splash_alt_fr"/>
 </RelativeLayout>
