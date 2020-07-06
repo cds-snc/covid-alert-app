@@ -44,7 +44,7 @@ private typealias Token = String
 private const val START_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9001
 private const val GET_TEK_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9002
 
-private const val DETECT_EXPOSURE_TIMEOUT = 20000L
+private const val DETECT_EXPOSURE_TIMEOUT = 30000L
 
 class ExposureNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope, ActivityResultHelper, ExposureNotificationBroadcastReceiver.Helper {
 

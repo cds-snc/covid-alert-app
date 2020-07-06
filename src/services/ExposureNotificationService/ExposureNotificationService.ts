@@ -5,6 +5,7 @@ import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
+import {Platform} from 'react-native';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 
@@ -261,7 +262,12 @@ export class ExposureNotificationService {
       if (done) break;
       if (!value) continue;
       const {keysFileUrl, period} = value;
-      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+
+      // Temporarily disable persisting lastCheckPeriod on Android
+      // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
+      if (Platform.OS !== 'android') {
+        lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+      }
 
       try {
         const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFileUrl]);
