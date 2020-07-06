@@ -7,7 +7,10 @@ import {Observable, MapObservable} from 'shared/Observable';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
+import defaultExposureConfiguration from './DefaultExposureConfiguration.json';
+
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
+const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 
 const SECURE_OPTIONS = {
   sharedPreferencesName: 'covidShieldSharedPreferences',
@@ -183,6 +186,25 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
+  /**
+   * If the exposureConfiguration is not available from the server for some reason,
+   * try and use a previously stored configuration, or use the default configuration bundled with the app.
+   */
+  async getAlternateExposureConfiguration() {
+    try {
+      const exposureConfigurationStr = await this.secureStorage.getItem(EXPOSURE_CONFIGURATION, SECURE_OPTIONS);
+      if (exposureConfigurationStr) {
+        console.warn('Using previously saved exposureConfiguration');
+        return JSON.parse(exposureConfigurationStr);
+      } else {
+        throw new Error('Unable to use saved exposureConfiguration');
+      }
+    } catch (error) {
+      console.warn('Using default exposureConfiguration.', error);
+      return defaultExposureConfiguration;
+    }
+  }
+
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== 'diagnosed') return;
@@ -230,7 +252,20 @@ export class ExposureNotificationService {
   }
 
   private async performExposureStatusUpdate(): Promise<void> {
-    const exposureConfiguration = await this.backendInterface.getExposureConfiguration();
+    let exposureConfiguration;
+    try {
+      exposureConfiguration = await this.backendInterface.getExposureConfiguration();
+      console.info('Using downloaded exposureConfiguration.');
+      const serialized = JSON.stringify(exposureConfiguration);
+      await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS);
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        console.error('JSON Parsing error: Unable to parse downloaded exposureConfiguration.', error);
+      } else {
+        console.error('Netowrk error: Unable to download exposureConfiguration.', error);
+      }
+      exposureConfiguration = this.getAlternateExposureConfiguration();
+    }
 
     const finalize = async (status: Partial<ExposureStatus> = {}) => {
       const timestamp = new Date().getTime();
