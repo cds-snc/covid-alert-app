@@ -1,16 +1,16 @@
-import React, {useState, useCallback, useRef} from 'react';
-import {StyleSheet, useWindowDimensions, View} from 'react-native';
-import Carousel, {CarouselStatic, CarouselProps} from 'react-native-snap-carousel';
-import {useNavigation} from '@react-navigation/native';
-import {Box, Button, Toolbar, ProgressCircles} from 'components';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useI18n} from '@shopify/react-i18n';
+import React, { useState, useCallback, useRef } from 'react';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import Carousel, { CarouselStatic, CarouselProps } from 'react-native-snap-carousel';
+import { useNavigation } from '@react-navigation/native';
+import { Box, Button, Toolbar, ProgressCircles } from 'components';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useI18n } from '@shopify/react-i18n';
 
-import {TutorialContent, tutorialData, TutorialKey} from './TutorialContent';
+import { TutorialContent, tutorialData, TutorialKey } from './TutorialContent';
 
 export const TutorialScreen = () => {
   const navigation = useNavigation();
-  const {width: viewportWidth} = useWindowDimensions();
+  const { width: viewportWidth } = useWindowDimensions();
   const carouselRef = useRef<CarouselStatic<TutorialKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [i18n] = useI18n();
@@ -19,7 +19,7 @@ export const TutorialScreen = () => {
   const isStart = currentStep === 0;
   const isEnd = currentStep === tutorialData.length - 1;
 
-  const renderItem = useCallback<CarouselProps<TutorialKey>['renderItem']>(({item}) => {
+  const renderItem = useCallback<CarouselProps<TutorialKey>['renderItem']>(({ item }) => {
     return <TutorialContent key={item} item={item} />;
   }, []);
 
@@ -58,7 +58,7 @@ export const TutorialScreen = () => {
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
           <Box flex={1}>
             {!isStart && (
-              <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="subduedText" onPress={prevItem} />
+              <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="text" onPress={prevItem} />
             )}
           </Box>
           <Box flex={1} justifyContent="center">
