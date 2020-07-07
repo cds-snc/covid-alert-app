@@ -13,7 +13,7 @@ export const DiagnosedView = () => {
 
   if (exposureStatus.type !== 'diagnosed') return null;
 
-  const daysDiff = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt));
+  const daysLeft = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt)) - 1;
 
   return (
     <BaseHomeView iconName="hand-wave">
@@ -22,7 +22,7 @@ export const DiagnosedView = () => {
         {/* No exposure detected */}
       </Text>
       <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {i18n.translate(pluralizeKey('Home.DiagnosedView.Body1', daysDiff), {number: daysDiff})}
+        {i18n.translate(pluralizeKey('Home.DiagnosedView.Body1', daysLeft), {number: daysLeft})}
       </Text>
       <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate('Home.DiagnosedView.Body2')}

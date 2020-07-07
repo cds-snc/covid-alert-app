@@ -88,7 +88,10 @@
     "EnterCodeCardAction": "Enter number",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
-    "EnterCodeCardDiagnosedCountdown": "{number} out of 14 days left!",
+    "EnterCodeCardDiagnosedCountdown": {
+      "One": "{number} day left!",
+      "Other": "{number} days left!"
+    },
     "NotificationCardStatus": "Push notifications are off",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
