@@ -45,8 +45,16 @@ export const ButtonSingleLine = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, color, borderWidth, height} = (themedStyles as unknown) as TextStyle &
-    ViewStyle;
+  const {
+    fontSize,
+    fontWeight,
+    fontFamily,
+    color,
+    borderWidth,
+    height,
+    borderBottomWidth,
+    borderBottomColor,
+  } = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
 
@@ -65,7 +73,14 @@ export const ButtonSingleLine = ({
       borderRadius={10}
       alignItems="center"
       justifyContent="center"
-      style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
+      style={{
+        backgroundColor: color,
+        minHeight: height,
+        borderWidth,
+        borderColor: buttonColor,
+        borderBottomWidth,
+        borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
+      }}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"

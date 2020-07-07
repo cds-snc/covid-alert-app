@@ -18,16 +18,16 @@ export const Tip = ({children}: Props) => {
           <Icon name="icon-light-bulb" size={40} />
         </Box>
         <Box flex={1}>
-          <Text fontWeight="bold" accessible>
-            {i18n.translate('Home.DiagnosedView.TipTitle')}
+          <Text>
+            <Text fontWeight="bold">{i18n.translate('Home.DiagnosedView.TipTitle')}</Text>
+            <Text>{i18n.translate('Home.DiagnosedView.TipBody')}</Text>
           </Text>
-          <Text accessible>{i18n.translate('Home.DiagnosedView.TipBody')}</Text>
         </Box>
       </Box>
-      <Box paddingHorizontal="m">
+      <Box paddingHorizontal="m" paddingTop="s">
         <ButtonSingleLine
           text={i18n.translate('Home.DiagnosedView.TipLinkText')}
-          variant="thinFlat"
+          variant="thinFlatNeutralGrey"
           externalLink
           onPress={() => Linking.openURL(i18n.translate('Home.DiagnosedView.TipURL'))}
         />

@@ -41,8 +41,8 @@
       "Body2": "You do not have to agree, even if you agreed the day before.",
       "Body3": "Take care of yourself and your family during this time.",
       "TipTitle": "TIP: ",
-      "TipBody": "You can prepare for your call from Public Health through the ",
-      "TipLinkText": "test results website",
+      "TipBody": "You can prepare for your call from Public Health through the test results website.  ",
+      "TipLinkText": "Test results website",
       "TipURL": "https://covid19results.ehealthontario.ca:4443/login"
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
