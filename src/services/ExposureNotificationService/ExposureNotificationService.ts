@@ -241,9 +241,10 @@ export class ExposureNotificationService {
     const lastCheckedPeriod =
       _lastCheckedPeriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-
+    console.log('lastCheckedPeriod', lastCheckedPeriod);
     while (runningPeriod > lastCheckedPeriod) {
       try {
+        console.log('runningPeriod', runningPeriod);
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
         const period = runningPeriod;
         yield {keysFileUrl, period};
