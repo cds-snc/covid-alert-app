@@ -1,17 +1,17 @@
-import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, OnboardingHeader} from 'components';
-import {useI18n} from '@shopify/react-i18n';
-import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React, { useCallback } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Box, Text, OnboardingHeader } from 'components';
+import { useI18n } from '@shopify/react-i18n';
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {NextButton, StepText} from '../components';
+import { NextButton, StepText } from '../components';
 
 export const Start = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
 
-  const onNext = useCallback(() => navigation.navigate('OnboardingWhatItsNot'), [navigation]);
+  const onNext = useCallback(() => navigation.navigate('OnboardingAnonymous'), [navigation]);
 
   return (
     <Box flex={1} backgroundColor="overlayBackground">

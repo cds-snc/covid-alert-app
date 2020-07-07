@@ -1,16 +1,16 @@
-import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
-import {Box, BulletPointX, Text, OnboardingHeader} from 'components';
-import {useI18n} from '@shopify/react-i18n';
-import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React, { useCallback } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Box, BulletPointX, Text, OnboardingHeader } from 'components';
+import { useI18n } from '@shopify/react-i18n';
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {BackButton, NextButton, StepText} from '../components';
+import { BackButton, NextButton, StepText } from '../components';
 
 export const Anonymous = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
-  const onNext = useCallback(() => navigation.navigate('OnboardingHowItWorks'), [navigation]);
+  const onNext = useCallback(() => navigation.navigate('OnboardingWhatItsNot'), [navigation]);
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
@@ -43,7 +43,7 @@ export const Anonymous = () => {
             </Box>
           </ScrollView>
           <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
-          <StepText index={3} />
+          <StepText index={2} />
           <NextButton onNext={onNext} />
         </Box>
       </SafeAreaView>
