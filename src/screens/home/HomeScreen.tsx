@@ -1,8 +1,8 @@
-import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
+import React, {useCallback, useEffect, useState, useRef, useLayoutEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {BottomSheet, BottomSheetBahavior, Box} from 'components';
-import {DevSettings} from 'react-native';
+import {BottomSheet, BottomSheetBehavior, Box} from 'components';
+import {DevSettings, Linking} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
@@ -105,7 +105,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   }
 };
 
-const CollapsedContent = () => {
+const CollapsedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
@@ -119,16 +119,20 @@ const CollapsedContent = () => {
       status={systemStatus}
       notificationWarning={showNotificationWarning}
       turnNotificationsOn={turnNotificationsOn}
+      bottomSheetBehavior={bottomSheetBehavior}
     />
   );
 };
 
-const BottomSheetContent = () => {
+const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
   const maxWidth = useMaxContentWidth();
-
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
+  const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
   // if (systemStatus === SystemStatus.Unknown) {
   //   return null;
   // }
@@ -137,32 +141,9 @@ const BottomSheetContent = () => {
     <OverlayView
       status={systemStatus}
       notificationWarning={showNotificationWarning}
-      turnNotificationsOn={turnNotificationsOn}
+      turnNotificationsOn={turnNotificationsOnFn}
       maxWidth={maxWidth}
-    />
-  );
-};
-
-const BottomSheetWrapper = () => {
-  const bottomSheetRef = useRef<BottomSheetBahavior>(null);
-  const [notificationStatus] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
-
-  const currentStatus = useExposureStatus()[0].type;
-  const previousStatus = usePrevious(currentStatus);
-
-  useLayoutEffect(() => {
-    if (previousStatus === 'monitoring' && currentStatus === 'diagnosed') {
-      bottomSheetRef.current?.collapse();
-    }
-  }, [currentStatus, previousStatus]);
-
-  return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      content={BottomSheetContent}
-      collapsed={CollapsedContent}
-      extraContent={showNotificationWarning}
+      bottomSheetBehavior={bottomSheetBehavior}
     />
   );
 };
@@ -192,13 +173,33 @@ export const HomeScreen = () => {
   const maxWidth = useMaxContentWidth();
   const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
 
+  const bottomSheetRef = useRef<BottomSheetBehavior>(null);
+  const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);
+  const currentStatus = useExposureStatus()[0].type;
+  const previousStatus = usePrevious(currentStatus);
+  useLayoutEffect(() => {
+    if (previousStatus === 'monitoring' && currentStatus === 'diagnosed') {
+      bottomSheetRef.current?.collapse();
+    }
+  }, [currentStatus, previousStatus]);
+  useLayoutEffect(() => {
+    bottomSheetRef.current?.setOnStateChange(setIsBottomSheetExpanded);
+  }, []);
+
   return (
     <NotificationPermissionStatusProvider>
       <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
-        <Box flex={1} maxWidth={maxWidth} paddingTop="m" alignSelf="stretch">
+        <Box
+          flex={1}
+          maxWidth={maxWidth}
+          paddingTop="m"
+          alignSelf="stretch"
+          accessibilityElementsHidden={isBottomSheetExpanded}
+          importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
+        >
           <Content setBackgroundColor={setBackgroundColor} />
         </Box>
-        <BottomSheetWrapper />
+        <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
       </Box>
     </NotificationPermissionStatusProvider>
   );

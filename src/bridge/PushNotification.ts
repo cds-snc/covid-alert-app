@@ -1,16 +1,25 @@
 import {NativeModules, Platform} from 'react-native';
-import PushNotificationIOS, {
-  PushNotificationPermissions,
-  PresentLocalNotificationDetails,
-} from '@react-native-community/push-notification-ios';
+import RNPushNotification, {PushNotificationPermissions} from '@react-native-community/push-notification-ios';
+
+interface NotificationPayload {
+  alertTitle: string;
+  alertBody: string;
+}
 
 interface PushNotificationInterface {
   requestPermissions(permissions?: PushNotificationPermissions): Promise<PushNotificationPermissions>;
-  presentLocalNotification(details: PresentLocalNotificationDetails): void;
+  presentLocalNotification(payload: NotificationPayload): void;
 }
 
-const NativePushNotification = (Platform.OS === 'ios'
-  ? PushNotificationIOS
-  : NativeModules.PushNotification) as PushNotificationInterface;
+const PushNotificationIOS: PushNotificationInterface = {
+  requestPermissions: RNPushNotification.requestPermissions,
+  presentLocalNotification: payload => {
+    RNPushNotification.removeAllDeliveredNotifications();
+    RNPushNotification.presentLocalNotification(payload);
+  },
+};
+
+const NativePushNotification: PushNotificationInterface =
+  Platform.OS === 'ios' ? PushNotificationIOS : NativeModules.PushNotification;
 
 export default NativePushNotification;

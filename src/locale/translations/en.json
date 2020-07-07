@@ -25,8 +25,8 @@
       "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
       "Title2": "What now?",
       "Body2": "You’re at risk of being infected. ",
-      "Body3": "You need to isolate for 14 days.",
-      "HowToIsolateCTA": "How to isolate"
+      "Body3": "You need to self-isolate for 14 days.",
+      "HowToIsolateCTA": "How to self-isolate"
     },
     "ChooseRegionCTA": "Choose province or territory",
     "How": "Diagnosed with COVID-19?",
@@ -88,7 +88,10 @@
     "EnterCodeCardAction": "Enter number",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
-    "EnterCodeCardDiagnosedCountdown": "{number} out of 14 days left!",
+    "EnterCodeCardDiagnosedCountdown": {
+      "One": "{number} day left!",
+      "Other": "{number} days left!"
+    },
     "NotificationCardStatus": "Push notifications are off",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
@@ -102,9 +105,10 @@
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
     "LearnMore": "How it works",
+    "GetCode": "Get an 8-digit number",
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
-    "Privacy": "Read privacy policy",
+    "Privacy": "How it protects your privacy",
     "SettingsTitle": "Settings",
     "InformationTitle": "About COVID Alert"
   },
@@ -116,7 +120,7 @@
     "EnShort": "English",
     "FrShort": "Français",
     "PtBRShort": "Portuguese (Brazil)",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "Tutorial": {
     "step-1Title": "How COVID Alert works",
@@ -134,7 +138,7 @@
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "Sharing": {
     "Title": "Tell your friends about COVID Alert",
@@ -154,7 +158,7 @@
     "ActionEnd": "Get Started",
     "ActionBack": "Back",
     "Start": {
-      "Title": "Together, let’s slow the spread of COVID-19",
+      "Title": "Together, let’s stop the spread of COVID-19",
       "ImageAltText": "A hand-drawn illustration with lots of different people in it. Dotted lines show their paths crossing and leading to a smartphone below.",
       "Body1": "COVID Alert helps us break the cycle of infection. The app can let people know of possible exposures before any symptoms appear. ",
       "Body2": "That way, we can take care of ourselves and protect our communities."
@@ -193,7 +197,7 @@
   },
   "Privacy": {
     "Title": "Privacy policy",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "ThankYou": {
     "Title": "Thank you for helping",
@@ -212,7 +216,7 @@
       "Body2b": "Agree that COVID Alert can let people know they were exposed.",
       "Body3a": "Step 3. ",
       "Body3b": "Allow your phone to share your random codes anonymously.",
-      "CTA": "Enter number",
+      "CTA": "Next",
       "NoCode": "Need an 8-digit number?"
     },
     "FormView": {
@@ -220,8 +224,8 @@
       "Body": "Enter the number you got when you were diagnosed.",
       "Action": "Submit",
       "InputLabel": "COVID Alert 8-digit number",
-      "ErrorTitle": "Code not recognized",
-      "ErrorBody": "Your COVID Alert code could not be recognized. Please try again.",
+      "ErrorTitle": "Number not recognized",
+      "ErrorBody": "Your COVID Alert number could not be recognized. Please try again.",
       "ErrorAction": "OK"
     },
     "ConsentView": {
@@ -251,7 +255,7 @@
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
-        "Body": "People in your area cannot yet get an 8-digit number.\n\nYou will not be able to let people know they were exposed. But you can still isolate for 14 days, and:",
+        "Body": "People in your area cannot yet get an 8-digit number.\n\nYou will not be able to let people know they were exposed. But you can still self-isolate for 14 days, and:",
         "Body2": "Keep your community safe.",
         "Body3": "Protect people and pets you live with.",
         "Body4": "Take care of yourself."
@@ -283,7 +287,7 @@
   "RegionPicker": {
     "Title": "Where do you live? (optional)",
     "SettingsTitle": "Province or territory",
-    "Close": "Cancel",
+    "Close": "Close",
     "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
@@ -361,7 +365,7 @@
     }
   },
   "HowToIsolate": {
-    "Title": "How to isolate",
+    "Title": "How to self-isolate",
     "Intro": "Try your best to:",
     "Body1": "Stay home unless it’s to get medical care.",
     "Body2": "Avoid public transportation like buses or taxis.",

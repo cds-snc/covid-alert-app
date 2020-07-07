@@ -35,9 +35,9 @@ Les codes aléatoires ne sont stockés et utilisés qu’aux fins d’interventi
 - Aucun de vos renseignements personnels n’est partagé avec d’autres personnes.
 
 ## Suppression de vos données
-- Tous les codes aléatoires, qu’ils proviennent de votre téléphone ou d’autres téléphones, sont supprimés après 14 jours.
+- Tous les codes aléatoires, qu’ils proviennent de votre téléphone ou d’autres téléphones, sont supprimés après 15 jours.
 - Vous pouvez supprimer l’application à tout moment, supprimant du même coup les codes aléatoires de votre téléphone.
-- Si vous avez téléversé vos codes aléatoires avant de supprimer l’application, les codes aléatoires seront supprimés du serveur après 14 jours.
+- Si vous avez téléversé vos codes aléatoires avant de supprimer l’application, les codes aléatoires seront supprimés du serveur après 15 jours.
 `;
 
 export default privacy;

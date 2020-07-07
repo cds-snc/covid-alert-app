@@ -1,48 +1,53 @@
-import React, {forwardRef, useState, useCallback, useRef, useEffect, useMemo, useImperativeHandle} from 'react';
-import {View, StyleSheet, TouchableOpacity, useWindowDimensions} from 'react-native';
+import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState} from 'react';
+import {StyleSheet, useWindowDimensions, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useSafeArea} from 'react-native-safe-area-context';
 import BottomSheetRaw from 'reanimated-bottom-sheet';
-import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from '../Box';
-import {Icon} from '../Icon';
 
 import {SheetContentsContainer} from './SheetContentsContainer';
 
-const {abs, sub, pow} = Animated;
-
-export interface BottomSheetProps {
-  collapsed?: React.ComponentType;
-  content: React.ComponentType;
-  extraContent?: boolean;
-}
-
-export interface BottomSheetBahavior {
+export interface BottomSheetBehavior {
   expand(): void;
   collapse(): void;
+  refreshSnapPoints(extraContent: boolean): void;
+  callbackNode: Animated.Value<number>;
+  setOnStateChange(onStateChange: (isExpanded: boolean) => void): void;
+}
+
+export interface BottomSheetProps {
+  collapsedComponent: React.ComponentType<BottomSheetBehavior>;
+  expandedComponent: React.ComponentType<BottomSheetBehavior>;
 }
 
 const BottomSheetInternal = (
-  {content: ContentComponent, collapsed: CollapsedComponent, extraContent}: BottomSheetProps,
-  ref: React.Ref<BottomSheetBahavior>,
+  {expandedComponent: ExpandedComponent, collapsedComponent: CollapsedComponent}: BottomSheetProps,
+  ref: React.Ref<BottomSheetBehavior>,
 ) => {
   const bottomSheetPosition = useRef(new Animated.Value(1));
   const bottomSheetRef: React.Ref<BottomSheetRaw> = useRef(null);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [i18n] = useI18n();
-  const toggleExpanded = useCallback(() => {
-    setIsExpanded(isExpanded => !isExpanded);
-  }, []);
 
-  useImperativeHandle(ref, () => ({
-    expand: () => {
-      setIsExpanded(true);
-    },
-    collapse: () => {
-      setIsExpanded(false);
-    },
-  }));
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [extraContent, setExtraContent] = useState(false);
+  const [onStateChange, setOnStateChange] = useState<(isExpanded: boolean) => void>();
+
+  const behavior = useMemo<BottomSheetBehavior>(
+    () => ({
+      expand: () => {
+        setIsExpanded(true);
+      },
+      collapse: () => {
+        setIsExpanded(false);
+      },
+      refreshSnapPoints: setExtraContent,
+      callbackNode: bottomSheetPosition.current,
+      setOnStateChange: callback => setOnStateChange(() => callback),
+    }),
+    [],
+  );
+  useImperativeHandle(ref, () => behavior, [behavior]);
+  useEffect(() => onStateChange?.(isExpanded), [isExpanded, onStateChange]);
 
   const insets = useSafeArea();
   const renderHeader = useCallback(() => <Box height={insets.top} />, [insets.top]);
@@ -58,53 +63,32 @@ const BottomSheetInternal = (
     bottomSheetRef.current?.snapTo(isExpanded ? 0 : 1);
   }, [width, isExpanded, snapPoints]);
 
-  const expandedContentWrapper = useMemo(
-    () => (
-      <Animated.View style={{opacity: abs(sub(bottomSheetPosition.current, 1))}}>
-        <View style={styles.content}>
-          <ContentComponent />
-        </View>
-
-        <View style={styles.collapseContentHandleBar}>
-          <TouchableOpacity
-            onPress={toggleExpanded}
-            style={styles.collapseButton}
-            accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
-            accessibilityRole="button"
-          >
-            <Icon name="sheet-handle-bar-close" size={44} />
-          </TouchableOpacity>
-        </View>
-      </Animated.View>
-    ),
-    [i18n, toggleExpanded],
-  );
-  const collapsedContentWrapper = useMemo(
-    () => (
-      <Animated.View style={{...styles.collapseContent, opacity: pow(bottomSheetPosition.current, 2)}}>
-        <View style={styles.collapseContentHandleBar}>
-          <Icon name="sheet-handle-bar" size={44} />
-        </View>
-        {CollapsedComponent ? (
-          <View style={styles.content}>
-            <CollapsedComponent />
-          </View>
-        ) : null}
-      </Animated.View>
-    ),
-    [CollapsedComponent],
-  );
+  const expandedComponentWrapper = useMemo(() => <ExpandedComponent {...behavior} />, [behavior]);
+  const collapsedComponentWrapper = useMemo(() => <CollapsedComponent {...behavior} />, [behavior]);
 
   const renderContent = useCallback(() => {
     return (
-      <SheetContentsContainer isExpanded={isExpanded} toggleExpanded={toggleExpanded}>
+      <SheetContentsContainer>
         <>
-          {collapsedContentWrapper}
-          {expandedContentWrapper}
+          <View
+            style={styles.collapseContent}
+            accessibilityElementsHidden={isExpanded}
+            importantForAccessibility={isExpanded ? 'no-hide-descendants' : undefined}
+            pointerEvents={isExpanded ? 'none' : undefined}
+          >
+            {collapsedComponentWrapper}
+          </View>
+          <View
+            pointerEvents={isExpanded ? undefined : 'none'}
+            accessibilityElementsHidden={!isExpanded}
+            importantForAccessibility={isExpanded ? undefined : 'no-hide-descendants'}
+          >
+            {expandedComponentWrapper}
+          </View>
         </>
       </SheetContentsContainer>
     );
-  }, [collapsedContentWrapper, expandedContentWrapper, isExpanded, toggleExpanded]);
+  }, [collapsedComponentWrapper, expandedComponentWrapper, isExpanded]);
 
   return (
     <>
@@ -127,27 +111,12 @@ const BottomSheetInternal = (
 };
 
 const styles = StyleSheet.create({
-  content: {
-    marginTop: 10,
+  spacer: {
+    marginBottom: -18,
   },
   collapseContent: {
     position: 'absolute',
     width: '100%',
-  },
-  collapseContentHandleBar: {
-    position: 'absolute',
-    width: '100%',
-    alignItems: 'center',
-    top: -24,
-  },
-  collapseButton: {
-    height: 50,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  spacer: {
-    marginBottom: -18,
   },
 });
 
