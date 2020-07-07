@@ -108,7 +108,7 @@ platform :android do
 
   desc "Pushes a new build to Google Play Internal Testing Track"
   lane :internal do
-    ensure_git_branch
+    # ensure_git_branch
 
     versionCode = ENV["APP_VERSION_CODE"]
     versionName = "#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})"
