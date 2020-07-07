@@ -4,7 +4,7 @@ import {Text, Tip} from 'components';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 import {daysBetween} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
-import {Linking} from 'react-native';
+import {Linking, TouchableOpacity} from 'react-native';
 import {useStorage} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -41,6 +41,7 @@ export const DiagnosedView = () => {
             <Text
               color="linkText"
               variant="linkVariant"
+              accessibilityRole="link"
               onPress={() => Linking.openURL(i18n.translate('Home.DiagnosedView.TipURL'))}
             >
               {i18n.translate('Home.DiagnosedView.TipLinkText')}
