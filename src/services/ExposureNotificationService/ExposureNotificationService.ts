@@ -238,8 +238,8 @@ export class ExposureNotificationService {
   ): AsyncGenerator<{keysFileUrl: string; period: number} | null> {
     const runningDate = new Date();
 
-    const lastCheckedPeriod =
-      _lastCheckedPeriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
+    const lastCheckedPeriod = periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
+
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
     console.log('lastCheckedPeriod', lastCheckedPeriod);
     while (runningPeriod > lastCheckedPeriod) {
