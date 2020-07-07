@@ -87,6 +87,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
         enableHermes: true,  // clean and rebuild if changing
+        bundleInDebug: System.getProperty("bundleInDebug")?.toBoolean() ?: false,
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"

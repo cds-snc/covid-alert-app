@@ -248,7 +248,7 @@
       "RegionCovered": {
         "ON": {
           "Title": "Get an 8-digit number",
-          "Body": "If you’ve tested positive in Ontario:\n\n1. Log in to the COVID-19 Test Results Website.\n\n2. Go to your test results page.\n\n3. Copy the 8-digit number.\n\n4. Come back here and enter the number.",
+          "Body": "If you’ve tested positive in Ontario:\n\n1. Go to the COVID-19 Test Results Website and enter your details.\n\n2. Review your test results.\n\n3. Get the 8-digit number.\n\n4. Come back here and enter the number.",
           "CTA": "Go to COVID-19 Test Results Website",
           "Link": "https://covid19results.ehealthontario.ca:4443/"
         }
@@ -345,7 +345,7 @@
     },
     "ON": {
       "CTA": "Where to get tested",
-      "URL": "https://covid-19.ontario.ca/assessment-centre-locations/"
+      "URL": "https://ontario.ca/covidalert-exposed"
     },
     "PE": {
       "CTA": "Find out if you need to be tested",
