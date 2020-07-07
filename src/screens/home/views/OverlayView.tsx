@@ -173,15 +173,6 @@ export const OverlayView = ({
             </Box>
           )}
           <Box marginBottom="m" marginHorizontal="m">
-            <SystemStatusOff i18n={i18n} />
-          </Box>
-          <Box marginBottom="m" marginHorizontal="m">
-            <BluetoothStatusOff i18n={i18n} />
-          </Box>
-          <Box marginBottom="m" marginHorizontal="m">
-            <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
-          </Box>
-          <Box marginBottom="m" marginHorizontal="m">
             <InfoShareView />
           </Box>
         </Box>
