@@ -19,9 +19,16 @@ export const TutorialScreen = () => {
   const isStart = currentStep === 0;
   const isEnd = currentStep === tutorialData.length - 1;
 
-  const renderItem = useCallback<CarouselProps<TutorialKey>['renderItem']>(({item}) => {
-    return <TutorialContent key={item} item={item} />;
-  }, []);
+  const renderItem = useCallback<CarouselProps<TutorialKey>['renderItem']>(
+    ({item, index}) => {
+      return (
+        <View style={styles.flex} accessibilityElementsHidden={index !== currentStep}>
+          <TutorialContent key={item} item={item} isActive={index === currentStep} />
+        </View>
+      );
+    },
+    [currentStep],
+  );
 
   const nextItem = useCallback(() => {
     if (isEnd) {
@@ -53,6 +60,8 @@ export const TutorialScreen = () => {
             sliderWidth={viewportWidth}
             itemWidth={viewportWidth}
             onSnapToItem={newIndex => setCurrentStep(newIndex)}
+            importantForAccessibility="no"
+            accessible={false}
           />
         </View>
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
