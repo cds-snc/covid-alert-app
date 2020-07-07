@@ -4,7 +4,6 @@ import {Text, Tip} from 'components';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 import {daysBetween} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
-import {Linking, TouchableOpacity} from 'react-native';
 import {useStorage} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -33,23 +32,7 @@ export const DiagnosedView = () => {
       <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate('Home.DiagnosedView.Body3')}
       </Text>
-      {region === 'ON' ? (
-        <Tip>
-          <Text>
-            <Text fontWeight="bold">{i18n.translate('Home.DiagnosedView.TipTitle')}</Text>
-            <Text>{i18n.translate('Home.DiagnosedView.TipBody')}</Text>
-            <Text
-              color="linkText"
-              variant="linkVariant"
-              accessibilityRole="link"
-              onPress={() => Linking.openURL(i18n.translate('Home.DiagnosedView.TipURL'))}
-            >
-              {i18n.translate('Home.DiagnosedView.TipLinkText')}
-            </Text>
-            <Text>.</Text>
-          </Text>
-        </Tip>
-      ) : null}
+      {region === 'ON' ? <Tip /> : null}
     </BaseHomeView>
   );
 };
