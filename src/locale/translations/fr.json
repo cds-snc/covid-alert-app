@@ -238,7 +238,10 @@
     "EnterCodeCardAction": "Entrer le numéro",
     "EnterCodeCardBody": "Vous avez besoin d’un numéro à 8\u00A0chiffres pour aviser les autres personnes d’une exposition.",
     "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de COVID-19. ",
-    "EnterCodeCardDiagnosedCountdown": "Il reste {number} jours sur 14!",
+    "EnterCodeCardDiagnosedCountdown": {
+      "One": "{number} day left!",
+      "Other": "{number} days left!"
+    },
     "EnterCodeCardTitle": "Vous avez la COVID-19?",
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
     "ExposureNotificationCardAction": "Activez les notifications d'exposition",
