@@ -1,15 +1,9 @@
 import React from 'react';
-import {Box, Button, Icon, Text} from 'components';
+import {Box, ButtonSingleLine, Icon, Text} from 'components';
 import {Linking} from 'react-native';
 import {useI18n} from '@shopify/react-i18n';
 
-import {ButtonSingleLine} from './ButtonSingleLine';
-
-interface Props {
-  children: React.ReactElement;
-}
-
-export const Tip = ({children}: Props) => {
+export const Tip = () => {
   const [i18n] = useI18n();
   return (
     <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="m" marginBottom="xl">

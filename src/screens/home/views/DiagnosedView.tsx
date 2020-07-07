@@ -1,12 +1,13 @@
 import React from 'react';
 import {useI18n} from '@shopify/react-i18n';
-import {Text, Tip} from 'components';
+import {Text} from 'components';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 import {daysBetween} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {useStorage} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {Tip} from '../components/Tip';
 
 export const DiagnosedView = () => {
   const [i18n] = useI18n();
