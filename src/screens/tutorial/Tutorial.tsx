@@ -57,9 +57,7 @@ export const TutorialScreen = () => {
         </View>
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
           <Box flex={1}>
-            {!isStart && (
-              <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="text" onPress={prevItem} />
-            )}
+            {!isStart && (<Button text={i18n.translate(`Tutorial.ActionBack`)} variant="text" onPress={prevItem} />)}
           </Box>
           <Box flex={1} justifyContent="center">
             <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
