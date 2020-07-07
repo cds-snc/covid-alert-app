@@ -3,13 +3,13 @@ import {useTheme} from '@shopify/restyle';
 import {
   Platform,
   StyleSheet,
-  Text,
   TextStyle,
   TouchableOpacity,
   ViewStyle,
   ActivityIndicator,
   AccessibilityRole,
 } from 'react-native';
+import {Text} from './Text';
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
 
@@ -45,7 +45,7 @@ export const InfoButton = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, borderWidth, height} = (themedStyles as unknown) as TextStyle & ViewStyle;
+  const {borderWidth, height} = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
 
@@ -74,10 +74,10 @@ export const InfoButton = ({
       ) : (
         <>
           <Box>
-            <Text style={{...styles.contentBold, fontFamily, fontSize}}>{title}</Text>
-            <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
-              {text}
+            <Text variant="menuItemTitle" fontWeight="bold" marginBottom="s">
+              {title}
             </Text>
+            <Text variant="menuItemTitle">{text}</Text>
           </Box>
           <Box style={{...styles.chevronOffset}}>
             {externalLink && <Icon name={externalArrowIcon} />}

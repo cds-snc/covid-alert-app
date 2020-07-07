@@ -48,7 +48,7 @@ export const RegionPickerScreen = () => {
                 marginTop="s"
                 paddingHorizontal="m"
                 borderRadius={10}
-                backgroundColor="infoBlockNeutralBackground"
+                overflow="hidden"
                 accessibilityRole="radiogroup"
               >
                 {regionData.map(item => {

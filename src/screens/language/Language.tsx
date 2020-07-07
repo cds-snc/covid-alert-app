@@ -10,11 +10,21 @@ interface LanguageSelectItemProps {
   onPress: () => void;
   text: string;
   isActive?: boolean;
+  lastItem?: boolean;
 }
-const LanguageSelectItem = ({onPress, text, isActive}: LanguageSelectItemProps) => (
+const LanguageSelectItem = ({onPress, text, lastItem, isActive}: LanguageSelectItemProps) => (
   <>
     <TouchableOpacity onPress={onPress} accessibilityRole="radio" accessibilityState={{selected: isActive}}>
-      <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
+      <Box
+        paddingVertical="s"
+        marginHorizontal="-m"
+        paddingHorizontal="m"
+        borderRadius={5}
+        flexDirection="row"
+        alignContent="center"
+        justifyContent="space-between"
+        backgroundColor="infoBlockNeutralBackground"
+      >
         <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
           {text}
         </Text>
@@ -25,7 +35,7 @@ const LanguageSelectItem = ({onPress, text, isActive}: LanguageSelectItemProps) 
         )}
       </Box>
     </TouchableOpacity>
-    <Box height={1} marginHorizontal="-m" backgroundColor="overlayBackground" />
+    {!lastItem && <Box height={5} marginHorizontal="-m" backgroundColor="overlayBackground" />}
   </>
 );
 
@@ -56,7 +66,7 @@ export const LanguageScreen = () => {
             marginHorizontal="m"
             paddingHorizontal="m"
             borderRadius={10}
-            backgroundColor="infoBlockNeutralBackground"
+            overflow="hidden"
             marginTop="m"
             accessibilityRole="radiogroup"
           >
@@ -69,6 +79,7 @@ export const LanguageScreen = () => {
               onPress={toggle('fr')}
               text={i18n.translate('LanguageSelect.Fr')}
               isActive={i18n.locale === 'fr'}
+              lastItem
             />
           </Box>
         </ScrollView>

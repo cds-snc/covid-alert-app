@@ -25,24 +25,21 @@ export const RegionPickerSettingsScreen = () => {
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={regionStyles.flex}>
         <Toolbar
-          title={i18n.translate('RegionPicker.SettingsTitle')}
+          title=""
           navIcon="icon-back-arrow"
           navText={i18n.translate('RegionPicker.Close')}
           navLabel={i18n.translate('RegionPicker.Close')}
           onIconClicked={close}
         />
         <ScrollView style={regionStyles.flex}>
-          <Text paddingHorizontal="l" marginVertical="m" variant="bodyText" color="overlayBodyText">
+          <Text paddingHorizontal="m" variant="bodyTitle" color="bodyText" accessibilityRole="header">
+            {i18n.translate('RegionPicker.SettingsTitle')}
+          </Text>
+          <Text paddingHorizontal="m" marginVertical="m" variant="bodyText" color="overlayBodyText">
             {i18n.translate('RegionPicker.Body')}
           </Text>
           <Box flex={1} paddingHorizontal="m">
-            <Box
-              marginTop="l"
-              paddingHorizontal="m"
-              borderRadius={10}
-              backgroundColor="infoBlockNeutralBackground"
-              accessibilityRole="radiogroup"
-            >
+            <Box marginTop="l" paddingHorizontal="m" borderRadius={10} overflow="hidden" accessibilityRole="radiogroup">
               {regionData.map(item => {
                 return (
                   <RegionItem

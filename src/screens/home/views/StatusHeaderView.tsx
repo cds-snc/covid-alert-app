@@ -12,10 +12,10 @@ export const StatusHeaderView = ({enabled}: Props) => {
     <Box justifyContent="center" flexDirection="row" alignItems="flex-start" paddingHorizontal="m">
       <Box paddingTop="xs" flexDirection="row" flexWrap="wrap">
         <Text>
-          <Text variant="overlayTitle" lineHeight={19} color={color}>
+          <Text variant="overlayTitle" color={color}>
             {i18n.translate('OverlayClosed.SystemStatus')}
           </Text>
-          <Text variant="overlayTitle" lineHeight={19} color={color} fontFamily="Noto Sans" fontWeight="bold">
+          <Text variant="overlayTitle" color={color} fontFamily="Noto Sans" fontWeight="bold">
             {enabled ? i18n.translate('OverlayClosed.SystemStatusOn') : i18n.translate('OverlayClosed.SystemStatusOff')}
           </Text>
         </Text>

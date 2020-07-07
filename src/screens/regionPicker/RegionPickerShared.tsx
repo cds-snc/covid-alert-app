@@ -21,6 +21,7 @@ interface RegionItemProps {
   flagIcon: any;
   name: string;
   selected: boolean;
+  lastItem?: boolean;
   onPress: (code: Region) => void;
 }
 
@@ -37,22 +38,29 @@ export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[
   {code: 'PE', flagIcon: PeFlag},
   {code: 'QC', flagIcon: QcFlag},
   {code: 'SK', flagIcon: SkFlag},
-  {code: 'YT', flagIcon: YtFlag},
+  {code: 'YT', flagIcon: YtFlag, lastItem: true},
 ];
 
-const RegionItem_ = ({code, onPress, name, selected}: RegionItemProps) => (
+const RegionItem_ = ({code, onPress, name, lastItem, selected}: RegionItemProps) => (
   <>
     <TouchableOpacity onPress={() => onPress(code)} accessibilityRole="radio" accessibilityState={{selected}}>
-      <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
-        <Box flexDirection="row" alignItems="center" paddingVertical="s">
-          <Text variant="bodyText" color="overlayBodyText" marginHorizontal="m">
-            {name}
-          </Text>
-        </Box>
-        <Box alignSelf="center">{selected && <Icon size={32} name="icon-check" />}</Box>
+      <Box
+        paddingVertical="m"
+        marginHorizontal="-m"
+        paddingHorizontal="m"
+        flexDirection="row"
+        alignContent="center"
+        justifyContent="space-between"
+        backgroundColor="infoBlockNeutralBackground"
+        borderRadius={5}
+      >
+        <Text variant="bodyText" color="overlayBodyText" marginHorizontal="s">
+          {name}
+        </Text>
+        <Box alignSelf="center">{selected && <Icon size={25} name="icon-check" />}</Box>
       </Box>
     </TouchableOpacity>
-    <Box height={1} marginHorizontal="-m" backgroundColor="overlayBackground" />
+    {!lastItem && <Box height={5} marginHorizontal="-m" backgroundColor="overlayBackground" />}
   </>
 );
 export const RegionItem = React.memo(RegionItem_);

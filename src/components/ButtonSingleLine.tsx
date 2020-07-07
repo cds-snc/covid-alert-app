@@ -3,7 +3,6 @@ import {useTheme} from '@shopify/restyle';
 import {
   Platform,
   StyleSheet,
-  Text,
   TextStyle,
   TouchableOpacity,
   ViewStyle,
@@ -16,6 +15,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {Box} from './Box';
 import {Ripple} from './Ripple';
 import {Icon, IconName} from './Icon';
+import {Text} from './Text';
 
 export interface ButtonSingleLineProps {
   text?: string;
@@ -45,8 +45,7 @@ export const ButtonSingleLine = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, color, borderWidth, height} = (themedStyles as unknown) as TextStyle &
-    ViewStyle;
+  const {color, borderWidth, height} = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
 
@@ -90,17 +89,7 @@ export const ButtonSingleLine = ({
             </Box>
           )}
           <Box flex={1} marginLeft="s" alignItems="flex-start" justifyContent="flex-end">
-            <Text
-              style={{
-                ...styles.content,
-                color: textColor || buttonColor,
-                fontWeight,
-                fontFamily,
-                fontSize,
-              }}
-            >
-              {text}
-            </Text>
+            <Text variant="menuItemTitle">{text}</Text>
           </Box>
         </Box>
       )}

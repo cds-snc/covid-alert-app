@@ -33,27 +33,27 @@ export const InfoBlock = ({
   return (
     <Box borderRadius={10} backgroundColor={backgroundColor} padding="m" alignItems="flex-start">
       {icon && (
-        <Box marginBottom="m">
+        <Box marginBottom="s">
           <Icon name={icon} size={24} />
         </Box>
       )}
       {(title || titleBolded) && (
-        <Box marginBottom="m" justifyContent="center" flexDirection="row" flexWrap="wrap">
-          <Text variant="overlayTitle" accessibilityRole="header" textAlign="center">
+        <Box marginBottom="s" justifyContent="center" flexDirection="row" flexWrap="wrap">
+          <Text variant="menuItemTitle" accessibilityRole="header" textAlign="center">
             {title && <Text color={color}>{title}</Text>}
             {titleBolded && (
-              <Text color={color} fontFamily="Noto Sans" fontWeight="bold">
+              <Text color={color} variant="menuItemTitle" fontWeight="bold">
                 {titleBolded}
               </Text>
             )}
           </Text>
         </Box>
       )}
-      <Text variant="bodyText" color={color} marginBottom="m">
+      <Text variant="bodyText" color={color}>
         {text}
       </Text>
       {showButton ? (
-        <Box marginHorizontal="none" alignSelf="stretch">
+        <Box marginTop="m" marginHorizontal="none" alignSelf="stretch">
           <Button text={buttonText} onPress={action} variant="thinFlat" color={color} />
         </Box>
       ) : null}
