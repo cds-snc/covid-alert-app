@@ -88,7 +88,10 @@ const OnboardingRegionWithNavBar = withDarkNavNonModal(RegionPickerScreen);
 const OnboardingStack = createNativeStackNavigator();
 const OnboardingNavigator = () => {
   return (
-    <OnboardingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="OnboardingStart">
+    <OnboardingStack.Navigator
+      screenOptions={{stackAnimation: 'none', headerShown: false}}
+      initialRouteName="OnboardingStart"
+    >
       <OnboardingStack.Screen name="OnboardingStart" component={OnboardingStartWithNavBar} />
       <OnboardingStack.Screen name="OnboardingWhatItsNot" component={OnboardingWhatItsNotWithNavBar} />
       <OnboardingStack.Screen name="OnboardingAnonymous" component={OnboardingAnonymousWithNavBar} />
