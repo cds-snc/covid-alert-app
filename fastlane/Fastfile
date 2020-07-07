@@ -32,7 +32,15 @@ end
 platform :ios do
   desc "Submit a new Covid Alert beta build to Apple TestFlight"
   lane :beta do
+<<<<<<< HEAD
     ensure_git_branch
+=======
+
+    increment_build_number(
+      build_number: latest_testflight_build_number + 1,
+      xcodeproj: "ios/CovidShield.xcodeproj"
+    )
+>>>>>>> e3f90dac4b5c58782a4ef25d47f913abd0c5aea3
 
     get_certificates(
       output_path: "fastlane/certs"
