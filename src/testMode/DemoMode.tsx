@@ -4,6 +4,7 @@ import {useI18n} from '@shopify/react-i18n';
 import PushNotification from 'bridge/PushNotification';
 import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
+import {useExposureNotificationService, useExposureStatus} from 'services/ExposureNotificationService';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -86,6 +87,9 @@ const DrawerContent = () => {
     });
   }, [i18n]);
 
+  const exposureNotificationService = useExposureNotificationService();
+  const [, updateExposureStatus] = useExposureStatus();
+
   return (
     <DrawerContentScrollView>
       <Box marginHorizontal="m">
@@ -104,6 +108,18 @@ const DrawerContent = () => {
         <Section>
           <Item title="Skip 'You're all set'" />
           <SkipAllSetRadioSelector />
+        </Section>
+        <Section>
+          <Button
+            text="Clear exposure history and run check"
+            variant="bigFlat"
+            onPress={async () => {
+              console.log('forcing refresh...');
+              exposureNotificationService.exposureStatusUpdatePromise = null;
+              exposureNotificationService.exposureStatus.set({type: 'monitoring'});
+              updateExposureStatus();
+            }}
+          />
         </Section>
         <Section>
           <LanguageToggle />

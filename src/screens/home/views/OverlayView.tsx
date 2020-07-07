@@ -10,6 +10,7 @@ import {
 } from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
 import {daysBetween} from 'shared/date-fns';
+import {pluralizeKey} from 'shared/pluralization';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -87,10 +88,10 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   const [exposureStatus] = useExposureStatus();
 
   if (exposureStatus.type === 'diagnosed') {
-    const daysLeft = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt));
+    const daysLeft = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt)) - 1;
     const bodyText =
       i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed') +
-      i18n.translate('OverlayOpen.EnterCodeCardDiagnosedCountdown', {number: daysLeft});
+      i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {number: daysLeft});
     return (
       <InfoBlock
         titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}

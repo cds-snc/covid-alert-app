@@ -11,7 +11,7 @@ export const Start = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
 
-  const onNext = useCallback(() => navigation.navigate('OnboardingWhatItsNot'), [navigation]);
+  const onNext = useCallback(() => navigation.navigate('OnboardingAnonymous'), [navigation]);
 
   return (
     <Box flex={1} backgroundColor="overlayBackground">
