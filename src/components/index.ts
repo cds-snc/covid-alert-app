@@ -18,3 +18,4 @@ export * from './TouchableIcon';
 export * from './LanguageToggle';
 export * from './LastCheckedDisplay';
 export * from './OnboardingHeader';
+export * from './Tip';

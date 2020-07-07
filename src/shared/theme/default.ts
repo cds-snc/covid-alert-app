@@ -148,6 +148,12 @@ const theme = {
       fontSize: 12,
       lineHeight: 16,
     },
+    linkVariant: {
+      fontFamily: 'Noto Sans',
+      fontSize: 16,
+      lineHeight: 24,
+      textDecorationLine: 'underline',
+    },
   },
   buttonVariants: {
     danger50Flat: {
