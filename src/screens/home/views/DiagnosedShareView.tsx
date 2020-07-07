@@ -11,7 +11,7 @@ export const DiagnosedShareView = () => {
   const toDataShare = useCallback(() => navigation.navigate('DataSharing'), [navigation]);
 
   return (
-    <BaseHomeView iconName="hand-wave">
+    <BaseHomeView iconName="hand-reminder">
       <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.DiagnosedShareView.Title')}
       </Text>
