@@ -22,7 +22,7 @@
       "Body2b": "Vous acceptez qu’Alerte COVID avise les personnes qu’elles ont été exposées.",
       "Body3a": "Étape 3 : ",
       "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires de façon anonyme.",
-      "CTA": "Entrer le numéro",
+      "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de numéro à 8\u00A0chiffres?"
     },
     "FormView": {
@@ -31,8 +31,8 @@
       "Action": "Envoyer",
       "InputLabel": "code Alerte COVID",
       "ErrorAction": "OK",
-      "ErrorBody": "Votre code Alerte COVID n’a pas pu être reconnu. Veuillez essayer à nouveau.",
-      "ErrorTitle": "Code non reconnu"
+      "ErrorBody": "Votre numéro Alerte COVID n’a pas pu être reconnu. Veuillez essayer à nouveau.",
+      "ErrorTitle": "Numéro non reconnu"
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
@@ -188,7 +188,7 @@
     "ActionNext": "Suivant",
     "ActionEndSkip": "Ignorer",
     "Start": {
-      "Title": "Unissons-nous pour ralentir la propagation de COVID-19",
+      "Title": "Unissons-nous pour freiner la propagation de COVID-19",
       "ImageAltText": "Dessin à la main avec plusieurs personnes différentes dedans. Leurs chemins en lignes pointillées se croisent et mènent à un téléphone intelligent plus bas.",
       "Body1": "Alerte COVID nous aide à briser le cycle d’infection. L’application permet d’aviser les personnes en cas d’exposition potentielle avant même que des symptômes apparaissent. ",
       "Body2": "Nous pouvons ainsi prendre soin de nous et protéger nos communautés."
@@ -240,8 +240,8 @@
     "EnterCodeCardBody": "Vous avez besoin d’un numéro à 8\u00A0chiffres pour aviser les autres personnes d’une exposition.",
     "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de COVID-19. ",
     "EnterCodeCardDiagnosedCountdown": {
-      "One": "{number} day left!",
-      "Other": "{number} days left!"
+      "One": "Il vous reste {number}\u00A0jour!",
+      "Other": "Il vous reste {number}\u00A0jours!"
     },
     "EnterCodeCardTitle": "Vous avez la COVID-19?",
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
