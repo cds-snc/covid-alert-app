@@ -18,7 +18,7 @@ The random codes are only stored and used for the purpose of responding to COVID
 
 ### COVID Alert has no way of knowing or sharing
 - Your location.
-- Your name or adress.
+- Your name or address.
 - Your phone's contacts.
 - Your health information.
 
