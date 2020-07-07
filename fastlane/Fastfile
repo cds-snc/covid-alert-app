@@ -1,32 +1,38 @@
 fastlane_version '2.53.1'
 
-lane :github do
+before_all do
+  # Load root-level .env to avoid duplication
+  Dotenv.overload '../.env'
+end
+
+desc "Creates a Github Release"
+lane :create_github_release do |options|
   set_github_release(
     repository_name: "cds-snc/covid-shield-mobile",
     api_token: ENV["GITHUB_TOKEN"],
-    name: prompt(
-      text: "Release name (ex: Android v19): "
-    ),
-    tag_name: prompt(
-      text: "Tag (ex: android-v19): "
-    ),
-    description: changelog_from_git_commits(
-      merge_commit_filtering: "only_include_merges",
-      pretty: "- %b [%s]"
-    ),
+    name: "#{options[:platform]}  v#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})",
+    tag_name: "#{options[:platform]}-v#{ENV['APP_VERSION_NAME']}-#{ENV['APP_VERSION_CODE']}",
+
+    description: default_changelog,
     commitish: "master",
   )
 end
 
+desc "Returns a default changelog."
+lane :default_changelog do
+  changelog = changelog_from_git_commits(
+    merge_commit_filtering: "only_include_merges",
+    pretty: "- %b [%s]"
+  ),
+  Actions.lane_context[SharedValues::FL_CHANGELOG] = changelog
+  puts changelog
+  changelog.join(' ')
+end
+
 platform :ios do
+  desc "Submit a new Covid Alert beta build to Apple TestFlight"
   lane :beta do
     ensure_git_branch
-    ensure_git_status_clean
-
-    increment_build_number(
-      build_number: latest_testflight_build_number + 1,
-      xcodeproj: "ios/CovidShield.xcodeproj"
-    )
 
     get_certificates(
       output_path: "fastlane/certs"
@@ -48,12 +54,16 @@ platform :ios do
 
     groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
-      groups: groups
+      groups: groups,
+      changelog: default_changelog,
+      app_version: ENV["APP_VERSION_NAME"],
+      build_number: ENV["APP_VERSION_CODE"],
     )
 
-    github
+    create_github_release(platform: 'iOS')
   end
 
+  desc "Builds a local iOS adhoc .ipa"
   lane :local do
     get_certificates(
       output_path: "fastlane/certs"
@@ -81,28 +91,40 @@ end
 platform :android do
   private_lane :build do |options|
     task = (options[:bundle] ? "bundle" : "assemble")
+    properties = (options[:properties] ? options[:properties] : {})
+    buildType = (options[:buidType] ? options[:buildType] : "Release")
+
     gradle(
       task: task,
-      build_type: 'Release',
-      project_dir: 'android/'
+      build_type: buildType,
+      project_dir: 'android/',
+      properties: properties
     )
   end
 
+  desc "Pushes a new build to Google Play Internal Testing Track"
   lane :internal do
     ensure_git_branch
-    ensure_git_status_clean
-    build(bundle: true)
+
+    versionCode = ENV["APP_VERSION_CODE"]
+    versionName = "#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})"
+
+    build(bundle: true, properties: {
+        'versionCode' => versionCode,
+        'versionName' => versionName
+      }
+    )
 
     upload_to_play_store(
       track: 'internal',
-      release_status: 'draft',
       skip_upload_apk: true,
       aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]
     )
 
-    github
+    create_github_release(platform: "Android")
   end
 
+  desc "Builds a local .apk for Android"
   lane :local do
     build
   end

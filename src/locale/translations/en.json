@@ -105,6 +105,7 @@
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
     "LearnMore": "How it works",
+    "GetCode": "Get an 8-digit number",
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
     "Privacy": "How it protects your privacy",
@@ -119,7 +120,7 @@
     "EnShort": "English",
     "FrShort": "Français",
     "PtBRShort": "Portuguese (Brazil)",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "Tutorial": {
     "step-1Title": "How COVID Alert works",
@@ -137,7 +138,7 @@
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "Sharing": {
     "Title": "Tell your friends about COVID Alert",
@@ -196,7 +197,7 @@
   },
   "Privacy": {
     "Title": "Privacy policy",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "ThankYou": {
     "Title": "Thank you for helping",
@@ -286,7 +287,7 @@
   "RegionPicker": {
     "Title": "Where do you live? (optional)",
     "SettingsTitle": "Province or territory",
-    "Close": "Cancel",
+    "Close": "Close",
     "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
