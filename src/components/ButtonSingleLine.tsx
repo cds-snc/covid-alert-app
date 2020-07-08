@@ -97,7 +97,15 @@ export const ButtonSingleLine = ({
             </Box>
           )}
           <Box flex={1} marginLeft="s" alignItems="flex-start" justifyContent="flex-end">
-            <Text variant="menuItemTitle">{text}</Text>
+            <Text
+              variant="menuItemTitle"
+              style={{
+                ...styles.content,
+                color: textColor || buttonColor,
+              }}
+            >
+              {text}
+            </Text>
           </Box>
         </Box>
       )}

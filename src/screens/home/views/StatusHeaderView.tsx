@@ -14,7 +14,7 @@ export const StatusHeaderView = ({enabled}: Props) => {
         <Text variant="overlayTitle" color={color}>
           {i18n.translate('OverlayClosed.SystemStatus')}
         </Text>
-        <Text variant="overlayTitle" color={color} fontFamily="Noto Sans" fontWeight="bold">
+        <Text variant="overlayTitle" color={color} fontWeight="bold">
           {enabled ? i18n.translate('OverlayClosed.SystemStatusOn') : i18n.translate('OverlayClosed.SystemStatusOff')}
         </Text>
       </Text>
