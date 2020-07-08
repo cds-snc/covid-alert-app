@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useReportDiagnosis} from 'services/ExposureNotificationService';
