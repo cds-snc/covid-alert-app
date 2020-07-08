@@ -13,9 +13,9 @@ export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
   return (
     <ItemView
       {...props}
-      image={require('assets/onboarding-nogps.png')}
-      altText={i18n.translate('Onboarding.Anonymous.ImageAltText')}
-      header={i18n.translate('Onboarding.Anonymous.Title')}
+      image={require('assets/onboarding-howitworks.png')}
+      altText={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
+      header={i18n.translate('Onboarding.HowItWorks.Title')}
       item="step-4"
     >
       <>
