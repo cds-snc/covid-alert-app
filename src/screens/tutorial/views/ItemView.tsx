@@ -1,8 +1,9 @@
-import React, {useRef, useLayoutEffect} from 'react';
-import {StyleSheet, Image, ImageSourcePropType, AccessibilityInfo, findNodeHandle} from 'react-native';
+import React from 'react';
+import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
 import {Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {TextMultiline} from 'components/TextMultiline';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {TutorialKey} from '../TutorialContent';
 
@@ -14,22 +15,15 @@ export interface ItemViewProps {
 
 export const ItemView = ({item, image, isActive}: ItemViewProps) => {
   const [i18n] = useI18n();
-  const imageRef = useRef<any>();
-
-  useLayoutEffect(() => {
-    const tag = findNodeHandle(imageRef.current);
-    if (isActive && tag) {
-      AccessibilityInfo.setAccessibilityFocus(tag);
-    }
-  }, [isActive, item]);
+  const accessibilityAutoFocusRef = useAccessibilityAutoFocus(isActive);
 
   return (
     <>
       <Image
-        ref={imageRef}
+        accessible
+        ref={accessibilityAutoFocusRef}
         style={styles.image}
         source={image}
-        accessible
         accessibilityLabel={i18n.translate(`Tutorial.${item}AltText`)}
       />
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessible accessibilityRole="header">

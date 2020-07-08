@@ -1,8 +1,7 @@
-import React, {useCallback, useState, useLayoutEffect, useRef} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Box, CodeInput, Text, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useReportDiagnosis} from 'services/ExposureNotificationService';
-import {findNodeHandle, AccessibilityInfo} from 'react-native';
 
 export interface FormViewProps {
   value: string;
@@ -27,18 +26,10 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
     }
   }, [startSubmission, value, onSuccess, onError]);
 
-  const titleRef = useRef<any>(null);
-  useLayoutEffect(() => {
-    const tag = findNodeHandle(titleRef.current);
-    if (tag) {
-      AccessibilityInfo.setAccessibilityFocus(tag);
-    }
-  }, []);
-
   return (
     <>
       <Box marginHorizontal="m" marginBottom="l">
-        <Text variant="bodyTitle" color="overlayBodyText" accessibilityRole="header" accessible ref={titleRef}>
+        <Text variant="bodyTitle" color="overlayBodyText" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('DataUpload.FormView.Title')}
         </Text>
       </Box>
