@@ -12,10 +12,9 @@ export interface ItemViewProps {
   header: string;
   isActive: boolean;
   children?: ReactNode;
-  showImage?: boolean;
 }
 
-export const ItemView = ({item, image, isActive, altText, header, children, showImage}: ItemViewProps) => {
+export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
   const imageRef = useRef<any>();
   const [i18n] = useI18n();
 
@@ -34,7 +33,7 @@ export const ItemView = ({item, image, isActive, altText, header, children, show
 
   return (
     <>
-      {showImage ? (
+      {image ? (
         <Image ref={imageRef} style={styles.image} source={image} accessible accessibilityLabel={altText} />
       ) : null}
       <Text marginBottom="s" marginTop="l" color="gray2">
@@ -56,7 +55,3 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
-
-ItemView.defaultProps = {
-  showImage: true,
-};
