@@ -32,6 +32,7 @@ build/
 .idea
 .gradle
 local.properties
+keystore.properties
 *.iml
 android/.project
 android/app/.project
@@ -91,6 +92,7 @@ ios/GoogleService-Info.plist
 ios/Generated.xcconfig
 android/app/google-services.json
 .env.local
+.env.secrets
 .env
 
 # generated files
