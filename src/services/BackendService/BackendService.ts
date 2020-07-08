@@ -15,7 +15,6 @@ import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
 const MAX_UPLOAD_KEYS = 14;
-const FETCH_HEADERS = {headers: {'Cache-Control': 'no-cache, no-store, must-revalidate'}};
 
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
