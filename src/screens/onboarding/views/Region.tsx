@@ -17,9 +17,10 @@ export const Region = (props: Pick<ItemViewProps, 'isActive'>) => {
         <Text marginBottom="m">{i18n.translate('RegionPicker.Body')}</Text>
         <Box
           marginTop="s"
+          marginBottom="m"
           paddingHorizontal="m"
           borderRadius={10}
-          backgroundColor="infoBlockNeutralBackground"
+          overflow="hidden"
           accessibilityRole="radiogroup"
         >
           {regionData.map(item => {
@@ -28,7 +29,11 @@ export const Region = (props: Pick<ItemViewProps, 'isActive'>) => {
                 key={item.code}
                 selected={region === item.code}
                 onPress={async selectedRegion => {
-                  setRegion(selectedRegion);
+                  if (region === item.code) {
+                    setRegion('None');
+                  } else {
+                    setRegion(selectedRegion);
+                  }
                 }}
                 name={i18n.translate(`RegionPicker.${item.code}`)}
                 {...item}

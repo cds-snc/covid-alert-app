@@ -1,12 +1,13 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Linking} from 'react-native';
-import {Box, Text, Toolbar, ButtonSingleLine, ButtonMultiline} from 'components';
+import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {TextMultiline} from 'components/TextMultiline';
 
 interface ContentProps {
   title: string;
@@ -19,7 +20,7 @@ interface ContentProps {
 const Content = ({title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
   const externalLinkButton =
     externalLinkCTA && externalLinkText ? (
-      <ButtonMultiline
+      <ButtonSingleLine
         variant="bigFlat"
         text={externalLinkText}
         onPress={() => Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err))}
@@ -31,9 +32,7 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {title}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {body}
-      </Text>
+      <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
       {list && list.map(item => <BulletPoint key={item} text={item} />)}
       {externalLinkButton}
     </Box>

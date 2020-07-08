@@ -15,7 +15,6 @@ import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
 const MAX_UPLOAD_KEYS = 14;
-const FETCH_HEADERS = {headers: {'Cache-Control': 'no-cache, no-store, must-revalidate'}};
 
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
@@ -44,11 +43,17 @@ export class BackendService implements BackendInterface {
 
   async getExposureConfiguration() {
     const region = this.region?.get();
-    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`, FETCH_HEADERS)).json();
+    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
-    const randomBytes = await getRandomBytes(32);
+    let randomBytes: Buffer;
+    try {
+      randomBytes = await getRandomBytes(32);
+    } catch (error) {
+      console.error('getRandomBytes()', error);
+      throw new Error(error);
+    }
     nacl.setPRNG(buff => {
       buff.set(randomBytes, 0);
     });
@@ -97,7 +102,13 @@ export class BackendService implements BackendInterface {
     const serverPublicKey = Buffer.from(keyPair.serverPublicKey, 'base64');
     const clientPublicKey = Buffer.from(keyPair.clientPublicKey, 'base64');
 
-    const nonce = await getRandomBytes(24);
+    let nonce: Buffer;
+    try {
+      nonce = await getRandomBytes(24);
+    } catch (error) {
+      console.error('getRandomBytes()', error);
+      throw new Error(error);
+    }
     const encryptedPayload = nacl.box(serializedUpload, nonce, serverPublicKey, clientPrivate);
 
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);

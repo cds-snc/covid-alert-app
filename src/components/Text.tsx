@@ -1,16 +1,20 @@
-import React, {ReactNode} from 'react';
-import {createText} from '@shopify/restyle';
-import {Text as RNText, TextProps as RNTextProps} from 'react-native';
+import React from 'react';
+import {TextProps as RestyleTextProps, textRestyleFunctions, useRestyle} from '@shopify/restyle';
+import {Text as RNText} from 'react-native';
 import {Theme} from 'shared/theme';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
-// Wrap text to set the correct font family based on weight on Android
-const _Text = ({style, ...rest}: RNTextProps & {children?: ReactNode}) => {
-  // const {fontFamily, fontWeight} = StyleSheet.flatten(style);
-  return <RNText style={[style]} {...rest} />;
+// See https://github.com/Shopify/restyle/blob/master/src/createText.ts
+export type TextProps = RestyleTextProps<Theme> &
+  Omit<React.ComponentProps<typeof RNText> & {children?: React.ReactNode}, keyof RestyleTextProps<Theme>> & {
+    accessibilityAutoFocus?: boolean;
+  };
+
+export const Text = ({accessibilityAutoFocus = false, ...props}: TextProps) => {
+  const styledProps = useRestyle(textRestyleFunctions, props);
+  const autoFocusRef = useAccessibilityAutoFocus(accessibilityAutoFocus);
+  return <RNText accessible ref={autoFocusRef} {...styledProps} />;
 };
-
-export const Text = createText<Theme>(_Text);
-export type TextProps = React.ComponentProps<typeof Text>;
 
 Text.defaultProps = {
   variant: 'bodyText',
