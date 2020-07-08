@@ -32,7 +32,7 @@ export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
   const Item = viewComponents[item];
   return (
     <ScrollView style={styles.flex} showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-      <Box paddingHorizontal="l" paddingTop="s">
+      <Box paddingHorizontal="m" paddingTop="s">
         <Item isActive={isActive} />
       </Box>
     </ScrollView>

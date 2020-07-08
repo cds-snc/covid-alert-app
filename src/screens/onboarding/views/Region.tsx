@@ -17,9 +17,10 @@ export const Region = (props: Pick<ItemViewProps, 'isActive'>) => {
         <Text marginBottom="m">{i18n.translate('RegionPicker.Body')}</Text>
         <Box
           marginTop="s"
+          marginBottom="m"
           paddingHorizontal="m"
           borderRadius={10}
-          backgroundColor="infoBlockNeutralBackground"
+          overflow="hidden"
           accessibilityRole="radiogroup"
         >
           {regionData.map(item => {
