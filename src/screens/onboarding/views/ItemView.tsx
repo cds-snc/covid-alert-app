@@ -1,6 +1,6 @@
 import React, {useRef, useLayoutEffect, ReactNode} from 'react';
 import {StyleSheet, Image, ImageSourcePropType, AccessibilityInfo, findNodeHandle} from 'react-native';
-import {Text} from 'components';
+import {Box, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
 import {onboardingData, OnboardingKey} from '../OnboardingContent';
@@ -34,7 +34,9 @@ export const ItemView = ({item, image, isActive, altText, header, children}: Ite
   return (
     <>
       {image ? (
-        <Image ref={imageRef} style={styles.image} source={image} accessible accessibilityLabel={altText} />
+        <Box marginHorizontal="-m">
+          <Image ref={imageRef} style={styles.image} source={image} accessible accessibilityLabel={altText} />
+        </Box>
       ) : null}
       <Text marginBottom="s" marginTop="l" color="gray2">
         {stepText}
@@ -50,7 +52,7 @@ export const ItemView = ({item, image, isActive, altText, header, children}: Ite
 const styles = StyleSheet.create({
   image: {
     width: '100%',
-    height: 189,
+    height: 168,
     resizeMode: 'contain',
     alignSelf: 'center',
   },
