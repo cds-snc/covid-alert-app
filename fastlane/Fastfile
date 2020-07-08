@@ -38,6 +38,7 @@ platform :ios do
       output_path: "fastlane/certs"
     )
     get_provisioning_profile(
+      provisioning_name: ENV["PROFILE"]
       output_path: "fastlane/certs"
     )
 
