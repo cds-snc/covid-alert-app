@@ -137,4 +137,16 @@ platform :android do
     APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
     sh "cp #{APK_LOCATION} ../build/"
   end
+
+  desc "Builds a local Debug .apk for Android"
+  lane :local_debug do
+    gradle(
+      task: "assembleDebug",
+      flags: "-DbundleInDebug=true",
+      project_dir: 'android/',
+    )
+
+    APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
+    sh "cp #{APK_LOCATION} ../build/"
+  end
 end
