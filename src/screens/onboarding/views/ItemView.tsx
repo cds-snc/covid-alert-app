@@ -37,7 +37,7 @@ export const ItemView = ({item, image, isActive, altText, header, children, show
       {showImage ? (
         <Image ref={imageRef} style={styles.image} source={image} accessible accessibilityLabel={altText} />
       ) : null}
-      <Text marginBottom="s" color="gray2">
+      <Text marginBottom="s" marginTop="l" color="gray2">
         {stepText}
       </Text>
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 189,
-    marginBottom: 20,
     resizeMode: 'contain',
     alignSelf: 'center',
   },
