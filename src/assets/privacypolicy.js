@@ -1,4 +1,4 @@
-const privacy = `# Your privacy is protected
+const privacy = `## Your privacy is protected
 
 COVID Alert follows all the principles of the Privacy Commissioner of Canada for contact tracing apps to protect people's privacy.
 

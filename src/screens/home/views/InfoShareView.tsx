@@ -47,7 +47,7 @@ export const InfoShareView = () => {
   return (
     <>
       <Box marginTop="l" marginBottom="m">
-        <Text variant="bodyTitle" fontWeight="normal">
+        <Text variant="settingTitle" fontWeight="normal">
           {i18n.translate('Info.SettingsTitle')}
         </Text>
       </Box>
@@ -56,7 +56,7 @@ export const InfoShareView = () => {
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" lastItem />
       </Box>
       <Box marginTop="l" marginBottom="m">
-        <Text variant="bodyTitle" fontWeight="normal">
+        <Text variant="settingTitle" fontWeight="normal">
           {i18n.translate('Info.InformationTitle')}
         </Text>
       </Box>

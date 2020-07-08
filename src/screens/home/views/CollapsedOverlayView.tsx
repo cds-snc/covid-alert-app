@@ -29,7 +29,7 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
             <Icon name="sheet-handle-bar" size={36} />
           </View>
           <Box>
-            <Box marginBottom="m">
+            <Box marginBottom="s">
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
             {notificationWarning && (
@@ -43,11 +43,11 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
                 justifyContent="center"
                 flexDirection="row"
               >
-                <Text variant="overlayTitle" color="overlayBodyText" accessibilityRole="header">
+                <Text variant="menuItemTitle" color="overlayBodyText" accessibilityRole="header">
                   {i18n.translate('OverlayClosed.NotificationStatus')}
                 </Text>
                 <Text
-                  variant="overlayTitle"
+                  variant="menuItemTitle"
                   color="overlayBodyText"
                   fontFamily="Noto Sans"
                   fontWeight="bold"

@@ -55,13 +55,16 @@ export const LanguageScreen = () => {
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
         <Toolbar
-          title={i18n.translate('LanguageSelect.Title')}
+          title=""
           navIcon="icon-back-arrow"
           navText={i18n.translate('LanguageSelect.Close')}
           navLabel={i18n.translate('LanguageSelect.Close')}
           onIconClicked={close}
         />
         <ScrollView>
+          <Text paddingHorizontal="m" variant="bodyTitle" color="bodyText" accessibilityRole="header">
+            {i18n.translate('LanguageSelect.Title')}
+          </Text>
           <Box
             marginHorizontal="m"
             paddingHorizontal="m"

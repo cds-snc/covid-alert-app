@@ -117,6 +117,11 @@ const theme = {
       fontSize: 18,
       lineHeight: 25,
     },
+    settingTitle: {
+      fontFamily: 'Noto Sans',
+      fontSize: 23,
+      lineHeight: 30,
+    },
     bodyTitle: {
       fontFamily: 'Noto Sans',
       fontWeight: 'bold',

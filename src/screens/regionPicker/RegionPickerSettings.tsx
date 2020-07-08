@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar, Text, Button} from 'components';
+import {Box, Toolbar, Text} from 'components';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
@@ -54,9 +54,6 @@ export const RegionPickerSettingsScreen = () => {
             </Box>
           </Box>
         </ScrollView>
-        <Box padding="m" borderTopWidth={2} borderTopColor="gray5">
-          <Button text="text" onPress={close} variant="thinFlat"></Button>
-        </Box>
       </SafeAreaView>
     </Box>
   );
