@@ -125,8 +125,8 @@ const theme = {
     bodyTitle: {
       fontFamily: 'Noto Sans',
       fontWeight: 'bold',
-      fontSize: 27,
-      lineHeight: 35,
+      fontSize: 23,
+      lineHeight: 30,
     },
     overlayTitle: {
       fontFamily: 'Noto Sans',
