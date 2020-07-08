@@ -22,9 +22,16 @@ export const PrivacyScreen = () => {
           navText={i18n.translate('Privacy.Close')}
           navLabel={i18n.translate('Privacy.Close')}
           onIconClicked={close}
+          accessibilityTitleAutoFocus
         />
         <ScrollView style={styles.flex}>
-          <Text paddingHorizontal="m" variant="bodyTitle" color="bodyText" accessibilityRole="header">
+          <Text
+            paddingHorizontal="m"
+            variant="bodyTitle"
+            color="bodyText"
+            accessibilityRole="header"
+            accessibilityAutoFocus
+          >
             {i18n.translate('Privacy.Title')}
           </Text>
           <Box padding="m">

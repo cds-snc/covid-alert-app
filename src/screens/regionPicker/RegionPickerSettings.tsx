@@ -33,7 +33,14 @@ export const RegionPickerSettingsScreen = () => {
           onIconClicked={close}
         />
         <ScrollView style={regionStyles.flex}>
-          <Text paddingHorizontal="m" marginBottom="m" variant="bodyTitle" color="bodyText" accessibilityRole="header">
+          <Text
+            paddingHorizontal="m"
+            marginBottom="m"
+            variant="bodyTitle"
+            color="bodyText"
+            accessibilityRole="header"
+            accessibilityAutoFocus
+          >
             {i18n.translate('RegionPicker.SettingsTitle')}
           </Text>
           <TextMultiline

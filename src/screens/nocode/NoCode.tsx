@@ -29,7 +29,7 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
     ) : null;
   return (
     <Box>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
         {title}
       </Text>
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />

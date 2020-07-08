@@ -37,7 +37,7 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
     <>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.ConsentView.Title')}
           </Text>
 

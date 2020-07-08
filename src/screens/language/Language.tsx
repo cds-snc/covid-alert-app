@@ -62,7 +62,13 @@ export const LanguageScreen = () => {
           onIconClicked={close}
         />
         <ScrollView>
-          <Text paddingHorizontal="m" variant="bodyTitle" color="bodyText" accessibilityRole="header">
+          <Text
+            paddingHorizontal="m"
+            variant="bodyTitle"
+            color="bodyText"
+            accessibilityRole="header"
+            accessibilityAutoFocus
+          >
             {i18n.translate('LanguageSelect.Title')}
           </Text>
           <Box
