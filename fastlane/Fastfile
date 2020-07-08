@@ -133,5 +133,8 @@ platform :android do
   desc "Builds a local Release .apk for Android"
   lane :local do
     build
+
+    APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
+    sh "cp #{APK_LOCATION} ../build/"
   end
 end
