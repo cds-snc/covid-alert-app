@@ -2,7 +2,7 @@ import React, {useCallback, useState, useLayoutEffect, useRef} from 'react';
 import {Box, CodeInput, Text, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useReportDiagnosis} from 'services/ExposureNotificationService';
-import {View, findNodeHandle, AccessibilityInfo, Alert} from 'react-native';
+import {View, findNodeHandle, AccessibilityInfo} from 'react-native';
 
 export interface FormViewProps {
   value: string;
