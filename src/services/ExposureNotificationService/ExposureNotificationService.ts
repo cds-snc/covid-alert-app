@@ -14,12 +14,13 @@ import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import defaultExposureConfiguration from './DefaultExposureConfiguration.json';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
-const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
+const EXPOSURE_CONFIGURATION = 'exposure-configuration';
 
 const SECURE_OPTIONS = {
   sharedPreferencesName: 'covidShieldSharedPreferences',
   keychainService: 'covidShieldKeychain',
 };
+const SECURE_OPTIONS_FOR_CONFIGURATION = {...SECURE_OPTIONS, kSecAttrAccessible: 'kSecAttrAccessibleAlways'};
 
 export const EXPOSURE_STATUS = 'exposureStatus';
 
@@ -196,7 +197,11 @@ export class ExposureNotificationService {
    */
   async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
     try {
-      const exposureConfigurationStr = await this.secureStorage.getItem(EXPOSURE_CONFIGURATION, SECURE_OPTIONS);
+      const exposureConfigurationStr = await this.secureStorage.getItem(
+        EXPOSURE_CONFIGURATION,
+        SECURE_OPTIONS_FOR_CONFIGURATION,
+      );
+      console.info('Getting exposure configuration from iOS keychain.');
       if (exposureConfigurationStr) {
         console.warn('Using previously saved exposureConfiguration');
         return JSON.parse(exposureConfigurationStr);
@@ -261,7 +266,8 @@ export class ExposureNotificationService {
       exposureConfiguration = await this.backendInterface.getExposureConfiguration();
       console.info('Using downloaded exposureConfiguration.');
       const serialized = JSON.stringify(exposureConfiguration);
-      await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS);
+      await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS_FOR_CONFIGURATION);
+      console.info('Saving exposure configuration to iOS keychain.');
     } catch (error) {
       if (error instanceof SyntaxError) {
         console.error('JSON Parsing error: Unable to parse downloaded exposureConfiguration.', error);
