@@ -25,6 +25,11 @@ Creates a Github Release
 fastlane default_changelog
 ```
 Returns a default changelog.
+### ensure_keystore_properties
+```
+fastlane ensure_keystore_properties
+```
+
 
 ----
 
@@ -52,7 +57,12 @@ Pushes a new build to Google Play Internal Testing Track
 ```
 fastlane android local
 ```
-Builds a local .apk for Android
+Builds a local Release .apk for Android
+### android local_debug
+```
+fastlane android local_debug
+```
+Builds a local Debug .apk for Android
 
 ----
 
