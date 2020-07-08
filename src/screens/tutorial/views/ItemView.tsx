@@ -4,6 +4,7 @@ import {Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 
 import {TutorialKey} from '../TutorialContent';
+import {TextMultiline} from 'components/TextMultiline';
 
 export interface ItemViewProps {
   item: TutorialKey;
@@ -13,7 +14,6 @@ export interface ItemViewProps {
 
 export const ItemView = ({item, image, isActive}: ItemViewProps) => {
   const [i18n] = useI18n();
-  const bodyText = i18n.translate(`Tutorial.${item}`).split(/\n\n/g);
   const imageRef = useRef<any>();
 
   useLayoutEffect(() => {
@@ -35,11 +35,12 @@ export const ItemView = ({item, image, isActive}: ItemViewProps) => {
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessible accessibilityRole="header">
         {i18n.translate(`Tutorial.${item}Title`)}
       </Text>
-      {bodyText.map(text => (
-        <Text key={text} variant="bodyText" color="overlayBodyText" marginBottom="l">
-          {text}
-        </Text>
-      ))}
+      <TextMultiline
+        text={i18n.translate(`Tutorial.${item}`)}
+        variant="bodyText"
+        color="overlayBodyText"
+        marginBottom="l"
+      />
     </>
   );
 };

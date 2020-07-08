@@ -6,6 +6,7 @@ import {hoursFromNow} from 'shared/date-fns';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {AllSetView} from '../components/AllSetView';
+import {TextMultiline} from 'components/TextMultiline';
 
 export const NoExposureUncoveredRegionView = () => {
   const [i18n] = useI18n();
@@ -20,9 +21,12 @@ export const NoExposureUncoveredRegionView = () => {
       <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="m">
-        {i18n.translate('Home.NoExposureDetected.RegionNotCovered.Body')}
-      </Text>
+      <TextMultiline
+        variant="bodyText"
+        color="bodyText"
+        marginBottom="m"
+        text={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Body')}
+      />
     </BaseHomeView>
   );
 };

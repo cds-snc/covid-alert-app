@@ -8,6 +8,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {Region} from 'shared/Region';
 
 import {regionData, RegionItem, regionStyles} from './RegionPickerShared';
+import {TextMultiline} from 'components/TextMultiline';
 
 export const RegionPickerSettingsScreen = () => {
   const [i18n] = useI18n();
@@ -32,9 +33,13 @@ export const RegionPickerSettingsScreen = () => {
           onIconClicked={close}
         />
         <ScrollView style={regionStyles.flex}>
-          <Text paddingHorizontal="l" marginVertical="m" variant="bodyText" color="overlayBodyText">
-            {i18n.translate('RegionPicker.Body')}
-          </Text>
+          <TextMultiline
+            paddingHorizontal="l"
+            marginVertical="m"
+            variant="bodyText"
+            color="overlayBodyText"
+            text={i18n.translate('RegionPicker.Body')}
+          />
           <Box flex={1} paddingHorizontal="m">
             <Box
               marginTop="l"
