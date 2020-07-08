@@ -3,6 +3,9 @@ fastlane_version '2.53.1'
 before_all do
   # Load root-level shared .env
   Dotenv.overload '../.env'
+
+  # Pull all tags
+  git_pull(only_tags: true)
 end
 
 desc "Creates a Github Release"
@@ -32,6 +35,10 @@ lane :ensure_keystore_properties do
   file_exists = File.exist? File.expand_path "../android/keystored.properties"
 
   UI.user_error!("keystore.properties file is missing!") unless file_exists
+end
+
+def version_string(version_number, build_number)
+  "#{version_number} (#{build_number})"
 end
 
 platform :ios do
@@ -113,7 +120,7 @@ platform :android do
     ensure_keystore_properties
 
     versionCode = ENV["APP_VERSION_CODE"]
-    versionName = "#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})"
+    versionName = version_string(ENV['APP_VERSION_NAME'], ENV['APP_VERSION_CODE'])
 
     build(bundle: true, properties: {
         "versionCode" => versionCode,
