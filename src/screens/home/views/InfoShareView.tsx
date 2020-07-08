@@ -39,6 +39,7 @@ export const InfoShareView = () => {
   const [i18n] = useI18n();
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
+  const onGetCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
   const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
@@ -60,7 +61,13 @@ export const InfoShareView = () => {
         </Text>
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
-        <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
+        <InfoShareItem onPress={onGetCode} text={i18n.translate('Info.GetCode')} icon="icon-chevron" />
+        <InfoShareItem
+          lastItem={false}
+          onPress={onLearnMore}
+          text={i18n.translate('Info.LearnMore')}
+          icon="icon-chevron"
+        />
         <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" lastItem />
       </Box>
     </>

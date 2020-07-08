@@ -39,7 +39,11 @@
         "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
       },
       "Body2": "You do not have to agree, even if you agreed the day before.",
-      "Body3": "Take care of yourself and your family during this time."
+      "Body3": "Take care of yourself and your family during this time.",
+      "TipTitle": "TIP: ",
+      "TipBody": "You can prepare for your call from Public Health through the test results website.  ",
+      "TipLinkText": "Test results website",
+      "TipURL": "https://covid19results.ehealthontario.ca:4443/login"
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
@@ -105,6 +109,7 @@
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
     "LearnMore": "How it works",
+    "GetCode": "Get an 8-digit number",
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
     "Privacy": "How it protects your privacy",
@@ -119,7 +124,7 @@
     "EnShort": "English",
     "FrShort": "Français",
     "PtBRShort": "Portuguese (Brazil)",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "Tutorial": {
     "step-1Title": "How COVID Alert works",
@@ -137,7 +142,7 @@
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "Sharing": {
     "Title": "Tell your friends about COVID Alert",
@@ -196,7 +201,7 @@
   },
   "Privacy": {
     "Title": "Privacy policy",
-    "Close": "Cancel"
+    "Close": "Close"
   },
   "ThankYou": {
     "Title": "Thank you for helping",
@@ -247,7 +252,7 @@
       "RegionCovered": {
         "ON": {
           "Title": "Get an 8-digit number",
-          "Body": "If you’ve tested positive in Ontario:\n\n1. Log in to the COVID-19 Test Results Website.\n\n2. Go to your test results page.\n\n3. Copy the 8-digit number.\n\n4. Come back here and enter the number.",
+          "Body": "If you’ve tested positive in Ontario:\n\n1. Go to the COVID-19 Test Results Website and enter your details.\n\n2. Review your test results.\n\n3. Get the 8-digit number.\n\n4. Come back here and enter the number.",
           "CTA": "Go to COVID-19 Test Results Website",
           "Link": "https://covid19results.ehealthontario.ca:4443/"
         }
@@ -286,7 +291,7 @@
   "RegionPicker": {
     "Title": "Where do you live? (optional)",
     "SettingsTitle": "Province or territory",
-    "Close": "Cancel",
+    "Close": "Close",
     "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
     "Skip": "Skip",
     "GetStarted": "Get started",
@@ -344,7 +349,7 @@
     },
     "ON": {
       "CTA": "Where to get tested",
-      "URL": "https://covid-19.ontario.ca/assessment-centre-locations/"
+      "URL": "https://ontario.ca/covidalert-exposed"
     },
     "PE": {
       "CTA": "Find out if you need to be tested",
