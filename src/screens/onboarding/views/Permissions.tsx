@@ -5,7 +5,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {BackButton, NextButton, StepText} from '../components';
+import {BackButton, NextButton} from '../components';
 
 export const Permissions = () => {
   const [i18n] = useI18n();
@@ -25,6 +25,7 @@ export const Permissions = () => {
               <OnboardingHeader
                 text={i18n.translate('Onboarding.Permissions.Title')}
                 imageSrc={require('assets/onboarding-enable.png')}
+                index={5}
                 accessible
                 accessibilityLabel={i18n.translate('Onboarding.Permissions.ImageAltText')}
               />
@@ -51,7 +52,6 @@ export const Permissions = () => {
             </Box>
           </ScrollView>
           <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
-          <StepText index={5} />
           <NextButton onNext={onNext} />
         </Box>
       </SafeAreaView>

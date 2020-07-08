@@ -5,7 +5,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {BackButton, NextButton, StepText} from '../components';
+import {BackButton, NextButton} from '../components';
 
 export const HowItWorks = () => {
   const [i18n] = useI18n();
@@ -23,6 +23,7 @@ export const HowItWorks = () => {
               <OnboardingHeader
                 text={i18n.translate('Onboarding.HowItWorks.Title')}
                 imageSrc={require('assets/onboarding-howitworks.png')}
+                index={4}
                 accessible
                 accessibilityLabel={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
               />
@@ -44,7 +45,6 @@ export const HowItWorks = () => {
             </Box>
           </ScrollView>
           <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
-          <StepText index={4} />
           <NextButton onNext={onNext} />
         </Box>
       </SafeAreaView>

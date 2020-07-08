@@ -1,20 +1,23 @@
 import React from 'react';
 import {Box, Text} from 'components';
 import {Image, StyleSheet, ImageSourcePropType} from 'react-native';
+import {StepText} from 'screens/onboarding/components';
 
 interface OnboardingHeaderProps {
   text: string;
   imageSrc?: ImageSourcePropType;
+  index: number;
   accessible?: boolean;
   accessibilityLabel?: string;
 }
 
-export const OnboardingHeader = ({text, imageSrc, accessible, accessibilityLabel}: OnboardingHeaderProps) => {
+export const OnboardingHeader = ({text, imageSrc, index, accessible, accessibilityLabel}: OnboardingHeaderProps) => {
   return (
     <Box>
       {imageSrc && (
         <Image accessible={accessible} accessibilityLabel={accessibilityLabel} style={styles.image} source={imageSrc} />
       )}
+      <StepText index={index} />
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
         {text}
       </Text>
