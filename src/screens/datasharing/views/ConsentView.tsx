@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet} from 'react-native';
+import React, {useCallback, useState, useRef, useLayoutEffect} from 'react';
+import {ActivityIndicator, ScrollView, StyleSheet, findNodeHandle, AccessibilityInfo, View} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useReportDiagnosis} from 'services/ExposureNotificationService';
@@ -26,6 +26,14 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
     }
   }, [fetchAndSubmitKeys, onError, onSuccess]);
 
+  const titleRef = useRef<any>(null);
+  useLayoutEffect(() => {
+    const tag = findNodeHandle(titleRef.current);
+    if (tag) {
+      AccessibilityInfo.setAccessibilityFocus(tag);
+    }
+  }, []);
+
   if (loading) {
     return (
       <Box margin="xxl" flex={1} justifyContent="center" alignItems="center">
@@ -37,9 +45,11 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
     <>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
-            {i18n.translate('DataUpload.ConsentView.Title')}
-          </Text>
+          <View accessible ref={titleRef}>
+            <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+              {i18n.translate('DataUpload.ConsentView.Title')}
+            </Text>
+          </View>
 
           <Text marginBottom="m">{i18n.translate('DataUpload.ConsentView.Body1')}</Text>
           <Text marginBottom="m">
