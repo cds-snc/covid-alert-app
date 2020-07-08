@@ -22,13 +22,17 @@ lane :create_github_release do |options|
 end
 
 desc "Returns a default changelog."
-lane :default_changelog do
+lane :default_changelog do |options|
+  format = (options[:simple] ? "- %b" : "- %b [%s]")
+
   changelog = changelog_from_git_commits(
     merge_commit_filtering: "only_include_merges",
-    pretty: "- %b [%s]"
-  ),
-  Actions.lane_context[SharedValues::FL_CHANGELOG] = changelog
-  changelog.join(' ')
+    pretty: format
+  ), Actions.lane_context[SharedValues::FL_CHANGELOG] = changelog
+
+  clean = changelog.first.gsub("- \n", "")
+  puts clean
+  clean
 end
 
 lane :ensure_keystore_properties do
@@ -67,7 +71,7 @@ platform :ios do
     groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
       groups: groups,
-      changelog: default_changelog,
+      changelog: default_changelog(simple: true),
       app_version: ENV["APP_VERSION_NAME"],
       build_number: ENV["APP_VERSION_CODE"],
     )
