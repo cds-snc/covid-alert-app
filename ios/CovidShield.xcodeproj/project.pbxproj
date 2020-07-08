@@ -13,6 +13,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		195904142488B84300430369 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 195904162488B84300430369 /* Launch Screen.storyboard */; };
+		4A5C897C24B63BE00074FF89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A5C897E24B63BE00074FF89 /* InfoPlist.strings */; };
 		7482404F246F9C0E009F68EA /* CovidShield.m in Sources */ = {isa = PBXBuildFile; fileRef = 7482404E246F9C0E009F68EA /* CovidShield.m */; };
 		74B6941E245F15B20077B9DA /* ExposureNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6941D245F15B20077B9DA /* ExposureNotification.m */; };
 		92B51DEAB84B429696C44822 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190AEBD50CE3434EBCFCFBB4 /* NotoSans-Bold.ttf */; };
@@ -52,6 +53,8 @@
 		1A0CE02FD9160E9B9AF76381 /* Pods-CovidShield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.release.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.release.xcconfig"; sourceTree = "<group>"; };
 		431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Device-Large.png"; path = "../src/assets/animation/images/Device-Large.png"; sourceTree = "<group>"; };
 		4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.release.xcconfig"; sourceTree = "<group>"; };
+		4A5C897D24B63BE00074FF89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4A5C897F24B63BE80074FF89 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		52445CBEB4F2B88669022976 /* libPods-CovidShield.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7482404D246F9C0E009F68EA /* CovidShield.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CovidShield.h; path = CovidShield/CovidShield.h; sourceTree = "<group>"; };
 		7482404E246F9C0E009F68EA /* CovidShield.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CovidShield.m; path = CovidShield/CovidShield.m; sourceTree = "<group>"; };
@@ -118,6 +121,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				7482405524773294009F68EA /* Config.release.xcconfig */,
 				74824056247732A5009F68EA /* Config.debug.xcconfig */,
+				4A5C897E24B63BE00074FF89 /* InfoPlist.strings */,
 			);
 			name = CovidShield;
 			sourceTree = "<group>";
@@ -286,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				4A5C897C24B63BE00074FF89 /* InfoPlist.strings in Resources */,
 				195904142488B84300430369 /* Launch Screen.storyboard in Resources */,
 				E0C908AD8D97409895BCF901 /* img_0.png in Resources */,
 				A10A691626414D8AABBB659C /* Device-Large.png in Resources */,
@@ -436,6 +441,15 @@
 			name = "Launch Screen.storyboard";
 			sourceTree = "<group>";
 		};
+		4A5C897E24B63BE00074FF89 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4A5C897D24B63BE00074FF89 /* en */,
+				4A5C897F24B63BE80074FF89 /* fr */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -507,7 +521,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ca.gc.hcsc.canada.stopcovid";
+				PRODUCT_BUNDLE_IDENTIFIER = ca.gc.hcsc.canada.stopcovid;
 				PRODUCT_NAME = CovidShield;
 				PROVISIONING_PROFILE_SPECIFIER = "Stop COVID Development Profile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
