@@ -1,7 +1,39 @@
-import React from 'react';
+import React, {useCallback} from 'react';
+import {useI18n} from '@shopify/react-i18n';
+import {useNavigation} from '@react-navigation/native';
+import {Box, BulletPointCheck, ButtonSingleLine} from 'components';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
 export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
-  return <ItemView {...props} item="step-4" image={require('assets/how-it-works-positive.png')} />;
+  const [i18n] = useI18n();
+  const navigation = useNavigation();
+  const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
+
+  return (
+    <ItemView
+      {...props}
+      image={require('assets/onboarding-nogps.png')}
+      altText={i18n.translate('Onboarding.Anonymous.ImageAltText')}
+      header={i18n.translate('Onboarding.Anonymous.Title')}
+      item="step-4"
+    >
+      <>
+        <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body1')} />
+        <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body2')} />
+        <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body3')} />
+
+        <Box alignSelf="stretch" marginTop="m" marginBottom="l">
+          <Box>
+            <ButtonSingleLine
+              text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
+              variant="bigFlatNeutralGrey"
+              internalLink
+              onPress={onLearnMore}
+            />
+          </Box>
+        </Box>
+      </>
+    </ItemView>
+  );
 };
