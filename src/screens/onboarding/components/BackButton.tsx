@@ -16,7 +16,7 @@ export const BackButton = ({onBack}: {onBack?: any}) => {
           backButton
           text={i18n.translate('Onboarding.ActionBack')}
           color="linkText"
-          variant="subduedText"
+          variant="text"
           onPress={onBack ? onBack : prevItem}
         />
       </Box>
