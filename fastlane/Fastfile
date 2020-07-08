@@ -49,7 +49,7 @@ end
 platform :ios do
   desc "Submit a new Covid Alert beta build to Apple TestFlight"
   lane :beta do
-    ensure_git_branch
+    # ensure_git_branch
 
     match(
       git_url: ENV["CERTS_REPO"],
