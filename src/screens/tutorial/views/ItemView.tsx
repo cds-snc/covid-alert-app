@@ -2,9 +2,9 @@ import React, {useRef, useLayoutEffect} from 'react';
 import {StyleSheet, Image, ImageSourcePropType, AccessibilityInfo, findNodeHandle} from 'react-native';
 import {Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {TextMultiline} from 'components/TextMultiline';
 
 import {TutorialKey} from '../TutorialContent';
-import {TextMultiline} from 'components/TextMultiline';
 
 export interface ItemViewProps {
   item: TutorialKey;

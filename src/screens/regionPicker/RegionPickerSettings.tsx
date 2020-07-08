@@ -6,9 +6,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {useI18n} from '@shopify/react-i18n';
 import {Region} from 'shared/Region';
+import {TextMultiline} from 'components/TextMultiline';
 
 import {regionData, RegionItem, regionStyles} from './RegionPickerShared';
-import {TextMultiline} from 'components/TextMultiline';
 
 export const RegionPickerSettingsScreen = () => {
   const [i18n] = useI18n();

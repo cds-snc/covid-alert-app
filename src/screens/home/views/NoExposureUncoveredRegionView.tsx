@@ -3,10 +3,10 @@ import {Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
+import {TextMultiline} from 'components/TextMultiline';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {AllSetView} from '../components/AllSetView';
-import {TextMultiline} from 'components/TextMultiline';
 
 export const NoExposureUncoveredRegionView = () => {
   const [i18n] = useI18n();
