@@ -96,7 +96,7 @@ const MainNavigator = () => {
   const {isOnboarding} = useStorage();
   return (
     <MainStack.Navigator
-      screenOptions={{stackPresentation: 'modal', headerShown: false}}
+      screenOptions={{stackAnimation: 'fade', stackPresentation: 'modal', headerShown: false}}
       initialRouteName={isOnboarding ? 'OnboardingNavigator' : 'Home'}
     >
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
