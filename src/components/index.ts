@@ -17,4 +17,3 @@ export * from './Toolbar';
 export * from './TouchableIcon';
 export * from './LanguageToggle';
 export * from './LastCheckedDisplay';
-export * from './OnboardingHeader';

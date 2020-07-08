@@ -9,7 +9,7 @@ import {DataSharingScreen} from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
-import {RegionPickerSettingsScreen, RegionPickerScreen} from 'screens/regionPicker';
+import {RegionPickerSettingsScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
