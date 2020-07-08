@@ -14,7 +14,7 @@ export const NextButton = ({onNext, isEnd, isRegionSet}: {onNext: any; isEnd?: b
   }
 
   return (
-    <Box paddingHorizontal="l" alignItems="center" justifyContent="center" flexDirection="row" marginBottom="l">
+    <Box paddingHorizontal="l" alignItems="center" justifyContent="center" flexDirection="row">
       <Box flex={1}>
         {isEnd ? (
           <Button

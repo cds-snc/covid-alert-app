@@ -43,8 +43,9 @@ export const Anonymous = () => {
               <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet4')} />
             </Box>
           </ScrollView>
-          <Box height={5} maxHeight={2} borderTopWidth={2} borderTopColor="gray5" />
-          <NextButton onNext={onNext} />
+          <Box borderTopWidth={2} borderTopColor="gray5" paddingVertical="m">
+            <NextButton onNext={onNext} />
+          </Box>
         </Box>
       </SafeAreaView>
     </Box>
