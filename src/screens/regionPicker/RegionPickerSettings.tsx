@@ -48,7 +48,7 @@ export const RegionPickerSettingsScreen = () => {
                   <RegionItem
                     key={item.code}
                     selected={region === item.code}
-                    onPress={toggle(item.code)}
+                    onPress={region === item.code ? toggle('None') : toggle(item.code)}
                     name={i18n.translate(`RegionPicker.${item.code}`)}
                     {...item}
                   />
