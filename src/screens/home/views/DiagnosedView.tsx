@@ -4,11 +4,14 @@ import {Text} from 'components';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 import {daysBetween} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
+import {useStorage} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {Tip} from '../components/Tip';
 
 export const DiagnosedView = () => {
   const [i18n] = useI18n();
+  const {region} = useStorage();
   const [exposureStatus] = useExposureStatus();
 
   if (exposureStatus.type !== 'diagnosed') return null;
@@ -30,6 +33,7 @@ export const DiagnosedView = () => {
       <Text variant="bodyText" color="bodyText" marginBottom="l">
         {i18n.translate('Home.DiagnosedView.Body3')}
       </Text>
+      {region === 'ON' ? <Tip /> : null}
     </BaseHomeView>
   );
 };

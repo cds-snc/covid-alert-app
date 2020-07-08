@@ -8,6 +8,7 @@ import PushNotification from 'bridge/PushNotification';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
+import {TEST_MODE} from 'env';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -238,7 +239,11 @@ export class ExposureNotificationService {
   ): AsyncGenerator<{keysFileUrl: string; period: number} | null> {
     const runningDate = new Date();
 
-    const lastCheckedPeriod = periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
+    let lastCheckedPeriod =
+      _lastCheckedPeriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
+    if (TEST_MODE) {
+      lastCheckedPeriod = periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
+    }
 
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
     console.log('lastCheckedPeriod', lastCheckedPeriod);

@@ -39,7 +39,11 @@
         "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
       },
       "Body2": "You do not have to agree, even if you agreed the day before.",
-      "Body3": "Take care of yourself and your family during this time."
+      "Body3": "Take care of yourself and your family during this time.",
+      "TipTitle": "TIP: ",
+      "TipBody": "You can prepare for your call from Public Health through the test results website.  ",
+      "TipLinkText": "Test results website",
+      "TipURL": "https://covid19results.ehealthontario.ca:4443/login"
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
@@ -155,7 +159,7 @@
     "Of": "of",
     "ActionNext": "Next",
     "ActionEndSkip": "Skip",
-    "ActionEnd": "Get Started",
+    "ActionEnd": "Done",
     "ActionBack": "Back",
     "Start": {
       "Title": "Together, let’s stop the spread of COVID-19",
@@ -170,7 +174,7 @@
       "Body2": "It will not tell you about outbreaks in your community."
     },
     "Anonymous": {
-      "Title": "Totally Anonymous",
+      "Title": "Private and anonymous",
       "ImageAltText": "A hand-drawn illustration of shaded glasses and hat to go incognito. Above the hat, a location pin icon is crossed out.",
       "Body1": "COVID Alert does not use GPS or location services.",
       "Body2": "It has no way of knowing:",
