@@ -1,7 +1,7 @@
 fastlane_version '2.53.1'
 
 before_all do
-  # Load root-level .env to avoid duplication
+  # Load root-level shared .env
   Dotenv.overload '../.env'
 end
 
@@ -25,8 +25,13 @@ lane :default_changelog do
     pretty: "- %b [%s]"
   ),
   Actions.lane_context[SharedValues::FL_CHANGELOG] = changelog
-  puts changelog
   changelog.join(' ')
+end
+
+lane :ensure_keystore_properties do
+  file_exists = File.exist? File.expand_path "../android/keystored.properties"
+
+  UI.user_error!("keystore.properties file is missing!") unless file_exists
 end
 
 platform :ios do
@@ -92,7 +97,7 @@ platform :android do
   private_lane :build do |options|
     task = (options[:bundle] ? "bundle" : "assemble")
     properties = (options[:properties] ? options[:properties] : {})
-    buildType = (options[:buidType] ? options[:buildType] : "Release")
+    buildType = (options[:buildType] ? options[:buildType] : "Release")
 
     gradle(
       task: task,
@@ -105,13 +110,14 @@ platform :android do
   desc "Pushes a new build to Google Play Internal Testing Track"
   lane :internal do
     ensure_git_branch
+    ensure_keystore_properties
 
     versionCode = ENV["APP_VERSION_CODE"]
     versionName = "#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})"
 
     build(bundle: true, properties: {
-        'versionCode' => versionCode,
-        'versionName' => versionName
+        "versionCode" => versionCode,
+        "versionName" => versionName
       }
     )
 
@@ -124,7 +130,7 @@ platform :android do
     create_github_release(platform: "Android")
   end
 
-  desc "Builds a local .apk for Android"
+  desc "Builds a local Release .apk for Android"
   lane :local do
     build
   end
