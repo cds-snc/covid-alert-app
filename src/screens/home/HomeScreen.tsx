@@ -54,7 +54,7 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   useEffect(() => {
     return turnNotificationsOn();
   }, [turnNotificationsOn]);
-  return <ExposureNotificationsDisabledView />;
+
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
   // this is for the test menu
