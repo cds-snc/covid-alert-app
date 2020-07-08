@@ -299,6 +299,7 @@ export class ExposureNotificationService {
       return finalize();
     }
 
+    const keysFileUrls: string[] = [];
     const generator = this.keysSinceLastFetch(currentStatus.lastCheckedPeriod);
     let lastCheckedPeriod = currentStatus.lastCheckedPeriod;
     while (true) {
@@ -306,21 +307,22 @@ export class ExposureNotificationService {
       if (done) break;
       if (!value) continue;
       const {keysFileUrl, period} = value;
+      keysFileUrls.push(keysFileUrl);
 
       // Temporarily disable persisting lastCheckPeriod on Android
       // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
       if (Platform.OS !== 'android') {
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
       }
+    }
 
-      try {
-        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFileUrl]);
-        if (summary.matchedKeyCount > 0) {
-          return finalize({type: 'exposed', summary, lastCheckedPeriod});
-        }
-      } catch (error) {
-        console.log('>>> detectExposure', error);
+    try {
+      const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      if (summary.matchedKeyCount > 0) {
+        return finalize({type: 'exposed', summary, lastCheckedPeriod});
       }
+    } catch (error) {
+      console.log('>>> detectExposure', error);
     }
 
     return finalize({lastCheckedPeriod});
