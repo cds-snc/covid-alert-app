@@ -3,6 +3,7 @@ import {Text, LastCheckedDisplay} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
+import {TextMultiline} from 'components/TextMultiline';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -20,9 +21,12 @@ export const NoExposureCoveredRegionView = () => {
       <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="m">
-        {i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
-      </Text>
+      <TextMultiline
+        variant="bodyText"
+        color="bodyText"
+        marginBottom="m"
+        text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
+      />
       <LastCheckedDisplay textDark />
     </BaseHomeView>
   );

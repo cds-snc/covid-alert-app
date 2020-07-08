@@ -6,6 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {useI18n} from '@shopify/react-i18n';
 import {Region} from 'shared/Region';
+import {TextMultiline} from 'components/TextMultiline';
 
 import {regionData, RegionItem, regionStyles} from './RegionPickerShared';
 
@@ -32,12 +33,16 @@ export const RegionPickerSettingsScreen = () => {
           onIconClicked={close}
         />
         <ScrollView style={regionStyles.flex}>
-          <Text paddingHorizontal="m" variant="bodyTitle" color="bodyText" accessibilityRole="header">
+          <Text paddingHorizontal="m" marginBottom="m" variant="bodyTitle" color="bodyText" accessibilityRole="header">
             {i18n.translate('RegionPicker.SettingsTitle')}
           </Text>
-          <Text paddingHorizontal="m" marginVertical="m" variant="bodyText" color="overlayBodyText">
-            {i18n.translate('RegionPicker.Body')}
-          </Text>
+          <TextMultiline
+            paddingHorizontal="m"
+            marginVertical="s"
+            variant="bodyText"
+            color="overlayBodyText"
+            text={i18n.translate('RegionPicker.Body')}
+          />
           <Box flex={1} paddingHorizontal="m" marginBottom="m">
             <Box marginTop="l" paddingHorizontal="m" borderRadius={10} overflow="hidden" accessibilityRole="radiogroup">
               {regionData.map(item => {
