@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Linking} from 'react-native';
-import {Box, Text, Toolbar, ButtonSingleLine, ButtonMultiline} from 'components';
+import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
@@ -20,7 +20,7 @@ interface ContentProps {
 const Content = ({title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
   const externalLinkButton =
     externalLinkCTA && externalLinkText ? (
-      <ButtonMultiline
+      <ButtonSingleLine
         variant="bigFlat"
         text={externalLinkText}
         onPress={() => Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err))}
