@@ -17,7 +17,7 @@ export const Anonymous = () => {
         <BackButton />
         <Box flex={1} justifyContent="center">
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-            <Box flex={1} paddingHorizontal="l">
+            <Box flex={1} paddingHorizontal="m">
               <OnboardingHeader
                 text={i18n.translate('Onboarding.Anonymous.Title')}
                 imageSrc={require('assets/onboarding-nogps.png')}
