@@ -9,13 +9,13 @@ import {
   ActivityIndicator,
   AccessibilityRole,
 } from 'react-native';
-import {Text} from './Text';
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from './Box';
 import {Ripple} from './Ripple';
 import {Icon} from './Icon';
+import {Text} from './Text';
 
 export interface InfoButtonProps {
   title?: string;
