@@ -1,4 +1,4 @@
-import React, {useRef, useLayoutEffect} from 'react';
+import React, {useRef, useLayoutEffect, ReactNode} from 'react';
 import {StyleSheet, Image, ImageSourcePropType, AccessibilityInfo, findNodeHandle} from 'react-native';
 import {Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
@@ -8,12 +8,13 @@ import {OnboardingKey} from '../OnboardingContent';
 export interface ItemViewProps {
   item: OnboardingKey;
   image: ImageSourcePropType;
+  altText: string;
+  header: string;
   isActive: boolean;
+  children?: ReactNode;
 }
 
-export const ItemView = ({item, image, isActive}: ItemViewProps) => {
-  const [i18n] = useI18n();
-  const bodyText = i18n.translate(`Onboarding.${item}`).split(/\n\n/g);
+export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
   const imageRef = useRef<any>();
 
   useLayoutEffect(() => {
@@ -25,21 +26,11 @@ export const ItemView = ({item, image, isActive}: ItemViewProps) => {
 
   return (
     <>
-      <Image
-        ref={imageRef}
-        style={styles.image}
-        source={image}
-        accessible
-        accessibilityLabel={i18n.translate(`Onboarding.${item}AltText`)}
-      />
-      <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessible accessibilityRole="header">
-        {i18n.translate(`Onboarding.${item}Title`)}
+      <Image ref={imageRef} style={styles.image} source={image} accessible accessibilityLabel={altText} />
+      <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
+        {header}
       </Text>
-      {bodyText.map(text => (
-        <Text key={text} variant="bodyText" color="overlayBodyText" marginBottom="l">
-          {text}
-        </Text>
-      ))}
+      {children}
     </>
   );
 };
