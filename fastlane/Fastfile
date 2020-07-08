@@ -51,11 +51,12 @@ platform :ios do
   lane :beta do
     ensure_git_branch
 
-    get_certificates(
-      output_path: "fastlane/certs"
-    )
-    get_provisioning_profile(
-      output_path: "fastlane/certs"
+    match(
+      git_url: ENV["CERTS_REPO"],
+      app_identifier: ENV["APP_ID_IOS"],
+      username: ENV["APPLE_ID"],
+      type: "appstore",
+      readonly: true
     )
 
     build_app(
@@ -82,13 +83,12 @@ platform :ios do
 
   desc "Builds a local iOS adhoc .ipa"
   lane :local do
-    get_certificates(
-      output_path: "fastlane/certs"
-    )
-    get_provisioning_profile(
-      adhoc: true,
-      provisioning_name: ENV["PROFILE_ADHOC"],
-      output_path: "fastlane/certs"
+    match(
+      git_url: ENV["CERTS_REPO"],
+      app_identifier: ENV["APP_ID_IOS"],
+      username: ENV["APPLE_ID"],
+      type: "adhoc",
+      readonly: true
     )
 
     build_app(
