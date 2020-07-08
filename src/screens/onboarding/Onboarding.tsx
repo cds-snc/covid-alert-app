@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
+import {useStorage} from 'services/StorageService';
 
 import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingContent';
 
@@ -14,6 +15,8 @@ export const OnboardingScreen = () => {
   const carouselRef = useRef<CarouselStatic<OnboardingKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [i18n] = useI18n();
+  const {setOnboarded, setOnboardedDatetime} = useStorage();
+
   const close = useCallback(() => navigation.goBack(), [navigation]);
 
   const isStart = currentStep === 0;
@@ -30,13 +33,18 @@ export const OnboardingScreen = () => {
     [currentStep],
   );
 
-  const nextItem = useCallback(() => {
+  const nextItem = useCallback(async () => {
     if (isEnd) {
-      close();
+      await setOnboarded(true);
+      await setOnboardedDatetime(new Date());
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
       return;
     }
     carouselRef.current?.snapToNext();
-  }, [close, isEnd]);
+  }, [isEnd, navigation, setOnboarded, setOnboardedDatetime]);
 
   const prevItem = useCallback(() => {
     carouselRef.current?.snapToPrev();
