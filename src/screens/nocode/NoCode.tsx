@@ -7,6 +7,7 @@ import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {TextMultiline} from 'components/TextMultiline';
 
 interface ContentProps {
   title: string;
@@ -31,9 +32,7 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {title}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {body}
-      </Text>
+      <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
       {list && list.map(item => <BulletPoint key={item} text={item} />)}
       {externalLinkButton}
     </Box>
