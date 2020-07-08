@@ -83,7 +83,7 @@ const App = () => {
 const AppProvider = () => {
   return (
     <SafeAreaProvider>
-      <StatusBar backgroundColor="transparent" translucent />
+      <StatusBar barStyle="default" translucent />
       <StorageServiceProvider>
         <ThemeProvider>
           <App />

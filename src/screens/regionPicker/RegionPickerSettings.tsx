@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar, Text} from 'components';
+import {Box, Toolbar, Text, Button} from 'components';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
@@ -38,7 +38,7 @@ export const RegionPickerSettingsScreen = () => {
           <Text paddingHorizontal="m" marginVertical="m" variant="bodyText" color="overlayBodyText">
             {i18n.translate('RegionPicker.Body')}
           </Text>
-          <Box flex={1} paddingHorizontal="m">
+          <Box flex={1} paddingHorizontal="m" marginBottom="m">
             <Box marginTop="l" paddingHorizontal="m" borderRadius={10} overflow="hidden" accessibilityRole="radiogroup">
               {regionData.map(item => {
                 return (
@@ -54,6 +54,9 @@ export const RegionPickerSettingsScreen = () => {
             </Box>
           </Box>
         </ScrollView>
+        <Box padding="m" borderTopWidth={2} borderTopColor="gray5">
+          <Button text="text" onPress={close} variant="thinFlat"></Button>
+        </Box>
       </SafeAreaView>
     </Box>
   );
