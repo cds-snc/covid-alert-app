@@ -46,13 +46,9 @@ export class BackendService implements BackendInterface {
 
   async getExposureConfiguration() {
     const region = this.region?.get();
-<<<<<<< HEAD
     const url = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
     console.debug(`getExposureConfiguration: ${url}`);
     return (await fetch(url)).json();
-=======
-    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`, FETCH_HEADERS)).json();
->>>>>>> master
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
