@@ -6,6 +6,7 @@ import {Box, Button, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
+import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingContent';
 
@@ -15,10 +16,8 @@ export const OnboardingScreen = () => {
   const carouselRef = useRef<CarouselStatic<OnboardingKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [i18n] = useI18n();
-  const {setOnboarded, setOnboardedDatetime} = useStorage();
-
-  const close = useCallback(() => navigation.goBack(), [navigation]);
-
+  const {setOnboarded, setOnboardedDatetime, setRegion} = useStorage();
+  const startExposureNotificationService = useStartExposureNotificationService();
   const isStart = currentStep === 0;
   const isEnd = currentStep === onboardingData.length - 1;
 
@@ -32,6 +31,18 @@ export const OnboardingScreen = () => {
     },
     [currentStep],
   );
+
+  const onSnapToNewPage = (index: number) => {
+    // we want the EN permission dialogue to appear on the last step.
+    if (index === onboardingData.length - 1) {
+      startExposureNotificationService();
+    }
+
+    // we want region cleared on the 2nd last step
+    if (index === onboardingData.length - 2) {
+      setRegion(undefined);
+    }
+  };
 
   const nextItem = useCallback(async () => {
     if (isEnd) {
@@ -60,7 +71,10 @@ export const OnboardingScreen = () => {
             renderItem={renderItem}
             sliderWidth={viewportWidth}
             itemWidth={viewportWidth}
-            onSnapToItem={newIndex => setCurrentStep(newIndex)}
+            onSnapToItem={newIndex => {
+              setCurrentStep(newIndex);
+              onSnapToNewPage(newIndex);
+            }}
             importantForAccessibility="no"
             accessible={false}
           />
