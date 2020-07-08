@@ -41,6 +41,8 @@ import IconX from 'assets/icon-x.svg';
 import ThumbsUp from 'assets/thumbs-up.svg';
 import HandCaution from 'assets/hand-caution.svg';
 import HandWave from 'assets/hand-wave.svg';
+import HandReminder from 'assets/hand-reminder.svg';
+import HandThankYouWithLove from 'assets/hand-thank-you-with-love.svg';
 import StopCOVID from 'assets/StopCOVID.svg';
 
 const ICONS = {
@@ -87,6 +89,8 @@ const ICONS = {
   'thumbs-up': ThumbsUp,
   'hand-caution': HandCaution,
   'hand-wave': HandWave,
+  'hand-reminder': HandReminder,
+  'hand-thank-you-with-love': HandThankYouWithLove,
 };
 
 export type IconName = keyof typeof ICONS;

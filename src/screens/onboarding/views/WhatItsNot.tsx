@@ -18,7 +18,7 @@ export const WhatItsNot = () => {
         <BackButton />
         <Box flex={1} justifyContent="center">
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-            <Box flex={1} paddingHorizontal="l">
+            <Box flex={1} paddingHorizontal="m">
               <OnboardingHeader
                 text={i18n.translate('Onboarding.WhatItsNot.Title')}
                 imageSrc={require('assets/onboarding-neighbourhood.png')}
