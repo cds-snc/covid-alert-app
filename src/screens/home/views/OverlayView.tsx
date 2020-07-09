@@ -1,16 +1,8 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useCallback, useState} from 'react';
 import Animated, {sub, abs} from 'react-native-reanimated';
 import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {
-  Linking,
-  Platform,
-  TouchableOpacity,
-  StyleSheet,
-  AccessibilityInfo,
-  View,
-  AccessibilityEvent,
-} from 'react-native';
+import {Linking, Platform, TouchableOpacity, StyleSheet, AccessibilityInfo, View} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
