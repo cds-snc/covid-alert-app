@@ -12,7 +12,12 @@ export const NoExposureNoRegionView = () => {
   const {onboardedDatetime, skipAllSet} = useStorage();
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
-    return <AllSetView bodyText={i18n.translate('Home.NoExposureDetected.NoRegion.AllSetBody')} />;
+    return (
+      <AllSetView
+        titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
+        bodyText={i18n.translate('Home.NoExposureDetected.NoRegion.AllSetBody')}
+      />
+    );
   }
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
