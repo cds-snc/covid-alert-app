@@ -113,11 +113,6 @@ export class ExposureNotificationService {
     });
   }
 
-  async init() {
-    const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
-    this.exposureStatus.append({...exposureStatus});
-  }
-
   async start(): Promise<void> {
     if (this.starting) {
       return;
@@ -145,6 +140,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
+    await this.init();
     const lastStatus = this.exposureStatus.get();
     await this.updateExposureStatus();
     const currentStatus = this.exposureStatus.get();
@@ -196,6 +192,11 @@ export class ExposureNotificationService {
       await this.backendInterface.reportDiagnosisKeys(auth, diagnosisKeys);
     }
     await this.recordKeySubmission();
+  }
+
+  private async init() {
+    const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
+    this.exposureStatus.append({...exposureStatus});
   }
 
   /**
@@ -337,7 +338,9 @@ export class ExposureNotificationService {
     }
 
     try {
+      console.log('eeeeeeeeee keysFileUrls', keysFileUrls);
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      console.log('eeeeeeeeee summary', summary);
       if (summary.matchedKeyCount > 0) {
         return finalize(
           {
