@@ -14,6 +14,7 @@ import {pluralizeKey} from 'shared/pluralization';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -139,24 +140,24 @@ export const OverlayView = ({
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         <Box maxWidth={maxWidth}>
+          <TouchableOpacity
+            onPress={bottomSheetBehavior.collapse}
+            style={styles.collapseButton}
+            accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+            accessibilityRole="button"
+          >
+            <Icon name="sheet-handle-bar-close" size={36} />
+          </TouchableOpacity>
+
           <Box marginBottom="s">
             <StatusHeaderView
               isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
               enabled={status === SystemStatus.Active}
             />
           </Box>
-          <View style={styles.collapseContentHandleBar}>
-            <TouchableOpacity
-              onPress={bottomSheetBehavior.collapse}
-              style={styles.collapseButton}
-              accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
-              accessibilityRole="button"
-            >
-              <Icon name="sheet-handle-bar-close" size={36} />
-            </TouchableOpacity>
-          </View>
+
           <Box marginBottom="m" marginTop="s" marginHorizontal="m">
             <ShareDiagnosisCode i18n={i18n} />
           </Box>
@@ -179,25 +180,20 @@ export const OverlayView = ({
             <InfoShareView />
           </Box>
         </Box>
-      </View>
+      </ScrollView>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   content: {
-    marginTop: 10,
-  },
-  collapseContentHandleBar: {
-    position: 'absolute',
-    width: '100%',
-    alignItems: 'center',
-    top: -32,
+    marginTop: -25,
   },
   collapseButton: {
     height: 48,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    marginBottom: -10,
   },
 });
