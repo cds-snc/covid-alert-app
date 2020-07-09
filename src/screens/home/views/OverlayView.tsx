@@ -142,7 +142,10 @@ export const OverlayView = ({
       <View style={styles.content}>
         <Box maxWidth={maxWidth}>
           <Box marginBottom="s">
-            <StatusHeaderView enabled={status === SystemStatus.Active} />
+            <StatusHeaderView
+              isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
+              enabled={status === SystemStatus.Active}
+            />
           </Box>
           <View style={styles.collapseContentHandleBar}>
             <TouchableOpacity
