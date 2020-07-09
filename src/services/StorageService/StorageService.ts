@@ -87,3 +87,15 @@ export class StorageService {
     this.ready.set(true);
   };
 }
+
+export const createStorageService = async () => {
+  const storageService = new StorageService();
+  return new Promise<StorageService>(resolve => {
+    storageService.ready.observe(ready => {
+      if (!ready) {
+        return;
+      }
+      resolve(storageService);
+    });
+  });
+};
