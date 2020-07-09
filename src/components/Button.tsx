@@ -121,7 +121,13 @@ export const Button = ({
     );
   }
   return (
-    <TouchableOpacity onPress={onPressHandler} style={styles.stretch} disabled={disabled} {...accessibilityProps}>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      onPress={onPressHandler}
+      style={styles.stretch}
+      disabled={disabled}
+      {...accessibilityProps}
+    >
       {content}
     </TouchableOpacity>
   );
