@@ -1,13 +1,12 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Linking} from 'react-native';
-import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
+import {Box, Text, TextMultiline, Toolbar, ButtonSingleLine} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {TextMultiline} from 'components/TextMultiline';
 
 interface ContentProps {
   title: string;

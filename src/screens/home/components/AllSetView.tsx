@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'components';
+import {Text, TextMultiline} from 'components';
 
 import {BaseHomeView} from './BaseHomeView';
 
@@ -9,9 +9,7 @@ export const AllSetView = ({titleText, bodyText}: {titleText: string; bodyText: 
       <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {titleText}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="m">
-        {bodyText}
-      </Text>
+      <TextMultiline text={bodyText} marginBottom="m" />
     </BaseHomeView>
   );
 };
