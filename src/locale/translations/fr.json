@@ -21,7 +21,9 @@
       "Body2a": "Étape 2 : ",
       "Body2b": "Vous acceptez qu’Alerte COVID avise les personnes qu’elles ont été exposées.",
       "Body3a": "Étape 3 : ",
-      "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires de façon anonyme.",
+      "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires.",
+      "Body4a": "Personne ne recevra d’information sur vous ",
+      "Body4b": "ou sur le moment de votre proximité.",
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de numéro à 8\u00A0chiffres?"
     },
@@ -204,7 +206,7 @@
       "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre collectivité."
     },
     "Anonymous": {
-      "Title": "Privée et anonyme",
+      "Title": "Votre vie privée est protégée",
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
       "Body2": "L’application n’a aucun moyen de connaître\u00A0:",

@@ -23,9 +23,12 @@ const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoS
         backgroundColor="infoBlockNeutralBackground"
         borderRadius={5}
       >
-        <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
-          {text}
-        </Text>
+        <Box flex={1}>
+          <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
+            {text}
+          </Text>
+        </Box>
+
         <Box alignSelf="center">
           <Icon size={25} name={icon} />
         </Box>

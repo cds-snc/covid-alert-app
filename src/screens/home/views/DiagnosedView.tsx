@@ -19,7 +19,7 @@ export const DiagnosedView = () => {
   const daysLeft = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt)) - 1;
 
   return (
-    <BaseHomeView iconName="hand-wave">
+    <BaseHomeView iconName="hand-thank-you-with-love">
       <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.DiagnosedView.Title')}
         {/* No exposure detected */}
