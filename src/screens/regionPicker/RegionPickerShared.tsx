@@ -48,6 +48,7 @@ const RegionItem_ = ({code, onPress, name, lastItem, selected}: RegionItemProps)
       onPress={() => onPress(code)}
       accessibilityRole="radio"
       accessibilityState={{selected}}
+      accessibilityHint={selected ? name : `deselected ${name}`}
     >
       <Box
         paddingVertical="m"
