@@ -15,7 +15,7 @@ import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import defaultExposureConfiguration from './DefaultExposureConfiguration.json';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
-const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
+const EXPOSURE_CONFIGURATION = 'exposure-configuration';
 
 const SECURE_OPTIONS = {
   sharedPreferencesName: 'covidShieldSharedPreferences',
