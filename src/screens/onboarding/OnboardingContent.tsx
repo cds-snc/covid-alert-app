@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Box} from 'components';
+import ScrollView from 'rn-faded-scrollview';
 
 import {Start} from './views/Start';
 import {Anonymous} from './views/Anonymous';
@@ -31,7 +32,13 @@ export interface OnboardingContentProps {
 export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
   const Item = viewComponents[item];
   return (
-    <ScrollView style={styles.flex} showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+    <ScrollView
+      fadeSize={50}
+      fadeColors={['rgba(255, 255, 255, 0.18)', 'rgba(255, 255, 255, 0.6)', 'rgba(255, 255, 255, 0.9)']}
+      style={styles.flex}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.content}
+    >
       <Box paddingHorizontal="m" paddingTop="s">
         <Item isActive={isActive} />
       </Box>
