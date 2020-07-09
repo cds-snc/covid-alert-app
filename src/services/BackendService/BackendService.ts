@@ -45,10 +45,12 @@ export class BackendService implements BackendInterface {
   }
 
   async getExposureConfiguration() {
-    const region = this.region?.get();
-    const url = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
-    Sentry.captureMessage(`getExposureConfiguration: ${url}`);
-    return (await fetch(url)).json();
+    // purposely setting 'region' to the default value of `CA` regardless of what the user selected.
+    // this is only for the purpose of downloading the configuration file.
+    const region = 'CA';
+    const exposureConfigurationUrl = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
+    Sentry.captureMessage(`Exposure Configuration URL: ${exposureConfigurationUrl}`);
+    return (await fetch(exposureConfigurationUrl)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {

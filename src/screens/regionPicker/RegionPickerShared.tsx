@@ -43,7 +43,12 @@ export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[
 
 const RegionItem_ = ({code, onPress, name, lastItem, selected}: RegionItemProps) => (
   <>
-    <TouchableOpacity onPress={() => onPress(code)} accessibilityRole="radio" accessibilityState={{selected}}>
+    <TouchableOpacity
+      onPress={() => onPress(code)}
+      accessibilityRole="radio"
+      accessibilityState={{selected}}
+      accessibilityHint={selected ? name : `deselected ${name}`}
+    >
       <Box
         paddingVertical="m"
         marginHorizontal="-m"
