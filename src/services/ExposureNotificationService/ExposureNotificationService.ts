@@ -141,25 +141,29 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
-    console.log('updateExposureStatusInBackground');
-    await this.init();
-    await this.updateExposureStatus();
-    const currentStatus = this.exposureStatus.get();
-    console.log('currentStatus', currentStatus);
-    if (currentStatus.type === 'exposed' && !currentStatus.notificationSent) {
-      PushNotification.presentLocalNotification({
-        alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
-        alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
-      });
-      await this.exposureStatus.append({
-        notificationSent: true,
-      });
-    }
-    if (currentStatus.type === 'diagnosed' && currentStatus.needsSubmission) {
-      PushNotification.presentLocalNotification({
-        alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
-        alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
-      });
+    console.log('updateExposureStatusInBackground', this.exposureStatus.get());
+    try {
+      await this.init();
+      await this.updateExposureStatus();
+      const currentStatus = this.exposureStatus.get();
+      console.log('currentStatus', currentStatus);
+      if (currentStatus.type === 'exposed' && !currentStatus.notificationSent) {
+        PushNotification.presentLocalNotification({
+          alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
+          alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
+        });
+        await this.exposureStatus.append({
+          notificationSent: true,
+        });
+      }
+      if (currentStatus.type === 'diagnosed' && currentStatus.needsSubmission) {
+        PushNotification.presentLocalNotification({
+          alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
+          alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
+        });
+      }
+    } catch (error) {
+      console.log('updateExposureStatusInBackground error', error);
     }
   }
 
@@ -346,6 +350,7 @@ export class ExposureNotificationService {
     console.debug(`lastCheckedPeriod: ${lastCheckedPeriod}`);
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      console.debug('summary', summary);
       if (summary.matchedKeyCount > 0) {
         return finalize(
           {
