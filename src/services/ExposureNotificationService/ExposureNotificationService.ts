@@ -341,9 +341,7 @@ export class ExposureNotificationService {
     }
 
     try {
-      console.log('eeeeeeeeee keysFileUrls', keysFileUrls);
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-      console.log('eeeeeeeeee summary', summary);
       if (summary.matchedKeyCount > 0) {
         return finalize(
           {
