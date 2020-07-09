@@ -7203,6 +7203,11 @@ react-native-iphone-x-helper@^1.2.1:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
 
+react-native-linear-gradient@^2.5.6:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
+  integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
+
 react-native-localize@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-1.4.0.tgz#4653596d066d0941c48f5404dc1c0d08b6950443"
@@ -7677,6 +7682,11 @@ rimraf@~2.4.0:
   integrity sha1-7nEM5dk6j9uFb7Xqj/Di11k0sto=
   dependencies:
     glob "^6.0.1"
+
+rn-faded-scrollview@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/rn-faded-scrollview/-/rn-faded-scrollview-1.0.8.tgz#c429198f7fcd2ec703f3bb12f9751682461d967e"
+  integrity sha512-v+Tx4ufG4re5/EaC6gbaqyeF1rgeEJ+4cuq9x6uLYqsunfj37/WxA9IUM0xj2PQps3AIQPNAgivz4wmw8hkFyw==
 
 rn-host-detect@1.1.5:
   version "1.1.5"

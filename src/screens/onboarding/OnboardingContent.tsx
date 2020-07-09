@@ -10,6 +10,8 @@ import {WhatItsNot} from './views/WhatItsNot';
 import {Region} from './views/Region';
 import {ItemViewProps} from './views/ItemView';
 
+import RNFadedScrollView from 'rn-faded-scrollview';
+
 export type OnboardingKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5' | 'step-6';
 
 export const onboardingData: OnboardingKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6'];
@@ -31,11 +33,17 @@ export interface OnboardingContentProps {
 export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
   const Item = viewComponents[item];
   return (
-    <ScrollView style={styles.flex} showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+    <RNFadedScrollView
+      fadeSize={50}
+      fadeColors={['rgba(255, 255, 255, 0.18)', 'rgba(255, 255, 255, 0.6)', 'rgba(255, 255, 255, 0.9)']}
+      style={styles.flex}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.content}
+    >
       <Box paddingHorizontal="m" paddingTop="s">
         <Item isActive={isActive} />
       </Box>
-    </ScrollView>
+    </RNFadedScrollView>
   );
 };
 
