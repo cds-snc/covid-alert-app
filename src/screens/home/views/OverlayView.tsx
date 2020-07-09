@@ -1,8 +1,16 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import Animated, {sub, abs} from 'react-native-reanimated';
 import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {Linking, Platform, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Linking,
+  Platform,
+  TouchableOpacity,
+  StyleSheet,
+  AccessibilityInfo,
+  View,
+  AccessibilityEvent,
+} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
@@ -11,10 +19,10 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {daysBetween} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
+import {ScrollView} from 'react-native-gesture-handler';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -122,6 +130,22 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   );
 };
 
+const AccessibleView = ({children}: {children: React.ReactNode}) => {
+  const [screenReaderEnabled, setScreenReaderEnabled] = useState(false);
+  const handleScreenReaderToggled = (screenReaderEnabled: any) => {
+    setScreenReaderEnabled(screenReaderEnabled);
+  };
+  AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
+
+  return screenReaderEnabled ? (
+    <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      {children}
+    </ScrollView>
+  ) : (
+    <View style={styles.content}>{children}</View>
+  );
+};
+
 interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
@@ -140,7 +164,7 @@ export const OverlayView = ({
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
-      <ScrollView style={styles.content}>
+      <AccessibleView>
         <Box maxWidth={maxWidth}>
           <TouchableOpacity
             onPress={bottomSheetBehavior.collapse}
@@ -180,14 +204,14 @@ export const OverlayView = ({
             <InfoShareView />
           </Box>
         </Box>
-      </ScrollView>
+      </AccessibleView>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   content: {
-    marginTop: -25,
+    marginTop: -26,
   },
   collapseButton: {
     height: 48,
