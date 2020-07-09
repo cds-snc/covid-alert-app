@@ -1,4 +1,4 @@
-const privacy = `# Votre vie privée est protégée
+const privacy = `## Votre vie privée est protégée
 
 Alerte COVID suit tous les principes du Commissariat à la protection de la vie privée du Canada sur les applications de traçage pour protéger la vie privée des personnes.
 

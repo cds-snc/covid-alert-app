@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar} from 'components';
+import {Box, Toolbar, Text} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 import Markdown from 'react-native-markdown-display';
@@ -17,13 +17,23 @@ export const PrivacyScreen = () => {
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
         <Toolbar
-          title={i18n.translate('Privacy.Title')}
+          title=""
           navIcon="icon-back-arrow"
           navText={i18n.translate('Privacy.Close')}
           navLabel={i18n.translate('Privacy.Close')}
           onIconClicked={close}
+          accessibilityTitleAutoFocus
         />
         <ScrollView style={styles.flex}>
+          <Text
+            paddingHorizontal="m"
+            variant="bodyTitle"
+            color="bodyText"
+            accessibilityRole="header"
+            accessibilityAutoFocus
+          >
+            {i18n.translate('Privacy.Title')}
+          </Text>
           <Box padding="m">
             <Markdown
               style={{

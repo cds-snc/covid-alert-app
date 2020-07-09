@@ -44,7 +44,7 @@ export const ExposureView = () => {
         <Text fontWeight="bold">{i18n.translate('Home.ExposureDetected.Body3')}</Text>
       </Text>
 
-      <Box alignSelf="stretch" marginTop="xxl" marginBottom="m">
+      <Box alignSelf="stretch" marginTop="l" marginBottom="m">
         <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
       </Box>
       <Box alignSelf="stretch" marginBottom="xl">

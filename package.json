@@ -41,6 +41,7 @@
     "react-native-config": "^1.1.0",
     "react-native-device-info": "^5.6.1",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-localize": "^1.4.0",
     "react-native-markdown-display": "^6.1.0",
     "react-native-permissions": "^2.1.4",
@@ -54,6 +55,7 @@
     "react-native-system-setting": "1.7.4",
     "react-native-zip-archive": "^5.0.2",
     "reanimated-bottom-sheet": "^1.0.0-alpha.20",
+    "rn-faded-scrollview": "^1.0.8",
     "tweetnacl": "^1.0.3",
     "yarn": "^1.22.4"
   },

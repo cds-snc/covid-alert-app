@@ -15,12 +15,13 @@ import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import defaultExposureConfiguration from './DefaultExposureConfiguration.json';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
-const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
+const EXPOSURE_CONFIGURATION = 'exposure-configuration';
 
 const SECURE_OPTIONS = {
   sharedPreferencesName: 'covidShieldSharedPreferences',
   keychainService: 'covidShieldKeychain',
 };
+const SECURE_OPTIONS_FOR_CONFIGURATION = {...SECURE_OPTIONS, kSecAttrAccessible: 'kSecAttrAccessibleAlways'};
 
 export const EXPOSURE_STATUS = 'exposureStatus';
 
@@ -197,7 +198,11 @@ export class ExposureNotificationService {
    */
   async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
     try {
-      const exposureConfigurationStr = await this.secureStorage.getItem(EXPOSURE_CONFIGURATION, SECURE_OPTIONS);
+      const exposureConfigurationStr = await this.secureStorage.getItem(
+        EXPOSURE_CONFIGURATION,
+        SECURE_OPTIONS_FOR_CONFIGURATION,
+      );
+      console.info('Getting exposure configuration from iOS keychain.');
       if (exposureConfigurationStr) {
         console.warn('Using previously saved exposureConfiguration');
         return JSON.parse(exposureConfigurationStr);
@@ -267,7 +272,8 @@ export class ExposureNotificationService {
       exposureConfiguration = await this.backendInterface.getExposureConfiguration();
       console.info('Using downloaded exposureConfiguration.');
       const serialized = JSON.stringify(exposureConfiguration);
-      await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS);
+      await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS_FOR_CONFIGURATION);
+      console.info('Saving exposure configuration to iOS keychain.');
     } catch (error) {
       if (error instanceof SyntaxError) {
         console.error('JSON Parsing error: Unable to parse downloaded exposureConfiguration.', error);
@@ -300,6 +306,7 @@ export class ExposureNotificationService {
       return finalize();
     }
 
+    const keysFileUrls: string[] = [];
     const generator = this.keysSinceLastFetch(currentStatus.lastCheckedPeriod);
     let lastCheckedPeriod = currentStatus.lastCheckedPeriod;
     while (true) {
@@ -307,22 +314,23 @@ export class ExposureNotificationService {
       if (done) break;
       if (!value) continue;
       const {keysFileUrl, period} = value;
+      keysFileUrls.push(keysFileUrl);
 
       // Temporarily disable persisting lastCheckPeriod on Android
       // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
       if (Platform.OS !== 'android') {
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
       }
-      console.debug('keysFileUrl', keysFileUrl);
-      console.debug(`lastCheckedPeriod: ${lastCheckedPeriod}`);
-      try {
-        const summary = await this.exposureNotification.detectExposure(exposureConfiguration, [keysFileUrl]);
-        if (summary.matchedKeyCount > 0) {
-          return finalize({type: 'exposed', summary, lastCheckedPeriod});
-        }
-      } catch (error) {
-        console.log('>>> detectExposure', error);
+    }
+    console.debug('keysFileUrl', keysFileUrls);
+    console.debug(`lastCheckedPeriod: ${lastCheckedPeriod}`);
+    try {
+      const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      if (summary.matchedKeyCount > 0) {
+        return finalize({type: 'exposed', summary, lastCheckedPeriod});
       }
+    } catch (error) {
+      console.log('>>> detectExposure', error);
     }
 
     return finalize({lastCheckedPeriod});

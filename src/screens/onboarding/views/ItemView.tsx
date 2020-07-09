@@ -1,7 +1,8 @@
-import React, {useRef, useLayoutEffect, ReactNode} from 'react';
-import {StyleSheet, Image, ImageSourcePropType, AccessibilityInfo, findNodeHandle} from 'react-native';
+import React, {ReactNode} from 'react';
+import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
 import {Box, Text} from 'components';
 import {useI18n} from '@shopify/react-i18n';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {onboardingData, OnboardingKey} from '../OnboardingContent';
 
@@ -15,15 +16,8 @@ export interface ItemViewProps {
 }
 
 export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
-  const imageRef = useRef<any>();
   const [i18n] = useI18n();
-
-  useLayoutEffect(() => {
-    const tag = findNodeHandle(imageRef.current);
-    if (isActive && tag) {
-      AccessibilityInfo.setAccessibilityFocus(tag);
-    }
-  }, [isActive, item]);
+  const accessibilityAutoFocusRef = useAccessibilityAutoFocus(isActive);
 
   const total = onboardingData.length;
   const step = i18n.translate('Onboarding.Step');
@@ -35,7 +29,13 @@ export const ItemView = ({item, image, isActive, altText, header, children}: Ite
     <>
       {image ? (
         <Box marginHorizontal="-m">
-          <Image ref={imageRef} style={styles.image} source={image} accessible accessibilityLabel={altText} />
+          <Image
+            accessible
+            ref={accessibilityAutoFocusRef}
+            style={styles.image}
+            source={image}
+            accessibilityLabel={altText}
+          />
         </Box>
       ) : null}
       <Text marginBottom="s" marginTop="l" color="gray2">

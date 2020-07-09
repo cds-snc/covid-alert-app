@@ -21,7 +21,7 @@ export const Anonymous = (props: Pick<ItemViewProps, 'isActive'>) => {
             {i18n.translate('Onboarding.Anonymous.Body1')}
           </Text>
         </Box>
-        <Box flexDirection="row" marginBottom="l">
+        <Box flexDirection="row" marginBottom="s">
           <Text variant="bodyText" color="overlayBodyText">
             {i18n.translate('Onboarding.Anonymous.Body2')}
           </Text>
