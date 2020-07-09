@@ -3,8 +3,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {I18nContext} from '@shopify/react-i18n';
 import {getSystemLocale} from 'locale';
 import {DevSettings} from 'react-native';
+import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
 
-import {StorageService} from './StorageService';
+import {StorageService, createStorageService} from './StorageService';
 
 const StorageServiceContext = createContext<StorageService | undefined>(undefined);
 
@@ -13,12 +14,17 @@ export interface StorageServiceProviderProps {
 }
 
 export const StorageServiceProvider = ({children}: StorageServiceProviderProps) => {
-  const storageService = useMemo(() => new StorageService(), []);
-  const [ready, setReady] = useState(false);
+  const [storageService, setStorageService] = useState<StorageService>();
 
-  useEffect(() => storageService.ready.observe(setReady), [storageService]);
+  useEffect(() => {
+    const {callable, cancelable} = createCancellableCallbackPromise(() => createStorageService(), setStorageService);
+    callable();
+    return cancelable;
+  }, []);
 
-  return <StorageServiceContext.Provider value={storageService}>{ready && children}</StorageServiceContext.Provider>;
+  return (
+    <StorageServiceContext.Provider value={storageService}>{storageService && children}</StorageServiceContext.Provider>
+  );
 };
 
 export const useStorageService = () => {

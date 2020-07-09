@@ -18,13 +18,13 @@ import DeviceInfo from 'react-native-device-info';
 
 import {name as appName} from '../app.json';
 
-import {useStorageService} from './services/StorageService';
+import {createStorageService} from './services/StorageService';
 import App from './App';
 
 AppRegistry.registerComponent(appName, () => App);
 
 BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
-  const storageService = useStorageService();
+  const storageService = await createStorageService();
   const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
   const i18n = await getBackgroundI18n();
   const exposureNotificationService = new ExposureNotificationService(
