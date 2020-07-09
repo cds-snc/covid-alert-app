@@ -159,7 +159,7 @@
     "Of": "of",
     "ActionNext": "Next",
     "ActionEndSkip": "Skip",
-    "ActionEnd": "Get Started",
+    "ActionEnd": "Done",
     "ActionBack": "Back",
     "Start": {
       "Title": "Together, let’s stop the spread of COVID-19",
@@ -174,7 +174,7 @@
       "Body2": "It will not tell you about outbreaks in your community."
     },
     "Anonymous": {
-      "Title": "Totally Anonymous",
+      "Title": "Private and anonymous",
       "ImageAltText": "A hand-drawn illustration of shaded glasses and hat to go incognito. Above the hat, a location pin icon is crossed out.",
       "Body1": "COVID Alert does not use GPS or location services.",
       "Body2": "It has no way of knowing:",

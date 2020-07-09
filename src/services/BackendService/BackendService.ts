@@ -52,7 +52,13 @@ export class BackendService implements BackendInterface {
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
     console.info(`claimOneTimeCode(${oneTimeCode})`);
-    const randomBytes = await getRandomBytes(32);
+    let randomBytes: Buffer;
+    try {
+      randomBytes = await getRandomBytes(32);
+    } catch (error) {
+      console.error('getRandomBytes()', error);
+      throw new Error(error);
+    }
     nacl.setPRNG(buff => {
       buff.set(randomBytes, 0);
     });
@@ -104,7 +110,13 @@ export class BackendService implements BackendInterface {
     const serverPublicKey = Buffer.from(keyPair.serverPublicKey, 'base64');
     const clientPublicKey = Buffer.from(keyPair.clientPublicKey, 'base64');
 
-    const nonce = await getRandomBytes(24);
+    let nonce: Buffer;
+    try {
+      nonce = await getRandomBytes(24);
+    } catch (error) {
+      console.error('getRandomBytes()', error);
+      throw new Error(error);
+    }
     const encryptedPayload = nacl.box(serializedUpload, nonce, serverPublicKey, clientPrivate);
 
     console.debug(`Uploading encrypted diagnosis keys`);

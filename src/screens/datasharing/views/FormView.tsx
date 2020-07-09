@@ -29,7 +29,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
   return (
     <>
       <Box marginHorizontal="m" marginBottom="l">
-        <Text variant="bodyTitle" color="overlayBodyText" accessibilityRole="header">
+        <Text variant="bodyTitle" color="overlayBodyText" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('DataUpload.FormView.Title')}
         </Text>
       </Box>

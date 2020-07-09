@@ -1,6 +1,7 @@
 import React, {useMemo, useState, useEffect, useContext} from 'react';
 import {checkNotifications, requestNotifications} from 'react-native-permissions';
 import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
+import {AppState} from 'react-native';
 
 type Status = 'denied' | 'granted' | 'unavailable' | 'blocked';
 
@@ -42,6 +43,21 @@ export const NotificationPermissionStatusProvider = ({children}: NotificationPer
   useEffect(() => {
     return cancelable;
   }, [cancelable]);
+
+  useEffect(() => {
+    const {callable: onChange, cancelable: onCancel} = createCancellableCallbackPromise<Status>(
+      () =>
+        checkNotifications()
+          .then(({status}) => status)
+          .catch(() => 'unavailable'),
+      setStatus,
+    );
+    AppState.addEventListener('change', onChange);
+    return () => {
+      onCancel();
+      AppState.removeEventListener('change', onChange);
+    };
+  }, []);
 
   const props = useMemo(() => request && {status, request}, [status, request]);
 
