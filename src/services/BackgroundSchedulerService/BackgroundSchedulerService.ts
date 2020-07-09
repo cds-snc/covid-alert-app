@@ -8,7 +8,7 @@ interface PeriodicTask {
   (): Promise<void>;
 }
 
-const registerPeriodicTask = (task: PeriodicTask) => {
+const registerPeriodicTask = async (task: PeriodicTask) => {
   console.log('registerPeriodicTask');
   BackgroundFetch.configure(
     {
@@ -18,6 +18,10 @@ const registerPeriodicTask = (task: PeriodicTask) => {
       stopOnTerminate: false,
     },
     async taskId => {
+      console.log("registerPeriodicTask - callback taskId", taskId)
+      BackgroundFetch.status((status) => {
+        console.log("BackgroundFetch.status", status)
+      });
       if (taskId === BACKGROUND_TASK_ID) {
         console.log(`registerPeriodicTask - ${taskId}`);
         try {
@@ -30,7 +34,8 @@ const registerPeriodicTask = (task: PeriodicTask) => {
       BackgroundFetch.finish(taskId);
     },
   );
-  BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true});
+  const result = await BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true});
+  console.log("registerPeriodicTask - scheduleTask promise", result)
 };
 
 const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
