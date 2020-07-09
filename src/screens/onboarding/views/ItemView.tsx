@@ -17,7 +17,6 @@ export interface ItemViewProps {
 
 export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
   const [i18n] = useI18n();
-  const accessibilityAutoFocusRef = useAccessibilityAutoFocus(isActive);
 
   const total = onboardingData.length;
   const step = i18n.translate('Onboarding.Step');
@@ -27,18 +26,12 @@ export const ItemView = ({item, image, isActive, altText, header, children}: Ite
 
   return (
     <>
-      <Text marginBottom="s" marginTop="s" color="gray2">
+      <Text marginBottom="s" marginTop="s" color="gray2" accessibilityAutoFocus>
         {stepText}
       </Text>
       {image ? (
         <Box marginHorizontal="-m" marginTop="s" marginBottom="l" borderBottomWidth={2} borderBottomColor="gray5">
-          <Image
-            accessible
-            ref={accessibilityAutoFocusRef}
-            style={styles.image}
-            source={image}
-            accessibilityLabel={altText}
-          />
+          <Image accessible style={styles.image} source={image} accessibilityLabel={altText} />
         </Box>
       ) : null}
 
