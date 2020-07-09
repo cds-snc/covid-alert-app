@@ -7,6 +7,7 @@ import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, TRANSMISSION_RISK_LEVEL} from 'env';
+import * as Sentry from '@sentry/react-native';
 
 import {Observable} from '../../shared/Observable';
 import {Region} from '../../shared/Region';
@@ -35,18 +36,18 @@ export class BackendService implements BackendInterface {
   }
 
   async retrieveDiagnosisKeys(period: number) {
-    console.info(`retrieveDiagnosisKeys(${period})`);
+    Sentry.captureMessage(`retrieveDiagnosisKeys(${period})`);
     const message = `${MCC_CODE}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${period}/${hmac}`;
-    console.info(`downloadDiagnosisKeysFile(${url})`);
+    Sentry.captureMessage(`downloadDiagnosisKeysFile(${url})`);
     return downloadDiagnosisKeysFile(url);
   }
 
   async getExposureConfiguration() {
     const region = this.region?.get();
     const url = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
-    console.debug(`getExposureConfiguration: ${url}`);
+    Sentry.captureMessage(`getExposureConfiguration: ${url}`);
     return (await fetch(url)).json();
   }
 

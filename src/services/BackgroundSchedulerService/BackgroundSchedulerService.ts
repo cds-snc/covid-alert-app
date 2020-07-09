@@ -1,6 +1,7 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {Platform} from 'react-native';
 import {MINIMUM_FETCH_INTERVAL} from 'env';
+import * as Sentry from '@sentry/react-native';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
@@ -9,7 +10,7 @@ interface PeriodicTask {
 }
 
 const registerPeriodicTask = async (task: PeriodicTask) => {
-  console.log('registerPeriodicTask');
+  Sentry.captureMessage('registerPeriodicTask');
   BackgroundFetch.configure(
     {
       minimumFetchInterval: MINIMUM_FETCH_INTERVAL,
@@ -18,16 +19,16 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
       stopOnTerminate: false,
     },
     async taskId => {
-      console.log("registerPeriodicTask - callback taskId", taskId)
-      BackgroundFetch.status((status) => {
-        console.log("BackgroundFetch.status", status)
+      Sentry.captureMessage(`registerPeriodicTask - callback taskId ${taskId}`);
+      BackgroundFetch.status(status => {
+        Sentry.captureMessage(`BackgroundFetch.status ${status}`);
       });
       if (taskId === BACKGROUND_TASK_ID) {
-        console.log(`registerPeriodicTask - ${taskId}`);
+        Sentry.captureMessage(`registerPeriodicTask - ${taskId}`);
         try {
           await task();
-        } catch (e) {
-          console.error('registerPeriodicTask', e.message);
+        } catch (error) {
+          Sentry.captureException('registerPeriodicTask', error.message);
           // noop
         }
       }
@@ -35,20 +36,20 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     },
   );
   const result = await BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true});
-  console.log("registerPeriodicTask - scheduleTask promise", result)
+  Sentry.captureMessage(`registerPeriodicTask - scheduleTask promise ${result}`);
 };
 
 const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
-  console.log('registerAndroidHeadlessPeriodicTask');
+  Sentry.captureMessage('registerAndroidHeadlessPeriodicTask');
   if (Platform.OS !== 'android') {
     return;
   }
   BackgroundFetch.registerHeadlessTask(async ({taskId}) => {
     try {
-      console.log(`registerHeadlessTask - ${taskId}`);
+      Sentry.captureMessage(`registerHeadlessTask - ${taskId}`);
       await task();
-    } catch (e) {
-      console.error('registerAndroidHeadlessPeriodicTask', e.message);
+    } catch (error) {
+      Sentry.captureException('registerAndroidHeadlessPeriodicTask', error.message);
       // noop
     }
     BackgroundFetch.finish(taskId);
