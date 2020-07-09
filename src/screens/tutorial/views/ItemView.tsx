@@ -1,8 +1,7 @@
 import React from 'react';
 import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
-import {Text} from 'components';
+import {Text, TextMultiline} from 'components';
 import {useI18n} from '@shopify/react-i18n';
-import {TextMultiline} from 'components/TextMultiline';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {TutorialKey} from '../TutorialContent';

@@ -1,9 +1,8 @@
 import React from 'react';
-import {Text, LastCheckedDisplay} from 'components';
+import {Text, TextMultiline, LastCheckedDisplay} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
-import {TextMultiline} from 'components/TextMultiline';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
