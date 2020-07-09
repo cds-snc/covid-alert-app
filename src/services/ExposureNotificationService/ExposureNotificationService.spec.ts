@@ -92,8 +92,10 @@ describe('ExposureNotificationService', () => {
     });
 
     service.exposureStatus.append({
-      lastCheckedTimestamp: new OriginalDate('2020-05-19T06:10:00+0000').getTime(),
-      lastCheckedPeriod: periodSinceEpoch(new OriginalDate('2020-05-19T06:10:00+0000'), HOURS_PER_PERIOD),
+      lastChecked: {
+        timestamp: new OriginalDate('2020-05-19T06:10:00+0000').getTime(),
+        period: periodSinceEpoch(new OriginalDate('2020-05-19T06:10:00+0000'), HOURS_PER_PERIOD),
+      },
     });
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(0);
@@ -101,8 +103,10 @@ describe('ExposureNotificationService', () => {
     server.retrieveDiagnosisKeys.mockClear();
 
     service.exposureStatus.append({
-      lastCheckedTimestamp: new OriginalDate('2020-05-18T05:10:00+0000').getTime(),
-      lastCheckedPeriod: periodSinceEpoch(new OriginalDate('2020-05-18T05:10:00+0000'), HOURS_PER_PERIOD),
+      lastChecked: {
+        timestamp: new OriginalDate('2020-05-18T05:10:00+0000').getTime(),
+        period: periodSinceEpoch(new OriginalDate('2020-05-18T05:10:00+0000'), HOURS_PER_PERIOD),
+      },
     });
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
@@ -110,8 +114,10 @@ describe('ExposureNotificationService', () => {
     server.retrieveDiagnosisKeys.mockClear();
 
     service.exposureStatus.append({
-      lastCheckedTimestamp: new OriginalDate('2020-05-17T23:10:00+0000').getTime(),
-      lastCheckedPeriod: periodSinceEpoch(new OriginalDate('2020-05-17T23:10:00+0000'), HOURS_PER_PERIOD),
+      lastChecked: {
+        timestamp: new OriginalDate('2020-05-17T23:10:00+0000').getTime(),
+        period: periodSinceEpoch(new OriginalDate('2020-05-17T23:10:00+0000'), HOURS_PER_PERIOD),
+      },
     });
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
@@ -132,8 +138,10 @@ describe('ExposureNotificationService', () => {
     });
 
     service.exposureStatus.append({
-      lastCheckedTimestamp: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
-      lastCheckedPeriod: periodSinceEpoch(new OriginalDate('2020-05-18T04:10:00+0000'), HOURS_PER_PERIOD),
+      lastChecked: {
+        timestamp: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
+        period: periodSinceEpoch(new OriginalDate('2020-05-18T04:10:00+0000'), HOURS_PER_PERIOD),
+      },
     });
 
     const currentPeriod = periodSinceEpoch(currentDatetime, HOURS_PER_PERIOD);
@@ -146,8 +154,10 @@ describe('ExposureNotificationService', () => {
     expect(storage.setItem).toHaveBeenCalledWith(
       EXPOSURE_STATUS,
       expect.jsonStringContaining({
-        lastCheckedTimestamp: currentDatetime.getTime(),
-        lastCheckedPeriod: currentPeriod - 1,
+        lastChecked: {
+          timestamp: currentDatetime.getTime(),
+          period: currentPeriod - 1,
+        },
       }),
     );
   });
