@@ -30,7 +30,10 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
           </View>
           <Box>
             <Box marginBottom="s">
-              <StatusHeaderView enabled={status === SystemStatus.Active} />
+              <StatusHeaderView
+                isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
+                enabled={status === SystemStatus.Active}
+              />
             </Box>
             {notificationWarning && (
               <Box
