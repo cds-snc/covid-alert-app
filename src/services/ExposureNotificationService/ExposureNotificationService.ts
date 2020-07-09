@@ -170,6 +170,7 @@ export class ExposureNotificationService {
   async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
+      console.log("cleanUpPromise input", input)
       this.exposureStatusUpdatePromise = null;
       return input;
     };
