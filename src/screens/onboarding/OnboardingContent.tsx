@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Box} from 'components';
 import RNFadedScrollView from 'rn-faded-scrollview';
 
