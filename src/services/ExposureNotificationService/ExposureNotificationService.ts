@@ -1,8 +1,8 @@
 import {Platform} from 'react-native';
 import ExposureNotification, {
-  ExposureConfiguration,
   ExposureSummary,
   Status as SystemStatus,
+  ExposureConfiguration,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
@@ -15,7 +15,7 @@ import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import defaultExposureConfiguration from './DefaultExposureConfiguration.json';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
-const EXPOSURE_CONFIGURATION = 'exposure-configuration';
+const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 
 const SECURE_OPTIONS = {
   sharedPreferencesName: 'covidShieldSharedPreferences',
@@ -34,14 +34,18 @@ export {SystemStatus};
 export type ExposureStatus =
   | {
       type: 'monitoring';
-      lastCheckedPeriod?: number;
-      lastCheckedTimestamp?: number;
+      lastChecked?: {
+        period: number;
+        timestamp: number;
+      };
     }
   | {
       type: 'exposed';
       summary: ExposureSummary;
-      lastCheckedPeriod?: number;
-      lastCheckedTimestamp?: number;
+      lastChecked?: {
+        period: number;
+        timestamp: number;
+      };
     }
   | {
       type: 'diagnosed';
@@ -49,8 +53,10 @@ export type ExposureStatus =
       submissionLastCompletedAt?: number;
       cycleStartsAt: number;
       cycleEndsAt: number;
-      lastCheckedPeriod?: number;
-      lastCheckedTimestamp?: number;
+      lastChecked?: {
+        period: number;
+        timestamp: number;
+      };
     };
 
 export interface PersistencyProvider {
@@ -196,7 +202,7 @@ export class ExposureNotificationService {
    * If the exposureConfiguration is not available from the server for some reason,
    * try and use a previously stored configuration, or use the default configuration bundled with the app.
    */
-  async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
+  private async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
     try {
       const exposureConfigurationStr = await this.secureStorage.getItem(
         EXPOSURE_CONFIGURATION,
@@ -244,12 +250,8 @@ export class ExposureNotificationService {
   ): AsyncGenerator<{keysFileUrl: string; period: number} | null> {
     const runningDate = new Date();
 
-    let lastCheckedPeriod =
+    const lastCheckedPeriod =
       _lastCheckedPeriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
-    if (TEST_MODE) {
-      lastCheckedPeriod = periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
-    }
-
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
 
     while (runningPeriod > lastCheckedPeriod) {
@@ -282,9 +284,15 @@ export class ExposureNotificationService {
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
 
-    const finalize = async (status: Partial<ExposureStatus> = {}) => {
+    const finalize = async (status: Partial<ExposureStatus> = {}, lastCheckedPeriod = 0) => {
       const timestamp = new Date().getTime();
-      this.exposureStatus.append({...status, lastCheckedTimestamp: timestamp});
+      this.exposureStatus.append({
+        ...status,
+        lastChecked: {
+          timestamp,
+          period: lastCheckedPeriod,
+        },
+      });
     };
 
     const currentStatus = this.exposureStatus.get();
@@ -306,14 +314,20 @@ export class ExposureNotificationService {
     }
 
     const keysFileUrls: string[] = [];
-    const generator = this.keysSinceLastFetch(currentStatus.lastCheckedPeriod);
-    let lastCheckedPeriod = currentStatus.lastCheckedPeriod;
+    const generator = this.keysSinceLastFetch(currentStatus.lastChecked?.period);
+    let lastCheckedPeriod = currentStatus.lastChecked?.period;
     while (true) {
       const {value, done} = await generator.next();
       if (done) break;
       if (!value) continue;
       const {keysFileUrl, period} = value;
       keysFileUrls.push(keysFileUrl);
+
+      // Temporarily disable lastCheckPeriod
+      // Ref https://github.com/cds-snc/covid-shield-server/pull/158
+      if (TEST_MODE) {
+        continue;
+      }
 
       // Temporarily disable persisting lastCheckPeriod on Android
       // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
@@ -325,12 +339,18 @@ export class ExposureNotificationService {
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       if (summary.matchedKeyCount > 0) {
-        return finalize({type: 'exposed', summary, lastCheckedPeriod});
+        return finalize(
+          {
+            type: 'exposed',
+            summary,
+          },
+          lastCheckedPeriod,
+        );
       }
     } catch (error) {
-      console.log('>>> detectExposure', error);
+      console.log('>>> DetectExposure', error);
     }
 
-    return finalize({lastCheckedPeriod});
+    return finalize({}, lastCheckedPeriod);
   }
 }
