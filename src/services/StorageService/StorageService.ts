@@ -20,17 +20,13 @@ export class StorageService {
   forceScreen: Observable<string | undefined>;
   skipAllSet: Observable<boolean>;
 
-  ready: Observable<boolean>;
-
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
     this.locale = new Observable<string>(getSystemLocale());
-    this.ready = new Observable<boolean>(false);
     this.region = new Observable<Region | undefined>(undefined);
     this.onboardedDatetime = new Observable<Date | undefined>(undefined);
     this.forceScreen = new Observable<string | undefined>(undefined);
     this.skipAllSet = new Observable<boolean>(false);
-    this.init();
   }
 
   setOnboarded = async (value: boolean) => {
@@ -63,7 +59,7 @@ export class StorageService {
     this.skipAllSet.set(value);
   };
 
-  private init = async () => {
+  init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
 
@@ -83,19 +79,11 @@ export class StorageService {
 
     const skipAllSet = (await AsyncStorage.getItem(Key.SkipAllSet)) === '1';
     this.skipAllSet.set(skipAllSet);
-
-    this.ready.set(true);
   };
 }
 
 export const createStorageService = async () => {
   const storageService = new StorageService();
-  return new Promise<StorageService>(resolve => {
-    storageService.ready.observe(ready => {
-      if (!ready) {
-        return;
-      }
-      resolve(storageService);
-    });
-  });
+  await storageService.init();
+  return storageService;
 };
