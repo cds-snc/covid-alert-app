@@ -27,8 +27,11 @@ export const ItemView = ({item, image, isActive, altText, header, children}: Ite
 
   return (
     <>
+      <Text marginBottom="s" marginTop="s" color="gray2">
+        {stepText}
+      </Text>
       {image ? (
-        <Box marginHorizontal="-m">
+        <Box marginHorizontal="-m" marginTop="s" marginBottom="l" borderBottomWidth={2} borderBottomColor="gray5">
           <Image
             accessible
             ref={accessibilityAutoFocusRef}
@@ -38,9 +41,7 @@ export const ItemView = ({item, image, isActive, altText, header, children}: Ite
           />
         </Box>
       ) : null}
-      <Text marginBottom="s" marginTop="l" color="gray2">
-        {stepText}
-      </Text>
+
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessibilityRole="header">
         {header}
       </Text>
