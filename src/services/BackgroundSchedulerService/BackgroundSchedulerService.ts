@@ -9,6 +9,7 @@ interface PeriodicTask {
 }
 
 const registerPeriodicTask = (task: PeriodicTask) => {
+  console.log('registerPeriodicTask');
   BackgroundFetch.configure(
     {
       minimumFetchInterval: MINIMUM_FETCH_INTERVAL,
@@ -18,9 +19,11 @@ const registerPeriodicTask = (task: PeriodicTask) => {
     },
     async taskId => {
       if (taskId === BACKGROUND_TASK_ID) {
+        console.log(`registerPeriodicTask - ${taskId}`);
         try {
           await task();
-        } catch {
+        } catch (e) {
+          console.error('registerPeriodicTask', e.message);
           // noop
         }
       }
@@ -31,13 +34,16 @@ const registerPeriodicTask = (task: PeriodicTask) => {
 };
 
 const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
+  console.log('registerAndroidHeadlessPeriodicTask');
   if (Platform.OS !== 'android') {
     return;
   }
   BackgroundFetch.registerHeadlessTask(async ({taskId}) => {
     try {
+      console.log(`registerHeadlessTask - ${taskId}`);
       await task();
-    } catch {
+    } catch (e) {
+      console.error('registerAndroidHeadlessPeriodicTask', e.message);
       // noop
     }
     BackgroundFetch.finish(taskId);

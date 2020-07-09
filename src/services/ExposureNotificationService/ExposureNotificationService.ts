@@ -137,9 +137,15 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
+    console.log('updateExposureStatusInBackground');
     const lastStatus = this.exposureStatus.get();
+    console.log('lastStatus', lastStatus);
     await this.updateExposureStatus();
     const currentStatus = this.exposureStatus.get();
+
+    console.log('currentStatus', currentStatus);
+    console.log('lastStatus.type', lastStatus.type);
+
     if (lastStatus.type === 'monitoring' && currentStatus.type === 'exposed') {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
