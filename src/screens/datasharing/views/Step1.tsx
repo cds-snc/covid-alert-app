@@ -34,6 +34,10 @@ export const Step1 = ({onSuccess}: Props) => {
             <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body3a')}</Text>
             <Text>{i18n.translate('DataUpload.Step1.Body3b')}</Text>
           </Text>
+          <Text marginBottom="l">
+            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body4a')}</Text>
+            <Text>{i18n.translate('DataUpload.Step1.Body4b')}</Text>
+          </Text>
 
           <Box marginTop="m">
             <Button variant="thinFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
