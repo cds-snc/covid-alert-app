@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import Animated, {sub, abs} from 'react-native-reanimated';
 import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {Linking, Platform, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Linking, Platform, TouchableOpacity, StyleSheet} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
