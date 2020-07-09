@@ -3,10 +3,11 @@ import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
 import {Linking, Platform} from 'react-native';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
-export const ExposureNotificationsDisabledView = () => {
+export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const [i18n] = useI18n();
   const startExposureNotificationService = useStartExposureNotificationService();
 
@@ -21,10 +22,10 @@ export const ExposureNotificationsDisabledView = () => {
     }
     return toSettings();
   };
-
+  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   return (
     <BaseHomeView iconName="icon-bluetooth-disabled">
-      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.ExposureNotificationsDisabled')}
       </Text>
       <Text variant="bodyText" color="bodyText">
