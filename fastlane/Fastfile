@@ -135,7 +135,9 @@ platform :android do
     upload_to_play_store(
       track: 'internal',
       skip_upload_apk: true,
-      aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]
+      aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH],
+      version_name: versionName,
+      version_code: versionCode
     )
 
     create_github_release(platform: "Android")
