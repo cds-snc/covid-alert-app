@@ -103,10 +103,10 @@
       "One": "{number} day left!",
       "Other": "{number} days left!"
     },
-    "NotificationCardStatus": "Push notifications are off",
+    "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
-    "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
-    "NotificationCardAction": "Turn on push notifications",
+    "NotificationCardBody": "You will not receive notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
+    "NotificationCardAction": "Turn on notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
     "ExposureNotificationCardAction": "Turn on exposure notifications"
@@ -202,7 +202,7 @@
       "Title": "The app will now ask your permission",
       "ImageAltText": "A hand-drawn illustration of a mobile phone displaying a dialogue box with a red X and a green check mark on the screen.",
       "Body1": "Allow the app to start logging random codes or “random IDs” when you’re near other phones. The app will access the date, duration and signal strength related to the random codes, but they never leave your phone.",
-      "Body2": "You’ll also need to enable push notifications.",
+      "Body2": "You’ll also need to let the app send you notifications.",
       "PrivacyButtonCTA": "Learn more about privacy"
     }
   },
