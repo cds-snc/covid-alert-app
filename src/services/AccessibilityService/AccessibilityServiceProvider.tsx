@@ -20,7 +20,8 @@ export const AccessibilityServiceProvider = ({children}: AccessibilityServicePro
     const handleScreenReaderToggled = (screenReaderEnabled: any) => {
       setScreenReaderEnabled(screenReaderEnabled);
     };
-    AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
+    const handler = AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
+    return handler;
   }, []);
 
   const props = useMemo(() => {
