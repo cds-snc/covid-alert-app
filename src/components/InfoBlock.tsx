@@ -1,11 +1,11 @@
 import React from 'react';
 import {Theme} from 'shared/theme';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {Box} from './Box';
 import {Button} from './Button';
 import {Icon, IconProps} from './Icon';
 import {Text} from './Text';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 export interface InfoBlockProps {
   icon?: IconProps['name'];
