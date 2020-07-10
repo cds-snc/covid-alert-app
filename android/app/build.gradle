@@ -10,6 +10,8 @@ apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.grad
 
 import com.android.build.OutputFile
 
+import java.nio.file.Files
+
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -137,7 +139,9 @@ def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 
 // Load your keystore.properties file into the keystoreProperties object.
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+if (new File(keystorePropertiesFile.toString()).exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -165,10 +169,12 @@ android {
     }
     signingConfigs {
         release {
-          storeFile file(keystoreProperties["STOPCOVID_UPLOAD_STORE_FILE"])
-          storePassword keystoreProperties["STOPCOVID_UPLOAD_STORE_PASSWORD"]
-          keyAlias keystoreProperties["STOPCOVID_UPLOAD_KEY_ALIAS"]
-          keyPassword keystoreProperties["STOPCOVID_UPLOAD_KEY_PASSWORD"]
+            if (keystoreProperties["STOPCOVID_UPLOAD_STORE_FILE"]) {
+                storeFile file(keystoreProperties["STOPCOVID_UPLOAD_STORE_FILE"])
+                storePassword keystoreProperties["STOPCOVID_UPLOAD_STORE_PASSWORD"]
+                keyAlias keystoreProperties["STOPCOVID_UPLOAD_KEY_ALIAS"]
+                keyPassword keystoreProperties["STOPCOVID_UPLOAD_KEY_PASSWORD"]
+            }
         }
     }
     buildTypes {
