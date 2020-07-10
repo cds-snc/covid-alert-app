@@ -5,6 +5,7 @@ import PushNotification from 'bridge/PushNotification';
 import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useExposureNotificationService, useExposureStatus} from 'services/ExposureNotificationService';
+import {APP_VERSION_NAME} from 'env';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -126,6 +127,9 @@ const DrawerContent = () => {
         </Section>
         <Section>
           <Button text="Clear data" onPress={reset} variant="danger50Flat" />
+        </Section>
+        <Section>
+          <Item title={`Version: ${APP_VERSION_NAME}`} />
         </Section>
       </Box>
     </DrawerContentScrollView>
