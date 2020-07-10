@@ -96,11 +96,11 @@ const MainNavigator = () => {
   const {isOnboarding} = useStorage();
   return (
     <MainStack.Navigator
-      screenOptions={{stackAnimation: 'fade', stackPresentation: 'modal', headerShown: false}}
+      screenOptions={{stackPresentation: 'modal', headerShown: false}}
       initialRouteName={isOnboarding ? 'OnboardingNavigator' : 'Home'}
     >
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
-      <MainStack.Screen name="OnboardingNavigator" component={OnboardingNavigator} />
+      <MainStack.Screen options={{stackAnimation: 'fade'}} name="OnboardingNavigator" component={OnboardingNavigator} />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
       <MainStack.Screen name="DataSharing" component={DataSharingScreenWithNavBar} />
       <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />

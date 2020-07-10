@@ -42,12 +42,22 @@ export class BackendService implements BackendInterface {
   }
 
   async getExposureConfiguration() {
-    const region = this.region?.get();
-    return (await fetch(`${this.retrieveUrl}/exposure-configuration/${region}.json`)).json();
+    // purposely setting 'region' to the default value of `CA` regardless of what the user selected.
+    // this is only for the purpose of downloading the configuration file.
+    const region = 'CA';
+    const exposureConfigurationUrl = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
+    console.info(`Exposure Configuration URL: ${exposureConfigurationUrl}`);
+    return (await fetch(exposureConfigurationUrl)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
-    const randomBytes = await getRandomBytes(32);
+    let randomBytes: Buffer;
+    try {
+      randomBytes = await getRandomBytes(32);
+    } catch (error) {
+      console.error('getRandomBytes()', error);
+      throw new Error(error);
+    }
     nacl.setPRNG(buff => {
       buff.set(randomBytes, 0);
     });
@@ -96,7 +106,13 @@ export class BackendService implements BackendInterface {
     const serverPublicKey = Buffer.from(keyPair.serverPublicKey, 'base64');
     const clientPublicKey = Buffer.from(keyPair.clientPublicKey, 'base64');
 
-    const nonce = await getRandomBytes(24);
+    let nonce: Buffer;
+    try {
+      nonce = await getRandomBytes(24);
+    } catch (error) {
+      console.error('getRandomBytes()', error);
+      throw new Error(error);
+    }
     const encryptedPayload = nacl.box(serializedUpload, nonce, serverPublicKey, clientPrivate);
 
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);

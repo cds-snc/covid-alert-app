@@ -13,6 +13,7 @@ export * from './InfoBlock';
 export * from './ProgressCircles';
 export * from './Ripple';
 export * from './Text';
+export * from './TextMultiline';
 export * from './Toolbar';
 export * from './TouchableIcon';
 export * from './LanguageToggle';

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar, Text} from 'components';
+import {Box, Toolbar, Text, TextMultiline} from 'components';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
@@ -32,12 +32,23 @@ export const RegionPickerSettingsScreen = () => {
           onIconClicked={close}
         />
         <ScrollView style={regionStyles.flex}>
-          <Text paddingHorizontal="m" variant="bodyTitle" color="bodyText" accessibilityRole="header">
+          <Text
+            paddingHorizontal="m"
+            marginBottom="m"
+            variant="bodyTitle"
+            color="bodyText"
+            accessibilityRole="header"
+            accessibilityAutoFocus
+          >
             {i18n.translate('RegionPicker.SettingsTitle')}
           </Text>
-          <Text paddingHorizontal="m" marginVertical="m" variant="bodyText" color="overlayBodyText">
-            {i18n.translate('RegionPicker.Body')}
-          </Text>
+          <TextMultiline
+            paddingHorizontal="m"
+            marginVertical="s"
+            variant="bodyText"
+            color="overlayBodyText"
+            text={i18n.translate('RegionPicker.Body')}
+          />
           <Box flex={1} paddingHorizontal="m" marginBottom="m">
             <Box marginTop="l" paddingHorizontal="m" borderRadius={10} overflow="hidden" accessibilityRole="radiogroup">
               {regionData.map(item => {
@@ -45,7 +56,7 @@ export const RegionPickerSettingsScreen = () => {
                   <RegionItem
                     key={item.code}
                     selected={region === item.code}
-                    onPress={toggle(item.code)}
+                    onPress={region === item.code ? toggle('None') : toggle(item.code)}
                     name={i18n.translate(`RegionPicker.${item.code}`)}
                     {...item}
                   />

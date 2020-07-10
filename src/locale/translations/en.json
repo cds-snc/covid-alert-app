@@ -24,8 +24,8 @@
       "Title": "You’ve been exposed in the last 14 days",
       "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
       "Title2": "What now?",
-      "Body2": "You’re at risk of being infected. ",
-      "Body3": "You need to self-isolate for 14 days.",
+      "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
+      "Body3": "consider self-isolating for 14 days.",
       "HowToIsolateCTA": "How to self-isolate"
     },
     "ChooseRegionCTA": "Choose province or territory",
@@ -56,9 +56,16 @@
     "BluetoothDisabled": "Bluetooth is off",
     "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "TurnOnBluetooth": "Turn on Bluetooth",
-    "ExposureNotificationsDisabled": "COVID Alert is off",
-    "ExposureNotificationsDisabledDetailed": "You did not enable COVID Alert. The app needs your permission to work.",
-    "EnableExposureNotificationsCTA": "Enable COVID Alert",
+    "EnDisabled": {
+      "Title": "COVID Alert is off",
+      "Body1": "You did not enable COVID Alert. The app needs your permission to work.",
+      "CTA": "Enable COVID Alert",
+      "AndroidTitle2": "Worried about turning on Location?",
+      "AndroidBody1": "You need to have Location turned on for COVID Alert to work. To use Bluetooth scanning, Android phones need Location setting on for all apps.",
+      "AndroidBody2a": "Despite that, COVID Alert has ",
+      "AndroidBody2b": "no way of knowing where you are. ",
+      "AndroidBody2c": "You can check the app’s permissions in your phone’s settings. You’ll see it does not have permission for location services."
+    },
     "NoConnectivity": "COVID Alert is offline",
     "NoConnectivityDetailed": "COVID Alert only checks for exposure if your phone is connected to the Internet.",
     "AppName": "COVID Alert",
@@ -174,7 +181,7 @@
       "Body2": "It will not tell you about outbreaks in your community."
     },
     "Anonymous": {
-      "Title": "Private and anonymous",
+      "Title": "Your privacy is safe",
       "ImageAltText": "A hand-drawn illustration of shaded glasses and hat to go incognito. Above the hat, a location pin icon is crossed out.",
       "Body1": "COVID Alert does not use GPS or location services.",
       "Body2": "It has no way of knowing:",
@@ -219,7 +226,9 @@
       "Body2a": "Step 2. ",
       "Body2b": "Agree that COVID Alert can let people know they were exposed.",
       "Body3a": "Step 3. ",
-      "Body3b": "Allow your phone to share your random codes anonymously.",
+      "Body3b": "Allow your phone to share your random codes.",
+      "Body4a": "Nobody will get any information about you ",
+      "Body4b": "or the time you were near them.",
       "CTA": "Next",
       "NoCode": "Need an 8-digit number?"
     },

@@ -29,7 +29,11 @@ export const Region = (props: Pick<ItemViewProps, 'isActive'>) => {
                 key={item.code}
                 selected={region === item.code}
                 onPress={async selectedRegion => {
-                  setRegion(selectedRegion);
+                  if (region === item.code) {
+                    setRegion('None');
+                  } else {
+                    setRegion(selectedRegion);
+                  }
                 }}
                 name={i18n.translate(`RegionPicker.${item.code}`)}
                 {...item}

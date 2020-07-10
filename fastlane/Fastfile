@@ -1,8 +1,11 @@
 fastlane_version '2.53.1'
 
 before_all do
-  # Load root-level .env to avoid duplication
+  # Load root-level shared .env
   Dotenv.overload '../.env'
+
+  # Pull all tags
+  git_pull(only_tags: true)
 end
 
 desc "Creates a Github Release"
@@ -19,14 +22,27 @@ lane :create_github_release do |options|
 end
 
 desc "Returns a default changelog."
-lane :default_changelog do
+lane :default_changelog do |options|
+  format = (options[:simple] ? "- %b" : "- %b [%s]")
+
   changelog = changelog_from_git_commits(
     merge_commit_filtering: "only_include_merges",
-    pretty: "- %b [%s]"
-  ),
-  Actions.lane_context[SharedValues::FL_CHANGELOG] = changelog
-  puts changelog
-  changelog.join(' ')
+    pretty: format
+  ), Actions.lane_context[SharedValues::FL_CHANGELOG] = changelog
+
+  clean = changelog.first.gsub("- \n", "")
+  puts clean
+  clean
+end
+
+lane :ensure_keystore_properties do
+  file_exists = File.exist? File.expand_path "../android/keystore.properties"
+
+  UI.user_error!("keystore.properties file is missing!") unless file_exists
+end
+
+def version_string(version_number, build_number)
+  "#{version_number} (#{build_number})"
 end
 
 platform :ios do
@@ -34,11 +50,12 @@ platform :ios do
   lane :beta do
     ensure_git_branch
 
-    get_certificates(
-      output_path: "fastlane/certs"
-    )
-    get_provisioning_profile(
-      output_path: "fastlane/certs"
+    match(
+      git_url: ENV["CERTS_REPO"],
+      app_identifier: ENV["APP_ID_IOS"],
+      username: ENV["APPLE_ID"],
+      type: "appstore",
+      readonly: true
     )
 
     build_app(
@@ -55,7 +72,7 @@ platform :ios do
     groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
       groups: groups,
-      changelog: default_changelog,
+      changelog: default_changelog(simple: true),
       app_version: ENV["APP_VERSION_NAME"],
       build_number: ENV["APP_VERSION_CODE"],
     )
@@ -65,13 +82,12 @@ platform :ios do
 
   desc "Builds a local iOS adhoc .ipa"
   lane :local do
-    get_certificates(
-      output_path: "fastlane/certs"
-    )
-    get_provisioning_profile(
-      adhoc: true,
-      provisioning_name: ENV["PROFILE_ADHOC"],
-      output_path: "fastlane/certs"
+    match(
+      git_url: ENV["CERTS_REPO"],
+      app_identifier: ENV["APP_ID_IOS"],
+      username: ENV["APPLE_ID"],
+      type: "adhoc",
+      readonly: true
     )
 
     build_app(
@@ -92,7 +108,7 @@ platform :android do
   private_lane :build do |options|
     task = (options[:bundle] ? "bundle" : "assemble")
     properties = (options[:properties] ? options[:properties] : {})
-    buildType = (options[:buidType] ? options[:buildType] : "Release")
+    buildType = (options[:buildType] ? options[:buildType] : "Release")
 
     gradle(
       task: task,
@@ -105,13 +121,14 @@ platform :android do
   desc "Pushes a new build to Google Play Internal Testing Track"
   lane :internal do
     ensure_git_branch
+    ensure_keystore_properties
 
     versionCode = ENV["APP_VERSION_CODE"]
-    versionName = "#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})"
+    versionName = version_string(ENV['APP_VERSION_NAME'], ENV['APP_VERSION_CODE'])
 
     build(bundle: true, properties: {
-        'versionCode' => versionCode,
-        'versionName' => versionName
+        "versionCode" => versionCode,
+        "versionName" => versionName
       }
     )
 
@@ -124,8 +141,23 @@ platform :android do
     create_github_release(platform: "Android")
   end
 
-  desc "Builds a local .apk for Android"
+  desc "Builds a local Release .apk for Android"
   lane :local do
     build
+
+    APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
+    sh "cp #{APK_LOCATION} ../build/"
+  end
+
+  desc "Builds a local Debug .apk for Android"
+  lane :local_debug do
+    gradle(
+      task: "assembleDebug",
+      flags: "-DbundleInDebug=true",
+      project_dir: 'android/',
+    )
+
+    APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
+    sh "cp #{APK_LOCATION} ../build/"
   end
 end

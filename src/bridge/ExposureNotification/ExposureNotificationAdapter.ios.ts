@@ -1,16 +1,13 @@
 import {unzip} from 'react-native-zip-archive';
 
-import {ExposureNotification, ExposureConfiguration, ExposureSummary} from './types';
+import {ExposureNotification, ExposureSummary} from './types';
 
 export default function ExposureNotificationAdapter(
   exposureNotificationAPI: ExposureNotification,
 ): ExposureNotification {
   return {
     ...exposureNotificationAPI,
-    detectExposure: async (
-      configuration: ExposureConfiguration,
-      diagnosisKeysURLs: string[],
-    ): Promise<ExposureSummary> => {
+    detectExposure: async (configuration, diagnosisKeysURLs) => {
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }

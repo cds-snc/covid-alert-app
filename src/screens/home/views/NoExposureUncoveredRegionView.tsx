@@ -1,28 +1,46 @@
 import React from 'react';
-import {Text} from 'components';
+import {Text, TextMultiline} from 'components';
 import {useI18n} from '@shopify/react-i18n';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {AllSetView} from '../components/AllSetView';
 
-export const NoExposureUncoveredRegionView = () => {
+export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const [i18n] = useI18n();
   const {onboardedDatetime, skipAllSet} = useStorage();
+  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
-    return <AllSetView bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')} />;
+    return (
+      <AllSetView
+        isBottomSheetExpanded
+        titleText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
+        bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')}
+      />
+    );
   }
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
-    <BaseHomeView>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+    <BaseHomeView iconName="hand-no-province-yet">
+      <Text
+        focusRef={autoFocusRef}
+        variant="bodyTitle"
+        color="bodyText"
+        marginBottom="m"
+        accessibilityRole="header"
+        accessibilityAutoFocus
+      >
         {i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="m">
-        {i18n.translate('Home.NoExposureDetected.RegionNotCovered.Body')}
-      </Text>
+      <TextMultiline
+        variant="bodyText"
+        color="bodyText"
+        marginBottom="m"
+        text={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Body')}
+      />
     </BaseHomeView>
   );
 };
