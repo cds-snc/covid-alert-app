@@ -118,7 +118,6 @@ export class ExposureNotificationService {
     if (this.starting) {
       return;
     }
-    this.starting = true;
 
     await this.init();
 
@@ -126,6 +125,7 @@ export class ExposureNotificationService {
       await this.exposureNotification.start();
     } catch (_) {
       this.systemStatus.set(SystemStatus.Unknown);
+      this.starting = false;
       return;
     }
 
