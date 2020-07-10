@@ -102,6 +102,16 @@ platform :ios do
       }
     )
   end
+
+  lane :download_symbols do |options|
+    UI.user_error!("You must specify a version") unless options[:version]
+    UI.user_error!("You must specify a build_number") unless options[:build_number]
+    download_dsyms(
+      version: options[:version],
+      build_number: options[:build_number],
+      output_directory: "./dsyms"
+    )
+  end
 end
 
 platform :android do

@@ -44,6 +44,11 @@ Submit a new Covid Alert beta build to Apple TestFlight
 fastlane ios local
 ```
 Builds a local iOS adhoc .ipa
+### ios download_symbols
+```
+fastlane ios download_symbols
+```
+
 
 ----
 
