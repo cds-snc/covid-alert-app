@@ -122,7 +122,7 @@ export const Button = ({
   }
   return (
     <TouchableOpacity
-      activeOpacity={0.6}
+      activeOpacity={0.8}
       onPress={onPressHandler}
       style={styles.stretch}
       disabled={disabled}

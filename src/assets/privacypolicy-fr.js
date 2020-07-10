@@ -1,6 +1,6 @@
 const privacy = `## Votre vie privée est protégée
 
-L’application Alerte COVID bénéficie d’une solide protection des renseignements personnels. 
+L’application Alerte COVID bénéficie d’une solide protection de la vie privée. 
 
 Il est extrêmement improbable que vous soyez identifié pendant que vous utilisez cette application. D’importantes mesures, décrites ci-dessous, ont été prises pour garantir la protection de votre vie privée et de vos données. 
 
@@ -15,7 +15,7 @@ Les codes aléatoires sont stockés et utilisés uniquement dans le but de vous 
 - Votre téléphone chiffre les codes aléatoires. Votre autorisation est requise avant que votre téléphone transmette les codes aléatoires à l’application Alerte COVID.
 
 ### Alerte COVID n’a aucun moyen de connaître les renseignements suivants :
-- votre position,
+- votre emplacement,
 - votre nom ou votre adresse,
 - les contacts de votre téléphone,
 - vos informations de santé.

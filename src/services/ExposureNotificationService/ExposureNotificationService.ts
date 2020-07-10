@@ -5,7 +5,7 @@ import ExposureNotification, {
   ExposureConfiguration,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
-import {addDays, daysBetween, periodSinceEpoch} from 'shared/date-fns';
+import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
 import {TEST_MODE} from 'env';
@@ -252,6 +252,8 @@ export class ExposureNotificationService {
     if (!submissionLastCompletedAt) return true;
 
     const lastSubmittedDay = new Date(submissionLastCompletedAt);
+
+    if (isSameUtcCalendarDate(lastSubmittedDay, today)) return false;
     if (daysBetween(lastSubmittedDay, today) > 0) return true;
 
     return false;

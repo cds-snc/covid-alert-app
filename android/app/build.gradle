@@ -130,15 +130,19 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-// Create a variable called keystorePropertiesFile, and initialize it to your
-// keystore.properties file, in the rootProject folder.
-def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystorePropertiesFileExists = file("keystore.properties").exists();
 
-// Initialize a new Properties() object called keystoreProperties.
-def keystoreProperties = new Properties()
+if (keystorePropertiesFileExists) {
+  // Create a variable called keystorePropertiesFile, and initialize it to your
+  // keystore.properties file, in the rootProject folder.
+  def keystorePropertiesFile = rootProject.file("keystore.properties")
 
-// Load your keystore.properties file into the keystoreProperties object.
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+  // Initialize a new Properties() object called keystoreProperties.
+  def keystoreProperties = new Properties()
+
+  // Load your keystore.properties file into the keystoreProperties object.
+  keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -166,10 +170,12 @@ android {
     }
     signingConfigs {
         release {
-          storeFile file(keystoreProperties["STOPCOVID_UPLOAD_STORE_FILE"])
-          storePassword keystoreProperties["STOPCOVID_UPLOAD_STORE_PASSWORD"]
-          keyAlias keystoreProperties["STOPCOVID_UPLOAD_KEY_ALIAS"]
-          keyPassword keystoreProperties["STOPCOVID_UPLOAD_KEY_PASSWORD"]
+          if(keystorePropertiesFileExists) {
+            storeFile file(keystoreProperties["STOPCOVID_UPLOAD_STORE_FILE"])
+            storePassword keystoreProperties["STOPCOVID_UPLOAD_STORE_PASSWORD"]
+            keyAlias keystoreProperties["STOPCOVID_UPLOAD_KEY_ALIAS"]
+            keyPassword keystoreProperties["STOPCOVID_UPLOAD_KEY_PASSWORD"]
+          }
         }
     }
     buildTypes {
