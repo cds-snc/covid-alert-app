@@ -129,20 +129,6 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-def keystorePropertiesFileExists = file(rootProject.file("keystore.properties")).exists();
-
-if (keystorePropertiesFileExists) {
-  // Create a variable called keystorePropertiesFile, and initialize it to your
-  // keystore.properties file, in the rootProject folder.
-  def keystorePropertiesFile = rootProject.file("keystore.properties")
-
-  // Initialize a new Properties() object called keystoreProperties.
-  def keystoreProperties = new Properties()
-
-  // Load your keystore.properties file into the keystoreProperties object.
-  keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -168,14 +154,22 @@ android {
         }
     }
     signingConfigs {
-        release {
-          if(keystorePropertiesFileExists) {
-            storeFile file(keystoreProperties["STOPCOVID_UPLOAD_STORE_FILE"])
-            storePassword keystoreProperties["STOPCOVID_UPLOAD_STORE_PASSWORD"]
-            keyAlias keystoreProperties["STOPCOVID_UPLOAD_KEY_ALIAS"]
-            keyPassword keystoreProperties["STOPCOVID_UPLOAD_KEY_PASSWORD"]
-          }
+      release {
+        def keystorePropertiesFile = rootProject.file("keystore.properties")
+
+        if (keystorePropertiesFile.exists()) {
+          // Initialize a new Properties() object called keystoreProperties.
+          def keystoreProperties = new Properties()
+
+          // Load your keystore.properties file into the keystoreProperties object.
+          keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+          storeFile file(keystoreProperties["STOPCOVID_UPLOAD_STORE_FILE"])
+          storePassword keystoreProperties["STOPCOVID_UPLOAD_STORE_PASSWORD"]
+          keyAlias keystoreProperties["STOPCOVID_UPLOAD_KEY_ALIAS"]
+          keyPassword keystoreProperties["STOPCOVID_UPLOAD_KEY_PASSWORD"]
         }
+      }
     }
     buildTypes {
         debug {
