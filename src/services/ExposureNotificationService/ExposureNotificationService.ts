@@ -131,10 +131,8 @@ export class ExposureNotificationService {
     }
 
     await this.updateSystemStatus();
-    if (this.systemStatus.get() === SystemStatus.Active) {
-      await this.updateExposureStatus();
-    }
     this.starting = false;
+    await this.updateExposureStatus();
   }
 
   async updateSystemStatus(): Promise<void> {
