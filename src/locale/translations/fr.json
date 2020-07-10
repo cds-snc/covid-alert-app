@@ -21,7 +21,9 @@
       "Body2a": "Étape 2 : ",
       "Body2b": "Vous acceptez qu’Alerte COVID avise les personnes qu’elles ont été exposées.",
       "Body3a": "Étape 3 : ",
-      "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires de façon anonyme.",
+      "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires.",
+      "Body4a": "Personne ne recevra d’information sur vous ",
+      "Body4b": "ou sur le moment de votre proximité.",
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de numéro à 8\u00A0chiffres?"
     },
@@ -94,7 +96,6 @@
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
     "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
-    "EnableExposureNotificationsCTA": "Activer Alerte COVID",
     "ExposureDetected": {
       "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
       "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
@@ -103,8 +104,16 @@
       "Body3": "Vous devez vous isoler pendant 14\u00A0jours.",
       "HowToIsolateCTA": "Comment vous isoler"
     },
-    "ExposureNotificationsDisabled": "Alerte COVID est désactivé",
-    "ExposureNotificationsDisabledDetailed": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
+    "EnDisabled": {
+      "Title": "Alerte COVID est désactivé",
+      "Body1": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
+      "CTA": "Activer Alerte COVID",
+      "AndroidTitle2": "Vous hésitez à activer la localisation?",
+      "AndroidBody1": "Il faut activer la localisation pour qu’Alerte COVID fonctionne. Avec Android, la recherche Bluetooth n’est possible que si la localisation est activée pour toutes les applications.",
+      "AndroidBody2a": "Malgré cela, Alerte COVID ",
+      "AndroidBody2b": "ne peut pas savoir où vous êtes. ",
+      "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
+    },
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
     "How": "Diagnosed with COVID-19?",
     "HowUrl": "https://www.canada.ca/",
@@ -204,7 +213,7 @@
       "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre collectivité."
     },
     "Anonymous": {
-      "Title": "Privée et anonyme",
+      "Title": "Votre vie privée est protégée",
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
       "Body2": "L’application n’a aucun moyen de connaître\u00A0:",

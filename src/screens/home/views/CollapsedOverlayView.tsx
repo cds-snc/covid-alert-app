@@ -22,7 +22,7 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
   }, [notificationWarning, bottomSheetBehavior]);
 
   return (
-    <TouchableOpacity onPress={bottomSheetBehavior.expand}>
+    <TouchableOpacity activeOpacity={0.6} onPress={bottomSheetBehavior.expand}>
       <Animated.View style={{opacity: pow(bottomSheetBehavior.callbackNode, 2)}}>
         <View style={styles.content}>
           <View style={styles.collapseContentHandleBar}>

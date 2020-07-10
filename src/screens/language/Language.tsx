@@ -14,7 +14,12 @@ interface LanguageSelectItemProps {
 }
 const LanguageSelectItem = ({onPress, text, lastItem, isActive}: LanguageSelectItemProps) => (
   <>
-    <TouchableOpacity onPress={onPress} accessibilityRole="radio" accessibilityState={{selected: isActive}}>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      onPress={onPress}
+      accessibilityRole="radio"
+      accessibilityState={{selected: isActive}}
+    >
       <Box
         paddingVertical="s"
         marginHorizontal="-m"
