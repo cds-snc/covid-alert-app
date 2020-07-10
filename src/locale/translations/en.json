@@ -317,7 +317,8 @@
     "PE": "Prince Edward Island",
     "QC": "Quebec",
     "SK": "Saskatchewan",
-    "YT": "Yukon"
+    "YT": "Yukon",
+    "None": "Prefer not to say"
   },
   "RegionalGuidance": {
     "CA": {
