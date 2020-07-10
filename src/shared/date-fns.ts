@@ -35,3 +35,11 @@ export function startOfDay(date: Date): Date {
 export function daysBetween(date1: Date, date2: Date): number {
   return (startOfDay(date2).getTime() - startOfDay(date1).getTime()) / (1000 * 3600 * 24);
 }
+
+export function isSameUtcCalendarDate(date1: Date, date2: Date): boolean {
+  return (
+    date1.getUTCFullYear() === date2.getUTCFullYear() &&
+    date1.getUTCMonth() === date2.getUTCMonth() &&
+    date1.getUTCDate() === date2.getUTCDate()
+  );
+}
