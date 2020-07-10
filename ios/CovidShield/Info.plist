@@ -50,6 +50,9 @@
 	<array>
 		<string>NotoSans-Bold.ttf</string>
 		<string>NotoSans-Regular.ttf</string>
+		<string>notosans_bold.ttf</string>
+		<string>notosans_regular.ttf</string>
+		<string>notosans.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
