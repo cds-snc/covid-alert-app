@@ -61,54 +61,55 @@ export const ButtonSingleLine = ({
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
 
   const content = (
-    <Box
-      borderRadius={10}
-      alignItems="center"
-      justifyContent="center"
-      style={{
-        backgroundColor: color,
-        minHeight: height,
-        borderWidth,
-        borderColor: buttonColor,
-        borderBottomWidth,
-        borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
-      }}
-      paddingHorizontal="m"
-      paddingVertical="m"
-      flexDirection="row"
-    >
-      {loading ? (
-        <ActivityIndicator color={textColor} size="large" />
-      ) : (
-        <Box flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
-          {externalLink && (
-            <Box flex={0} style={{...styles.iconOffsetExternal}}>
-              <Icon name={externalArrowIcon} size={20} />
+    <Box borderRadius={10} overflow="hidden">
+      <Box
+        alignItems="center"
+        justifyContent="center"
+        style={{
+          backgroundColor: color,
+          minHeight: height,
+          borderWidth,
+          borderColor: buttonColor,
+          borderBottomWidth,
+          borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
+        }}
+        paddingHorizontal="m"
+        paddingVertical="m"
+        flexDirection="row"
+      >
+        {loading ? (
+          <ActivityIndicator color={textColor} size="large" />
+        ) : (
+          <Box flexDirection="row-reverse" alignItems="flex-start" justifyContent="flex-start">
+            {externalLink && (
+              <Box flex={0} style={{...styles.iconOffsetExternal}}>
+                <Icon name={externalArrowIcon} size={20} />
+              </Box>
+            )}
+            {internalLink && (
+              <Box flex={0} style={{...styles.iconOffsetChevron}}>
+                <Icon size={25} name="icon-chevron" />
+              </Box>
+            )}
+            {iconName && (
+              <Box flex={0} style={{...styles.iconOffsetChevron}}>
+                <Icon size={25} name={iconName} />
+              </Box>
+            )}
+            <Box flex={1} marginLeft="s" alignItems="flex-start" justifyContent="flex-end">
+              <Text
+                variant="menuItemTitle"
+                style={{
+                  ...styles.content,
+                  color: textColor || buttonColor,
+                }}
+              >
+                {text}
+              </Text>
             </Box>
-          )}
-          {internalLink && (
-            <Box flex={0} style={{...styles.iconOffsetChevron}}>
-              <Icon size={25} name="icon-chevron" />
-            </Box>
-          )}
-          {iconName && (
-            <Box flex={0} style={{...styles.iconOffsetChevron}}>
-              <Icon size={25} name={iconName} />
-            </Box>
-          )}
-          <Box flex={1} marginLeft="s" alignItems="flex-start" justifyContent="flex-end">
-            <Text
-              variant="menuItemTitle"
-              style={{
-                ...styles.content,
-                color: textColor || buttonColor,
-              }}
-            >
-              {text}
-            </Text>
           </Box>
-        </Box>
-      )}
+        )}
+      </Box>
     </Box>
   );
 

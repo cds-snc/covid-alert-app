@@ -70,40 +70,41 @@ export const Button = ({
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
 
   const content = (
-    <Box
-      borderRadius={5}
-      alignItems="center"
-      justifyContent="center"
-      shadowColor="bodyText"
-      style={{
-        backgroundColor: color,
-        minHeight: height,
-        borderBottomWidth,
-        borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
-      }}
-      paddingHorizontal="m"
-      paddingVertical="m"
-      flexDirection="row"
-    >
-      {loading ? (
-        <ActivityIndicator color={textColor} size="large" />
-      ) : (
-        <>
-          {backButton && (
-            <Box style={styles.backIcon} marginRight="s">
-              <Icon size={14} name="icon-chevron-back" />
+    <Box borderRadius={5} overflow="hidden">
+      <Box
+        alignItems="center"
+        justifyContent="center"
+        shadowColor="bodyText"
+        style={{
+          backgroundColor: color,
+          minHeight: height,
+          borderBottomWidth,
+          borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
+        }}
+        paddingHorizontal="m"
+        paddingVertical="m"
+        flexDirection="row"
+      >
+        {loading ? (
+          <ActivityIndicator color={textColor} size="large" />
+        ) : (
+          <>
+            {backButton && (
+              <Box style={styles.backIcon} marginRight="s">
+                <Icon size={14} name="icon-chevron-back" />
+              </Box>
+            )}
+            <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
+              {text}
+            </Text>
+            <Box style={{...styles.chevronOffset}}>
+              {externalLink && <Icon name={externalArrowIcon} />}
+              {internalLink && <Icon size={25} name="icon-chevron" />}
+              {iconName && <Icon size={25} name={iconName} />}
             </Box>
-          )}
-          <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
-            {text}
-          </Text>
-          <Box style={{...styles.chevronOffset}}>
-            {externalLink && <Icon name={externalArrowIcon} />}
-            {internalLink && <Icon size={25} name="icon-chevron" />}
-            {iconName && <Icon size={25} name={iconName} />}
-          </Box>
-        </>
-      )}
+          </>
+        )}
+      </Box>
     </Box>
   );
 
