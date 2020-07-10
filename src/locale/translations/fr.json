@@ -293,7 +293,8 @@
     "SettingsTitle": "Province ou territoire",
     "Skip": "Ignorer",
     "Title": "Où habitez-vous? (facultatif)",
-    "YT": "Yukon"
+    "YT": "Yukon",
+    "None": "Ne rien sélectionner"
   },
   "RegionalGuidance": {
     "CA": {
