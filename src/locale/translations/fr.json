@@ -1,8 +1,8 @@
 {
   "BottomSheet": {
     "Collapse": "Fermer",
-    "OffStatus": "Alerte COVID est DÉSACTIVÉ, Appuyez pour voir le menu",
-    "OnStatus": "Alerte COVID est ACTIVÉ, Appuyez pour voir le menu"
+    "OffStatus": "Alerte COVID est DÉSACTIVÉE, Appuyez pour voir le menu",
+    "OnStatus": "Alerte COVID est ACTIVÉE, Appuyez pour voir le menu"
   },
   "RegionLanding": {
     "Title": "Sélectionnez votre province ou territoire",
@@ -95,17 +95,17 @@
       "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
-    "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
+    "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
       "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
       "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
       "Title2": "Que faire maintenant?",
-      "Body2": "Vous êtes à risque d’être infecté. ",
-      "Body3": "Vous devez vous isoler pendant 14\u00A0jours.",
+      "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
+      "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
       "HowToIsolateCTA": "Comment vous isoler"
     },
     "EnDisabled": {
-      "Title": "Alerte COVID est désactivé",
+      "Title": "Alerte COVID est désactivée",
       "Body1": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
       "CTA": "Activer Alerte COVID",
       "AndroidTitle2": "Vous hésitez à activer la localisation?",
@@ -136,7 +136,7 @@
       "NoRegion": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
         "Title": "Aucune exposition détectée",
-        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activé.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       },
       "RegionCovered": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
@@ -148,7 +148,7 @@
         "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
         "Title": "Pas encore de signalement dans votre région",
-        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activé.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       }
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
@@ -191,7 +191,7 @@
     "ExposedMessageBody": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Lisez les recommandations.",
     "ExposedMessageTitle": "Vous avez été exposé",
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
-    "OffMessageTitle": "Alerte COVID est désactivé"
+    "OffMessageTitle": "Alerte COVID est désactivée"
   },
   "Onboarding": {
     "Step": "Étape",
@@ -217,7 +217,7 @@
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
       "Body2": "L’application n’a aucun moyen de connaître\u00A0:",
-      "Bullet1": "votre position,",
+      "Bullet1": "votre emplacement,",
       "Bullet2": "votre nom ou votre adresse,",
       "Bullet3": "les contacts de votre téléphone,",
       "Bullet4": "vos informations de santé."
@@ -248,7 +248,7 @@
   },
   "OverlayOpen": {
     "BluetoothCardAction": "Activez Bluetooth",
-    "BluetoothCardBody": "Vous devez l’activer dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
+    "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardAction": "Entrer le numéro",
     "EnterCodeCardBody": "Vous avez besoin d’un numéro à 8\u00A0chiffres pour aviser les autres personnes d’une exposition.",
     "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de COVID-19. ",
@@ -333,7 +333,7 @@
       "URL": "https://nu.thrive.health/covid19/fr"
     },
     "ON": {
-      "CTA": "Lieux pour se faire tester",
+      "CTA": "Lieux où se faire tester",
       "URL": "https://ontario.ca/covidalerte-expose"
     },
     "PE": {
