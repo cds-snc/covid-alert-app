@@ -115,7 +115,9 @@ export class ExposureNotificationService {
   }
 
   async start(): Promise<void> {
+    console.log('this.systemStatus', this.systemStatus);
     if (this.starting) {
+      console.log('bailing out');
       return;
     }
 
@@ -126,14 +128,25 @@ export class ExposureNotificationService {
     try {
       await this.exposureNotification.start();
     } catch (_) {
+      console.log('catch block');
       this.systemStatus.set(SystemStatus.Unknown);
-      this.starting = false;
+
+      // this.starting = false;
       return;
     }
+    console.log('position 1');
 
     await this.updateSystemStatus();
-    await this.updateExposureStatus();
-
+    console.log('position 2');
+    console.log('this.systemStatus.get()', this.systemStatus.get());
+    // if (this.systemStatus.get() === SystemStatus.Disabled) {
+    //   console.log("this.starting = false");
+    //   this.starting = false;
+    //   return;
+    // }
+    if (this.systemStatus.get() === SystemStatus.Active) {
+      await this.updateExposureStatus();
+    }
     this.starting = false;
   }
 
