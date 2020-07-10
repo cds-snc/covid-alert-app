@@ -24,7 +24,6 @@ import App from './App';
 AppRegistry.registerComponent(appName, () => App);
 
 BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
-  console.log('Android background job start');
   const storageService = await createStorageService();
   const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
   const i18n = await getBackgroundI18n();

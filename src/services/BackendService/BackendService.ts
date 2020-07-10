@@ -7,7 +7,7 @@ import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, TRANSMISSION_RISK_LEVEL} from 'env';
-import * as Sentry from '@sentry/react-native';
+import {captureMessage} from 'shared/log';
 
 import {Observable} from '../../shared/Observable';
 import {Region} from '../../shared/Region';
@@ -36,11 +36,10 @@ export class BackendService implements BackendInterface {
   }
 
   async retrieveDiagnosisKeys(period: number) {
-    Sentry.captureMessage(`retrieveDiagnosisKeys(${period})`);
     const message = `${MCC_CODE}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${period}/${hmac}`;
-    Sentry.captureMessage(`downloadDiagnosisKeysFile(${url})`);
+    captureMessage('retrieveDiagnosisKeys', {period, url});
     return downloadDiagnosisKeysFile(url);
   }
 
@@ -49,12 +48,11 @@ export class BackendService implements BackendInterface {
     // this is only for the purpose of downloading the configuration file.
     const region = 'CA';
     const exposureConfigurationUrl = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
-    Sentry.captureMessage(`Exposure Configuration URL: ${exposureConfigurationUrl}`);
+    captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
     return (await fetch(exposureConfigurationUrl)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
-    console.info(`claimOneTimeCode(${oneTimeCode})`);
     let randomBytes: Buffer;
     try {
       randomBytes = await getRandomBytes(32);
@@ -75,8 +73,6 @@ export class BackendService implements BackendInterface {
     const serverPublicKey = Buffer.from(keyClaimResponse.serverPublicKey).toString('base64');
     const clientPrivateKey = Buffer.from(keyPair.secretKey).toString('base64');
     const clientPublicKey = Buffer.from(keyPair.publicKey).toString('base64');
-
-    console.debug(`serverPublicKey: ${serverPublicKey}, clientPublicKey: ${clientPublicKey}`);
 
     return {
       serverPublicKey,

@@ -9,7 +9,7 @@ import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch} from 'sha
 import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
 import {TEST_MODE} from 'env';
-import * as Sentry from '@sentry/react-native';
+import {captureMessage, captureException} from 'shared/log';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -125,7 +125,8 @@ export class ExposureNotificationService {
 
     try {
       await this.exposureNotification.start();
-    } catch (_) {
+    } catch (error) {
+      captureException(error, {message: 'Cannot start EN framework'});
       this.systemStatus.set(SystemStatus.Unknown);
       return;
     }
@@ -142,12 +143,12 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
-    Sentry.captureMessage(`updateExposureStatusInBackground ${this.exposureStatus.get()}`);
+    captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
     try {
       await this.init();
       await this.updateExposureStatus();
       const currentStatus = this.exposureStatus.get();
-      Sentry.captureMessage(`currentStatus ${currentStatus}`);
+      captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
       if (currentStatus.type === 'exposed' && !currentStatus.notificationSent) {
         PushNotification.presentLocalNotification({
           alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
@@ -164,14 +165,13 @@ export class ExposureNotificationService {
         });
       }
     } catch (error) {
-      Sentry.captureException(`updateExposureStatusInBackground error ${error}`);
+      captureException(error, {message: 'updateExposureStatusInBackground'});
     }
   }
 
   async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
-      Sentry.captureMessage(`cleanUpPromise input ${input}`);
       this.exposureStatusUpdatePromise = null;
       return input;
     };
@@ -220,15 +220,13 @@ export class ExposureNotificationService {
         EXPOSURE_CONFIGURATION,
         SECURE_OPTIONS_FOR_CONFIGURATION,
       );
-      Sentry.captureMessage('Getting exposure configuration from iOS keychain.');
       if (exposureConfigurationStr) {
-        Sentry.captureMessage('Using previously saved exposureConfiguration');
         return JSON.parse(exposureConfigurationStr);
       } else {
         throw new Error('Unable to use saved exposureConfiguration');
       }
     } catch (error) {
-      Sentry.captureMessage('Using default exposureConfiguration.', error);
+      captureException(error, {message: 'Using default exposureConfiguration'});
       return defaultExposureConfiguration;
     }
   }
@@ -267,17 +265,14 @@ export class ExposureNotificationService {
     const lastCheckedPeriod =
       _lastCheckedPeriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-    Sentry.captureMessage(`lastCheckedPeriod ${lastCheckedPeriod}`);
     while (runningPeriod > lastCheckedPeriod) {
       try {
-        Sentry.captureMessage(`runningPeriod ${runningPeriod}`);
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
         const period = runningPeriod;
         yield {keysFileUrl, period};
       } catch (error) {
-        Sentry.captureException(`>>> error while downloading key file: ${error}`);
+        captureException(error, {message: 'Error while downloading key file'});
       }
-
       runningPeriod -= 1;
     }
   }
@@ -286,22 +281,19 @@ export class ExposureNotificationService {
     let exposureConfiguration: ExposureConfiguration;
     try {
       exposureConfiguration = await this.backendInterface.getExposureConfiguration();
-      Sentry.captureMessage('Using downloaded exposureConfiguration.');
       const serialized = JSON.stringify(exposureConfiguration);
       await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS_FOR_CONFIGURATION);
-      Sentry.captureMessage('Saving exposure configuration to iOS keychain.');
     } catch (error) {
       if (error instanceof SyntaxError) {
-        Sentry.captureException(
-          `JSON Parsing error: Unable to parse downloaded exposureConfiguration: ${error.message}`,
-        );
+        captureException(error, {message: 'JSON Parsing error: Unable to parse downloaded exposureConfiguration'});
       } else {
-        Sentry.captureException(`Netowrk error: Unable to download exposureConfiguration. ${error.message}`);
+        captureException(error, {message: 'Netowrk error: Unable to download exposureConfiguration'});
       }
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
 
     const finalize = async (status: Partial<ExposureStatus> = {}, lastCheckedPeriod = 0) => {
+      const previousExposureStatus = this.exposureStatus.get();
       const timestamp = new Date().getTime();
       this.exposureStatus.append({
         ...status,
@@ -309,6 +301,11 @@ export class ExposureNotificationService {
           timestamp,
           period: lastCheckedPeriod,
         },
+      });
+      const currentExposureStatus = this.exposureStatus.get();
+      captureMessage('finalize', {
+        previousExposureStatus,
+        currentExposureStatus,
       });
     };
 
@@ -352,11 +349,16 @@ export class ExposureNotificationService {
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
       }
     }
-    Sentry.captureMessage(`keysFileUrl ${keysFileUrls}`);
-    Sentry.captureMessage(`lastCheckedPeriod: ${lastCheckedPeriod}`);
+
+    captureMessage('performExposureStatusUpdate', {
+      keysFileUrls,
+      lastCheckedPeriod,
+      exposureConfiguration,
+    });
+
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-      Sentry.captureMessage(`summary ${summary}`);
+      captureMessage('summary', {summary});
       if (summary.matchedKeyCount > 0) {
         return finalize(
           {
@@ -367,7 +369,7 @@ export class ExposureNotificationService {
         );
       }
     } catch (error) {
-      Sentry.captureException(`>>> DetectExposure ${error.message}`);
+      captureException(error, {message: 'performExposureStatusUpdate'});
     }
 
     return finalize({}, lastCheckedPeriod);

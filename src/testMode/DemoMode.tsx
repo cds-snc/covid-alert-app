@@ -1,4 +1,5 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState, useEffect} from 'react';
+import {TextInput, StyleSheet} from 'react-native';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import {useI18n} from '@shopify/react-i18n';
 import PushNotification from 'bridge/PushNotification';
@@ -6,6 +7,7 @@ import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useExposureNotificationService, useExposureStatus} from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME} from 'env';
+import {setLogUUID, getLogUUID} from 'shared/log';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -91,8 +93,19 @@ const DrawerContent = () => {
   const exposureNotificationService = useExposureNotificationService();
   const [, updateExposureStatus] = useExposureStatus();
 
+  const [UUID, setUUID] = useState('');
+  const onApplyUUID = useCallback(() => {
+    setLogUUID(UUID);
+  }, [UUID]);
+
+  useEffect(() => {
+    (async () => {
+      setUUID(await getLogUUID());
+    })();
+  }, []);
+
   return (
-    <DrawerContentScrollView>
+    <DrawerContentScrollView keyboardShouldPersistTaps="handled">
       <Box marginHorizontal="m">
         <Section>
           <Text paddingLeft="m" paddingRight="m" fontWeight="bold" paddingBottom="s" color="overlayBodyText">
@@ -109,6 +122,13 @@ const DrawerContent = () => {
         <Section>
           <Item title="Skip 'You're all set'" />
           <SkipAllSetRadioSelector />
+        </Section>
+        <Section>
+          <Item title="UUID for debugging" />
+          <Box flexDirection="row">
+            <TextInput style={styles.flex} placeholder="UUID..." value={UUID} onChangeText={setUUID} />
+            <Button variant="thinFlat" text="Apply" onPress={onApplyUUID} />
+          </Box>
         </Section>
         <Section>
           <Button
@@ -157,3 +177,9 @@ export const DemoMode = ({children}: DemoModeProps) => {
     </MockProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+});
