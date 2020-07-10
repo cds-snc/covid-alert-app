@@ -119,6 +119,8 @@ export class ExposureNotificationService {
       return;
     }
 
+    this.starting = true;
+
     await this.init();
 
     try {
