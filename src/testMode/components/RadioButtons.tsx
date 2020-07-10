@@ -11,7 +11,12 @@ interface Props {
 
 const RadioButton_ = ({value, onPress, name, selected}: Props) => (
   <>
-    <TouchableOpacity onPress={() => onPress(value)} accessibilityRole="radio" accessibilityState={{selected}}>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      onPress={() => onPress(value)}
+      accessibilityRole="radio"
+      accessibilityState={{selected}}
+    >
       <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
         <Box flexDirection="row" alignItems="center" paddingVertical="s">
           <Text variant="bodyText" color="overlayBodyText" marginHorizontal="m">
