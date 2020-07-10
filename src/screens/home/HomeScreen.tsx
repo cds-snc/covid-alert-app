@@ -38,6 +38,7 @@ type BackgroundColor = keyof Theme['colors'];
 
 interface ContentProps {
   setBackgroundColor: (color: string) => void;
+  isBottomSheetExpanded: boolean;
 }
 
 const strToBackgroundColor = (backgroundColor: string): BackgroundColor => {
@@ -45,7 +46,7 @@ const strToBackgroundColor = (backgroundColor: string): BackgroundColor => {
   return color;
 };
 
-const Content = ({setBackgroundColor}: ContentProps) => {
+const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   const {region} = useStorage();
   const regionCase = getRegionCase(region);
   const [exposureStatus] = useExposureStatus();
@@ -57,13 +58,14 @@ const Content = ({setBackgroundColor}: ContentProps) => {
 
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
+
   // this is for the test menu
   const {forceScreen} = useStorage();
   switch (forceScreen) {
     case 'ExposureView':
-      return <ExposureView />;
+      return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case 'DiagnosedShareView':
-      return <DiagnosedShareView />;
+      return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
     default:
       break;
   }
@@ -71,11 +73,11 @@ const Content = ({setBackgroundColor}: ContentProps) => {
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
       case 'noRegionSet':
-        return <NoExposureNoRegionView />;
+        return <NoExposureNoRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
       case 'regionCovered':
-        return <NoExposureCoveredRegionView />;
+        return <NoExposureCoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
       case 'regionNotCovered':
-        return <NoExposureUncoveredRegionView />;
+        return <NoExposureUncoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
     }
   };
 
@@ -86,16 +88,20 @@ const Content = ({setBackgroundColor}: ContentProps) => {
 
   switch (exposureStatus.type) {
     case 'exposed':
-      return <ExposureView />;
+      return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case 'diagnosed':
-      return exposureStatus.needsSubmission ? <DiagnosedShareView /> : <DiagnosedView />;
+      return exposureStatus.needsSubmission ? (
+        <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
+      ) : (
+        <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
+      );
     case 'monitoring':
     default:
       if (!network.isConnected && network.type !== 'unknown') return <NetworkDisabledView />;
       switch (systemStatus) {
         case SystemStatus.Disabled:
         case SystemStatus.Restricted:
-          return <ExposureNotificationsDisabledView />;
+          return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
@@ -197,7 +203,7 @@ export const HomeScreen = () => {
           accessibilityElementsHidden={isBottomSheetExpanded}
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
         >
-          <Content setBackgroundColor={setBackgroundColor} />
+          <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
         </Box>
         <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
       </Box>

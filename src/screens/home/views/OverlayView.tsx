@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import Animated, {sub, abs} from 'react-native-reanimated';
 import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
 import {useI18n, I18n} from '@shopify/react-i18n';
-import {Linking, Platform, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Linking, Platform, TouchableOpacity, StyleSheet, View} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
@@ -11,6 +11,8 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {daysBetween} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useAccessibilityService} from 'services/AccessibilityService';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -83,7 +85,7 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   */
 };
 
-const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
+const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
   const navigation = useNavigation();
   const [exposureStatus] = useExposureStatus();
 
@@ -94,6 +96,7 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
       i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {number: daysLeft});
     return (
       <InfoBlock
+        focusOnTitle={isBottomSheetExpanded}
         titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
         text={bodyText}
         button={{
@@ -108,6 +111,7 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   }
   return (
     <InfoBlock
+      focusOnTitle={isBottomSheetExpanded}
       titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
       text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
       button={{
@@ -118,6 +122,18 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
       color="bodyText"
       showButton
     />
+  );
+};
+
+const AccessibleView = ({children}: {children: React.ReactNode}) => {
+  const accessibilityService = useAccessibilityService();
+
+  return accessibilityService.isScreenReaderEnabled ? (
+    <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      {children}
+    </ScrollView>
+  ) : (
+    <View style={styles.content}>{children}</View>
   );
 };
 
@@ -139,24 +155,22 @@ export const OverlayView = ({
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
-      <View style={styles.content}>
+      <AccessibleView>
         <Box maxWidth={maxWidth}>
+          <TouchableOpacity
+            onPress={bottomSheetBehavior.collapse}
+            style={styles.collapseButton}
+            accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+            accessibilityRole="button"
+          >
+            <Icon name="sheet-handle-bar-close" size={36} />
+          </TouchableOpacity>
+
           <Box marginBottom="s">
             <StatusHeaderView enabled={status === SystemStatus.Active} />
           </Box>
-          <View style={styles.collapseContentHandleBar}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              onPress={bottomSheetBehavior.collapse}
-              style={styles.collapseButton}
-              accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
-              accessibilityRole="button"
-            >
-              <Icon name="sheet-handle-bar-close" size={36} />
-            </TouchableOpacity>
-          </View>
           <Box marginBottom="m" marginTop="s" marginHorizontal="m">
-            <ShareDiagnosisCode i18n={i18n} />
+            <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
           </Box>
           {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
             <Box marginBottom="m" marginHorizontal="m">
@@ -177,25 +191,20 @@ export const OverlayView = ({
             <InfoShareView />
           </Box>
         </Box>
-      </View>
+      </AccessibleView>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   content: {
-    marginTop: 10,
-  },
-  collapseContentHandleBar: {
-    position: 'absolute',
-    width: '100%',
-    alignItems: 'center',
-    top: -32,
+    marginTop: -26,
   },
   collapseButton: {
     height: 48,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    marginBottom: -10,
   },
 });
