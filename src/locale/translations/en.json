@@ -60,7 +60,7 @@
       "Title": "COVID Alert is off",
       "Body1": "You did not enable COVID Alert. The app needs your permission to work.",
       "CTA": "Enable COVID Alert",
-      "AndroidTitle2": "Worried about turning on Location?",
+      "AndroidTitle2": "Not sure about turning on Location?",
       "AndroidBody1": "You need to have Location turned on for COVID Alert to work. To use Bluetooth scanning, Android phones need Location setting on for all apps.",
       "AndroidBody2a": "Despite that, COVID Alert has ",
       "AndroidBody2b": "no way of knowing where you are. ",
