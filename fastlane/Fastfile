@@ -109,7 +109,7 @@ platform :ios do
     download_dsyms(
       version: options[:version],
       build_number: options[:build_number],
-      output_directory: "./dsyms"
+      output_directory: "./build/dsyms"
     )
   end
 end
