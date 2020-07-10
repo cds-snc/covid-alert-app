@@ -38,7 +38,8 @@ export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[
   {code: 'PE', flagIcon: PeFlag},
   {code: 'QC', flagIcon: QcFlag},
   {code: 'SK', flagIcon: SkFlag},
-  {code: 'YT', flagIcon: YtFlag, lastItem: true},
+  {code: 'YT', flagIcon: YtFlag},
+  {code: 'None', flagIcon: null},
 ];
 
 const RegionItem_ = ({code, onPress, name, lastItem, selected}: RegionItemProps) => (
@@ -48,7 +49,6 @@ const RegionItem_ = ({code, onPress, name, lastItem, selected}: RegionItemProps)
       onPress={() => onPress(code)}
       accessibilityRole="radio"
       accessibilityState={{selected}}
-      accessibilityHint={selected ? name : `deselected ${name}`}
     >
       <Box
         paddingVertical="m"
