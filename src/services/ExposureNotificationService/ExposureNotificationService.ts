@@ -5,7 +5,7 @@ import ExposureNotification, {
   ExposureConfiguration,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
-import {addDays, daysBetween, isSameUtcCalendarDate, startOfDay, periodSinceEpoch} from 'shared/date-fns';
+import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
 import {TEST_MODE} from 'env';
