@@ -38,7 +38,7 @@ export const TouchableIcon = ({iconName, iconSize, containerSize = 66, label, on
     );
   }
   return (
-    <TouchableOpacity onPress={onPress} {...accessibilityProps}>
+    <TouchableOpacity activeOpacity={0.6} onPress={onPress} {...accessibilityProps}>
       {content}
     </TouchableOpacity>
   );
