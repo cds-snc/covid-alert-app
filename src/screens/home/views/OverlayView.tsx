@@ -85,7 +85,7 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   */
 };
 
-const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
+const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
   const navigation = useNavigation();
   const [exposureStatus] = useExposureStatus();
 
@@ -96,6 +96,7 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
       i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {number: daysLeft});
     return (
       <InfoBlock
+        focusOnTitle={isBottomSheetExpanded}
         titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
         text={bodyText}
         button={{
@@ -110,6 +111,7 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   }
   return (
     <InfoBlock
+      focusOnTitle={isBottomSheetExpanded}
       titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
       text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
       button={{
@@ -165,14 +167,11 @@ export const OverlayView = ({
           </TouchableOpacity>
 
           <Box marginBottom="s">
-            <StatusHeaderView
-              isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
-              enabled={status === SystemStatus.Active}
-            />
+            <StatusHeaderView enabled={status === SystemStatus.Active} />
           </Box>
 
           <Box marginBottom="m" marginTop="s" marginHorizontal="m">
-            <ShareDiagnosisCode i18n={i18n} />
+            <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
           </Box>
           {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
             <Box marginBottom="m" marginHorizontal="m">
