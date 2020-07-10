@@ -14,6 +14,7 @@ export interface BottomSheetBehavior {
   refreshSnapPoints(extraContent: boolean): void;
   callbackNode: Animated.Value<number>;
   setOnStateChange(onStateChange: (isExpanded: boolean) => void): void;
+  isExpanded: boolean;
 }
 
 export interface BottomSheetProps {
@@ -43,8 +44,9 @@ const BottomSheetInternal = (
       refreshSnapPoints: setExtraContent,
       callbackNode: bottomSheetPosition.current,
       setOnStateChange: callback => setOnStateChange(() => callback),
+      isExpanded,
     }),
-    [],
+    [isExpanded],
   );
   useImperativeHandle(ref, () => behavior, [behavior]);
   useEffect(() => onStateChange?.(isExpanded), [isExpanded, onStateChange]);
