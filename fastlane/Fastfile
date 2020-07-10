@@ -36,7 +36,7 @@ lane :default_changelog do |options|
 end
 
 lane :ensure_keystore_properties do
-  file_exists = File.exist? File.expand_path "../android/keystored.properties"
+  file_exists = File.exist? File.expand_path "../android/keystore.properties"
 
   UI.user_error!("keystore.properties file is missing!") unless file_exists
 end
@@ -143,6 +143,7 @@ platform :android do
 
   desc "Builds a local Release .apk for Android"
   lane :local do
+    ensure_keystore_properties
     build
 
     APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
