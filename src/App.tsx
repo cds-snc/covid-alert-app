@@ -23,6 +23,7 @@ import {ExposureNotificationServiceProvider} from 'services/ExposureNotification
 import {BackendService} from 'services/BackendService';
 import {SharedTranslations, getSystemLocale} from 'locale';
 import {ThemeProvider} from 'shared/theme';
+import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 
 // grabs the ip address
 if (__DEV__) {
@@ -66,13 +67,15 @@ const App = () => {
       <SharedTranslations>
         <ExposureNotificationServiceProvider backendInterface={backendService}>
           <DevPersistedNavigationContainer persistKey="navigationState">
-            {TEST_MODE ? (
-              <DemoMode>
+            <AccessibilityServiceProvider>
+              {TEST_MODE ? (
+                <DemoMode>
+                  <MainNavigator />
+                </DemoMode>
+              ) : (
                 <MainNavigator />
-              </DemoMode>
-            ) : (
-              <MainNavigator />
-            )}
+              )}
+            </AccessibilityServiceProvider>
           </DevPersistedNavigationContainer>
         </ExposureNotificationServiceProvider>
       </SharedTranslations>

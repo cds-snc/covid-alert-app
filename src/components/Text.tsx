@@ -8,7 +8,7 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 export type TextProps = RestyleTextProps<Theme> &
   Omit<React.ComponentProps<typeof RNText> & {children?: React.ReactNode}, keyof RestyleTextProps<Theme>> & {
     accessibilityAutoFocus?: boolean;
-    focusRef?: React.Dispatch<any>;
+    focusRef?: React.LegacyRef<any>;
   };
 
 export const Text = ({accessibilityAutoFocus = false, focusRef, ...props}: TextProps) => {

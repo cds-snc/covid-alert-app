@@ -15,6 +15,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
+import {useAccessibilityService} from 'services/AccessibilityService';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -123,13 +124,9 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
 };
 
 const AccessibleView = ({children}: {children: React.ReactNode}) => {
-  const [screenReaderEnabled, setScreenReaderEnabled] = useState(false);
-  const handleScreenReaderToggled = (screenReaderEnabled: any) => {
-    setScreenReaderEnabled(screenReaderEnabled);
-  };
-  AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
+  const accessibilityService = useAccessibilityService();
 
-  return screenReaderEnabled ? (
+  return accessibilityService.isScreenReaderEnabled ? (
     <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
       {children}
     </ScrollView>
