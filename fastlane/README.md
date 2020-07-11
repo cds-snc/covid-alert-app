@@ -30,6 +30,11 @@ Returns a default changelog.
 fastlane ensure_keystore_properties
 ```
 
+### ensure_output_dir
+```
+fastlane ensure_output_dir
+```
+
 
 ----
 
