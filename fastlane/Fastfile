@@ -90,6 +90,7 @@ platform :ios do
       changelog: default_changelog(simple: true),
       app_version: ENV["APP_VERSION_NAME"],
       build_number: ENV["APP_VERSION_CODE"],
+      ipa: "#{output_idr}/CovidShield.ipa"
     )
 
     create_github_release(platform: 'iOS')
