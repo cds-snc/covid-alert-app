@@ -44,7 +44,6 @@ export const InfoShareView = () => {
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
   const onGetCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
-  const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
   const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
 
   return (
