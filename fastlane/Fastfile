@@ -45,6 +45,15 @@ def version_string(version_number, build_number)
   "#{version_number} (#{build_number})"
 end
 
+lane :ensure_output_dir do |options|
+  UI.user_error!("platform is missing") unless options[:platform]
+  UI.user_error!("build number is missing!") unless options[:build]
+
+  output_dir = "../build/#{options[:platform]}/#{options[:build]}"
+  Dir.mkdir(output_dir)
+  File.expand_path(output_dir)
+end
+
 platform :ios do
   desc "Submit a new Covid Alert beta build to Apple TestFlight"
   lane :beta do
@@ -58,10 +67,16 @@ platform :ios do
       readonly: true
     )
 
+    output_dir = ensure_output_dir(
+      platform: "ios",
+      build: ENV["APP_VERSION_CODE"]
+    )
+
     build_app(
       scheme: "CovidShield",
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "app-store",
+      output_directory: output_dir,
       export_options: {
         provisioningProfiles: {
           ENV["APP_ID_IOS"] => ENV["PROFILE"]
@@ -90,11 +105,16 @@ platform :ios do
       readonly: true
     )
 
+    output_dir = ensure_output_dir(
+      platform: "ios",
+      build: ENV["APP_VERSION_CODE"]
+    )
+
     build_app(
       scheme: "CovidShield",
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "ad-hoc",
-      output_directory: "./build",
+      output_directory: output_dir,
       export_options: {
         provisioningProfiles: {
           ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
