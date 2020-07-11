@@ -1,8 +1,8 @@
 {
   "BottomSheet": {
     "Collapse": "Fermer",
-    "OffStatus": "Alerte COVID est DÉSACTIVÉ, Appuyez pour voir le menu",
-    "OnStatus": "Alerte COVID est ACTIVÉ, Appuyez pour voir le menu"
+    "OffStatus": "Alerte COVID est DÉSACTIVÉE, Appuyez pour voir le menu",
+    "OnStatus": "Alerte COVID est ACTIVÉE, Appuyez pour voir le menu"
   },
   "RegionLanding": {
     "Title": "Sélectionnez votre province ou territoire",
@@ -21,7 +21,9 @@
       "Body2a": "Étape 2 : ",
       "Body2b": "Vous acceptez qu’Alerte COVID avise les personnes qu’elles ont été exposées.",
       "Body3a": "Étape 3 : ",
-      "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires de façon anonyme.",
+      "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires.",
+      "Body4a": "Personne ne recevra d’information sur vous ",
+      "Body4b": "ou sur le moment de votre proximité.",
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de numéro à 8\u00A0chiffres?"
     },
@@ -93,18 +95,25 @@
       "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
-    "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
-    "EnableExposureNotificationsCTA": "Activer Alerte COVID",
+    "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
       "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
       "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
       "Title2": "Que faire maintenant?",
-      "Body2": "Vous êtes à risque d’être infecté. ",
-      "Body3": "Vous devez vous isoler pendant 14\u00A0jours.",
+      "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
+      "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
       "HowToIsolateCTA": "Comment vous isoler"
     },
-    "ExposureNotificationsDisabled": "Alerte COVID est désactivé",
-    "ExposureNotificationsDisabledDetailed": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
+    "EnDisabled": {
+      "Title": "Alerte COVID est désactivée",
+      "Body1": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
+      "CTA": "Activer Alerte COVID",
+      "AndroidTitle2": "Vous hésitez à activer la localisation?",
+      "AndroidBody1": "Il faut activer la localisation pour qu’Alerte COVID fonctionne. Avec Android, la recherche Bluetooth n’est possible que si la localisation est activée pour toutes les applications.",
+      "AndroidBody2a": "Malgré cela, Alerte COVID ",
+      "AndroidBody2b": "ne peut pas savoir où vous êtes. ",
+      "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
+    },
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
     "How": "Diagnosed with COVID-19?",
     "HowUrl": "https://www.canada.ca/",
@@ -127,7 +136,7 @@
       "NoRegion": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
         "Title": "Aucune exposition détectée",
-        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activé.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       },
       "RegionCovered": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
@@ -139,7 +148,7 @@
         "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
         "Title": "Pas encore de signalement dans votre région",
-        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activé.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       }
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
@@ -158,7 +167,7 @@
     "ChangeLanguage": "Modifier la langue",
     "ChangeRegion": "Modifier la province ou le territoire",
     "CheckSymptoms": "Vérifier vos symptômes",
-    "LearnMore": "Fonctionnement d’Alerte COVID",
+    "LearnMore": "Fonctionnement",
     "GetCode": "Obtenir un numéro à 8 chiffres",
     "Privacy": "Protection de votre vie privée",
     "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
@@ -182,7 +191,7 @@
     "ExposedMessageBody": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Lisez les recommandations.",
     "ExposedMessageTitle": "Vous avez été exposé",
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
-    "OffMessageTitle": "Alerte COVID est désactivé"
+    "OffMessageTitle": "Alerte COVID est désactivée"
   },
   "Onboarding": {
     "Step": "Étape",
@@ -204,11 +213,11 @@
       "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre collectivité."
     },
     "Anonymous": {
-      "Title": "Privée et anonyme",
+      "Title": "Votre vie privée est protégée",
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
       "Body2": "L’application n’a aucun moyen de connaître\u00A0:",
-      "Bullet1": "votre position,",
+      "Bullet1": "votre emplacement,",
       "Bullet2": "votre nom ou votre adresse,",
       "Bullet3": "les contacts de votre téléphone,",
       "Bullet4": "vos informations de santé."
@@ -225,7 +234,7 @@
       "Title": "L’application demandera votre autorisation",
       "ImageAltText": "Dessin à la main d’un téléphone mobile dont l’écran affiche une fenêtre de dialogue avec un X rouge et un crochet vert.",
       "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
-      "Body2": "Vous devrez aussi activer les notifications poussées.",
+      "Body2": "Vous devrez aussi lui permettre de vous envoyer des notifications.",
       "PrivacyButtonCTA": "En savoir plus sur la confidentialité"
     }
   },
@@ -239,7 +248,7 @@
   },
   "OverlayOpen": {
     "BluetoothCardAction": "Activez Bluetooth",
-    "BluetoothCardBody": "Vous devez l’activer dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
+    "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardAction": "Entrer le numéro",
     "EnterCodeCardBody": "Vous avez besoin d’un numéro à 8\u00A0chiffres pour aviser les autres personnes d’une exposition.",
     "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de COVID-19. ",
@@ -254,7 +263,7 @@
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "NotificationCardAction": "Activer les notifications",
     "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
-    "NotificationCardStatus": "Les notifications poussées sont désactivées",
+    "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES"
   },
   "Partners": {
@@ -284,7 +293,8 @@
     "SettingsTitle": "Province ou territoire",
     "Skip": "Ignorer",
     "Title": "Où habitez-vous? (facultatif)",
-    "YT": "Yukon"
+    "YT": "Yukon",
+    "None": "Ne rien sélectionner"
   },
   "RegionalGuidance": {
     "CA": {
@@ -324,7 +334,7 @@
       "URL": "https://nu.thrive.health/covid19/fr"
     },
     "ON": {
-      "CTA": "Lieux pour se faire tester",
+      "CTA": "Lieux où se faire tester",
       "URL": "https://ontario.ca/covidalerte-expose"
     },
     "PE": {
@@ -364,7 +374,7 @@
     "ActionEnd": "Terminé",
     "ActionNext": "Suivant",
     "Close": "Fermer",
-    "step-1": "Après son installation, l’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
+    "step-1": "L’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement d’Alerte COVID",
     "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
     "step-2": "L’application estime la distance entre vous et d’autres personnes grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2 mètres pendant plus de 15 minutes, l’application enregistre une exposition.",
@@ -373,7 +383,7 @@
     "step-3": "Si une personne ayant l’application a un diagnostic de COVID-19, elle peut décider de téléverser tous les codes aléatoires émis par son téléphone vers un serveur central.\n\nLe serveur ne reçoit que les codes. Il ne reçoit aucune information personnelle.",
     "step-3Title": "Quand une personne reçoit un test positif",
     "step-3AltText": "Dessin à la main d’un téléphone mobile téléversant un code chiffré vers un nuage.",
-    "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste de codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et elle vous donnera des recommandations.",
+    "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste de codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et vous expliquera quoi faire ensuite.",
     "step-4Title": "Découverte des expositions",
     "step-4AltText": "Dessin à la main d’un téléphone mobile émettant une liste de codes chiffrés. L’icône de la loupe de recherche met en évidence l’un des codes de la liste."
   },

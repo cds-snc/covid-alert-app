@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  CovidShield
+
+ 
+  
+*/
+"CFBundleDisplayName" = "Alerte COVID";
+"CFBundleName" = "Alerte COVID";

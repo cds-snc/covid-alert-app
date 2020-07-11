@@ -3,7 +3,6 @@ import {useTheme} from '@shopify/restyle';
 import {
   Platform,
   StyleSheet,
-  Text,
   TextStyle,
   TouchableOpacity,
   ViewStyle,
@@ -16,6 +15,7 @@ import {useI18n} from '@shopify/react-i18n';
 import {Box} from './Box';
 import {Ripple} from './Ripple';
 import {Icon} from './Icon';
+import {Text} from './Text';
 
 export interface InfoButtonProps {
   title?: string;
@@ -45,7 +45,7 @@ export const InfoButton = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {fontSize, fontWeight, fontFamily, borderWidth, height} = (themedStyles as unknown) as TextStyle & ViewStyle;
+  const {borderWidth, height} = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
 
@@ -74,10 +74,10 @@ export const InfoButton = ({
       ) : (
         <>
           <Box>
-            <Text style={{...styles.contentBold, fontFamily, fontSize}}>{title}</Text>
-            <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
-              {text}
+            <Text variant="menuItemTitle" fontWeight="bold" marginBottom="s">
+              {title}
             </Text>
+            <Text variant="menuItemTitle">{text}</Text>
           </Box>
           <Box style={{...styles.chevronOffset}}>
             {externalLink && <Icon name={externalArrowIcon} />}
@@ -102,7 +102,13 @@ export const InfoButton = ({
     );
   }
   return (
-    <TouchableOpacity onPress={onPressHandler} style={styles.stretch} disabled={disabled} {...accessibilityProps}>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      onPress={onPressHandler}
+      style={styles.stretch}
+      disabled={disabled}
+      {...accessibilityProps}
+    >
       {content}
     </TouchableOpacity>
   );

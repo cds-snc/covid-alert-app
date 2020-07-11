@@ -22,14 +22,14 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
   }, [notificationWarning, bottomSheetBehavior]);
 
   return (
-    <TouchableOpacity onPress={bottomSheetBehavior.expand}>
+    <TouchableOpacity activeOpacity={0.6} onPress={bottomSheetBehavior.expand}>
       <Animated.View style={{opacity: pow(bottomSheetBehavior.callbackNode, 2)}}>
         <View style={styles.content}>
           <View style={styles.collapseContentHandleBar}>
             <Icon name="sheet-handle-bar" size={36} />
           </View>
           <Box>
-            <Box marginBottom="m">
+            <Box marginBottom="s">
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
             {notificationWarning && (
@@ -43,11 +43,11 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
                 justifyContent="center"
                 flexDirection="row"
               >
-                <Text variant="overlayTitle" color="overlayBodyText" accessibilityRole="header">
+                <Text variant="menuItemTitle" color="overlayBodyText" accessibilityRole="header">
                   {i18n.translate('OverlayClosed.NotificationStatus')}
                 </Text>
                 <Text
-                  variant="overlayTitle"
+                  variant="menuItemTitle"
                   color="overlayBodyText"
                   fontFamily="Noto Sans"
                   fontWeight="bold"

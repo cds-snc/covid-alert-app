@@ -8,11 +8,11 @@ interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
   text: string;
   icon: IconProps['name'];
-  lastItem: boolean;
+  lastItem?: boolean;
 }
 const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoShareItemProps) => (
   <>
-    <TouchableOpacity onPress={onPress} accessibilityRole="button" {...touchableProps}>
+    <TouchableOpacity activeOpacity={0.6} onPress={onPress} accessibilityRole="button" {...touchableProps}>
       <Box
         paddingVertical="s"
         marginHorizontal="-m"
@@ -23,9 +23,12 @@ const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoS
         backgroundColor="infoBlockNeutralBackground"
         borderRadius={5}
       >
-        <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
-          {text}
-        </Text>
+        <Box flex={1}>
+          <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
+            {text}
+          </Text>
+        </Box>
+
         <Box alignSelf="center">
           <Icon size={25} name={icon} />
         </Box>
@@ -47,22 +50,21 @@ export const InfoShareView = () => {
   return (
     <>
       <Box marginTop="l" marginBottom="m">
-        <Text variant="overlayTitle">{i18n.translate('Info.SettingsTitle')}</Text>
+        <Text variant="settingTitle" fontWeight="normal">
+          {i18n.translate('Info.SettingsTitle')}
+        </Text>
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
-        <InfoShareItem
-          onPress={onRegion}
-          text={i18n.translate('Info.ChangeRegion')}
-          icon="icon-chevron"
-          lastItem={false}
-        />
+        <InfoShareItem onPress={onRegion} text={i18n.translate('Info.ChangeRegion')} icon="icon-chevron" />
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" lastItem />
       </Box>
       <Box marginTop="l" marginBottom="m">
-        <Text variant="overlayTitle">{i18n.translate('Info.InformationTitle')}</Text>
+        <Text variant="settingTitle" fontWeight="normal">
+          {i18n.translate('Info.InformationTitle')}
+        </Text>
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
-        <InfoShareItem lastItem={false} onPress={onGetCode} text={i18n.translate('Info.GetCode')} icon="icon-chevron" />
+        <InfoShareItem onPress={onGetCode} text={i18n.translate('Info.GetCode')} icon="icon-chevron" />
         <InfoShareItem
           lastItem={false}
           onPress={onLearnMore}

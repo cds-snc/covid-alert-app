@@ -1,5 +1,6 @@
 import React from 'react';
 import {Theme} from 'shared/theme';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {Box} from './Box';
 import {Button} from './Button';
@@ -18,6 +19,7 @@ export interface InfoBlockProps {
     action: () => void;
   };
   showButton?: boolean;
+  focusOnTitle?: boolean;
 }
 
 export const InfoBlock = ({
@@ -29,31 +31,38 @@ export const InfoBlock = ({
   title,
   titleBolded,
   showButton,
+  focusOnTitle,
 }: InfoBlockProps) => {
+  const autoFocusRef = useAccessibilityAutoFocus(focusOnTitle);
   return (
     <Box borderRadius={10} backgroundColor={backgroundColor} padding="m" alignItems="flex-start">
       {icon && (
-        <Box marginBottom="m">
+        <Box marginBottom="s">
           <Icon name={icon} size={24} />
         </Box>
       )}
       {(title || titleBolded) && (
-        <Box marginBottom="m" justifyContent="center" flexDirection="row" flexWrap="wrap">
-          <Text variant="overlayTitle" accessibilityRole="header" textAlign="center">
+        <Box marginBottom="s" justifyContent="center" flexDirection="row" flexWrap="wrap">
+          <Text
+            focusRef={focusOnTitle ? autoFocusRef : null}
+            variant="menuItemTitle"
+            accessibilityRole="header"
+            textAlign="center"
+          >
             {title && <Text color={color}>{title}</Text>}
             {titleBolded && (
-              <Text color={color} fontFamily="Noto Sans" fontWeight="bold">
+              <Text color={color} variant="menuItemTitle" fontWeight="bold">
                 {titleBolded}
               </Text>
             )}
           </Text>
         </Box>
       )}
-      <Text variant="bodyText" color={color} marginBottom="m">
+      <Text variant="bodyText" color={color}>
         {text}
       </Text>
       {showButton ? (
-        <Box marginHorizontal="none" alignSelf="stretch">
+        <Box marginTop="m" marginHorizontal="none" alignSelf="stretch">
           <Button text={buttonText} onPress={action} variant="thinFlat" color={color} />
         </Box>
       ) : null}

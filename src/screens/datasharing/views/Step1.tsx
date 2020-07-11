@@ -18,7 +18,7 @@ export const Step1 = ({onSuccess}: Props) => {
     <>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.Step1.Title')}
           </Text>
 
@@ -33,6 +33,10 @@ export const Step1 = ({onSuccess}: Props) => {
           <Text marginBottom="l">
             <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body3a')}</Text>
             <Text>{i18n.translate('DataUpload.Step1.Body3b')}</Text>
+          </Text>
+          <Text marginBottom="l">
+            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body4a')}</Text>
+            <Text>{i18n.translate('DataUpload.Step1.Body4b')}</Text>
           </Text>
 
           <Box marginTop="m">

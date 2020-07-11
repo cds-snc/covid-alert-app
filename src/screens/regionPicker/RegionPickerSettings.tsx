@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar, Text} from 'components';
+import {Box, Toolbar, Text, TextMultiline} from 'components';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
@@ -25,24 +25,32 @@ export const RegionPickerSettingsScreen = () => {
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={regionStyles.flex}>
         <Toolbar
-          title={i18n.translate('RegionPicker.SettingsTitle')}
+          title=""
           navIcon="icon-back-arrow"
           navText={i18n.translate('RegionPicker.Close')}
           navLabel={i18n.translate('RegionPicker.Close')}
           onIconClicked={close}
         />
         <ScrollView style={regionStyles.flex}>
-          <Text paddingHorizontal="l" marginVertical="m" variant="bodyText" color="overlayBodyText">
-            {i18n.translate('RegionPicker.Body')}
+          <Text
+            paddingHorizontal="m"
+            marginBottom="m"
+            variant="bodyTitle"
+            color="bodyText"
+            accessibilityRole="header"
+            accessibilityAutoFocus
+          >
+            {i18n.translate('RegionPicker.SettingsTitle')}
           </Text>
-          <Box flex={1} paddingHorizontal="m">
-            <Box
-              marginTop="l"
-              paddingHorizontal="m"
-              borderRadius={10}
-              backgroundColor="infoBlockNeutralBackground"
-              accessibilityRole="radiogroup"
-            >
+          <TextMultiline
+            paddingHorizontal="m"
+            marginVertical="s"
+            variant="bodyText"
+            color="overlayBodyText"
+            text={i18n.translate('RegionPicker.Body')}
+          />
+          <Box flex={1} paddingHorizontal="m" marginBottom="m">
+            <Box marginTop="l" paddingHorizontal="m" borderRadius={10} overflow="hidden" accessibilityRole="radiogroup">
               {regionData.map(item => {
                 return (
                   <RegionItem

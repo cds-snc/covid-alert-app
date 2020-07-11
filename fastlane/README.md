@@ -12,7 +12,7 @@ Install _fastlane_ using
 ```
 [sudo] gem install fastlane -NV
 ```
-or alternatively using `brew cask install fastlane`
+or alternatively using `brew install fastlane`
 
 # Available Actions
 ### create_github_release
@@ -25,6 +25,16 @@ Creates a Github Release
 fastlane default_changelog
 ```
 Returns a default changelog.
+### ensure_keystore_properties
+```
+fastlane ensure_keystore_properties
+```
+
+### ensure_output_dir
+```
+fastlane ensure_output_dir
+```
+
 
 ----
 
@@ -52,7 +62,12 @@ Pushes a new build to Google Play Internal Testing Track
 ```
 fastlane android local
 ```
-Builds a local .apk for Android
+Builds a local Release .apk for Android
+### android local_debug
+```
+fastlane android local_debug
+```
+Builds a local Debug .apk for Android
 
 ----
 

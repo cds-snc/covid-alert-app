@@ -14,7 +14,6 @@ import app.covidshield.extensions.toInformation
 import app.covidshield.extensions.toSummary
 import app.covidshield.extensions.toWritableArray
 import app.covidshield.extensions.toWritableMap
-import app.covidshield.extensions.withDelay
 import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
 import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
@@ -43,8 +42,6 @@ private typealias Token = String
 
 private const val START_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9001
 private const val GET_TEK_RESOLUTION_FOR_RESULT_REQUEST_CODE = 9002
-
-private const val DETECT_EXPOSURE_TIMEOUT = 30000L
 
 class ExposureNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope, ActivityResultHelper, ExposureNotificationBroadcastReceiver.Helper {
 
@@ -105,22 +102,14 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
             exposureNotificationClient.provideDiagnosisKeys(files, exposureConfiguration, token).await()
 
+            // Clean up files after feeding to the framework
+            files.forEach { it.cleanup() }
+
             // Wait for ExposureNotificationBroadcastReceiver
             val completer = CompletableDeferred<Token>()
             detectExposureResolutionCompleters[token] = completer
-
-            // Temporary setTimeout as the EN framework doesn't return summary if no keys are matched
-            // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
-            withDelay(DETECT_EXPOSURE_TIMEOUT) {
-                log("detectExposure timeout", mapOf("token" to token))
-                onReceive(token)
-            }
-
             completer.await()
             detectExposureResolutionCompleters.remove(token)
-
-            // Clean up files after feeding to the framework
-            files.forEach { it.cleanup() }
 
             val exposureSummary = exposureNotificationClient.getExposureSummary(token).await()
             val summary = exposureSummary.toSummary()

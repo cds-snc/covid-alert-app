@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "postinstall": "patch-package",
-    "bundle-android": "react-native bundle --dev false --platform android --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
-    "bundle-ios": "react-native bundle --dev false --platform ios --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios",
+    "bundle-android": "yarn generate-translations && react-native bundle --dev false --platform android --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "bundle-ios": "yarn generate-translations && react-native bundle --dev false --platform ios --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios",
     "codegen-protobuf": "pbjs -t static-module -o src/services/BackendService/covidshield/covidshield.js src/services/BackendService/covidshield/covidshield.proto && pbts -o src/services/BackendService/covidshield/covidshield.d.ts src/services/BackendService/covidshield/covidshield.js",
     "generate-translations": "node translations.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -38,6 +38,7 @@
     "react-native-background-fetch": "^3.0.4",
     "react-native-config": "^1.1.0",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-localize": "^1.4.0",
     "react-native-markdown-display": "^6.1.0",
     "react-native-permissions": "^2.1.4",
@@ -51,6 +52,7 @@
     "react-native-system-setting": "1.7.4",
     "react-native-zip-archive": "^5.0.2",
     "reanimated-bottom-sheet": "^1.0.0-alpha.20",
+    "rn-faded-scrollview": "^1.0.8",
     "tweetnacl": "^1.0.3",
     "yarn": "^1.22.4"
   },

@@ -12,9 +12,10 @@ export interface ToolbarProps {
   navText?: string /* iOS only */;
   navIcon?: IconProps['name'] /* Android only */;
   navLabel?: string;
+  accessibilityTitleAutoFocus?: boolean;
 }
 
-export const Toolbar = ({title, navText, onIconClicked}: ToolbarProps) => {
+export const Toolbar = ({title, navText, onIconClicked, accessibilityTitleAutoFocus}: ToolbarProps) => {
   useEffect(() => {
     if (Platform.OS !== 'android') {
       return;
@@ -33,7 +34,12 @@ export const Toolbar = ({title, navText, onIconClicked}: ToolbarProps) => {
       </Box>
       {title !== '' && (
         <Box flex={1} justifyContent="center" minWidth={100}>
-          <Text variant="bodySubTitle" color="overlayBodyText" textAlign="center" accessibilityRole="header">
+          <Text
+            variant="bodySubTitle"
+            color="overlayBodyText"
+            textAlign="center"
+            accessibilityAutoFocus={accessibilityTitleAutoFocus}
+          >
             {title}
           </Text>
         </Box>
