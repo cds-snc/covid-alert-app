@@ -5,7 +5,7 @@ import ExposureNotification, {
   ExposureConfiguration,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
-import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch} from 'shared/date-fns';
+import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch, minutesBetween} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
 import {TEST_MODE} from 'env';
@@ -28,6 +28,8 @@ export const EXPOSURE_STATUS = 'exposureStatus';
 export const HOURS_PER_PERIOD = 24;
 
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
+
+export const MINIMUM_REMINDER_INTERVAL_MINUTES = 180;
 
 export {SystemStatus};
 
@@ -52,6 +54,7 @@ export type ExposureStatus =
       type: 'diagnosed';
       needsSubmission: boolean;
       submissionLastCompletedAt?: number;
+      uploadReminderLastSentAt?: number;
       cycleStartsAt: number;
       cycleEndsAt: number;
       lastChecked?: {
@@ -153,10 +156,19 @@ export class ExposureNotificationService {
         notificationSent: true,
       });
     }
-    if (currentStatus.type === 'diagnosed' && currentStatus.needsSubmission) {
+    if (
+      currentStatus.type === 'diagnosed' &&
+      currentStatus.needsSubmission &&
+      (!currentStatus.uploadReminderLastSentAt ||
+        minutesBetween(new Date(currentStatus.uploadReminderLastSentAt), new Date()) >
+          MINIMUM_REMINDER_INTERVAL_MINUTES)
+    ) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
         alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
+      });
+      await this.exposureStatus.append({
+        uploadReminderLastSentAt: new Date().getTime(),
       });
     }
   }
