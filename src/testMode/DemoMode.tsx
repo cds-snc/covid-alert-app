@@ -5,6 +5,7 @@ import PushNotification from 'bridge/PushNotification';
 import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useExposureNotificationService, useExposureStatus} from 'services/ExposureNotificationService';
+import {captureMessage} from 'shared/log';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -114,7 +115,7 @@ const DrawerContent = () => {
             text="Clear exposure history and run check"
             variant="bigFlat"
             onPress={async () => {
-              console.log('forcing refresh...');
+              captureMessage('forcing refresh...');
               exposureNotificationService.exposureStatusUpdatePromise = null;
               exposureNotificationService.exposureStatus.set({type: 'monitoring'});
               updateExposureStatus();
