@@ -14,7 +14,11 @@
     "run-ios": "react-native run-ios",
     "start": "react-native start --reset-cache",
     "test": "jest",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "fastlane:ios:beta": "bundle exec fastlane ios beta",
+    "fastlane:ios:local": "bundle exec fastlane ios local",
+    "fastlane:android:internal": "bundle exec fastlane android internal",
+    "fastlane:android:local": "bundle exec fastlane android local"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
