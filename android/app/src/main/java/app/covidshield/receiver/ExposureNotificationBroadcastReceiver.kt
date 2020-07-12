@@ -10,6 +10,7 @@ import app.covidshield.extensions.log
 import app.covidshield.receiver.worker.HeadlessJsTaskWorker
 import app.covidshield.receiver.worker.HeadlessJsTaskWorker.Companion.shouldStartHeadlessJsTask
 import app.covidshield.receiver.worker.StateUpdatedWorker
+import app.covidshield.utils.PendingTokenManager
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TOKEN
 
@@ -59,6 +60,8 @@ class ExposureNotificationBroadcastReceiver : BroadcastReceiver() {
 
     private fun startHeadlessJsTaskWorker(context: Context, token: String) {
         log("startHeadlessJsTaskWorker", mapOf("token" to token))
+
+        PendingTokenManager.instance.add(token)
 
         val workManager: WorkManager = WorkManager.getInstance(context)
         workManager.enqueue(OneTimeWorkRequest.Builder(HeadlessJsTaskWorker::class.java).build())
