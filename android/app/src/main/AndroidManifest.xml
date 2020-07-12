@@ -8,8 +8,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
-
     <application
         android:name="app.covidshield.MainApplication"
         android:allowBackup="false"
@@ -37,7 +35,6 @@
             android:permission="com.google.android.gms.nearby.exposurenotification.EXPOSURE_CALLBACK">
             <intent-filter>
                 <action android:name="com.google.android.gms.exposurenotification.ACTION_EXPOSURE_STATE_UPDATED" />
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
     </application>
