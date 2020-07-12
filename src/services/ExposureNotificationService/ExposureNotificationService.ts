@@ -1,17 +1,20 @@
+import {Platform} from 'react-native';
 import ExposureNotification, {
   ExposureSummary,
   Status as SystemStatus,
   ExposureConfiguration,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
-import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
-import {I18n} from 'locale';
+import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch, minutesBetween} from 'shared/date-fns';
+import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
-import {captureException, captureMessage} from 'shared/log';
+import {TEST_MODE} from 'env';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
-import defaultExposureConfiguration from './DefaultExposureConfiguration.json';
+import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
+import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
+import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposure-configuration';
@@ -127,8 +130,7 @@ export class ExposureNotificationService {
 
     try {
       await this.exposureNotification.start();
-    } catch (error) {
-      captureException('Cannot start EN framework', error);
+    } catch (_) {
       this.systemStatus.set(SystemStatus.Unknown);
       return;
     }
@@ -145,15 +147,31 @@ export class ExposureNotificationService {
 
   async updateExposureStatusInBackground() {
     await this.init();
-    try {
-      captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
-      await this.processPendingExposureSummary();
-      await this.processNotification();
-      await this.updateExposureStatus();
-      await this.processNotification();
-      captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
-    } catch (error) {
-      captureException('updateExposureStatusInBackground', error);
+    await this.updateExposureStatus();
+    const currentStatus = this.exposureStatus.get();
+    if (currentStatus.type === 'exposed' && !currentStatus.notificationSent) {
+      PushNotification.presentLocalNotification({
+        alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
+        alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
+      });
+      await this.exposureStatus.append({
+        notificationSent: true,
+      });
+    }
+    if (
+      currentStatus.type === 'diagnosed' &&
+      currentStatus.needsSubmission &&
+      (!currentStatus.uploadReminderLastSentAt ||
+        minutesBetween(new Date(currentStatus.uploadReminderLastSentAt), new Date()) >
+          MINIMUM_REMINDER_INTERVAL_MINUTES)
+    ) {
+      PushNotification.presentLocalNotification({
+        alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
+        alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
+      });
+      await this.exposureStatus.append({
+        uploadReminderLastSentAt: new Date().getTime(),
+      });
     }
   }
 
@@ -171,7 +189,7 @@ export class ExposureNotificationService {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
     await this.secureStorage.setItem(SUBMISSION_AUTH_KEYS, serialized, SECURE_OPTIONS);
-    const cycleStartsAt = getCurrentDate();
+    const cycleStartsAt = new Date();
     this.exposureStatus.append({
       type: 'diagnosed',
       needsSubmission: true,
@@ -208,40 +226,41 @@ export class ExposureNotificationService {
         EXPOSURE_CONFIGURATION,
         SECURE_OPTIONS_FOR_CONFIGURATION,
       );
+      console.info('Getting exposure configuration from secure storage.');
       if (exposureConfigurationStr) {
+        console.warn('Using previously saved exposureConfiguration');
         return JSON.parse(exposureConfigurationStr);
       } else {
         throw new Error('Unable to use saved exposureConfiguration');
       }
     } catch (error) {
-      captureException('Using default exposureConfiguration', error);
-      return defaultExposureConfiguration;
+      console.warn('Using default exposureConfiguration.', error);
+      return exposureConfigurationDefault;
     }
   }
 
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== 'diagnosed') return;
-    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: getCurrentDate().getTime()});
+    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: new Date().getTime()});
   }
 
   private async calculateNeedsSubmission(): Promise<boolean> {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== 'diagnosed') return false;
 
-    const today = getCurrentDate();
+    const today = new Date();
     const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
-    // We're done submitting keys
-    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
-    if (daysBetweenUTC(today, cycleEndsAt) <= 0) return false;
+    // we're done submitting keys
+    if (daysBetween(today, cycleEndsAt) <= 0) return false;
 
     const submissionLastCompletedAt = exposureStatus.submissionLastCompletedAt;
     if (!submissionLastCompletedAt) return true;
 
     const lastSubmittedDay = new Date(submissionLastCompletedAt);
 
-    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
-    if (daysBetweenUTC(lastSubmittedDay, today) > 0) return true;
+    if (isSameUtcCalendarDate(lastSubmittedDay, today)) return false;
+    if (daysBetween(lastSubmittedDay, today) > 0) return true;
 
     return false;
   }
@@ -249,28 +268,19 @@ export class ExposureNotificationService {
   private async *keysSinceLastFetch(
     _lastCheckedPeriod?: number,
   ): AsyncGenerator<{keysFileUrl: string; period: number} | null> {
-    const runningDate = getCurrentDate();
+    const runningDate = new Date();
+
+    const lastCheckedPeriod =
+      _lastCheckedPeriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-
-    if (!_lastCheckedPeriod) {
-      try {
-        const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(0);
-        yield {keysFileUrl, period: runningPeriod};
-      } catch (error) {
-        captureException('Error while downloading batch files', error);
-      }
-      return;
-    }
-
-    const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
 
     while (runningPeriod > lastCheckedPeriod) {
       try {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(runningPeriod);
         const period = runningPeriod;
         yield {keysFileUrl, period};
-      } catch (error) {
-        captureException('Error while downloading key file', error);
+      } catch (err) {
+        console.log('>>> error while downloading key file:', err);
       }
 
       runningPeriod -= 1;
@@ -281,22 +291,27 @@ export class ExposureNotificationService {
     let exposureConfiguration: ExposureConfiguration;
     try {
       exposureConfiguration = await this.backendInterface.getExposureConfiguration();
+      new ExposureConfigurationValidator().validateExposureConfiguration(
+        exposureConfiguration,
+        exposureConfigurationSchema,
+      );
       console.info('Using downloaded exposureConfiguration.');
       const serialized = JSON.stringify(exposureConfiguration);
       await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS_FOR_CONFIGURATION);
-      console.info('Saving exposure configuration to iOS keychain.');
+      console.info('Saving exposure configuration to secure storage.');
     } catch (error) {
       if (error instanceof SyntaxError) {
-        captureException('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
+        console.error('JSON Parsing error: Unable to parse downloaded exposureConfiguration.', error);
+      } else if (error instanceof ExposureConfigurationValidationError) {
+        console.error('JSON Schema Error: ', error);
       } else {
-        captureException('Network Error: Unable to download exposureConfiguration.', error);
+        console.error('Netowrk error: Unable to download exposureConfiguration.', error);
       }
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
 
     const finalize = async (status: Partial<ExposureStatus> = {}, lastCheckedPeriod = 0) => {
-      const previousExposureStatus = this.exposureStatus.get();
-      const timestamp = getCurrentDate().getTime();
+      const timestamp = new Date().getTime();
       this.exposureStatus.append({
         ...status,
         lastChecked: {
@@ -304,21 +319,13 @@ export class ExposureNotificationService {
           period: lastCheckedPeriod,
         },
       });
-      const currentExposureStatus = this.exposureStatus.get();
-      captureMessage('finalize', {
-        previousExposureStatus,
-        currentExposureStatus,
-      });
     };
 
     const currentStatus = this.exposureStatus.get();
 
     if (currentStatus.type === 'diagnosed') {
-      const today = getCurrentDate();
+      const today = new Date();
       const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
-      // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
-      // Let's use device timezone for resetting exposureStatus for now
-      // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
       if (daysBetween(today, cycleEndsAt) <= 0) {
         this.exposureStatus.set({type: 'monitoring'});
         return finalize();
@@ -341,18 +348,22 @@ export class ExposureNotificationService {
       if (!value) continue;
       const {keysFileUrl, period} = value;
       keysFileUrls.push(keysFileUrl);
-      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
-    }
 
-    captureMessage('performExposureStatusUpdate', {
-      keysFileUrls,
-      lastCheckedPeriod,
-      exposureConfiguration,
-    });
+      // Temporarily disable lastCheckPeriod
+      // Ref https://github.com/cds-snc/covid-shield-server/pull/158
+      if (TEST_MODE) {
+        continue;
+      }
+
+      // Temporarily disable persisting lastCheckPeriod on Android
+      // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
+      if (Platform.OS !== 'android') {
+        lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+      }
+    }
 
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-      captureMessage('summary', {summary});
       if (summary.matchedKeyCount > 0) {
         return finalize(
           {
@@ -362,56 +373,10 @@ export class ExposureNotificationService {
           lastCheckedPeriod,
         );
       }
-      return finalize({}, lastCheckedPeriod);
     } catch (error) {
-      captureException('performExposureStatusUpdate', error);
+      console.log('>>> DetectExposure', error);
     }
 
-    return finalize();
-  }
-
-  private async processPendingExposureSummary() {
-    const summary = await this.exposureNotification.getPendingExposureSummary();
-    const exposureStatus = this.exposureStatus.get();
-    if (exposureStatus.type === 'diagnosed' || (summary?.matchedKeyCount || 0) <= 0) {
-      return;
-    }
-    const today = getCurrentDate();
-    this.exposureStatus.append({
-      type: 'exposed',
-      summary,
-      lastChecked: {
-        timestamp: today.getTime(),
-        period: periodSinceEpoch(today, HOURS_PER_PERIOD),
-      },
-    });
-  }
-
-  private async processNotification() {
-    const exposureStatus = this.exposureStatus.get();
-    if (exposureStatus.type === 'exposed' && !exposureStatus.notificationSent) {
-      PushNotification.presentLocalNotification({
-        alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
-        alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
-      });
-      await this.exposureStatus.append({
-        notificationSent: true,
-      });
-    }
-    if (
-      exposureStatus.type === 'diagnosed' &&
-      exposureStatus.needsSubmission &&
-      (!exposureStatus.uploadReminderLastSentAt ||
-        minutesBetween(new Date(exposureStatus.uploadReminderLastSentAt), new Date()) >
-          MINIMUM_REMINDER_INTERVAL_MINUTES)
-    ) {
-      PushNotification.presentLocalNotification({
-        alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
-        alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
-      });
-      await this.exposureStatus.append({
-        uploadReminderLastSentAt: new Date().getTime(),
-      });
-    }
+    return finalize({}, lastCheckedPeriod);
   }
 }
