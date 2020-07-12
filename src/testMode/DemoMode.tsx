@@ -4,7 +4,11 @@ import {useI18n} from '@shopify/react-i18n';
 import PushNotification from 'bridge/PushNotification';
 import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
-import {useExposureNotificationService, useExposureStatus} from 'services/ExposureNotificationService';
+import {
+  useExposureNotificationService,
+  useExposureStatus,
+  useReportDiagnosis,
+} from 'services/ExposureNotificationService';
 import {captureMessage} from 'shared/log';
 
 import {RadioButton} from './components/RadioButtons';
@@ -91,6 +95,8 @@ const DrawerContent = () => {
   const exposureNotificationService = useExposureNotificationService();
   const [, updateExposureStatus] = useExposureStatus();
 
+  const {fetchAndSubmitKeys} = useReportDiagnosis();
+
   return (
     <DrawerContentScrollView>
       <Box marginHorizontal="m">
@@ -112,10 +118,20 @@ const DrawerContent = () => {
         </Section>
         <Section>
           <Button
+            text="Force upload keys"
+            variant="bigFlat"
+            onPress={async () => {
+              captureMessage('Force upload keys');
+              fetchAndSubmitKeys();
+            }}
+          />
+        </Section>
+        <Section>
+          <Button
             text="Clear exposure history and run check"
             variant="bigFlat"
             onPress={async () => {
-              captureMessage('forcing refresh...');
+              captureMessage('Forcing refresh...');
               exposureNotificationService.exposureStatusUpdatePromise = null;
               exposureNotificationService.exposureStatus.set({type: 'monitoring'});
               updateExposureStatus();
