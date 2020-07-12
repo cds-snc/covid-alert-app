@@ -21,15 +21,6 @@ class ExposureNotificationBroadcastReceiver : BroadcastReceiver() {
         val action = intent.action
         log("onReceive", mapOf("action" to action))
 
-        if (action == Intent.ACTION_NEW_OUTGOING_CALL) {
-            if (shouldStartHeadlessJsTask(context)) {
-                startHeadlessJsTaskWorker(context, "")
-            } else {
-                log("Noop when MainActivity is active")
-            }
-            return
-        }
-
         if (action == ACTION_EXPOSURE_STATE_UPDATED) {
             val token = intent.getStringExtra(EXTRA_TOKEN)
             if (token.isNullOrEmpty()) {
