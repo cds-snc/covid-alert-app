@@ -37,15 +37,7 @@
             android:permission="com.google.android.gms.nearby.exposurenotification.EXPOSURE_CALLBACK">
             <intent-filter>
                 <action android:name="com.google.android.gms.exposurenotification.ACTION_EXPOSURE_STATE_UPDATED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".receiver.TestBroadcastReceiver"
-            android:permission="android.permission.BROADCAST_SMS">
-            <intent-filter android:priority="10000">
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
     </application>

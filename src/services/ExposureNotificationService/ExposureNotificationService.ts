@@ -9,6 +9,7 @@ import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch, minutesBe
 import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
 import {TEST_MODE} from 'env';
+import {localLog} from 'shared/log';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -355,7 +356,9 @@ export class ExposureNotificationService {
     }
 
     try {
+      localLog('performExposureStatusUpdate', {keysFileUrls});
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      localLog('summary', {summary});
       if (summary.matchedKeyCount > 0) {
         return finalize(
           {
