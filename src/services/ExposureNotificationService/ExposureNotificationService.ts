@@ -146,32 +146,42 @@ export class ExposureNotificationService {
 
   async updateExposureStatusInBackground() {
     await this.init();
-    await this.updateExposureStatus();
-    const currentStatus = this.exposureStatus.get();
-    if (currentStatus.type === 'exposed' && !currentStatus.notificationSent) {
-      PushNotification.presentLocalNotification({
-        alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
-        alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
-      });
-      await this.exposureStatus.append({
-        notificationSent: true,
-      });
+
+    const unobserver = this.exposureStatus.observe(async exposureStatus => {
+      if (exposureStatus.type === 'exposed' && !exposureStatus.notificationSent) {
+        PushNotification.presentLocalNotification({
+          alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
+          alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
+        });
+        await this.exposureStatus.append({
+          notificationSent: true,
+        });
+      }
+      if (
+        exposureStatus.type === 'diagnosed' &&
+        exposureStatus.needsSubmission &&
+        (!exposureStatus.uploadReminderLastSentAt ||
+          minutesBetween(new Date(exposureStatus.uploadReminderLastSentAt), new Date()) >
+            MINIMUM_REMINDER_INTERVAL_MINUTES)
+      ) {
+        PushNotification.presentLocalNotification({
+          alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
+          alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
+        });
+        await this.exposureStatus.append({
+          uploadReminderLastSentAt: new Date().getTime(),
+        });
+      }
+    });
+
+    try {
+      await this.processPendingExposureSummary();
+      await this.updateExposureStatus();
+    } catch (error) {
+      console.log('>>> updateExposureStatus error', error);
     }
-    if (
-      currentStatus.type === 'diagnosed' &&
-      currentStatus.needsSubmission &&
-      (!currentStatus.uploadReminderLastSentAt ||
-        minutesBetween(new Date(currentStatus.uploadReminderLastSentAt), new Date()) >
-          MINIMUM_REMINDER_INTERVAL_MINUTES)
-    ) {
-      PushNotification.presentLocalNotification({
-        alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
-        alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
-      });
-      await this.exposureStatus.append({
-        uploadReminderLastSentAt: new Date().getTime(),
-      });
-    }
+
+    unobserver();
   }
 
   async updateExposureStatus(): Promise<void> {
@@ -373,5 +383,23 @@ export class ExposureNotificationService {
     }
 
     return finalize({}, lastCheckedPeriod);
+  }
+
+  private async processPendingExposureSummary() {
+    const summary = await this.exposureNotification.getPendingExposureSummary();
+    const exposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type === 'diagnosed' || (summary?.matchedKeyCount || 0) <= 0) {
+      return;
+    }
+    const today = new Date();
+    this.exposureStatus.append({
+      type: 'exposed',
+      summary,
+      lastChecked: {
+        timestamp: today.getTime(),
+        period: periodSinceEpoch(today, HOURS_PER_PERIOD),
+      },
+      notificationSent: false,
+    });
   }
 }

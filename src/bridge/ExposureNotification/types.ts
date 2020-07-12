@@ -68,4 +68,6 @@ export interface ExposureNotification {
     summary: ExposureSummary,
     userExplanation: string /* used only by iOS */,
   ): Promise<ExposureInformation[]>;
+
+  getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
 }

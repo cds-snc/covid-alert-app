@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import app.covidshield.extensions.log
@@ -64,7 +65,11 @@ class ExposureNotificationBroadcastReceiver : BroadcastReceiver() {
         PendingTokenManager.instance.add(token)
 
         val workManager: WorkManager = WorkManager.getInstance(context)
-        workManager.enqueue(OneTimeWorkRequest.Builder(HeadlessJsTaskWorker::class.java).build())
+        workManager.enqueueUniqueWork(
+            "StartHeadlessJsTaskWorker",
+            ExistingWorkPolicy.REPLACE,
+            OneTimeWorkRequest.Builder(HeadlessJsTaskWorker::class.java).build()
+        )
     }
 
     interface Helper {

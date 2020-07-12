@@ -125,24 +125,27 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getPendingExposureSummary(promise: Promise) {
         promise.launch(this) {
-            val summaries = PendingTokenManager.instance.retrieve().map { token ->
-                val timestamp = try {
-                    token.split("-")[1].toLong()
-                } catch (_: Exception) {
-                    0L
-                }
-                val summary = exposureNotificationClient.getExposureSummary(token).await()
-                    .toSummary()
-                    .toWritableMap()
-                    .apply { putString(SUMMARY_HIDDEN_KEY, token) }
-                    .toHashMap()
-                return@map mapOf("timestamp" to timestamp, "summary" to summary)
-            }
+            val tokens = PendingTokenManager.instance.retrieve()
             PendingTokenManager.instance.clear()
 
-            log("getPendingExposureSummary", mapOf("summaries" to summaries))
+            val summaryAndToken = tokens
+                .reversed()
+                .mapNotNull { token ->
+                    val summary = exposureNotificationClient.getExposureSummary(token).await()
+                        .toSummary()
+                        .takeIf { it.matchedKeyCount > 0 }
+                    summary?.let { Pair(it, token) }
+                }
+                .firstOrNull()
 
-            promise.resolve(summaries.toWritableArray())
+            log("getPendingExposureSummary", mapOf(
+                "summary" to summaryAndToken?.first,
+                "token" to summaryAndToken?.second
+            ))
+
+            promise.resolve(summaryAndToken?.first?.toWritableMap()?.apply {
+                putString(SUMMARY_HIDDEN_KEY, summaryAndToken.second)
+            })
         }
     }
 
