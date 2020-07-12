@@ -12,7 +12,9 @@ import {TEST_MODE} from 'env';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
-import defaultExposureConfiguration from './DefaultExposureConfiguration.json';
+import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
+import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
+import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposure-configuration';
@@ -224,7 +226,7 @@ export class ExposureNotificationService {
         EXPOSURE_CONFIGURATION,
         SECURE_OPTIONS_FOR_CONFIGURATION,
       );
-      console.info('Getting exposure configuration from iOS keychain.');
+      console.info('Getting exposure configuration from secure storage.');
       if (exposureConfigurationStr) {
         console.warn('Using previously saved exposureConfiguration');
         return JSON.parse(exposureConfigurationStr);
@@ -233,7 +235,7 @@ export class ExposureNotificationService {
       }
     } catch (error) {
       console.warn('Using default exposureConfiguration.', error);
-      return defaultExposureConfiguration;
+      return exposureConfigurationDefault;
     }
   }
 
@@ -289,13 +291,19 @@ export class ExposureNotificationService {
     let exposureConfiguration: ExposureConfiguration;
     try {
       exposureConfiguration = await this.backendInterface.getExposureConfiguration();
+      new ExposureConfigurationValidator().validateExposureConfiguration(
+        exposureConfiguration,
+        exposureConfigurationSchema,
+      );
       console.info('Using downloaded exposureConfiguration.');
       const serialized = JSON.stringify(exposureConfiguration);
       await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS_FOR_CONFIGURATION);
-      console.info('Saving exposure configuration to iOS keychain.');
+      console.info('Saving exposure configuration to secure storage.');
     } catch (error) {
       if (error instanceof SyntaxError) {
         console.error('JSON Parsing error: Unable to parse downloaded exposureConfiguration.', error);
+      } else if (error instanceof ExposureConfigurationValidationError) {
+        console.error('JSON Schema Error: ', error);
       } else {
         console.error('Netowrk error: Unable to download exposureConfiguration.', error);
       }
