@@ -17,12 +17,10 @@ const registerPeriodicTask = (task: PeriodicTask) => {
       stopOnTerminate: false,
     },
     async taskId => {
-      if (taskId === BACKGROUND_TASK_ID) {
-        try {
-          await task();
-        } catch {
-          // noop
-        }
+      try {
+        await task();
+      } catch {
+        // noop
       }
       BackgroundFetch.finish(taskId);
     },

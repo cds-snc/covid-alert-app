@@ -1,0 +1,11 @@
+diff --git a/node_modules/react-native-background-fetch/android/build.gradle b/node_modules/react-native-background-fetch/android/build.gradle
+index 9b3d82e..6f9fa7a 100644
+--- a/node_modules/react-native-background-fetch/android/build.gradle
++++ b/node_modules/react-native-background-fetch/android/build.gradle
+@@ -29,5 +29,5 @@ dependencies {
+     implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
+     //implementation(group: 'com.transistorsoft', name:'tsbackgroundfetch', version: '+')
+     // tsbackgroundfetch.aar
+-    implementation fileTree(include: ['*.aar'], dir: 'libs')
++    api fileTree(include: ['*.aar'], dir: 'libs')
+ }

@@ -3,14 +3,16 @@ package app.covidshield.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.work.CoroutineWorker
 import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import androidx.work.WorkerParameters
 import app.covidshield.extensions.log
-import com.facebook.react.ReactApplication
-import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import app.covidshield.receiver.worker.HeadlessJsTaskWorker
+import app.covidshield.receiver.worker.HeadlessJsTaskWorker.Companion.shouldStartHeadlessJsTask
+import app.covidshield.receiver.worker.StateUpdatedWorker
+import app.covidshield.utils.PendingTokenManager
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TOKEN
 
 class ExposureNotificationBroadcastReceiver : BroadcastReceiver() {
@@ -19,16 +21,27 @@ class ExposureNotificationBroadcastReceiver : BroadcastReceiver() {
         val action = intent.action
         log("onReceive", mapOf("action" to action))
 
-        if (action != ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED) {
-            return
+        if (action == ACTION_EXPOSURE_STATE_UPDATED) {
+            val token = intent.getStringExtra(EXTRA_TOKEN)
+            if (token.isNullOrEmpty()) {
+                log("Token not found")
+                return
+            }
+            if (shouldStartHeadlessJsTask(context)) {
+                startHeadlessJsTaskWorker(context, token)
+            } else {
+                startStateUpdateWorker(context, token)
+            }
         }
+    }
+
+    private fun startStateUpdateWorker(context: Context, token: String) {
+        log("startStateUpdateWorker", mapOf("token" to token))
 
         val workManager: WorkManager = WorkManager.getInstance(context)
-        val token = intent.getStringExtra(EXTRA_TOKEN)
         val inputData = Data.Builder()
             .putString(EXTRA_TOKEN, token)
             .build()
-        log("onReceive", mapOf("token" to token))
 
         workManager.enqueue(
             OneTimeWorkRequest.Builder(StateUpdatedWorker::class.java)
@@ -37,22 +50,17 @@ class ExposureNotificationBroadcastReceiver : BroadcastReceiver() {
         )
     }
 
-    class StateUpdatedWorker(
-        appContext: Context,
-        private val params: WorkerParameters
-    ) : CoroutineWorker(appContext, params) {
+    private fun startHeadlessJsTaskWorker(context: Context, token: String) {
+        log("startHeadlessJsTaskWorker", mapOf("token" to token))
 
-        override suspend fun doWork(): Result {
-            val token = params.inputData.getString(EXTRA_TOKEN)!!
-            val reactApplication = applicationContext as? ReactApplication
-                ?: return Result.success()
-            val reactInstanceManager = reactApplication.reactNativeHost.reactInstanceManager
+        PendingTokenManager.instance.add(token)
 
-            log("doWork", mapOf("token" to token))
-
-            reactInstanceManager.packages.mapNotNull { it as? Helper }.forEach { it.onReceive(token) }
-            return Result.success()
-        }
+        val workManager: WorkManager = WorkManager.getInstance(context)
+        workManager.enqueueUniqueWork(
+            "StartHeadlessJsTaskWorker",
+            ExistingWorkPolicy.REPLACE,
+            OneTimeWorkRequest.Builder(HeadlessJsTaskWorker::class.java).build()
+        )
     }
 
     interface Helper {
