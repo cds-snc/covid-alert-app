@@ -396,7 +396,6 @@ export class ExposureNotificationService {
         timestamp: today.getTime(),
         period: periodSinceEpoch(today, HOURS_PER_PERIOD),
       },
-      notificationSent: false,
     });
   }
 }
