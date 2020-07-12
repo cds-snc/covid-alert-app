@@ -41,6 +41,8 @@ jobs:
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          CERTS_REPO: ${{ secrets.CERTS_REPO }}
+          APP_ID_IOS: ${{ secrets.APP_ID_IOS }}
           # SIGNING_IDENTITY: ${{ secrets.SIGNING_IDENTITY }}
           LANG: en_CA.UTF-8
           LC_ALL: en_CA.UTF-8
