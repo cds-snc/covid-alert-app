@@ -13,9 +13,9 @@ import {Theme, palette} from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
 
 import {Box} from './Box';
-import {Ripple} from './Ripple';
 import {Icon, IconName} from './Icon';
 import {Text} from './Text';
+import {Ripple} from './Ripple';
 
 export interface ButtonSingleLineProps {
   text?: string;
@@ -59,14 +59,14 @@ export const ButtonSingleLine = ({
       }
     : {};
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
-
+  const borderRadius = 10;
   const content = (
     <Box
-      borderRadius={10}
+      borderRadius={borderRadius}
       alignItems="center"
       justifyContent="center"
       style={{
-        backgroundColor: color,
+        backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
         minHeight: height,
         borderWidth,
         borderColor: buttonColor,
@@ -120,7 +120,13 @@ export const ButtonSingleLine = ({
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleContainerBorderRadius={10} onPress={onPressHandler} {...accessibilityProps}>
+      <Ripple
+        disabled={disabled}
+        onPress={onPressHandler}
+        backgroundColor={color}
+        borderRadius={borderRadius}
+        {...accessibilityProps}
+      >
         {content}
       </Ripple>
     );
