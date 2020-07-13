@@ -8,11 +8,9 @@ import {
   ViewStyle,
   ActivityIndicator,
   AccessibilityRole,
-  View,
 } from 'react-native';
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
-import {RectButton} from 'react-native-gesture-handler';
 
 import {Box} from './Box';
 import {Icon, IconName} from './Icon';

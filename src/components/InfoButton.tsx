@@ -103,20 +103,15 @@ export const InfoButton = ({
 
   if (Platform.OS === 'android') {
     return (
-      <RectButton
-        enabled={!disabled}
-        style={{
-          backgroundColor: buttonColor,
-          borderRadius,
-        }}
+      <Ripple
+        disabled={disabled}
         onPress={onPressHandler}
-        rippleColor="rgb(0,0,0)"
-        activeOpacity={0.8}
+        backgroundColor={buttonColor}
+        borderRadius={borderRadius}
+        {...accessibilityProps}
       >
-        <View accessible {...accessibilityProps}>
-          {content}
-        </View>
-      </RectButton>
+        {content}
+      </Ripple>
     );
   }
   return (
