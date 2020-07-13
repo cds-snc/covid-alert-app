@@ -101,6 +101,11 @@ const theme = {
     phone: 0,
   },
   textVariants: {
+    xtraSmallText: {
+      fontFamily: 'Noto Sans',
+      fontSize: 14,
+      lineHeight: 23,
+    },
     smallText: {
       fontFamily: 'Noto Sans',
       fontSize: 16,
