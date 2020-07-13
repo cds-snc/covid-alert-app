@@ -26,7 +26,11 @@ export const TouchableIcon = ({iconName, iconSize, containerSize = 66, label, on
   );
 
   if (Platform.OS === 'android') {
-    return <Ripple onPress={onPress}>{content}</Ripple>;
+    return (
+      <Ripple onPress={onPress} {...accessibilityProps}>
+        {content}
+      </Ripple>
+    );
   }
   return (
     <TouchableOpacity activeOpacity={0.6} onPress={onPress} {...accessibilityProps}>

@@ -116,7 +116,13 @@ export const Button = ({
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple disabled={disabled} onPress={onPressHandler} backgroundColor={color} borderRadius={borderRadius}>
+      <Ripple
+        disabled={disabled}
+        onPress={onPressHandler}
+        backgroundColor={color}
+        borderRadius={borderRadius}
+        {...accessibilityProps}
+      >
         {content}
       </Ripple>
     );
