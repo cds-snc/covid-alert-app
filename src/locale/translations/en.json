@@ -21,12 +21,21 @@
       }
     },
     "ExposureDetected": {
-      "Title": "You’ve been exposed in the last 14 days",
-      "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
-      "Title2": "What now?",
-      "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
-      "Body3": "consider self-isolating for 14 days.",
-      "HowToIsolateCTA": "How to self-isolate"
+      "CA": {
+        "Title": "You’ve been exposed in the last 14 days",
+        "Title2": "What now?",
+        "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+        "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
+        "Body3": "consider self-isolating for 14 days.",
+        "HowToIsolateCTA": "How to self-isolate"
+      },
+      "ON": {
+        "Title": "You’ve been exposed in the last 14 days",
+        "Title2": "What now?",
+        "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+        "Body2": "You’re at risk of being infected.",
+        "HowToIsolateCTA": "How to self-isolate"
+      }
     },
     "ChooseRegionCTA": "Choose province or territory",
     "How": "Diagnosed with COVID-19?",
@@ -358,7 +367,7 @@
       "URL": "https://nu.thrive.health/covid19/en"
     },
     "ON": {
-      "CTA": "Where to get tested",
+      "CTA": "Find out what to do next",
       "URL": "https://ontario.ca/covidalert-exposed"
     },
     "PE": {
