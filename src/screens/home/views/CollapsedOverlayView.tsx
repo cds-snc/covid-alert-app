@@ -46,13 +46,7 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
                 <Text variant="menuItemTitle" color="overlayBodyText" accessibilityRole="header">
                   {i18n.translate('OverlayClosed.NotificationStatus')}
                 </Text>
-                <Text
-                  variant="menuItemTitle"
-                  color="overlayBodyText"
-                  fontFamily="Noto Sans"
-                  fontWeight="bold"
-                  accessibilityRole="header"
-                >
+                <Text variant="menuItemTitle" color="overlayBodyText" fontWeight="bold" accessibilityRole="header">
                   {i18n.translate('OverlayClosed.NotificationStatusOff')}
                 </Text>
               </Box>
