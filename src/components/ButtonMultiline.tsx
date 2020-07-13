@@ -9,13 +9,15 @@ import {
   ViewStyle,
   ActivityIndicator,
   AccessibilityRole,
+  View,
 } from 'react-native';
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
+import {RectButton} from 'react-native-gesture-handler';
 
 import {Box} from './Box';
-import {Ripple} from './Ripple';
 import {Icon} from './Icon';
+import {Ripple} from './Ripple';
 
 export interface ButtonMultilineProps {
   text?: string;
@@ -59,13 +61,18 @@ export const ButtonMultiline = ({
       }
     : {};
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
-
+  const borderRadius = 4;
   const content = (
     <Box
-      borderRadius={4}
+      borderRadius={borderRadius}
       alignItems="center"
       justifyContent="center"
-      style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}
+      style={{
+        backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
+        minHeight: height,
+        borderWidth,
+        borderColor: buttonColor,
+      }}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
@@ -116,7 +123,7 @@ export const ButtonMultiline = ({
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleContainerBorderRadius={4} onPress={onPressHandler} {...accessibilityProps}>
+      <Ripple disabled={disabled} onPress={onPressHandler} backgroundColor={color} borderRadius={borderRadius}>
         {content}
       </Ripple>
     );

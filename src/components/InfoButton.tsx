@@ -8,9 +8,11 @@ import {
   ViewStyle,
   ActivityIndicator,
   AccessibilityRole,
+  View,
 } from 'react-native';
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from '@shopify/react-i18n';
+import {RectButton} from 'react-native-gesture-handler';
 
 import {Box} from './Box';
 import {Ripple} from './Ripple';
@@ -58,13 +60,18 @@ export const InfoButton = ({
       }
     : {};
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
-
+  const borderRadius = 10;
   const content = (
     <Box
-      borderRadius={10}
+      borderRadius={borderRadius}
       alignItems="center"
       justifyContent="center"
-      style={{minHeight: height, borderWidth, borderColor: buttonColor, backgroundColor: buttonColor}}
+      style={{
+        minHeight: height,
+        borderWidth,
+        borderColor: buttonColor,
+        backgroundColor: Platform.OS === 'ios' ? buttonColor : undefined,
+      }}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
@@ -96,9 +103,20 @@ export const InfoButton = ({
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleContainerBorderRadius={10} onPress={onPressHandler} {...accessibilityProps}>
-        {content}
-      </Ripple>
+      <RectButton
+        enabled={!disabled}
+        style={{
+          backgroundColor: buttonColor,
+          borderRadius,
+        }}
+        onPress={onPressHandler}
+        rippleColor="rgb(0,0,0)"
+        activeOpacity={0.8}
+      >
+        <View accessible {...accessibilityProps}>
+          {content}
+        </View>
+      </RectButton>
     );
   }
   return (
