@@ -71,7 +71,7 @@ export const Button = ({
 
   const content = (
     <Box
-      borderRadius={5}
+      borderRadius={4}
       alignItems="center"
       justifyContent="center"
       shadowColor="bodyText"

@@ -62,7 +62,7 @@ export const ButtonMultiline = ({
 
   const content = (
     <Box
-      borderRadius={10}
+      borderRadius={4}
       alignItems="center"
       justifyContent="center"
       style={{backgroundColor: color, minHeight: height, borderWidth, borderColor: buttonColor}}

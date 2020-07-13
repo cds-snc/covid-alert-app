@@ -62,7 +62,7 @@ export const ButtonSingleLine = ({
 
   const content = (
     <Box
-      borderRadius={10}
+      borderRadius={4}
       alignItems="center"
       justifyContent="center"
       style={{
