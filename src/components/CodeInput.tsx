@@ -44,7 +44,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
               key={`input-${x}`}
               flex={1}
               marginHorizontal="none"
-              marginRight={x == 3 ? 'm' : 'none'}
+              marginRight={x === 3 ? 'm' : 'none'}
               borderRadius={9}
               borderWidth={4}
               borderColor={inputFocusColor(value, x)}
