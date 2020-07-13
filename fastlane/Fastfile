@@ -63,7 +63,7 @@ end
 platform :ios do
   desc "Submit a new Covid Alert beta build to Apple TestFlight"
   lane :beta do
-    ensure_git_branch
+    # ensure_git_branch
     ensure_build_directory
 
     increment_build_number(
@@ -97,12 +97,12 @@ platform :ios do
     upload_to_testflight(
       groups: groups,
       changelog: default_changelog(simple: true),
-      ipa: "#{output_dir}/CovidShield.ipa"
+      ipa: "#{output_directory}/CovidShield.ipa"
     )
 
     create_github_release(
       platform: 'iOS',
-      upload_assets: ["#{output_dir}/CovidShield.ipa", "#{output_dir}/CovidShield.app.dSYM.zip"]
+      upload_assets: ["#{output_directory}/CovidShield.ipa", "#{output_directory}/CovidShield.app.dSYM.zip"]
     )
   end
 
@@ -150,7 +150,7 @@ platform :android do
 
   desc "Pushes a new build to Google Play Internal Testing Track"
   lane :internal do
-    ensure_git_branch
+    # ensure_git_branch
     ensure_keystore_properties
 
     versionCode = ENV["APP_VERSION_CODE"]
