@@ -59,7 +59,7 @@ export const ButtonMultiline = ({
       }
     : {};
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
-  const borderRadius = 4;
+  const borderRadius = 10;
   const content = (
     <Box
       borderRadius={borderRadius}
