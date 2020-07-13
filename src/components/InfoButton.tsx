@@ -58,13 +58,18 @@ export const InfoButton = ({
       }
     : {};
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
-
+  const borderRadius = 10;
   const content = (
     <Box
-      borderRadius={10}
+      borderRadius={borderRadius}
       alignItems="center"
       justifyContent="center"
-      style={{minHeight: height, borderWidth, borderColor: buttonColor, backgroundColor: buttonColor}}
+      style={{
+        minHeight: height,
+        borderWidth,
+        borderColor: buttonColor,
+        backgroundColor: Platform.OS === 'ios' ? buttonColor : undefined,
+      }}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
@@ -96,7 +101,13 @@ export const InfoButton = ({
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple rippleContainerBorderRadius={10} onPress={onPressHandler} {...accessibilityProps}>
+      <Ripple
+        disabled={disabled}
+        onPress={onPressHandler}
+        backgroundColor={buttonColor}
+        borderRadius={borderRadius}
+        {...accessibilityProps}
+      >
         {content}
       </Ripple>
     );
