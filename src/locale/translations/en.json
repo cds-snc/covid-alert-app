@@ -103,10 +103,10 @@
       "One": "{number} day left!",
       "Other": "{number} days left!"
     },
-    "NotificationCardStatus": "Push notifications are off",
+    "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
-    "NotificationCardBody": "You will not receive push notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
-    "NotificationCardAction": "Turn on push notifications",
+    "NotificationCardBody": "You will not receive notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
+    "NotificationCardAction": "Turn on notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
     "ExposureNotificationCardAction": "Turn on exposure notifications"
@@ -139,13 +139,13 @@
     "step-1": "The app runs in the background and will not interrupt your activities.\n\nWhenever you’re near someone else with COVID Alert, both phones exchange random codes every 5 minutes.\n\nThe random codes change often and cannot be used to identify you. ",
     "step-2Title": "What’s an exposure?",
     "step-2AltText": "A hand-drawn illustration of 2 mobile phones side-by-side with a timer clock connecting both phones.",
-    "step-2": "The app estimates how near people are from the strength of Bluetooth signals.\n\nIf you’re closer than 2 metres for more than 15 minutes, the app will record an exposure.",
+    "step-2": "The app estimates how near people are by the strength of Bluetooth signals.\n\nIf you’re closer than 2 metres for more than 15 minutes, the app will record an exposure.",
     "step-3Title": "Getting a positive test",
     "step-3AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
     "step-3": "If someone with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.",
     "step-4Title": "Looking for exposures",
     "step-4AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
-    "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you've been exposed and gives you guidance.",
+    "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you've been exposed and explains what to do next.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -202,7 +202,7 @@
       "Title": "The app will now ask your permission",
       "ImageAltText": "A hand-drawn illustration of a mobile phone displaying a dialogue box with a red X and a green check mark on the screen.",
       "Body1": "Allow the app to start logging random codes or “random IDs” when you’re near other phones. The app will access the date, duration and signal strength related to the random codes, but they never leave your phone.",
-      "Body2": "You’ll also need to enable push notifications.",
+      "Body2": "You’ll also need to let the app send you notifications.",
       "PrivacyButtonCTA": "Learn more about privacy"
     }
   },
@@ -317,7 +317,8 @@
     "PE": "Prince Edward Island",
     "QC": "Quebec",
     "SK": "Saskatchewan",
-    "YT": "Yukon"
+    "YT": "Yukon",
+    "None": "Prefer not to say"
   },
   "RegionalGuidance": {
     "CA": {

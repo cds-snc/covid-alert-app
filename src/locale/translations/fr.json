@@ -167,7 +167,7 @@
     "ChangeLanguage": "Modifier la langue",
     "ChangeRegion": "Modifier la province ou le territoire",
     "CheckSymptoms": "Vérifier vos symptômes",
-    "LearnMore": "Fonctionnement d’Alerte COVID",
+    "LearnMore": "Fonctionnement",
     "GetCode": "Obtenir un numéro à 8 chiffres",
     "Privacy": "Protection de votre vie privée",
     "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
@@ -234,7 +234,7 @@
       "Title": "L’application demandera votre autorisation",
       "ImageAltText": "Dessin à la main d’un téléphone mobile dont l’écran affiche une fenêtre de dialogue avec un X rouge et un crochet vert.",
       "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
-      "Body2": "Vous devrez aussi activer les notifications poussées.",
+      "Body2": "Vous devrez aussi lui permettre de vous envoyer des notifications.",
       "PrivacyButtonCTA": "En savoir plus sur la confidentialité"
     }
   },
@@ -263,7 +263,7 @@
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "NotificationCardAction": "Activer les notifications",
     "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
-    "NotificationCardStatus": "Les notifications poussées sont désactivées",
+    "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES"
   },
   "Partners": {
@@ -293,7 +293,8 @@
     "SettingsTitle": "Province ou territoire",
     "Skip": "Ignorer",
     "Title": "Où habitez-vous? (facultatif)",
-    "YT": "Yukon"
+    "YT": "Yukon",
+    "None": "Ne rien sélectionner"
   },
   "RegionalGuidance": {
     "CA": {
@@ -373,7 +374,7 @@
     "ActionEnd": "Terminé",
     "ActionNext": "Suivant",
     "Close": "Fermer",
-    "step-1": "Après son installation, l’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
+    "step-1": "L’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement d’Alerte COVID",
     "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
     "step-2": "L’application estime la distance entre vous et d’autres personnes grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2 mètres pendant plus de 15 minutes, l’application enregistre une exposition.",
@@ -382,7 +383,7 @@
     "step-3": "Si une personne ayant l’application a un diagnostic de COVID-19, elle peut décider de téléverser tous les codes aléatoires émis par son téléphone vers un serveur central.\n\nLe serveur ne reçoit que les codes. Il ne reçoit aucune information personnelle.",
     "step-3Title": "Quand une personne reçoit un test positif",
     "step-3AltText": "Dessin à la main d’un téléphone mobile téléversant un code chiffré vers un nuage.",
-    "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste de codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et elle vous donnera des recommandations.",
+    "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste de codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et vous expliquera quoi faire ensuite.",
     "step-4Title": "Découverte des expositions",
     "step-4AltText": "Dessin à la main d’un téléphone mobile émettant une liste de codes chiffrés. L’icône de la loupe de recherche met en évidence l’un des codes de la liste."
   },

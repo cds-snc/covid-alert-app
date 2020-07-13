@@ -7,7 +7,7 @@ interface AccessibilityServiceContextProps {
 
 const AccessibilityServiceContext = React.createContext<AccessibilityServiceContextProps>({} as any);
 
-interface AccessibilityServiceProviderProps {
+export interface AccessibilityServiceProviderProps {
   children: React.ReactNode;
 }
 
@@ -20,8 +20,10 @@ export const AccessibilityServiceProvider = ({children}: AccessibilityServicePro
     const handleScreenReaderToggled = (screenReaderEnabled: any) => {
       setScreenReaderEnabled(screenReaderEnabled);
     };
-    const handler = AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
-    return handler;
+    AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
+    return () => {
+      AccessibilityInfo.removeEventListener('screenReaderChanged', handleScreenReaderToggled);
+    };
   }, []);
 
   const props = useMemo(() => {

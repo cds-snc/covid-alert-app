@@ -7,6 +7,7 @@ import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, TRANSMISSION_RISK_LEVEL} from 'env';
+import {captureMessage, captureException} from 'shared/log';
 
 import {Observable} from '../../shared/Observable';
 import {Region} from '../../shared/Region';
@@ -15,6 +16,7 @@ import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
 const MAX_UPLOAD_KEYS = 14;
+const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
@@ -38,6 +40,7 @@ export class BackendService implements BackendInterface {
     const message = `${MCC_CODE}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${period}/${hmac}`;
+    captureMessage('retrieveDiagnosisKeys', {period, url});
     return downloadDiagnosisKeysFile(url);
   }
 
@@ -46,8 +49,8 @@ export class BackendService implements BackendInterface {
     // this is only for the purpose of downloading the configuration file.
     const region = 'CA';
     const exposureConfigurationUrl = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
-    console.info(`Exposure Configuration URL: ${exposureConfigurationUrl}`);
-    return (await fetch(exposureConfigurationUrl)).json();
+    captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
+    return (await fetch(exposureConfigurationUrl, FETCH_HEADERS)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
@@ -85,6 +88,11 @@ export class BackendService implements BackendInterface {
       _exposureKeys.sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
+    captureMessage('reportDiagnosisKeys', {
+      keyPair,
+      _exposureKeys,
+      exposureKeys,
+    });
 
     const upload = covidshield.Upload.create({
       timestamp: {seconds: Math.floor(new Date().getTime() / 1000)},
@@ -110,15 +118,17 @@ export class BackendService implements BackendInterface {
     try {
       nonce = await getRandomBytes(24);
     } catch (error) {
-      console.error('getRandomBytes()', error);
+      captureException('getRandomBytes', error);
       throw new Error(error);
     }
     const encryptedPayload = nacl.box(serializedUpload, nonce, serverPublicKey, clientPrivate);
 
+    captureMessage('Uploading encrypted diagnosis keys');
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
   }
 
   private async keyClaim(code: string, keyPair: nacl.BoxKeyPair): Promise<covidshield.KeyClaimResponse> {
+    captureMessage('keyClaim', {code});
     const uploadPayload = covidshield.KeyClaimRequest.create({
       oneTimeCode: code,
       appPublicKey: keyPair.publicKey,

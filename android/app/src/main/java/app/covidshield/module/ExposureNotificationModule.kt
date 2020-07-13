@@ -18,6 +18,7 @@ import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
 import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
 import app.covidshield.utils.ActivityResultHelper
+import app.covidshield.utils.PendingTokenManager
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -117,6 +118,33 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
             promise.resolve(summary.toWritableMap().apply {
                 putString(SUMMARY_HIDDEN_KEY, token)
+            })
+        }
+    }
+
+    @ReactMethod
+    fun getPendingExposureSummary(promise: Promise) {
+        promise.launch(this) {
+            val tokens = PendingTokenManager.instance.retrieve()
+            PendingTokenManager.instance.clear()
+
+            val summaryAndToken = tokens
+                .reversed()
+                .mapNotNull { token ->
+                    val summary = exposureNotificationClient.getExposureSummary(token).await()
+                        .toSummary()
+                        .takeIf { it.matchedKeyCount > 0 }
+                    summary?.let { Pair(it, token) }
+                }
+                .firstOrNull()
+
+            log("getPendingExposureSummary", mapOf(
+                "summary" to summaryAndToken?.first,
+                "token" to summaryAndToken?.second
+            ))
+
+            promise.resolve(summaryAndToken?.first?.toWritableMap()?.apply {
+                putString(SUMMARY_HIDDEN_KEY, summaryAndToken.second)
             })
         }
     }

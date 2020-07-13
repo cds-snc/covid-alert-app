@@ -28,4 +28,6 @@ export class MockExposureNotification implements ExposureNotification {
   setExposureSummary = (exposureSummary: ExposureSummary) => {
     this.exposureSummary = exposureSummary;
   };
+
+  getPendingExposureSummary = async () => undefined;
 }
