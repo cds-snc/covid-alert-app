@@ -213,10 +213,9 @@ const DEBOUNCE = 200;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'transparent',
     overflow: 'hidden',
+    zIndex: 1,
   },
-
   ripple: {
     width: RADIUS * 2,
     height: RADIUS * 2,
