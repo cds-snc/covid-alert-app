@@ -31,32 +31,45 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const isRegionOntario = region === 'ON';
+
+  const getRegionForText = useCallback(() => {
+    if (isRegionOntario) {
+      return region;
+    }
+    // default to CA for all other regions that are not yet supported
+    return 'CA';
+  }, [region]);
 
   return (
     <BaseHomeView iconName="hand-caution">
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate('Home.ExposureDetected.Title')}
+        {i18n.translate(`Home.ExposureDetected.${getRegionForText()}.Title`)}
       </Text>
-      <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
+      <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.${getRegionForText()}.Body1`)}</Text>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate('Home.ExposureDetected.Title2')}
+        {i18n.translate(`Home.ExposureDetected.${getRegionForText()}.Title2`)}
       </Text>
       <Text>
-        <Text>{i18n.translate('Home.ExposureDetected.Body2')}</Text>
-        <Text fontWeight="bold">{i18n.translate('Home.ExposureDetected.Body3')}</Text>
+        <Text>{i18n.translate(`Home.ExposureDetected.${getRegionForText()}.Body2`)}</Text>
+        {!isRegionOntario && (
+          <Text fontWeight="bold">{i18n.translate(`Home.ExposureDetected.${getRegionForText()}.Body3`)}</Text>
+        )}
       </Text>
 
-      <Box alignSelf="stretch" marginTop="l" marginBottom="m">
+      <Box alignSelf="stretch" marginTop="l" marginBottom={isRegionOntario ? 'xxl' : 'm'}>
         <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
       </Box>
-      <Box alignSelf="stretch" marginBottom="xl">
-        <ButtonSingleLine
-          text={i18n.translate('Home.ExposureDetected.HowToIsolateCTA')}
-          variant="bigFlatDarkGrey"
-          onPress={onHowToIsolate}
-          internalLink
-        />
-      </Box>
+      {!isRegionOntario && (
+        <Box alignSelf="stretch" marginBottom="xl">
+          <ButtonSingleLine
+            text={i18n.translate(`Home.ExposureDetected.${getRegionForText()}.HowToIsolateCTA`)}
+            variant="bigFlatDarkGrey"
+            onPress={onHowToIsolate}
+            internalLink
+          />
+        </Box>
+      )}
     </BaseHomeView>
   );
 };
