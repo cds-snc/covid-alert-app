@@ -80,7 +80,6 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
         returnKeyType="done"
         accessibilityLabel={accessibilityLabel}
         caretHidden
-        contextMenuHidden={true}
         maxLength={8}
         style={styles.input}
       />
