@@ -6,13 +6,21 @@ import {Text} from './Text';
 
 const inputBorderColor = (string: string, position: number) => {
   // active
-  if (!string[position] && Boolean(string[position - 1])) return 'infoBlockBrightText';
+  if (!string[position] && Boolean(string[position - 1])) return 'overlayBodyText';
   // first
-  if (string.length === 0 && position === 0) return 'infoBlockBrightText';
+  if (string.length === 0 && position === 0) return 'overlayBodyText';
   // empty
-  if (!string[position]) return 'overlayBodyText';
+  if (!string[position]) return 'gray2';
   // filled
-  return 'fadedBackground';
+  return 'gray2';
+};
+const inputFocusColor = (string: string, position: number) => {
+  // active
+  if (!string[position] && Boolean(string[position - 1])) return 'focus';
+  // first
+  if (string.length === 0 && position === 0) return 'focus';
+  // not active
+  return 'overlayBackground';
 };
 
 export interface CodeInputProps {
@@ -32,17 +40,26 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
         .map((_, x) => {
           const characterToDisplay = value[x] || ' ';
           return (
-            <Box
-              /* eslint-disable-next-line react/no-array-index-key */
+            <Box /* eslint-disable-next-line react/no-array-index-key */
               key={`input-${x}`}
               flex={1}
-              marginHorizontal="xs"
-              borderBottomWidth={3}
-              borderBottomColor={inputBorderColor(value, x)}
+              marginHorizontal="none"
+              marginRight={x === 3 ? 'm' : 'none'}
+              borderRadius={9}
+              borderWidth={4}
+              borderColor={inputFocusColor(value, x)}
             >
-              <Text variant="codeInput" color="overlayBodyText" textAlign="center" marginBottom="s">
-                {characterToDisplay}
-              </Text>
+              <Box
+                flex={1}
+                paddingHorizontal="xs"
+                borderWidth={2}
+                borderColor={inputBorderColor(value, x)}
+                borderRadius={5}
+              >
+                <Text variant="codeInput" color="overlayBodyText" textAlign="center" paddingVertical="xs">
+                  {characterToDisplay}
+                </Text>
+              </Box>
             </Box>
           );
         }),
@@ -83,11 +100,11 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 0,
     color: 'transparent',
-    height: 40,
-    left: 15,
+    height: 60,
     position: 'absolute',
-    top: 0,
-    width: '100%',
+    top: 24,
+    left: '4%',
+    width: '92%',
     zIndex: 1,
   },
 });

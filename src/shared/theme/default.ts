@@ -37,10 +37,12 @@ export const palette = {
   green2: '#C9E7DE',
   greenCheck: '#33D1A1',
   info100: '#005B99',
+  focus: '#44BBEE',
 };
 
 const theme = {
   colors: {
+    focus: palette.focus,
     linkText: palette.link,
     mainBackground: palette.neutralGrey,
     purpleBackground: palette.purple,
@@ -136,7 +138,7 @@ const theme = {
     codeInput: {
       fontFamily: 'notosans',
       fontSize: 26,
-      lineHeight: 28,
+      lineHeight: 34,
     },
     menuItemTitle: {
       fontFamily: 'notosans',
