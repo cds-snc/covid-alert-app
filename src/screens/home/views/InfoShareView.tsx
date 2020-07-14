@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {TouchableOpacity, TouchableOpacityProps} from 'react-native';
+import {TouchableOpacity, TouchableOpacityProps, Linking} from 'react-native';
 import {Box, Text, Icon, IconProps} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from '@shopify/react-i18n';
@@ -45,6 +45,9 @@ export const InfoShareView = () => {
   const onGetCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
+  const onHelp = useCallback(() => {
+    Linking.openURL(i18n.translate('Info.HelpUrl')).catch(err => console.error('An error occurred', err));
+  }, [i18n]);
 
   return (
     <>
@@ -69,7 +72,15 @@ export const InfoShareView = () => {
           text={i18n.translate('Info.LearnMore')}
           icon="icon-chevron"
         />
-        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" lastItem />
+        <InfoShareItem onPress={onPrivacy} lastItem={false} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
+        <InfoShareItem
+          onPress={onHelp}
+          text={i18n.translate('Info.Help')}
+          icon="icon-external-arrow"
+          accessibilityRole="link"
+          accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+          lastItem
+        />
       </Box>
     </>
   );

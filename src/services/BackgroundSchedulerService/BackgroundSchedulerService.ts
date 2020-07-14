@@ -1,6 +1,6 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {Platform} from 'react-native';
-import {MINIMUM_FETCH_INTERVAL} from 'env';
+import {TEST_MODE} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
@@ -9,10 +9,15 @@ interface PeriodicTask {
   (): Promise<void>;
 }
 
+// See https://github.com/cds-snc/covid-shield-mobile/issues/642#issuecomment-657783192
+const DEFERRED_JOB_INTERNVAL_IN_MINUTES = 240;
+const EXACT_JOB_INTERNVAL_IN_MINUTES = 90;
+
 const registerPeriodicTask = async (task: PeriodicTask) => {
   BackgroundFetch.configure(
     {
-      minimumFetchInterval: MINIMUM_FETCH_INTERVAL,
+      minimumFetchInterval: TEST_MODE ? EXACT_JOB_INTERNVAL_IN_MINUTES : DEFERRED_JOB_INTERNVAL_IN_MINUTES,
+      forceAlarmManager: TEST_MODE,
       enableHeadless: true,
       startOnBoot: true,
       stopOnTerminate: false,

@@ -82,7 +82,7 @@ describe('ExposureNotificationService', () => {
       .mockImplementation((args: any) => new OriginalDate(args));
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(14);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
   });
 
   it('backfills the right amount of keys for current day', async () => {
@@ -98,7 +98,7 @@ describe('ExposureNotificationService', () => {
       },
     });
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(0);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
 
     server.retrieveDiagnosisKeys.mockClear();
 
@@ -109,7 +109,7 @@ describe('ExposureNotificationService', () => {
       },
     });
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
 
     server.retrieveDiagnosisKeys.mockClear();
 
@@ -120,7 +120,7 @@ describe('ExposureNotificationService', () => {
       },
     });
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(3);
   });
 
   it('serializes status update', async () => {
