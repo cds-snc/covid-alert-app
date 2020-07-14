@@ -1303,6 +1303,11 @@
   dependencies:
     tslib "^1.9.3"
 
+"@shopify/react-hooks@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@shopify/react-hooks/-/react-hooks-1.10.1.tgz#b17d16beaddf9af7adad7c9c1a1e4d5ad408f732"
+  integrity sha512-xvYyTYGQHNff7MJDCwrNSQ9PxuU6Icp2sleaB73S+uDL+BvVVwEyhqYxVOMMJtX3mLgUAEAYDAm3Jxr3rmlINw==
+
 "@shopify/react-hooks@^1.9.1":
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/@shopify/react-hooks/-/react-hooks-1.9.1.tgz#c64e410246b3de4b19d34fc66bb0fc77e8d2c15a"
