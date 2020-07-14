@@ -148,7 +148,6 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
       status={systemStatus}
       notificationWarning={showNotificationWarning}
       turnNotificationsOn={turnNotificationsOnFn}
-      maxWidth={maxWidth}
       bottomSheetBehavior={bottomSheetBehavior}
     />
   );
@@ -197,8 +196,7 @@ export const HomeScreen = () => {
       <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
         <Box
           flex={1}
-          maxWidth={maxWidth}
-          paddingTop="m"
+          padding="m"
           alignSelf="stretch"
           accessibilityElementsHidden={isBottomSheetExpanded}
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
