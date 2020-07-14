@@ -3,6 +3,7 @@ import {StyleSheet, useWindowDimensions, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useSafeArea} from 'react-native-safe-area-context';
 import BottomSheetRaw from 'reanimated-bottom-sheet';
+import {useOrientation} from 'shared/useOrientation';
 
 import {Box} from '../Box';
 
@@ -50,7 +51,8 @@ const BottomSheetInternal = (
   );
   useImperativeHandle(ref, () => behavior, [behavior]);
   useEffect(() => onStateChange?.(isExpanded), [isExpanded, onStateChange]);
-
+  const {orientation} = useOrientation();
+  const bottomPadding = orientation === 'landscape' ? 120 : 140;
   const insets = useSafeArea();
   const renderHeader = useCallback(() => <Box height={insets.top} />, [insets.top]);
 
@@ -58,7 +60,7 @@ const BottomSheetInternal = (
   const onCloseEnd = useCallback(() => setIsExpanded(false), []);
 
   const {width, height} = useWindowDimensions();
-  const snapPoints = [height, extraContent ? 200 + insets.bottom : 140 + insets.bottom];
+  const snapPoints = [height, extraContent ? 200 + insets.bottom : bottomPadding + insets.bottom];
 
   // Need to add snapPoints to set enough height when BottomSheet is collapsed
   useEffect(() => {
