@@ -1,10 +1,10 @@
 fastlane_version '2.53.1'
 
 before_all do
-  load_secrets
-
   # Load root-level shared .env
   Dotenv.overload '../.env'
+
+  load_secrets
 
   # Pull all tags
   git_pull(only_tags: true)
