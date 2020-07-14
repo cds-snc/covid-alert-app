@@ -156,7 +156,7 @@ export const OverlayView = ({
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
-        <Box paddingLeft="m">
+        <Box padding="m">
           <TouchableOpacity
             onPress={bottomSheetBehavior.collapse}
             style={styles.collapseButton}
