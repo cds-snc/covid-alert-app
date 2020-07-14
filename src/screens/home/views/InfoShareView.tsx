@@ -72,13 +72,13 @@ export const InfoShareView = () => {
           text={i18n.translate('Info.LearnMore')}
           icon="icon-chevron"
         />
-        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
+        <InfoShareItem onPress={onPrivacy} lastItem={false} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
         <InfoShareItem
           onPress={onHelp}
           text={i18n.translate('Info.Help')}
           icon="icon-external-arrow"
           accessibilityRole="link"
-          accessibilityHint={i18n.translate('Home.ExternalLinkHint')}
+          accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
           lastItem
         />
       </Box>
