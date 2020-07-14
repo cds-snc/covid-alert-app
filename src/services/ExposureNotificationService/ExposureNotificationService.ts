@@ -15,7 +15,7 @@ import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
-import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
+import {ExposureConfigurationValidator} from './ExposureConfigurationValidator';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposure-configuration';
@@ -307,10 +307,10 @@ export class ExposureNotificationService {
         exposureConfiguration,
         exposureConfigurationSchema,
       );
-      console.info('Using downloaded exposureConfiguration.');
+      captureMessage('Using downloaded exposureConfiguration.');
       const serialized = JSON.stringify(exposureConfiguration);
       await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS_FOR_CONFIGURATION);
-      console.info('Saving exposure configuration to secure storage.');
+      captureMessage('Saving exposure configuration to secure storage.');
     } catch (error) {
       if (error instanceof SyntaxError) {
         captureException('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
