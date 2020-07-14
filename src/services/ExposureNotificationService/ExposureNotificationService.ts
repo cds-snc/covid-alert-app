@@ -313,13 +313,7 @@ export class ExposureNotificationService {
       console.info('Saving exposure configuration to secure storage.');
     } catch (error) {
       if (error instanceof SyntaxError) {
-<<<<<<< HEAD
-        console.error('JSON Parsing error: Unable to parse downloaded exposureConfiguration.', error);
-      } else if (error instanceof ExposureConfigurationValidationError) {
-        console.error('JSON Schema Error: ', error);
-=======
         captureException('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
->>>>>>> master
       } else {
         captureException('Network Error: Unable to download exposureConfiguration.', error);
       }
