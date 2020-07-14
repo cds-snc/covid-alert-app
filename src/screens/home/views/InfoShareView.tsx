@@ -77,7 +77,8 @@ export const InfoShareView = () => {
           onPress={onHelp}
           text={i18n.translate('Info.Help')}
           icon="icon-external-arrow"
-          externalLink
+          accessibilityRole="link"
+          accessibilityHint={i18n.translate('Home.ExternalLinkHint')}
           lastItem
         />
       </Box>
