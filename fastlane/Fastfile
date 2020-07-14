@@ -4,59 +4,12 @@ before_all do
   # Load root-level shared .env
   Dotenv.overload '../.env'
 
-  load_secrets
-
   # Pull all tags
   git_pull(only_tags: true)
 end
 
-after_all do
-  clean_env
-end
-
-private_lane :ensure_clean_env do
-  env_status = sh("cd ../ && git status .env .env.production  --porcelain")
-  clean = env_status.empty?
-
-  UI.user_error!("You should not have local changes to .env or .env.production") unless clean
-end
-
-private_lane :clean_env do
-  sh("cd ../ && git checkout .env .env.production")
-end
-
-private_lane :ensure_secrets_file_exists do
-  file_exists = File.exist? File.expand_path "../.env.secrets"
-
-  UI.user_error!("You appear to be missing a .env.secrets file") unless file_exists
-end
-
-private_lane :load_secrets do
-  ensure_secrets_file_exists
-  ensure_clean_env
-
-  # Merge secrets with the default .env file
-  production = Dotenv.parse("../.env.production")
-  debug = Dotenv.parse("../.env")
-  secrets = Dotenv.parse('../.env.secrets')
-
-  production.merge!(secrets)
-  debug.merge!(secrets)
-
-  production_env = "../.env.production"
-  debug_env = "../.env"
-
-  File.open(production_env, 'w') do |file|
-    production.each{ |k, v| file.write("#{k}=#{v}\n") }
-  end
-
-  File.open(debug_env, 'w') do |file|
-    debug.each{ |k, v| file.write("#{k}=#{v}\n") }
-  end
-end
-
 desc "Creates a Github Release"
-private_lane :create_github_release do |options|
+lane :create_github_release do |options|
   UI.user_error!("platform is missing") unless options[:platform]
   upload_assets = options[:upload_assets] ? options[:upload_assets] : []
 
@@ -73,7 +26,7 @@ private_lane :create_github_release do |options|
 end
 
 desc "Returns a default changelog."
-private_lane :default_changelog do |options|
+lane :default_changelog do |options|
   format = (options[:simple] ? "- %b" : "- %b [%s]")
 
   changelog = changelog_from_git_commits(
@@ -86,13 +39,13 @@ private_lane :default_changelog do |options|
   clean
 end
 
-private_lane :ensure_keystore_properties do
+lane :ensure_keystore_properties do
   file_exists = File.exist? File.expand_path "../android/keystore.properties"
 
   UI.user_error!("keystore.properties file is missing!") unless file_exists
 end
 
-private_lane :ensure_build_directory do
+lane :ensure_build_directory do
   UI.message("Checking for build directories")
 
   unless File.directory?('../build/ios')

@@ -2,6 +2,9 @@
 #
 .DS_Store
 
+
+.env.production
+
 # Xcode
 #
 build/
@@ -90,6 +93,7 @@ ios/Generated.xcconfig
 android/app/google-services.json
 .env.local
 .env.secrets
+.env
 
 # generated files
 ios/assets
