@@ -1,4 +1,3 @@
-import {Platform} from 'react-native';
 import ExposureNotification, {
   ExposureSummary,
   Status as SystemStatus,
@@ -8,7 +7,6 @@ import PushNotification from 'bridge/PushNotification';
 import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch, minutesBetween} from 'shared/date-fns';
 import {I18n} from '@shopify/react-i18n';
 import {Observable, MapObservable} from 'shared/Observable';
-import {TEST_MODE} from 'env';
 import {captureException, captureMessage} from 'shared/log';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
@@ -279,10 +277,19 @@ export class ExposureNotificationService {
     _lastCheckedPeriod?: number,
   ): AsyncGenerator<{keysFileUrl: string; period: number} | null> {
     const runningDate = new Date();
-
-    const lastCheckedPeriod =
-      _lastCheckedPeriod || periodSinceEpoch(addDays(runningDate, -EXPOSURE_NOTIFICATION_CYCLE), HOURS_PER_PERIOD);
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
+
+    if (!_lastCheckedPeriod) {
+      try {
+        const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(0);
+        yield {keysFileUrl, period: runningPeriod};
+      } catch (error) {
+        captureException('Error while downloading batch files', error);
+      }
+      return;
+    }
+
+    const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
 
     while (runningPeriod > lastCheckedPeriod) {
       try {
@@ -358,18 +365,7 @@ export class ExposureNotificationService {
       if (!value) continue;
       const {keysFileUrl, period} = value;
       keysFileUrls.push(keysFileUrl);
-
-      // Temporarily disable lastCheckPeriod
-      // Ref https://github.com/cds-snc/covid-shield-server/pull/158
-      if (TEST_MODE) {
-        continue;
-      }
-
-      // Temporarily disable persisting lastCheckPeriod on Android
-      // Ref https://github.com/cds-snc/covid-shield-mobile/issues/453
-      if (Platform.OS !== 'android') {
-        lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
-      }
+      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
     }
 
     captureMessage('performExposureStatusUpdate', {
@@ -390,11 +386,12 @@ export class ExposureNotificationService {
           lastCheckedPeriod,
         );
       }
+      return finalize({}, lastCheckedPeriod);
     } catch (error) {
       captureException('performExposureStatusUpdate', error);
     }
 
-    return finalize({}, lastCheckedPeriod);
+    return finalize();
   }
 
   private async processPendingExposureSummary() {
