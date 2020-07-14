@@ -118,13 +118,23 @@ describe('BackendService', () => {
   });
 
   describe('retrieveDiagnosisKeys', () => {
+    let spyDate;
+
+    beforeEach(() => {
+      spyDate = jest.spyOn(Date, 'now').mockImplementation(() => 1594764739745);
+    });
+
+    afterEach(() => {
+      spyDate.mockReset();
+    });
+
     it('returns keys file for set period', async () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
 
       await backendService.retrieveDiagnosisKeys(18457);
 
       expect(downloadDiagnosisKeysFile).toHaveBeenCalledWith(
-        'http://localhost/retrieve/302/18457/ac5558fc1fae634d204120b264419c2e308e3b784877d5c42677b8fdbdcb9881',
+        'http://localhost/retrieve/302/18457/a8527b47523dca5bfe6beb8acea351c43364d49b435a1525bdb0dc7f982dba7a',
       );
     });
 
@@ -134,7 +144,7 @@ describe('BackendService', () => {
       await backendService.retrieveDiagnosisKeys(0);
 
       expect(downloadDiagnosisKeysFile).toHaveBeenCalledWith(
-        'http://localhost/retrieve/302/00000/4c280e204128701f9f17b45f887f93d5a97d6db1dae11bdc33eb14247ae80ffb',
+        'http://localhost/retrieve/302/00000/2fd9e1da09518cf874d1520fe676b8264ac81e2e90efaefaa3a6a8eca060e742',
       );
     });
   });
