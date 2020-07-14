@@ -134,7 +134,6 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
-  const maxWidth = useMaxContentWidth();
   const toSettings = useCallback(() => {
     Linking.openSettings();
   }, []);

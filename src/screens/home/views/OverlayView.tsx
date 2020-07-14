@@ -137,20 +137,14 @@ const AccessibleView = ({children}: {children: React.ReactNode}) => {
   );
 };
 
-interface Props extends Pick<BoxProps, 'maxWidth'> {
+interface Props extends Pick<BoxProps> {
   status: SystemStatus;
   notificationWarning: boolean;
   turnNotificationsOn: () => void;
   bottomSheetBehavior: BottomSheetBehavior;
 }
 
-export const OverlayView = ({
-  status,
-  notificationWarning,
-  turnNotificationsOn,
-  maxWidth,
-  bottomSheetBehavior,
-}: Props) => {
+export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const [i18n] = useI18n();
 
   return (
