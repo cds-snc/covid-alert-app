@@ -137,20 +137,26 @@ const AccessibleView = ({children}: {children: React.ReactNode}) => {
   );
 };
 
-interface Props extends Pick<BoxProps> {
+interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
   turnNotificationsOn: () => void;
   bottomSheetBehavior: BottomSheetBehavior;
 }
 
-export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
+export const OverlayView = ({
+  status,
+  notificationWarning,
+  turnNotificationsOn,
+  maxWidth,
+  bottomSheetBehavior,
+}: Props) => {
   const [i18n] = useI18n();
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
-        <Box padding="m">
+        <Box paddingLeft="m" paddingRight="m">
           <TouchableOpacity
             onPress={bottomSheetBehavior.collapse}
             style={styles.collapseButton}
