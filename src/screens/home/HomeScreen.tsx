@@ -9,7 +9,6 @@ import {
   useStartExposureNotificationService,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
-import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
@@ -174,7 +173,6 @@ export const HomeScreen = () => {
     startExposureNotificationService();
   }, [startExposureNotificationService]);
 
-  const maxWidth = useMaxContentWidth();
   const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
