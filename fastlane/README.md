@@ -15,34 +15,6 @@ Install _fastlane_ using
 or alternatively using `brew install fastlane`
 
 # Available Actions
-### create_github_release
-```
-fastlane create_github_release
-```
-Creates a Github Release
-### default_changelog
-```
-fastlane default_changelog
-```
-Returns a default changelog.
-### ensure_keystore_properties
-```
-fastlane ensure_keystore_properties
-```
-
-### ensure_build_directory
-```
-fastlane ensure_build_directory
-```
-
-### test
-```
-fastlane test
-```
-
-
-----
-
 ## iOS
 ### ios beta
 ```
