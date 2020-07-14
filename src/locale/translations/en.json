@@ -125,6 +125,8 @@
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
     "LearnMore": "How it works",
+    "Help": "Help",
+    "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get an 8-digit number",
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
