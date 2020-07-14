@@ -33,6 +33,8 @@ export const palette = {
   pink: '#FFC1B3',
   purple: '#573EC5',
   gray2: '#585858',
+  gray3: '#8A8A8A',
+  gray4: '#BCBCBC',
   link: '#2B4380',
   green2: '#C9E7DE',
   greenCheck: '#33D1A1',
@@ -76,6 +78,8 @@ const theme = {
     lighterBlueBackground: palette.lighterBlue,
     buttonGrey: palette.buttonGrey,
     gray2: palette.gray2,
+    gray3: palette.gray3,
+    gray4: palette.gray4,
     gray5: palette.neutralGrey,
     green2: palette.green2,
   },
@@ -159,8 +163,9 @@ const theme = {
       borderBottomWidth: 4,
       borderBottomColor: palette.brandRed,
       disabled: {
-        color: palette.darkGrey,
+        color: palette.gray4,
         textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
       },
     },
     opaqueFlatBlackText: {
@@ -171,8 +176,9 @@ const theme = {
       fontSize: 18,
       borderWidth: undefined,
       disabled: {
-        color: palette.darkGrey,
+        color: palette.gray4,
         textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
       },
     },
     opaqueGrey: {
@@ -183,8 +189,9 @@ const theme = {
       fontSize: 18,
       borderWidth: undefined,
       disabled: {
-        color: palette.darkGrey,
+        color: palette.gray4,
         textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
       },
     },
     opaqueFlatWhiteText: {
@@ -195,8 +202,9 @@ const theme = {
       fontSize: 18,
       borderWidth: undefined,
       disabled: {
-        color: palette.darkGrey,
+        color: palette.gray4,
         textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
       },
     },
     bigFlat: {
@@ -207,8 +215,9 @@ const theme = {
       fontSize: 18,
       borderBottomWidth: undefined,
       disabled: {
-        color: palette.darkGrey,
+        color: palette.gray4,
         textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
       },
     },
     thinFlat: {
@@ -220,8 +229,9 @@ const theme = {
       borderBottomWidth: 4,
       borderBottomColor: palette.brandBlue,
       disabled: {
-        color: palette.darkGrey,
+        color: palette.gray4,
         textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
       },
     },
     bigFlatNeutralGrey: {
