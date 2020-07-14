@@ -15,7 +15,6 @@ RCT_REMAP_METHOD(getRandomBytes, randomBytesWithSize:(NSUInteger)size withResolv
 {
   void *buff = malloc(size);
   int status = SecRandomCopyBytes(kSecRandomDefault, size, buff);
-  free(buff);
   if (status == errSecSuccess) {
     NSString *base64encoded = [[[NSData alloc] initWithBytes:buff length:size] base64EncodedStringWithOptions:0];
     resolve(base64encoded);
@@ -23,6 +22,7 @@ RCT_REMAP_METHOD(getRandomBytes, randomBytesWithSize:(NSUInteger)size withResolv
     NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
     reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
   }
+  free(buff);
 }
 
 RCT_REMAP_METHOD(downloadDiagnosisKeysFile, downloadDiagnosisKeysFileWithURL:(NSString *)url WithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)

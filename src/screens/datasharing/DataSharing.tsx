@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Toolbar} from 'components';
-import {StyleSheet, Alert, ScrollView} from 'react-native';
+import {StyleSheet, Alert, ScrollView, KeyboardAvoidingView, Dimensions, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from '@shopify/react-i18n';
 import {useExposureStatus} from 'services/ExposureNotificationService';
@@ -65,9 +65,15 @@ export const DataSharingScreen = () => {
           navLabel={i18n.translate('DataUpload.Cancel')}
           onIconClicked={close}
         />
-        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
-          {getContent()}
-        </ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.flex}
+          keyboardVerticalOffset={Dimensions.get('screen').height / 10}
+        >
+          <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
+            {getContent()}
+          </ScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </Box>
   );

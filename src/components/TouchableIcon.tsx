@@ -27,12 +27,7 @@ export const TouchableIcon = ({iconName, iconSize, containerSize = 66, label, on
 
   if (Platform.OS === 'android') {
     return (
-      <Ripple
-        rippleSize={containerSize}
-        rippleContainerBorderRadius={containerSize}
-        onPress={onPress}
-        {...accessibilityProps}
-      >
+      <Ripple onPress={onPress} {...accessibilityProps}>
         {content}
       </Ripple>
     );

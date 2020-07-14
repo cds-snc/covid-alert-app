@@ -97,12 +97,21 @@
     },
     "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
-      "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
-      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
-      "Title2": "Que faire maintenant?",
-      "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
-      "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
-      "HowToIsolateCTA": "Comment vous isoler"
+      "CA": {
+        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+        "Title2": "Que faire maintenant?",
+        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+        "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
+        "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
+        "HowToIsolateCTA": "Comment vous isoler"
+      },
+      "ON": {
+        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+        "Title2": "Que faire maintenant?",
+        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+        "Body2": "Vous êtes à risque d’être infecté.",
+        "HowToIsolateCTA": "Comment vous isoler"
+      }
     },
     "EnDisabled": {
       "Title": "Alerte COVID est désactivée",
@@ -334,7 +343,7 @@
       "URL": "https://nu.thrive.health/covid19/fr"
     },
     "ON": {
-      "CTA": "Lieux où se faire tester",
+      "CTA": "Lisez les étapes à suivre",
       "URL": "https://ontario.ca/covidalerte-expose"
     },
     "PE": {

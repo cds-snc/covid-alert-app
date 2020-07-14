@@ -1,5 +1,6 @@
 import {I18n, I18nManager} from '@shopify/react-i18n';
 import {createStorageService} from 'services/StorageService';
+import {captureException} from 'shared/log';
 
 import LOCALES from './translations';
 
@@ -9,7 +10,7 @@ export const getBackgroundI18n = async (forceLocale?: string) => {
   const i18nManager = new I18nManager({
     locale,
     onError(error) {
-      console.log('>>> i18N', error);
+      captureException('i18N', error);
     },
   });
   const translations = (locale: string) => LOCALES[locale];

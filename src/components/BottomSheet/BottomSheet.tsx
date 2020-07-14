@@ -58,7 +58,7 @@ const BottomSheetInternal = (
   const onCloseEnd = useCallback(() => setIsExpanded(false), []);
 
   const {width, height} = useWindowDimensions();
-  const snapPoints = [height, Math.max(width, height) * (extraContent ? 0.3 : 0.2)];
+  const snapPoints = [height, extraContent ? 200 + insets.bottom : 140 + insets.bottom];
 
   // Need to add snapPoints to set enough height when BottomSheet is collapsed
   useEffect(() => {

@@ -11,6 +11,7 @@ import {
 } from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 import {ExposureSummary} from 'bridge/ExposureNotification';
+import {captureMessage} from 'shared/log';
 
 import {MockProvider, useMock} from './MockProvider';
 import {Item} from './views/Item';
@@ -113,7 +114,7 @@ const DrawerContent = () => {
               <Item
                 title="Clear exposure history and run check"
                 onPress={async () => {
-                  console.log('forcing refresh...');
+                  captureMessage('forcing refresh...');
                   exposureNotificationService.exposureStatusUpdatePromise = null;
                   exposureNotificationService.exposureStatus.set({type: 'monitoring'});
                   updateExposureStatus();
