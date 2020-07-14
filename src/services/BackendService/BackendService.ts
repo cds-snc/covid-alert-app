@@ -18,6 +18,9 @@ import {BackendInterface, SubmissionKeySet} from './types';
 const MAX_UPLOAD_KEYS = 14;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 
+// See https://github.com/cds-snc/covid-shield-server/pull/176
+const LAST_14_DAYS_PERIOD = '00000';
+
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
   submitUrl: string;
@@ -37,9 +40,10 @@ export class BackendService implements BackendInterface {
   }
 
   async retrieveDiagnosisKeys(period: number) {
-    const message = `${MCC_CODE}:${period}:${Math.floor(Date.now() / 1000 / 3600)}`;
+    const periodStr = `${period > 0 ? period : LAST_14_DAYS_PERIOD}`;
+    const message = `${MCC_CODE}:${periodStr}:${Math.floor(Date.now() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
-    const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${period}/${hmac}`;
+    const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${periodStr}/${hmac}`;
     captureMessage('retrieveDiagnosisKeys', {period, url});
     return downloadDiagnosisKeysFile(url);
   }
