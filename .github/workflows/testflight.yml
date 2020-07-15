@@ -34,7 +34,7 @@ jobs:
       - name: Install pods
         run: bundle install && yarn pod-install
 
-      - name: fastlane ios local
+      - name: fastlane ios beta
         env:
           # FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
           # FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
@@ -48,5 +48,5 @@ jobs:
           LC_ALL: en_CA.UTF-8
         uses: maierj/fastlane-action@v1.2.0
         with:
-          lane: 'ios local'
+          lane: 'ios beta'
           skip-tracking: true

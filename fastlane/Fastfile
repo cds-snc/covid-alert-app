@@ -65,7 +65,13 @@ platform :ios do
   lane :beta do
     # ensure_git_branch
     ensure_build_directory
-    setup_ci
+    create_keychain(
+      name: "FlKeychain",
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      lock_when_sleeps: true
+    )
 
     increment_build_number(
       build_number: ENV["APP_VERSION_CODE"],
@@ -77,6 +83,7 @@ platform :ios do
     match(
       git_url: ENV["CERTS_REPO"],
       app_identifier: ENV["APP_ID_IOS"],
+      keychain_name: "FlKeychain",
       type: "appstore",
       readonly: true
     )
