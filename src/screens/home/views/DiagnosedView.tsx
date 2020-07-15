@@ -2,7 +2,7 @@ import React from 'react';
 import {useI18n} from 'locale';
 import {Text} from 'components';
 import {useExposureStatus} from 'services/ExposureNotificationService';
-import {daysBetween} from 'shared/date-fns';
+import {daysBetween, getCurrentDate} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
@@ -18,7 +18,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
 
   if (exposureStatus.type !== 'diagnosed') return null;
 
-  const daysLeft = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt)) - 1;
+  const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
 
   return (
     <BaseHomeView iconName="hand-thank-you-with-love">

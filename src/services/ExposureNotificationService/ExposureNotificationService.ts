@@ -4,7 +4,15 @@ import ExposureNotification, {
   ExposureConfiguration,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
-import {addDays, daysBetween, isSameUtcCalendarDate, periodSinceEpoch, minutesBetween} from 'shared/date-fns';
+import {
+  addDays,
+  daysBetween,
+  isSameUtcCalendarDate,
+  periodSinceEpoch,
+  minutesBetween,
+  getCurrentDate,
+  getMillisSinceUTCEpoch,
+} from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
@@ -160,7 +168,7 @@ export class ExposureNotificationService {
         exposureStatus.type === 'diagnosed' &&
         exposureStatus.needsSubmission &&
         (!exposureStatus.uploadReminderLastSentAt ||
-          minutesBetween(new Date(exposureStatus.uploadReminderLastSentAt), new Date()) >
+          minutesBetween(new Date(exposureStatus.uploadReminderLastSentAt), getCurrentDate()) >
             MINIMUM_REMINDER_INTERVAL_MINUTES)
       ) {
         PushNotification.presentLocalNotification({
@@ -168,7 +176,7 @@ export class ExposureNotificationService {
           alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
         });
         await this.exposureStatus.append({
-          uploadReminderLastSentAt: new Date().getTime(),
+          uploadReminderLastSentAt: getMillisSinceUTCEpoch(),
         });
       }
     });
@@ -199,7 +207,7 @@ export class ExposureNotificationService {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
     await this.secureStorage.setItem(SUBMISSION_AUTH_KEYS, serialized, SECURE_OPTIONS);
-    const cycleStartsAt = new Date();
+    const cycleStartsAt = getCurrentDate();
     this.exposureStatus.append({
       type: 'diagnosed',
       needsSubmission: true,
@@ -250,14 +258,14 @@ export class ExposureNotificationService {
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== 'diagnosed') return;
-    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: new Date().getTime()});
+    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: getMillisSinceUTCEpoch()});
   }
 
   private async calculateNeedsSubmission(): Promise<boolean> {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== 'diagnosed') return false;
 
-    const today = new Date();
+    const today = getCurrentDate();
     const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
     // we're done submitting keys
     if (daysBetween(today, cycleEndsAt) <= 0) return false;
@@ -276,7 +284,7 @@ export class ExposureNotificationService {
   private async *keysSinceLastFetch(
     _lastCheckedPeriod?: number,
   ): AsyncGenerator<{keysFileUrl: string; period: number} | null> {
-    const runningDate = new Date();
+    const runningDate = getCurrentDate();
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
 
     if (!_lastCheckedPeriod) {
@@ -323,7 +331,7 @@ export class ExposureNotificationService {
 
     const finalize = async (status: Partial<ExposureStatus> = {}, lastCheckedPeriod = 0) => {
       const previousExposureStatus = this.exposureStatus.get();
-      const timestamp = new Date().getTime();
+      const timestamp = getMillisSinceUTCEpoch();
       this.exposureStatus.append({
         ...status,
         lastChecked: {
@@ -341,7 +349,7 @@ export class ExposureNotificationService {
     const currentStatus = this.exposureStatus.get();
 
     if (currentStatus.type === 'diagnosed') {
-      const today = new Date();
+      const today = getCurrentDate();
       const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
       if (daysBetween(today, cycleEndsAt) <= 0) {
         this.exposureStatus.set({type: 'monitoring'});
@@ -400,7 +408,7 @@ export class ExposureNotificationService {
     if (exposureStatus.type === 'diagnosed' || (summary?.matchedKeyCount || 0) <= 0) {
       return;
     }
-    const today = new Date();
+    const today = getCurrentDate();
     this.exposureStatus.append({
       type: 'exposed',
       summary,

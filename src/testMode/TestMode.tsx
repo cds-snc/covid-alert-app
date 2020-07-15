@@ -12,6 +12,7 @@ import {
 import {useStorage} from 'services/StorageService';
 import {ExposureSummary} from 'bridge/ExposureNotification';
 import {captureMessage} from 'shared/log';
+import {getCurrentTime} from 'shared/date-fns';
 
 import {MockProvider, useMock} from './MockProvider';
 import {Item} from './views/Item';
@@ -50,7 +51,7 @@ const DrawerContent = () => {
       case 'monitoring':
         // Change to exposed
         newExposureSummary = {
-          daysSinceLastExposure: Date.now(),
+          daysSinceLastExposure: getCurrentTime(),
           matchedKeyCount: 1,
           maximumRiskScore: 8,
         };

@@ -1,3 +1,5 @@
+import * as DateFns from 'shared/date-fns';
+
 import {downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
 import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
 
@@ -121,7 +123,7 @@ describe('BackendService', () => {
     let spyDate;
 
     beforeEach(() => {
-      spyDate = jest.spyOn(Date, 'now').mockImplementation(() => 1594764739745);
+      spyDate = jest.spyOn(DateFns, 'getMillisSinceUTCEpoch').mockImplementation(() => 1594764739745);
     });
 
     afterEach(() => {

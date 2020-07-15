@@ -8,6 +8,7 @@ import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, TRANSMISSION_RISK_LEVEL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
+import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 
 import {Observable} from '../../shared/Observable';
 import {Region} from '../../shared/Region';
@@ -41,7 +42,7 @@ export class BackendService implements BackendInterface {
 
   async retrieveDiagnosisKeys(period: number) {
     const periodStr = `${period > 0 ? period : LAST_14_DAYS_PERIOD}`;
-    const message = `${MCC_CODE}:${periodStr}:${Math.floor(Date.now() / 1000 / 3600)}`;
+    const message = `${MCC_CODE}:${periodStr}:${Math.floor(getMillisSinceUTCEpoch() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${periodStr}/${hmac}`;
     captureMessage('retrieveDiagnosisKeys', {period, url});
@@ -99,7 +100,7 @@ export class BackendService implements BackendInterface {
     });
 
     const upload = covidshield.Upload.create({
-      timestamp: {seconds: Math.floor(new Date().getTime() / 1000)},
+      timestamp: {seconds: Math.floor(getMillisSinceUTCEpoch() / 1000)},
       keys: exposureKeys.map(key =>
         covidshield.TemporaryExposureKey.create({
           keyData: Buffer.from(key.keyData, 'base64'),
