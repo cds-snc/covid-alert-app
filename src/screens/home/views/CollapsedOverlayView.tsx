@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import Animated, {pow} from 'react-native-reanimated';
 import {Box, Text, BottomSheetBehavior, Icon} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {SystemStatus} from 'services/ExposureNotificationService';
 
 import {StatusHeaderView} from './StatusHeaderView';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBehavior}: Props) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
 
   useEffect(() => {
     bottomSheetBehavior.refreshSnapPoints(notificationWarning);

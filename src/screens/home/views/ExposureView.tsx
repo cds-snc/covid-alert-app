@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Linking} from 'react-native';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {Text, Box, ButtonSingleLine} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
@@ -10,7 +10,7 @@ import {BaseHomeView} from '../components/BaseHomeView';
 
 export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const {region} = useStorage();
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const navigation = useNavigation();
   const getGuidanceURL = useCallback(() => {
     if (region !== undefined && region !== 'None') {

@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Box, BulletPointCheck, ButtonSingleLine} from 'components';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
 export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const navigation = useNavigation();
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
 

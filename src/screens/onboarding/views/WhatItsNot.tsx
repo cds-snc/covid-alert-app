@@ -1,11 +1,11 @@
 import React from 'react';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {Box, Text} from 'components';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
 export const WhatItsNot = (props: Pick<ItemViewProps, 'isActive'>) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   return (
     <ItemView
       {...props}

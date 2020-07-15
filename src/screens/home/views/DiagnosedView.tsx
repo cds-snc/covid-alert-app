@@ -1,5 +1,5 @@
 import React from 'react';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {Text} from 'components';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 import {daysBetween} from 'shared/date-fns';
@@ -11,7 +11,7 @@ import {BaseHomeView} from '../components/BaseHomeView';
 import {Tip} from '../components/Tip';
 
 export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const {region} = useStorage();
   const [exposureStatus] = useExposureStatus();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);

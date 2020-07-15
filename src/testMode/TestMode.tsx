@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import PushNotification from 'bridge/PushNotification';
 import {Box, Text} from 'components';
 import {
@@ -20,7 +20,7 @@ import {Section} from './views/Section';
 const Drawer = createDrawerNavigator();
 
 const DrawerContent = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
 
   const {reset} = useStorage();
 

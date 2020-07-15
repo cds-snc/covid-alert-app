@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useReportDiagnosis} from 'services/ExposureNotificationService';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const ConsentView = ({onSuccess, onError}: Props) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys} = useReportDiagnosis();
 

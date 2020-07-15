@@ -10,7 +10,7 @@ import {
   AccessibilityRole,
 } from 'react-native';
 import {Theme, palette} from 'shared/theme';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 import {Box} from './Box';
 import {Ripple} from './Ripple';
@@ -40,7 +40,7 @@ export const InfoButton = ({
   externalLink,
   internalLink,
 }: InfoButtonProps) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const theme = useTheme<Theme>();
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};

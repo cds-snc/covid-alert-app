@@ -3,14 +3,14 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Toolbar, Text} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import Markdown from 'react-native-markdown-display';
 import privacyPolicyEn from 'assets/privacypolicy';
 import privacyPolicyFr from 'assets/privacypolicy-fr';
 
 export const PrivacyScreen = () => {
   const navigation = useNavigation();
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
 
   return (

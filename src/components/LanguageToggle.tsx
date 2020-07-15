@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
 import {Button} from 'components/Button';
 import {useStorage} from 'services/StorageService';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 export const LanguageToggle = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const {setLocale} = useStorage();
   const toggle = useCallback(() => {
     setLocale(i18n.locale === 'en' ? 'fr' : 'en');
