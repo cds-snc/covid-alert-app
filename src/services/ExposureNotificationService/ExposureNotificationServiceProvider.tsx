@@ -1,6 +1,6 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useI18n} from 'locale';
+import {useI18nRef} from 'locale';
 import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotification';
 import {AppState, AppStateStatus} from 'react-native';
 import SecureStorage from 'react-native-sensitive-info';
@@ -35,7 +35,7 @@ export const ExposureNotificationServiceProvider = ({
   secureStorage,
   children,
 }: ExposureNotificationServiceProviderProps) => {
-  const i18n = useI18n();
+  const i18n = useI18nRef();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(

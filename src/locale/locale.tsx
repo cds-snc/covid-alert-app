@@ -1,10 +1,14 @@
-import React, {createContext, useMemo, useContext} from 'react';
-import {I18n, I18nManager} from '@shopify/react-i18n';
+import React, {createContext, useMemo, useContext, useRef, useEffect} from 'react';
+import {I18n as ReactI18n, I18nManager} from '@shopify/react-i18n';
 import {createStorageService, useStorage} from 'services/StorageService';
 import {captureException} from 'shared/log';
 
 import LOCALES from './translations';
 import FALLBACK_LOCALE from './translations/en.json';
+
+export interface I18n {
+  translate(id: string): string;
+}
 
 const I18nContext = createContext<I18n | undefined>(undefined);
 
@@ -16,7 +20,7 @@ export const createI18n = (locale: string) => {
     },
   });
   i18nManager.register({id: 'global'});
-  return new I18n([LOCALES[locale], FALLBACK_LOCALE], {...i18nManager.details});
+  return new ReactI18n([LOCALES[locale], FALLBACK_LOCALE], {...i18nManager.details});
 };
 
 export const createBackgroundI18n = async (forceLocale?: string) => {
@@ -41,4 +45,21 @@ export const useI18n = () => {
   return useContext(I18nContext)!!;
 };
 
-export {I18n};
+/**
+ * A wrapper for i18n which doesn't return new reference even i18n is updated
+ */
+export const useI18nRef = () => {
+  const i18n = useI18n();
+  const ref = useRef(i18n);
+
+  useEffect(() => {
+    ref.current = i18n;
+  }, [i18n]);
+
+  return useMemo<I18n>(
+    () => ({
+      translate: (id: string) => ref.current.translate(id),
+    }),
+    [],
+  );
+};
