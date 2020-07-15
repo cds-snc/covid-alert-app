@@ -65,6 +65,7 @@ platform :ios do
   lane :beta do
     # ensure_git_branch
     ensure_build_directory
+    setup_ci
 
     increment_build_number(
       build_number: ENV["APP_VERSION_CODE"],
