@@ -48,3 +48,12 @@ export function isSameUtcCalendarDate(date1: Date, date2: Date): boolean {
     date1.getUTCDate() === date2.getUTCDate()
   );
 }
+
+export function getCurrentDate(): Date {
+    return new Date();
+}
+
+
+export function getMillisSinceUTCEpoch(): number {
+    return getCurrentDate().getTime();
+}
