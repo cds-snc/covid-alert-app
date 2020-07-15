@@ -7,6 +7,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
+import {getCurrentDate} from 'shared/date-fns';
 
 import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingContent';
 
@@ -47,7 +48,7 @@ export const OnboardingScreen = () => {
   const nextItem = useCallback(async () => {
     if (isEnd) {
       await setOnboarded(true);
-      await setOnboardedDatetime(new Date());
+      await setOnboardedDatetime(getCurrentDate());
       navigation.reset({
         index: 0,
         routes: [{name: 'Home'}],
