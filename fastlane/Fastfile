@@ -67,6 +67,7 @@ platform :ios do
     ensure_build_directory
     create_keychain(
       name: "FlKeychain",
+      password: "meow",
       default_keychain: true,
       unlock: true,
       timeout: 3600,
@@ -84,6 +85,7 @@ platform :ios do
       git_url: ENV["CERTS_REPO"],
       app_identifier: ENV["APP_ID_IOS"],
       keychain_name: "FlKeychain",
+      keychain_password: "meow",
       type: "appstore",
       readonly: true
     )
