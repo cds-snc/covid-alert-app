@@ -45,6 +45,7 @@ import HandReminder from 'assets/hand-reminder.svg';
 import HandThankYouWithLove from 'assets/hand-thank-you-with-love.svg';
 import HandNoProvinceYet from 'assets/hand-no-province-yet.svg';
 import StopCOVID from 'assets/StopCOVID.svg';
+import CanadaLogo from 'assets/canada.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -93,6 +94,7 @@ const ICONS = {
   'hand-reminder': HandReminder,
   'hand-thank-you-with-love': HandThankYouWithLove,
   'hand-no-province-yet': HandNoProvinceYet,
+  'canada-logo': CanadaLogo,
 };
 
 export type IconName = keyof typeof ICONS;
