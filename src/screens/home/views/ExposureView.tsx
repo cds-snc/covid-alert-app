@@ -31,15 +31,15 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const isRegionOntario = region === 'ON';
 
   const getRegionForText = useCallback(() => {
-    const isRegionOntario = region === 'ON';
     if (isRegionOntario) {
       return region;
     }
     // default to CA for all other regions that are not yet supported
     return 'CA';
-  }, [region]);
+  }, [region, isRegionOntario]);
 
   return (
     <BaseHomeView iconName="hand-caution">
