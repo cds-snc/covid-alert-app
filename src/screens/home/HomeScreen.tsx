@@ -9,7 +9,6 @@ import {
   useStartExposureNotificationService,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
-import {useMaxContentWidth} from 'shared/useMaxContentWidth';
 import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
@@ -134,7 +133,6 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
-  const maxWidth = useMaxContentWidth();
   const toSettings = useCallback(() => {
     Linking.openSettings();
   }, []);
@@ -148,7 +146,6 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
       status={systemStatus}
       notificationWarning={showNotificationWarning}
       turnNotificationsOn={turnNotificationsOnFn}
-      maxWidth={maxWidth}
       bottomSheetBehavior={bottomSheetBehavior}
     />
   );
@@ -176,7 +173,6 @@ export const HomeScreen = () => {
     startExposureNotificationService();
   }, [startExposureNotificationService]);
 
-  const maxWidth = useMaxContentWidth();
   const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
@@ -197,8 +193,7 @@ export const HomeScreen = () => {
       <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
         <Box
           flex={1}
-          maxWidth={maxWidth}
-          paddingTop="m"
+          padding="m"
           alignSelf="stretch"
           accessibilityElementsHidden={isBottomSheetExpanded}
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
