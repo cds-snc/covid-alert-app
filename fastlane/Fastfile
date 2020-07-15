@@ -76,6 +76,7 @@ platform :ios do
     match(
       git_url: ENV["CERTS_REPO"],
       app_identifier: ENV["APP_ID_IOS"],
+      git_basic_authorization: Base64.strict_encode64(ENV["MATCH_GIT_BASIC_AUTHORIZATION"]),
       type: "appstore",
       readonly: true
     )
