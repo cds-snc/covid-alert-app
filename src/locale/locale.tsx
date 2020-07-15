@@ -6,9 +6,7 @@ import {captureException} from 'shared/log';
 import LOCALES from './translations';
 import FALLBACK_LOCALE from './translations/en.json';
 
-export interface I18n {
-  translate(id: string): string;
-}
+export type I18n = Pick<ReactI18n, 'locale' | 'translate'>;
 
 const I18nContext = createContext<I18n | undefined>(undefined);
 
@@ -56,10 +54,14 @@ export const useI18nRef = () => {
     ref.current = i18n;
   }, [i18n]);
 
-  return useMemo<I18n>(
-    () => ({
-      translate: (id: string) => ref.current.translate(id),
-    }),
-    [],
-  );
+  return useMemo<I18n>(() => {
+    return {
+      get locale() {
+        return ref.current.locale;
+      },
+      translate: (id: any, optionsOrReplacements?: any, replacements?: any) => {
+        return ref.current.translate(id, optionsOrReplacements, replacements) as any;
+      },
+    };
+  }, []);
 };
