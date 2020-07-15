@@ -8,8 +8,6 @@ import FALLBACK_LOCALE from './translations/en.json';
 
 const I18nContext = createContext<I18n | undefined>(undefined);
 
-export {I18n};
-
 export const createI18n = (locale: string) => {
   const i18nManager = new I18nManager({
     locale,
@@ -42,3 +40,5 @@ export const I18nProvider = ({locale: forceLocale, children}: I18nProviderProps)
 export const useI18n = () => {
   return useContext(I18nContext)!!;
 };
+
+export {I18n};
