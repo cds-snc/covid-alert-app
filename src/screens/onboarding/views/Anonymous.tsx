@@ -1,11 +1,11 @@
 import React from 'react';
 import {Box, BulletPointX, Text} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
 export const Anonymous = (props: Pick<ItemViewProps, 'isActive'>) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
 
   return (
     <ItemView

@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import Animated, {sub, abs} from 'react-native-reanimated';
 import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
-import {useI18n, I18n} from '@shopify/react-i18n';
+import {useI18n, I18n} from 'locale';
 import {Linking, Platform, TouchableOpacity, StyleSheet, View} from 'react-native';
 import {
   SystemStatus,
@@ -151,7 +151,7 @@ export const OverlayView = ({
   maxWidth,
   bottomSheetBehavior,
 }: Props) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>

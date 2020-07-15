@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TextMultiline} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
@@ -9,7 +9,7 @@ import {BaseHomeView} from '../components/BaseHomeView';
 import {AllSetView} from '../components/AllSetView';
 
 export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const {onboardedDatetime, skipAllSet} = useStorage();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 

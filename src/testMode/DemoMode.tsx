@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import PushNotification from 'bridge/PushNotification';
 import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
@@ -81,7 +81,7 @@ const SkipAllSetRadioSelector = () => {
 };
 
 const DrawerContent = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
 
   const {reset} = useStorage();
 

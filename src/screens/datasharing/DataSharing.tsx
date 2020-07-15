@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Box, Toolbar} from 'components';
 import {StyleSheet, Alert, ScrollView, KeyboardAvoidingView, Dimensions, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 
 import {Step1} from './views/Step1';
@@ -12,7 +12,7 @@ import {ConsentView} from './views/ConsentView';
 
 export const DataSharingScreen = () => {
   const navigation = useNavigation();
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const [exposureStatus] = useExposureStatus();
   const [codeValue, setCodeValue] = useState('');

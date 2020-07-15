@@ -4,7 +4,7 @@ import Carousel, {CarouselStatic, CarouselProps} from 'react-native-snap-carouse
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, Toolbar, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 import {TutorialContent, tutorialData, TutorialKey} from './TutorialContent';
 
@@ -13,7 +13,7 @@ export const TutorialScreen = () => {
   const {width: viewportWidth} = useWindowDimensions();
   const carouselRef = useRef<CarouselStatic<TutorialKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
 
   const isStart = currentStep === 0;

@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {Box, Text, ButtonSingleLine} from 'components';
 import {useNavigation} from '@react-navigation/native';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
 export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
 
