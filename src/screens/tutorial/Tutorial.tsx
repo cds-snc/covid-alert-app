@@ -65,15 +65,15 @@ export const TutorialScreen = () => {
           />
         </View>
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
-          <Box flex={0} style={{width: 147, right: 10}}>
+          <Box flex={0} style={{...styles.offset1}}>
             {!isStart && <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="text" onPress={prevItem} />}
           </Box>
 
-          <Box flex={2} justifyContent="center" style={{left: 1}}>
+          <Box flex={2} justifyContent="center" style={{...styles.offset2}}>
             <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
           </Box>
 
-          <Box flex={0} style={{width: 147}}>
+          <Box flex={0} style={{...styles.offset3}}>
             <Button
               text={i18n.translate(`Tutorial.Action${isEnd ? 'End' : 'Next'}`)}
               variant="text"
@@ -87,6 +87,16 @@ export const TutorialScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  offset1: {
+    width: 147,
+    right: 10,
+  },
+  offset2: {
+    left: 1,
+  },
+  offset3: {
+    width: 148,
+  },
   flex: {
     flex: 1,
   },

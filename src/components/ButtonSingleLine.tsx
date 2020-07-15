@@ -65,6 +65,7 @@ export const ButtonSingleLine = ({
       borderRadius={borderRadius}
       alignItems="center"
       justifyContent="center"
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
         minHeight: height,
