@@ -13,7 +13,7 @@ import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
-import {ExposureConfigurationValidator} from './ExposureConfigurationValidator';
+import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposure-configuration';
@@ -321,6 +321,8 @@ export class ExposureNotificationService {
     } catch (error) {
       if (error instanceof SyntaxError) {
         captureException('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
+      } else if (error instanceof ExposureConfigurationValidationError) {
+        console.error('JSON Schema Error: Downloaded ', error);
       } else {
         captureException('Network Error: Unable to download exposureConfiguration.', error);
       }
