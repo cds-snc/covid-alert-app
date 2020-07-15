@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Toolbar, BulletPointCheck} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 export const HowToIsolate = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
 

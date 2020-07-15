@@ -4,7 +4,7 @@ import Carousel, {CarouselStatic, CarouselProps} from 'react-native-snap-carouse
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, Toolbar, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 import {TutorialContent, tutorialData, TutorialKey} from './TutorialContent';
 
@@ -13,7 +13,7 @@ export const TutorialScreen = () => {
   const {width: viewportWidth} = useWindowDimensions();
   const carouselRef = useRef<CarouselStatic<TutorialKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
 
   const isStart = currentStep === 0;
@@ -65,14 +65,15 @@ export const TutorialScreen = () => {
           />
         </View>
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
-          <Box flex={1}>
+          <Box flex={0} style={{width: 147, right: 10}}>
             {!isStart && <Button text={i18n.translate(`Tutorial.ActionBack`)} variant="text" onPress={prevItem} />}
           </Box>
-          <Box flex={1} justifyContent="center">
+
+          <Box flex={2} justifyContent="center" style={{left: 1}}>
             <ProgressCircles numberOfSteps={tutorialData.length} activeStep={currentStep + 1} marginBottom="none" />
           </Box>
 
-          <Box flex={1}>
+          <Box flex={0} style={{width: 147}}>
             <Button
               text={i18n.translate(`Tutorial.Action${isEnd ? 'End' : 'Next'}`)}
               variant="text"

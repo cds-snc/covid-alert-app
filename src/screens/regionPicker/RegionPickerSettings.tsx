@@ -4,13 +4,13 @@ import {Box, Toolbar, Text, TextMultiline} from 'components';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {Region} from 'shared/Region';
 
 import {regionData, RegionItem, regionStyles} from './RegionPickerShared';
 
 export const RegionPickerSettingsScreen = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const navigation = useNavigation();
   const {region, setRegion} = useStorage();
 

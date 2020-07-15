@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {Box, CodeInput, Text, Button} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useReportDiagnosis} from 'services/ExposureNotificationService';
 
 export interface FormViewProps {
@@ -11,7 +11,7 @@ export interface FormViewProps {
 }
 
 export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const [loading, setLoading] = useState(false);
   const {startSubmission} = useReportDiagnosis();
   const handleVerify = useCallback(async () => {

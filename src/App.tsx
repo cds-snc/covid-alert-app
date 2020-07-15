@@ -8,12 +8,10 @@
  * @format
  */
 import React, {useMemo, useEffect} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
-import {I18nContext, I18nManager} from '@shopify/react-i18n';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {StorageServiceProvider, Key, useStorageService} from 'services/StorageService';
+import {StorageServiceProvider, useStorageService} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
 import {NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -21,10 +19,10 @@ import {DemoMode} from 'testMode';
 import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
-import {SharedTranslations, getSystemLocale} from 'locale';
+import {I18nProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage, captureException} from 'shared/log';
+import {captureMessage} from 'shared/log';
 
 // grabs the ip address
 if (__DEV__) {
@@ -34,22 +32,8 @@ if (__DEV__) {
     .connect();
 }
 
-const i18nManager = new I18nManager({
-  locale: getSystemLocale(),
-  onError(error) {
-    captureException('i18N', error);
-  },
-});
-
 const appInit = async () => {
   captureMessage('App.appInit()');
-  try {
-    const locale = await AsyncStorage.getItem(Key.Locale);
-    if (locale && locale !== i18nManager.details.locale) i18nManager.update({locale});
-  } catch (error) {
-    console.error(error);
-  }
-
   // only hide splash screen after our init is done
   SplashScreen.hide();
 };
@@ -65,23 +49,21 @@ const App = () => {
   ]);
 
   return (
-    <I18nContext.Provider value={i18nManager}>
-      <SharedTranslations>
-        <ExposureNotificationServiceProvider backendInterface={backendService}>
-          <DevPersistedNavigationContainer persistKey="navigationState">
-            <AccessibilityServiceProvider>
-              {TEST_MODE ? (
-                <DemoMode>
-                  <MainNavigator />
-                </DemoMode>
-              ) : (
+    <I18nProvider>
+      <ExposureNotificationServiceProvider backendInterface={backendService}>
+        <DevPersistedNavigationContainer persistKey="navigationState">
+          <AccessibilityServiceProvider>
+            {TEST_MODE ? (
+              <DemoMode>
                 <MainNavigator />
-              )}
-            </AccessibilityServiceProvider>
-          </DevPersistedNavigationContainer>
-        </ExposureNotificationServiceProvider>
-      </SharedTranslations>
-    </I18nContext.Provider>
+              </DemoMode>
+            ) : (
+              <MainNavigator />
+            )}
+          </AccessibilityServiceProvider>
+        </DevPersistedNavigationContainer>
+      </ExposureNotificationServiceProvider>
+    </I18nProvider>
   );
 };
 

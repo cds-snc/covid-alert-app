@@ -4,7 +4,7 @@ import Carousel, {CarouselStatic, CarouselProps} from 'react-native-snap-carouse
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
@@ -15,7 +15,7 @@ export const OnboardingScreen = () => {
   const {width: viewportWidth} = useWindowDimensions();
   const carouselRef = useRef<CarouselStatic<OnboardingKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const {setOnboarded, setOnboardedDatetime, setRegion} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
   const isStart = currentStep === 0;
@@ -80,14 +80,15 @@ export const OnboardingScreen = () => {
           />
         </View>
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
-          <Box flex={1}>
+          <Box flex={0} style={{width: 147, right: 10}}>
             {!isStart && <Button text={i18n.translate(`Onboarding.ActionBack`)} variant="text" onPress={prevItem} />}
           </Box>
-          <Box flex={1} justifyContent="center">
+
+          <Box flex={2} justifyContent="center" style={{left: 1}}>
             <ProgressCircles numberOfSteps={onboardingData.length} activeStep={currentStep + 1} marginBottom="none" />
           </Box>
 
-          <Box flex={1}>
+          <Box flex={0} style={{width: 147}}>
             <Button
               text={i18n.translate(`Onboarding.Action${isEnd ? 'End' : 'Next'}`)}
               variant="text"

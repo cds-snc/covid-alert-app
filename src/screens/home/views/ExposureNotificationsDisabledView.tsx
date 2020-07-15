@@ -1,4 +1,4 @@
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
 import {Linking, Platform} from 'react-native';
@@ -8,7 +8,7 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const startExposureNotificationService = useStartExposureNotificationService();
 
   const toSettings = useCallback(() => {

@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {TouchableOpacity, TouchableOpacityProps, Linking} from 'react-native';
 import {Box, Text, Icon, IconProps} from 'components';
 import {useNavigation} from '@react-navigation/native';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
@@ -39,7 +39,7 @@ const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoS
 );
 
 export const InfoShareView = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
   const onGetCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
@@ -72,13 +72,13 @@ export const InfoShareView = () => {
           text={i18n.translate('Info.LearnMore')}
           icon="icon-chevron"
         />
-        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
+        <InfoShareItem onPress={onPrivacy} lastItem={false} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
         <InfoShareItem
           onPress={onHelp}
           text={i18n.translate('Info.Help')}
           icon="icon-external-arrow"
           accessibilityRole="link"
-          accessibilityHint={i18n.translate('Home.ExternalLinkHint')}
+          accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
           lastItem
         />
       </Box>

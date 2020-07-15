@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, Box} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 import {daysFromNow, hoursFromNow, minutesFromNow} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
@@ -10,7 +10,7 @@ export interface LastCheckedDisplayProps {
 }
 
 export const LastCheckedDisplay = ({textDark}: LastCheckedDisplayProps) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const [exposureStatus] = useExposureStatus();
   if (!exposureStatus.lastChecked?.timestamp) return null;
 

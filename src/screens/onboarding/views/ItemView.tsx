@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
 import {Box, Text} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {onboardingData, OnboardingKey} from '../OnboardingContent';
@@ -16,7 +16,7 @@ export interface ItemViewProps {
 }
 
 export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const autoFocusRef = useAccessibilityAutoFocus(isActive);
   const total = onboardingData.length;
   const step = i18n.translate('Onboarding.Step');

@@ -4,7 +4,7 @@ import {Box, Text, Icon, Toolbar} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 interface LanguageSelectItemProps {
   onPress: () => void;
@@ -45,7 +45,7 @@ const LanguageSelectItem = ({onPress, text, lastItem, isActive}: LanguageSelectI
 );
 
 export const LanguageScreen = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const {setLocale} = useStorage();

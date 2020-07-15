@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button, ButtonSingleLine} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const Step1 = ({onSuccess}: Props) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
 
   const navigation = useNavigation();
   const onNoCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);

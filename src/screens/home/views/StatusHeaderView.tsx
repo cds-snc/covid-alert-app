@@ -1,12 +1,12 @@
 import React from 'react';
 import {Box, Text} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 interface Props {
   enabled: boolean;
 }
 export const StatusHeaderView = ({enabled}: Props) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const color = enabled ? 'statusSuccess' : 'statusError';
   return (
     <Box justifyContent="center" flexDirection="row" alignItems="flex-start" paddingHorizontal="m">

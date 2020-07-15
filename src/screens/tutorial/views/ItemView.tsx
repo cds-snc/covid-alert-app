@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
 import {Text, TextMultiline} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {TutorialKey} from '../TutorialContent';
@@ -13,7 +13,7 @@ export interface ItemViewProps {
 }
 
 export const ItemView = ({item, image, isActive}: ItemViewProps) => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const accessibilityAutoFocusRef = useAccessibilityAutoFocus(isActive);
 
   return (

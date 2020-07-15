@@ -1,10 +1,10 @@
 import React from 'react';
 import {Box, ButtonSingleLine, Icon, Text} from 'components';
 import {Linking} from 'react-native';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 
 export const Tip = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   return (
     <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="m" marginBottom="xl">
       <Box flexDirection="row" paddingLeft="s" paddingRight="m">

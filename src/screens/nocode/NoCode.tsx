@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Linking} from 'react-native';
 import {Box, Text, TextMultiline, Toolbar, ButtonSingleLine} from 'components';
-import {useI18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
@@ -39,7 +39,7 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
 };
 
 export const NoCodeScreen = () => {
-  const [i18n] = useI18n();
+  const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const onChooseRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
