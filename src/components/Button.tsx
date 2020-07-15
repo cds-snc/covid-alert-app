@@ -76,6 +76,7 @@ export const Button = ({
       alignItems="center"
       justifyContent="center"
       shadowColor="bodyText"
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
         minHeight: height,

@@ -39,7 +39,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
     }
     // default to CA for all other regions that are not yet supported
     return 'CA';
-  }, [region]);
+  }, [region, isRegionOntario]);
 
   return (
     <BaseHomeView iconName="hand-caution">
