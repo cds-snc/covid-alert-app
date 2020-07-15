@@ -16,7 +16,7 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
       image={require('assets/onboarding-enable.png')}
       altText={i18n.translate('Onboarding.Permissions.ImageAltText')}
       header={i18n.translate('Onboarding.Permissions.Title')}
-      item="step-5"
+      item="step-4"
     >
       <>
         <Box marginBottom="m">

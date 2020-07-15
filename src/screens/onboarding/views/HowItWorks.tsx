@@ -16,7 +16,7 @@ export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
       image={require('assets/onboarding-howitworks.png')}
       altText={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
       header={i18n.translate('Onboarding.HowItWorks.Title')}
-      item="step-4"
+      item="step-3"
     >
       <>
         <BulletPointCheck text={i18n.translate('Onboarding.HowItWorks.Body1')} />

@@ -31,6 +31,7 @@ export const Anonymous = (props: Pick<ItemViewProps, 'isActive'>) => {
         <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet2')} />
         <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet3')} />
         <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet4')} />
+        <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet5')} />
       </>
     </ItemView>
   );
