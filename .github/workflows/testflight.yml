@@ -48,5 +48,5 @@ jobs:
           LC_ALL: en_CA.UTF-8
         uses: maierj/fastlane-action@v1.2.0
         with:
-          lane: 'ios beta'
+          lane: 'ios local'
           skip-tracking: true
