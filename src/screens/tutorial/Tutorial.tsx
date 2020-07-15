@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     left: 1,
   },
   offset3: {
-    width: 148,
+    width: 147,
   },
   flex: {
     flex: 1,
