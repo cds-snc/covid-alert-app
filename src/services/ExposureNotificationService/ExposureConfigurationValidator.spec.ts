@@ -9,6 +9,6 @@ describe('ExposureConfigurationValidator', () => {
       exposureConfigurationSchema,
     );
 
-    expect(result.errors.length).toHaveLength(0);
+    expect(result.errors.length).toBe(0);
   });
 });
