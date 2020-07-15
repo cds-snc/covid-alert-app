@@ -34,7 +34,7 @@ jobs:
       - name: Install pods
         run: bundle install && yarn pod-install
 
-      - name: fastlane ios beta
+      - name: fastlane ios local
         env:
           # FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
           # FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
