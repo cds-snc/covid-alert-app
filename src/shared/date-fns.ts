@@ -50,10 +50,9 @@ export function isSameUtcCalendarDate(date1: Date, date2: Date): boolean {
 }
 
 export function getCurrentDate(): Date {
-    return new Date();
+  return new Date();
 }
 
-
 export function getMillisSinceUTCEpoch(): number {
-    return getCurrentDate().getTime();
+  return getCurrentDate().getTime();
 }
