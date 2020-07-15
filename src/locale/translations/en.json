@@ -199,7 +199,8 @@
       "Bullet1": "Your location.",
       "Bullet2": "Your name or address.",
       "Bullet3": "Your phone's contacts.",
-      "Bullet4": "Your health information."
+      "Bullet4": "Your health information.",
+      "Bullet5": "The health information of anyone you’re near."
     },
     "HowItWorks": {
       "Title": "How it works",

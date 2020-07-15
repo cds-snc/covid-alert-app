@@ -231,7 +231,8 @@
       "Bullet1": "votre emplacement,",
       "Bullet2": "votre nom ou votre adresse,",
       "Bullet3": "les contacts de votre téléphone,",
-      "Bullet4": "vos informations de santé."
+      "Bullet4": "vos informations de santé.",
+      "Bullet5": "Les informations de santé des personnes à proximité."
     },
     "HowItWorks": {
       "Title": "Fonctionnement",
