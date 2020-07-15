@@ -93,17 +93,17 @@ platform :ios do
       }
     )
 
-    groups = ENV["TEST_GROUPS"].split(",")
-    upload_to_testflight(
-      groups: groups,
-      changelog: default_changelog(simple: true),
-      ipa: "#{output_directory}/CovidShield.ipa"
-    )
+    #groups = ENV["TEST_GROUPS"].split(",")
+    #upload_to_testflight(
+    #  groups: groups,
+    #  changelog: default_changelog(simple: true),
+    #  ipa: "#{output_directory}/CovidShield.ipa"
+    #)
 
-    create_github_release(
-      platform: 'iOS',
-      upload_assets: ["#{output_directory}/CovidShield.ipa", "#{output_directory}/CovidShield.app.dSYM.zip"]
-    )
+    #create_github_release(
+    #  platform: 'iOS',
+    #  upload_assets: ["#{output_directory}/CovidShield.ipa", "#{output_directory}/CovidShield.app.dSYM.zip"]
+    #)
   end
 
   desc "Builds a local iOS adhoc .ipa"
