@@ -3,12 +3,12 @@ import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 
 describe('ExposureConfigurationValidator', () => {
-  it('Validates the default config', async () => {
+  it('validates the default config', async () => {
     const result = new ExposureConfigurationValidator().validateExposureConfiguration(
       exposureConfigurationDefault,
       exposureConfigurationSchema,
     );
 
-    expect(result.errors.length).toEqual(0);
+    expect(result.errors.length).toHaveLength(0);
   });
 });
