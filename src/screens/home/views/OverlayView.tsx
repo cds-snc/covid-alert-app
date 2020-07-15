@@ -144,19 +144,13 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
   bottomSheetBehavior: BottomSheetBehavior;
 }
 
-export const OverlayView = ({
-  status,
-  notificationWarning,
-  turnNotificationsOn,
-  maxWidth,
-  bottomSheetBehavior,
-}: Props) => {
+export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
-        <Box maxWidth={maxWidth}>
+        <Box paddingLeft="m" paddingRight="m">
           <TouchableOpacity
             onPress={bottomSheetBehavior.collapse}
             style={styles.collapseButton}
