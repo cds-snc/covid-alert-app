@@ -144,13 +144,7 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
   bottomSheetBehavior: BottomSheetBehavior;
 }
 
-
-export const OverlayView = ({
-  status,
-  notificationWarning,
-  turnNotificationsOn,
-  bottomSheetBehavior,
-}: Props) => {
+export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
 
   return (
