@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Covid Alert Exposure Configuration Schema",
+  "type": "object",
+  "properties": {
+    "minimumRiskScore" : {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4096
+    },
+    "attenuationLevelValues": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 8
+      },
+      "minItems": 8,
+      "maxItems": 8
+    },
+    "attenuationWeight": {
+      "type" : "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "daysSinceLastExposureLevelValues" : {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 8
+      },
+      "minItems": 8,
+      "maxItems": 8
+    },
+    "daysSinceLastExposureWeight": {
+      "type" : "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "durationLevelValues" : {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 8
+      },
+      "minItems": 8,
+      "maxItems": 8
+    },
+    "durationWeight": {
+      "type" : "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "transmissionRiskLevelValues" : {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 8
+      },
+      "minItems": 8,
+      "maxItems": 8
+    },
+    "transmissionRiskWeight": {
+      "type" : "integer",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [ "minimumRiskScore",
+    "attenuationLevelValues", "attenuationWeight",
+    "daysSinceLastExposureLevelValues", "daysSinceLastExposureWeight",
+    "durationLevelValues", "durationWeight",
+    "transmissionRiskLevelValues", "transmissionRiskWeight"
+  ]
+}
