@@ -3,7 +3,6 @@ import {StatusBar, Platform} from 'react-native';
 import {enableScreens} from 'react-native-screens';
 import {useNavigationState} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
@@ -18,7 +17,7 @@ import {OnboardingScreen} from 'screens/onboarding';
 
 enableScreens();
 
-const MainStack = createNativeStackNavigator();
+const MainStack = createStackNavigator();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
