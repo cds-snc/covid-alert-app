@@ -21,12 +21,21 @@
       }
     },
     "ExposureDetected": {
-      "Title": "You’ve been exposed in the last 14 days",
-      "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
-      "Title2": "What now?",
-      "Body2": "You’re at risk of being infected. ",
-      "Body3": "You need to self-isolate for 14 days.",
-      "HowToIsolateCTA": "How to self-isolate"
+      "CA": {
+        "Title": "You’ve been exposed in the last 14 days",
+        "Title2": "What now?",
+        "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+        "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
+        "Body3": "consider self-isolating for 14 days.",
+        "HowToIsolateCTA": "How to self-isolate"
+      },
+      "ON": {
+        "Title": "You’ve been exposed in the last 14 days",
+        "Title2": "What now?",
+        "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+        "Body2": "You’re at risk of being infected.",
+        "HowToIsolateCTA": "How to self-isolate"
+      }
     },
     "ChooseRegionCTA": "Choose province or territory",
     "How": "Diagnosed with COVID-19?",
@@ -174,14 +183,15 @@
       "Body2": "It will not tell you about outbreaks in your community."
     },
     "Anonymous": {
-      "Title": "Private and anonymous",
+      "Title": "Your privacy is safe",
       "ImageAltText": "A hand-drawn illustration of shaded glasses and hat to go incognito. Above the hat, a location pin icon is crossed out.",
       "Body1": "COVID Alert does not use GPS or location services.",
       "Body2": "It has no way of knowing:",
       "Bullet1": "Your location.",
       "Bullet2": "Your name or address.",
       "Bullet3": "Your phone's contacts.",
-      "Bullet4": "Your health information."
+      "Bullet4": "Your health information.",
+      "Bullet5": "The health information of anyone you’re near."
     },
     "HowItWorks": {
       "Title": "How it works",

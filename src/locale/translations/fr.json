@@ -100,12 +100,21 @@
     "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les réglages de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnableExposureNotificationsCTA": "Activer Alerte COVID",
     "ExposureDetected": {
-      "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
-      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
-      "Title2": "Que faire maintenant?",
-      "Body2": "Vous êtes à risque d’être infecté. ",
-      "Body3": "Vous devez vous isoler pendant 14\u00A0jours.",
-      "HowToIsolateCTA": "Comment vous isoler"
+      "CA": {
+        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+        "Title2": "Que faire maintenant?",
+        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+        "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
+        "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
+        "HowToIsolateCTA": "Comment vous isoler"
+      },
+      "ON": {
+        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+        "Title2": "Que faire maintenant?",
+        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+        "Body2": "Vous êtes à risque d’être infecté.",
+        "HowToIsolateCTA": "Comment vous isoler"
+      }
     },
     "ExposureNotificationsDisabled": "Alerte COVID est désactivé",
     "ExposureNotificationsDisabledDetailed": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
@@ -208,14 +217,15 @@
       "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre collectivité."
     },
     "Anonymous": {
-      "Title": "Privée et anonyme",
+      "Title": "Votre vie privée est protégée",
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
       "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
       "Body2": "L’application n’a aucun moyen de connaître\u00A0:",
-      "Bullet1": "votre position,",
+      "Bullet1": "votre emplacement,",
       "Bullet2": "votre nom ou votre adresse,",
       "Bullet3": "les contacts de votre téléphone,",
-      "Bullet4": "vos informations de santé."
+      "Bullet4": "vos informations de santé.",
+      "Bullet5": "Les informations de santé des personnes à proximité."
     },
     "HowItWorks": {
       "Title": "Fonctionnement",
@@ -324,7 +334,7 @@
       "URL": "https://nu.thrive.health/covid19/fr"
     },
     "ON": {
-      "CTA": "Lieux pour se faire tester",
+      "CTA": "Lisez les étapes à suivre",
       "URL": "https://ontario.ca/covidalerte-expose"
     },
     "PE": {
