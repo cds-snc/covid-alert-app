@@ -11,5 +11,5 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/app_name"
         android:scaleType="center"
-        app:srcCompat="@drawable/ic_icon_wordmark" />
+        android:src="@drawable/ic_icon_wordmark" />
 </RelativeLayout>
