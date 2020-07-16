@@ -2,7 +2,7 @@ import {daysBetween, daysBetweenUTC, addDays} from './date-fns';
 
 /**
  * These tests have to run in non UTC timezone.
- * See test script in package.json for more details.
+ * Temporary disable on CI for now
  */
 describe('date-fns', () => {
   describe('daysBetweenUTC', () => {
