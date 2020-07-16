@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Box, Text, Button, TextInput} from 'components';
+import {Box, CodeInput, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useReportDiagnosis} from 'services/ExposureNotificationService';
 
@@ -36,22 +36,11 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
       <Box marginHorizontal="m" marginBottom="l">
         <Text color="overlayBodyText">{i18n.translate('DataUpload.FormView.Body')}</Text>
       </Box>
-      <Box marginBottom="m">
-        <TextInput
+      <Box marginBottom="m" paddingHorizontal="m">
+        <CodeInput
           value={value}
-          onChangeText={onChange}
-          autoCorrect={false}
-          autoCompleteType="off"
-          returnKeyType="done"
+          onChange={onChange}
           accessibilityLabel={i18n.translate('DataUpload.FormView.InputLabel')}
-          maxLength={8}
-          paddingLeft="m"
-          paddingRight="m"
-          paddingTop="m"
-          paddingBottom="m"
-          fontSize={36}
-          textAlign="center"
-          placeholder={i18n.translate('DataUpload.FormView.Placeholder')}
         />
       </Box>
       <Box flex={1} marginHorizontal="m" marginBottom="m">
