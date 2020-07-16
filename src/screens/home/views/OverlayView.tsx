@@ -13,6 +13,7 @@ import {daysBetween} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
+import {useOrientation} from 'shared/useOrientation';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -146,11 +147,13 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
+  const {orientation} = useOrientation();
+  const horizontalPadding = orientation === 'landscape' ? 'm' : 'none';
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
-        <Box paddingLeft="m" paddingRight="m">
+        <Box paddingHorizontal={horizontalPadding}>
           <TouchableOpacity
             onPress={bottomSheetBehavior.collapse}
             style={styles.collapseButton}
