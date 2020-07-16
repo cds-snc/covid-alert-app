@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, BulletPointX, Text} from 'components';
+import {Box, BulletPointX} from 'components';
 import {useI18n} from 'locale';
 import Markdown from 'react-native-markdown-display';
 import {StyleSheet} from 'react-native';

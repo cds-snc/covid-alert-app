@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
-import {Box, Text, ButtonSingleLine} from 'components';
+import {Box, ButtonSingleLine} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
 import {StyleSheet} from 'react-native';
