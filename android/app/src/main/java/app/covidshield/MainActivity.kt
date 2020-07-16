@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import app.covidshield.utils.ActivityResultHelper
 import com.facebook.react.ReactActivity
+import com.facebook.react.ReactActivityDelegate
+import com.facebook.react.ReactRootView
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView
 import org.devio.rn.splashscreen.SplashScreen
 
 class MainActivity : ReactActivity() {
@@ -24,5 +27,12 @@ class MainActivity : ReactActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         reactInstanceManager.packages.mapNotNull { it as? ActivityResultHelper }.forEach { it.onActivityResult(requestCode, resultCode, data) }
+    }
+
+    override fun createReactActivityDelegate(): ReactActivityDelegate = object : ReactActivityDelegate(this, mainComponentName) {
+
+        override fun createRootView(): ReactRootView {
+            return RNGestureHandlerEnabledRootView(this@MainActivity)
+        }
     }
 }
