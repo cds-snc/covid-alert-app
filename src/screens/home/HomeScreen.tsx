@@ -194,6 +194,7 @@ export const HomeScreen = () => {
         <Box
           flex={1}
           paddingTop="m"
+          paddingBottom="m"
           alignSelf="stretch"
           accessibilityElementsHidden={isBottomSheetExpanded}
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
