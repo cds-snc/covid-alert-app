@@ -4,15 +4,7 @@ import ExposureNotification, {
   ExposureConfiguration,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
-import {
-  addDays,
-  daysBetween,
-  isSameUtcCalendarDate,
-  periodSinceEpoch,
-  minutesBetween,
-  getCurrentDate,
-  getMillisSinceUTCEpoch,
-} from 'shared/date-fns';
+import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
@@ -230,7 +222,7 @@ export class ExposureNotificationService {
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== 'diagnosed') return;
-    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: getMillisSinceUTCEpoch()});
+    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: getCurrentDate().getTime()});
   }
 
   private async calculateNeedsSubmission(): Promise<boolean> {
@@ -239,16 +231,17 @@ export class ExposureNotificationService {
 
     const today = getCurrentDate();
     const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
-    // we're done submitting keys
-    if (daysBetween(today, cycleEndsAt) <= 0) return false;
+    // We're done submitting keys
+    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
+    if (daysBetweenUTC(today, cycleEndsAt) <= 0) return false;
 
     const submissionLastCompletedAt = exposureStatus.submissionLastCompletedAt;
     if (!submissionLastCompletedAt) return true;
 
     const lastSubmittedDay = new Date(submissionLastCompletedAt);
 
-    if (isSameUtcCalendarDate(lastSubmittedDay, today)) return false;
-    if (daysBetween(lastSubmittedDay, today) > 0) return true;
+    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
+    if (daysBetweenUTC(lastSubmittedDay, today) > 0) return true;
 
     return false;
   }
@@ -303,7 +296,7 @@ export class ExposureNotificationService {
 
     const finalize = async (status: Partial<ExposureStatus> = {}, lastCheckedPeriod = 0) => {
       const previousExposureStatus = this.exposureStatus.get();
-      const timestamp = getMillisSinceUTCEpoch();
+      const timestamp = getCurrentDate().getTime();
       this.exposureStatus.append({
         ...status,
         lastChecked: {
@@ -323,6 +316,9 @@ export class ExposureNotificationService {
     if (currentStatus.type === 'diagnosed') {
       const today = getCurrentDate();
       const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
+      // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
+      // Let's use device timezone for resetting exposureStatus for now
+      // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
       if (daysBetween(today, cycleEndsAt) <= 0) {
         this.exposureStatus.set({type: 'monitoring'});
         return finalize();
