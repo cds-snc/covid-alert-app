@@ -27,7 +27,7 @@ describe('date-fns', () => {
 
   it('returns 1 missing day for keys upload', () => {
     const today = new Date('Wed Jul 28 2020 00:00:00 GMT-0400');
-    const cycleStartsAt = new Date('Wed Jul 14 2020 20:00:00 GMT-0400');
+    const cycleStartsAt = new Date('Wed Jul 14 2020 20:00:01 GMT-0400');
     const cycleEndsAt = addDays(cycleStartsAt, 14);
     expect(daysBetween(today, cycleEndsAt)).toStrictEqual(0);
     expect(daysBetweenUTC(today, cycleEndsAt)).toStrictEqual(1);
