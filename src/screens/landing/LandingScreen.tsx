@@ -1,9 +1,10 @@
 import React, {useCallback} from 'react';
-import {Image, ScrollView, StyleSheet} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import {useStorage} from 'services/StorageService';
 import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export const LandingScreen = () => {
   const i18n = useI18n();
@@ -20,26 +21,24 @@ export const LandingScreen = () => {
     [navigation, setLocale],
   );
   return (
-    <ScrollView style={styles.flex}>
-      <Box flex={1} backgroundColor="overlayBackground">
-        <Box marginBottom="s" style={{...styles.imageBackround}}>
-          <Box paddingHorizontal="m" paddingBottom="s">
-            <Image style={{...styles.imagePad}} accessible source={require('assets/landing.png')} />
-          </Box>
+    <SafeAreaView style={styles.flex}>
+      <Box flex={1} marginBottom="s" style={{...styles.imageBackround}}>
+        <Box flex={1} justifyContent="flex-start" alignItems="center" paddingTop="s">
+          <Image style={{...styles.imagePad}} accessible source={require('assets/landing.png')} />
         </Box>
-        <Box>
+        <Box style={styles.overlay} paddingVertical="m">
           <Box paddingHorizontal="m" marginTop="s" marginBottom="s">
             <Button onPress={toggle('en')} text={i18n.translate('Landing.En')} variant="thinFlat" />
           </Box>
           <Box paddingHorizontal="m">
             <Button onPress={toggle('fr')} text={i18n.translate('Landing.Fr')} variant="thinFlat" />
           </Box>
-          <Box alignSelf="center">
-            <Icon size={150} name="canada-logo" />
+          <Box alignSelf="center" marginVertical="m">
+            <Icon height={32} width={135} name="canada-logo" />
           </Box>
         </Box>
       </Box>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -47,12 +46,14 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
     backgroundColor: 'white',
+    marginTop: -50,
   },
   imageBackround: {
     backgroundColor: '#EEEEEE',
+    paddingTop: 50,
   },
-  imagePad: {
-    marginTop: 60,
-    paddingBottom: 10,
+  imagePad: {},
+  overlay: {
+    backgroundColor: '#FFFFFF',
   },
 });

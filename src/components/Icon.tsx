@@ -102,9 +102,11 @@ export type IconName = keyof typeof ICONS;
 export interface IconProps {
   name: IconName | undefined;
   size?: number;
+  width?: number;
+  height?: number;
 }
 
-export const Icon = ({name, size = 24}: IconProps) => {
+export const Icon = ({name, size = 24, width, height}: IconProps) => {
   const IconImpl = name !== undefined ? ICONS[name] : null; // eslint-disable-line no-negated-condition
-  return IconImpl ? <IconImpl width={size} height={size} /> : null;
+  return IconImpl ? <IconImpl width={width ? width : size} height={height ? height : size} /> : null;
 };
