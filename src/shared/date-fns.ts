@@ -33,26 +33,18 @@ export function minutesBetween(date1: Date, date2: Date): number {
   return (date2.getTime() - date1.getTime()) / oneMinuteMs;
 }
 
-export function startOfDay(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-}
-
 export function daysBetween(date1: Date, date2: Date): number {
-  return (startOfDay(date2).getTime() - startOfDay(date1).getTime()) / (1000 * 3600 * 24);
+  const startDate1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+  const startDate2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+  return (startDate2.getTime() - startDate1.getTime()) / (1000 * 3600 * 24);
 }
 
-export function isSameUtcCalendarDate(date1: Date, date2: Date): boolean {
-  return (
-    date1.getUTCFullYear() === date2.getUTCFullYear() &&
-    date1.getUTCMonth() === date2.getUTCMonth() &&
-    date1.getUTCDate() === date2.getUTCDate()
-  );
+export function daysBetweenUTC(date1: Date, date2: Date): number {
+  const startDate1 = new Date(date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate());
+  const startDate2 = new Date(date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate());
+  return (startDate2.getTime() - startDate1.getTime()) / (1000 * 3600 * 24);
 }
 
 export function getCurrentDate(): Date {
   return new Date();
-}
-
-export function getMillisSinceUTCEpoch(): number {
-  return getCurrentDate().getTime();
 }
