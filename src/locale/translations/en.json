@@ -251,7 +251,8 @@
       "InputLabel": "COVID Alert 8-digit number",
       "ErrorTitle": "Number not recognized",
       "ErrorBody": "Your COVID Alert number could not be recognized. Please try again.",
-      "ErrorAction": "OK"
+      "ErrorAction": "OK",
+      "Placeholder": "Enter code"
     },
     "ConsentView": {
       "Title": "Now you can upload your codes",
