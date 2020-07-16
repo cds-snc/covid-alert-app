@@ -134,6 +134,10 @@
     "SettingsTitle": "Settings",
     "InformationTitle": "About COVID Alert"
   },
+  "Landing": {
+    "En": "English",
+    "Fr": "Français"
+  },
   "LanguageSelect": {
     "Title": "Language",
     "En": "English (Canada)",

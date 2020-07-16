@@ -3,7 +3,6 @@ import {Image, ScrollView, StyleSheet} from 'react-native';
 import {useStorage} from 'services/StorageService';
 import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 const landingPNG = require('assets/landing.png');
 
@@ -29,10 +28,10 @@ export const LandingScreen = () => {
 
         <Box>
           <Box paddingHorizontal="m" marginTop="l" marginBottom="l">
-            <Button onPress={toggle('en')} text={i18n.translate('LanguageSelect.En')} variant="thinFlat" />
+            <Button onPress={toggle('en')} text={i18n.translate('Landing.En')} variant="thinFlat" />
           </Box>
           <Box paddingHorizontal="m" marginBottom="s">
-            <Button onPress={toggle('fr')} text={i18n.translate('LanguageSelect.Fr')} variant="thinFlat" />
+            <Button onPress={toggle('fr')} text={i18n.translate('Landing.Fr')} variant="thinFlat" />
           </Box>
 
           <Box alignSelf="center">

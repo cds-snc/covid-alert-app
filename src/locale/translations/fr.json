@@ -186,6 +186,10 @@
     "SettingsTitle": "Paramètres",
     "InformationTitle": "À propos d’Alerte COVID"
   },
+  "Landing": {
+    "En": "English",
+    "Fr": "Français"
+  },
   "LanguageSelect": {
     "Close": "Fermer",
     "En": "English (Canada)",
