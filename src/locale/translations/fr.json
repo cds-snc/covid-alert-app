@@ -226,8 +226,8 @@
     "Anonymous": {
       "Title": "Votre vie privée est protégée",
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
-      "Body1": "Alerte COVID n’utilise pas le GPS ou les services de localisation.",
-      "Body2": "L’application n’a aucun moyen de connaître\u00A0:",
+      "Body1": "Alerte COVID **n’utilise pas le GPS** ou les services de localisation.",
+      "Body2": "L’application **n’a aucun moyen** de connaître\u00A0:",
       "Bullet1": "votre emplacement,",
       "Bullet2": "votre nom ou votre adresse,",
       "Bullet3": "les contacts de votre téléphone,",
@@ -245,8 +245,8 @@
     "Permissions": {
       "Title": "L’application demandera votre autorisation",
       "ImageAltText": "Dessin à la main d’un téléphone mobile dont l’écran affiche une fenêtre de dialogue avec un X rouge et un crochet vert.",
-      "Body1": "Permettez à l’application de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
-      "Body2": "Vous devrez aussi lui permettre de vous envoyer des notifications.",
+      "Body1": "**Permettez à l’application** de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
+      "Body2": "Vous devrez aussi **lui permettre de vous envoyer des notifications**.",
       "PrivacyButtonCTA": "En savoir plus sur la confidentialité"
     }
   },
