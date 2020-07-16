@@ -29,6 +29,7 @@ describe('date-fns', () => {
     });
   });
 
+  // eslint-disable-next-line jest/no-commented-out-tests
   // it('returns 1 missing day for keys upload', () => {
   //   const today = new Date('Wed Jul 28 2020 00:00:00 GMT-0400');
   //   const cycleStartsAt = new Date('Wed Jul 14 2020 20:00:00 GMT-0400');
@@ -37,6 +38,7 @@ describe('date-fns', () => {
   //   expect(daysBetweenUTC(today, cycleEndsAt)).toStrictEqual(1);
   // });
 
+  // eslint-disable-next-line jest/no-commented-out-tests
   // it('returns 0 missing day for keys upload', () => {
   //   const today = new Date('Wed Jul 28 2020 00:00:00 GMT-0400');
   //   const cycleStartsAt = new Date('Wed Jul 14 2020 19:00:00 GMT-0400');
