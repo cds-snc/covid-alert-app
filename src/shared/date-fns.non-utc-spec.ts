@@ -1,5 +1,9 @@
 import {daysBetween, daysBetweenUTC, addDays} from './date-fns';
 
+/**
+ * These tests have to run in non UTC timezone.
+ * See test script in package.json for more details.
+ */
 describe('date-fns', () => {
   describe('daysBetweenUTC', () => {
     it('returns 0 if two dates are in same UTC date', () => {
@@ -27,7 +31,7 @@ describe('date-fns', () => {
 
   it('returns 1 missing day for keys upload', () => {
     const today = new Date('Wed Jul 28 2020 00:00:00 GMT-0400');
-    const cycleStartsAt = new Date('Wed Jul 14 2020 20:00:01 GMT-0400');
+    const cycleStartsAt = new Date('Wed Jul 14 2020 20:00:00 GMT-0400');
     const cycleEndsAt = addDays(cycleStartsAt, 14);
     expect(daysBetween(today, cycleEndsAt)).toStrictEqual(0);
     expect(daysBetweenUTC(today, cycleEndsAt)).toStrictEqual(1);
