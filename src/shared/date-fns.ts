@@ -11,21 +11,18 @@ export function periodSinceEpoch(date: Date, hoursPerPeriod: number) {
 }
 
 export function daysFromNow(date: Date) {
-  const currentTime = Date.now();
   const oneDayMs = 1000 * 60 * 60 * 24;
-  return Math.round((currentTime - date.getTime()) / oneDayMs);
+  return Math.round((getMillisSinceUTCEpoch() - date.getTime()) / oneDayMs);
 }
 
 export function hoursFromNow(date: Date) {
-  const currentTime = Date.now();
   const oneHourMs = 1000 * 60 * 60;
-  return Math.round((currentTime - date.getTime()) / oneHourMs);
+  return Math.round((getMillisSinceUTCEpoch() - date.getTime()) / oneHourMs);
 }
 
 export function minutesFromNow(date: Date) {
-  const currentTime = Date.now();
   const oneMinuteMs = 1000 * 60;
-  return Math.round((currentTime - date.getTime()) / oneMinuteMs);
+  return Math.round((getMillisSinceUTCEpoch() - date.getTime()) / oneMinuteMs);
 }
 
 export function minutesBetween(date1: Date, date2: Date): number {
@@ -34,19 +31,11 @@ export function minutesBetween(date1: Date, date2: Date): number {
 }
 
 export function startOfDay(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
 }
 
 export function daysBetween(date1: Date, date2: Date): number {
   return (startOfDay(date2).getTime() - startOfDay(date1).getTime()) / (1000 * 3600 * 24);
-}
-
-export function isSameUtcCalendarDate(date1: Date, date2: Date): boolean {
-  return (
-    date1.getUTCFullYear() === date2.getUTCFullYear() &&
-    date1.getUTCMonth() === date2.getUTCMonth() &&
-    date1.getUTCDate() === date2.getUTCDate()
-  );
 }
 
 export function getCurrentDate(): Date {

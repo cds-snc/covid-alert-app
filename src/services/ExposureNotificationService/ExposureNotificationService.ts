@@ -7,7 +7,6 @@ import PushNotification from 'bridge/PushNotification';
 import {
   addDays,
   daysBetween,
-  isSameUtcCalendarDate,
   periodSinceEpoch,
   minutesBetween,
   getCurrentDate,
@@ -247,7 +246,6 @@ export class ExposureNotificationService {
 
     const lastSubmittedDay = new Date(submissionLastCompletedAt);
 
-    if (isSameUtcCalendarDate(lastSubmittedDay, today)) return false;
     if (daysBetween(lastSubmittedDay, today) > 0) return true;
 
     return false;
