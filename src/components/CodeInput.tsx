@@ -43,6 +43,9 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
             maxLength={8}
             fontSize={26}
             borderWidth={0}
+            autoCapitalize="characters"
+            fontFamily="Menlo"
+            letterSpacing={5}
           />
         </Box>
       </Box>
