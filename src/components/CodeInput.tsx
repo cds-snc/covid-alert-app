@@ -39,9 +39,9 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
             autoCompleteType="off"
             returnKeyType="done"
             accessibilityLabel={accessibilityLabel}
+            padding="s"
             maxLength={8}
             fontSize={26}
-            textAlign="center"
             borderWidth={0}
           />
         </Box>
