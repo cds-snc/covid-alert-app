@@ -14,6 +14,7 @@ import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {useOrientation} from 'shared/useOrientation';
+
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
