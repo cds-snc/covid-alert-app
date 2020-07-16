@@ -4,7 +4,6 @@ import {useStorage} from 'services/StorageService';
 import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-const landingPNG = require('assets/landing.png');
 
 export const LandingScreen = () => {
   const i18n = useI18n();
@@ -18,14 +17,14 @@ export const LandingScreen = () => {
         routes: [{name: 'OnboardingNavigator'}],
       });
     },
-    [setLocale],
+    [navigation, setLocale],
   );
   return (
     <ScrollView style={styles.flex}>
       <Box flex={1} backgroundColor="overlayBackground">
-        <Box marginBottom="s" style={{backgroundColor: '#EEEEEE'}}>
+        <Box marginBottom="s" style={{...styles.imageBackround}}>
           <Box paddingHorizontal="m" paddingBottom="s">
-            <Image style={{marginTop: 60, paddingBottom: 10}} accessible source={landingPNG} />
+            <Image style={{...styles.imagePad}} accessible source={require('assets/landing.png')} />
           </Box>
         </Box>
         <Box>
@@ -48,5 +47,12 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  imageBackround: {
+    backgroundColor: '#EEEEEE',
+  },
+  imagePad: {
+    marginTop: 60,
+    paddingBottom: 10,
   },
 });
