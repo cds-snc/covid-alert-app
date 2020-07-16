@@ -116,6 +116,16 @@
         "HowToIsolateCTA": "Comment vous isoler"
       }
     },
+    "EnDisabled": {
+      "Title": "Alerte COVID est désactivée",
+      "Body1": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
+      "CTA": "Activer Alerte COVID",
+      "AndroidTitle2": "Vous hésitez à activer la localisation?",
+      "AndroidBody1": "Il faut activer la localisation pour qu’Alerte COVID fonctionne. Avec Android, la recherche Bluetooth n’est possible que si la localisation est activée pour toutes les applications.",
+      "AndroidBody2a": "Malgré cela, Alerte COVID ",
+      "AndroidBody2b": "ne peut pas savoir où vous êtes. ",
+      "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
+    },
     "ExposureNotificationsDisabled": "Alerte COVID est désactivé",
     "ExposureNotificationsDisabledDetailed": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
