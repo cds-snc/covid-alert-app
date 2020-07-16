@@ -13,7 +13,7 @@
     "run-android": "react-native run-android --variant debug",
     "run-ios": "react-native run-ios",
     "start": "react-native start --reset-cache",
-    "test": "jest && TZ=UTC-4 jest --testRegex=.*.non-utc-spec.ts",
+    "test": "jest && TZ=GMT-0400 jest --testRegex=.*.non-utc-spec.ts",
     "tsc": "tsc",
     "fastlane:ios:beta": "bundle exec fastlane ios beta",
     "fastlane:ios:local": "bundle exec fastlane ios local",
