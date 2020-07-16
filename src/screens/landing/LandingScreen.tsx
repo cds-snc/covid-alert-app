@@ -13,7 +13,10 @@ export const LandingScreen = () => {
   const toggle = useCallback(
     (newLocale: 'en' | 'fr') => () => {
       setLocale(newLocale);
-      navigation.navigate('Home');
+      navigation.reset({
+        index: -1,
+        routes: [{name: 'OnboardingNavigator'}],
+      });
     },
     [setLocale],
   );
@@ -21,19 +24,17 @@ export const LandingScreen = () => {
     <ScrollView style={styles.flex}>
       <Box flex={1} backgroundColor="overlayBackground">
         <Box marginBottom="s" style={{backgroundColor: '#EEEEEE'}}>
-          <Box paddingHorizontal="m" paddingBottom="xl">
-            <Image style={{marginTop: 60, paddingBottom: 20}} accessible source={landingPNG} />
+          <Box paddingHorizontal="m" paddingBottom="s">
+            <Image style={{marginTop: 60, paddingBottom: 10}} accessible source={landingPNG} />
           </Box>
         </Box>
-
         <Box>
-          <Box paddingHorizontal="m" marginTop="l" marginBottom="l">
+          <Box paddingHorizontal="m" marginTop="s" marginBottom="s">
             <Button onPress={toggle('en')} text={i18n.translate('Landing.En')} variant="thinFlat" />
           </Box>
-          <Box paddingHorizontal="m" marginBottom="s">
+          <Box paddingHorizontal="m">
             <Button onPress={toggle('fr')} text={i18n.translate('Landing.Fr')} variant="thinFlat" />
           </Box>
-
           <Box alignSelf="center">
             <Icon size={150} name="canada-logo" />
           </Box>
@@ -46,5 +47,6 @@ export const LandingScreen = () => {
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+    backgroundColor: 'white',
   },
 });
