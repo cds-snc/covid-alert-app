@@ -193,7 +193,7 @@ export const HomeScreen = () => {
       <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
         <Box
           flex={1}
-          padding="m"
+          paddingTop="m"
           alignSelf="stretch"
           accessibilityElementsHidden={isBottomSheetExpanded}
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
