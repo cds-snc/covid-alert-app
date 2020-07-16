@@ -2,6 +2,7 @@ import React from 'react';
 import {StatusBar, Platform} from 'react-native';
 import {enableScreens} from 'react-native-screens';
 import {useNavigationState} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
@@ -80,7 +81,7 @@ const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
-const OnboardingStack = createNativeStackNavigator();
+const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
   return (
     <OnboardingStack.Navigator
