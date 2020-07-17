@@ -31,6 +31,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
           borderRadius={5}
         >
           <TextInput
+            color="bodyText"
             value={value}
             onChangeText={onChangeTrimmed}
             onFocus={onFocus}
@@ -40,7 +41,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
             returnKeyType="done"
             accessibilityLabel={accessibilityLabel}
             padding="s"
-            maxLength={8}
+            maxLength={10}
             fontSize={26}
             borderWidth={0}
             autoCapitalize="characters"
