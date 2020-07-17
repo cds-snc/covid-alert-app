@@ -1,8 +1,9 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useRef} from 'react';
 import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
+import {useFocusEffect} from '@react-navigation/native';
 
 import {onboardingData, OnboardingKey} from '../OnboardingContent';
 
@@ -17,16 +18,20 @@ export interface ItemViewProps {
 
 export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
   const i18n = useI18n();
-  const autoFocusRef = useAccessibilityAutoFocus(isActive);
   const total = onboardingData.length;
   const step = i18n.translate('Onboarding.Step');
   const of = i18n.translate('Onboarding.Of');
   const x = onboardingData.indexOf(item) + 1;
   const stepText = `${step} ${x} ${of} ${total}`;
-
+  const textRef = useRef(null);
+  useFocusEffect(() => {
+    if (isActive) {
+      focusOnElement(textRef.current);
+    }
+  });
   return (
     <>
-      <Text focusRef={autoFocusRef} marginBottom="s" marginTop="s" color="gray2">
+      <Text focusRef={textRef} marginBottom="s" marginTop="s" color="gray2">
         {stepText}
       </Text>
       {image ? (

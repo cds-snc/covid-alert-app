@@ -9,6 +9,14 @@ import {createCancellableCallbackPromise} from './cancellablePromise';
  */
 const AUTO_FOCUS_DELAY = 200;
 
+export const focusOnElement = (elementRef: any) => {
+  const node = findNodeHandle(elementRef);
+  if (!node) {
+    return;
+  }
+  AccessibilityInfo.setAccessibilityFocus(node);
+};
+
 /**
  * Remember to add `accessible={true}` to target component
  */
@@ -20,18 +28,13 @@ export const useAccessibilityAutoFocus = (isActive = true, navigation: any = nul
       if (!isScreenReaderEnabled) {
         return;
       }
-      const node = findNodeHandle(autoFocusRef);
-      if (!node || !isActive) {
-        return;
-      }
-      AccessibilityInfo.setAccessibilityFocus(node);
+      focusOnElement(autoFocusRef);
     },
   );
 
   useEffect(() => {
     if (navigation) {
       const unsubscribe = navigation.addListener('focus', () => {
-        console.log('worked');
         callable();
         return cancelable;
       });
