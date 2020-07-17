@@ -56,7 +56,7 @@ COVID Alert is a Government of Canada app. It is designed so that your health in
 - Without these security protections in place, spammers could flood the COVID Alert system and your phone with fake exposure notifications.
 - Your IP address is never connected to any other information about you, and it’s only used to ensure the integrity of the system.
 
-##Questions?##
+## Questions?
 Contact us at:
 - Phone: 1-833-784-4397
 - Email: CDS-SNC@tbs-sct.gc.ca
