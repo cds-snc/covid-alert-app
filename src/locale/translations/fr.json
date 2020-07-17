@@ -80,8 +80,8 @@
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
         "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
       },
-      "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant. Vous avez le choix.",
-      "Body3": "Prenez soin de vous et de votre famille pendant ce temps.",
+      "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
+      "Body3": "Si vous vous sentez malade, contactez votre médecin. Prenez soin de vous et de votre famille pendant ce temps.",
       "Title": "Merci d’aider à lutter contre la COVID",
       "TipTitle": "CONSEIL : ",
       "TipBody": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
