@@ -36,7 +36,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
       <Box marginHorizontal="m" marginBottom="l">
         <Text color="overlayBodyText">{i18n.translate('DataUpload.FormView.Body')}</Text>
       </Box>
-      <Box marginBottom="m">
+      <Box marginBottom="m" paddingHorizontal="m">
         <CodeInput
           value={value}
           onChange={onChange}
@@ -46,6 +46,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
       <Box flex={1} marginHorizontal="m" marginBottom="m">
         <Button
           loading={loading}
+          // @todo update this for 10 digit code
           disabled={value.length !== 8}
           variant="thinFlat"
           text={i18n.translate('DataUpload.FormView.Action')}

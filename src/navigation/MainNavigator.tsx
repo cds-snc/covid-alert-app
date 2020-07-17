@@ -14,6 +14,7 @@ import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
+import {LandingScreen} from 'screens/landing';
 
 enableScreens();
 
@@ -100,9 +101,10 @@ const MainNavigator = () => {
   return (
     <MainStack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={isOnboarding ? 'OnboardingNavigator' : 'Home'}
+      initialRouteName={isOnboarding ? 'Landing' : 'Home'}
       mode="modal"
     >
+      <MainStack.Screen name="Landing" component={LandingScreen} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
       <MainStack.Screen
         options={{cardStyleInterpolator: forFade}}
