@@ -246,6 +246,13 @@
       "Body3": "Si votre téléphone a reçu l’un de ces codes au cours des 14\u00A0derniers jours, vous recevrez une notification.",
       "HowItWorksCTA": "En savoir plus sur le fonctionnement"
     },
+    "PartOf": {
+      "Title": "L’un des efforts de santé publique",
+      "ImageAltText": "Dessin à la main de divers moyens de lutter contre la COVID-19, dont un désinfectant pour les mains, un couvre-visage, des mains avec du savon et l’application Alerte COIVID.",
+      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de COVID-19.",
+      "Body2": "Continuez à suivre les recommandations de santé publique de votre région.",
+      "Body3": "Alerte COVID ne remplace pas un avis médical. Si vous tombez malade, contactez votre médecin ou un professionnel de la santé."
+    },
     "Permissions": {
       "Title": "L’application demandera votre autorisation",
       "ImageAltText": "Dessin à la main d’un téléphone mobile dont l’écran affiche une fenêtre de dialogue avec un X rouge et un crochet vert.",
