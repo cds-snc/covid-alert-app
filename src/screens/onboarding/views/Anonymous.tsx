@@ -18,30 +18,32 @@ export const Anonymous = (props: Pick<ItemViewProps, 'isActive'>) => {
       item="step-2"
     >
       <>
-        <Box flexDirection="row" marginBottom="m">
-          <Markdown
-            style={{
-              body: styles.bodyContent,
-            }}
-          >
-            {i18n.translate('Onboarding.Anonymous.Body1')}
-          </Markdown>
-        </Box>
-        <Box flexDirection="row" marginBottom="s">
-          <Markdown
-            style={{
-              body: styles.bodyContent,
-            }}
-          >
-            {i18n.translate('Onboarding.Anonymous.Body2')}
-          </Markdown>
-        </Box>
+        <Box marginRight="s">
+          <Box flexDirection="row" marginBottom="m">
+            <Markdown
+              style={{
+                body: styles.bodyContent,
+              }}
+            >
+              {i18n.translate('Onboarding.Anonymous.Body1')}
+            </Markdown>
+          </Box>
+          <Box flexDirection="row" marginBottom="s">
+            <Markdown
+              style={{
+                body: styles.bodyContent,
+              }}
+            >
+              {i18n.translate('Onboarding.Anonymous.Body2')}
+            </Markdown>
+          </Box>
 
-        <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet1')} />
-        <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet2')} />
-        <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet3')} />
-        <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet4')} />
-        <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet5')} />
+          <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet1')} />
+          <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet2')} />
+          <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet3')} />
+          <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet4')} />
+          <BulletPointX text={i18n.translate('Onboarding.Anonymous.Bullet5')} />
+        </Box>
       </>
     </ItemView>
   );
