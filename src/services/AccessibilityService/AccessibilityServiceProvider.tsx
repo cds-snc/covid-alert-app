@@ -20,6 +20,10 @@ export const AccessibilityServiceProvider = ({children}: AccessibilityServicePro
     const handleScreenReaderToggled = (screenReaderEnabled: any) => {
       setScreenReaderEnabled(screenReaderEnabled);
     };
+    // for initial app start
+    AccessibilityInfo.isScreenReaderEnabled().then((enabled: any) => {
+      setScreenReaderEnabled(enabled);
+    });
     AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
     return () => {
       AccessibilityInfo.removeEventListener('screenReaderChanged', handleScreenReaderToggled);
