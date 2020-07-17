@@ -25,7 +25,7 @@ export const AccessibilityServiceProvider = ({children}: AccessibilityServicePro
       .then((enabled: any) => {
         setScreenReaderEnabled(enabled);
       })
-      .catch((error: any) => {
+      .catch(() => {
         setScreenReaderEnabled(false);
       });
     AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
