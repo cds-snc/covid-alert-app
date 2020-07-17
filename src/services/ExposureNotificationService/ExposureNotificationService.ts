@@ -11,7 +11,9 @@ import {captureException, captureMessage} from 'shared/log';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
-import defaultExposureConfiguration from './DefaultExposureConfiguration.json';
+import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
+import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
+import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposure-configuration';
@@ -204,6 +206,7 @@ export class ExposureNotificationService {
    */
   private async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
     try {
+      captureMessage('Getting exposure configuration from secure storage.');
       const exposureConfigurationStr = await this.secureStorage.getItem(
         EXPOSURE_CONFIGURATION,
         SECURE_OPTIONS_FOR_CONFIGURATION,
@@ -215,7 +218,7 @@ export class ExposureNotificationService {
       }
     } catch (error) {
       captureException('Using default exposureConfiguration', error);
-      return defaultExposureConfiguration;
+      return exposureConfigurationDefault;
     }
   }
 
@@ -281,13 +284,19 @@ export class ExposureNotificationService {
     let exposureConfiguration: ExposureConfiguration;
     try {
       exposureConfiguration = await this.backendInterface.getExposureConfiguration();
-      console.info('Using downloaded exposureConfiguration.');
+      new ExposureConfigurationValidator().validateExposureConfiguration(
+        exposureConfiguration,
+        exposureConfigurationSchema,
+      );
+      captureMessage('Using downloaded exposureConfiguration.');
       const serialized = JSON.stringify(exposureConfiguration);
       await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS_FOR_CONFIGURATION);
-      console.info('Saving exposure configuration to iOS keychain.');
+      captureMessage('Saving exposure configuration to secure storage.');
     } catch (error) {
       if (error instanceof SyntaxError) {
         captureException('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
+      } else if (error instanceof ExposureConfigurationValidationError) {
+        captureException('JSON Schema Error: ', error);
       } else {
         captureException('Network Error: Unable to download exposureConfiguration.', error);
       }
