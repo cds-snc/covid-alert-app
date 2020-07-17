@@ -18,7 +18,9 @@
     "fastlane:ios:beta": "bundle exec fastlane ios beta",
     "fastlane:ios:local": "bundle exec fastlane ios local",
     "fastlane:android:internal": "bundle exec fastlane android internal",
-    "fastlane:android:local": "bundle exec fastlane android local"
+    "fastlane:android:local": "bundle exec fastlane android local",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
@@ -60,7 +62,8 @@
     "rn-faded-scrollview": "^1.0.8",
     "tweetnacl": "^1.0.3",
     "url": "^0.11.0",
-    "yarn": "^1.22.4"
+    "yarn": "^1.22.4",
+    "snyk": "^1.362.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -92,5 +95,6 @@
     "reactotron-react-native": "^3.2.1",
     "ts-jest": "25.2.1",
     "typescript": "^3.8.3"
-  }
+  },
+  "snyk": true
 }
