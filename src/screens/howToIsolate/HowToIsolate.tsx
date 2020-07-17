@@ -28,11 +28,11 @@ export const HowToIsolate = () => {
             <Text fontWeight="bold" marginBottom="l">
               {i18n.translate('HowToIsolate.Intro')}
             </Text>
-            <BulletPointCheck text={i18n.translate('HowToIsolate.Body1')} />
-            <BulletPointCheck text={i18n.translate('HowToIsolate.Body2')} />
-            <BulletPointCheck text={i18n.translate('HowToIsolate.Body3')} />
-            <BulletPointCheck text={i18n.translate('HowToIsolate.Body4')} />
-            <BulletPointCheck text={i18n.translate('HowToIsolate.Body5')} />
+            <BulletPointCheck listAccessibile="listStart" text={i18n.translate('HowToIsolate.Body1')} />
+            <BulletPointCheck listAccessibile="item" text={i18n.translate('HowToIsolate.Body2')} />
+            <BulletPointCheck listAccessibile="item" text={i18n.translate('HowToIsolate.Body3')} />
+            <BulletPointCheck listAccessibile="item" text={i18n.translate('HowToIsolate.Body4')} />
+            <BulletPointCheck listAccessibile="listEnd" text={i18n.translate('HowToIsolate.Body5')} />
           </Box>
         </ScrollView>
       </SafeAreaView>
