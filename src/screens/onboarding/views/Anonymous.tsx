@@ -18,30 +18,32 @@ export const Anonymous = (props: Pick<ItemViewProps, 'isActive'>) => {
       item="step-2"
     >
       <>
-        <Box flexDirection="row" marginBottom="m">
-          <Markdown
-            style={{
-              body: styles.bodyContent,
-            }}
-          >
-            {i18n.translate('Onboarding.Anonymous.Body1')}
-          </Markdown>
+        <Box marginRight="s">
+          <Box flexDirection="row" marginBottom="m">
+            <Markdown
+              style={{
+                body: styles.bodyContent,
+              }}
+            >
+              {i18n.translate('Onboarding.Anonymous.Body1')}
+            </Markdown>
+          </Box>
+          <Box flexDirection="row" marginBottom="s">
+            <Markdown
+              style={{
+                body: styles.bodyContent,
+              }}
+            >
+              {i18n.translate('Onboarding.Anonymous.Body2')}
+            </Markdown>
+          </Box>
+          
+          <BulletPointX listAccessibile="listStart" text={i18n.translate('Onboarding.Anonymous.Bullet1')} />
+          <BulletPointX listAccessibile="item" text={i18n.translate('Onboarding.Anonymous.Bullet2')} />
+          <BulletPointX listAccessibile="item" text={i18n.translate('Onboarding.Anonymous.Bullet3')} />
+          <BulletPointX listAccessibile="item" text={i18n.translate('Onboarding.Anonymous.Bullet4')} />
+          <BulletPointX listAccessibile="listEnd" text={i18n.translate('Onboarding.Anonymous.Bullet5')} />
         </Box>
-        <Box flexDirection="row" marginBottom="s">
-          <Markdown
-            style={{
-              body: styles.bodyContent,
-            }}
-          >
-            {i18n.translate('Onboarding.Anonymous.Body2')}
-          </Markdown>
-        </Box>
-
-        <BulletPointX listAccessibile="listStart" text={i18n.translate('Onboarding.Anonymous.Bullet1')} />
-        <BulletPointX listAccessibile="item" text={i18n.translate('Onboarding.Anonymous.Bullet2')} />
-        <BulletPointX listAccessibile="item" text={i18n.translate('Onboarding.Anonymous.Bullet3')} />
-        <BulletPointX listAccessibile="item" text={i18n.translate('Onboarding.Anonymous.Bullet4')} />
-        <BulletPointX listAccessibile="listEnd" text={i18n.translate('Onboarding.Anonymous.Bullet5')} />
       </>
     </ItemView>
   );
