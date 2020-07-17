@@ -1,4 +1,4 @@
-import {useLayoutEffect, useState} from 'react';
+import {useEffect, useLayoutEffect, useState} from 'react';
 import {AccessibilityInfo, findNodeHandle} from 'react-native';
 
 import {createCancellableCallbackPromise} from './cancellablePromise';
@@ -12,28 +12,41 @@ const AUTO_FOCUS_DELAY = 200;
 /**
  * Remember to add `accessible={true}` to target component
  */
-export const useAccessibilityAutoFocus = (isActive = true) => {
+export const useAccessibilityAutoFocus = (isActive = true, navigation: any = null) => {
   const [autoFocusRef, setAutoFocusRef] = useState<any>();
+  const {callable, cancelable} = createCancellableCallbackPromise(
+    () => AccessibilityInfo.isScreenReaderEnabled().then(delay(AUTO_FOCUS_DELAY)),
+    isScreenReaderEnabled => {
+      if (!isScreenReaderEnabled) {
+        return;
+      }
+      const node = findNodeHandle(autoFocusRef);
+      if (!node || !isActive) {
+        return;
+      }
+      AccessibilityInfo.setAccessibilityFocus(node);
+    },
+  );
+
+  useEffect(() => {
+    if (navigation) {
+      const unsubscribe = navigation.addListener('focus', () => {
+        console.log('worked');
+        callable();
+        return cancelable;
+      });
+      return unsubscribe;
+    }
+  }, [callable, cancelable, navigation]);
+
   useLayoutEffect(() => {
     if (!autoFocusRef || !isActive) {
       return;
     }
-    const {callable, cancelable} = createCancellableCallbackPromise(
-      () => AccessibilityInfo.isScreenReaderEnabled().then(delay(AUTO_FOCUS_DELAY)),
-      isScreenReaderEnabled => {
-        if (!isScreenReaderEnabled) {
-          return;
-        }
-        const node = findNodeHandle(autoFocusRef);
-        if (!node || !isActive) {
-          return;
-        }
-        AccessibilityInfo.setAccessibilityFocus(node);
-      },
-    );
+
     callable();
     return cancelable;
-  }, [autoFocusRef, isActive]);
+  }, [callable, cancelable, autoFocusRef, isActive]);
 
   return setAutoFocusRef;
 };

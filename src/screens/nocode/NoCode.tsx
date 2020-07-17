@@ -7,6 +7,7 @@ import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 interface ContentProps {
   title: string;
@@ -14,9 +15,11 @@ interface ContentProps {
   list?: string[];
   externalLinkText?: string;
   externalLinkCTA?: string;
+  navigation: any;
 }
 
-const Content = ({title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
+const Content = ({navigation, title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
+  const autoFocusRef = useAccessibilityAutoFocus(true, navigation);
   const externalLinkButton =
     externalLinkCTA && externalLinkText ? (
       <ButtonSingleLine
@@ -28,7 +31,7 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
     ) : null;
   return (
     <Box>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {title}
       </Text>
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
@@ -51,6 +54,7 @@ export const NoCodeScreen = () => {
     case 'regionNotCovered':
       content = (
         <Content
+          navigation={navigation}
           title={i18n.translate('DataUpload.NoCode.RegionNotCovered.Title')}
           body={i18n.translate('DataUpload.NoCode.RegionNotCovered.Body')}
           list={[
@@ -64,6 +68,7 @@ export const NoCodeScreen = () => {
     case 'regionCovered':
       content = (
         <Content
+          navigation={navigation}
           title={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Title`)}
           body={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body`)}
           externalLinkText={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.CTA`)}
@@ -75,6 +80,7 @@ export const NoCodeScreen = () => {
       content = (
         <>
           <Content
+            navigation={navigation}
             title={i18n.translate('DataUpload.NoCode.NoRegion.Title')}
             body={i18n.translate('DataUpload.NoCode.NoRegion.Body')}
           />
