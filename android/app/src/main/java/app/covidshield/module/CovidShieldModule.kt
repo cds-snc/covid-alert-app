@@ -2,6 +2,7 @@ package app.covidshield.module
 
 import android.content.Context
 import android.util.Base64
+import app.covidshield.BuildConfig
 import app.covidshield.extensions.launch
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -15,11 +16,18 @@ import java.io.File
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
 class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
 
-    private val okHttpClient by lazy { OkHttpClient() }
+
+    private val okHttpClient by lazy {
+        OkHttpClient.Builder()
+            .callTimeout(BuildConfig.DOWNLOAD_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+                .addNetworkInterceptor(DownloadInterceptor(BuildConfig.MAXIMUM_DOWNLOAD_SIZE_KB.toLong() * 1024))
+                .build()
+    }
 
     override fun getName(): String = "CovidShield"
 
