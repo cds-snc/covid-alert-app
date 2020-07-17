@@ -37,7 +37,7 @@ export const Anonymous = (props: Pick<ItemViewProps, 'isActive'>) => {
               {i18n.translate('Onboarding.Anonymous.Body2')}
             </Markdown>
           </Box>
-          
+
           <BulletPointX listAccessibile="listStart" text={i18n.translate('Onboarding.Anonymous.Bullet1')} />
           <BulletPointX listAccessibile="item" text={i18n.translate('Onboarding.Anonymous.Bullet2')} />
           <BulletPointX listAccessibile="item" text={i18n.translate('Onboarding.Anonymous.Bullet3')} />
