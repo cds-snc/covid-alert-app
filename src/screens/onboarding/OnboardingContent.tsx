@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {Box} from 'components';
 import ScrollView from 'rn-faded-scrollview';
+import {useOrientation} from 'shared/useOrientation';
 
 import {Start} from './views/Start';
 import {Anonymous} from './views/Anonymous';
@@ -29,6 +30,9 @@ export interface OnboardingContentProps {
 
 export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
   const Item = viewComponents[item];
+  const {orientation} = useOrientation();
+  const rightPadding = orientation === 'landscape' && Platform.OS === 'ios' ? 'xxl' : 'm';
+  const rightMargin = orientation === 'landscape' && Platform.OS === 'ios' ? 'l' : 'none';
   return (
     <ScrollView
       fadeSize={50}
@@ -37,7 +41,7 @@ export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.content}
     >
-      <Box paddingHorizontal="m" paddingTop="s">
+      <Box paddingLeft="m" paddingTop="s" paddingRight={rightPadding} marginRight={rightMargin}>
         <Item isActive={isActive} />
       </Box>
     </ScrollView>
