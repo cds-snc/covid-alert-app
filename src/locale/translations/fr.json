@@ -411,5 +411,10 @@
     "Body5": "",
     "Intro": "Alerte COVID n’a aucun moyen de connaître :",
     "Title": "Complètement anonyme"
+  },
+  "A11yList": {
+    "Start": "Début de liste",
+    "End": "Fin de liste",
+    "Bullet": "Puce"
   }
 }
