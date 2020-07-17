@@ -13,10 +13,10 @@ import {daysBetween} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
-import {useOrientation} from 'shared/useOrientation';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -147,47 +147,47 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
-  const {orientation} = useOrientation();
-  const horizontalPadding = orientation === 'landscape' ? 'm' : 'none';
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
-        <Box paddingHorizontal={horizontalPadding}>
-          <TouchableOpacity
-            onPress={bottomSheetBehavior.collapse}
-            style={styles.collapseButton}
-            accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
-            accessibilityRole="button"
-          >
-            <Icon name="sheet-handle-bar-close" size={36} />
-          </TouchableOpacity>
+        <SafeAreaView>
+          <Box>
+            <TouchableOpacity
+              onPress={bottomSheetBehavior.collapse}
+              style={styles.collapseButton}
+              accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+              accessibilityRole="button"
+            >
+              <Icon name="sheet-handle-bar-close" size={36} />
+            </TouchableOpacity>
 
-          <Box marginBottom="s">
-            <StatusHeaderView enabled={status === SystemStatus.Active} />
-          </Box>
-          <Box marginBottom="m" marginTop="s" marginHorizontal="m">
-            <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
-          </Box>
-          {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
-            <Box marginBottom="m" marginHorizontal="m">
-              <SystemStatusOff i18n={i18n} />
+            <Box marginBottom="s">
+              <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
-          )}
-          {status === SystemStatus.BluetoothOff && (
-            <Box marginBottom="m" marginHorizontal="m">
-              <BluetoothStatusOff i18n={i18n} />
+            <Box marginBottom="m" marginTop="s" marginHorizontal="m">
+              <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
             </Box>
-          )}
-          {notificationWarning && (
+            {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
+              <Box marginBottom="m" marginHorizontal="m">
+                <SystemStatusOff i18n={i18n} />
+              </Box>
+            )}
+            {status === SystemStatus.BluetoothOff && (
+              <Box marginBottom="m" marginHorizontal="m">
+                <BluetoothStatusOff i18n={i18n} />
+              </Box>
+            )}
+            {notificationWarning && (
+              <Box marginBottom="m" marginHorizontal="m">
+                <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
+              </Box>
+            )}
             <Box marginBottom="m" marginHorizontal="m">
-              <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
+              <InfoShareView />
             </Box>
-          )}
-          <Box marginBottom="m" marginHorizontal="m">
-            <InfoShareView />
           </Box>
-        </Box>
+        </SafeAreaView>
       </AccessibleView>
     </Animated.View>
   );
