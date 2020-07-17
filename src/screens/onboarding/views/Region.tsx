@@ -12,7 +12,7 @@ export const Region = (props: Pick<ItemViewProps, 'isActive'>) => {
   const {region, setRegion} = useStorage();
 
   return (
-    <ItemView {...props} header={i18n.translate('RegionPicker.Title')} item="step-5">
+    <ItemView {...props} header={i18n.translate('RegionPicker.Title')} item="step-6">
       <>
         <Box marginRight="s">
           <Text marginBottom="m">{i18n.translate('RegionPicker.Body')}</Text>
