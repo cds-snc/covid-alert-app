@@ -1,7 +1,9 @@
 import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
-import {Box, Text, ButtonSingleLine} from 'components';
+import {Box, ButtonSingleLine} from 'components';
 import {useNavigation} from '@react-navigation/native';
+import Markdown from 'react-native-markdown-display';
+import {StyleSheet} from 'react-native';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
@@ -20,14 +22,22 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
     >
       <>
         <Box marginBottom="m">
-          <Text variant="bodyText" color="overlayBodyText">
+          <Markdown
+            style={{
+              body: styles.bodyContent,
+            }}
+          >
             {i18n.translate('Onboarding.Permissions.Body1')}
-          </Text>
+          </Markdown>
         </Box>
         <Box marginBottom="l">
-          <Text variant="bodyText" color="overlayBodyText">
+          <Markdown
+            style={{
+              body: styles.bodyContent,
+            }}
+          >
             {i18n.translate('Onboarding.Permissions.Body2')}
-          </Text>
+          </Markdown>
         </Box>
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box>
@@ -43,3 +53,12 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
     </ItemView>
   );
 };
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+  bodyContent: {
+    fontFamily: 'Noto Sans',
+    fontSize: 18,
+  },
+});
