@@ -2,11 +2,12 @@ import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Linking} from 'react-native';
 import {Box, Text, TextMultiline, Toolbar, ButtonSingleLine} from 'components';
 import {useI18n} from 'locale';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useAccessibilityAutoFocus, focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 interface ContentProps {
   title: string;
@@ -17,6 +18,10 @@ interface ContentProps {
 }
 
 const Content = ({title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
+  const [focusRef, autoFocusRef] = useAccessibilityAutoFocus(true);
+  useFocusEffect(() => {
+    focusOnElement(focusRef);
+  });
   const externalLinkButton =
     externalLinkCTA && externalLinkText ? (
       <ButtonSingleLine
@@ -28,7 +33,7 @@ const Content = ({title, body, list, externalLinkText, externalLinkCTA}: Content
     ) : null;
   return (
     <Box>
-      <Text variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {title}
       </Text>
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
