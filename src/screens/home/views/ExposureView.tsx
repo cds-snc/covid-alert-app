@@ -30,7 +30,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
     Linking.openURL(getGuidanceURL()).catch(err => console.error('An error occurred', err));
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const [, autoFocusRef] = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   const isRegionOntario = region === 'ON';
 
   const getRegionForText = useCallback(() => {

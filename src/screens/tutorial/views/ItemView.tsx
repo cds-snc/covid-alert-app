@@ -14,13 +14,13 @@ export interface ItemViewProps {
 
 export const ItemView = ({item, image, isActive}: ItemViewProps) => {
   const i18n = useI18n();
-  const accessibilityAutoFocusRef = useAccessibilityAutoFocus(isActive);
+  const [, autoFocusRef] = useAccessibilityAutoFocus(isActive);
 
   return (
     <>
       <Image
         accessible
-        ref={accessibilityAutoFocusRef}
+        ref={autoFocusRef}
         style={styles.image}
         source={image}
         accessibilityLabel={i18n.translate(`Tutorial.${item}AltText`)}

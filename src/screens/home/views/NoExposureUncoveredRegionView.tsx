@@ -11,7 +11,7 @@ import {AllSetView} from '../components/AllSetView';
 export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
   const {onboardedDatetime, skipAllSet} = useStorage();
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const [, autoFocusRef] = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (
