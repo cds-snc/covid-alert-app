@@ -14,7 +14,9 @@ export const Region = (props: Pick<ItemViewProps, 'isActive'>) => {
   return (
     <ItemView {...props} header={i18n.translate('RegionPicker.Title')} item="step-5">
       <>
-        <Text marginBottom="m">{i18n.translate('RegionPicker.Body')}</Text>
+        <Box marginRight="s">
+          <Text marginBottom="m">{i18n.translate('RegionPicker.Body')}</Text>
+        </Box>
         <Box
           marginTop="s"
           marginBottom="m"
