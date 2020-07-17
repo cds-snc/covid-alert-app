@@ -7,6 +7,8 @@
 
 #import "CovidShield.h"
 #import <React/RCTConvert.h>
+#import "ReactNativeConfig.h"
+#import "CovidShieldURLSessionDelegate.h"
 
 @implementation CovidShield
 RCT_EXPORT_MODULE();
@@ -27,10 +29,16 @@ RCT_REMAP_METHOD(getRandomBytes, randomBytesWithSize:(NSUInteger)size withResolv
 
 RCT_REMAP_METHOD(downloadDiagnosisKeysFile, downloadDiagnosisKeysFileWithURL:(NSString *)url WithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-  NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-  NSURL *taskURL = [RCTConvert NSURL:url];
-  [[session downloadTaskWithURL:taskURL
-              completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+  NSURLSessionConfiguration *sconf = [NSURLSessionConfiguration defaultSessionConfiguration];
+
+  NSDictionary *env = [ReactNativeConfig env];
+  long long max_t = [env[@"DOWNLOAD_TIMEOUT_SECONDS"] longLongValue];
+  if(max_t > 0) sconf.timeoutIntervalForResource = max_t;
+
+  id<NSURLSessionDelegate> del;
+  long long max_l = [env[@"MAXIMUM_DOWNLOAD_SIZE_KB"] longLongValue];
+  del = [[CovidShieldURLSessionDelegate alloc] initWithMaxDownloadSize: max_l * 1024
+                                                     completionHandler: ^(NSURL *location, NSURLResponse *response, NSError *error) {
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
       return;
@@ -46,7 +54,17 @@ RCT_REMAP_METHOD(downloadDiagnosisKeysFile, downloadDiagnosisKeysFileWithURL:(NS
 
     [[NSFileManager defaultManager] copyItemAtURL:location toURL:destination error:nil];
     resolve(destination.path);
-  }] resume];
+
+  }];
+  
+  NSURLSession *session = [NSURLSession sessionWithConfiguration: sconf
+                                                        delegate: del
+                                                   delegateQueue: nil];
+
+  
+  
+  NSURL *taskURL = [RCTConvert NSURL:url];
+  [[session downloadTaskWithURL:taskURL] resume];
 }
 
 @end
