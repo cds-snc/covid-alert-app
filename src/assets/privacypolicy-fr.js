@@ -29,7 +29,7 @@ Les codes aléatoires sont stockés et utilisés uniquement dans le but de vous 
 - Seuls l’application et son serveur auront accès aux codes aléatoires.
 
 ### Si vous avez un diagnostic de COVID-19
-- Vous pouvez décider de partager vos codes aléatoires des 14 derniers jours avec un serveur central administré par le Canada.
+- Vous pouvez décider de partager vos codes aléatoires des 14 derniers jours avec un serveur central administré par le Gouvernement du Canada.
 - Si vous partagez vos codes, personne ne recevra d’information sur vous ou sur le moment de votre proximité.
 - On vous demandera aussi l’autorisation de partager vos codes aléatoires avec le serveur central pendant les 13 jours qui suivent.
 
