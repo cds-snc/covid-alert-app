@@ -8,6 +8,16 @@
       "minimum": 0,
       "maximum": 4096
     },
+    "attenuationDurationThresholds" : {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
     "attenuationLevelValues": {
       "type": "array",
       "items": {
