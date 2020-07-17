@@ -83,24 +83,32 @@ const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
   return (
-    <OnboardingStack.Navigator
-      screenOptions={{stackAnimation: 'none', headerShown: false}}
-      initialRouteName="Onboarding"
-    >
+    <OnboardingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Onboarding">
       <OnboardingStack.Screen name="Onboarding" component={OnboardingWithNavBar} />
     </OnboardingStack.Navigator>
   );
 };
 
+const forFade = ({current}: {current: any}) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
+
 const MainNavigator = () => {
   const {isOnboarding} = useStorage();
   return (
     <MainStack.Navigator
-      screenOptions={{stackPresentation: 'modal', headerShown: false}}
+      screenOptions={{headerShown: false}}
       initialRouteName={isOnboarding ? 'OnboardingNavigator' : 'Home'}
+      mode="modal"
     >
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
-      <MainStack.Screen options={{stackAnimation: 'fade'}} name="OnboardingNavigator" component={OnboardingNavigator} />
+      <MainStack.Screen
+        options={{cardStyleInterpolator: forFade}}
+        name="OnboardingNavigator"
+        component={OnboardingNavigator}
+      />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
       <MainStack.Screen name="DataSharing" component={DataSharingScreenWithNavBar} />
       <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
