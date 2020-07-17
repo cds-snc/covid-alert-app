@@ -45,6 +45,7 @@ import HandReminder from 'assets/hand-reminder.svg';
 import HandThankYouWithLove from 'assets/hand-thank-you-with-love.svg';
 import HandNoProvinceYet from 'assets/hand-no-province-yet.svg';
 import StopCOVID from 'assets/StopCOVID.svg';
+import CanadaLogo from 'assets/canada.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -93,6 +94,7 @@ const ICONS = {
   'hand-reminder': HandReminder,
   'hand-thank-you-with-love': HandThankYouWithLove,
   'hand-no-province-yet': HandNoProvinceYet,
+  'canada-logo': CanadaLogo,
 };
 
 export type IconName = keyof typeof ICONS;
@@ -100,9 +102,11 @@ export type IconName = keyof typeof ICONS;
 export interface IconProps {
   name: IconName | undefined;
   size?: number;
+  width?: number;
+  height?: number;
 }
 
-export const Icon = ({name, size = 24}: IconProps) => {
+export const Icon = ({name, size = 24, width, height}: IconProps) => {
   const IconImpl = name !== undefined ? ICONS[name] : null; // eslint-disable-line no-negated-condition
-  return IconImpl ? <IconImpl width={size} height={size} /> : null;
+  return IconImpl ? <IconImpl width={width ? width : size} height={height ? height : size} /> : null;
 };
