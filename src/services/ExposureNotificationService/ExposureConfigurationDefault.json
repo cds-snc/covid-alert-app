@@ -1,5 +1,6 @@
 {
   "minimumRiskScore": 1,
+  "attenuationDurationThresholds": [50, 70],
   "attenuationLevelValues": [
     0,
     0,
