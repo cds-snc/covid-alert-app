@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
-import {NumberListItem} from 'components/NumberListItem';
+import {BulletPointOrdered} from 'components/BulletPointOrdered';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 interface ContentProps {
@@ -45,9 +45,9 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
         ))}
       {coveredList &&
         coveredList.map(item => (
-          <NumberListItem
+          <BulletPointOrdered
             key={item.text}
-            number={item.number}
+            orderedListChar={item.number}
             listAccessibile={item.listAccessibile}
             text={item.text}
           />
