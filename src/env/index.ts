@@ -18,8 +18,6 @@ export const HMAC_KEY = Config.HMAC_KEY;
 
 export const MCC_CODE = parseInt(Config.MCC_CODE, 10) || 302;
 
-export const TRANSMISSION_RISK_LEVEL = parseInt(Config.TRANSMISSION_RISK_LEVEL, 10);
-
 export const TEST_MODE = Config.TEST_MODE === 'true' || false;
 
 export const MOCK_SERVER = Config.MOCK_SERVER === 'true' || false;

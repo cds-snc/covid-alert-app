@@ -2,7 +2,7 @@ import React from 'react';
 import {StatusBar, Platform} from 'react-native';
 import {enableScreens} from 'react-native-screens';
 import {useNavigationState} from '@react-navigation/native';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
@@ -14,10 +14,11 @@ import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
+import {LandingScreen} from 'screens/landing';
 
 enableScreens();
 
-const MainStack = createNativeStackNavigator();
+const MainStack = createStackNavigator();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
@@ -80,27 +81,36 @@ const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
-const OnboardingStack = createNativeStackNavigator();
+const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
   return (
-    <OnboardingStack.Navigator
-      screenOptions={{stackAnimation: 'none', headerShown: false}}
-      initialRouteName="Onboarding"
-    >
+    <OnboardingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Onboarding">
       <OnboardingStack.Screen name="Onboarding" component={OnboardingWithNavBar} />
     </OnboardingStack.Navigator>
   );
 };
 
+const forFade = ({current}: {current: any}) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
+
 const MainNavigator = () => {
   const {isOnboarding} = useStorage();
   return (
     <MainStack.Navigator
-      screenOptions={{stackPresentation: 'modal', headerShown: false}}
-      initialRouteName={isOnboarding ? 'OnboardingNavigator' : 'Home'}
+      screenOptions={{headerShown: false}}
+      initialRouteName={isOnboarding ? 'Landing' : 'Home'}
+      mode="modal"
     >
+      <MainStack.Screen name="Landing" component={LandingScreen} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
-      <MainStack.Screen options={{stackAnimation: 'fade'}} name="OnboardingNavigator" component={OnboardingNavigator} />
+      <MainStack.Screen
+        options={{cardStyleInterpolator: forFade}}
+        name="OnboardingNavigator"
+        component={OnboardingNavigator}
+      />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
       <MainStack.Screen name="DataSharing" component={DataSharingScreenWithNavBar} />
       <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
