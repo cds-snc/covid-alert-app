@@ -6,7 +6,7 @@ import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
-import {MCC_CODE, TRANSMISSION_RISK_LEVEL} from 'env';
+import {MCC_CODE} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 
@@ -18,6 +18,7 @@ import {BackendInterface, SubmissionKeySet} from './types';
 
 const MAX_UPLOAD_KEYS = 14;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
+const TRANSMISSION_RISK_LEVEL = 1;
 
 // See https://github.com/cds-snc/covid-shield-server/pull/176
 const LAST_14_DAYS_PERIOD = '00000';
@@ -104,9 +105,7 @@ export class BackendService implements BackendInterface {
       keys: exposureKeys.map(key =>
         covidshield.TemporaryExposureKey.create({
           keyData: Buffer.from(key.keyData, 'base64'),
-          transmissionRiskLevel:
-            TRANSMISSION_RISK_LEVEL ||
-            key.transmissionRiskLevel /* See transmissionRiskLevel https://developers.google.com/android/exposure-notifications/exposure-notifications-api#temporaryexposurekey */,
+          transmissionRiskLevel: TRANSMISSION_RISK_LEVEL,
           rollingStartIntervalNumber: key.rollingStartIntervalNumber,
           rollingPeriod: key.rollingPeriod,
         }),
