@@ -1,4 +1,4 @@
-import {useEffect, useLayoutEffect, useState} from 'react';
+import {useLayoutEffect, useState} from 'react';
 import {AccessibilityInfo, findNodeHandle} from 'react-native';
 
 import {createCancellableCallbackPromise} from './cancellablePromise';
@@ -19,8 +19,9 @@ export const focusOnElement = (elementRef: any) => {
 
 /**
  * Remember to add `accessible={true}` to target component
+ * @returns [Manual focus ref , Auto focus ref]
  */
-export const useAccessibilityAutoFocus = (isActive = true, navigation: any = null) => {
+export const useAccessibilityAutoFocus = (isActive = true) => {
   const [autoFocusRef, setAutoFocusRef] = useState<any>();
   const {callable, cancelable} = createCancellableCallbackPromise(
     () => AccessibilityInfo.isScreenReaderEnabled().then(delay(AUTO_FOCUS_DELAY)),
@@ -32,16 +33,6 @@ export const useAccessibilityAutoFocus = (isActive = true, navigation: any = nul
     },
   );
 
-  useEffect(() => {
-    if (navigation) {
-      const unsubscribe = navigation.addListener('focus', () => {
-        callable();
-        return cancelable;
-      });
-      return unsubscribe;
-    }
-  }, [callable, cancelable, navigation]);
-
   useLayoutEffect(() => {
     if (!autoFocusRef || !isActive) {
       return;
@@ -51,7 +42,7 @@ export const useAccessibilityAutoFocus = (isActive = true, navigation: any = nul
     return cancelable;
   }, [callable, cancelable, autoFocusRef, isActive]);
 
-  return setAutoFocusRef;
+  return [autoFocusRef, setAutoFocusRef];
 };
 
 function delay<T>(timeout: number) {
