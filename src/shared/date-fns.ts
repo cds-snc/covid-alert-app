@@ -11,18 +11,21 @@ export function periodSinceEpoch(date: Date, hoursPerPeriod: number) {
 }
 
 export function daysFromNow(date: Date) {
+  const currentTime = Date.now();
   const oneDayMs = 1000 * 60 * 60 * 24;
-  return Math.round((getMillisSinceUTCEpoch() - date.getTime()) / oneDayMs);
+  return Math.round((currentTime - date.getTime()) / oneDayMs);
 }
 
 export function hoursFromNow(date: Date) {
+  const currentTime = Date.now();
   const oneHourMs = 1000 * 60 * 60;
-  return Math.round((getMillisSinceUTCEpoch() - date.getTime()) / oneHourMs);
+  return Math.round((currentTime - date.getTime()) / oneHourMs);
 }
 
 export function minutesFromNow(date: Date) {
+  const currentTime = Date.now();
   const oneMinuteMs = 1000 * 60;
-  return Math.round((getMillisSinceUTCEpoch() - date.getTime()) / oneMinuteMs);
+  return Math.round((currentTime - date.getTime()) / oneMinuteMs);
 }
 
 export function minutesBetween(date1: Date, date2: Date): number {
