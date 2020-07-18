@@ -17,7 +17,6 @@ import IconExternalArrowLight from 'assets/icon-external-arrow-light.svg';
 import IconImportant from 'assets/icon-important.svg';
 import IconMessages from 'assets/icon-messages.svg';
 import IconNotify from 'assets/icon-notify.svg';
-import IconShare from 'assets/icon-share.svg';
 import IconNotifications from 'assets/icon-notifications.svg';
 import IconNoNotifications from 'assets/icon-no-notifications.svg';
 import IconLearn from 'assets/icon-learn.svg';
@@ -67,7 +66,6 @@ const ICONS = {
   'icon-important': IconImportant,
   'icon-messages': IconMessages,
   'icon-notify': IconNotify,
-  'icon-share': IconShare,
   'icon-notifications': IconNotifications,
   'icon-no-notifications': IconNoNotifications,
   'icon-learn': IconLearn,
