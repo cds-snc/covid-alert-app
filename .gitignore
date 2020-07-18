@@ -97,3 +97,5 @@ android/app/google-services.json
 
 # generated files
 ios/assets
+
+.env.release
