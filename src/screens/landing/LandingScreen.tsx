@@ -25,7 +25,7 @@ export const LandingScreen = () => {
       <Box flex={1} marginBottom="s" style={{...styles.imageBackround}}>
         <Box flex={1} justifyContent="flex-start" alignItems="center" paddingTop="s">
           <Image
-            resizeMode="contain"
+            resizeMode="cover"
             style={{...styles.imagePad}}
             accessible
             source={require('assets/landingintro.png')}
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEEEEE',
     paddingTop: 50,
   },
-  imagePad: {flex: 1, width: '85%'},
+  imagePad: {flex: 1, width: '100%'},
   overlay: {
     backgroundColor: '#FFFFFF',
   },
