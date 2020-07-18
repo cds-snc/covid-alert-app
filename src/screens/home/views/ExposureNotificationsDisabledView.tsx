@@ -43,12 +43,12 @@ export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBo
         />
       </Box>
       {Platform.OS === 'android' ? (
-        <Box marginBottom="xl">
+        <Box>
           <Text marginBottom="m" variant="bodySubTitle">
             {i18n.translate('Home.EnDisabled.AndroidTitle2')}
           </Text>
           <Text marginBottom="m">{i18n.translate('Home.EnDisabled.AndroidBody1')}</Text>
-          <Text marginBottom="xl">
+          <Text>
             <Text>{i18n.translate('Home.EnDisabled.AndroidBody2a')}</Text>
             <Text fontWeight="bold">{i18n.translate('Home.EnDisabled.AndroidBody2b')}</Text>
             <Text>{i18n.translate('Home.EnDisabled.AndroidBody2c')}</Text>
