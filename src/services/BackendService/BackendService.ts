@@ -1,5 +1,6 @@
 import {Buffer} from 'buffer';
 
+import Config from 'react-native-config';
 import hmac256 from 'crypto-js/hmac-sha256';
 import encHex from 'crypto-js/enc-hex';
 import {TemporaryExposureKey} from 'bridge/ExposureNotification';
@@ -28,6 +29,7 @@ export class BackendService implements BackendInterface {
   submitUrl: string;
   hmacKey: string;
   region: Observable<Region | undefined> | undefined;
+  configFetchTimeout: any;
 
   constructor(
     retrieveUrl: string,
@@ -56,7 +58,19 @@ export class BackendService implements BackendInterface {
     const region = 'CA';
     const exposureConfigurationUrl = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
     captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
-    return (await fetch(exposureConfigurationUrl, FETCH_HEADERS)).json();
+    const timeoutSecs = Number(Config.DOWNLOAD_TIMEOUT_SECONDS);
+
+    const abortController = new AbortController();
+    const opts = Object.assign(FETCH_HEADERS, {signal: abortController.signal});
+
+    if (timeoutSecs > 0) {
+      clearTimeout(this.configFetchTimeout);
+      this.configFetchTimeout = setTimeout(() => {
+        abortController.abort();
+      }, timeoutSecs * 1000);
+    }
+
+    return (await fetch(exposureConfigurationUrl, opts)).json();
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {
