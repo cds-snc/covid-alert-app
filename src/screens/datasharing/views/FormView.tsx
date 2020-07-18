@@ -33,6 +33,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
           variant="bodyTitle"
           color="overlayBodyText"
           accessibilityRole="header"
+          // eslint-disable-next-line no-unneeded-ternary
           accessibilityAutoFocus={value === '' ? true : false}
         >
           {i18n.translate('DataUpload.FormView.Title')}
