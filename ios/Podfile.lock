@@ -241,7 +241,7 @@ PODS:
   - React-jsinspector (0.62.2)
   - react-native-config (1.1.0):
     - React
-  - react-native-netinfo (5.9.0):
+  - react-native-netinfo (5.9.5):
     - React
   - react-native-safe-area-context (3.0.2):
     - React
@@ -544,7 +544,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-config: 313a1306066289211579b9655eb81d9a565462d0
-  react-native-netinfo: 7b3c53674ea611b26a7788821f137c6d9d3a038b
+  react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
   react-native-safe-area-context: b11a34881faac509cad5578726c98161ad4d275c
   react-native-sensitive-info: 4629b223484a08225c3eb088ff3f91b03097b5e5
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
