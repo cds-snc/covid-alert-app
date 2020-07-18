@@ -4,6 +4,7 @@ export * from './Button';
 export * from './InfoButton';
 export * from './BulletPointX';
 export * from './BulletPointCheck';
+export * from './BulletPointPurple';
 export * from './ButtonMultiline';
 export * from './ButtonSingleLine';
 export * from './CodeInput';

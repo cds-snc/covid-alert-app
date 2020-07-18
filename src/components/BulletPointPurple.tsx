@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Text, Icon} from 'components';
 import {useI18n} from 'locale';
 
-export const BulletPointX = ({listAccessibile, text}: {listAccessibile: string; text: string}) => {
+export const BulletPointPurple = ({listAccessibile, text}: {listAccessibile: string; text: string}) => {
   const i18n = useI18n();
 
   let bulletLabel;
@@ -24,13 +24,15 @@ export const BulletPointX = ({listAccessibile, text}: {listAccessibile: string; 
   }
 
   return (
-    <Box flexDirection="row" marginBottom="m">
-      <Box accessible accessibilityLabel={bulletLabel} marginTop="xxs">
-        <Icon size={20} name="icon-x" />
+    <Box flexDirection="row" marginBottom="s">
+      <Box accessible accessibilityLabel={bulletLabel} marginTop="xxs" flex={0}>
+        <Icon size={20} name="purple-bullet" />
       </Box>
-      <Text accessibilityLabel={textLabel} variant="bodyText" color="overlayBodyText" marginLeft="m">
-        {text}
-      </Text>
+      <Box flex={1}>
+        <Text accessibilityLabel={textLabel} variant="bodyText" color="overlayBodyText" marginLeft="m">
+          {text}
+        </Text>
+      </Box>
     </Box>
   );
 };

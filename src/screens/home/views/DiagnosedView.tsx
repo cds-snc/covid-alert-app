@@ -14,7 +14,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   const i18n = useI18n();
   const {region} = useStorage();
   const [exposureStatus] = useExposureStatus();
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const [, autoFocusRef] = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   if (exposureStatus.type !== 'diagnosed') return null;
 

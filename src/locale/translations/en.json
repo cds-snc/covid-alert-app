@@ -214,6 +214,13 @@
       "Body3": "If you’ve been near one of those codes in the past 14 days, you’ll get a notification.",
       "HowItWorksCTA": "Learn more about how it works"
     },
+    "PartOf": {
+      "Title": "One part of public health",
+      "ImageAltText": "A hand-drawn illustration of different ways of fighting COVID-19, including hand sanitizer, handwashing, face mask and the COVID Alert app.",
+      "Body1": "COVID Alert is just one part of the public health effort to stop the spread of COVID-19.",
+      "Body2": "Follow all public health guidelines in your area.",
+      "Body3": "COVID Alert does not replace medical advice. If you get sick, contact your doctor or other healthcare provider."
+    },
     "Permissions": {
       "Title": "The app will now ask your permission",
       "ImageAltText": "A hand-drawn illustration of a mobile phone displaying a dialogue box with a red X and a green check mark on the screen.",
@@ -402,5 +409,10 @@
     "Body3": "Ask for help to get groceries and supplies dropped off at your door.",
     "Body4": "Stay in a separate room and use a separate bathroom from others in your home, if possible.",
     "Body5": "Wear a mask safely any time you cannot take the above actions."
+  },
+  "A11yList": {
+    "Start": "List start",
+    "End": "List end",
+    "Bullet": "Bullet"
   }
 }

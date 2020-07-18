@@ -46,6 +46,7 @@ import HandThankYouWithLove from 'assets/hand-thank-you-with-love.svg';
 import HandNoProvinceYet from 'assets/hand-no-province-yet.svg';
 import StopCOVID from 'assets/StopCOVID.svg';
 import CanadaLogo from 'assets/canada.svg';
+import PurpleBullet from 'assets/purple-bullet.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -80,6 +81,7 @@ const ICONS = {
   'header-logo-rings': HeaderLogoRings,
   'progress-circle-filled': ProgressCircleFilled,
   'progress-circle-empty': ProgressCircleEmpty,
+  'purple-bullet': PurpleBullet,
   'share-heading': ShareHeading,
   'sheet-handle-bar': SheetHandleBar,
   'sheet-handle-bar-close': SheetHandleBarClose,
