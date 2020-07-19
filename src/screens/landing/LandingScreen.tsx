@@ -25,7 +25,7 @@ export const LandingScreen = () => {
       <Box flex={1} marginBottom="s" style={{...styles.imageBackround}}>
         <Box flex={1} justifyContent="flex-start" alignItems="center" paddingTop="s">
           <Image
-            resizeMode="cover"
+            resizeMode="contain"
             style={{...styles.imagePad}}
             accessible
             source={require('assets/landingintro.png')}
