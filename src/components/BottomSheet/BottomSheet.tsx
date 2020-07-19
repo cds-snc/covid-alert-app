@@ -109,7 +109,6 @@ const BottomSheetInternal = (
         callbackNode={bottomSheetPosition.current}
         enabledInnerScrolling
       />
-      <Box height={snapPoints[1]} style={styles.spacer} />
     </>
   );
 };
