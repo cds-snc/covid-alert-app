@@ -69,7 +69,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Onboarding: undefined;
   Tutorial: undefined;
 }
-
+const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
@@ -104,7 +104,7 @@ const MainNavigator = () => {
       initialRouteName={isOnboarding ? 'Landing' : 'Home'}
       mode="modal"
     >
-      <MainStack.Screen name="Landing" component={LandingScreen} />
+      <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
       <MainStack.Screen
         options={{cardStyleInterpolator: forFade}}
