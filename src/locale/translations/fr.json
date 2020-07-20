@@ -263,10 +263,10 @@
   },
   "OverlayClosed": {
     "NotificationStatus": "Notifications ",
-    "NotificationStatusOff": "désactivé",
+    "NotificationStatusOff": "désactivées",
     "SystemStatus": "Alerte COVID est ",
-    "SystemStatusOff": "désactivé",
-    "SystemStatusOn": "activé",
+    "SystemStatusOff": "désactivée",
+    "SystemStatusOn": "activée",
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
