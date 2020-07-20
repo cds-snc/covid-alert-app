@@ -1,17 +1,21 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {useI18n} from 'locale';
 import {Box, ButtonSingleLine} from 'components';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
 import {StyleSheet} from 'react-native';
 
 import {ItemView, ItemViewProps} from './ItemView';
+import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
-
+  const focusRef = useRef(null);
+  useFocusEffect(() => {
+    if (props.isActive) focusOnElement(focusRef.current);
+  });
   return (
     <ItemView
       {...props}
@@ -42,6 +46,7 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box>
             <ButtonSingleLine
+              focusRef={focusRef}
               text={i18n.translate('Onboarding.Permissions.PrivacyButtonCTA')}
               variant="bigFlatNeutralGrey"
               internalLink
