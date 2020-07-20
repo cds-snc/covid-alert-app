@@ -18,7 +18,8 @@
     "fastlane:ios:beta": "bundle exec fastlane ios beta",
     "fastlane:ios:local": "bundle exec fastlane ios local",
     "fastlane:android:internal": "bundle exec fastlane android internal",
-    "fastlane:android:local": "bundle exec fastlane android local"
+    "fastlane:android:local": "bundle exec fastlane android local",
+    "fastlane:android:beta": "ENVFILE=.env.beta bundle exec fastlane android internal flavor:beta"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
