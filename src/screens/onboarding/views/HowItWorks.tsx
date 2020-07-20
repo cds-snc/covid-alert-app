@@ -4,16 +4,15 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {Box, BulletPointCheck, ButtonSingleLine} from 'components';
 
 import {ItemView, ItemViewProps} from './ItemView';
-import {View} from 'react-native';
 import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
-  const viewRef = useRef(null);
+  const focusRef = useRef(null);
   useFocusEffect(() => {
-    focusOnElement(viewRef.current);
+    if (props.isActive) focusOnElement(focusRef.current);
   });
   return (
     <ItemView
@@ -30,14 +29,15 @@ export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
           <BulletPointCheck listAccessibile="listEnd" text={i18n.translate('Onboarding.HowItWorks.Body3')} />
         </Box>
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
-          <View accessible ref={viewRef}>
+          <Box>
             <ButtonSingleLine
+              focusRef={focusRef}
               text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
               variant="bigFlatNeutralGrey"
               internalLink
               onPress={onLearnMore}
             />
-          </View>
+          </Box>
         </Box>
       </>
     </ItemView>
