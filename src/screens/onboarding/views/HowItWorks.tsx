@@ -1,15 +1,20 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {useI18n} from 'locale';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {Box, BulletPointCheck, ButtonSingleLine} from 'components';
 
 import {ItemView, ItemViewProps} from './ItemView';
+import {View} from 'react-native';
+import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
-
+  const viewRef = useRef(null);
+  useFocusEffect(() => {
+    focusOnElement(viewRef.current);
+  });
   return (
     <ItemView
       {...props}
@@ -25,14 +30,14 @@ export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
           <BulletPointCheck listAccessibile="listEnd" text={i18n.translate('Onboarding.HowItWorks.Body3')} />
         </Box>
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
-          <Box>
+          <View accessible ref={viewRef}>
             <ButtonSingleLine
               text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
               variant="bigFlatNeutralGrey"
               internalLink
               onPress={onLearnMore}
             />
-          </Box>
+          </View>
         </Box>
       </>
     </ItemView>
