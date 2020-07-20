@@ -4,8 +4,9 @@ on:
   push:
     paths:
       - 'VERSION'
-  pull_request: # Just temporary for testing
-    branches: [master]
+  push: # Just temporary for testing
+    branches:
+      - "feature/fastlane_ci"
 
 jobs:
   publish_apps:
