@@ -188,7 +188,8 @@
   },
   "Landing": {
     "En": "English",
-    "Fr": "Français"
+    "Fr": "Français",
+    "AltText": "Illustration de 8 personnes profitant de l’espace public. Il y a une personne avec une canne blanche, une autre en fauteuil roulant, une autre avec un hijab, plusieurs personnes de couleur, et une représentation de la diversité de genre."
   },
   "LanguageSelect": {
     "Close": "Fermer",
