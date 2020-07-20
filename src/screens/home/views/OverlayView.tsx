@@ -9,7 +9,7 @@ import {
   useStartExposureNotificationService,
 } from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
-import {daysBetween} from 'shared/date-fns';
+import {daysBetween, getCurrentDate} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
@@ -91,10 +91,14 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
   const [exposureStatus] = useExposureStatus();
 
   if (exposureStatus.type === 'diagnosed') {
-    const daysLeft = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt)) - 1;
-    const bodyText =
-      i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed') +
-      i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {number: daysLeft});
+    const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
+    let bodyText = i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed');
+    if (daysLeft > 0) {
+      bodyText += i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {
+        number: daysLeft,
+      });
+    }
+
     return (
       <InfoBlock
         focusOnTitle={isBottomSheetExpanded}
