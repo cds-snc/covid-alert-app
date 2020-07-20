@@ -9,7 +9,7 @@ on:
 
 jobs:
   publish_apps:
-    runs-on: macos-latest
+    runs-on: macOS-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -46,7 +46,4 @@ jobs:
           # SIGNING_IDENTITY: ${{ secrets.SIGNING_IDENTITY }}
           LANG: en_CA.UTF-8
           LC_ALL: en_CA.UTF-8
-        uses: maierj/fastlane-action@v1.2.0
-        with:
-          lane: 'ios beta'
-          skip-tracking: true
+        run: bundle exec fastlane ios beta
