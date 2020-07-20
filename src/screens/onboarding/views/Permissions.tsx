@@ -1,12 +1,12 @@
 import React, {useCallback, useRef, useState, useEffect} from 'react';
 import {useI18n} from 'locale';
 import {Box, ButtonSingleLine} from 'components';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
 import {StyleSheet} from 'react-native';
+import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 import {ItemView, ItemViewProps} from './ItemView';
-import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
   const i18n = useI18n();

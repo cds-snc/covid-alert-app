@@ -2,9 +2,9 @@ import React, {useCallback, useRef, useEffect, useState} from 'react';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Box, BulletPointCheck, ButtonSingleLine} from 'components';
+import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 import {ItemView, ItemViewProps} from './ItemView';
-import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
   const i18n = useI18n();
