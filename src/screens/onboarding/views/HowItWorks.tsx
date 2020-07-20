@@ -1,6 +1,6 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useRef, useEffect, useState} from 'react';
 import {useI18n} from 'locale';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Box, BulletPointCheck, ButtonSingleLine} from 'components';
 
 import {ItemView, ItemViewProps} from './ItemView';
@@ -11,12 +11,22 @@ export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
   const navigation = useNavigation();
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const focusRef = useRef(null);
-  useFocusEffect(() => {
-    if (props.isActive) focusOnElement(focusRef.current);
-  });
+  const [focusOnButton, setFocusOnButton] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setFocusOnButton(true);
+      focusOnElement(focusRef.current);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <ItemView
       {...props}
+      autoFocus={!focusOnButton}
       image={require('assets/onboarding-howitworks.png')}
       altText={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
       header={i18n.translate('Onboarding.HowItWorks.Title')}

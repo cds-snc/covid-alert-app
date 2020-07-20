@@ -14,9 +14,10 @@ export interface ItemViewProps {
   header: string;
   isActive: boolean;
   children?: ReactNode;
+  autoFocus?: boolean;
 }
 
-export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
+export const ItemView = ({item, image, isActive, altText, header, children, autoFocus = true}: ItemViewProps) => {
   const i18n = useI18n();
   const [focusRef, autoFocusRef] = useAccessibilityAutoFocus(isActive);
   const total = onboardingData.length;
@@ -26,7 +27,7 @@ export const ItemView = ({item, image, isActive, altText, header, children}: Ite
   const stepText = `${step} ${x} ${of} ${total}`;
 
   useFocusEffect(() => {
-    focusOnElement(focusRef);
+    if (isActive && autoFocus) focusOnElement(focusRef);
   });
   return (
     <>
