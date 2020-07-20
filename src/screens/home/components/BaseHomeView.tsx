@@ -11,7 +11,7 @@ interface BaseHomeViewProps {
 export const BaseHomeView = ({children, iconName}: BaseHomeViewProps) => {
   return (
     <>
-      <SafeAreaView edges={['top']} style={styles.header}>
+      <SafeAreaView edges={['top']} style={styles.flex}>
         <Header />
       </SafeAreaView>
       <ScrollView contentContainerStyle={[styles.scrollContainer]} bounces={false}>
@@ -34,11 +34,6 @@ const styles = StyleSheet.create({
   primaryIcon: {marginLeft: -40, marginBottom: 30},
   flex: {
     flex: 0,
-    backgroundColor: 'red',
-  },
-  header: {
-    flex: 0,
-    backgroundColor: 'yellow',
   },
   scrollContainerWithAnimation: {
     marginTop: -100,
