@@ -65,14 +65,15 @@ platform :ios do
   lane :beta do
     # ensure_git_branch
     ensure_build_directory
-    create_keychain(
-      name: "FlKeychain",
-      password: "meow",
-      default_keychain: true,
-      unlock: true,
-      timeout: 3600,
-      lock_when_sleeps: true
-    )
+
+    #create_keychain(
+    #  name: "FlKeychain",
+    #  password: "meow",
+    #  default_keychain: true,
+    #  unlock: true,
+    #  timeout: 3600,
+    #  lock_when_sleeps: true
+    #)
 
     increment_build_number(
       build_number: ENV["APP_VERSION_CODE"],
@@ -84,8 +85,6 @@ platform :ios do
     match(
       git_url: ENV["CERTS_REPO"],
       app_identifier: ENV["APP_ID_IOS"],
-      keychain_name: "FlKeychain",
-      keychain_password: "meow",
       type: "appstore",
       readonly: true
     )
