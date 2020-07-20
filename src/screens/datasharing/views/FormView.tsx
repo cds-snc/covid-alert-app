@@ -16,6 +16,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
   const {startSubmission} = useReportDiagnosis();
   const handleVerify = useCallback(async () => {
     setLoading(true);
+    value = value.replace(/-/g, '');
     try {
       await startSubmission(value);
       setLoading(false);

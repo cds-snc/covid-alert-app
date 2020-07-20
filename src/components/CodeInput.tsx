@@ -10,7 +10,14 @@ export interface CodeInputProps {
 }
 
 export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps) => {
-  const onChangeTrimmed = useCallback(text => onChange(text.trim()), [onChange]);
+  const onChangeText = useCallback(
+    (text: string) => {
+      const matches = text.match(/[^\-]{3}(?=[^\-]{2,3})|[^\-]+/g);
+      const modifiedText = matches?.join('-');
+      modifiedText ? onChange(modifiedText.trim()) : onChange(text.trim());
+    },
+    [onChange],
+  );
   const [isFocus, setIsFocus] = useState(false);
   const onFocus = useCallback(() => setIsFocus(true), []);
   const onBlur = useCallback(() => setIsFocus(false), []);
@@ -33,7 +40,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
           <TextInput
             color="bodyText"
             value={value}
-            onChangeText={onChangeTrimmed}
+            onChangeText={onChangeText}
             onFocus={onFocus}
             onBlur={onBlur}
             autoCorrect={false}
@@ -41,7 +48,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
             returnKeyType="done"
             accessibilityLabel={accessibilityLabel}
             padding="s"
-            maxLength={10}
+            maxLength={12}
             fontSize={26}
             borderWidth={0}
             autoCapitalize="characters"
