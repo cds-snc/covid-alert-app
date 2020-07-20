@@ -232,9 +232,9 @@
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
       "Body1": "Alerte COVID **n’utilise pas le GPS** ou les services de localisation.",
       "Body2": "L’application **n’a aucun moyen** de connaître\u00A0:",
-      "Bullet1": "Votre emplacement,",
-      "Bullet2": "votre nom ou votre adresse,",
-      "Bullet3": "Les contacts de votre téléphone,",
+      "Bullet1": "Votre emplacement.",
+      "Bullet2": "Votre nom ou votre adresse.",
+      "Bullet3": "Les contacts de votre téléphone.",
       "Bullet4": "Vos informations de santé.",
       "Bullet5": "Les informations de santé des personnes à proximité."
     },
