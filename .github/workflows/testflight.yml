@@ -1,12 +1,12 @@
 name: Publish to TestFlight
 
 on:
-  push:
-    paths:
-      - 'VERSION'
   push: # Just temporary for testing
     branches:
-      - "feature/fastlane_ci"
+      - 'feature/fastlane_ci'
+  #push:
+  #  paths:
+  #    - 'VERSION'
 
 jobs:
   publish_apps:
