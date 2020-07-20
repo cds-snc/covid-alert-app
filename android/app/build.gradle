@@ -4,7 +4,11 @@ apply plugin: "kotlin-android-extensions"
 
 project.ext.envConfigFiles = [
         debug  : ".env",
-        release: ".env.production"
+        release: ".env.production",
+        /* betaRelease: ".env.beta",
+        betaDebug: ".env.beta",
+        demoDebug: ".env.demo",
+        demoRelease: ".env.demo", */
 ]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
@@ -180,6 +184,25 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+      demo {
+        dimension "version"
+        applicationId "ca.gc.hcsc.canada.covidalert.dev"
+        versionNameSuffix "-DEMO"
+      }
+      beta {
+        dimension "version"
+        applicationId "ca.gc.hcsc.canada.covidalert.dev"
+        versionNameSuffix "-BETA"
+      }
+      production {
+        dimension "version"
+        applicationId "ca.gc.hcsc.canada.stopcovid"
+        versionNameSuffix "-RC"
+      }
     }
 
     packagingOptions {
