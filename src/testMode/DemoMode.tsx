@@ -10,6 +10,7 @@ import {
   useReportDiagnosis,
 } from 'services/ExposureNotificationService';
 import {captureMessage} from 'shared/log';
+import {TEST_MODE} from 'env';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -162,10 +163,11 @@ export const DemoMode = ({children}: DemoModeProps) => {
     return Component;
   }, [children]);
 
+  // disable the drawer if TEST_MODE === false
   return (
     <MockProvider>
       <Drawer.Navigator drawerPosition="right" drawerContent={drawerContent}>
-        <Drawer.Screen name="main" component={Component} />
+        <Drawer.Screen name="main" component={Component} options={TEST_MODE ? {} : {gestureEnabled: false}} />
       </Drawer.Navigator>
     </MockProvider>
   );
