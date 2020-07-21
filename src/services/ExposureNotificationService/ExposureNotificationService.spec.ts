@@ -399,5 +399,83 @@ describe('ExposureNotificationService', () => {
         }),
       );
     });
+
+    it('selects ExposureSummary that has larger lastExposureTimestamp', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      service.exposureStatus.set({
+        type: 'exposed',
+        lastChecked: {
+          period,
+          timestamp: today.getTime(),
+        },
+        summary: {
+          daysSinceLastExposure: 8,
+          lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
+          matchedKeyCount: 1,
+          maximumRiskScore: 1,
+        },
+      });
+      bridge.detectExposure.mockResolvedValue({
+        daysSinceLastExposure: 7,
+        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+      });
+
+      await service.updateExposureStatus();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          type: 'exposed',
+          summary: {
+            daysSinceLastExposure: 7,
+            lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+            matchedKeyCount: 1,
+            maximumRiskScore: 1,
+          },
+        }),
+      );
+    });
+
+    it('ignores ExposureSummary that has smaller lastExposureTimestamp', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      service.exposureStatus.set({
+        type: 'exposed',
+        lastChecked: {
+          period,
+          timestamp: today.getTime(),
+        },
+        summary: {
+          daysSinceLastExposure: 8,
+          lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
+          matchedKeyCount: 1,
+          maximumRiskScore: 1,
+        },
+      });
+      bridge.detectExposure.mockResolvedValue({
+        daysSinceLastExposure: 9,
+        lastExposureTimestamp: today.getTime() - 9 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+      });
+
+      await service.updateExposureStatus();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          type: 'exposed',
+          summary: {
+            daysSinceLastExposure: 8,
+            lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
+            matchedKeyCount: 1,
+            maximumRiskScore: 1,
+          },
+        }),
+      );
+    });
   });
 });
