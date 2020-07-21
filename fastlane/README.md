@@ -49,11 +49,6 @@ fastlane ensure_build_directory
 fastlane android build_and_deploy
 ```
 
-### android internal
-```
-fastlane android internal
-```
-Pushes a new build to Google Play Internal Testing Track
 ### android local
 ```
 fastlane android local
@@ -68,6 +63,11 @@ Builds a local Debug .apk for Android
 ----
 
 ## iOS
+### ios build_and_deploy
+```
+fastlane ios build_and_deploy
+```
+
 ### ios beta
 ```
 fastlane ios beta
