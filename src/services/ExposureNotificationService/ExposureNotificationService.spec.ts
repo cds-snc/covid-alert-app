@@ -303,4 +303,33 @@ describe('ExposureNotificationService', () => {
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: 'monitoring'}));
   });
+
+  describe('updateExposureStatus', () => {
+    it('keeps lastChecked when reset from diagnosed state to monitoring state', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((args: any) => (args ? new OriginalDate(args) : today));
+      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      service.exposureStatus.set({
+        type: 'diagnosed',
+        cycleStartsAt: today.getTime() - 14 * 3600 * 24 * 1000,
+        cycleEndsAt: today.getTime(),
+        lastChecked: {
+          period,
+          timestamp: today.getTime(),
+        },
+      });
+
+      await service.updateExposureStatus();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          lastChecked: {
+            period,
+            timestamp: today.getTime(),
+          },
+          type: 'monitoring',
+        }),
+      );
+    });
+  });
 });
