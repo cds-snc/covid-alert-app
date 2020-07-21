@@ -1,7 +1,8 @@
 import React from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, Platform} from 'react-native';
 import {enableScreens} from 'react-native-screens';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
@@ -16,8 +17,7 @@ import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
 
 enableScreens();
-
-const MainStack = createStackNavigator();
+const MainStack = Platform.OS === 'ios' ? createNativeStackNavigator() : createStackNavigator();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
@@ -71,7 +71,7 @@ const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
-const OnboardingStack = createStackNavigator();
+const OnboardingStack = Platform.OS === 'ios' ? createNativeStackNavigator() : createStackNavigator();
 const OnboardingNavigator = () => {
   return (
     <OnboardingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Onboarding">
