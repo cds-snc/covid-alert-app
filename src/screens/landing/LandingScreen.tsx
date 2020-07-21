@@ -28,7 +28,6 @@ export const LandingScreen = () => {
             resizeMode="contain"
             style={{...styles.imagePad}}
             accessible
-            accessibilityLabel={i18n.translate('Landing.AltText')}
             source={require('assets/landingintro.png')}
           />
         </Box>

@@ -6,20 +6,18 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
-import {BulletPointOrdered} from 'components/BulletPointOrdered';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAccessibilityAutoFocus, focusOnElement} from 'shared/useAccessibilityAutoFocus';
 
 interface ContentProps {
   title: string;
   body: string;
-  notCoveredList?: string[];
-  coveredList?: any[];
+  list?: string[];
   externalLinkText?: string;
   externalLinkCTA?: string;
 }
 
-const Content = ({title, body, notCoveredList, coveredList, externalLinkText, externalLinkCTA}: ContentProps) => {
+const Content = ({title, body, list, externalLinkText, externalLinkCTA}: ContentProps) => {
   const [focusRef, autoFocusRef] = useAccessibilityAutoFocus(true);
   useFocusEffect(() => {
     focusOnElement(focusRef);
@@ -39,16 +37,7 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
         {title}
       </Text>
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
-      {notCoveredList && notCoveredList.map(item => <BulletPoint key={item} text={item} />)}
-      {coveredList &&
-        coveredList.map(item => (
-          <BulletPointOrdered
-            key={item.text}
-            orderedListChar={item.number}
-            listAccessibile={item.listAccessibile}
-            text={item.text}
-          />
-        ))}
+      {list && list.map(item => <BulletPoint key={item} text={item} />)}
       {externalLinkButton}
     </Box>
   );
@@ -69,7 +58,7 @@ export const NoCodeScreen = () => {
         <Content
           title={i18n.translate('DataUpload.NoCode.RegionNotCovered.Title')}
           body={i18n.translate('DataUpload.NoCode.RegionNotCovered.Body')}
-          notCoveredList={[
+          list={[
             i18n.translate('DataUpload.NoCode.RegionNotCovered.Body2'),
             i18n.translate('DataUpload.NoCode.RegionNotCovered.Body3'),
             i18n.translate('DataUpload.NoCode.RegionNotCovered.Body4'),
@@ -82,28 +71,6 @@ export const NoCodeScreen = () => {
         <Content
           title={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Title`)}
           body={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body`)}
-          coveredList={[
-            {
-              number: '1.',
-              listAccessibile: 'listStart',
-              text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body2`),
-            },
-            {
-              number: '2.',
-              listAccessibile: 'item',
-              text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body3`),
-            },
-            {
-              number: '3.',
-              listAccessibile: 'item',
-              text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body4`),
-            },
-            {
-              number: '4.',
-              listAccessibile: 'listEnd',
-              text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body5`),
-            },
-          ]}
           externalLinkText={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.CTA`)}
           externalLinkCTA={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Link`)}
         />
