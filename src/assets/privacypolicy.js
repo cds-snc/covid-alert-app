@@ -57,9 +57,9 @@ COVID Alert is a Government of Canada app. It is designed so that your health in
 - Your IP address is never connected to any other information about you, and it’s only used to ensure the integrity of the system.
 
 ## Questions?
-Contact us at:
+Contact the COVID-19 information line:
 - Phone: 1-833-784-4397
-- Teletypewriter: 1-800-465-7735
+- Teletypewriter (TTY): 1-800-465-7735
   (Hours of operation are from Monday to Friday, 8 a.m. to 8pm EST.)
 `;
 
