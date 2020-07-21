@@ -12,9 +12,10 @@ export interface CodeInputProps {
 export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps) => {
   const onChangeText = useCallback(
     (text: string) => {
-      const matches = text.match(/[^\-]{3}(?=[^\-]{2,3})|[^\-]+/g);
+      const matches = text.replace(/-/g, '').match(/[^-]{3}(?=[^-]{2,3})|[^-]+/g);
       const modifiedText = matches?.join('-');
-      modifiedText ? onChange(modifiedText.trim()) : onChange(text.trim());
+      console.log(matches);
+      return modifiedText ? onChange(modifiedText.trim()) : onChange(text.trim());
     },
     [onChange],
   );
@@ -54,6 +55,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
             autoCapitalize="characters"
             fontFamily="Menlo"
             letterSpacing={5}
+            keyboardType="visible-password"
           />
         </Box>
       </Box>
