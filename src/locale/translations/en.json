@@ -136,7 +136,8 @@
   },
   "Landing": {
     "En": "English",
-    "Fr": "Français"
+    "Fr": "Français",
+    "AltText": "Illustration of 8 people enjoying a public space. There’s a person with a walking cane, a person in a wheelchair, a person wearing a hijab, several people of colour, and a representation of gender diversity."
   },
   "LanguageSelect": {
     "Title": "Language",

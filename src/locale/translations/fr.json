@@ -16,11 +16,11 @@
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "Step1": {
       "Title": "Aviser les autres personnes d’une exposition potentielle",
-      "Body1a": "Étape 1 : ",
+      "Body1a": "Étape 1 : ",
       "Body1b": "Vous entrez la clé à usage unique reçue lors de votre diagnostic.",
-      "Body2a": "Étape 2 : ",
+      "Body2a": "Étape 2 : ",
       "Body2b": "Vous acceptez qu’Alerte COVID avise les personnes qu’elles ont été exposées.",
-      "Body3a": "Étape 3 : ",
+      "Body3a": "Étape 3 : ",
       "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires.",
       "Body4a": "Personne ne recevra d’information sur vous ",
       "Body4b": "ou sur le moment de votre proximité.",
@@ -38,7 +38,7 @@
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
-      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
+      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
       "Body2a": "Personne ne recevra d’information sur vous ",
       "Body2b": "ou sur le moment de votre proximité.",
       "Body3": "Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
@@ -56,7 +56,7 @@
       "RegionCovered": {
         "ON": {
           "Title": "Obtenir une clé à usage unique",
-          "Body": "Si vous avez reçu un test positif en Ontario :",
+          "Body": "Si vous avez reçu un test positif en Ontario :",
           "Body2": "Allez sur le site Web des Résultats du test de diagnostic de la COVID-19 puis entrez vos informations.",
           "Body3": "Consultez les résultats de votre test.",
           "Body4": "Notez le numéro à 8\u00A0chiffres.",
@@ -67,7 +67,7 @@
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
-        "Body": "Les personnes de votre région ne peuvent pas encore obtenir de clé à usage unique.\n\nVous ne pourrez pas aviser les personnes d’une exposition. Mais vous pouvez tout de même vous isoler pendant 14\u00A0jours, et ainsi :",
+        "Body": "Les personnes de votre région ne peuvent pas encore obtenir de clé à usage unique.\n\nVous ne pourrez pas aviser les personnes d’une exposition. Mais vous pouvez tout de même vous isoler pendant 14\u00A0jours, et ainsi :",
         "Body2": "Assurer la sécurité de votre communauté.",
         "Body3": "Protéger les personnes et les animaux vivant avec vous.",
         "Body4": "Prendre soin de vous."
@@ -95,7 +95,7 @@
     "DiagnosedShareView": {
       "Title": "Téléverser les codes aléatoires",
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel :",
+      "Body2": "Rappel : ",
       "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
@@ -192,7 +192,8 @@
   },
   "Landing": {
     "En": "English",
-    "Fr": "Français"
+    "Fr": "Français",
+    "AltText": "Illustration de 8 personnes profitant de l’espace public. Il y a une personne avec une canne blanche, une autre en fauteuil roulant, une autre avec un hijab, plusieurs personnes de couleur, et une représentation de la diversité de genre."
   },
   "LanguageSelect": {
     "Close": "Fermer",
@@ -236,9 +237,9 @@
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
       "Body1": "Alerte COVID **n’utilise pas le GPS** ou les services de localisation.",
       "Body2": "L’application **n’a aucun moyen** de connaître\u00A0:",
-      "Bullet1": "Votre emplacement,",
-      "Bullet2": "votre nom ou votre adresse,",
-      "Bullet3": "Les contacts de votre téléphone,",
+      "Bullet1": "Votre emplacement.",
+      "Bullet2": "Votre nom ou votre adresse.",
+      "Bullet3": "Les contacts de votre téléphone.",
       "Bullet4": "Vos informations de santé.",
       "Bullet5": "Les informations de santé des personnes à proximité."
     },
@@ -267,10 +268,10 @@
   },
   "OverlayClosed": {
     "NotificationStatus": "Notifications ",
-    "NotificationStatusOff": "désactivé",
+    "NotificationStatusOff": "désactivées",
     "SystemStatus": "Alerte COVID est ",
-    "SystemStatusOff": "désactivé",
-    "SystemStatusOn": "activé",
+    "SystemStatusOff": "désactivée",
+    "SystemStatusOn": "activée",
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
@@ -404,7 +405,7 @@
     "step-1": "L’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement d’Alerte COVID",
     "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
-    "step-2": "L’application estime la distance entre vous et d’autres personnes grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2 mètres pendant plus de 15 minutes, l’application enregistre une exposition.",
+    "step-2": "L’application estime la distance entre vous et d’autres personnes grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2 mètres pendant plus de 15 minutes, l’application enregistre une exposition.",
     "step-2Title": "Qu’est-ce qu’une exposition?",
     "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
     "step-3": "Si une personne ayant l’application a un diagnostic de COVID-19, elle peut décider de téléverser tous les codes aléatoires émis par son téléphone vers un serveur central.\n\nLe serveur ne reçoit que les codes. Il ne reçoit aucune information personnelle.",
