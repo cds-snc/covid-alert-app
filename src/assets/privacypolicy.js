@@ -59,7 +59,8 @@ COVID Alert is a Government of Canada app. It is designed so that your health in
 ## Questions?
 Contact us at:
 - Phone: 1-833-784-4397
-- Email: CDS-SNC@tbs-sct.gc.ca
+- Teletypewriter: 1-800-465-7735
+  (Hours of operation are from Monday to Friday, 8 a.m. to 8pm EST.)
 `;
 
 export default privacy;
