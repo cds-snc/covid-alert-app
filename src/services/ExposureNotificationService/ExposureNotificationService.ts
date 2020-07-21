@@ -404,12 +404,12 @@ export class ExposureNotificationService {
     });
   }
 
-  private selectExposureSummary(summary: ExposureSummary): ExposureSummary {
+  private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
     const exposureStatus = this.exposureStatus.get();
     const currentSummary = exposureStatus.type === 'exposed' ? exposureStatus.summary : undefined;
-    return currentSummary && currentSummary.daysSinceLastExposure < summary.daysSinceLastExposure
-      ? currentSummary
-      : summary;
+    const currentLastExposureTimestamp = currentSummary?.lastExposureTimestamp || 0;
+    const nextLastExposureTimestamp = nextSummary.lastExposureTimestamp || 0;
+    return !currentSummary || nextLastExposureTimestamp > currentLastExposureTimestamp ? nextSummary : currentSummary;
   }
 
   private async processNotification() {
