@@ -8,6 +8,7 @@ interface RippleProps {
   backgroundColor?: string;
   borderRadius?: number;
   onPress: () => void;
+  focusRef?: React.LegacyRef<any>;
 }
 
 export const Ripple = ({
@@ -16,6 +17,7 @@ export const Ripple = ({
   backgroundColor = 'transparent',
   borderRadius = 4,
   onPress,
+  focusRef,
   ...props
 }: RippleProps & ViewProps) => {
   return (
@@ -29,7 +31,7 @@ export const Ripple = ({
       rippleColor="rgb(0,0,0)"
       activeOpacity={0.8}
     >
-      <View accessible {...props}>
+      <View accessible ref={focusRef} {...props}>
         {children}
       </View>
     </RectButton>

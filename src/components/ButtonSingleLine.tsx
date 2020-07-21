@@ -27,6 +27,7 @@ export interface ButtonSingleLineProps {
   externalLink?: boolean;
   internalLink?: boolean;
   iconName?: IconName;
+  focusRef?: React.LegacyRef<any>;
 }
 
 export const ButtonSingleLine = ({
@@ -39,6 +40,7 @@ export const ButtonSingleLine = ({
   externalLink,
   internalLink,
   iconName,
+  focusRef,
 }: ButtonSingleLineProps) => {
   const i18n = useI18n();
   const theme = useTheme<Theme>();
@@ -116,6 +118,7 @@ export const ButtonSingleLine = ({
   const accessibilityProps = {
     accessibilityRole: 'button' as 'button',
     accessibilityState: {disabled},
+    focusRef: focusRef,
     ...externalLinkProps,
   };
 
