@@ -118,7 +118,9 @@
     "NotificationCardAction": "Turn on notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
-    "ExposureNotificationCardAction": "Turn on exposure notifications"
+    "ExposureNotificationCardAction": "Turn on exposure notifications",
+    "NoConnectivityCardAction": "COVID Alert is off",
+    "NoConnectivityCardBody": "Turn off Airplane mode or turn on Bluetooth so the app can work."
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",
