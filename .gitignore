@@ -92,8 +92,9 @@ ios/GoogleService-Info.plist
 ios/Generated.xcconfig
 android/app/google-services.json
 .env.local
-.env.secrets
 .env.release
+.env.beta
+.env.demo
 .env
 
 # generated files
