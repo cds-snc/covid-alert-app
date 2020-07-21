@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar, Platform} from 'react-native';
+import {StatusBar} from 'react-native';
 import {enableScreens} from 'react-native-screens';
 import {useNavigationState} from '@react-navigation/native';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
