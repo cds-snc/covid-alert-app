@@ -13,7 +13,7 @@ import {useAccessibilityAutoFocus, focusOnElement} from 'shared/useAccessibility
 interface ContentProps {
   title: string;
   body: string;
-  notCoveredList?: string[];
+  notCoveredList?: any[];
   coveredList?: any[];
   externalLinkText?: string;
   externalLinkCTA?: string;
@@ -39,7 +39,10 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
         {title}
       </Text>
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
-      {notCoveredList && notCoveredList.map(item => <BulletPoint key={item} text={item} />)}
+      {notCoveredList &&
+        notCoveredList.map(item => (
+          <BulletPoint key={item.text} listAccessibile={item.listAccessibile} text={item.text} />
+        ))}
       {coveredList &&
         coveredList.map(item => (
           <BulletPointOrdered
@@ -70,9 +73,9 @@ export const NoCodeScreen = () => {
           title={i18n.translate('DataUpload.NoCode.RegionNotCovered.Title')}
           body={i18n.translate('DataUpload.NoCode.RegionNotCovered.Body')}
           notCoveredList={[
-            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body2'),
-            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body3'),
-            i18n.translate('DataUpload.NoCode.RegionNotCovered.Body4'),
+            {listAccessibile: 'listStart', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body2')},
+            {listAccessibile: 'item', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body3')},
+            {listAccessibile: 'listEnd', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body4')},
           ]}
         />
       );
