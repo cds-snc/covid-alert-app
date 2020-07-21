@@ -16,7 +16,9 @@
     "test": "jest",
     "tsc": "tsc",
     "deploy-android:demo": "bundle exec fastlane android build_and_deploy type:demo",
-    "deploy-android:release": "bundle exec fastlane android build_and_deploy type:production"
+    "deploy-android:release": "bundle exec fastlane android build_and_deploy type:production",
+    "deploy-ios:demo": "bundle exec fastlane ios build_and_deploy type:demo",
+    "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
