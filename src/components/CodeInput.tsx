@@ -14,7 +14,6 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
     (text: string) => {
       const matches = text.replace(/-/g, '').match(/[^-]{3}(?=[^-]{2,3})|[^-]+/g);
       const modifiedText = matches?.join('-');
-      console.log(matches);
       return modifiedText ? onChange(modifiedText.trim()) : onChange(text.trim());
     },
     [onChange],
