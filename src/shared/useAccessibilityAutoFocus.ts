@@ -1,4 +1,4 @@
-import {useLayoutEffect, useState} from 'react';
+import {useLayoutEffect, useMemo, useState} from 'react';
 import {AccessibilityInfo, findNodeHandle} from 'react-native';
 
 import {createCancellableCallbackPromise} from './cancellablePromise';
@@ -23,15 +23,18 @@ export const focusOnElement = (elementRef: any) => {
  */
 export const useAccessibilityAutoFocus = (isActive = true) => {
   const [autoFocusRef, setAutoFocusRef] = useState<any>();
-  const {callable, cancelable} = createCancellableCallbackPromise(
-    () => AccessibilityInfo.isScreenReaderEnabled().then(delay(AUTO_FOCUS_DELAY)),
-    isScreenReaderEnabled => {
-      if (!isScreenReaderEnabled) {
-        return;
-      }
-      focusOnElement(autoFocusRef);
-    },
-  );
+
+  const {callable, cancelable} = useMemo(() => {
+    return createCancellableCallbackPromise(
+      () => AccessibilityInfo.isScreenReaderEnabled().then(delay(AUTO_FOCUS_DELAY)),
+      isScreenReaderEnabled => {
+        if (!isScreenReaderEnabled) {
+          return;
+        }
+        focusOnElement(autoFocusRef);
+      },
+    );
+  }, [autoFocusRef]);
 
   useLayoutEffect(() => {
     if (!autoFocusRef || !isActive) {
