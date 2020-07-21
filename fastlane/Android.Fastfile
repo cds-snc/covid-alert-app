@@ -38,6 +38,7 @@ platform :android do
     # Validate options
     UI.user_error!("You must specify a build type") unless options[:type]
     buildType = options[:type]
+    demo = options[:type] === 'demo'
 
     # Need keystore properties to publish
     ensure_keystore_properties
@@ -77,43 +78,11 @@ platform :android do
       version_name: versionName,
       version_code: versionCode
     )
-  end
 
-
-  desc "Pushes a new build to Google Play Internal Testing Track"
-  lane :internal do |options|
-    # ensure_git_branch
-    ensure_keystore_properties
-
-    type = options[:type] ? options[:type] : "test"
-    versionCode = ENV["APP_VERSION_CODE"]
-    versionName = version_string(ENV['APP_VERSION_NAME'], ENV['APP_VERSION_CODE'])
-
-    Dotenv.overload '../.env.beta'
-    ENV["ENVFILE"] = '.env.beta'
-
-    gradle(
-      task: "bundle",
-      build_type: "release",
-      project_dir: 'android/',
-      properties: {
-        "versionCode" => versionCode,
-        "versionName" => versionName
-      }
-    )
-
-    upload_to_play_store(
-      track: 'internal',
-      skip_upload_apk: true,
-      skip_upload_metadata: true,
-      skip_upload_images: true,
-      skip_upload_screenshots: true,
-      aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH],
-      version_name: versionName,
-      version_code: versionCode
-    )
-
-    # create_github_release(platform: "Android")
+    # Tag a release on Github
+    unless demo
+      create_github_release(platform: "Android")
+    end
   end
 
   desc "Builds a local Release .apk for Android"
