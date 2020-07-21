@@ -38,7 +38,7 @@ platform :android do
     # Validate options
     UI.user_error!("You must specify a build type") unless options[:type]
     buildType = options[:type]
-    demo = options[:type] === 'demo'
+    release = options[:type] === 'release'
 
     # Need keystore properties to publish
     ensure_keystore_properties
@@ -80,7 +80,7 @@ platform :android do
     )
 
     # Tag a release on Github
-    unless demo
+    if release
       create_github_release(platform: "Android")
     end
   end
