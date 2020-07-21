@@ -3,9 +3,9 @@ import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
 import {Box, Text, TextMultiline} from 'components';
 import {useI18n} from 'locale';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {useAccessibilityNavigationFocus} from 'shared/useAccessibilityNavigationFocus';
 
 import {TutorialKey} from '../TutorialContent';
-import {useAccessibilityNavigationFocus} from 'shared/useAccessibilityNavigationFocus';
 
 export interface ItemViewProps {
   item: TutorialKey;

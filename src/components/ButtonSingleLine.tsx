@@ -118,7 +118,7 @@ export const ButtonSingleLine = ({
   const accessibilityProps = {
     accessibilityRole: 'button' as 'button',
     accessibilityState: {disabled},
-    focusRef: focusRef,
+    focusRef,
     ...externalLinkProps,
   };
 

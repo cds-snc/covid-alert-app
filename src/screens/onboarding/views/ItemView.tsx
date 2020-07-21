@@ -26,7 +26,7 @@ export const ItemView = ({item, image, isActive, altText, header, children}: Ite
   const of = i18n.translate('Onboarding.Of');
   const x = onboardingData.indexOf(item) + 1;
   const stepText = `${step} ${x} ${of} ${total}`;
-  useAccessibilityNavigationFocus(focusRef, x === 1 ? null : navigation, x === 1 ? true : false);
+  useAccessibilityNavigationFocus(focusRef, x === 1 ? null : navigation, x === 1);
   return (
     <>
       <Text focusRef={autoFocusRef} marginBottom="s" marginTop="s" color="gray2">

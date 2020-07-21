@@ -10,7 +10,7 @@ import {useFocusEffect} from '@react-navigation/native';
 export const useAccessibilityNavigationFocus = (
   focusRef: React.LegacyRef<any>,
   navigation?: any,
-  useBothEffects: boolean = false,
+  useBothEffects = false,
 ) => {
   const accessibilityService = useAccessibilityService();
   useFocusEffect(() => {
