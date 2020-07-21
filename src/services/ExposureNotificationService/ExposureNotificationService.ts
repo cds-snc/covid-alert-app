@@ -340,12 +340,13 @@ export class ExposureNotificationService {
         return finalize();
       }
       return finalize({needsSubmission: await this.calculateNeedsSubmission()});
-    } else if (
-      currentStatus.type === 'exposed' &&
-      currentStatus.summary.daysSinceLastExposure >= EXPOSURE_NOTIFICATION_CYCLE
-    ) {
-      this.exposureStatus.set({type: 'monitoring', lastChecked: currentStatus.lastChecked});
-      return finalize();
+    } else if (currentStatus.type === 'exposed') {
+      const today = getCurrentDate();
+      const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
+      if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
+        this.exposureStatus.set({type: 'monitoring', lastChecked: currentStatus.lastChecked});
+        return finalize();
+      }
     }
 
     const keysFileUrls: string[] = [];
