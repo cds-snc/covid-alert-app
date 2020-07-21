@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import Animated, {sub, abs} from 'react-native-reanimated';
+import {useNetInfo} from '@react-native-community/netinfo';
 import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
 import {useI18n, I18n} from 'locale';
 import {Linking, Platform, TouchableOpacity, StyleSheet, View} from 'react-native';
@@ -89,6 +90,26 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
 const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
   const navigation = useNavigation();
   const [exposureStatus] = useExposureStatus();
+
+  //
+
+  const network = useNetInfo();
+
+  if (!network.isConnected) {
+    return (
+      <InfoBlock
+        titleBolded={i18n.translate('OverlayOpen.NoConnectivityCardAction')}
+        backgroundColor="danger25Background"
+        color="bodyText"
+        button={{
+          text: '',
+          action: () => {},
+        }}
+        text={i18n.translate('OverlayOpen.NoConnectivityCardBody')}
+        showButton={false}
+      />
+    );
+  }
 
   if (exposureStatus.type === 'diagnosed') {
     const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
