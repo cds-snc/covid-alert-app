@@ -5,6 +5,7 @@ import {useI18n} from 'locale';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {TutorialKey} from '../TutorialContent';
+import {useAccessibilityNavigationFocus} from 'shared/useAccessibilityNavigationFocus';
 
 export interface ItemViewProps {
   item: TutorialKey;
@@ -14,7 +15,8 @@ export interface ItemViewProps {
 
 export const ItemView = ({item, image, isActive}: ItemViewProps) => {
   const i18n = useI18n();
-  const [, autoFocusRef] = useAccessibilityAutoFocus(isActive);
+  const [focusRef, autoFocusRef] = useAccessibilityAutoFocus(isActive);
+  useAccessibilityNavigationFocus(focusRef, null, true);
 
   return (
     <>

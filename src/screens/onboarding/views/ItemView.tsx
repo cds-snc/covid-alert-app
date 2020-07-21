@@ -2,8 +2,9 @@ import React, {ReactNode} from 'react';
 import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
-import {focusOnElement, useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import {useFocusEffect} from '@react-navigation/native';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {useNavigation} from '@react-navigation/native';
+import {useAccessibilityNavigationFocus} from 'shared/useAccessibilityNavigationFocus';
 
 import {onboardingData, OnboardingKey} from '../OnboardingContent';
 
@@ -14,21 +15,18 @@ export interface ItemViewProps {
   header: string;
   isActive: boolean;
   children?: ReactNode;
-  autoFocus?: boolean;
 }
 
-export const ItemView = ({item, image, isActive, altText, header, children, autoFocus = true}: ItemViewProps) => {
+export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
   const i18n = useI18n();
+  const navigation = useNavigation();
   const [focusRef, autoFocusRef] = useAccessibilityAutoFocus(isActive);
   const total = onboardingData.length;
   const step = i18n.translate('Onboarding.Step');
   const of = i18n.translate('Onboarding.Of');
   const x = onboardingData.indexOf(item) + 1;
   const stepText = `${step} ${x} ${of} ${total}`;
-
-  useFocusEffect(() => {
-    if (isActive && autoFocus) focusOnElement(focusRef);
-  });
+  useAccessibilityNavigationFocus(focusRef, x === 1 ? null : navigation, x === 1 ? true : false);
   return (
     <>
       <Text focusRef={autoFocusRef} marginBottom="s" marginTop="s" color="gray2">

@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useMemo, useContext} from 'react';
-import {AccessibilityInfo} from 'react-native';
+import {AccessibilityInfo, findNodeHandle} from 'react-native';
 
 interface AccessibilityServiceContextProps {
   isScreenReaderEnabled: boolean;
+  focusOnElement: (elementRef: any) => void;
 }
 
 const AccessibilityServiceContext = React.createContext<AccessibilityServiceContextProps>({} as any);
@@ -15,6 +16,14 @@ export const AccessibilityServiceProvider = ({children}: AccessibilityServicePro
   const [screenReaderEnabled, setScreenReaderEnabled] = useState<
     AccessibilityServiceContextProps['isScreenReaderEnabled']
   >(false);
+
+  const focusOnElement = (elementRef: any) => {
+    const node = findNodeHandle(elementRef);
+    if (!node) {
+      return;
+    }
+    AccessibilityInfo.setAccessibilityFocus(node);
+  };
 
   useEffect(() => {
     const handleScreenReaderToggled = (screenReaderEnabled: any) => {
@@ -35,7 +44,7 @@ export const AccessibilityServiceProvider = ({children}: AccessibilityServicePro
   }, []);
 
   const props = useMemo(() => {
-    return {isScreenReaderEnabled: screenReaderEnabled};
+    return {isScreenReaderEnabled: screenReaderEnabled, focusOnElement};
   }, [screenReaderEnabled]);
 
   return <AccessibilityServiceContext.Provider value={props}>{children}</AccessibilityServiceContext.Provider>;
