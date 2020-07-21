@@ -65,6 +65,7 @@ platform :ios do
   lane :beta do
     # ensure_git_branch
     ensure_build_directory
+    setup_ci
 
     #create_keychain(
     #  name: "FlKeychain",
