@@ -35,11 +35,6 @@ fastlane ensure_keystore_properties
 fastlane ensure_build_directory
 ```
 
-### test
-```
-fastlane test
-```
-
 
 ----
 
