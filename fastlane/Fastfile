@@ -1,4 +1,6 @@
 fastlane_version '2.53.1'
+import "./Android.Fastfile"
+
 
 before_all do
   # Load root-level shared .env
@@ -39,12 +41,6 @@ lane :default_changelog do |options|
   clean
 end
 
-lane :ensure_keystore_properties do
-  file_exists = File.exist? File.expand_path "../android/keystore.properties"
-
-  UI.user_error!("keystore.properties file is missing!") unless file_exists
-end
-
 lane :ensure_build_directory do
   UI.message("Checking for build directories")
 
@@ -54,10 +50,6 @@ lane :ensure_build_directory do
   unless File.directory?('../build/android')
     FileUtils.mkdir_p('../build/android')
   end
-end
-
-def version_string(version_number, build_number)
-  "#{version_number} (#{build_number})"
 end
 
 platform :ios do
@@ -131,75 +123,5 @@ platform :ios do
         }
       }
     )
-  end
-end
-
-platform :android do
-  private_lane :build do |options|
-    task = (options[:bundle] ? "bundle" : "assemble")
-    properties = (options[:properties] ? options[:properties] : {})
-    buildType = (options[:buildType] ? options[:buildType] : "Release")
-
-    gradle(
-      task: task,
-      build_type: buildType,
-      project_dir: 'android/',
-      properties: properties
-    )
-  end
-
-  desc "Pushes a new build to Google Play Internal Testing Track"
-  lane :internal do |options|
-    # ensure_git_branch
-    ensure_keystore_properties
-
-    versionCode = ENV["APP_VERSION_CODE"]
-    versionName = version_string(ENV['APP_VERSION_NAME'], ENV['APP_VERSION_CODE'])
-
-    Dotenv.overload '../.env.beta'
-
-    gradle(
-      task: "bundle",
-      flavor: options[:flavor] ? options[:flavor] : "beta",
-      build_type: "Release",
-      project_dir: 'android/',
-      properties: {
-        "versionCode" => versionCode,
-        "versionName" => versionName
-      }
-    )
-
-    upload_to_play_store(
-      track: 'internal',
-      skip_upload_apk: true,
-      aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH],
-      version_name: versionName,
-      version_code: versionCode,
-      release_status: "draft"
-    )
-
-    # create_github_release(platform: "Android")
-  end
-
-  desc "Builds a local Release .apk for Android"
-  lane :local do
-    ensure_keystore_properties
-    ensure_build_directory
-    build
-
-    APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
-    sh "cp #{APK_LOCATION} ../build/android/"
-  end
-
-  desc "Builds a local Debug .apk for Android"
-  lane :local_debug do
-    gradle(
-      task: "assembleDebug",
-      flags: "-DbundleInDebug=true",
-      project_dir: 'android/',
-    )
-
-    APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
-    sh "cp #{APK_LOCATION} ../build/android/"
   end
 end
