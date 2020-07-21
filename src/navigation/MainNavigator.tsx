@@ -1,7 +1,6 @@
 import React from 'react';
-import {StatusBar, Platform} from 'react-native';
+import {StatusBar} from 'react-native';
 import {enableScreens} from 'react-native-screens';
-import {useNavigationState} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
@@ -22,18 +21,9 @@ const MainStack = createStackNavigator();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
-    const stackIndex = useNavigationState(state => state.index);
     return (
       <SafeAreaProvider>
-        <StatusBar
-          barStyle={
-            // On iOS 13+ keep light statusbar since the screen will be displayed in a modal with a
-            // dark background.
-            stackIndex > 0 && Platform.OS === 'ios' && parseInt(Platform.Version as string, 10) >= 13 && !Platform.isPad
-              ? 'light-content'
-              : 'dark-content'
-          }
-        />
+        <StatusBar barStyle="dark-content" />
         <Component {...props} />
       </SafeAreaProvider>
     );
@@ -69,7 +59,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Onboarding: undefined;
   Tutorial: undefined;
 }
-
+const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
@@ -104,7 +94,7 @@ const MainNavigator = () => {
       initialRouteName={isOnboarding ? 'Landing' : 'Home'}
       mode="modal"
     >
-      <MainStack.Screen name="Landing" component={LandingScreen} />
+      <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
       <MainStack.Screen
         options={{cardStyleInterpolator: forFade}}
