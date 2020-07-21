@@ -1,6 +1,7 @@
 import {unzip} from 'react-native-zip-archive';
 
 import {ExposureNotification, ExposureSummary} from './types';
+import {getLastExposureTimestamp} from './utils';
 
 export default function ExposureNotificationAdapter(
   exposureNotificationAPI: ExposureNotification,
@@ -23,6 +24,7 @@ export default function ExposureNotificationAdapter(
           `${unzippedLocation}/export.bin`,
           `${unzippedLocation}/export.sig`,
         ]);
+        summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         // first detected exposure is enough
         if (summary.matchedKeyCount > 0) break;
       }
