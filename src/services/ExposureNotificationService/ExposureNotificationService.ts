@@ -340,12 +340,13 @@ export class ExposureNotificationService {
         return finalize();
       }
       return finalize({needsSubmission: await this.calculateNeedsSubmission()});
-    } else if (
-      currentStatus.type === 'exposed' &&
-      currentStatus.summary.daysSinceLastExposure >= EXPOSURE_NOTIFICATION_CYCLE
-    ) {
-      this.exposureStatus.set({type: 'monitoring', lastChecked: currentStatus.lastChecked});
-      return finalize();
+    } else if (currentStatus.type === 'exposed') {
+      const today = getCurrentDate();
+      const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
+      if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
+        this.exposureStatus.set({type: 'monitoring', lastChecked: currentStatus.lastChecked});
+        return finalize();
+      }
     }
 
     const keysFileUrls: string[] = [];
@@ -373,7 +374,7 @@ export class ExposureNotificationService {
         return finalize(
           {
             type: 'exposed',
-            summary,
+            summary: this.selectExposureSummary(summary),
           },
           lastCheckedPeriod,
         );
@@ -389,18 +390,26 @@ export class ExposureNotificationService {
   private async processPendingExposureSummary() {
     const summary = await this.exposureNotification.getPendingExposureSummary();
     const exposureStatus = this.exposureStatus.get();
-    if (exposureStatus.type === 'diagnosed' || (summary?.matchedKeyCount || 0) <= 0) {
+    if (exposureStatus.type === 'diagnosed' || !summary || summary.matchedKeyCount <= 0) {
       return;
     }
     const today = getCurrentDate();
     this.exposureStatus.append({
       type: 'exposed',
-      summary,
+      summary: this.selectExposureSummary(summary),
       lastChecked: {
         timestamp: today.getTime(),
         period: periodSinceEpoch(today, HOURS_PER_PERIOD),
       },
     });
+  }
+
+  private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
+    const exposureStatus = this.exposureStatus.get();
+    const currentSummary = exposureStatus.type === 'exposed' ? exposureStatus.summary : undefined;
+    const currentLastExposureTimestamp = currentSummary?.lastExposureTimestamp || 0;
+    const nextLastExposureTimestamp = nextSummary.lastExposureTimestamp || 0;
+    return !currentSummary || nextLastExposureTimestamp > currentLastExposureTimestamp ? nextSummary : currentSummary;
   }
 
   private async processNotification() {

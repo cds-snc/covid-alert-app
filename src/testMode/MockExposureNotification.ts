@@ -4,6 +4,7 @@ export class MockExposureNotification implements ExposureNotification {
   private status: Status = Status.Active;
   private exposureSummary: ExposureSummary = {
     daysSinceLastExposure: 0,
+    lastExposureTimestamp: 0,
     matchedKeyCount: 0,
     maximumRiskScore: 0,
   };
