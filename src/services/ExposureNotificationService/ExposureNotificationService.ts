@@ -373,7 +373,7 @@ export class ExposureNotificationService {
         return finalize(
           {
             type: 'exposed',
-            summary,
+            summary: this.selectExposureSummary(summary),
           },
           lastCheckedPeriod,
         );
@@ -389,18 +389,26 @@ export class ExposureNotificationService {
   private async processPendingExposureSummary() {
     const summary = await this.exposureNotification.getPendingExposureSummary();
     const exposureStatus = this.exposureStatus.get();
-    if (exposureStatus.type === 'diagnosed' || (summary?.matchedKeyCount || 0) <= 0) {
+    if (exposureStatus.type === 'diagnosed' || !summary || summary.matchedKeyCount <= 0) {
       return;
     }
     const today = getCurrentDate();
     this.exposureStatus.append({
       type: 'exposed',
-      summary,
+      summary: this.selectExposureSummary(summary),
       lastChecked: {
         timestamp: today.getTime(),
         period: periodSinceEpoch(today, HOURS_PER_PERIOD),
       },
     });
+  }
+
+  private selectExposureSummary(summary: ExposureSummary): ExposureSummary {
+    const exposureStatus = this.exposureStatus.get();
+    const currentSummary = exposureStatus.type === 'exposed' ? exposureStatus.summary : undefined;
+    return currentSummary && currentSummary.daysSinceLastExposure < summary.daysSinceLastExposure
+      ? currentSummary
+      : summary;
   }
 
   private async processNotification() {
