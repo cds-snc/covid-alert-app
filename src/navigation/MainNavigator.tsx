@@ -1,6 +1,5 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
-import {enableScreens} from 'react-native-screens';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
@@ -14,8 +13,6 @@ import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
-
-enableScreens();
 
 const MainStack = createStackNavigator();
 
