@@ -1,32 +1,23 @@
-import React, {useCallback, useRef, useEffect, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Box, BulletPointCheck, ButtonSingleLine} from 'components';
 
 import {ItemView, ItemViewProps} from './ItemView';
-import {focusOnElement} from 'shared/useAccessibilityAutoFocus';
+import {useAccessibilityManualFocus} from 'shared/useAccessibilityManualFocus';
 
 export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const focusRef = useRef(null);
-  const [focusOnButton, setFocusOnButton] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setFocusOnButton(true);
-      focusOnElement(focusRef.current);
-    });
-
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation]);
+  const [ignoreAutoFocus, setIgnoreAutoFocus] = useState(false);
+  useAccessibilityManualFocus(focusRef.current, navigation, setIgnoreAutoFocus);
 
   return (
     <ItemView
       {...props}
-      autoFocus={!focusOnButton}
+      autoFocus={!ignoreAutoFocus}
       image={require('assets/onboarding-howitworks.png')}
       altText={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
       header={i18n.translate('Onboarding.HowItWorks.Title')}
