@@ -303,14 +303,21 @@ export class ExposureNotificationService {
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
 
-    const finalize = async (status: Partial<ExposureStatus> = {}, lastCheckedPeriod = 0) => {
+    const finalize = async (
+      status: Partial<ExposureStatus> = {},
+      lastCheckedPeriod: number | undefined = undefined,
+    ) => {
       const previousExposureStatus = this.exposureStatus.get();
       const timestamp = getCurrentDate().getTime();
+      const period =
+        lastCheckedPeriod === undefined
+          ? status.lastChecked?.period || previousExposureStatus.lastChecked?.period || 0
+          : lastCheckedPeriod;
       this.exposureStatus.append({
         ...status,
         lastChecked: {
           timestamp,
-          period: lastCheckedPeriod,
+          period,
         },
       });
       const currentExposureStatus = this.exposureStatus.get();
@@ -329,7 +336,7 @@ export class ExposureNotificationService {
       // Let's use device timezone for resetting exposureStatus for now
       // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
       if (daysBetween(today, cycleEndsAt) <= 0) {
-        this.exposureStatus.set({type: 'monitoring'});
+        this.exposureStatus.set({type: 'monitoring', lastChecked: currentStatus.lastChecked});
         return finalize();
       }
       return finalize({needsSubmission: await this.calculateNeedsSubmission()});
@@ -337,7 +344,7 @@ export class ExposureNotificationService {
       currentStatus.type === 'exposed' &&
       currentStatus.summary.daysSinceLastExposure >= EXPOSURE_NOTIFICATION_CYCLE
     ) {
-      this.exposureStatus.set({type: 'monitoring'});
+      this.exposureStatus.set({type: 'monitoring', lastChecked: currentStatus.lastChecked});
       return finalize();
     }
 
