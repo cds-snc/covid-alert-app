@@ -154,6 +154,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
         <SafeAreaView>
           <Box>
             <TouchableOpacity
+              activeOpacity={0.8}
               onPress={bottomSheetBehavior.collapse}
               style={styles.collapseButton}
               accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
