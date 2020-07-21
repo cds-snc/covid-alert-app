@@ -293,8 +293,8 @@
     "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
-    "NoConnectivityCardAction": "Alerte COVID est désactivée",
-    "NoConnectivityCardBody": "Désactivez le mode avion ou activez la fonction Bluetooth pour que l’application puisse fonctionner."
+    "NoConnectivityCardAction": "Alerte COVID est hors ligne",
+    "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"
