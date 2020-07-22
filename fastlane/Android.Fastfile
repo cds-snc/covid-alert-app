@@ -31,7 +31,7 @@ platform :android do
 
   #
   # Options:
-  # - type: demo, production
+  # - type: demo, release
   # - track: internal, alpha
   #
   lane :build_and_deploy do |options|

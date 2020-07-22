@@ -1,7 +1,7 @@
 platform :ios do
   #
   # Options:
-  # - type: demo, production
+  # - type: demo, release
   #
   lane :build_and_deploy do |options|
     # Validate options
