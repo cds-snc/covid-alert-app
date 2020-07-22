@@ -71,7 +71,7 @@ Sans ces protections de sécurité en place, les polluposteurs pourraient inonde
 - Aucun lien n’est établi entre votre adresse IP et vos renseignements. L’adresse IP est uniquement utilisée pour garantir l’intégrité du système.
 - En temps normal, les journaux système sont conservés pendant au plus 3 mois. S’il y a une enquête en raison d’activités suspectes, nous conservons les journaux système pendant un maximum de 2 ans pour aider l’enquête.
 - Les journaux système sont étroitement protégés. Ils ne peuvent être utilisés que pour garantir la performance du système et contrer des menaces à la sécurité.
-- S’il y a enquête, nous pourrions avoir à partager les journaux système pertinents aux organismes d’application de la loi, tel que requis parla loi.
+- S’il y a enquête, nous pourrions avoir à partager les journaux système pertinents aux organismes d’application de la loi, tel que requis par la loi.
 
 ## Questions?
 Contactez la ligne d’information sur la COVID-19 :
