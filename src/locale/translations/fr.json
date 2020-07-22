@@ -59,8 +59,8 @@
           "Body": "Si vous avez reçu un test positif en Ontario :",
           "Body2": "Allez sur le site Web des Résultats du test de diagnostic de la COVID-19 puis entrez vos informations.",
           "Body3": "Consultez les résultats de votre test.",
-          "Body4": "Notez le numéro à 8\u00A0chiffres.",
-          "Body5": "Revenez ici et entrez le numéro.",
+          "Body4": "Notez la clé à usage unique.",
+          "Body5": "Revenez ici et entrez la clé.",
           "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
           "Link": "https://covid19results.ehealthontario.ca:4443/login"
         }
@@ -292,7 +292,9 @@
     "NotificationCardAction": "Activer les notifications",
     "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
     "NotificationCardStatus": "Les notifications sont désactivées",
-    "NotificationCardStatusOff": "DÉSACTIVÉES"
+    "NotificationCardStatusOff": "DÉSACTIVÉES",
+    "NoConnectivityCardAction": "Alerte COVID est hors ligne",
+    "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"
