@@ -14,7 +14,7 @@ export interface ItemViewProps {
 
 export const ItemView = ({item, image, isActive}: ItemViewProps) => {
   const i18n = useI18n();
-  const [, autoFocusRef] = useAccessibilityAutoFocus(isActive);
+  const autoFocusRef = useAccessibilityAutoFocus(isActive);
 
   return (
     <>
