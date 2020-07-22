@@ -23,9 +23,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
-private const val CHANNEL_ID = "CovidShield"
-private const val CHANNEL_NAME = "CovidShield"
-private const val CHANNEL_DESC = "CovidShield"
+private const val CHANNEL_ID = "COVID Alert"
+private const val CHANNEL_NAME = "COVID Alert"
+private const val CHANNEL_DESC = "COVID Alert"
 
 /**
  * See https://developer.android.com/training/notify-user/build-notification#kotlin
