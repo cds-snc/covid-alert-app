@@ -10,7 +10,14 @@ export interface CodeInputProps {
 }
 
 export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps) => {
-  const onChangeTrimmed = useCallback(text => onChange(text.trim()), [onChange]);
+  const onChangeTrimmed = useCallback(
+    text => {
+      // Remove any character that is not alphanumeric (or a space)
+      const modifiedText = text.replace(/[^a-zA-Z0-9\s]*/g, '');
+      onChange(modifiedText.trim());
+    },
+    [onChange],
+  );
   const [isFocus, setIsFocus] = useState(false);
   const onFocus = useCallback(() => setIsFocus(true), []);
   const onBlur = useCallback(() => setIsFocus(false), []);
