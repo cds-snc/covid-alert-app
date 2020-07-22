@@ -52,7 +52,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
       <Box flex={1} marginHorizontal="m" marginBottom="m">
         <Button
           loading={loading}
-          disabled={value.length <= 10}
+          disabled={value.length < 10}
           variant="thinFlat"
           text={i18n.translate('DataUpload.FormView.Action')}
           onPress={handleVerify}
