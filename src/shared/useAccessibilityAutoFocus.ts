@@ -22,7 +22,7 @@ const focusOnElement = (elementRef: any) => {
  * @returns [Manual focus ref , Auto focus ref]
  */
 export const useAccessibilityAutoFocus = (isActive = true) => {
-  const [autoFocusRef, setAutoFocusRef] = useState<React.LegacyRef<any>>();
+  const [autoFocusRef, setAutoFocusRef] = useState<any>();
 
   const {isScreenReaderEnabled} = useAccessibilityService();
   const [isFocus, setIsFocus] = useState(false);
