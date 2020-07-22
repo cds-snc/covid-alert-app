@@ -6,6 +6,7 @@ import {useFocusEffect} from '@react-navigation/native';
  * Focus on ref automatically when navigation focuses on this screen
  * @param focusRef - The ref to focus to
  * @param navigation  - The current navigation provider
+ * @param useBothEffects - Whether or not to use the useFocusEffect hook with the custom useEffect hook (if navigation is not null)
  */
 export const useAccessibilityNavigationFocus = (
   focusRef: React.LegacyRef<any>,
