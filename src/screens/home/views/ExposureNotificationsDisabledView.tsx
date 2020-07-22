@@ -25,7 +25,7 @@ export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBo
     }
     return toSettings();
   };
-  const [, autoFocusRef] = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   return (
     <BaseHomeView iconName="icon-bluetooth-disabled">
       <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
