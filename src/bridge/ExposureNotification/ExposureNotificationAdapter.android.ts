@@ -27,7 +27,9 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
     },
     getPendingExposureSummary: async () => {
       const summary = await exposureNotificationAPI.getPendingExposureSummary();
-      summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
+      if (summary) {
+        summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
+      }
       return summary;
     },
   };
