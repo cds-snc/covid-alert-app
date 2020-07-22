@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import "CovidShieldSceneDelegate.h"
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -89,6 +90,8 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+
+  self.window.windowScene.delegate = [[CovidShieldSceneDelegate alloc] init];
   
   if([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground) {
     UIStoryboard *launchScreenStoryboard = [UIStoryboard storyboardWithName:@"Launch Screen" bundle:nil];

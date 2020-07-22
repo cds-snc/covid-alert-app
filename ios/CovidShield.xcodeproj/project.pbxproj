@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		195904142488B84300430369 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 195904162488B84300430369 /* Launch Screen.storyboard */; };
 		4A5C897C24B63BE00074FF89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A5C897E24B63BE00074FF89 /* InfoPlist.strings */; };
+		6E0CCD4024C8C67C001ED4D8 /* CovidShieldSceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0CCD3E24C8C67C001ED4D8 /* CovidShieldSceneDelegate.m */; };
 		7482404F246F9C0E009F68EA /* CovidShield.m in Sources */ = {isa = PBXBuildFile; fileRef = 7482404E246F9C0E009F68EA /* CovidShield.m */; };
 		74B6941E245F15B20077B9DA /* ExposureNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6941D245F15B20077B9DA /* ExposureNotification.m */; };
 		92B51DEAB84B429696C44822 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190AEBD50CE3434EBCFCFBB4 /* NotoSans-Bold.ttf */; };
@@ -56,6 +57,8 @@
 		4A5C897D24B63BE00074FF89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A5C897F24B63BE80074FF89 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		52445CBEB4F2B88669022976 /* libPods-CovidShield.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E0CCD3E24C8C67C001ED4D8 /* CovidShieldSceneDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CovidShieldSceneDelegate.m; path = CovidShield/CovidShieldSceneDelegate.m; sourceTree = "<group>"; };
+		6E0CCD3F24C8C67C001ED4D8 /* CovidShieldSceneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CovidShieldSceneDelegate.h; path = CovidShield/CovidShieldSceneDelegate.h; sourceTree = "<group>"; };
 		7482404D246F9C0E009F68EA /* CovidShield.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CovidShield.h; path = CovidShield/CovidShield.h; sourceTree = "<group>"; };
 		7482404E246F9C0E009F68EA /* CovidShield.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CovidShield.m; path = CovidShield/CovidShield.m; sourceTree = "<group>"; };
 		7482405524773294009F68EA /* Config.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.release.xcconfig; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 		13B07FAE1A68108700A75B9A /* CovidShield */ = {
 			isa = PBXGroup;
 			children = (
+				6E0CCD3F24C8C67C001ED4D8 /* CovidShieldSceneDelegate.h */,
+				6E0CCD3E24C8C67C001ED4D8 /* CovidShieldSceneDelegate.m */,
 				179621B4246C643100B9FC0D /* CovidShield.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -413,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E0CCD4024C8C67C001ED4D8 /* CovidShieldSceneDelegate.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				7482404F246F9C0E009F68EA /* CovidShield.m in Sources */,
@@ -521,7 +527,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ca.gc.hcsc.canada.stopcovid";
+				PRODUCT_BUNDLE_IDENTIFIER = ca.gc.hcsc.canada.stopcovid;
 				PRODUCT_NAME = CovidShield;
 				PROVISIONING_PROFILE_SPECIFIER = "Stop COVID Development Profile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
