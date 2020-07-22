@@ -89,8 +89,6 @@ target 'CovidShield' do
 
   pod 'react-native-config', :path => '../node_modules/react-native-config'
 
-  pod 'react-native-sensitive-info', :path => '../node_modules/react-native-sensitive-info'
-
   pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'
 
   pod 'RNLocalize', :path => '../node_modules/react-native-localize'

@@ -49,7 +49,6 @@
     "react-native-safe-area-context": "^3.0.2",
     "react-native-screens": "^2.7.0",
     "react-native-secure-key-store": "^2.0.7",
-    "react-native-sensitive-info": "^5.5.5",
     "react-native-snap-carousel": "^3.9.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",

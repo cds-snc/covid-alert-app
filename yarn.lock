@@ -7246,11 +7246,6 @@ react-native-secure-key-store@^2.0.7:
   resolved "https://registry.yarnpkg.com/react-native-secure-key-store/-/react-native-secure-key-store-2.0.7.tgz#70b24afae0f75fd90e46aabd8fc9ce6484727850"
   integrity sha512-1hIuFcgWPVqS1Q3843ysHfN5cx/YFE0U1ab6p5Adfch0Yikyglcs3FZWHXxo7qsHvFai71Z7Wyv3SuWCuBG6AQ==
 
-react-native-sensitive-info@^5.5.5:
-  version "5.5.5"
-  resolved "https://registry.yarnpkg.com/react-native-sensitive-info/-/react-native-sensitive-info-5.5.5.tgz#0559aaff6bd59b6a14d92035c032b46bd007b55f"
-  integrity sha512-ShRqvHTZnY4VYNEF+5pCBUu/2wslojY445FdA9nuH9nkVqOQRXxIGYqTRYXJ42mDLTt+KnW5hcvuAjpVVokafQ==
-
 react-native-snap-carousel@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.9.0.tgz#017793ca3f5e901ccd5a3117d79bb18ec08928a3"
