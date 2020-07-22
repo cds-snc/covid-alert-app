@@ -68,11 +68,6 @@ Builds a local Debug .apk for Android
 fastlane ios build_and_deploy
 ```
 
-### ios beta
-```
-fastlane ios beta
-```
-Submit a new Covid Alert beta build to Apple TestFlight
 ### ios local
 ```
 fastlane ios local

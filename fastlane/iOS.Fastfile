@@ -1,3 +1,5 @@
+# package = load_json(json_path: "./package.json")
+
 platform :ios do
   #
   # Options:
@@ -20,10 +22,15 @@ platform :ios do
     Dotenv.overload "../#{env_file}"
     ENV["ENVFILE"] = env_file
 
+    increment_version_number(
+      xcodeproj: "ios/CovidShield.xcodeproj",
+      version_number: ENV["APP_VERSION_NAME"]
+    )
+
     # Set the version number from the environment
     increment_build_number(
-      build_number: ENV["APP_VERSION_CODE"],
-      xcodeproj: "ios/CovidShield.xcodeproj"
+      xcodeproj: "ios/CovidShield.xcodeproj",
+      build_number: ENV["APP_VERSION_CODE"]
     )
 
     output_directory = File.expand_path('../build/ios')
