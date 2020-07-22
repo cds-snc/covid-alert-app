@@ -1,8 +1,8 @@
 const privacy = `## Votre vie privée est protégée
 
-L’application Alerte COVID bénéficie d’une solide protection de la vie privée. 
+L’application Alerte COVID bénéficie d’une solide protection de la vie privée.
 
-Il est extrêmement improbable que vous soyez identifié pendant que vous utilisez cette application. D’importantes mesures, décrites ci-dessous, ont été prises pour garantir la protection de votre vie privée et de vos données. 
+Il est extrêmement improbable que vous soyez identifié pendant que vous utilisez cette application. D’importantes mesures, décrites ci-dessous, ont été prises pour garantir la protection de votre vie privée et de vos données.
 
 L’utilisation de l’application est volontaire.
 
@@ -24,9 +24,8 @@ Les codes aléatoires sont stockés et utilisés uniquement dans le but de vous 
 
 ## Si vous avez un téléphone Android
 
-Avec les téléphones Android, la recherche Bluetooth n’est possible que si la fonction de localisation est activée pour toutes les applications. Bien qu’Alerte COVID n’ait aucun moyen de connaître votre emplacement, Google peut avoir accès à votre position. Si vous avez un téléphone Android, vous voudrez peut-être utiliser l’option de localisation la moins précise et désactiver l’historique des positions.
-
-Vous pouvez vérifier les autorisations des applications dans les paramètres de votre téléphone. Vous constaterez qu’Alerte COVID n’a pas l’autorisation d’utiliser les services de localisation.
+- Avec les téléphones Android, la recherche Bluetooth n’est possible que si la fonction de localisation est activée pour toutes les applications. Bien qu’Alerte COVID n’ait aucun moyen de connaître votre emplacement, Google peut avoir accès à votre position. Si vous avez un téléphone Android, vous voudrez peut-être utiliser l’option de localisation la moins précise et désactiver l’historique des positions.
+- Vous pouvez vérifier les autorisations des applications dans les paramètres de votre téléphone. Vous constaterez qu’Alerte COVID n’a pas l’autorisation d’utiliser les services de localisation.
 
 
 ## Données partagées par l’application
