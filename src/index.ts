@@ -4,7 +4,7 @@
 import 'react-native-gesture-handler';
 
 import AsyncStorage from '@react-native-community/async-storage';
-import SecureStorage from 'react-native-sensitive-info';
+import RNSecureKeyStore from 'react-native-secure-key-store';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL} from 'env';
 import {AppRegistry, YellowBox} from 'react-native';
@@ -28,7 +28,7 @@ BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
     backendService,
     i18n,
     AsyncStorage,
-    SecureStorage,
+    RNSecureKeyStore,
     ExposureNotification,
   );
   await exposureNotificationService.updateExposureStatusInBackground();
