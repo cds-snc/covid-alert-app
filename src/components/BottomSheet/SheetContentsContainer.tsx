@@ -8,7 +8,7 @@ interface ContentProps {
 
 export const SheetContentsContainer = ({children}: ContentProps) => {
   return (
-    <Box backgroundColor="overlayBackground" minHeight="100%">
+    <Box backgroundColor="overlayBackground" minHeight="100%" borderWidth={1} borderColor="gray2" borderRadius={32}>
       <Box marginTop="l">{children}</Box>
     </Box>
   );

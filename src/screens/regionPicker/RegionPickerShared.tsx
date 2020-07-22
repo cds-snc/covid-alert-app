@@ -21,12 +21,13 @@ interface RegionItemProps {
   flagIcon: any;
   name: string;
   selected: boolean;
+  firstItem?: boolean;
   lastItem?: boolean;
   onPress: (code: Region) => void;
 }
 
 export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[] = [
-  {code: 'AB', flagIcon: AbFlag},
+  {code: 'AB', flagIcon: AbFlag, firstItem: true},
   {code: 'BC', flagIcon: BcFlag},
   {code: 'MB', flagIcon: MbFlag},
   {code: 'NB', flagIcon: NbFlag},
@@ -39,10 +40,10 @@ export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[
   {code: 'QC', flagIcon: QcFlag},
   {code: 'SK', flagIcon: SkFlag},
   {code: 'YT', flagIcon: YtFlag},
-  {code: 'None', flagIcon: null},
+  {code: 'None', flagIcon: null, lastItem: true},
 ];
 
-const RegionItem_ = ({code, onPress, name, lastItem, selected}: RegionItemProps) => (
+const RegionItem_ = ({code, onPress, name, firstItem, lastItem, selected}: RegionItemProps) => (
   <>
     <TouchableOpacity
       activeOpacity={0.6}
@@ -58,7 +59,13 @@ const RegionItem_ = ({code, onPress, name, lastItem, selected}: RegionItemProps)
         alignContent="center"
         justifyContent="space-between"
         backgroundColor="infoBlockNeutralBackground"
+        borderColor="gray2"
+        borderWidth={1}
         borderRadius={5}
+        borderTopLeftRadius={firstItem ? 10 : 5}
+        borderTopRightRadius={firstItem ? 10 : 5}
+        borderBottomLeftRadius={lastItem ? 10 : 5}
+        borderBottomRightRadius={lastItem ? 10 : 5}
       >
         <Text variant="bodyText" color="overlayBodyText" marginHorizontal="s">
           {name}
