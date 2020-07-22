@@ -93,7 +93,10 @@ ios/Generated.xcconfig
 android/app/google-services.json
 .env.local
 .env.secrets
+.env.release
 .env
 
 # generated files
 ios/assets
+
+.env.release

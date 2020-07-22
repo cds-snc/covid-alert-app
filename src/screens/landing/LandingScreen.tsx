@@ -24,7 +24,13 @@ export const LandingScreen = () => {
     <SafeAreaView style={styles.flex}>
       <Box flex={1} marginBottom="s" style={{...styles.imageBackround}}>
         <Box flex={1} justifyContent="flex-start" alignItems="center" paddingTop="s">
-          <Image style={{...styles.imagePad}} accessible source={require('assets/landing.png')} />
+          <Image
+            resizeMode="contain"
+            style={{...styles.imagePad}}
+            accessible
+            accessibilityLabel={i18n.translate('Landing.AltText')}
+            source={require('assets/landingintro.png')}
+          />
         </Box>
         <Box style={styles.overlay} paddingVertical="m">
           <Box paddingHorizontal="m" marginTop="s" marginBottom="s">
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEEEEE',
     paddingTop: 50,
   },
-  imagePad: {},
+  imagePad: {flex: 1, width: '100%'},
   overlay: {
     backgroundColor: '#FFFFFF',
   },

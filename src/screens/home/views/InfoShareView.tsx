@@ -58,7 +58,8 @@ export const InfoShareView = () => {
         </Text>
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
-        <InfoShareItem onPress={onRegion} text={i18n.translate('Info.ChangeRegion')} icon="icon-chevron" lastItem />
+        <InfoShareItem onPress={onRegion} text={i18n.translate('Info.ChangeRegion')} icon="icon-chevron" />
+        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" lastItem />
       </Box>
       <Box marginTop="l" marginBottom="m">
         <Text variant="settingTitle" fontWeight="normal">
@@ -69,7 +70,6 @@ export const InfoShareView = () => {
         <InfoShareItem onPress={onGetCode} text={i18n.translate('Info.GetCode')} icon="icon-chevron" />
         <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
         <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
-        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
         <InfoShareItem
           onPress={onHelp}
           text={i18n.translate('Info.Help')}

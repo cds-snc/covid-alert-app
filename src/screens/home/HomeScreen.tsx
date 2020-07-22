@@ -85,6 +85,14 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     return <BluetoothDisabledView />;
   }
 
+  if (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) {
+    return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
+  }
+
+  if (!network.isConnected && network.type !== 'unknown') {
+    return <NetworkDisabledView />;
+  }
+
   switch (exposureStatus.type) {
     case 'exposed':
       return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
@@ -96,11 +104,7 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
       );
     case 'monitoring':
     default:
-      if (!network.isConnected && network.type !== 'unknown') return <NetworkDisabledView />;
       switch (systemStatus) {
-        case SystemStatus.Disabled:
-        case SystemStatus.Restricted:
-          return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
