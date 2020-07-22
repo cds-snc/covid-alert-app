@@ -299,10 +299,6 @@
   "Partners": {
     "Label": "Conçu en partenariat avec"
   },
-  "Privacy": {
-    "Close": "Fermer",
-    "Title": "Politique de confidentialité"
-  },
   "RegionPicker": {
     "AB": "Alberta",
     "BC": "Colombie-Britannique",
@@ -425,6 +421,76 @@
     "Body5": "",
     "Intro": "Alerte COVID n’a aucun moyen de connaître :",
     "Title": "Complètement anonyme"
+  },
+  "Privacy": {
+    "Title": "Politique de confidentialité",
+    "Close": "Fermer",
+    "Intro": "Votre vie privée est protégée",
+    "Body1": "L’application Alerte COVID bénéficie d’une solide protection des renseignements personnels.",
+    "Body2": "Il est extrêmement improbable que vous soyez identifié pendant que vous utilisez cette application. D’importantes mesures, décrites ci-dessous, ont été prises pour garantir la protection de votre vie privée et de vos données.",
+    "List1": {
+      "Title": "Données collectées et stockées sur votre téléphone",
+      "ListItem1": "Les codes aléatoires émis par votre téléphone, pendant 14 jours.",
+      "ListItem2": "Les codes aléatoires émis par les autres téléphones à proximité, pendant 14 jours."
+    },
+    "Body3": "Les codes aléatoires sont stockés et utilisés uniquement dans le but de vous avertir ou d’avertir d’autres personnes d’une exposition potentielle à la COVID-19.",
+    "List2": {
+      "Title": "Protection des données",
+      "ListItem1": "L’application ne peut pas établir de lien entre votre identité et les codes aléatoires.",
+      "ListItem2": "Votre téléphone chiffre les codes aléatoires. Votre autorisation est requise avant que votre téléphone transmette les codes aléatoires à l’application Alerte COVID."
+    },
+    "List3": {
+      "Title": "Alerte COVID n’a aucun moyen de connaître les renseignements suivants :",
+      "ListItem1": "votre position,",
+      "ListItem2": "votre nom ou votre adresse,",
+      "ListItem3": "les contacts de votre téléphone,",
+      "ListItem4": "vos informations de santé."
+    },
+    "List4": {
+      "Title": "Données partagées par l’application",
+      "SubTitle": "Rien n’est fait sans votre autorisation",
+      "ListItem1": "Aucune donnée ne sera partagée sans votre autorisation explicite.",
+      "ListItem2": "Quand vous donnez votre autorisation, seuls les codes aléatoires de votre téléphone sont partagés.",
+      "ListItem3": "Seuls l’application et son serveur auront accès aux codes aléatoires."
+    },
+    "List5": {
+      "Title": "Si vous avez un diagnostic de COVID-19",
+      "ListItem1": "Vous pouvez décider de partager vos codes aléatoires des 14 derniers jours avec un serveur central.",
+      "ListItem2": "Si vous partagez vos codes, personne ne recevra d’information sur vous ou sur le moment de votre proximité.",
+      "ListItem3": "On vous demandera aussi l’autorisation de téléverser vos codes aléatoires pendant les 13 jours qui suivent."
+    },
+    "List6": {
+      "Title": "Si vous avez été près d’une personne qui signale un diagnostic au moyen de l’application",
+      "ListItem1": "Aucun de vos renseignements personnels n’est partagé avec d’autres personnes.",
+      "ListItem2": "Vous ne recevrez aucune information sur d’autres personnes, ni même sur celles qui signalent un diagnostic au moyen de l’application et avec lesquelles vous avez été en contact."
+    },
+    "List7": {
+      "Title": "Suppression de vos données",
+      "ListItem1": "Tous les codes aléatoires, qu’ils proviennent de votre téléphone ou d’autres téléphones, sont supprimés après 15 jours.",
+      "ListItem2": "Vous pouvez supprimer l’application à tout moment, supprimant du même coup les codes aléatoires de votre téléphone.",
+      "ListItem3": "Si vous avez téléversé vos codes aléatoires avant de supprimer l’application, les codes aléatoires seront supprimés du serveur après 15 jours."
+    },
+    "SubTitle1": "Autres renseignements à votre sujet",
+    "Body4": "Vos renseignements médicaux restent entre les mains de votre fournisseur de soins de santé provincial ou territorial. Alerte COVID ne sait pas qui vous êtes et ne peut pas avoir accès ces renseignements.",
+    "List8": {
+      "ListItem1": "Le numéro à 8 chiffres fourni par votre professionnel de la santé indique à Alerte COVID que vous pouvez téléverser vos codes aléatoires.",
+      "ListItem2": "L’application Alerte COVID a confiance en ce numéro. Elle l’utilise pour ne pas avoir à collecter de renseignements personnels qui permettraient de vous identifier.",
+      "ListItem3": "Les travailleurs de la santé n’ont aucun moyen de fournir vos renseignements personnels à Alerte COVID.",
+      "ListItem4": "Afin de protéger l’intégrité des numéros à 8 chiffres fournis par votre fournisseur de soins de santé, votre province peut générer un long numéro d’identification interne garantissant que le numéro à 8 chiffres a été généré par une source valide. Le gouvernement du Canada n’est pas en mesure de faire le lien entre ces numéros d’identification internes et vous ou d’autres utilisateurs de l’application, et ces numéros ne sont utilisés qu’en cas de besoin pour prévenir les menaces de cybersécurité."
+    },
+    "SubTitle2": "Votre adresse IP",
+    "List9": {
+      "ListItem1": "Par mesure de sécurité, si vous saisissez un numéro à 8 chiffres incorrect, l’application stockera votre adresse IP pendant 5 minutes. L’application fait cela pour se protéger contre les personnes malveillantes.",
+      "ListItem2": "Sans ces protections de sécurité en place, les polluposteurs pourraient inonder le système Alerte COVID et votre téléphone avec de fausses notifications d’exposition.",
+      "ListItem3": "Aucun lien n’est jamais établi entre votre adresse IP et vos renseignements. L’adresse IP est uniquement utilisée pour garantir l’intégrité du système."
+    },
+    "SubTitle3": "Questions?",
+    "Body5": "Contactez la ligne d’information sur la COVID-19 :",
+    "List10": {
+      "ListItem1": "Téléphone : 1-833-784-4397",
+      "ListItem2": "Téléscripteur (ATS) : 1-800-465-7735",
+      "ListItem3": "(Du lundi au vendredi, de 8 h à 20 h, heure de l’Est.)"
+    }
   },
   "A11yList": {
     "Start": "Début de liste",

@@ -41,7 +41,12 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
       {notCoveredList &&
         notCoveredList.map(item => (
-          <BulletPoint key={item.text} listAccessibile={item.listAccessibile} text={item.text} />
+          <BulletPoint
+            key={item.text}
+            sectionContent="noCode"
+            listAccessibile={item.listAccessibile}
+            text={item.text}
+          />
         ))}
       {coveredList &&
         coveredList.map(item => (

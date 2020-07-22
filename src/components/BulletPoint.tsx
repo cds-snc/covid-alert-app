@@ -5,10 +5,11 @@ import {useI18n} from 'locale';
 interface BulletPointProps {
   text: string;
   key: string;
+  sectionContent: string;
   listAccessibile: string;
 }
 
-export const BulletPoint = ({text, listAccessibile}: BulletPointProps) => {
+export const BulletPoint = ({text, listAccessibile, sectionContent}: BulletPointProps) => {
   const bullet = '\u25CF';
   const i18n = useI18n();
 
@@ -33,11 +34,20 @@ export const BulletPoint = ({text, listAccessibile}: BulletPointProps) => {
   return (
     <Box flexDirection="row">
       <Box marginRight="xs">
-        <Text accessible accessibilityLabel={bulletLabel} variant="bodyText" color="bodyText">
+        <Text
+          accessible
+          accessibilityLabel={bulletLabel}
+          variant={sectionContent === 'priv' ? 'xtraSmallText' : 'bodyText'}
+          color="bodyText"
+        >
           {bullet}
         </Text>
       </Box>
-      <Text accessibilityLabel={textLabel} variant="bodyText" color="bodyText">
+      <Text
+        accessibilityLabel={textLabel}
+        variant={sectionContent === 'priv' ? 'xtraSmallText' : 'bodyText'}
+        color="bodyText"
+      >
         {text}
       </Text>
     </Box>
