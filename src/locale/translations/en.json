@@ -214,7 +214,7 @@
       "ImageAltText": "A hand-drawn illustration of 3 mobile phones sending out random codes via bluetooth.",
       "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
       "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
-      "Body3": "If you’ve  had close contact with one of those people in the past 14 days, you’ll get a notification.",
+      "Body3": "If you’ve had close contact with one of those people in the past 14 days, you’ll get a notification.",
       "HowItWorksCTA": "Learn more about how it works"
     },
     "PartOf": {
