@@ -132,7 +132,6 @@ export class ExposureNotificationService {
     } catch (error) {
       captureException('Cannot start EN framework', error);
       this.systemStatus.set(SystemStatus.Unknown);
-      return;
     }
 
     await this.updateSystemStatus();
