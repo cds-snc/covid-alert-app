@@ -5,9 +5,6 @@ import {Box, Toolbar, Text} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {BulletPoint} from 'components/BulletPoint';
-import Markdown from 'react-native-markdown-display';
-import privacyPolicyEn from 'assets/privacypolicy';
-import privacyPolicyFr from 'assets/privacypolicy-fr';
 
 export const PrivacyScreen = () => {
   const navigation = useNavigation();
@@ -45,6 +42,9 @@ export const PrivacyScreen = () => {
             <Text marginTop="s" variant="xtraSmallText">
               {i18n.translate('Privacy.Body2')}
             </Text>
+            <Text marginTop="s" variant="xtraSmallText">
+              {i18n.translate('Privacy.Body3')}
+            </Text>
             <Text marginTop="m" variant="settingTitle">
               {i18n.translate('Privacy.List1.Title')}
             </Text>
@@ -63,7 +63,7 @@ export const PrivacyScreen = () => {
               />
             </Box>
             <Text marginTop="s" variant="xtraSmallText">
-              {i18n.translate('Privacy.Body3')}
+              {i18n.translate('Privacy.Body4')}
             </Text>
             <Text marginTop="m" variant="menuItemTitle">
               {i18n.translate('Privacy.List2.Title')}
@@ -111,11 +111,8 @@ export const PrivacyScreen = () => {
                 text={i18n.translate('Privacy.List3.ListItem4')}
               />
             </Box>
-            <Text marginTop="m" variant="settingTitle">
+            <Text marginTop="m" variant="menuItemTitle">
               {i18n.translate('Privacy.List4.Title')}
-            </Text>
-            <Text marginTop="xs" variant="menuItemTitle">
-              {i18n.translate('Privacy.List4.SubTitle')}
             </Text>
             <Box marginTop="s" marginRight="m" marginLeft="s">
               <BulletPoint
@@ -126,19 +123,16 @@ export const PrivacyScreen = () => {
               />
               <BulletPoint
                 key="privList-4-2"
-                listAccessibile="item"
+                listAccessibile="listEnd"
                 sectionContent="priv"
                 text={i18n.translate('Privacy.List4.ListItem2')}
               />
-              <BulletPoint
-                key="privList-4-3"
-                listAccessibile="listEnd"
-                sectionContent="priv"
-                text={i18n.translate('Privacy.List4.ListItem3')}
-              />
             </Box>
-            <Text marginTop="m" variant="menuItemTitle">
+            <Text marginTop="m" variant="settingTitle">
               {i18n.translate('Privacy.List5.Title')}
+            </Text>
+            <Text marginTop="xs" variant="menuItemTitle">
+              {i18n.translate('Privacy.List5.SubTitle')}
             </Text>
             <Box marginTop="s" marginRight="m" marginLeft="s">
               <BulletPoint
@@ -172,12 +166,18 @@ export const PrivacyScreen = () => {
               />
               <BulletPoint
                 key="privList-6-2"
-                listAccessibile="listEnd"
+                listAccessibile="item"
                 sectionContent="priv"
                 text={i18n.translate('Privacy.List6.ListItem2')}
               />
+              <BulletPoint
+                key="privList-6-3"
+                listAccessibile="listEnd"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List6.ListItem3')}
+              />
             </Box>
-            <Text marginTop="m" variant="settingTitle">
+            <Text marginTop="m" variant="menuItemTitle">
               {i18n.translate('Privacy.List7.Title')}
             </Text>
             <Box marginTop="s" marginRight="m" marginLeft="s">
@@ -189,22 +189,13 @@ export const PrivacyScreen = () => {
               />
               <BulletPoint
                 key="privList-7-2"
-                listAccessibile="item"
+                listAccessibile="listEnd"
                 sectionContent="priv"
                 text={i18n.translate('Privacy.List7.ListItem2')}
               />
-              <BulletPoint
-                key="privList-7-3"
-                listAccessibile="listEnd"
-                sectionContent="priv"
-                text={i18n.translate('Privacy.List7.ListItem3')}
-              />
             </Box>
             <Text marginTop="m" variant="settingTitle">
-              {i18n.translate('Privacy.SubTitle1')}
-            </Text>
-            <Text marginTop="s" variant="xtraSmallText">
-              {i18n.translate('Privacy.Body4')}
+              {i18n.translate('Privacy.List8.Title')}
             </Text>
             <Box marginTop="s" marginRight="m" marginLeft="s">
               <BulletPoint
@@ -221,19 +212,16 @@ export const PrivacyScreen = () => {
               />
               <BulletPoint
                 key="privList-8-3"
-                listAccessibile="item"
+                listAccessibile="listEnd"
                 sectionContent="priv"
                 text={i18n.translate('Privacy.List8.ListItem3')}
               />
-              <BulletPoint
-                key="privList-8-4"
-                listAccessibile="listEnd"
-                sectionContent="priv"
-                text={i18n.translate('Privacy.List8.ListItem4')}
-              />
             </Box>
             <Text marginTop="m" variant="settingTitle">
-              {i18n.translate('Privacy.SubTitle2')}
+              {i18n.translate('Privacy.SubTitle1')}
+            </Text>
+            <Text marginTop="s" variant="xtraSmallText">
+              {i18n.translate('Privacy.Body5')}
             </Text>
             <Box marginTop="s" marginRight="m" marginLeft="s">
               <BulletPoint
@@ -250,16 +238,34 @@ export const PrivacyScreen = () => {
               />
               <BulletPoint
                 key="privList-9-3"
-                listAccessibile="listEnd"
+                listAccessibile="item"
                 sectionContent="priv"
                 text={i18n.translate('Privacy.List9.ListItem3')}
               />
+              <BulletPoint
+                key="privList-9-4"
+                listAccessibile="item"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List9.ListItem4')}
+              />
+              <BulletPoint
+                key="privList-9-5"
+                listAccessibile="item"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List9.ListItem5')}
+              />
+              <BulletPoint
+                key="privList-9-6"
+                listAccessibile="listEnd"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List9.ListItem6')}
+              />
             </Box>
             <Text marginTop="m" variant="settingTitle">
-              {i18n.translate('Privacy.SubTitle3')}
+              {i18n.translate('Privacy.SubTitle2')}
             </Text>
-            <Text marginTop="m" variant="bodyText">
-              {i18n.translate('Privacy.Body5')}
+            <Text marginTop="m" variant="xtraSmallText">
+              {i18n.translate('Privacy.List10.Title')}
             </Text>
             <Box marginTop="s" marginRight="m" marginLeft="s">
               <BulletPoint
@@ -279,6 +285,58 @@ export const PrivacyScreen = () => {
                 listAccessibile="listEnd"
                 sectionContent="priv"
                 text={i18n.translate('Privacy.List10.ListItem3')}
+              />
+            </Box>
+            <Text marginTop="m" variant="xtraSmallText">
+              {i18n.translate('Privacy.List10.Footer')}
+            </Text>
+            <Text marginTop="m" variant="bodyText">
+              {i18n.translate('Privacy.List11.Title')}
+            </Text>
+            <Box marginTop="s" marginRight="m" marginLeft="s">
+              <BulletPoint
+                key="privList-11-1"
+                listAccessibile="listStart"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List11.ListItem1')}
+              />
+              <BulletPoint
+                key="privList-11-2"
+                listAccessibile="item"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List11.ListItem2')}
+              />
+              <BulletPoint
+                key="privList-11-3"
+                listAccessibile="item"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List11.ListItem3')}
+              />
+              <BulletPoint
+                key="privList-11-4"
+                listAccessibile="listEnd"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List11.ListItem4')}
+              />
+            </Box>
+            <Text marginTop="m" variant="settingTitle">
+              {i18n.translate('Privacy.SubTitle3')}
+            </Text>
+            <Text marginTop="m" variant="bodyText">
+              {i18n.translate('Privacy.Body6')}
+            </Text>
+            <Box marginTop="s" marginRight="m" marginLeft="s">
+              <BulletPoint
+                key="privList-12-1"
+                listAccessibile="listStart"
+                sectionContent="priv"
+                text={i18n.translate('Privacy.List12.ListItem1')}
+              />
+              <BulletPoint
+                key="privList-12-2"
+                listAccessibile="listEnd"
+                sectionContent="priv"
+                text={`${i18n.translate('Privacy.List12.ListItem2')} \n${i18n.translate('Privacy.List12.ListItem3')}`}
               />
             </Box>
           </Box>
