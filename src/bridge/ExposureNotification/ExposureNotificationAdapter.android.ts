@@ -15,11 +15,15 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
         }
         for (const diagnosisKeysURL of diagnosisKeysURLs) {
           (async (diagnosisKeysURL: string) => {
-            const summary = await exposureNotificationAPI.detectExposure(configuration, [diagnosisKeysURL]);
-            summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
-            // first detected exposure is enough
-            if (summary.matchedKeyCount > 0) {
-              resolve(summary);
+            try {
+              const summary = await exposureNotificationAPI.detectExposure(configuration, [diagnosisKeysURL]);
+              summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
+              // first detected exposure is enough
+              if (summary.matchedKeyCount > 0) {
+                resolve(summary);
+              }
+            } catch (error) {
+              reject(error);
             }
           })(diagnosisKeysURL);
         }
