@@ -83,6 +83,10 @@ RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolv
 
 RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
+  if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
+    reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
+    return;
+  }
   [self.enManager getDiagnosisKeysWithCompletionHandler:^(NSArray<ENTemporaryExposureKey *> * _Nullable keys, NSError * _Nullable error) {
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
@@ -117,6 +121,11 @@ NSArray *mapIntValues(NSArray *arr) {
 
 RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *)configDict diagnosisKeysURLs:(NSArray*)urls withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
+  if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
+    reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
+    return;
+  }
+  
   ENExposureConfiguration *configuration = [ENExposureConfiguration new];
 
   if (configDict[@"metadata"]) {
@@ -188,6 +197,10 @@ RCT_REMAP_METHOD(getExposureInformation,getExposureInformationForSummary:(NSDict
   NSInteger summaryIdx = [summaryDict[@"_summaryIdx"] intValue];
   if (summaryIdx < 0 || summaryIdx >= self.reportedSummaries.count) {
     reject(@"", @"Invalid _summaryIdx", [NSError errorWithDomain:@"" code:0 userInfo:@{}]);
+    return;
+  }
+  if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
+    reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
     return;
   }
   ENExposureDetectionSummary *summary = self.reportedSummaries[summaryIdx];
