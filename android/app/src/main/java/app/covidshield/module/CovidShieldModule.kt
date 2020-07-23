@@ -23,8 +23,10 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
 
 
     private val okHttpClient by lazy {
+        val timeoutSecs = BuildConfig.DOWNLOAD_TIMEOUT_SECONDS.toLong()
         OkHttpClient.Builder()
-            .callTimeout(BuildConfig.DOWNLOAD_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+                .callTimeout(timeoutSecs, TimeUnit.SECONDS)
+                .readTimeout(timeoutSecs, TimeUnit.SECONDS)
                 .addNetworkInterceptor(DownloadInterceptor(BuildConfig.MAXIMUM_DOWNLOAD_SIZE_KB.toLong() * 1024))
                 .build()
     }
@@ -54,6 +56,20 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
                 val bytes = response.body()?.bytes() ?: throw IOException()
                 val fileName = writeFile(bytes)
                 promise.resolve(fileName)
+            }
+        }
+    }
+
+    @ReactMethod
+    fun fetchExposureConfiguration(url: String, promise: Promise) {
+        promise.launch(this) {
+            val request = Request.Builder().url(url).build()
+            okHttpClient.newCall(request).execute().use { response ->
+                if (response.code() != 200) {
+                    throw IOException()
+                }
+                val text = response.body()?.string() ?: throw IOException()
+                promise.resolve(text)
             }
         }
     }

@@ -1,11 +1,10 @@
 import {Buffer} from 'buffer';
 
-import Config from 'react-native-config';
 import hmac256 from 'crypto-js/hmac-sha256';
 import encHex from 'crypto-js/enc-hex';
 import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
-import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
+import {getRandomBytes, downloadDiagnosisKeysFile, fetchExposureConfiguration} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE} from 'env';
 import {captureMessage, captureException} from 'shared/log';
@@ -18,7 +17,6 @@ import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
 const MAX_UPLOAD_KEYS = 14;
-const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 const TRANSMISSION_RISK_LEVEL = 1;
 
 // See https://github.com/cds-snc/covid-shield-server/pull/176
@@ -58,19 +56,7 @@ export class BackendService implements BackendInterface {
     const region = 'CA';
     const exposureConfigurationUrl = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
     captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
-    const timeoutSecs = Number(Config.DOWNLOAD_TIMEOUT_SECONDS);
-
-    const abortController = new AbortController();
-    const opts = Object.assign(FETCH_HEADERS, {signal: abortController.signal});
-
-    if (timeoutSecs > 0) {
-      clearTimeout(this.configFetchTimeout);
-      this.configFetchTimeout = setTimeout(() => {
-        abortController.abort();
-      }, timeoutSecs * 1000);
-    }
-
-    return (await fetch(exposureConfigurationUrl, opts)).json();
+    return JSON.parse(await fetchExposureConfiguration(exposureConfigurationUrl));
   }
 
   async claimOneTimeCode(oneTimeCode: string): Promise<SubmissionKeySet> {

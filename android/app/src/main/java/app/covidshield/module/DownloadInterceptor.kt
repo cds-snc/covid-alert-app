@@ -7,10 +7,10 @@ import okhttp3.ResponseBody
 import okhttp3.Call
 import okio.*
 
-class DownloadInterceptor(val maxBytes: Long): Interceptor {
+class DownloadInterceptor(val maxBytes: Long) : Interceptor {
 
     private class ProgressResponseBody(val originalBody: ResponseBody, val call: Call,
-                                       val maxBytes: Long): ResponseBody() {
+                                       val maxBytes: Long) : ResponseBody() {
 
         private var bufferedSource: BufferedSource? = null
 
@@ -24,7 +24,7 @@ class DownloadInterceptor(val maxBytes: Long): Interceptor {
         }
 
         override fun source(): BufferedSource {
-            if(bufferedSource == null) {
+            if (bufferedSource == null) {
                 bufferedSource = Okio.buffer(Forwarder(originalBody.source(), call, maxBytes))
             }
             return bufferedSource!!
@@ -32,15 +32,15 @@ class DownloadInterceptor(val maxBytes: Long): Interceptor {
 
     }
 
-    private class Forwarder(source: Source, val call: Call, val maxBytes: Long): ForwardingSource(source) {
+    private class Forwarder(source: Source, val call: Call, val maxBytes: Long) : ForwardingSource(source) {
         private var totalBytesRead: Long = 0
 
         override fun read(sink: Buffer, byteCount: Long): Long {
             val bytesRead = super.read(sink, byteCount)
 
-            if(bytesRead > 0) totalBytesRead += bytesRead
+            if (bytesRead > 0) totalBytesRead += bytesRead
 
-            if(totalBytesRead > maxBytes && maxBytes > 0) {
+            if (totalBytesRead > maxBytes && maxBytes > 0) {
                 call.cancel()
             }
             return bytesRead
@@ -51,7 +51,7 @@ class DownloadInterceptor(val maxBytes: Long): Interceptor {
 
         val originalResponse = chain.proceed(chain.request())
         val body = originalResponse.body()
-        if(body != null) {
+        if (body != null) {
             return originalResponse.newBuilder()
                     .body(ProgressResponseBody(body, chain.call(), maxBytes))
                     .build()

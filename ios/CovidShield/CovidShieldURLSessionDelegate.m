@@ -5,6 +5,7 @@
   uint64_t _sizeLimit;
   void (^_handler)(NSURL *, NSURLResponse * , NSError *);
   NSURL *_location;
+  NSError *_fsError;
 }
 
 - (instancetype)initWithMaxDownloadSize: (NSUInteger)sizeLimit
@@ -30,12 +31,17 @@ totalBytesExpectedToWrite: (int64_t)totalExpected {
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-  _location = location;
+  NSFileManager *fm = [NSFileManager defaultManager];
+  NSError *err = nil;
+  _location = [[fm temporaryDirectory] URLByAppendingPathComponent: [[NSUUID UUID] UUIDString]];
+  if(![fm moveItemAtURL:location toURL:_location error:&err]) {
+    _fsError = err;
+  }
 }
 
 - (void)URLSession: (NSURLSession *)session task: (NSURLSessionTask*)task
 didCompleteWithError: (NSError *)error {
-  _handler(_location, task.response, error);
+  _handler(_location, task.response, error?error:_fsError);
 }
 
 
