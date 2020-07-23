@@ -6,6 +6,8 @@ before_all do
 
   # Pull all tags
   git_pull(only_tags: true)
+
+  setup_circle_ci
 end
 
 desc "Creates a Github Release"
