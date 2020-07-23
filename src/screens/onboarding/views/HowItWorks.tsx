@@ -24,7 +24,7 @@ export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
           <BulletPointCheck listAccessibile="item" text={i18n.translate('Onboarding.HowItWorks.Body2')} />
           <BulletPointCheck listAccessibile="listEnd" text={i18n.translate('Onboarding.HowItWorks.Body3')} />
         </Box>
-        <Box alignSelf="stretch" marginTop="m" marginBottom="l">
+        <Box accessible accessibilityRole="button" alignSelf="stretch" marginTop="m" marginBottom="l" paddingBottom="l">
           <Box>
             <ButtonSingleLine
               text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}

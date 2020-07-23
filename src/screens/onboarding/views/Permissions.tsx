@@ -39,7 +39,7 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
             {i18n.translate('Onboarding.Permissions.Body2')}
           </Markdown>
         </Box>
-        <Box alignSelf="stretch" marginTop="m" marginBottom="l">
+        <Box accessible accessibilityRole="button" alignSelf="stretch" marginTop="m" marginBottom="l" paddingBottom="l">
           <Box>
             <ButtonSingleLine
               text={i18n.translate('Onboarding.Permissions.PrivacyButtonCTA')}
