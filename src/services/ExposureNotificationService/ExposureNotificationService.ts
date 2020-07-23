@@ -135,7 +135,6 @@ export class ExposureNotificationService {
     }
 
     await this.updateSystemStatus();
-    console.log('this.systemStatus.get()', this.systemStatus.get());
     this.starting = false;
     await this.updateExposureStatus();
   }
