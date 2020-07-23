@@ -48,7 +48,7 @@
         "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
       },
       "Body2": "You do not have to agree, even if you agreed the day before.",
-      "Body3": "If you feel sick, contact your doctor. Take care of yourself and your family during this time.",
+      "Body3": "If you’re worried about your symptoms, get medical care as soon as you can. Take care of yourself and your family during this time.",
       "TipTitle": "TIP: ",
       "TipBody": "You can prepare for your call from Public Health through the test results website.  ",
       "TipLinkText": "Test results website",
@@ -118,7 +118,9 @@
     "NotificationCardAction": "Turn on notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
-    "ExposureNotificationCardAction": "Turn on exposure notifications"
+    "ExposureNotificationCardAction": "Turn on exposure notifications",
+    "NoConnectivityCardAction": "COVID Alert is offline",
+    "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures."
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",
@@ -136,7 +138,8 @@
   },
   "Landing": {
     "En": "English",
-    "Fr": "Français"
+    "Fr": "Français",
+    "AltText": "Illustration of 8 people enjoying a public space. There’s a person with a walking cane, a person in a wheelchair, a person wearing a hijab, several people of colour, and a representation of gender diversity."
   },
   "LanguageSelect": {
     "Title": "Language",
@@ -196,7 +199,7 @@
       "Body2": "It will not tell you about outbreaks in your community."
     },
     "Anonymous": {
-      "Title": "Your privacy is safe",
+      "Title": "Your privacy is protected",
       "ImageAltText": "A hand-drawn illustration of shaded glasses and hat to go incognito. Above the hat, a location pin icon is crossed out.",
       "Body1": "COVID Alert **does not use GPS** or location services.",
       "Body2": "It has **no way of knowing**:",
@@ -211,7 +214,7 @@
       "ImageAltText": "A hand-drawn illustration of 3 mobile phones sending out random codes via bluetooth.",
       "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
       "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
-      "Body3": "If you’ve been near one of those codes in the past 14 days, you’ll get a notification.",
+      "Body3": "If you’ve  had close contact with one of those people in the past 14 days, you’ll get a notification.",
       "HowItWorksCTA": "Learn more about how it works"
     },
     "PartOf": {
@@ -284,7 +287,11 @@
       "RegionCovered": {
         "ON": {
           "Title": "Get a one-time key",
-          "Body": "If you’ve tested positive in Ontario:\n\n1. Go to the COVID-19 Test Results Website and enter your details.\n\n2. Review your test results.\n\n3. Get the one-time key.\n\n4. Come back here and enter the key.",
+          "Body": "If you’ve tested positive in Ontario:",
+          "Body2": "Go to the COVID-19 Test Results Website and enter your details.",
+          "Body3": "Review your test results.",
+          "Body4": "Get the one-time key.",
+          "Body5": "Come back here and enter the key.",
           "CTA": "Go to COVID-19 Test Results Website",
           "Link": "https://covid19results.ehealthontario.ca:4443/"
         }
@@ -300,7 +307,7 @@
   },
   "Notification": {
     "ExposedMessageTitle": "You’ve been exposed",
-    "ExposedMessageBody": "You’ve been near someone who reported a COVID-19 diagnosis through the app. Read guidance.",
+    "ExposedMessageBody": "You’ve had close contact with someone who reported a COVID-19 diagnosis through the app. Learn more about what to do next.",
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",

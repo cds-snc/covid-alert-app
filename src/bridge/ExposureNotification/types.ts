@@ -29,6 +29,7 @@ export interface TemporaryExposureKey {
 
 export interface ExposureSummary {
   daysSinceLastExposure: number;
+  lastExposureTimestamp: number;
   matchedKeyCount: number;
   maximumRiskScore: number;
 }

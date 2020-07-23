@@ -29,7 +29,13 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
   return (
     <>
       <Box marginHorizontal="m" marginBottom="l">
-        <Text variant="bodyTitle" color="overlayBodyText" accessibilityRole="header" accessibilityAutoFocus>
+        <Text
+          variant="bodyTitle"
+          color="overlayBodyText"
+          accessibilityRole="header"
+          // eslint-disable-next-line no-unneeded-ternary
+          accessibilityAutoFocus={value === '' ? true : false}
+        >
           {i18n.translate('DataUpload.FormView.Title')}
         </Text>
       </Box>
@@ -47,7 +53,7 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
         <Button
           loading={loading}
           // @todo update this for 10 digit code
-          disabled={value.length !== 8}
+          disabled={value.length <= 7}
           variant="thinFlat"
           text={i18n.translate('DataUpload.FormView.Action')}
           onPress={handleVerify}

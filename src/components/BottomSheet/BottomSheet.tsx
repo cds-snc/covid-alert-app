@@ -116,7 +116,7 @@ const BottomSheetInternal = (
 
 const styles = StyleSheet.create({
   spacer: {
-    marginBottom: -18,
+    marginBottom: -45,
   },
   collapseContent: {
     position: 'absolute',

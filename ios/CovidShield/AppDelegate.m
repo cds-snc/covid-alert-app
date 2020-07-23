@@ -89,11 +89,17 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-
+  
+  if([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground) {
+    UIStoryboard *launchScreenStoryboard = [UIStoryboard storyboardWithName:@"Launch Screen" bundle:nil];
+    UIViewController *launchScreenController = [launchScreenStoryboard instantiateInitialViewController];
+    UIView *launchScreenView = [launchScreenController view];
+    launchScreenView.frame = self.window.bounds;
+    rootView.loadingView = launchScreenView;
+  }
 
   // [REQUIRED] Register BackgroundFetch
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
-  [RNSplashScreen show];
 
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
