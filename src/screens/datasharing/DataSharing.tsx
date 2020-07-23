@@ -51,7 +51,7 @@ export const DataSharingScreen = () => {
     );
   };
 
-  const keyboardWillUpdate = (event) => {
+  const keyboardWillUpdate = (event: any) => {
     setKeyboardHeight(event.endCoordinates.height);
   };
 
@@ -78,10 +78,13 @@ export const DataSharingScreen = () => {
   // (see: `automaticallyAdjustContentInsets`) the "safe" areas so we have to be
   // sure to match their values.
   const safeAreaInsets = useSafeAreaInsets();
-  const scrollInsets = keyboardHeight > 0 ? {
-    top: -safeAreaInsets.top,
-    bottom: keyboardHeight - safeAreaInsets.top - safeAreaInsets.bottom * 2
-  } : undefined;
+  const scrollInsets =
+    keyboardHeight > 0
+      ? {
+          top: -safeAreaInsets.top,
+          bottom: keyboardHeight - safeAreaInsets.top - safeAreaInsets.bottom * 2,
+        }
+      : undefined;
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
