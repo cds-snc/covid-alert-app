@@ -10,7 +10,7 @@ export const BulletPointX = ({listAccessibile, text}: {listAccessibile: string; 
 
   switch (listAccessibile) {
     case 'listStart':
-      bulletLabel = `${i18n.translate(`A11yList.Start`)} \n ${i18n.translate(`A11yList.Bullet`)}`;
+      bulletLabel = `${i18n.translate(`A11yList.Bullet`)} \n ${i18n.translate(`A11yList.Start`)}`;
       break;
 
     case 'listEnd':
@@ -24,7 +24,7 @@ export const BulletPointX = ({listAccessibile, text}: {listAccessibile: string; 
   }
 
   return (
-    <Box accessible flexDirection="row" paddingBottom="m">
+    <Box flexDirection="row" marginBottom="m">
       <Box accessible accessibilityLabel={bulletLabel} marginTop="xxs">
         <Icon size={20} name="icon-x" />
       </Box>

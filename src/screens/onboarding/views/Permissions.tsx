@@ -21,7 +21,7 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
       item="step-5"
     >
       <>
-        <Box paddingBottom="m">
+        <Box marginBottom="m">
           <Markdown
             style={{
               body: styles.bodyContent,
@@ -30,7 +30,7 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
             {i18n.translate('Onboarding.Permissions.Body1')}
           </Markdown>
         </Box>
-        <Box paddingBottom="l">
+        <Box marginBottom="l">
           <Markdown
             style={{
               body: styles.bodyContent,
@@ -39,7 +39,7 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
             {i18n.translate('Onboarding.Permissions.Body2')}
           </Markdown>
         </Box>
-        <Box accessible accessibilityRole="button" alignSelf="stretch" marginTop="m" marginBottom="l" paddingBottom="l">
+        <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box>
             <ButtonSingleLine
               text={i18n.translate('Onboarding.Permissions.PrivacyButtonCTA')}
