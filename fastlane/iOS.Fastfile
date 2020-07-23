@@ -58,7 +58,6 @@ platform :ios do
     groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
       groups: groups,
-      changelog: default_changelog(simple: true),
       ipa: "#{output_directory}/CovidShield.ipa"
     )
 
