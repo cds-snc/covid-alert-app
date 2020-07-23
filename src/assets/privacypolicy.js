@@ -80,6 +80,7 @@ Contact the COVID-19 information line:
 - Phone: 1-833-784-4397
 - Teletypewriter (TTY): 1-800-465-7735
   (Monday to Friday, 8 a.m. to 8 p.m. Eastern time)
+- Email: hc.AlerteCOVIDAlert.sc@canada.ca
 `;
 
 export default privacy;
