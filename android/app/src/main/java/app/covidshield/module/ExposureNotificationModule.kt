@@ -18,12 +18,12 @@ import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
 import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
 import app.covidshield.utils.ActivityResultHelper
-import app.covidshield.utils.CovidShieldException
 import app.covidshield.utils.CovidShieldException.ApiNotEnabledException
 import app.covidshield.utils.CovidShieldException.InvalidActivityException
 import app.covidshield.utils.CovidShieldException.NoResolutionRequiredException
 import app.covidshield.utils.CovidShieldException.PermissionDeniedException
 import app.covidshield.utils.CovidShieldException.SendIntentException
+import app.covidshield.utils.CovidShieldException.SummaryTokenNotFoundException
 import app.covidshield.utils.CovidShieldException.UnknownException
 import app.covidshield.utils.PendingTokenManager
 import com.facebook.react.bridge.Promise
@@ -191,7 +191,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             }
 
             val token = summary.getString(SUMMARY_HIDDEN_KEY)
-                ?: throw CovidShieldException.SummaryTokenNotFoundException()
+                ?: throw SummaryTokenNotFoundException()
             val exposureInformationList = exposureNotificationClient.getExposureInformation(token).await()
             val informationList = exposureInformationList.map { it.toInformation() }.toWritableArray()
             promise.resolve(informationList)
