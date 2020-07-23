@@ -1,5 +1,3 @@
-# package = load_json(json_path: "./package.json")
-
 platform :ios do
   #
   # Options:
@@ -22,6 +20,7 @@ platform :ios do
     Dotenv.overload "../#{env_file}"
     ENV["ENVFILE"] = env_file
 
+    # Set the version name from the environment
     increment_version_number(
       xcodeproj: "ios/CovidShield.xcodeproj",
       version_number: ENV["APP_VERSION_NAME"]
@@ -35,6 +34,7 @@ platform :ios do
 
     output_directory = File.expand_path('../build/ios')
 
+    # Get the certs/profiles with match
     match(
       git_url: ENV["CERTS_REPO"],
       app_identifier: ENV["APP_ID_IOS"],
@@ -43,6 +43,7 @@ platform :ios do
       readonly: true
     )
 
+    # Build the app
     build_app(
       scheme: "CovidShield",
       workspace: "./ios/CovidShield.xcworkspace",
@@ -55,12 +56,14 @@ platform :ios do
       }
     )
 
+    # Upload to TestFlight
     groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
       groups: groups,
       ipa: "#{output_directory}/CovidShield.ipa"
     )
 
+    # Create a Github release (if it's a release)
     if release
       create_github_release(
         platform: 'iOS',
