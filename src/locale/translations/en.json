@@ -201,7 +201,7 @@
     "Anonymous": {
       "Title": "Your privacy is protected",
       "ImageAltText": "A hand-drawn illustration of shaded glasses and hat to go incognito. Above the hat, a location pin icon is crossed out.",
-      "Body1": "COVID Alert **does not use GPS** or location services.",
+      "Body1": "COVID Alert **does not use GPS** or track your location.",
       "Body2": "It has **no way of knowing**:",
       "Bullet1": "Your location.",
       "Bullet2": "Your name or address.",
