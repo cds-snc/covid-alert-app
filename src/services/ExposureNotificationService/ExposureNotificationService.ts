@@ -131,17 +131,11 @@ export class ExposureNotificationService {
       await this.exposureNotification.start();
     } catch (error) {
       captureException('Cannot start EN framework', error);
-      // 4: 'ENErrorCodeNotAuthorized (User denied)'
-      // https://developer.apple.com/documentation/exposurenotification/enerrorcode/enerrorcodenotauthorized?language=objc
-      if (error.code === '4') {
-        this.systemStatus.set(SystemStatus.Disabled);
-        return;
-      }
       this.systemStatus.set(SystemStatus.Unknown);
-      return;
     }
 
     await this.updateSystemStatus();
+    console.log('this.systemStatus.get()', this.systemStatus.get());
     this.starting = false;
     await this.updateExposureStatus();
   }
