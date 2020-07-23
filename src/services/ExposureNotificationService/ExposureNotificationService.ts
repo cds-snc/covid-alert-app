@@ -178,7 +178,6 @@ export class ExposureNotificationService {
       cycleStartsAt: cycleStartsAt.getTime(),
       cycleEndsAt: addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
     });
-    console.log('hey');
   }
 
   async fetchAndSubmitKeys(): Promise<void> {
