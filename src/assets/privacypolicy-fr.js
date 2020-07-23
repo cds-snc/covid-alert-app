@@ -24,7 +24,7 @@ Les codes aléatoires sont stockés et utilisés uniquement dans le but de vous 
 
 ## Si vous avez un téléphone Android
 
-- Avec les téléphones Android, la recherche Bluetooth n’est possible que si la fonction de localisation est activée pour toutes les applications. Bien qu’Alerte COVID n’ait aucun moyen de connaître votre emplacement, Google peut avoir accès à votre position. Si vous avez un téléphone Android, vous voudrez peut-être utiliser l’option de localisation la moins précise et désactiver l’historique des positions.
+- Avec les téléphones Android, la recherche Bluetooth n’est possible que si la fonction de localisation est activée pour toutes les applications. Bien qu’Alerte COVID n’ait aucun moyen de connaître votre emplacement, Google peut avoir accès à votre position. Si vous avez un téléphone Android, vous pourriez envisager d’utiliser l’option de localisation la moins précise et de désactiver l’historique des positions.
 - Vous pouvez vérifier les autorisations des applications dans les paramètres de votre téléphone. Vous constaterez qu’Alerte COVID n’a pas l’autorisation d’utiliser les services de localisation.
 
 
@@ -34,7 +34,7 @@ Les codes aléatoires sont stockés et utilisés uniquement dans le but de vous 
 - Quand vous donnez votre autorisation, seuls les codes aléatoires de votre téléphone sont partagés.
 - Seuls l’application et son serveur auront accès aux codes aléatoires.
 
-### Si vous avez un diagnostic de COVID-19
+### Si vous recevez un diagnostic de COVID-19
 - Vous pouvez décider de partager vos codes aléatoires des 14 derniers jours avec un serveur central administré par le Gouvernement du Canada.
 - Si vous partagez vos codes, personne ne recevra d’information sur vous ou sur le moment de votre proximité.
 - On vous demandera aussi l’autorisation de partager vos codes aléatoires avec le serveur central pendant les 13 jours qui suivent.
@@ -77,7 +77,8 @@ Sans ces protections de sécurité en place, les polluposteurs pourraient inonde
 Contactez la ligne d’information sur la COVID-19 :
 - Téléphone : 1-833-784-4397
 - Téléscripteur (ATS) : 1-800-465-7735
-  (Du lundi au vendredi, de 8 h à 20 h, heure de l’Est.)
+  Du lundi au vendredi, de 8 h à 20 h (heure de l’Est)
+- Courriel : hc.AlerteCOVIDAlert.sc@canada.ca
 `;
 
 export default privacy;
