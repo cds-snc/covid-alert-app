@@ -13,8 +13,8 @@ export const BulletPoint = ({text, listAccessibile, sectionContent}: BulletPoint
   const bullet = '\u25CF';
   const i18n = useI18n();
 
-  let bulletLabel;
   let textLabel;
+  let bulletLabel;
 
   switch (listAccessibile) {
     case 'listStart':
