@@ -199,14 +199,14 @@ export const HomeScreen = () => {
   useLayoutEffect(() => {
     bottomSheetRef.current?.setOnStateChange(setIsBottomSheetExpanded);
   }, []);
-
   const fadeAnim = useRef(new Animated.Value(0)).current;
   React.useEffect(
     () =>
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 2000,
-        useNativeDriver: true,
+        delay: 1000,
+        duration: 10,
+        useNativeDriver: false,
       }).start(),
     [fadeAnim],
   );
@@ -222,9 +222,9 @@ export const HomeScreen = () => {
           accessibilityElementsHidden={isBottomSheetExpanded}
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
         >
-          {/* <Animated.View style={{opacity: fadeAnim}}> */}
-          <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
-          {/* </Animated.View> */}
+          <Animated.View style={{opacity: fadeAnim}}>
+            <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
+          </Animated.View>
         </Box>
         <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
       </Box>
