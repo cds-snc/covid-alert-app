@@ -17,7 +17,6 @@ import {usePrevious} from 'shared/usePrevious';
 import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
 import {RegionCase} from '../../shared/Region';
 
-import {BaseHomeView} from './components/BaseHomeView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
