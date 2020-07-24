@@ -18,6 +18,7 @@ export enum Status {
   Disabled = 'disabled',
   BluetoothOff = 'bluetooth_off',
   Restricted = 'restricted',
+  LocationOff = 'location_off',
   PlayServicesNotAvailable = 'play_services_not_available',
 }
 
