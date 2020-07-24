@@ -89,8 +89,6 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
-  console.log('network.type', network.type);
-  console.log('network', network);
   if (!network.isConnected) {
     return <NetworkDisabledView />;
   }
