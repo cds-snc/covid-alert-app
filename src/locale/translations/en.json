@@ -242,10 +242,6 @@
       "PrivacyButtonCTA": "Learn more about privacy"
     }
   },
-  "Privacy": {
-    "Title": "Privacy policy",
-    "Close": "Close"
-  },
   "ThankYou": {
     "Title": "Thank you for helping",
     "Body": "Exposure notifications are on. You will receive a message if COVID Alert detects that you've been near someone who has reported a COVID-19 diagnosis.",
@@ -426,6 +422,93 @@
     "Body3": "Ask for help to get groceries and supplies dropped off at your door.",
     "Body4": "Stay in a separate room and use a separate bathroom from others in your home, if possible.",
     "Body5": "Wear a mask safely any time you cannot take the above actions."
+  },
+  "Privacy": {
+    "Title": "Privacy policy",
+    "Close": "Close",
+    "Intro": "Your privacy is protected",
+    "Body1": "COVID Alert is built with strong privacy protection.",
+    "Body2": "It's extremely unlikely that you could be identified while using this app. The COVID Alert app takes extensive steps, described below, to ensure your privacy and data are protected.",
+    "Body3": "Use of the app is voluntary.",
+    "List1": {
+      "Title": "What the app collects and stores on your phone",
+      "ListItem1": "Random codes from your phone, for 14 days.",
+      "ListItem2": "Random codes from other phones near you, for 14 days."
+    },
+    "Body4": "The random codes are only stored and used for the purpose of notifying you, or others, of possible COVID-19 exposure.",
+    "List2": {
+      "Title": "How the data is protected",
+      "ListItem1": "The app cannot connect your identity with the random codes.",
+      "ListItem2": "Your phone encrypts the random codes. You must give your permission before your phone will share the random codes with COVID Alert."
+    },
+    "List3": {
+      "Title": "COVID Alert has no way of knowing",
+      "ListItem1": "Your location.",
+      "ListItem2": "Your name or address.",
+      "ListItem3": "Your phone's contacts.",
+      "ListItem4": "Your health information."
+    },
+    "List4": {
+      "Title": "If you have an Android phone",
+      "ListItem1": "To use Bluetooth scanning, Android phones need Location setting on for all apps. While COVID Alert has no way of knowing where you are, Google may have access to your location. If you have an Android phone, you may want to use the lowest accuracy option for Location and turn off Google Location History.",
+      "ListItem2": "You can check the app’s permissions in your phone’s settings. You’ll see that COVID Alert does not have permission to use location services."
+    },
+    "List5": {
+      "Title": "What the app shares",
+      "SubTitle": "Nothing is done without your permission.",
+      "ListItem1": "Nothing is shared without your explicit permission.",
+      "ListItem2": "When you give permission, the only information that’s shared is the random codes from your phone.",
+      "ListItem3": "Only the app and its server will have access to the random codes."
+    },
+    "List6": {
+      "Title": "If you're diagnosed with COVID-19",
+      "ListItem1": "You can choose to share your random codes from the past 14 days with a central server operated by the Government of Canada.",
+      "ListItem2": "If you share your random codes, nobody will get any information about you or the time you were near them.",
+      "ListItem3": "You’ll also be asked for permission to share your random codes with the central server for 13 days after."
+    },
+    "List7": {
+      "Title": "If a person you were near reports a diagnosis through the app",
+      "ListItem1": "No information about you is shared with anyone.",
+      "ListItem2": "You will not receive any information about anyone else, not even someone you were in contact with who reports a diagnosis through the app."
+    },
+    "List8": {
+      "Title": "Deleting your data",
+      "ListItem1": "All random codes, whether from your phone or others, are deleted after 15 days.",
+      "ListItem2": "You can delete the app at any time, and the random codes on your phone will be automatically deleted.",
+      "ListItem3": "If you uploaded your random codes before deleting the app, they will be deleted from the server after 15 days."
+    },
+    "SubTitle1": "Other information about you",
+    "Body5": "COVID Alert is a Government of Canada app. It is designed so that your health information stays with your provincial or territorial healthcare provider. Your identity and health status will not be shared with the Government of Canada. COVID Alert does not know who you are and cannot access your health information.",
+    "List9": {
+      "ListItem1": "If you test positive for COVID-19, your healthcare provider will give you a one-time key. It tells COVID Alert that you can upload your random codes.",
+      "ListItem2": "COVID Alert trusts this key. The app uses this key so it does not have to collect any information that could identify you.",
+      "ListItem3": "Healthcare workers have no way to provide your personal information to COVID Alert.",
+      "ListItem4": "To protect the integrity of the one-time keys provided by your healthcare provider, your province may generate a long internal identification number to make sure the key was requested by a valid source. The Government of Canada is not able to associate these internal identification numbers to you or other app users, and they are only used when needed to prevent cybersecurity threats.",
+      "ListItem5": "If you receive an exposure notification, you will be given suggested next steps. The Government of Canada will not receive any health information about you if you take those next steps.",
+      "ListItem6": "COVID Alert does not connect with or collect any information from any other app on your phone."
+    },
+    "SubTitle2": "Your IP address",
+    "List10": {
+      "Title": "As a security measure, the server will store your IP address in system logs when the app does any of the following actions:",
+      "ListItem1": "Download a list of positive codes.",
+      "ListItem2": "Enter a one-time key.",
+      "ListItem3": "Upload your random codes.",
+      "Footer": "Without these security protections in place, spammers could flood the COVID Alert system and your phone with fake exposure notifications."
+    },
+    "List11": {
+      "Title": "How IP addresses are used and protected",
+      "ListItem1": "Your IP address is not connected to any other information about you, and it’s only used to ensure the integrity of the system.",
+      "ListItem2": "System logs are kept for up to 3 months under normal conditions. If there’s an investigation into suspicious activity, we keep system logs for up to 2 years to help the investigation.",
+      "ListItem3": "System logs are closely protected. They can only be used for ensuring performance and responding to security threats.",
+      "ListItem4": "If there’s an investigation, we may need to share the relevant system logs with law enforcement, as required by law."
+    },
+    "SubTitle3": "Questions?",
+    "Body6": "Contact the COVID-19 information line:",
+    "List12": {
+      "ListItem1": "Phone: 1-833-784-4397",
+      "ListItem2": "Teletypewriter (TTY): 1-800-465-7735",
+      "ListItem3": "(Monday to Friday, 8 a.m. to 8 p.m. Eastern time)"
+    }
   },
   "A11yList": {
     "Start": "List start",
