@@ -5,6 +5,7 @@ declare module 'react-native-system-setting' {
 
   interface SystemSetting {
     addBluetoothListener(callback: (enabled: boolean) => void): Promise<Listener>;
+    addLocationListener(callback: (enabled: boolean) => void): Promise<Listener>;
   }
 
   const systemSetting: SystemSetting;
