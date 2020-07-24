@@ -11,12 +11,10 @@ import {
 } from 'react-native';
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from 'locale';
-
 import {Box} from './Box';
 import {Icon, IconName} from './Icon';
 import {Text} from './Text';
 import {Ripple} from './Ripple';
-import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
 export interface ButtonSingleLineProps {
   text?: string;
@@ -122,9 +120,15 @@ export const ButtonSingleLine = ({
 
   if (Platform.OS === 'android') {
     return externalLink ? (
-      <TouchableNativeFeedback accessible disabled={disabled} onPress={onPressHandler} {...accessibilityProps}>
+      <TouchableOpacity
+        accessible
+        disabled={disabled}
+        onPress={onPressHandler}
+        activeOpacity={0.6}
+        {...accessibilityProps}
+      >
         {content}
-      </TouchableNativeFeedback>
+      </TouchableOpacity>
     ) : (
       <Ripple
         disabled={disabled}
