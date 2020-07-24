@@ -176,8 +176,8 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
-        <SafeAreaView edges={['left', 'right']}>
-          <Box paddingTop="m">
+        <SafeAreaView>
+          <Box>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={bottomSheetBehavior.collapse}

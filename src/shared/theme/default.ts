@@ -162,6 +162,8 @@ const theme = {
       textColor: palette.black,
       fontFamily: 'notosans',
       fontSize: 16,
+      borderBottomWidth: 4,
+      borderBottomColor: palette.brandRed,
       disabled: {
         color: palette.gray4,
         textColor: palette.bodyBlack,
@@ -240,10 +242,7 @@ const theme = {
       textColor: palette.black,
       fontFamily: 'notosans',
       fontSize: 16,
-      borderWidth: 1,
-      borderColor: 'grey2',
       borderBottomWidth: undefined,
-      borderBottomColor: undefined,
       disabled: {},
     },
     thinFlatNeutralGrey: {

@@ -54,19 +54,7 @@ const BottomSheetInternal = (
   const {orientation} = useOrientation();
   const bottomPadding = orientation === 'landscape' ? 120 : 140;
   const insets = useSafeArea();
-  const renderHeader = useCallback(
-    () => (
-      <>
-        <Box height={insets.top} />
-        <Box
-          pointerEvents="none"
-          borderColor="gray2"
-          style={{...styles.sheetBorder, width: width + 2, top: insets.top}}
-        />
-      </>
-    ),
-    [insets.top],
-  );
+  const renderHeader = useCallback(() => <Box height={insets.top} />, [insets.top]);
 
   const onOpenEnd = useCallback(() => setIsExpanded(true), []);
   const onCloseEnd = useCallback(() => setIsExpanded(false), []);
@@ -133,16 +121,6 @@ const styles = StyleSheet.create({
   collapseContent: {
     position: 'absolute',
     width: '100%',
-  },
-  sheetBorder: {
-    position: 'absolute',
-    borderWidth: 1,
-    height: 66,
-    left: -1,
-    right: -1,
-    borderBottomWidth: 0,
-    borderTopRightRadius: 33,
-    borderTopLeftRadius: 33,
   },
 });
 
