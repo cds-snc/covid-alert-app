@@ -82,6 +82,9 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     }
   };
 
+  if (systemStatus === SystemStatus.Undefined) {
+    return null;
+  }
   // this case should be highest priority - if bluetooth is off, the app doesn't work
   if (systemStatus === SystemStatus.BluetoothOff) {
     return <BluetoothDisabledView />;
