@@ -40,8 +40,8 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
     fun downloadDiagnosisKeysFile(url: String, promise: Promise) {
         promise.launch(this) {
             val request = Request.Builder()
-                    .cacheControl(CacheControl.Builder().noStore().build())
-                    .url(url).build()
+                .cacheControl(CacheControl.Builder().noStore().build())
+                .url(url).build()
             okHttpClient.newCall(request).execute().use { response ->
                 if (response.code() != 200) {
                     throw IOException()
