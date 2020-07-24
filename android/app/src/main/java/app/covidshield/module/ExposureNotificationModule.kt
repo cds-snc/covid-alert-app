@@ -69,7 +69,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     private val bluetoothAdapter: BluetoothAdapter? by lazy(LazyThreadSafetyMode.NONE) {
         val bluetoothManager = context.applicationContext.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
-        bluetoothManager?.adapter
+        BluetoothAdapter.getDefaultAdapter() ?: bluetoothManager?.adapter
     }
 
     private val locationManager: LocationManager? by lazy(LazyThreadSafetyMode.NONE) {
