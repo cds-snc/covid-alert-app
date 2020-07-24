@@ -27,6 +27,7 @@ import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_NOTIFICATION_SETTINGS
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
@@ -63,6 +64,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun start(promise: Promise) {
         promise.launch(this) {
+            if (!isPlayServicesAvailable()) {
+                throw Exception("PLAY_SERVICES_NOT_AVAILABLE")
+            }
             val status = getStatusInternal()
             if (status != Status.ACTIVE) {
                 stopInternal()
@@ -75,6 +79,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun stop(promise: Promise) {
         promise.launch(this) {
+            if (!isPlayServicesAvailable()) {
+                throw Exception("PLAY_SERVICES_NOT_AVAILABLE")
+            }
             stopInternal()
         }
     }
@@ -244,6 +251,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     private suspend fun getStatusInternal(): Status {
+        if (!isPlayServicesAvailable()) {
+            return Status.PLAY_SERVICES_NOT_AVAILABLE
+        }
         val isExposureNotificationEnabled = try {
             exposureNotificationClient.isEnabled.await()
         } catch (_: Exception) {
@@ -259,6 +269,12 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             !isBluetoothEnabled -> Status.BLUETOOTH_OFF
             else -> Status.ACTIVE
         }
+    }
+
+    private fun isPlayServicesAvailable(): Boolean {
+        val context = reactApplicationContext.applicationContext
+        val exposureNotificationSettingsIntent = Intent(ACTION_EXPOSURE_NOTIFICATION_SETTINGS)
+        return exposureNotificationSettingsIntent.resolveActivity(context.packageManager) != null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -285,5 +301,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 private enum class Status(val value: String) {
     ACTIVE("active"),
     DISABLED("disabled"),
-    BLUETOOTH_OFF("bluetooth_off")
+    BLUETOOTH_OFF("bluetooth_off"),
+    PLAY_SERVICES_NOT_AVAILABLE("play_services_not_available")
 }
