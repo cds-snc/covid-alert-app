@@ -128,6 +128,11 @@
       "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
     },
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
+    "FrameworkUnavailable": {
+      "Title": "Une erreur s’est produite",
+      "Body": "Alerte COVID n’est pas prise en charge par le système d’exploitation de votre téléphone.\n\nVérifiez que votre système d’exploitation est à jour.\n\nSi vous avez un téléphone Android, pensez à mettre les services Google Play à jour.",
+      "CTA": "Trouver de l’aide"
+    },
     "How": "Diagnosed with COVID-19?",
     "HowUrl": "https://www.canada.ca/",
     "LastCheckedDays": {
@@ -165,7 +170,11 @@
       }
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
-    "TurnOnBluetooth": "Activez Bluetooth"
+    "TurnOnBluetooth": "Activez Bluetooth",
+    "UnknownProblem": {
+      "Title": "Une erreur s’est produite",
+      "CTA": "Trouver de l’aide"
+    }
   },
   "HowToIsolate": {
     "Title": "Comment vous isoler",
@@ -193,7 +202,8 @@
   "Landing": {
     "En": "English",
     "Fr": "Français",
-    "AltText": "Illustration de 8 personnes profitant de l’espace public. Il y a une personne avec une canne blanche, une autre en fauteuil roulant, une autre avec un hijab, plusieurs personnes de couleur, et une représentation de la diversité de genre."
+    "AltText": "Illustration de 8 personnes profitant de l’espace public. Il y a une personne avec une canne blanche, une autre en fauteuil roulant, une autre avec un hijab, plusieurs personnes de couleur, et une représentation de la diversité de genre.",
+    "CanadaAltText": "Symbole du gouvernement du Canada"
   },
   "LanguageSelect": {
     "Close": "Fermer",

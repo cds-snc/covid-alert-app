@@ -75,6 +75,15 @@
       "AndroidBody2b": "no way of knowing where you are. ",
       "AndroidBody2c": "You can check the app’s permissions in your phone’s settings. You’ll see it does not have permission for location services."
     },
+    "FrameworkUnavailable": {
+      "Title": "Something went wrong",
+      "Body": "COVID Alert is not supported by your phone’s operating system.\n\nMake sure your operating system is up to date.\n\nIf you have an Android phone, try updating your Google Play Services.",
+      "CTA": "Get Help"
+    },
+    "UnknownProblem": {
+      "Title": "Something went wrong",
+      "CTA": "Get Help"
+    },
     "NoConnectivity": "COVID Alert is offline",
     "NoConnectivityDetailed": "COVID Alert only checks for exposure if your phone is connected to the Internet.",
     "AppName": "COVID Alert",
@@ -139,7 +148,8 @@
   "Landing": {
     "En": "English",
     "Fr": "Français",
-    "AltText": "Illustration of 8 people enjoying a public space. There’s a person with a walking cane, a person in a wheelchair, a person wearing a hijab, several people of colour, and a representation of gender diversity."
+    "AltText": "Illustration of 8 people enjoying a public space. There’s a person with a walking cane, a person in a wheelchair, a person wearing a hijab, several people of colour, and a representation of gender diversity.",
+    "CanadaAltText": "Symbol of the Government of Canada"
   },
   "LanguageSelect": {
     "Title": "Language",
