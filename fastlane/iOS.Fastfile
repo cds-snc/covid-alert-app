@@ -1,4 +1,21 @@
 platform :ios do
+  # Saving this for later, but may not need anymore
+  lane :set_version do
+    Dotenv.overload "../.env.demo"
+
+    # Set the version name from the environment
+    increment_version_number(
+      xcodeproj: "ios/CovidShield.xcodeproj",
+      version_number: ENV["APP_VERSION_NAME"]
+    )
+
+    # Set the version number from the environment
+    increment_build_number(
+      xcodeproj: "ios/CovidShield.xcodeproj",
+      build_number: ENV["APP_VERSION_CODE"]
+    )
+  end
+
   #
   # Options:
   # - type: demo, release
@@ -19,18 +36,6 @@ platform :ios do
     # Load the environment
     Dotenv.overload "../#{env_file}"
     ENV["ENVFILE"] = env_file
-
-    # Set the version name from the environment
-    increment_version_number(
-      xcodeproj: "ios/CovidShield.xcodeproj",
-      version_number: ENV["APP_VERSION_NAME"]
-    )
-
-    # Set the version number from the environment
-    increment_build_number(
-      xcodeproj: "ios/CovidShield.xcodeproj",
-      build_number: ENV["APP_VERSION_CODE"]
-    )
 
     output_directory = File.expand_path('../build/ios')
 
