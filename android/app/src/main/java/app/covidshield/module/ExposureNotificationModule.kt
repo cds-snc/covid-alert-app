@@ -18,6 +18,14 @@ import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
 import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
 import app.covidshield.utils.ActivityResultHelper
+import app.covidshield.utils.CovidShieldException.ApiNotEnabledException
+import app.covidshield.utils.CovidShieldException.InvalidActivityException
+import app.covidshield.utils.CovidShieldException.NoResolutionRequiredException
+import app.covidshield.utils.CovidShieldException.PermissionDeniedException
+import app.covidshield.utils.CovidShieldException.PlayServicesNotAvailableException
+import app.covidshield.utils.CovidShieldException.SendIntentException
+import app.covidshield.utils.CovidShieldException.SummaryTokenNotFoundException
+import app.covidshield.utils.CovidShieldException.UnknownException
 import app.covidshield.utils.PendingTokenManager
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -65,7 +73,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     fun start(promise: Promise) {
         promise.launch(this) {
             if (!isPlayServicesAvailable()) {
-                throw Exception("PLAY_SERVICES_NOT_AVAILABLE")
+                throw PlayServicesNotAvailableException()
             }
             val status = getStatusInternal()
             if (status != Status.ACTIVE) {
@@ -80,7 +88,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     fun stop(promise: Promise) {
         promise.launch(this) {
             if (!isPlayServicesAvailable()) {
-                throw Exception("PLAY_SERVICES_NOT_AVAILABLE")
+                throw PlayServicesNotAvailableException()
             }
             stopInternal()
         }
@@ -103,6 +111,10 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun detectExposure(configuration: ReadableMap, diagnosisKeysURLs: ReadableArray, promise: Promise) {
         promise.launch(this) {
+            if (getStatusInternal() == Status.DISABLED) {
+                throw ApiNotEnabledException()
+            }
+
             val exposureConfiguration = configuration.parse(Configuration::class.java).toExposureConfiguration()
             val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
             val token = "${UUID.randomUUID()}-${Date().time}"
@@ -132,6 +144,10 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getPendingExposureSummary(promise: Promise) {
         promise.launch(this) {
+            if (getStatusInternal() == Status.DISABLED) {
+                throw ApiNotEnabledException()
+            }
+
             val tokens = PendingTokenManager.instance.retrieve()
             PendingTokenManager.instance.clear()
 
@@ -159,6 +175,10 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getTemporaryExposureKeyHistory(promise: Promise) {
         promise.launch(this) {
+            if (getStatusInternal() == Status.DISABLED) {
+                throw ApiNotEnabledException()
+            }
+
             val exposureKeys = getTemporaryExposureKeyHistoryInternal()
             promise.resolve(exposureKeys.toWritableArray())
         }
@@ -167,8 +187,12 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getExposureInformation(summary: ReadableMap, promise: Promise) {
         promise.launch(this) {
+            if (getStatusInternal() == Status.DISABLED) {
+                throw ApiNotEnabledException()
+            }
+
             val token = summary.getString(SUMMARY_HIDDEN_KEY)
-                ?: throw IllegalArgumentException("Invalid summary token")
+                ?: throw SummaryTokenNotFoundException()
             val exposureInformationList = exposureNotificationClient.getExposureInformation(token).await()
             val informationList = exposureInformationList.map { it.toInformation() }.toWritableArray()
             promise.resolve(informationList)
@@ -176,13 +200,13 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     private suspend fun startInternal() {
-        val activity = currentActivity ?: throw IllegalStateException("Invalid activity")
+        val activity = currentActivity ?: throw InvalidActivityException()
         startResolutionCompleter?.await()
         try {
             exposureNotificationClient.start().await()
         } catch (exception: Exception) {
             if (exception !is ApiException) {
-                throw Exception("UNKNOWN_ERROR", exception)
+                throw UnknownException(exception)
             }
             if (exception.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
                 startResolutionCompleter = CompletableDeferred()
@@ -195,15 +219,15 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     startResolutionCompleter = null
                     startInternal()
                 } catch (exception: IntentSender.SendIntentException) {
-                    startResolutionCompleter?.completeExceptionally(Exception("SEND_INTENT_EXCEPTION", exception))
+                    startResolutionCompleter?.completeExceptionally(SendIntentException(exception))
                 } catch (exception: Exception) {
-                    startResolutionCompleter?.completeExceptionally(Exception("PERMISSION_DENIED", exception))
+                    startResolutionCompleter?.completeExceptionally(PermissionDeniedException(exception))
                 } finally {
                     startResolutionCompleter = null
                 }
             } else {
                 log(exception.message)
-                throw Exception("NO_RESOLUTION_REQUIRED", exception)
+                throw NoResolutionRequiredException(exception)
             }
         }
     }
@@ -216,7 +240,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             return tekKeys.map { it.toExposureKey() }
         } catch (exception: Exception) {
             if (exception !is ApiException) {
-                throw Exception("UNKNOWN_ERROR", exception)
+                throw UnknownException(exception)
             }
             if (exception.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
                 getTekResolutionCompleter = CompletableDeferred()
@@ -229,17 +253,17 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     getTekResolutionCompleter = null
                     return getTemporaryExposureKeyHistoryInternal()
                 } catch (exception: IntentSender.SendIntentException) {
-                    getTekResolutionCompleter?.completeExceptionally(Exception("SEND_INTENT_EXCEPTION", exception))
+                    getTekResolutionCompleter?.completeExceptionally(SendIntentException(exception))
                 } catch (exception: Exception) {
-                    getTekResolutionCompleter?.completeExceptionally(Exception("PERMISSION_DENIED", exception))
+                    getTekResolutionCompleter?.completeExceptionally(PermissionDeniedException(exception))
                 } finally {
                     getTekResolutionCompleter = null
                 }
             } else {
-                throw Exception("NO_RESOLUTION_REQUIRED", exception)
+                throw NoResolutionRequiredException(exception)
             }
         }
-        throw Exception("UNKNOWN_ERROR")
+        throw UnknownException()
     }
 
     private suspend fun stopInternal() {
