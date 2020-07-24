@@ -95,7 +95,7 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
 
   const network = useNetInfo();
 
-  if (!network.isConnected) {
+  if (!network.isConnected && exposureStatus.type === 'diagnosed') {
     return (
       <InfoBlock
         titleBolded={i18n.translate('OverlayOpen.NoConnectivityCardAction')}
