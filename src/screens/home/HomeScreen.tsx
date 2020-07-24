@@ -95,7 +95,7 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
-  if (!network.isConnected && network.type !== 'unknown') {
+  if (!network.isConnected) {
     return <NetworkDisabledView />;
   }
 
