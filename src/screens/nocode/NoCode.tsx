@@ -24,7 +24,7 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
   const externalLinkButton =
     externalLinkCTA && externalLinkText ? (
       <ButtonSingleLine
-        variant="bigFlat"
+        variant="bigFlatNeutralGrey"
         text={externalLinkText}
         onPress={() => Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err))}
         externalLink
@@ -118,7 +118,7 @@ export const NoCodeScreen = () => {
           />
           <ButtonSingleLine
             text={i18n.translate('DataUpload.NoCode.NoRegion.ChooseRegionCTA')}
-            variant="bigFlatDarkGrey"
+            variant="bigFlatNeutralGrey"
             internalLink
             onPress={onChooseRegion}
           />

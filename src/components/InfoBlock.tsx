@@ -35,7 +35,14 @@ export const InfoBlock = ({
 }: InfoBlockProps) => {
   const autoFocusRef = useAccessibilityAutoFocus(focusOnTitle);
   return (
-    <Box borderRadius={10} backgroundColor={backgroundColor} padding="m" alignItems="flex-start">
+    <Box
+      borderRadius={10}
+      backgroundColor={backgroundColor}
+      borderWidth={1}
+      borderColor="gray2"
+      padding="m"
+      alignItems="flex-start"
+    >
       {icon && (
         <Box marginBottom="s">
           <Icon name={icon} size={24} />

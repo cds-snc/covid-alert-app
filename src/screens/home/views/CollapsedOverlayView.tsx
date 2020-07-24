@@ -36,6 +36,8 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
               <Box
                 backgroundColor="infoBlockNeutralBackground"
                 borderRadius={10}
+                borderColor="gray2"
+                borderWidth={1}
                 padding="m"
                 flex={1}
                 marginBottom="xs"
