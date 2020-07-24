@@ -17,6 +17,7 @@ import {usePrevious} from 'shared/usePrevious';
 import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
 import {RegionCase} from '../../shared/Region';
 
+import {BaseHomeView} from './components/BaseHomeView';
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
@@ -82,6 +83,9 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     }
   };
 
+  if (systemStatus === SystemStatus.Undefined) {
+    return null;
+  }
   // this case should be highest priority - if bluetooth is off, the app doesn't work
   if (systemStatus === SystemStatus.BluetoothOff) {
     return <BluetoothDisabledView />;

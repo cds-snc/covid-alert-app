@@ -83,8 +83,6 @@ export function useSystemStatus(): [SystemStatus, () => void] {
     return exposureNotificationService.systemStatus.observe(setState);
   }, [exposureNotificationService.systemStatus]);
 
-  useEffect(update, [update]);
-
   return [state, update];
 }
 

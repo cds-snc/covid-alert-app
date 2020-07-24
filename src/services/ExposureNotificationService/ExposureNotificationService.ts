@@ -117,15 +117,17 @@ export class ExposureNotificationService {
     }
 
     this.starting = true;
+    console.log('0 this.systemStatus.get()', this.systemStatus.get());
 
-    await this.init();
+    // await this.init();
 
     try {
+      console.log('1 this.systemStatus.get()', this.systemStatus.get());
       await this.exposureNotification.start();
     } catch (error) {
       captureException('Cannot start EN framework', error);
     }
-
+    console.log('2 this.systemStatus.get()', this.systemStatus.get());
     await this.updateSystemStatus();
 
     this.starting = false;
