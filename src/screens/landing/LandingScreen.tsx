@@ -22,7 +22,7 @@ export const LandingScreen = () => {
   );
   return (
     <SafeAreaView style={styles.flex}>
-      <Box flex={1} marginBottom="s" style={{...styles.imageBackround}}>
+      <Box flex={1} marginBottom="s" style={{...styles.imageBackground}}>
         <Box flex={1} justifyContent="flex-start" alignItems="center" paddingTop="s">
           <Image
             resizeMode="contain"
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: -50,
   },
-  imageBackround: {
+  imageBackground: {
     backgroundColor: '#EEEEEE',
     paddingTop: 50,
   },
