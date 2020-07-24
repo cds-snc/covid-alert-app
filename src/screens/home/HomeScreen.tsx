@@ -28,6 +28,8 @@ import {NoExposureCoveredRegionView} from './views/NoExposureCoveredRegionView';
 import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
 import {OverlayView} from './views/OverlayView';
+import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
+import {UnknownProblemView} from './views/UnknownProblemView';
 import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
@@ -89,6 +91,10 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
+  if (systemStatus === SystemStatus.PlayServicesNotAvailable) {
+    return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
+  }
+
   if (!network.isConnected) {
     return <NetworkDisabledView />;
   }
@@ -108,8 +114,7 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
-          // return null;
-          return getNoExposureView(regionCase);
+          return <UnknownProblemView isBottomSheetExpanded={isBottomSheetExpanded} />;
       }
   }
 };

@@ -128,6 +128,11 @@
       "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
     },
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
+    "FrameworkUnavailable": {
+      "Title": "FR Something went wrong",
+      "Body": "COVID Alert is not supported by your phone’s operating system.\n\nMake sure your operating system is up to date.\n\nIf you have an Android phone, try updating your Google Play Services.",
+      "CTA": "Get Help"
+    },
     "How": "Diagnosed with COVID-19?",
     "HowUrl": "https://www.canada.ca/",
     "LastCheckedDays": {
@@ -165,7 +170,11 @@
       }
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
-    "TurnOnBluetooth": "Activez Bluetooth"
+    "TurnOnBluetooth": "Activez Bluetooth",
+    "UnknownProblem": {
+      "Title": "Something went wrong",
+      "CTA": "Get Help"
+    }
   },
   "HowToIsolate": {
     "Title": "Comment vous isoler",

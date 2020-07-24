@@ -23,8 +23,8 @@ const storage: any = {
   setItem: jest.fn().mockResolvedValueOnce(undefined),
 };
 const secureStorage: any = {
-  getItem: jest.fn().mockResolvedValue(null),
-  setItem: jest.fn().mockResolvedValueOnce(undefined),
+  get: jest.fn().mockResolvedValue(null),
+  set: jest.fn().mockResolvedValueOnce(undefined),
 };
 const bridge: any = {
   detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
@@ -266,7 +266,7 @@ describe('ExposureNotificationService', () => {
     );
 
     currentDateString = '2020-05-20T04:10:00+0000';
-    when(secureStorage.getItem)
+    when(secureStorage.get)
       .calledWith('submissionAuthKeys')
       .mockResolvedValueOnce('{}');
     await service.fetchAndSubmitKeys();
