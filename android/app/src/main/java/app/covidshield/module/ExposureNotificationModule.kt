@@ -110,7 +110,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun detectExposure(configuration: ReadableMap, diagnosisKeysURLs: ReadableArray, promise: Promise) {
         promise.launch(this) {
-            if (getStatusInternal() != Status.ACTIVE) {
+            if (getStatusInternal() == Status.DISABLED) {
                 throw ApiNotEnabledException()
             }
 
@@ -143,7 +143,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getPendingExposureSummary(promise: Promise) {
         promise.launch(this) {
-            if (getStatusInternal() != Status.ACTIVE) {
+            if (getStatusInternal() == Status.DISABLED) {
                 throw ApiNotEnabledException()
             }
 
@@ -174,7 +174,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getTemporaryExposureKeyHistory(promise: Promise) {
         promise.launch(this) {
-            if (getStatusInternal() != Status.ACTIVE) {
+            if (getStatusInternal() == Status.DISABLED) {
                 throw ApiNotEnabledException()
             }
 
@@ -186,7 +186,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getExposureInformation(summary: ReadableMap, promise: Promise) {
         promise.launch(this) {
-            if (getStatusInternal() != Status.ACTIVE) {
+            if (getStatusInternal() == Status.DISABLED) {
                 throw ApiNotEnabledException()
             }
 
