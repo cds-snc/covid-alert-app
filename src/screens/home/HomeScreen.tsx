@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState, useRef, useLayoutEffect} from '
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
-import {DevSettings, Linking} from 'react-native';
+import {DevSettings, Linking, Animated} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
@@ -197,6 +197,17 @@ export const HomeScreen = () => {
     bottomSheetRef.current?.setOnStateChange(setIsBottomSheetExpanded);
   }, []);
 
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  React.useEffect(
+    () =>
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }).start(),
+    [fadeAnim],
+  );
+
   return (
     <NotificationPermissionStatusProvider>
       <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
@@ -208,7 +219,9 @@ export const HomeScreen = () => {
           accessibilityElementsHidden={isBottomSheetExpanded}
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
         >
+          {/* <Animated.View style={{opacity: fadeAnim}}> */}
           <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
+          {/* </Animated.View> */}
         </Box>
         <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
       </Box>
