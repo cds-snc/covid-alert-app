@@ -22,6 +22,7 @@ import app.covidshield.utils.CovidShieldException.ApiNotEnabledException
 import app.covidshield.utils.CovidShieldException.InvalidActivityException
 import app.covidshield.utils.CovidShieldException.NoResolutionRequiredException
 import app.covidshield.utils.CovidShieldException.PermissionDeniedException
+import app.covidshield.utils.CovidShieldException.PlayServicesNotAvailableException
 import app.covidshield.utils.CovidShieldException.SendIntentException
 import app.covidshield.utils.CovidShieldException.SummaryTokenNotFoundException
 import app.covidshield.utils.CovidShieldException.UnknownException
@@ -72,7 +73,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     fun start(promise: Promise) {
         promise.launch(this) {
             if (!isPlayServicesAvailable()) {
-                throw Exception("PLAY_SERVICES_NOT_AVAILABLE")
+                throw PlayServicesNotAvailableException()
             }
             val status = getStatusInternal()
             if (status != Status.ACTIVE) {
@@ -87,7 +88,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     fun stop(promise: Promise) {
         promise.launch(this) {
             if (!isPlayServicesAvailable()) {
-                throw Exception("PLAY_SERVICES_NOT_AVAILABLE")
+                throw PlayServicesNotAvailableException()
             }
             stopInternal()
         }

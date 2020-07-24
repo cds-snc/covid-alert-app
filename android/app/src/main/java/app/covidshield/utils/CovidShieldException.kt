@@ -15,4 +15,6 @@ object CovidShieldException {
     class PermissionDeniedException(cause: Throwable) : Exception("PERMISSION_DENIED", cause)
 
     class NoResolutionRequiredException(cause: Throwable) : Exception("NO_RESOLUTION_REQUIRED", cause)
+
+    class PlayServicesNotAvailableException : Exception("PLAY_SERVICES_NOT_AVAILABLE")
 }
