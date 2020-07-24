@@ -95,7 +95,7 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
 
   const network = useNetInfo();
 
-  if (!network.isConnected) {
+  if (!network.isConnected && exposureStatus.type !== 'diagnosed') {
     return (
       <InfoBlock
         titleBolded={i18n.translate('OverlayOpen.NoConnectivityCardAction')}
@@ -176,8 +176,8 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
-        <SafeAreaView>
-          <Box>
+        <SafeAreaView edges={['left', 'right']}>
+          <Box paddingTop="m">
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={bottomSheetBehavior.collapse}

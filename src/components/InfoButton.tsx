@@ -45,7 +45,7 @@ export const InfoButton = ({
   const variantProps = theme.buttonVariants[variant];
   const disabledProps = disabled ? variantProps.disabled || {} : {};
   const themedStyles = {...variantProps, ...disabledProps};
-  const {borderWidth, height} = (themedStyles as unknown) as TextStyle & ViewStyle;
+  const {height} = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
 
@@ -66,10 +66,10 @@ export const InfoButton = ({
       justifyContent="center"
       style={{
         minHeight: height,
-        borderWidth,
-        borderColor: buttonColor,
         backgroundColor: Platform.OS === 'ios' ? buttonColor : undefined,
       }}
+      borderColor="gray2"
+      borderWidth={1}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"

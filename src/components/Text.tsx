@@ -13,7 +13,7 @@ export type TextProps = RestyleTextProps<Theme> &
 
 export const Text = ({accessibilityAutoFocus = false, focusRef, ...props}: TextProps) => {
   const styledProps = useRestyle(textRestyleFunctions, props);
-  const [, autoFocusRef] = useAccessibilityAutoFocus(accessibilityAutoFocus);
+  const autoFocusRef = useAccessibilityAutoFocus(accessibilityAutoFocus);
   return <RNText accessible ref={focusRef ? focusRef : autoFocusRef} {...styledProps} />;
 };
 

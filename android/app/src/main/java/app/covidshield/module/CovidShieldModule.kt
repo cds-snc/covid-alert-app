@@ -9,6 +9,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import okhttp3.CacheControl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
@@ -38,7 +39,9 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
     @ReactMethod
     fun downloadDiagnosisKeysFile(url: String, promise: Promise) {
         promise.launch(this) {
-            val request = Request.Builder().url(url).build()
+            val request = Request.Builder()
+                .cacheControl(CacheControl.Builder().noStore().build())
+                .url(url).build()
             okHttpClient.newCall(request).execute().use { response ->
                 if (response.code() != 200) {
                     throw IOException()

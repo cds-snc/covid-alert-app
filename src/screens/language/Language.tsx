@@ -10,9 +10,10 @@ interface LanguageSelectItemProps {
   onPress: () => void;
   text: string;
   isActive?: boolean;
+  firstItem?: boolean;
   lastItem?: boolean;
 }
-const LanguageSelectItem = ({onPress, text, lastItem, isActive}: LanguageSelectItemProps) => (
+const LanguageSelectItem = ({onPress, text, firstItem, lastItem, isActive}: LanguageSelectItemProps) => (
   <>
     <TouchableOpacity
       activeOpacity={0.6}
@@ -24,11 +25,17 @@ const LanguageSelectItem = ({onPress, text, lastItem, isActive}: LanguageSelectI
         paddingVertical="s"
         marginHorizontal="-m"
         paddingHorizontal="m"
-        borderRadius={5}
         flexDirection="row"
         alignContent="center"
         justifyContent="space-between"
         backgroundColor="infoBlockNeutralBackground"
+        borderColor="gray2"
+        borderWidth={1}
+        borderRadius={5}
+        borderTopLeftRadius={firstItem ? 10 : 5}
+        borderTopRightRadius={firstItem ? 10 : 5}
+        borderBottomLeftRadius={lastItem ? 10 : 5}
+        borderBottomRightRadius={lastItem ? 10 : 5}
       >
         <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
           {text}
@@ -76,18 +83,12 @@ export const LanguageScreen = () => {
           >
             {i18n.translate('LanguageSelect.Title')}
           </Text>
-          <Box
-            marginHorizontal="m"
-            paddingHorizontal="m"
-            borderRadius={10}
-            overflow="hidden"
-            marginTop="m"
-            accessibilityRole="radiogroup"
-          >
+          <Box marginHorizontal="m" paddingHorizontal="m" marginTop="m" accessibilityRole="radiogroup">
             <LanguageSelectItem
               onPress={toggle('en')}
               text={i18n.translate('LanguageSelect.En')}
               isActive={i18n.locale === 'en'}
+              firstItem
             />
             <LanguageSelectItem
               onPress={toggle('fr')}
