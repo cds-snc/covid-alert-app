@@ -5,17 +5,17 @@ import {useI18n} from 'locale';
 interface BulletPointProps {
   text: string;
   key: string;
-  listAccessibile: string;
+  listAccessible: string;
 }
 
-export const BulletPoint = ({text, listAccessibile}: BulletPointProps) => {
+export const BulletPoint = ({text, listAccessible}: BulletPointProps) => {
   const bullet = '\u25CF';
   const i18n = useI18n();
 
   let bulletLabel;
   let textLabel;
 
-  switch (listAccessibile) {
+  switch (listAccessible) {
     case 'listStart':
       bulletLabel = `${i18n.translate(`A11yList.Bullet`)} \n ${i18n.translate(`A11yList.Start`)}`;
       break;

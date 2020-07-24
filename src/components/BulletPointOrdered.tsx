@@ -6,16 +6,16 @@ interface OrderedListProps {
   text: string;
   key: string;
   orderedListChar: string;
-  listAccessibile: string;
+  listAccessible: string;
 }
 
-export const BulletPointOrdered = ({orderedListChar, text, listAccessibile}: OrderedListProps) => {
+export const BulletPointOrdered = ({orderedListChar, text, listAccessible}: OrderedListProps) => {
   const i18n = useI18n();
 
   let orderedListLabel;
   let textLabel;
 
-  switch (listAccessibile) {
+  switch (listAccessible) {
     case 'listStart':
       orderedListLabel = `${orderedListChar} \n ${i18n.translate(`A11yList.Start`)}`;
       break;

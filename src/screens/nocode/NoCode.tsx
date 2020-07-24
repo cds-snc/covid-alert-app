@@ -38,14 +38,14 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
       {notCoveredList &&
         notCoveredList.map(item => (
-          <BulletPoint key={item.text} listAccessibile={item.listAccessibile} text={item.text} />
+          <BulletPoint key={item.text} listAccessible={item.listAccessible} text={item.text} />
         ))}
       {coveredList &&
         coveredList.map(item => (
           <BulletPointOrdered
             key={item.text}
             orderedListChar={item.number}
-            listAccessibile={item.listAccessibile}
+            listAccessible={item.listAccessible}
             text={item.text}
           />
         ))}
@@ -70,9 +70,9 @@ export const NoCodeScreen = () => {
           title={i18n.translate('DataUpload.NoCode.RegionNotCovered.Title')}
           body={i18n.translate('DataUpload.NoCode.RegionNotCovered.Body')}
           notCoveredList={[
-            {listAccessibile: 'listStart', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body2')},
-            {listAccessibile: 'item', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body3')},
-            {listAccessibile: 'listEnd', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body4')},
+            {listAccessible: 'listStart', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body2')},
+            {listAccessible: 'item', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body3')},
+            {listAccessible: 'listEnd', text: i18n.translate('DataUpload.NoCode.RegionNotCovered.Body4')},
           ]}
         />
       );
@@ -85,22 +85,22 @@ export const NoCodeScreen = () => {
           coveredList={[
             {
               number: '1.',
-              listAccessibile: 'listStart',
+              listAccessible: 'listStart',
               text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body2`),
             },
             {
               number: '2.',
-              listAccessibile: 'item',
+              listAccessible: 'item',
               text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body3`),
             },
             {
               number: '3.',
-              listAccessibile: 'item',
+              listAccessible: 'item',
               text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body4`),
             },
             {
               number: '4.',
-              listAccessibile: 'listEnd',
+              listAccessible: 'listEnd',
               text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body5`),
             },
           ]}

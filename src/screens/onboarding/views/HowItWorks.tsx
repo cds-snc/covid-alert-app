@@ -20,9 +20,9 @@ export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
     >
       <>
         <Box marginRight="s">
-          <BulletPointCheck listAccessibile="listStart" text={i18n.translate('Onboarding.HowItWorks.Body1')} />
-          <BulletPointCheck listAccessibile="item" text={i18n.translate('Onboarding.HowItWorks.Body2')} />
-          <BulletPointCheck listAccessibile="listEnd" text={i18n.translate('Onboarding.HowItWorks.Body3')} />
+          <BulletPointCheck listAccessible="listStart" text={i18n.translate('Onboarding.HowItWorks.Body1')} />
+          <BulletPointCheck listAccessible="item" text={i18n.translate('Onboarding.HowItWorks.Body2')} />
+          <BulletPointCheck listAccessible="listEnd" text={i18n.translate('Onboarding.HowItWorks.Body3')} />
         </Box>
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box>

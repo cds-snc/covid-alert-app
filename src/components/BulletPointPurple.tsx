@@ -2,13 +2,13 @@ import React from 'react';
 import {Box, Text, Icon} from 'components';
 import {useI18n} from 'locale';
 
-export const BulletPointPurple = ({listAccessibile, text}: {listAccessibile: string; text: string}) => {
+export const BulletPointPurple = ({listAccessible, text}: {listAccessible: string; text: string}) => {
   const i18n = useI18n();
 
   let bulletLabel;
   let textLabel;
 
-  switch (listAccessibile) {
+  switch (listAccessible) {
     case 'listStart':
       bulletLabel = `${i18n.translate(`A11yList.Bullet`)} \n ${i18n.translate(`A11yList.Start`)}`;
       break;

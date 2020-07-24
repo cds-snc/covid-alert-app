@@ -17,9 +17,9 @@ export const PartOf = (props: Pick<ItemViewProps, 'isActive'>) => {
     >
       <>
         <Box marginRight="s">
-          <BulletPointPurple listAccessibile="listStart" text={i18n.translate('Onboarding.PartOf.Body1')} />
-          <BulletPointPurple listAccessibile="item" text={i18n.translate('Onboarding.PartOf.Body2')} />
-          <BulletPointPurple listAccessibile="listEnd" text={i18n.translate('Onboarding.PartOf.Body3')} />
+          <BulletPointPurple listAccessible="listStart" text={i18n.translate('Onboarding.PartOf.Body1')} />
+          <BulletPointPurple listAccessible="item" text={i18n.translate('Onboarding.PartOf.Body2')} />
+          <BulletPointPurple listAccessible="listEnd" text={i18n.translate('Onboarding.PartOf.Body3')} />
         </Box>
       </>
     </ItemView>
