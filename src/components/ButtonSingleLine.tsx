@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from 'locale';
+
 import {Box} from './Box';
 import {Icon, IconName} from './Icon';
 import {Text} from './Text';
