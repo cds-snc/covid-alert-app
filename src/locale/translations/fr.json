@@ -16,11 +16,11 @@
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "Step1": {
       "Title": "Aviser les autres personnes d’une exposition potentielle",
-      "Body1a": "Étape 1 : ",
+      "Body1a": "Étape 1 : ",
       "Body1b": "Vous entrez la clé à usage unique reçue lors de votre diagnostic.",
-      "Body2a": "Étape 2 : ",
+      "Body2a": "Étape 2 : ",
       "Body2b": "Vous acceptez qu’Alerte COVID avise les personnes qu’elles ont été exposées.",
-      "Body3a": "Étape 3 : ",
+      "Body3a": "Étape 3 : ",
       "Body3b": "Vous autorisez votre téléphone à partager vos codes aléatoires.",
       "Body4a": "Personne ne recevra d’information sur vous ",
       "Body4b": "ou sur le moment de votre proximité.",
@@ -38,10 +38,10 @@
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
-      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
+      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
       "Body2a": "Personne ne recevra d’information sur vous ",
       "Body2b": "ou sur le moment de votre proximité.",
-      "Body3": "Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
+      "Body3": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
       "Action": "Accepter",
       "ErrorTitle": "Les codes aléatoires n’ont pas pu être téléversés",
       "ErrorBody": "Vous n’avez pas donné votre autorisation.",
@@ -56,7 +56,7 @@
       "RegionCovered": {
         "ON": {
           "Title": "Obtenir une clé à usage unique",
-          "Body": "Si vous avez reçu un test positif en Ontario :",
+          "Body": "Si vous avez reçu un test positif en Ontario :",
           "Body2": "Allez sur le site Web des Résultats du test de diagnostic de la COVID-19 puis entrez vos informations.",
           "Body3": "Consultez les résultats de votre test.",
           "Body4": "Notez la clé à usage unique.",
@@ -67,7 +67,7 @@
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
-        "Body": "Les personnes de votre région ne peuvent pas encore obtenir de clé à usage unique.\n\nVous ne pourrez pas aviser les personnes d’une exposition. Mais vous pouvez tout de même vous isoler pendant 14\u00A0jours, et ainsi :",
+        "Body": "Les personnes de votre région ne peuvent pas encore obtenir de clé à usage unique.\n\nVous ne pourrez pas aviser les personnes d’une exposition. Mais vous pouvez tout de même vous isoler pendant 14\u00A0jours, et ainsi :",
         "Body2": "Assurer la sécurité de votre communauté.",
         "Body3": "Protéger les personnes et les animaux vivant avec vous.",
         "Body4": "Prendre soin de vous."
@@ -95,7 +95,7 @@
     "DiagnosedShareView": {
       "Title": "Téléverser les codes aléatoires",
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel : ",
+      "Body2": "Rappel : ",
       "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
@@ -216,7 +216,7 @@
     "Title": "Langue"
   },
   "Notification": {
-    "DailyUploadNotificationBody": "Aidez à ralentir la propagation de COVID-19 en téléversant vos nouveaux codes aléatoires.",
+    "DailyUploadNotificationBody": "Aidez à ralentir la propagation de la COVID-19 en téléversant vos nouveaux codes aléatoires.",
     "DailyUploadNotificationTitle": "Téléversez vos nouveaux codes aléatoires",
     "ExposedMessageBody": "Vous avez eu un contact étroit avec une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Informez-vous sur les étapes à suivre.",
     "ExposedMessageTitle": "Vous avez été exposé",
@@ -231,7 +231,7 @@
     "ActionNext": "Suivant",
     "ActionEndSkip": "Ignorer",
     "Start": {
-      "Title": "Unissons-nous pour freiner la propagation de COVID-19",
+      "Title": "Unissons-nous pour freiner la propagation de la COVID-19",
       "ImageAltText": "Dessin à la main avec plusieurs personnes différentes dedans. Leurs chemins en lignes pointillées se croisent et mènent à un téléphone intelligent plus bas.",
       "Body1": "Alerte COVID nous aide à briser le cycle d’infection. L’application permet d’aviser les personnes en cas d’exposition potentielle avant même que des symptômes apparaissent. ",
       "Body2": "Nous pouvons ainsi prendre soin de nous et protéger nos communautés."
@@ -245,7 +245,7 @@
     "Anonymous": {
       "Title": "Votre vie privée est protégée",
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
-      "Body1": "Alerte COVID **n’utilise pas le GPS** ou les services de localisation.",
+      "Body1": "Alerte COVID **n’utilise pas le GPS** et ne suit pas votre emplacement.",
       "Body2": "L’application **n’a aucun moyen** de connaître\u00A0:",
       "Bullet1": "Votre emplacement.",
       "Bullet2": "Votre nom ou votre adresse.",
@@ -264,7 +264,7 @@
     "PartOf": {
       "Title": "L’un des efforts de santé publique",
       "ImageAltText": "Dessin à la main de divers moyens de lutter contre la COVID-19, dont un désinfectant pour les mains, un couvre-visage, des mains avec du savon et l’application Alerte COIVID.",
-      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de COVID-19.",
+      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de la COVID-19.",
       "Body2": "Continuez à suivre les recommandations de santé publique de votre région.",
       "Body3": "Alerte COVID ne remplace pas un avis médical. Si vous tombez malade, contactez votre médecin ou un professionnel de la santé."
     },
@@ -289,7 +289,7 @@
     "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardAction": "Entrer votre clé",
     "EnterCodeCardBody": "Vous avez besoin d’une clé à usage unique pour aviser les autres personnes d’une exposition.",
-    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de COVID-19. ",
+    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de la COVID-19. ",
     "EnterCodeCardDiagnosedCountdown": {
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
@@ -297,10 +297,10 @@
     "EnterCodeCardTitle": "Vous avez la COVID-19?",
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
     "ExposureNotificationCardAction": "Activez les notifications d'exposition",
-    "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
+    "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "NotificationCardAction": "Activer les notifications",
-    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
+    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
     "NoConnectivityCardAction": "Alerte COVID est hors ligne",
@@ -413,7 +413,7 @@
     "step-1": "L’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement d’Alerte COVID",
     "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
-    "step-2": "L’application estime la distance entre vous et d’autres personnes grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2 mètres pendant plus de 15 minutes, l’application enregistre une exposition.",
+    "step-2": "L’application estime la distance entre vous et d’autres personnes grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2 mètres pendant plus de 15 minutes, l’application enregistre une exposition.",
     "step-2Title": "Qu’est-ce qu’une exposition?",
     "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
     "step-3": "Si une personne ayant l’application a un diagnostic de COVID-19, elle peut décider de téléverser tous les codes aléatoires émis par son téléphone vers un serveur central.\n\nLe serveur ne reçoit que les codes. Il ne reçoit aucune information personnelle.",
