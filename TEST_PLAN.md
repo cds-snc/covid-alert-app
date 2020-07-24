@@ -1,6 +1,6 @@
 # COVID Shield Test Plan
 
-This test plan shows how to test Exposure Notfications (EN) in different scenarios and environments.
+This test plan shows how to test Exposure Notifications (EN) in different scenarios and environments.
 
 - [Accessing EN framework on device](#accessing-en-framework-on-device)
 - [Test exposed state on the same date without notification (as developer)](#test-exposed-state-on-the-same-date-without-notification-as-developer)
