@@ -87,16 +87,16 @@ RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryW
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
     } else {
-      NSMutableArray *serialziedKeys = [NSMutableArray new];
+      NSMutableArray *serializedKeys = [NSMutableArray new];
       for (ENTemporaryExposureKey *key in keys) {
-        [serialziedKeys addObject:@{
+        [serializedKeys addObject:@{
           @"keyData": [key.keyData base64EncodedStringWithOptions:0],
           @"rollingStartIntervalNumber": @(key.rollingStartNumber),
           @"rollingPeriod": @(key.rollingPeriod),
           @"transmissionRiskLevel": @(key.transmissionRiskLevel)
         }];
       }
-      resolve(serialziedKeys);
+      resolve(serializedKeys);
     }
   }];
 }
