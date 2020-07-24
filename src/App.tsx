@@ -53,13 +53,13 @@ const App = () => {
       <ExposureNotificationServiceProvider backendInterface={backendService}>
         <DevPersistedNavigationContainer persistKey="navigationState">
           <AccessibilityServiceProvider>
-            {/* {TEST_MODE ? (
+            {TEST_MODE ? (
               <DemoMode>
                 <MainNavigator />
               </DemoMode>
-            ) : ( */}
-            <MainNavigator />
-            {/* )} */}
+            ) : (
+              <MainNavigator />
+            )}
           </AccessibilityServiceProvider>
         </DevPersistedNavigationContainer>
       </ExposureNotificationServiceProvider>
