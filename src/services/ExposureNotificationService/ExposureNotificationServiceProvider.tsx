@@ -132,9 +132,14 @@ export function useExposureNotificationSystemStatusAutomaticUpdater() {
       exposureNotificationService.updateSystemStatus();
     });
 
+    const locationListenerPromise = SystemSetting.addLocationListener(() => {
+      exposureNotificationService.updateSystemStatus();
+    });
+
     return () => {
       AppState.removeEventListener('change', updateStatus);
       bluetoothListenerPromise.then(listener => listener.remove()).catch(() => {});
+      locationListenerPromise.then(listener => listener.remove()).catch(() => {});
     };
   }, [exposureNotificationService]);
 }
