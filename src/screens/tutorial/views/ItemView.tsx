@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
-import {Box, Text, TextMultiline} from 'components';
+import {Box, Text, TextMultiline, useCarouselActiveItem} from 'components';
 import {useI18n} from 'locale';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
@@ -9,11 +9,11 @@ import {TutorialKey} from '../TutorialContent';
 export interface ItemViewProps {
   item: TutorialKey;
   image: ImageSourcePropType;
-  isActive: boolean;
 }
 
-export const ItemView = ({item, image, isActive}: ItemViewProps) => {
+export const ItemView = ({item, image}: ItemViewProps) => {
   const i18n = useI18n();
+  const isActive = useCarouselActiveItem();
   const autoFocusRef = useAccessibilityAutoFocus(isActive);
 
   return (

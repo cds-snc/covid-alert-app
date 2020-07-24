@@ -2,14 +2,13 @@ import React from 'react';
 import {useI18n} from 'locale';
 import {Box, BulletPointPurple} from 'components';
 
-import {ItemView, ItemViewProps} from './ItemView';
+import {ItemView} from './ItemView';
 
-export const PartOf = (props: Pick<ItemViewProps, 'isActive'>) => {
+export const PartOf = () => {
   const i18n = useI18n();
 
   return (
     <ItemView
-      {...props}
       image={require('assets/onboarding-partof.png')}
       altText={i18n.translate('Onboarding.PartOf.ImageAltText')}
       header={i18n.translate('Onboarding.PartOf.Title')}

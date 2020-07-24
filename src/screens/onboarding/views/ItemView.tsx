@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import {StyleSheet, Image, ImageSourcePropType} from 'react-native';
-import {Box, Text} from 'components';
+import {Box, Text, useCarouselActiveItem} from 'components';
 import {useI18n} from 'locale';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
@@ -11,12 +11,12 @@ export interface ItemViewProps {
   image?: ImageSourcePropType;
   altText?: string;
   header: string;
-  isActive: boolean;
   children?: ReactNode;
 }
 
-export const ItemView = ({item, image, isActive, altText, header, children}: ItemViewProps) => {
+export const ItemView = ({item, image, altText, header, children}: ItemViewProps) => {
   const i18n = useI18n();
+  const isActive = useCarouselActiveItem();
   const autoFocusRef = useAccessibilityAutoFocus(isActive);
   const total = onboardingData.length;
   const step = i18n.translate('Onboarding.Step');

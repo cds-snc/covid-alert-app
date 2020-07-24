@@ -3,16 +3,15 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Box, BulletPointCheck, ButtonSingleLine} from 'components';
 
-import {ItemView, ItemViewProps} from './ItemView';
+import {ItemView} from './ItemView';
 
-export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
+export const HowItWorks = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
 
   return (
     <ItemView
-      {...props}
       image={require('assets/onboarding-howitworks.png')}
       altText={i18n.translate('Onboarding.HowItWorks.ImageAltText')}
       header={i18n.translate('Onboarding.HowItWorks.Title')}

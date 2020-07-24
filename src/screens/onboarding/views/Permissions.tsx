@@ -5,16 +5,15 @@ import {useNavigation} from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
 import {StyleSheet} from 'react-native';
 
-import {ItemView, ItemViewProps} from './ItemView';
+import {ItemView} from './ItemView';
 
-export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
+export const Permissions = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
 
   return (
     <ItemView
-      {...props}
       image={require('assets/onboarding-enable.png')}
       altText={i18n.translate('Onboarding.Permissions.ImageAltText')}
       header={i18n.translate('Onboarding.Permissions.Title')}

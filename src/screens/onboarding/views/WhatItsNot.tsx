@@ -2,13 +2,12 @@ import React from 'react';
 import {useI18n} from 'locale';
 import {Box, Text} from 'components';
 
-import {ItemView, ItemViewProps} from './ItemView';
+import {ItemView} from './ItemView';
 
-export const WhatItsNot = (props: Pick<ItemViewProps, 'isActive'>) => {
+export const WhatItsNot = () => {
   const i18n = useI18n();
   return (
     <ItemView
-      {...props}
       item="step-3"
       image={require('assets/onboarding-neighbourhood.png')}
       altText={i18n.translate('Onboarding.WhatItsNot.ImageAltText')}

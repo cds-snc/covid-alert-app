@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Platform} from 'react-native';
-import {Box} from 'components';
+import {Box, useCarouselActiveItem} from 'components';
 import ScrollView from 'rn-faded-scrollview';
 import {useOrientation} from 'shared/useOrientation';
 
@@ -9,14 +9,13 @@ import {Anonymous} from './views/Anonymous';
 import {HowItWorks} from './views/HowItWorks';
 import {Permissions} from './views/Permissions';
 import {Region} from './views/Region';
-import {ItemViewProps} from './views/ItemView';
 import {PartOf} from './views/PartOf';
 
 export type OnboardingKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5' | 'step-6';
 
 export const onboardingData: OnboardingKey[] = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6'];
 
-const viewComponents: {[key in OnboardingKey]: React.ComponentType<Pick<ItemViewProps, 'isActive'>>} = {
+const viewComponents: {[key in OnboardingKey]: React.ComponentType} = {
   'step-1': Start,
   'step-2': Anonymous,
   'step-3': HowItWorks,
@@ -27,14 +26,15 @@ const viewComponents: {[key in OnboardingKey]: React.ComponentType<Pick<ItemView
 
 export interface OnboardingContentProps {
   item: OnboardingKey;
-  isActive: boolean;
 }
 
-export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
+export const OnboardingContent = ({item}: OnboardingContentProps) => {
   const Item = viewComponents[item];
   const {orientation} = useOrientation();
   const rightPadding = orientation === 'landscape' && Platform.OS === 'ios' ? 'xxl' : 'm';
   const rightMargin = orientation === 'landscape' && Platform.OS === 'ios' ? 'l' : 'none';
+  const isActive = useCarouselActiveItem();
+
   return (
     <ScrollView
       fadeSize={50}
@@ -42,9 +42,10 @@ export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
       style={styles.flex}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.content}
+      accessibilityElementsHidden={!isActive}
     >
       <Box paddingLeft="m" paddingTop="s" paddingRight={rightPadding} marginRight={rightMargin}>
-        <Item isActive={isActive} />
+        <Item />
       </Box>
     </ScrollView>
   );

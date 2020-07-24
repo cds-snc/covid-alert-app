@@ -4,14 +4,13 @@ import {useI18n} from 'locale';
 import Markdown from 'react-native-markdown-display';
 import {StyleSheet} from 'react-native';
 
-import {ItemView, ItemViewProps} from './ItemView';
+import {ItemView} from './ItemView';
 
-export const Anonymous = (props: Pick<ItemViewProps, 'isActive'>) => {
+export const Anonymous = () => {
   const i18n = useI18n();
 
   return (
     <ItemView
-      {...props}
       image={require('assets/onboarding-nogps.png')}
       altText={i18n.translate('Onboarding.Anonymous.ImageAltText')}
       header={i18n.translate('Onboarding.Anonymous.Title')}

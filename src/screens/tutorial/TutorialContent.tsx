@@ -1,19 +1,18 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Box} from 'components';
+import {Box, useCarouselActiveItem} from 'components';
 import ScrollView from 'rn-faded-scrollview';
 
 import {Step1} from './views/Step1';
 import {Step2} from './views/Step2';
 import {Step3} from './views/Step3';
 import {Step4} from './views/Step4';
-import {ItemViewProps} from './views/ItemView';
 
 export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4';
 
 export const tutorialData: TutorialKey[] = ['step-1', 'step-2', 'step-3', 'step-4'];
 
-const viewComponents: {[key in TutorialKey]: React.ComponentType<Pick<ItemViewProps, 'isActive'>>} = {
+const viewComponents: {[key in TutorialKey]: React.ComponentType} = {
   'step-1': Step1,
   'step-2': Step2,
   'step-3': Step3,
@@ -22,11 +21,12 @@ const viewComponents: {[key in TutorialKey]: React.ComponentType<Pick<ItemViewPr
 
 export interface TutorialContentProps {
   item: TutorialKey;
-  isActive: boolean;
 }
 
-export const TutorialContent = ({item, isActive}: TutorialContentProps) => {
+export const TutorialContent = ({item}: TutorialContentProps) => {
+  const isActive = useCarouselActiveItem();
   const Item = viewComponents[item];
+
   return (
     <ScrollView
       fadeSize={50}
@@ -34,9 +34,10 @@ export const TutorialContent = ({item, isActive}: TutorialContentProps) => {
       style={styles.flex}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.content}
+      accessibilityElementsHidden={!isActive}
     >
       <Box paddingHorizontal="m">
-        <Item isActive={isActive} />
+        <Item />
       </Box>
     </ScrollView>
   );

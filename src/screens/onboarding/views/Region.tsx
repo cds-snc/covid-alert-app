@@ -5,14 +5,14 @@ import {useStorage} from 'services/StorageService';
 
 import {regionData, RegionItem} from '../../regionPicker/RegionPickerShared';
 
-import {ItemView, ItemViewProps} from './ItemView';
+import {ItemView} from './ItemView';
 
-export const Region = (props: Pick<ItemViewProps, 'isActive'>) => {
+export const Region = () => {
   const i18n = useI18n();
   const {region, setRegion} = useStorage();
 
   return (
-    <ItemView {...props} header={i18n.translate('RegionPicker.Title')} item="step-6">
+    <ItemView header={i18n.translate('RegionPicker.Title')} item="step-6">
       <>
         <Box marginRight="s">
           <Text marginBottom="m">{i18n.translate('RegionPicker.Body')}</Text>

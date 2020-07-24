@@ -2,14 +2,12 @@ import React from 'react';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 
-import {ItemView, ItemViewProps} from './ItemView';
+import {ItemView} from './ItemView';
 
-export const Start = (props: Pick<ItemViewProps, 'isActive'>) => {
+export const Start = () => {
   const i18n = useI18n();
-
   return (
     <ItemView
-      {...props}
       image={require('assets/onboarding-start.png')}
       altText={i18n.translate('Onboarding.Start.ImageAltText')}
       header={i18n.translate('Onboarding.Start.Title')}
