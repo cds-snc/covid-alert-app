@@ -16,6 +16,7 @@ import {Box} from './Box';
 import {Icon, IconName} from './Icon';
 import {Text} from './Text';
 import {Ripple} from './Ripple';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
 export interface ButtonSingleLineProps {
   text?: string;
@@ -67,7 +68,7 @@ export const ButtonSingleLine = ({
       justifyContent="center"
       // eslint-disable-next-line react-native/no-inline-styles
       style={{
-        backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
+        backgroundColor: Platform.OS === 'ios' || externalLink ? color : 'transparent',
         minHeight: height,
         borderWidth,
         borderColor: buttonColor,
@@ -120,7 +121,11 @@ export const ButtonSingleLine = ({
   };
 
   if (Platform.OS === 'android') {
-    return (
+    return externalLink ? (
+      <TouchableNativeFeedback accessible disabled={disabled} onPress={onPressHandler} {...accessibilityProps}>
+        {content}
+      </TouchableNativeFeedback>
+    ) : (
       <Ripple
         disabled={disabled}
         onPress={onPressHandler}
