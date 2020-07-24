@@ -72,7 +72,7 @@ export const ButtonSingleLine = ({
         borderWidth,
         borderColor: buttonColor,
         borderBottomWidth,
-        borderBottomColor,
+        borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
       }}
       paddingHorizontal="m"
       paddingVertical="m"

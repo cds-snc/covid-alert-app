@@ -6,16 +6,7 @@ import {useI18n} from 'locale';
 export const Tip = () => {
   const i18n = useI18n();
   return (
-    <Box
-      flex={1}
-      backgroundColor="green2"
-      borderRadius={10}
-      borderWidth={1}
-      borderColor="gray2"
-      paddingVertical="m"
-      marginTop="m"
-      marginBottom="xl"
-    >
+    <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="m" marginBottom="xl">
       <Box flexDirection="row" paddingLeft="s" paddingRight="m">
         <Box flex={0} paddingTop="xxs" marginRight="xxs">
           <Icon name="icon-light-bulb" size={40} />
@@ -27,10 +18,10 @@ export const Tip = () => {
           </Text>
         </Box>
       </Box>
-      <Box paddingHorizontal="m" paddingTop="s" style={{paddingLeft: 48}}>
+      <Box paddingHorizontal="m" paddingTop="s">
         <ButtonSingleLine
           text={i18n.translate('Home.DiagnosedView.TipLinkText')}
-          variant="bigFlatNeutralGrey"
+          variant="thinFlatNeutralGrey"
           externalLink
           onPress={() => Linking.openURL(i18n.translate('Home.DiagnosedView.TipURL'))}
         />
