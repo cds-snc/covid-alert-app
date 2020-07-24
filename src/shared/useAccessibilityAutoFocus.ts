@@ -49,7 +49,7 @@ export const useAccessibilityAutoFocus = (isActive = true) => {
       return;
     }
 
-    // Call focus as soon as all considition is met
+    // Call focus as soon as all conditions are met
     focusOnElement(autoFocusRef);
 
     // Attempt to call it again just in case AccessibilityInfo.setAccessibilityFocus is delayed
