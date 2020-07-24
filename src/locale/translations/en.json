@@ -80,6 +80,10 @@
       "Body": "COVID Alert is not supported by your phone’s operating system.\n\nMake sure your operating system is up to date.\n\nIf you have an Android phone, try updating your Google Play Services.",
       "CTA": "Get Help"
     },
+    "UnknownProblem": {
+      "Title": "Something went wrong",
+      "CTA": "Get Help"
+    },
     "NoConnectivity": "COVID Alert is offline",
     "NoConnectivityDetailed": "COVID Alert only checks for exposure if your phone is connected to the Internet.",
     "AppName": "COVID Alert",

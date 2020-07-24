@@ -170,7 +170,11 @@
       }
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
-    "TurnOnBluetooth": "Activez Bluetooth"
+    "TurnOnBluetooth": "Activez Bluetooth",
+    "UnknownProblem": {
+      "Title": "Something went wrong",
+      "CTA": "Get Help"
+    }
   },
   "HowToIsolate": {
     "Title": "Comment vous isoler",
