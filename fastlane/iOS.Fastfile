@@ -34,15 +34,6 @@ platform :ios do
 
     output_directory = File.expand_path('../build/ios')
 
-    # Get the certs/profiles with match
-    match(
-      git_url: ENV["CERTS_REPO"],
-      app_identifier: ENV["APP_ID_IOS"],
-      username: ENV["APPLE_ID"],
-      type: "appstore",
-      readonly: true
-    )
-
     # Build the app
     build_app(
       scheme: "CovidShield",
@@ -75,14 +66,6 @@ platform :ios do
   desc "Builds a local iOS adhoc .ipa"
   lane :local do
     ensure_build_directory
-
-    match(
-      git_url: ENV["CERTS_REPO"],
-      app_identifier: ENV["APP_ID_IOS"],
-      username: ENV["APPLE_ID"],
-      type: "adhoc",
-      readonly: true
-    )
 
     output_directory = File.expand_path('../build/ios')
 
