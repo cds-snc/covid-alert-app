@@ -129,9 +129,9 @@
     },
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
     "FrameworkUnavailable": {
-      "Title": "FR Something went wrong",
-      "Body": "COVID Alert is not supported by your phone’s operating system.\n\nMake sure your operating system is up to date.\n\nIf you have an Android phone, try updating your Google Play Services.",
-      "CTA": "Get Help"
+      "Title": "Une erreur s’est produite",
+      "Body": "Alerte COVID n’est pas prise en charge par le système d’exploitation de votre téléphone.\n\nVérifiez que votre système d’exploitation est à jour.\n\nSi vous avez un téléphone Android, pensez à mettre les services Google Play à jour.",
+      "CTA": "Trouver de l’aide"
     },
     "How": "Diagnosed with COVID-19?",
     "HowUrl": "https://www.canada.ca/",
@@ -172,8 +172,8 @@
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "TurnOnBluetooth": "Activez Bluetooth",
     "UnknownProblem": {
-      "Title": "Something went wrong",
-      "CTA": "Get Help"
+      "Title": "Une erreur s’est produite",
+      "CTA": "Trouver de l’aide"
     }
   },
   "HowToIsolate": {
