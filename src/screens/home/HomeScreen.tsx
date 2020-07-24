@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState, useRef, useLayoutEffect} from '
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
-import {DevSettings, Linking} from 'react-native';
+import {DevSettings, Linking, Animated} from 'react-native';
 import {
   SystemStatus,
   useExposureStatus,
@@ -82,6 +82,9 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     }
   };
 
+  if (systemStatus === SystemStatus.Undefined) {
+    return null;
+  }
   // this case should be highest priority - if bluetooth is off, the app doesn't work
   if (systemStatus === SystemStatus.BluetoothOff) {
     return <BluetoothDisabledView />;
@@ -196,6 +199,17 @@ export const HomeScreen = () => {
   useLayoutEffect(() => {
     bottomSheetRef.current?.setOnStateChange(setIsBottomSheetExpanded);
   }, []);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  React.useEffect(
+    () =>
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        delay: 1000,
+        duration: 10,
+        useNativeDriver: false,
+      }).start(),
+    [fadeAnim],
+  );
 
   return (
     <NotificationPermissionStatusProvider>
@@ -208,7 +222,9 @@ export const HomeScreen = () => {
           accessibilityElementsHidden={isBottomSheetExpanded}
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
         >
-          <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
+          <Animated.View style={{opacity: fadeAnim}}>
+            <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
+          </Animated.View>
         </Box>
         <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
       </Box>
