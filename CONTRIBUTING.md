@@ -2,7 +2,7 @@
 
 # Contributing
 
-Thank you for considering contributing to COVID Shield!
+Thank you for considering contributing to COVID Alert!
 
 We’d love to get your issues (if you find any bugs) and PRs (if you have any fixes)!
 
@@ -24,7 +24,7 @@ code to your fork, then open a PR against this repository.
 
 # Contribution
 
-Merci d’avoir pensé à contribuer à COVID Shield!
+Merci d’avoir pensé à contribuer à Alerte COVID!
 
 Nous aimerions connaître vos problèmes (si vous trouvez des bogues) et vos demandes de tirage (si vous avez des correctifs)!
 
