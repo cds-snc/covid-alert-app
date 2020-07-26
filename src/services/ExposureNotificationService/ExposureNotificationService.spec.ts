@@ -185,7 +185,7 @@ describe('ExposureNotificationService', () => {
   });
 
   it('restores "diagnosed" status from storage', async () => {
-    when(storage.getItem)
+    when(storage.get)
       .calledWith(EXPOSURE_STATUS)
       .mockResolvedValueOnce(
         JSON.stringify({

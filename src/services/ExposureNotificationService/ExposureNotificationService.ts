@@ -8,6 +8,7 @@ import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUT
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
+import {ACCESSIBLE} from 'react-native-secure-key-store';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -106,8 +107,10 @@ export class ExposureNotificationService {
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
-    this.exposureStatus.observe(status => {
-      this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
+    this.exposureStatus.observe(async status => {
+      await this.secureStorage.set(EXPOSURE_STATUS, JSON.stringify(status), {
+        accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
+      });
     });
   }
 
@@ -193,7 +196,7 @@ export class ExposureNotificationService {
   }
 
   private async init() {
-    const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
+    const exposureStatus = JSON.parse((await this.secureStorage.get(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
   }
 
