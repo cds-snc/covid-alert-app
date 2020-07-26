@@ -26,10 +26,10 @@ class CovidShieldModule(context: ReactApplicationContext) : ReactContextBaseJava
     private val okHttpClient by lazy {
         val timeoutSecs = BuildConfig.DOWNLOAD_TIMEOUT_SECONDS.toLong()
         OkHttpClient.Builder()
-                .callTimeout(timeoutSecs, TimeUnit.SECONDS)
-                .readTimeout(timeoutSecs, TimeUnit.SECONDS)
-                .addNetworkInterceptor(DownloadInterceptor(BuildConfig.MAXIMUM_DOWNLOAD_SIZE_KB.toLong() * 1024))
-                .build()
+            .callTimeout(timeoutSecs, TimeUnit.SECONDS)
+            .readTimeout(timeoutSecs, TimeUnit.SECONDS)
+            .addNetworkInterceptor(DownloadInterceptor(BuildConfig.MAXIMUM_DOWNLOAD_SIZE_KB.toLong() * 1024))
+            .build()
     }
 
     override fun getName(): String = "CovidShield"
