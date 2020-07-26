@@ -245,8 +245,6 @@ PODS:
     - React
   - react-native-safe-area-context (3.0.2):
     - React
-  - react-native-sensitive-info (5.5.5):
-    - React
   - react-native-splash-screen (3.2.0):
     - React
   - React-RCTActionSheet (0.62.2):
@@ -326,6 +324,8 @@ PODS:
     - React
   - RNScreens (2.7.0):
     - React
+  - RNSecureKeyStore (1.0.0):
+    - React
   - RNSVG (12.1.0):
     - React
   - RNZipArchive (5.0.2):
@@ -382,7 +382,6 @@ DEPENDENCIES:
   - react-native-config (from `../node_modules/react-native-config`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-sensitive-info (from `../node_modules/react-native-sensitive-info`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -404,6 +403,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSecureKeyStore (from `../node_modules/react-native-secure-key-store/ios`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNZipArchive (from `../node_modules/react-native-zip-archive`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -465,8 +465,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-sensitive-info:
-    :path: "../node_modules/react-native-sensitive-info"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   React-RCTActionSheet:
@@ -507,6 +505,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSecureKeyStore:
+    :path: "../node_modules/react-native-secure-key-store/ios"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNZipArchive:
@@ -546,7 +546,6 @@ SPEC CHECKSUMS:
   react-native-config: 313a1306066289211579b9655eb81d9a565462d0
   react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
   react-native-safe-area-context: b11a34881faac509cad5578726c98161ad4d275c
-  react-native-sensitive-info: 4629b223484a08225c3eb088ff3f91b03097b5e5
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
@@ -567,12 +566,13 @@ SPEC CHECKSUMS:
   RNPermissions: 3635b407c15f2fe591bd2101c8f20aa0912caba8
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
+  RNSecureKeyStore: f1ad870e53806453039f650720d2845c678d89c8
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNZipArchive: ab51bc004a31657f34010254a9182014c6a81217
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 0c65bc53d3b3fc855c000ffe8e723d581980164f
+PODFILE CHECKSUM: d43b08bc42409fd8009cd422b62cfbab0aeb820d
 
 COCOAPODS: 1.7.5

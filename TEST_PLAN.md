@@ -1,4 +1,4 @@
-# COVID Shield Test Plan
+# COVID Alert Test Plan
 
 This test plan shows how to test Exposure Notfications (EN) in different scenarios and environments.
 

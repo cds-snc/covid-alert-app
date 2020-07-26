@@ -16,13 +16,7 @@ import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
-const EXPOSURE_CONFIGURATION = 'exposure-configuration';
-
-const SECURE_OPTIONS = {
-  sharedPreferencesName: 'covidShieldSharedPreferences',
-  keychainService: 'covidShieldKeychain',
-};
-const SECURE_OPTIONS_FOR_CONFIGURATION = {...SECURE_OPTIONS, kSecAttrAccessible: 'kSecAttrAccessibleAlways'};
+const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 
 export const EXPOSURE_STATUS = 'exposureStatus';
 
@@ -70,13 +64,12 @@ export interface PersistencyProvider {
 }
 
 export interface SecurePersistencyProvider {
-  setItem(key: string, value: string, options: SecureStorageOptions): Promise<null>;
-  getItem(key: string, options: SecureStorageOptions): Promise<string | null>;
+  set(key: string, value: string, options: SecureStorageOptions): Promise<null>;
+  get(key: string): Promise<string | null>;
 }
 
 export interface SecureStorageOptions {
-  keychainService?: string;
-  sharedPreferencesName?: string;
+  accessible?: string;
 }
 
 export class ExposureNotificationService {
@@ -131,11 +124,10 @@ export class ExposureNotificationService {
       await this.exposureNotification.start();
     } catch (error) {
       captureException('Cannot start EN framework', error);
-      this.systemStatus.set(SystemStatus.Unknown);
-      return;
     }
 
     await this.updateSystemStatus();
+
     this.starting = false;
     await this.updateExposureStatus();
   }
@@ -172,7 +164,12 @@ export class ExposureNotificationService {
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
-    await this.secureStorage.setItem(SUBMISSION_AUTH_KEYS, serialized, SECURE_OPTIONS);
+    console.log(serialized);
+    try {
+      await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
+    } catch (error) {
+      console.error(error);
+    }
     const cycleStartsAt = getCurrentDate();
     this.exposureStatus.append({
       type: 'diagnosed',
@@ -183,7 +180,7 @@ export class ExposureNotificationService {
   }
 
   async fetchAndSubmitKeys(): Promise<void> {
-    const submissionKeysStr = await this.secureStorage.getItem(SUBMISSION_AUTH_KEYS, SECURE_OPTIONS);
+    const submissionKeysStr = await this.secureStorage.get(SUBMISSION_AUTH_KEYS);
     if (!submissionKeysStr) {
       throw new Error('No Upload keys found, did you forget to claim one-time code?');
     }
@@ -207,10 +204,7 @@ export class ExposureNotificationService {
   private async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
     try {
       captureMessage('Getting exposure configuration from secure storage.');
-      const exposureConfigurationStr = await this.secureStorage.getItem(
-        EXPOSURE_CONFIGURATION,
-        SECURE_OPTIONS_FOR_CONFIGURATION,
-      );
+      const exposureConfigurationStr = await this.storage.getItem(EXPOSURE_CONFIGURATION);
       if (exposureConfigurationStr) {
         return JSON.parse(exposureConfigurationStr);
       } else {
@@ -290,7 +284,7 @@ export class ExposureNotificationService {
       );
       captureMessage('Using downloaded exposureConfiguration.');
       const serialized = JSON.stringify(exposureConfiguration);
-      await this.secureStorage.setItem(EXPOSURE_CONFIGURATION, serialized, SECURE_OPTIONS_FOR_CONFIGURATION);
+      await this.storage.setItem(EXPOSURE_CONFIGURATION, serialized);
       captureMessage('Saving exposure configuration to secure storage.');
     } catch (error) {
       if (error instanceof SyntaxError) {
@@ -388,7 +382,7 @@ export class ExposureNotificationService {
   }
 
   private async processPendingExposureSummary() {
-    const summary = await this.exposureNotification.getPendingExposureSummary();
+    const summary = await this.exposureNotification.getPendingExposureSummary().catch(() => undefined);
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type === 'diagnosed' || !summary || summary.matchedKeyCount <= 0) {
       return;

@@ -75,6 +75,15 @@
       "AndroidBody2b": "no way of knowing where you are. ",
       "AndroidBody2c": "You can check the app’s permissions in your phone’s settings. You’ll see it does not have permission for location services."
     },
+    "FrameworkUnavailable": {
+      "Title": "Something went wrong",
+      "Body": "COVID Alert is not supported by your phone’s operating system.\n\nMake sure your operating system is up to date.\n\nIf you have an Android phone, try updating your Google Play Services.",
+      "CTA": "Get Help"
+    },
+    "UnknownProblem": {
+      "Title": "Something went wrong",
+      "CTA": "Get Help"
+    },
     "NoConnectivity": "COVID Alert is offline",
     "NoConnectivityDetailed": "COVID Alert only checks for exposure if your phone is connected to the Internet.",
     "AppName": "COVID Alert",
@@ -139,7 +148,8 @@
   "Landing": {
     "En": "English",
     "Fr": "Français",
-    "AltText": "Illustration of 8 people enjoying a public space. There’s a person with a walking cane, a person in a wheelchair, a person wearing a hijab, several people of colour, and a representation of gender diversity."
+    "AltText": "Illustration of 8 people enjoying a public space. There’s a person with a walking cane, a person in a wheelchair, a person wearing a hijab, several people of colour, and a representation of gender diversity.",
+    "CanadaAltText": "Symbol of the Government of Canada"
   },
   "LanguageSelect": {
     "Title": "Language",
@@ -201,7 +211,7 @@
     "Anonymous": {
       "Title": "Your privacy is protected",
       "ImageAltText": "A hand-drawn illustration of shaded glasses and hat to go incognito. Above the hat, a location pin icon is crossed out.",
-      "Body1": "COVID Alert **does not use GPS** or location services.",
+      "Body1": "COVID Alert **does not use GPS** or track your location.",
       "Body2": "It has **no way of knowing**:",
       "Bullet1": "Your location.",
       "Bullet2": "Your name or address.",
@@ -214,7 +224,7 @@
       "ImageAltText": "A hand-drawn illustration of 3 mobile phones sending out random codes via bluetooth.",
       "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
       "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
-      "Body3": "If you’ve  had close contact with one of those people in the past 14 days, you’ll get a notification.",
+      "Body3": "If you’ve had close contact with one of those people in the past 14 days, you’ll get a notification.",
       "HowItWorksCTA": "Learn more about how it works"
     },
     "PartOf": {

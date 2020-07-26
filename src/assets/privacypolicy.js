@@ -45,7 +45,7 @@ The random codes are only stored and used for the purpose of notifying you, or o
 
 ## Deleting your data
 - All random codes, whether from your phone or others, are deleted after 15 days.
-- You can delete the app at any time, and the random codes on your phone will be automatically deleted.
+- You can delete the app at any time, and the random codes on your phone will be automatically deleted after 15 days. You can also delete the Exposure Logs yourself from your phone’s settings. 
 - If you uploaded your random codes before deleting the app, they will be deleted from the server after 15 days.
 
 ## Other information about you
@@ -80,6 +80,7 @@ Contact the COVID-19 information line:
 - Phone: 1-833-784-4397
 - Teletypewriter (TTY): 1-800-465-7735
   (Monday to Friday, 8 a.m. to 8 p.m. Eastern time)
+- Email: hc.AlerteCOVIDAlert.sc@canada.ca
 `;
 
 export default privacy;
