@@ -2,7 +2,7 @@ import React, {createContext, useCallback, useContext, useEffect, useMemo, useSt
 import AsyncStorage from '@react-native-community/async-storage';
 import {useI18nRef} from 'locale';
 import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotification';
-import {AppState, AppStateStatus} from 'react-native';
+import {AppState, AppStateStatus, Platform} from 'react-native';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
 
@@ -132,14 +132,17 @@ export function useExposureNotificationSystemStatusAutomaticUpdater() {
       exposureNotificationService.updateSystemStatus();
     });
 
-    const locationListenerPromise = SystemSetting.addLocationListener(() => {
-      exposureNotificationService.updateSystemStatus();
-    });
+    const locationListenerPromise =
+      Platform.OS === 'android'
+        ? SystemSetting.addLocationListener(() => {
+            exposureNotificationService.updateSystemStatus();
+          })
+        : undefined;
 
     return () => {
       AppState.removeEventListener('change', updateStatus);
       bluetoothListenerPromise.then(listener => listener.remove()).catch(() => {});
-      locationListenerPromise.then(listener => listener.remove()).catch(() => {});
+      locationListenerPromise?.then(listener => listener.remove()).catch(() => {});
     };
   }, [exposureNotificationService]);
 }
