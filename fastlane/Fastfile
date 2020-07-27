@@ -14,7 +14,7 @@ lane :create_github_release do |options|
   upload_assets = options[:upload_assets] ? options[:upload_assets] : []
 
   set_github_release(
-    repository_name: "cds-snc/covid-shield-mobile",
+    repository_name: "cds-snc/covid-alert-app",
     api_token: ENV["GITHUB_TOKEN"],
     name: "#{options[:platform]}  v#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})",
     tag_name: "#{options[:platform]}-v#{ENV['APP_VERSION_NAME']}-#{ENV['APP_VERSION_CODE']}",
