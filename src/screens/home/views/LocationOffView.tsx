@@ -7,7 +7,7 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
-export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const LocationOffView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
   const startExposureNotificationService = useStartExposureNotificationService();
 
@@ -41,6 +41,17 @@ export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBo
           internalLink
           onPress={onPress}
         />
+      </Box>
+      <Box marginBottom="xl">
+        <Text marginBottom="m" variant="bodySubTitle">
+          {i18n.translate('Home.EnDisabled.AndroidTitle2')}
+        </Text>
+        <Text marginBottom="m">{i18n.translate('Home.EnDisabled.AndroidBody1')}</Text>
+        <Text marginBottom="xl">
+          <Text>{i18n.translate('Home.EnDisabled.AndroidBody2a')}</Text>
+          <Text fontWeight="bold">{i18n.translate('Home.EnDisabled.AndroidBody2b')}</Text>
+          <Text>{i18n.translate('Home.EnDisabled.AndroidBody2c')}</Text>
+        </Text>
       </Box>
     </BaseHomeView>
   );
