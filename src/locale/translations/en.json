@@ -197,7 +197,7 @@
     "ActionEnd": "Done",
     "ActionBack": "Back",
     "Start": {
-      "Title": "Together, let’s stop the spread of COVID-19",
+      "Title": "Together, let’s slow the spread of COVID-19",
       "ImageAltText": "A hand-drawn illustration with lots of different people in it. Dotted lines show their paths crossing and leading to a smartphone below.",
       "Body1": "COVID Alert helps us break the cycle of infection. The app can let people know of possible exposures before any symptoms appear. ",
       "Body2": "That way, we can take care of ourselves and protect our communities."
@@ -230,7 +230,7 @@
     "PartOf": {
       "Title": "One part of public health",
       "ImageAltText": "A hand-drawn illustration of different ways of fighting COVID-19, including hand sanitizer, handwashing, face mask and the COVID Alert app.",
-      "Body1": "COVID Alert is just one part of the public health effort to stop the spread of COVID-19.",
+      "Body1": "COVID Alert is just one part of the public health effort to slow the spread of COVID-19.",
       "Body2": "Follow all public health guidelines in your area.",
       "Body3": "COVID Alert does not replace medical advice. If you get sick, contact your doctor or other healthcare provider."
     },
