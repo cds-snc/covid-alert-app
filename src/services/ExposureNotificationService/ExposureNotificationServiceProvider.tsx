@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {useI18nRef} from 'locale';
 import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotification';
 import {AppState, AppStateStatus} from 'react-native';
-import SecureStorage from 'react-native-sensitive-info';
+import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
 
 import {BackendInterface} from '../BackendService';
@@ -42,7 +42,7 @@ export const ExposureNotificationServiceProvider = ({
         backendInterface,
         i18n,
         storage || AsyncStorage,
-        secureStorage || SecureStorage,
+        secureStorage || RNSecureKeyStore,
         exposureNotification || ExposureNotification,
       ),
     [backendInterface, exposureNotification, i18n, secureStorage, storage],
@@ -82,8 +82,6 @@ export function useSystemStatus(): [SystemStatus, () => void] {
   useEffect(() => {
     return exposureNotificationService.systemStatus.observe(setState);
   }, [exposureNotificationService.systemStatus]);
-
-  useEffect(update, [update]);
 
   return [state, update];
 }

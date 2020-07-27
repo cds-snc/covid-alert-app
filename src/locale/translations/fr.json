@@ -41,7 +41,7 @@
       "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
       "Body2a": "Personne ne recevra d’information sur vous ",
       "Body2b": "ou sur le moment de votre proximité.",
-      "Body3": "Vous pouvez aider à ralentir la propagation de COVID-19 si vous acceptez.",
+      "Body3": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
       "Action": "Accepter",
       "ErrorTitle": "Les codes aléatoires n’ont pas pu être téléversés",
       "ErrorBody": "Vous n’avez pas donné votre autorisation.",
@@ -56,7 +56,11 @@
       "RegionCovered": {
         "ON": {
           "Title": "Obtenir une clé à usage unique",
-          "Body": "Si vous avez reçu un test positif en Ontario :\n\n1. Allez sur le site Web des Résultats du test de diagnostic de la COVID-19 puis entrez vos informations.\n\n2. Consultez les résultats de votre test.\n\n3. Notez la clé à usage unique.\n\n4. Revenez ici et entrez la clé.",
+          "Body": "Si vous avez reçu un test positif en Ontario :",
+          "Body2": "Allez sur le site Web des Résultats du test de diagnostic de la COVID-19 puis entrez vos informations.",
+          "Body3": "Consultez les résultats de votre test.",
+          "Body4": "Notez la clé à usage unique.",
+          "Body5": "Revenez ici et entrez la clé.",
           "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
           "Link": "https://covid19results.ehealthontario.ca:4443/login"
         }
@@ -81,7 +85,7 @@
         "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
       },
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
-      "Body3": "Si vous vous sentez malade, contactez votre médecin. Prenez soin de vous et de votre famille pendant ce temps.",
+      "Body3": "Si vos symptômes vous inquiètent, cherchez à obtenir des soins médicaux dès que vous le pouvez. Prenez soin de vous et de votre famille pendant ce temps.",
       "Title": "Merci d’aider à lutter contre la COVID",
       "TipTitle": "CONSEIL : ",
       "TipBody": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
@@ -91,11 +95,11 @@
     "DiagnosedShareView": {
       "Title": "Téléverser les codes aléatoires",
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel :",
+      "Body2": "Rappel : ",
       "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
-    "EnableBluetoothCTA": "Vous devez activer Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
+    "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
       "CA": {
         "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
@@ -124,6 +128,11 @@
       "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
     },
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
+    "FrameworkUnavailable": {
+      "Title": "Une erreur s’est produite",
+      "Body": "Alerte COVID n’est pas prise en charge par le système d’exploitation de votre téléphone.\n\nVérifiez que votre système d’exploitation est à jour.\n\nSi vous avez un téléphone Android, pensez à mettre les services Google Play à jour.",
+      "CTA": "Trouver de l’aide"
+    },
     "How": "Diagnosed with COVID-19?",
     "HowUrl": "https://www.canada.ca/",
     "LastCheckedDays": {
@@ -161,7 +170,11 @@
       }
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
-    "TurnOnBluetooth": "Activez Bluetooth"
+    "TurnOnBluetooth": "Activez Bluetooth",
+    "UnknownProblem": {
+      "Title": "Une erreur s’est produite",
+      "CTA": "Trouver de l’aide"
+    }
   },
   "HowToIsolate": {
     "Title": "Comment vous isoler",
@@ -188,7 +201,9 @@
   },
   "Landing": {
     "En": "English",
-    "Fr": "Français"
+    "Fr": "Français",
+    "AltText": "Illustration de 8 personnes profitant de l’espace public. Il y a une personne avec une canne blanche, une autre en fauteuil roulant, une autre avec un hijab, plusieurs personnes de couleur, et une représentation de la diversité de genre.",
+    "CanadaAltText": "Symbole du gouvernement du Canada"
   },
   "LanguageSelect": {
     "Close": "Fermer",
@@ -201,9 +216,9 @@
     "Title": "Langue"
   },
   "Notification": {
-    "DailyUploadNotificationBody": "Aidez à ralentir la propagation de COVID-19 en téléversant vos nouveaux codes aléatoires.",
+    "DailyUploadNotificationBody": "Aidez à ralentir la propagation de la COVID-19 en téléversant vos nouveaux codes aléatoires.",
     "DailyUploadNotificationTitle": "Téléversez vos nouveaux codes aléatoires",
-    "ExposedMessageBody": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Lisez les recommandations.",
+    "ExposedMessageBody": "Vous avez eu un contact étroit avec une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Informez-vous sur les étapes à suivre.",
     "ExposedMessageTitle": "Vous avez été exposé",
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
     "OffMessageTitle": "Alerte COVID est désactivée"
@@ -216,7 +231,7 @@
     "ActionNext": "Suivant",
     "ActionEndSkip": "Ignorer",
     "Start": {
-      "Title": "Unissons-nous pour freiner la propagation de COVID-19",
+      "Title": "Unissons-nous pour freiner la propagation de la COVID-19",
       "ImageAltText": "Dessin à la main avec plusieurs personnes différentes dedans. Leurs chemins en lignes pointillées se croisent et mènent à un téléphone intelligent plus bas.",
       "Body1": "Alerte COVID nous aide à briser le cycle d’infection. L’application permet d’aviser les personnes en cas d’exposition potentielle avant même que des symptômes apparaissent. ",
       "Body2": "Nous pouvons ainsi prendre soin de nous et protéger nos communautés."
@@ -230,11 +245,11 @@
     "Anonymous": {
       "Title": "Votre vie privée est protégée",
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
-      "Body1": "Alerte COVID **n’utilise pas le GPS** ou les services de localisation.",
+      "Body1": "Alerte COVID **n’utilise pas le GPS** et ne suit pas votre emplacement.",
       "Body2": "L’application **n’a aucun moyen** de connaître\u00A0:",
-      "Bullet1": "Votre emplacement,",
-      "Bullet2": "votre nom ou votre adresse,",
-      "Bullet3": "Les contacts de votre téléphone,",
+      "Bullet1": "Votre emplacement.",
+      "Bullet2": "Votre nom ou votre adresse.",
+      "Bullet3": "Les contacts de votre téléphone.",
       "Bullet4": "Vos informations de santé.",
       "Bullet5": "Les informations de santé des personnes à proximité."
     },
@@ -243,13 +258,13 @@
       "ImageAltText": "Dessin à la main de 3 téléphones mobiles émettant des codes aléatoires en utilisant Bluetooth.",
       "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
       "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
-      "Body3": "Si votre téléphone a reçu l’un de ces codes au cours des 14\u00A0derniers jours, vous recevrez une notification.",
+      "Body3": "Si vous avez eu un contact étroit avec l’une de ces personnes au cours des 14\u00A0derniers jours, vous recevrez une notification.",
       "HowItWorksCTA": "En savoir plus sur le fonctionnement"
     },
     "PartOf": {
       "Title": "L’un des efforts de santé publique",
       "ImageAltText": "Dessin à la main de divers moyens de lutter contre la COVID-19, dont un désinfectant pour les mains, un couvre-visage, des mains avec du savon et l’application Alerte COIVID.",
-      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de COVID-19.",
+      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de la COVID-19.",
       "Body2": "Continuez à suivre les recommandations de santé publique de votre région.",
       "Body3": "Alerte COVID ne remplace pas un avis médical. Si vous tombez malade, contactez votre médecin ou un professionnel de la santé."
     },
@@ -263,10 +278,10 @@
   },
   "OverlayClosed": {
     "NotificationStatus": "Notifications ",
-    "NotificationStatusOff": "désactivé",
+    "NotificationStatusOff": "désactivées",
     "SystemStatus": "Alerte COVID est ",
-    "SystemStatusOff": "désactivé",
-    "SystemStatusOn": "activé",
+    "SystemStatusOff": "désactivée",
+    "SystemStatusOn": "activée",
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
@@ -274,7 +289,7 @@
     "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardAction": "Entrer votre clé",
     "EnterCodeCardBody": "Vous avez besoin d’une clé à usage unique pour aviser les autres personnes d’une exposition.",
-    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de COVID-19. ",
+    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de la COVID-19. ",
     "EnterCodeCardDiagnosedCountdown": {
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
@@ -282,12 +297,14 @@
     "EnterCodeCardTitle": "Vous avez la COVID-19?",
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
     "ExposureNotificationCardAction": "Activez les notifications d'exposition",
-    "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
+    "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "NotificationCardAction": "Activer les notifications",
-    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de COVID-19.",
+    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
     "NotificationCardStatus": "Les notifications sont désactivées",
-    "NotificationCardStatusOff": "DÉSACTIVÉES"
+    "NotificationCardStatusOff": "DÉSACTIVÉES",
+    "NoConnectivityCardAction": "Alerte COVID est hors ligne",
+    "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"

@@ -14,7 +14,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   const i18n = useI18n();
   const {region} = useStorage();
   const [exposureStatus] = useExposureStatus();
-  const [, autoFocusRef] = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   if (exposureStatus.type !== 'diagnosed') return null;
 
@@ -26,16 +26,20 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
         {i18n.translate('Home.DiagnosedView.Title')}
         {/* No exposure detected */}
       </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {i18n.translate(pluralizeKey('Home.DiagnosedView.Body1', daysLeft), {number: daysLeft})}
-      </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {i18n.translate('Home.DiagnosedView.Body2')}
-      </Text>
-      <Text variant="bodyText" color="bodyText" marginBottom="l">
-        {i18n.translate('Home.DiagnosedView.Body3')}
-      </Text>
-      {region === 'ON' ? <Tip /> : null}
+      {daysLeft < 1 ? null : (
+        <>
+          <Text variant="bodyText" color="bodyText" marginBottom="l">
+            {i18n.translate(pluralizeKey('Home.DiagnosedView.Body1', daysLeft), {number: daysLeft})}
+          </Text>
+          <Text variant="bodyText" color="bodyText" marginBottom="l">
+            {i18n.translate('Home.DiagnosedView.Body2')}
+          </Text>
+          <Text variant="bodyText" color="bodyText" marginBottom="l">
+            {i18n.translate('Home.DiagnosedView.Body3')}
+          </Text>
+          {region === 'ON' ? <Tip /> : null}
+        </>
+      )}
     </BaseHomeView>
   );
 };

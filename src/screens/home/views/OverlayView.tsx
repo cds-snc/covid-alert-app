@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import Animated, {sub, abs} from 'react-native-reanimated';
+import {useNetInfo} from '@react-native-community/netinfo';
 import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
 import {useI18n, I18n} from 'locale';
 import {Linking, Platform, TouchableOpacity, StyleSheet, View} from 'react-native';
@@ -9,7 +10,7 @@ import {
   useStartExposureNotificationService,
 } from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
-import {daysBetween} from 'shared/date-fns';
+import {daysBetween, getCurrentDate} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
@@ -90,11 +91,35 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
   const navigation = useNavigation();
   const [exposureStatus] = useExposureStatus();
 
+  //
+
+  const network = useNetInfo();
+
+  if (!network.isConnected && exposureStatus.type !== 'diagnosed') {
+    return (
+      <InfoBlock
+        titleBolded={i18n.translate('OverlayOpen.NoConnectivityCardAction')}
+        backgroundColor="danger25Background"
+        color="bodyText"
+        button={{
+          text: '',
+          action: () => {},
+        }}
+        text={i18n.translate('OverlayOpen.NoConnectivityCardBody')}
+        showButton={false}
+      />
+    );
+  }
+
   if (exposureStatus.type === 'diagnosed') {
-    const daysLeft = daysBetween(new Date(), new Date(exposureStatus.cycleEndsAt)) - 1;
-    const bodyText =
-      i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed') +
-      i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {number: daysLeft});
+    const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
+    let bodyText = i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed');
+    if (daysLeft > 0) {
+      bodyText += i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {
+        number: daysLeft,
+      });
+    }
+
     return (
       <InfoBlock
         focusOnTitle={isBottomSheetExpanded}
@@ -154,6 +179,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
         <SafeAreaView>
           <Box>
             <TouchableOpacity
+              activeOpacity={0.8}
               onPress={bottomSheetBehavior.collapse}
               style={styles.collapseButton}
               accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
