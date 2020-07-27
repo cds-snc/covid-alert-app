@@ -1,0 +1,79 @@
+diff --git a/node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.m b/node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.m
+index 2d72ac7..2937091 100644
+--- a/node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.m
++++ b/node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.m
+@@ -414,14 +414,38 @@ - (NSDictionary *)_ensureSetup
+ 
+ - (NSDictionary *)_writeManifest:(NSMutableArray<NSDictionary *> **)errors
+ {
++  NSDictionary *errorOut;
+   NSError *error;
++  BOOL success;
++    
+   NSString *serialized = RCTJSONStringify(_manifest, &error);
+-  [serialized writeToFile:RCTCreateStorageDirectoryPath(RCTGetManifestFilePath()) atomically:YES encoding:NSUTF8StringEncoding error:&error];
+-  NSDictionary *errorOut;
+   if (error) {
+-    errorOut = RCTMakeError(@"Failed to write manifest file.", error, nil);
+-    RCTAppendError(errorOut, errors);
++    return RCTMakeError(@"Unable to parse manifest file.", error, nil);
++  }
++  
++  success = [serialized writeToFile:RCTCreateStorageDirectoryPath(RCTGetManifestFilePath()) atomically:YES encoding:NSUTF8StringEncoding error:&error];
++  if (!success) {
++    return RCTMakeError(@"Failed to write manifest file.", error, nil);
++  }
++
++  // Added by COVID Alert: Ensure all files are excluded from iCloud Backup.
++  NSString *filePath = RCTCreateStorageDirectoryPath(RCTGetManifestFilePath());
++  NSURL *fileURL = [NSURL fileURLWithPath:filePath];
++  success = [fileURL setResourceValue:[NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
++  if (!success) {
++    if ([[NSFileManager defaultManager] isDeletableFileAtPath:filePath]) {
++      NSError *removeFileError;
++      BOOL removeFileSuccess = [[NSFileManager defaultManager] removeItemAtPath:filePath error:&removeFileError];
++      if (!removeFileSuccess) {
++        return RCTMakeError(@"Error removing file at path.", removeFileError, nil);
++      } else {
++        return RCTMakeError(@"Unable to exclude file from backup.", error, nil);
++      }
++    } else {
++        return RCTMakeError(@"Unable to delete file.", nil, nil);
++    }
+   }
++    
+   return errorOut;
+ }
+ 
+@@ -480,7 +504,30 @@ - (NSDictionary *)_writeEntry:(NSArray<NSString *> *)entry changedManifest:(BOOL
+     _manifest[key] = value;
+     return nil;
+   }
+-  [value writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
++    
++  // Added by COVID Alert: Ensure all files are excluded from iCloud Backup.
++  BOOL success;
++  success = [value writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
++  if (!success) {
++    return RCTMakeError(@"Failed to write file.", error, nil);
++  }
++  
++  NSURL *fileURL = [NSURL fileURLWithPath:filePath];
++  success = [fileURL setResourceValue:[NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
++  if (!success) {
++    if ([[NSFileManager defaultManager] isDeletableFileAtPath:filePath]) {
++      NSError *removeFileError;
++      BOOL removeFileSuccess = [[NSFileManager defaultManager] removeItemAtPath:filePath error:&removeFileError];
++      if (!removeFileSuccess) {
++        return RCTMakeError(@"Error removing file at path.", removeFileError, nil);
++      } else {
++        return RCTMakeError(@"Unable to exclude file from backup.", error, nil);
++      }
++    } else {
++      return RCTMakeError(@"Unable to delete file.", nil, nil);
++    }
++  }
++
+   [RCTGetCache() setObject:value forKey:key cost:value.length];
+   if (error) {
+     errorOut = RCTMakeError(@"Failed to write value.", error, @{@"key": key});
