@@ -15,6 +15,18 @@ before_all do
   )
 end
 
+lane :load_env_file do |options|
+  buildType = options[:buildType]
+
+  # Make sure required env file exists
+  env_file=".env.#{buildType}"
+  ensure_env_file_exists(file: env_file)
+
+  # Load the environment
+  Dotenv.overload "../#{env_file}"
+  ENV["ENVFILE"] = env_file
+end
+
 desc "Creates a Github Release"
 lane :create_github_release do |options|
   UI.user_error!("platform is missing") unless options[:platform]
