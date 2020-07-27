@@ -231,7 +231,7 @@
     "ActionNext": "Suivant",
     "ActionEndSkip": "Ignorer",
     "Start": {
-      "Title": "Unissons-nous pour freiner la propagation de la COVID-19",
+      "Title": "Unissons-nous pour ralentir la propagation de la COVID-19",
       "ImageAltText": "Dessin à la main avec plusieurs personnes différentes dedans. Leurs chemins en lignes pointillées se croisent et mènent à un téléphone intelligent plus bas.",
       "Body1": "Alerte COVID nous aide à briser le cycle d’infection. L’application permet d’aviser les personnes en cas d’exposition potentielle avant même que des symptômes apparaissent. ",
       "Body2": "Nous pouvons ainsi prendre soin de nous et protéger nos communautés."
@@ -264,7 +264,7 @@
     "PartOf": {
       "Title": "L’un des efforts de santé publique",
       "ImageAltText": "Dessin à la main de divers moyens de lutter contre la COVID-19, dont un désinfectant pour les mains, un couvre-visage, des mains avec du savon et l’application Alerte COIVID.",
-      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de la COVID-19.",
+      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à ralentir la propagation de la COVID-19.",
       "Body2": "Continuez à suivre les recommandations de santé publique de votre région.",
       "Body3": "Alerte COVID ne remplace pas un avis médical. Si vous tombez malade, contactez votre médecin ou un professionnel de la santé."
     },
@@ -289,7 +289,7 @@
     "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardAction": "Entrer votre clé",
     "EnterCodeCardBody": "Vous avez besoin d’une clé à usage unique pour aviser les autres personnes d’une exposition.",
-    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de la COVID-19. ",
+    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour ralentir la propagation de la COVID-19. ",
     "EnterCodeCardDiagnosedCountdown": {
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
