@@ -16,7 +16,7 @@ import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 
-const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
+const SUBMISSION_AUTH_KEYS = 'submissionAuthKey';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 
 export const EXPOSURE_STATUS = 'exposureStatus';
@@ -167,11 +167,12 @@ export class ExposureNotificationService {
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
-    console.log(serialized);
     try {
-      await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
+      await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {
+        accessible: ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      });
     } catch (error) {
-      console.error(error);
+      captureException('Error storing SUBMISSION_AUTH_KEYS.', error);
     }
     const cycleStartsAt = getCurrentDate();
     this.exposureStatus.append({
