@@ -9,6 +9,16 @@ def version_string(version_number, build_number, type)
 end
 
 platform :android do
+  lane :check_version_code_exists do
+    play_versions = google_play_track_version_codes(
+      track: 'internal'
+    )
+
+    versions = Array(play_versions)
+
+    UI.user_error!("Version code #{versions} has already been used!") if Array(versions).include? ENV['APP_VERSION_CODE'].to_i
+  end
+
   private_lane :build do |options|
     task = (options[:bundle] ? "bundle" : "assemble")
     properties = (options[:properties] ? options[:properties] : {})
@@ -39,6 +49,9 @@ platform :android do
 
     # Load env file
     load_env_file(buildType:buildType)
+
+    # Check Version Code
+    check_version_code_exists
 
     # Set version code and name
     versionCode = ENV["APP_VERSION_CODE"]

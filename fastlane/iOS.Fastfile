@@ -1,9 +1,28 @@
 platform :ios do
+  lane :check_version_code_exists do
+    testflight_latest = latest_testflight_build_number()
+
+    versions = Array(testflight_latest)
+
+    UI.user_error!("Version code #{versions} has already been used!") if Array(versions).include? ENV['APP_VERSION_CODE'].to_i
+  end
+
   #
   # Options:
   # - type: staging, release
   #
   lane :build_and_deploy do |options|
+    # Validate options
+    UI.user_error!("You must specify a build type") unless options[:type]
+    buildType = options[:type]
+    release = options[:type] === 'production'
+
+    # Load env file
+    load_env_file(buildType:buildType)
+
+    # Check Version Code
+    check_version_code_exists
+
     bundle_install
 
     # install pods
@@ -12,15 +31,7 @@ platform :ios do
       podfile: 'ios/Podfile'
     )
 
-    # Validate options
-    UI.user_error!("You must specify a build type") unless options[:type]
-    buildType = options[:type]
-    release = options[:type] === 'production'
-
     ensure_build_directory
-
-    # Load env file
-    load_env_file(buildType:buildType)
 
     output_directory = File.expand_path('../build/ios')
 

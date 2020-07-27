@@ -20,6 +20,11 @@ or alternatively using `brew install fastlane`
 fastlane ensure_keystore_properties
 ```
 
+### load_env_file
+```
+fastlane load_env_file
+```
+
 ### create_github_release
 ```
 fastlane create_github_release
@@ -44,6 +49,11 @@ fastlane ensure_env_file_exists
 ----
 
 ## Android
+### android check_version_code_exists
+```
+fastlane android check_version_code_exists
+```
+
 ### android build_and_deploy
 ```
 fastlane android build_and_deploy
@@ -63,6 +73,11 @@ Builds a local Debug .apk for Android
 ----
 
 ## iOS
+### ios check_version_code_exists
+```
+fastlane ios check_version_code_exists
+```
+
 ### ios build_and_deploy
 ```
 fastlane ios build_and_deploy
