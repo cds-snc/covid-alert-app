@@ -24,14 +24,15 @@ platform :android do
 
   #
   # Options:
-  # - type: demo, release
-  # - track: internal, alpha
+  # - type: staging, production
+  # - track (optional): internal (default), alpha
   #
   lane :build_and_deploy do |options|
     # Validate options
     UI.user_error!("You must specify a build type") unless options[:type]
     buildType = options[:type]
-    release = options[:type] === 'release'
+    deployToTrack = options[:track] ? options[:track] : 'internal'
+    release = options[:type] === 'production'
 
     # Need keystore properties to publish
     ensure_keystore_properties
@@ -39,7 +40,6 @@ platform :android do
     # Make sure required env file exists
     env_file=".env.#{buildType}"
     ensure_env_file_exists(file: env_file)
-    UI.success("Using environment file #{env_file}")
 
     # Load the environment
     Dotenv.overload "../#{env_file}"
@@ -62,7 +62,7 @@ platform :android do
 
     # Deploy
     upload_to_play_store(
-      track: options[:track] ? options[:track] : 'internal',
+      track: deployToTrack,
       skip_upload_apk: true,
       skip_upload_metadata: true,
       skip_upload_images: true,
@@ -72,7 +72,7 @@ platform :android do
       version_code: versionCode
     )
 
-    # Tag a release on Github
+    # Tag a release on Github (if it's a release)
     if release
       create_github_release(platform: "Android")
     end

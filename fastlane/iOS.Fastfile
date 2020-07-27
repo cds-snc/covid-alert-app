@@ -1,37 +1,19 @@
 platform :ios do
-  # Saving this for later, but may not need anymore
-  lane :set_version do
-    Dotenv.overload "../.env.demo"
-
-    # Set the version name from the environment
-    increment_version_number(
-      xcodeproj: "ios/CovidShield.xcodeproj",
-      version_number: ENV["APP_VERSION_NAME"]
-    )
-
-    # Set the version number from the environment
-    increment_build_number(
-      xcodeproj: "ios/CovidShield.xcodeproj",
-      build_number: ENV["APP_VERSION_CODE"]
-    )
-  end
-
   #
   # Options:
-  # - type: demo, release
+  # - type: staging, release
   #
   lane :build_and_deploy do |options|
     # Validate options
     UI.user_error!("You must specify a build type") unless options[:type]
     buildType = options[:type]
-    release = options[:type] === 'release'
+    release = options[:type] === 'production'
 
     ensure_build_directory
 
     # Make sure required env file exists
     env_file=".env.#{buildType}"
     ensure_env_file_exists(file: env_file)
-    UI.success("Using environment file #{env_file}")
 
     # Load the environment
     Dotenv.overload "../#{env_file}"

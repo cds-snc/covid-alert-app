@@ -57,4 +57,5 @@ lane :ensure_env_file_exists do |options|
   file_exists = File.exist? File.expand_path "../#{file}"
 
   UI.user_error!("#{file} environment file is missing!") unless file_exists
+  UI.success("Using environment file #{file}")
 end

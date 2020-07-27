@@ -15,10 +15,10 @@
     "start": "react-native start --reset-cache",
     "test": "jest",
     "tsc": "tsc",
-    "deploy-android:demo": "bundle exec fastlane android build_and_deploy type:demo",
-    "deploy-android:release": "bundle exec fastlane android build_and_deploy type:release",
-    "deploy-ios:demo": "bundle exec fastlane ios build_and_deploy type:demo",
-    "deploy-ios:release": "bundle exec fastlane ios build_and_deploy type:release"
+    "deploy-android:staging": "bundle exec fastlane android build_and_deploy type:staging",
+    "deploy-android:production": "bundle exec fastlane android build_and_deploy type:production",
+    "deploy-ios:staging": "bundle exec fastlane ios build_and_deploy type:staging",
+    "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
