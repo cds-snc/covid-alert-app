@@ -4,13 +4,6 @@ lane :ensure_keystore_properties do
   UI.user_error!("keystore.properties file is missing!") unless file_exists
 end
 
-lane :ensure_env_file_exists do |options|
-  file = options[:file]
-  file_exists = File.exist? File.expand_path "../#{file}"
-
-  UI.user_error!("#{file} environment file is missing!") unless file_exists
-end
-
 def version_string(version_number, build_number, type)
   "#{version_number} (#{build_number})"
 end

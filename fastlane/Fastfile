@@ -51,3 +51,10 @@ lane :ensure_build_directory do
     FileUtils.mkdir_p('../build/android')
   end
 end
+
+lane :ensure_env_file_exists do |options|
+  file = options[:file]
+  file_exists = File.exist? File.expand_path "../#{file}"
+
+  UI.user_error!("#{file} environment file is missing!") unless file_exists
+end
