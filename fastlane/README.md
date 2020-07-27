@@ -20,11 +20,6 @@ or alternatively using `brew install fastlane`
 fastlane ensure_keystore_properties
 ```
 
-### ensure_env_file_exists
-```
-fastlane ensure_env_file_exists
-```
-
 ### create_github_release
 ```
 fastlane create_github_release
@@ -38,6 +33,11 @@ Returns a default changelog.
 ### ensure_build_directory
 ```
 fastlane ensure_build_directory
+```
+
+### ensure_env_file_exists
+```
+fastlane ensure_env_file_exists
 ```
 
 
