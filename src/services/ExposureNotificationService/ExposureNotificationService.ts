@@ -193,7 +193,7 @@ export class ExposureNotificationService {
   }
 
   private async init() {
-    const exposureStatus = JSON.parse((await this.secureStorage.get(EXPOSURE_STATUS)) || 'null');
+    const exposureStatus = JSON.parse((await this.secureStorage.get(EXPOSURE_STATUS).catch(() => null)) || 'null');
     this.exposureStatus.append({...exposureStatus});
   }
 
