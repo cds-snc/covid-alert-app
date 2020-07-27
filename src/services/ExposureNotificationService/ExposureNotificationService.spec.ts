@@ -196,11 +196,13 @@ describe('ExposureNotificationService', () => {
   it('restores "diagnosed" status from storage', async () => {
     when(secureStorage.get)
       .calledWith(EXPOSURE_STATUS)
-      .mockResolvedValueOnce(
-        JSON.stringify({
-          type: 'diagnosed',
-          cycleStartsAt: new OriginalDate('2020-05-18T04:10:00+0000').toString(),
-        }),
+      .mockReturnValueOnce(
+        Promise.resolve(
+          JSON.stringify({
+            type: 'diagnosed',
+            cycleStartsAt: new OriginalDate('2020-05-18T04:10:00+0000').toString(),
+          }),
+        ),
       );
     dateSpy.mockImplementation((...args) =>
       args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
@@ -227,6 +229,9 @@ describe('ExposureNotificationService', () => {
     });
 
     it('for positive', async () => {
+      when(secureStorage.get)
+        .calledWith(EXPOSURE_STATUS)
+        .mockReturnValueOnce(Promise.resolve(null));
       service.exposureStatus.append({
         submissionLastCompletedAt: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
       });
@@ -240,6 +245,9 @@ describe('ExposureNotificationService', () => {
     });
 
     it('for negative', async () => {
+      when(secureStorage.get)
+        .calledWith(EXPOSURE_STATUS)
+        .mockReturnValueOnce(Promise.resolve(null));
       service.exposureStatus.append({
         submissionLastCompletedAt: new OriginalDate('2020-05-19T04:10:00+0000').getTime(),
       });
@@ -255,6 +263,10 @@ describe('ExposureNotificationService', () => {
 
   it('needsSubmission status recalculates daily', async () => {
     let currentDateString = '2020-05-19T04:10:00+0000';
+
+    when(secureStorage.get)
+      .calledWith(EXPOSURE_STATUS)
+      .mockReturnValue(Promise.resolve(null));
 
     service.exposureStatus.append({
       type: 'diagnosed',
@@ -277,7 +289,7 @@ describe('ExposureNotificationService', () => {
     currentDateString = '2020-05-20T04:10:00+0000';
     when(secureStorage.get)
       .calledWith(SUBMISSION_AUTH_KEYS)
-      .mockResolvedValueOnce('{}');
+      .mockReturnValue(Promise.resolve('{}'));
     await service.fetchAndSubmitKeys();
 
     expect(secureStorage.set).toHaveBeenCalledWith(
