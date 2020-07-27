@@ -8,6 +8,11 @@ before_all do
 
   # Pull all tags
   git_pull(only_tags: true)
+
+  # Run yarn install
+  yarn(
+    command: 'install'
+  )
 end
 
 desc "Creates a Github Release"

@@ -4,6 +4,12 @@ platform :ios do
   # - type: staging, release
   #
   lane :build_and_deploy do |options|
+    # install pods
+    cocoapods(
+      clean_install: true,
+      podfile: 'ios/Podfile'
+    )
+
     # Validate options
     UI.user_error!("You must specify a build type") unless options[:type]
     buildType = options[:type]
@@ -52,6 +58,12 @@ platform :ios do
 
   desc "Builds a local iOS adhoc .ipa"
   lane :local do
+    # install pods
+    cocoapods(
+      clean_install: true,
+      podfile: 'ios/Podfile'
+    )
+
     ensure_build_directory
 
     output_directory = File.expand_path('../build/ios')
