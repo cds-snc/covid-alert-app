@@ -1,9 +1,15 @@
 /* eslint-disable require-atomic-updates */
 import {when} from 'jest-when';
+import {ACCESSIBLE} from 'react-native-secure-key-store';
 
 import {periodSinceEpoch} from '../../shared/date-fns';
 
-import {ExposureNotificationService, EXPOSURE_STATUS, HOURS_PER_PERIOD} from './ExposureNotificationService';
+import {
+  ExposureNotificationService,
+  EXPOSURE_STATUS,
+  HOURS_PER_PERIOD,
+  SUBMISSION_AUTH_KEYS,
+} from './ExposureNotificationService';
 
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
@@ -151,7 +157,7 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
 
-    expect(storage.setItem).toHaveBeenCalledWith(
+    expect(secureStorage.set).toHaveBeenCalledWith(
       EXPOSURE_STATUS,
       expect.jsonStringContaining({
         lastChecked: {
@@ -159,6 +165,9 @@ describe('ExposureNotificationService', () => {
           period: currentPeriod - 1,
         },
       }),
+      {
+        accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
+      },
     );
   });
 
@@ -185,7 +194,7 @@ describe('ExposureNotificationService', () => {
   });
 
   it('restores "diagnosed" status from storage', async () => {
-    when(storage.get)
+    when(secureStorage.get)
       .calledWith(EXPOSURE_STATUS)
       .mockResolvedValueOnce(
         JSON.stringify({
@@ -267,15 +276,18 @@ describe('ExposureNotificationService', () => {
 
     currentDateString = '2020-05-20T04:10:00+0000';
     when(secureStorage.get)
-      .calledWith('submissionAuthKeys')
+      .calledWith(SUBMISSION_AUTH_KEYS)
       .mockResolvedValueOnce('{}');
     await service.fetchAndSubmitKeys();
 
-    expect(storage.setItem).toHaveBeenCalledWith(
+    expect(secureStorage.set).toHaveBeenCalledWith(
       EXPOSURE_STATUS,
       expect.jsonStringContaining({
         submissionLastCompletedAt: new OriginalDate(currentDateString).getTime(),
       }),
+      {
+        accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
+      },
     );
 
     expect(service.exposureStatus.get()).toStrictEqual(

@@ -16,7 +16,7 @@ import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 
-const SUBMISSION_AUTH_KEYS = 'submissionAuthKey';
+export const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys_2';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 
 export const EXPOSURE_STATUS = 'exposureStatus';
@@ -167,13 +167,9 @@ export class ExposureNotificationService {
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
-    try {
-      await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {
-        accessible: ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-      });
-    } catch (error) {
-      captureException('Error storing SUBMISSION_AUTH_KEYS.', error);
-    }
+    await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {
+      accessible: ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    });
     const cycleStartsAt = getCurrentDate();
     this.exposureStatus.append({
       type: 'diagnosed',
@@ -197,12 +193,7 @@ export class ExposureNotificationService {
   }
 
   private async init() {
-    let exposureStatus;
-    try {
-      exposureStatus = JSON.parse((await this.secureStorage.get(EXPOSURE_STATUS)) || 'null');
-    } catch (error) {
-      exposureStatus = 'null';
-    }
+    const exposureStatus = JSON.parse((await this.secureStorage.get(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
   }
 
