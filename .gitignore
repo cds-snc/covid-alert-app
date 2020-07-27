@@ -91,10 +91,8 @@ fastlane/certs/*
 ios/GoogleService-Info.plist
 ios/Generated.xcconfig
 android/app/google-services.json
-.env.local
-.env.release
-.env.beta
-.env.demo
+!.env.example
+.env.*
 .env
 
 # generated files
