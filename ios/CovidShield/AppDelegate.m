@@ -9,6 +9,8 @@
 
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
 
+#import "AsyncStorageSwizzle.h"
+
 #if DEBUG
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -105,6 +107,11 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
 
+  if(![AsyncStorageSwizzle configure]) {
+    #if DEBUG
+    NSLog(@"warn: async storage swizzle not configured");
+    #endif
+  }
   return YES;
 }
 
