@@ -4,6 +4,8 @@ platform :ios do
   # - type: staging, release
   #
   lane :build_and_deploy do |options|
+    bundle_install
+
     # install pods
     cocoapods(
       clean_install: true,
@@ -58,6 +60,8 @@ platform :ios do
 
   desc "Builds a local iOS adhoc .ipa"
   lane :local do
+    bundle_install
+
     # install pods
     cocoapods(
       clean_install: true,
