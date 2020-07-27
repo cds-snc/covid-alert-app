@@ -1,0 +1,33 @@
+diff --git a/node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.m b/node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.m
+index 2d72ac7..c4de715 100644
+--- a/node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.m
++++ b/node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.m
+@@ -417,6 +417,14 @@ - (NSDictionary *)_writeManifest:(NSMutableArray<NSDictionary *> **)errors
+   NSError *error;
+   NSString *serialized = RCTJSONStringify(_manifest, &error);
+   [serialized writeToFile:RCTCreateStorageDirectoryPath(RCTGetManifestFilePath()) atomically:YES encoding:NSUTF8StringEncoding error:&error];
++    
++  // Added by COVID Alert: Ensure all files are excluded from iCloud Backup.
++  if (!error){
++    NSString *filePath = RCTCreateStorageDirectoryPath(RCTGetManifestFilePath());
++    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
++    [fileURL setResourceValue:[NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
++  }
++    
+   NSDictionary *errorOut;
+   if (error) {
+     errorOut = RCTMakeError(@"Failed to write manifest file.", error, nil);
+@@ -481,6 +489,13 @@ - (NSDictionary *)_writeEntry:(NSArray<NSString *> *)entry changedManifest:(BOOL
+     return nil;
+   }
+   [value writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
++
++  // Added by COVID Alert: Ensure all files are excluded from iCloud Backup.
++  if (!error){
++    NSURL *fileURL = [NSURL URLWithString:filePath];
++    [fileURL setResourceValue:[NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
++  }
++
+   [RCTGetCache() setObject:value forKey:key cost:value.length];
+   if (error) {
+     errorOut = RCTMakeError(@"Failed to write value.", error, @{@"key": key});
