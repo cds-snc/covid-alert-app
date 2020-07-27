@@ -37,13 +37,8 @@ platform :android do
     # Need keystore properties to publish
     ensure_keystore_properties
 
-    # Make sure required env file exists
-    env_file=".env.#{buildType}"
-    ensure_env_file_exists(file: env_file)
-
-    # Load the environment
-    Dotenv.overload "../#{env_file}"
-    ENV["ENVFILE"] = env_file
+    # Load env file
+    load_env_file(buildType:buildType)
 
     # Set version code and name
     versionCode = ENV["APP_VERSION_CODE"]

@@ -19,13 +19,8 @@ platform :ios do
 
     ensure_build_directory
 
-    # Make sure required env file exists
-    env_file=".env.#{buildType}"
-    ensure_env_file_exists(file: env_file)
-
-    # Load the environment
-    Dotenv.overload "../#{env_file}"
-    ENV["ENVFILE"] = env_file
+    # Load env file
+    load_env_file(buildType:buildType)
 
     output_directory = File.expand_path('../build/ios')
 
