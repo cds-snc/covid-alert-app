@@ -82,6 +82,7 @@
     },
     "UnknownProblem": {
       "Title": "Something went wrong",
+      "Body": "It looks like your phone cannot support COVID Alert.",
       "CTA": "Get Help"
     },
     "NoConnectivity": "COVID Alert is offline",

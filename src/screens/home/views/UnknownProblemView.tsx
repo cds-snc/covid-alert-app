@@ -19,6 +19,7 @@ export const UnknownProblemView = ({isBottomSheetExpanded}: {isBottomSheetExpand
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.UnknownProblem.Title')}
       </Text>
+      <Text marginBottom="m">{i18n.translate('Home.UnknownProblem.Body')}</Text>
       <Box alignSelf="stretch" marginBottom="l" marginTop="l">
         <ButtonSingleLine
           text={i18n.translate('Home.UnknownProblem.CTA')}
