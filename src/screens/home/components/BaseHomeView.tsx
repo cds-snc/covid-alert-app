@@ -39,6 +39,5 @@ const styles = StyleSheet.create({
     minHeight: '90%',
     maxWidth: 600,
     alignItems: 'flex-start',
-    paddingBottom: 80,
   },
 });

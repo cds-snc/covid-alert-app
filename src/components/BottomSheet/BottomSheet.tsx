@@ -109,15 +109,12 @@ const BottomSheetInternal = (
         callbackNode={bottomSheetPosition.current}
         enabledInnerScrolling
       />
-      <Box height={snapPoints[1]} style={styles.spacer} />
+      <Box height={snapPoints[1]} />
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  spacer: {
-    marginBottom: -45,
-  },
   collapseContent: {
     position: 'absolute',
     width: '100%',
