@@ -12,6 +12,7 @@ import app.covidshield.receiver.worker.HeadlessJsTaskWorker
 import app.covidshield.receiver.worker.HeadlessJsTaskWorker.Companion.shouldStartHeadlessJsTask
 import app.covidshield.receiver.worker.StateUpdatedWorker
 import app.covidshield.utils.PendingTokenManager
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_NOT_FOUND
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TOKEN
 
@@ -21,7 +22,7 @@ class ExposureNotificationBroadcastReceiver : BroadcastReceiver() {
         val action = intent.action
         log("onReceive", mapOf("action" to action))
 
-        if (action == ACTION_EXPOSURE_STATE_UPDATED) {
+        if (action == ACTION_EXPOSURE_STATE_UPDATED || action == ACTION_EXPOSURE_NOT_FOUND) {
             val token = intent.getStringExtra(EXTRA_TOKEN)
             if (token.isNullOrEmpty()) {
                 log("Token not found")
