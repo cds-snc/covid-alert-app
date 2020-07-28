@@ -164,7 +164,6 @@ export class ExposureNotificationService {
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
-    console.log(serialized);
     try {
       await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
     } catch (error) {
