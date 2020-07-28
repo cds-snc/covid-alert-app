@@ -164,11 +164,10 @@ export class ExposureNotificationService {
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
-    console.log(serialized);
     try {
       await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
     } catch (error) {
-      console.error(error);
+      captureException('Unable to store SUBMISSION_AUTH_KEYS', error);
     }
     const cycleStartsAt = getCurrentDate();
     this.exposureStatus.append({

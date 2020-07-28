@@ -64,7 +64,7 @@ export class BackendService implements BackendInterface {
     try {
       randomBytes = await getRandomBytes(32);
     } catch (error) {
-      console.error('getRandomBytes()', error);
+      captureException('getRandomBytes()', error);
       throw new Error(error);
     }
     nacl.setPRNG(buff => {

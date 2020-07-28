@@ -9,6 +9,7 @@ import {BulletPoint} from 'components/BulletPoint';
 import {BulletPointOrdered} from 'components/BulletPointOrdered';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {captureException} from 'shared/log';
 
 interface ContentProps {
   title: string;
@@ -26,7 +27,7 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
       <ButtonSingleLine
         variant="bigFlat"
         text={externalLinkText}
-        onPress={() => Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err))}
+        onPress={() => Linking.openURL(externalLinkCTA).catch(error => captureException('An error occurred', error))}
         externalLink
       />
     ) : null;
