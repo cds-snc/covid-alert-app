@@ -53,7 +53,7 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",
     "react-native-system-setting": "1.7.4",
-    "react-native-zip-archive": "^5.0.2",
+    "react-native-zip-archive": "^5.0.3",
     "reanimated-bottom-sheet": "^1.0.0-alpha.20",
     "rn-faded-scrollview": "^1.0.8",
     "tweetnacl": "^1.0.3",
