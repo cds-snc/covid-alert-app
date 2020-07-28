@@ -31,6 +31,7 @@ const bridge: any = {
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
   getStatus: jest.fn().mockResolvedValue('active'),
+  getPendingExposureSummary: jest.fn().mockResolvedValue(undefined),
 };
 
 /**
