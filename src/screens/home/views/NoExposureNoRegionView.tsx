@@ -28,7 +28,7 @@ export const NoExposureNoRegionView = ({isBottomSheetExpanded}: {isBottomSheetEx
 
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
-    <BaseHomeView>
+    <BaseHomeView iconName="thumbs-up">
       <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected.NoRegion.Title')}
       </Text>
