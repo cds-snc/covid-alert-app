@@ -1,4 +1,5 @@
 import {Schema, Validator, ValidatorResult} from 'jsonschema';
+import {captureException} from 'shared/log';
 
 import {ExposureConfiguration} from '../../bridge/ExposureNotification';
 
@@ -14,8 +15,7 @@ export class ExposureConfigurationValidator {
     const validator = new Validator();
     const validatorResult = validator.validate(exposureConfiguration, schema);
     if (!validatorResult.valid) {
-      console.log('invalid json');
-      console.log(validatorResult.errors.toString());
+      captureException('invalid json', null);
       throw new ExposureConfigurationValidationError(
         `Invalid Exposure Configuration JSON. ${validatorResult.errors.toString()}`,
       );

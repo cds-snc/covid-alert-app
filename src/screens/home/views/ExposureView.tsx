@@ -5,6 +5,7 @@ import {useI18n} from 'locale';
 import {Text, Box, ButtonSingleLine} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {captureException} from 'shared/log';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -27,7 +28,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   }, [i18n, region]);
 
   const onActionGuidance = useCallback(() => {
-    Linking.openURL(getGuidanceURL()).catch(err => console.error('An error occurred', err));
+    Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);

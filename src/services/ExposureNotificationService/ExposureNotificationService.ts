@@ -167,7 +167,7 @@ export class ExposureNotificationService {
     try {
       await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
     } catch (error) {
-      console.error(error);
+      captureException('Unable to store SUBMISSION_AUTH_KEYS', error);
     }
     const cycleStartsAt = getCurrentDate();
     this.exposureStatus.append({
