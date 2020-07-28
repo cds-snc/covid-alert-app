@@ -2,6 +2,7 @@ import {useI18n} from 'locale';
 import {Box, ButtonSingleLine, Text, TextMultiline} from 'components';
 import React, {useCallback} from 'react';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {captureException} from 'shared/log';
 import {Linking} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -10,7 +11,7 @@ export const FrameworkUnavailableView = ({isBottomSheetExpanded}: {isBottomSheet
   const i18n = useI18n();
 
   const onHelp = useCallback(() => {
-    Linking.openURL(i18n.translate('Info.HelpUrl')).catch(err => console.error('An error occurred', err));
+    Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
 
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
