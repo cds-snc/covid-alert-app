@@ -1,4 +1,4 @@
-import {ExposureNotification} from './types';
+import {ExposureNotification, ExposureSummary} from './types';
 import {getLastExposureTimestamp} from './utils';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: any): ExposureNotification {
@@ -8,26 +8,17 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
       return exposureNotificationAPI.getExposureInformation(summary);
     },
     detectExposure: async (configuration, diagnosisKeysURLs) => {
-      return new Promise((resolve, reject) => {
-        if (diagnosisKeysURLs.length === 0) {
-          reject(new Error('Attempt to call detectExposure with empty list of downloaded files'));
-          return;
-        }
-        for (const diagnosisKeysURL of diagnosisKeysURLs) {
-          (async (diagnosisKeysURL: string) => {
-            try {
-              const summary = await exposureNotificationAPI.detectExposure(configuration, [diagnosisKeysURL]);
-              summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
-              // first detected exposure is enough
-              if (summary.matchedKeyCount > 0) {
-                resolve(summary);
-              }
-            } catch (error) {
-              reject(error);
-            }
-          })(diagnosisKeysURL);
-        }
-      });
+      if (diagnosisKeysURLs.length === 0) {
+        throw new Error('Attempt to call detectExposure with empty list of downloaded files');
+      }
+      let summary: ExposureSummary;
+      for (const diagnosisKeysURL of diagnosisKeysURLs) {
+        summary = await exposureNotificationAPI.detectExposure(configuration, [diagnosisKeysURL]);
+        summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
+        // first detected exposure is enough
+        if (summary.matchedKeyCount > 0) break;
+      }
+      return summary!;
     },
     getPendingExposureSummary: async () => {
       const summary = await exposureNotificationAPI.getPendingExposureSummary();
