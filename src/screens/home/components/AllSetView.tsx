@@ -2,8 +2,6 @@ import React from 'react';
 import {Text, TextMultiline} from 'components';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
-import {BaseHomeView} from './BaseHomeView';
-
 export const AllSetView = ({
   isBottomSheetExpanded,
   titleText,
