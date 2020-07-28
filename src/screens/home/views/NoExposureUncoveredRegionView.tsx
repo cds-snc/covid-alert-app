@@ -13,15 +13,17 @@ export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottom
   const {onboardedDatetime, skipAllSet} = useStorage();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
-  if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
-    return (
-      <AllSetView
-        isBottomSheetExpanded
-        titleText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
-        bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')}
-      />
-    );
-  }
+  // if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
+  //   return (
+  //     <BaseHomeView iconName="hand-no-province-yet">
+  //       <AllSetView
+  //         isBottomSheetExpanded
+  //         titleText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
+  //         bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')}
+  //       />
+  //     </BaseHomeView>
+  //   );
+  // }
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="hand-no-province-yet">

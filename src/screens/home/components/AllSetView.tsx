@@ -15,11 +15,11 @@ export const AllSetView = ({
 }) => {
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   return (
-    <BaseHomeView iconName="thumbs-up">
+    <>
       <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {titleText}
       </Text>
       <TextMultiline text={bodyText} marginBottom="m" />
-    </BaseHomeView>
+    </>
   );
 };
