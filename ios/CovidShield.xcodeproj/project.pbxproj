@@ -521,7 +521,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ca.gc.hcsc.canada.stopcovid";
+				PRODUCT_BUNDLE_IDENTIFIER = ca.gc.hcsc.canada.stopcovid;
 				PRODUCT_NAME = CovidShield;
 				PROVISIONING_PROFILE_SPECIFIER = "Stop COVID Development Profile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
