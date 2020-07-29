@@ -23,7 +23,7 @@ We may want to look at using Android Open-Source Project (AOSP) emulators, since
 
 Error:
 
-```
+```bash
 > Task :@react-native-community_async-storage:processDebugAndroidTestResources FAILED
 ```
 
