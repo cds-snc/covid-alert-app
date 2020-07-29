@@ -17,7 +17,7 @@ describe('Setup app and landing screen', () => {
 const setDemoMode = () => {
   if (device.getPlatform() === 'ios') {
     execSync(
-      'xcrun simctl status_bar "iPhone 11" override --time "12:00" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4',
+      'xcrun simctl status_bar "iPhone 8" override --time "12:00" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4',
     );
   } else {
     // enter demo mode
@@ -46,14 +46,17 @@ describe('Test onboarding flow', () => {
     for (let i = 1; i < NUM_ONBOARDING_SCREENS; i++) {
       await expect(element(by.text(`Step ${i} of ${NUM_ONBOARDING_SCREENS}`))).toBeVisible();
       await expect(element(by.id('nextButton'))).toBeVisible();
-      await device.takeScreenshot(`step-${i}`);
+      await device.takeScreenshot(`step-${i}-top`);
+      await element(by.id(`step-${i}ScrollView`)).scrollTo('bottom');
+      await device.takeScreenshot(`step-${i}-bottom`);
       await element(by.id('nextButton')).tap();
     }
     const finalStep = `step-${NUM_ONBOARDING_SCREENS}`;
-    await device.takeScreenshot(finalStep);
+    await device.takeScreenshot(`${finalStep}-top`);
     await expect(element(by.id(`${finalStep}ScrollView`))).toBeVisible();
     await expect(element(by.id('AB'))).toBeVisible();
     await element(by.id(`${finalStep}ScrollView`)).scrollTo('bottom');
+    await device.takeScreenshot(`${finalStep}-bottom`);
     await expect(element(by.id('ON'))).toBeVisible();
     await element(by.id('ON')).tap();
     await element(by.id('nextButton')).tap();
