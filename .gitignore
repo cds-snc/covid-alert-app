@@ -100,3 +100,5 @@ android/app/google-services.json
 ios/assets
 
 .env.release
+
+artifacts/*
