@@ -1,19 +1,29 @@
 # End to end testing with Detox
 
-## iOS setup instructions
+## iOS
 
-1. Copy code from readme into info.plist to get the ios simulator working ([instructions](https://github.com/cds-snc/covid-alert-app#ios-local-development)).
-2. `yarn install`, `sudo gem install cocoapods`, `bundle install && yarn pod-install`
-3. `brew tap wix/brew && brew install applesimutils`
-4. `yarn pre:test:ios`
-5. `yarn test:ios`
+### Initial setup
 
-## Android setup instructions
+1. `yarn install`, `sudo gem install cocoapods`, `bundle install && yarn pod-install`
+2. `brew tap wix/brew && brew install applesimutils`
 
-1. Install the android emulator `Pixel_3_API_29` using [these instructions](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#installing-from-android-studio).
-2. [Set up quick boot](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#emulator-quick-boot) on the emulator.
-3. `yarn pre:test:android`
-4. `yarn test:android`
+### Running the tests
+
+1. `yarn pre:test:ios`
+2. `yarn test:ios`
+
+## Android
+
+### Initial setup
+
+1. `yarn install`, `sudo gem install cocoapods`, `bundle install && yarn pod-install`
+2. Install the android emulator `Pixel_3_API_29` using [these instructions](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#installing-from-android-studio).
+3. [Set up quick boot](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#emulator-quick-boot) on the emulator.
+
+### Running the tests
+
+1. `yarn pre:test:android`
+2. `yarn test:android`
 
 ## Notes
 
