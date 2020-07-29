@@ -32,6 +32,8 @@ if (__DEV__) {
     .connect();
 }
 
+console.warn('hello');
+
 const appInit = async () => {
   captureMessage('App.appInit()');
   // only hide splash screen after our init is done
