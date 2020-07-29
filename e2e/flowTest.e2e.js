@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 const NUM_ONBOARDING_SCREENS = 6;
-describe('Example', () => {
+describe('Test flow', () => {
   beforeEach(async () => {
     await device.reloadReactNative();
   });
