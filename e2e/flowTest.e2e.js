@@ -45,17 +45,16 @@ describe('Test onboarding flow', () => {
     setDemoMode();
     for (let i = 1; i < NUM_ONBOARDING_SCREENS; i++) {
       await expect(element(by.text(`Step ${i} of ${NUM_ONBOARDING_SCREENS}`))).toBeVisible();
-      await expect(element(by.text('Next'))).toBeVisible();
+      await expect(element(by.id('nextButton'))).toBeVisible();
       await device.takeScreenshot(`step ${i}`);
-      await element(by.text('Next')).tap();
+      await element(by.id('nextButton')).tap();
     }
     await device.takeScreenshot('step 6');
-    await expect(element(by.text('Done'))).toBeVisible();
     await expect(element(by.id('step-6ScrollView'))).toBeVisible();
     await expect(element(by.id('AB'))).toBeVisible();
     await element(by.id('step-6ScrollView')).scrollTo('bottom');
     await expect(element(by.id('ON'))).toBeVisible();
     await element(by.id('ON')).tap();
-    await element(by.text('Done')).tap();
+    await element(by.id('nextButton')).tap();
   });
 });
