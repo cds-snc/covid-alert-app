@@ -3,7 +3,6 @@ const execSync = require('child_process').execSync;
 
 describe('Setup app and landing screen', () => {
   beforeEach(async () => {
-    await device.launchApp({permissions: {notifications: 'YES'}});
     await device.reloadReactNative();
   });
 
