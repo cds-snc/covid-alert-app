@@ -18,3 +18,13 @@
 ## Notes
 
 We may want to look at using Android Open-Source Project (AOSP) emulators, since [Detox says they are better for automated testing](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#android-aosp-emulators).
+
+## Troubleshooting
+
+Error:
+
+```
+> Task :@react-native-community_async-storage:processDebugAndroidTestResources FAILED
+```
+
+Try: `cd android && ./gradlew clean`
