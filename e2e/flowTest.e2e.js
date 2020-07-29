@@ -46,7 +46,7 @@ describe('Test onboarding flow', () => {
     for (let i = 1; i < NUM_ONBOARDING_SCREENS; i++) {
       await expect(element(by.text(`Step ${i} of ${NUM_ONBOARDING_SCREENS}`))).toBeVisible();
       await expect(element(by.id('nextButton'))).toBeVisible();
-      await device.takeScreenshot(`step ${i}`);
+      await device.takeScreenshot(`step-${i}`);
       await element(by.id('nextButton')).tap();
     }
     const finalStep = `step-${NUM_ONBOARDING_SCREENS}`;
