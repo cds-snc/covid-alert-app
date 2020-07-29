@@ -59,3 +59,10 @@ describe('Test onboarding flow', () => {
     await element(by.id('nextButton')).tap();
   });
 });
+
+describe('Test Home flow', () => {
+  it('has a home screen', async () => {
+    await device.takeScreenshot(`home`);
+    await expect(element(by.id('UnknownProblem'))).toBeVisible();
+  });
+});
