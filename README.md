@@ -106,6 +106,7 @@ Note that: Test menu is enabled if the environment config file (`.env*`) has `TE
 #### iOS Local Development
 
 If you would like to:
+
 - connect to a COVID Alert Diagnosis Server instance with an IP address or the server does not support HTTPS, or
 - have the app run in the simulator and get automatic React-Native code updates via the Metro server;
 
@@ -144,9 +145,10 @@ yarn generate-translations
 5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
 6. Add the new option in Xcode `Localizations` settings (Project -> CovidShield -> Info tab -> Localizations) and make sure `Launch Screen.storyboard` is checked.
 
-## Test plan
+## Testing
 
-See [Test Plan](./TEST_PLAN.md)
+- [Manual Testing Plan](./TEST_PLAN.md)
+- [End to end testing with Detox](./e2e/DETOX_DOC.md)
 
 ## Who built COVID Alert?
 
@@ -209,7 +211,7 @@ rvm reinstall 2.6.5 --with-openssl-dir=/usr/local/opt/openssl
 
 You should now be able to install cocoapods and gem commands should now work.
 
-____
+---
 
 # Application mobile Alerte COVID
 
