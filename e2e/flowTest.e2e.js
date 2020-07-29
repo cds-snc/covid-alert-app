@@ -1,19 +1,5 @@
 /* eslint-disable no-undef */
 const execSync = require('child_process').execSync;
-
-describe('Setup app and landing screen', () => {
-  beforeEach(async () => {
-    await device.reloadReactNative();
-  });
-
-  it('has landing screen', async () => {
-    await device.launchApp({permissions: {notifications: 'YES'}});
-    await expect(element(by.id('enButton'))).toBeVisible();
-    await expect(element(by.id('frButton'))).toBeVisible();
-    await element(by.id('enButton')).tap();
-  });
-});
-
 const setDemoMode = () => {
   if (device.getPlatform() === 'ios') {
     execSync(
@@ -35,30 +21,70 @@ const setDemoMode = () => {
   }
 };
 
-const NUM_ONBOARDING_SCREENS = 6;
-describe('Test onboarding flow', () => {
+describe('Setup app and landing screen', () => {
   beforeEach(async () => {
     await device.reloadReactNative();
   });
 
-  it('has onboarding screens', async () => {
+  it('has landing screen', async () => {
+    await expect(element(by.id('enButton'))).toBeVisible();
+    await expect(element(by.id('frButton'))).toBeVisible();
+  });
+});
+
+const NUM_ONBOARDING_SCREENS = 6;
+const HOW_IT_WORKS_STEP = 3;
+const NUM_HOW_IT_WORKS_SCREENS = 4;
+describe('Test onboarding flow', () => {
+  beforeEach(async () => {
+    await device.relaunchApp({delete: true, permissions: {notifications: 'YES'}});
     setDemoMode();
+  });
+
+  it('has onboarding screens', async () => {
+    await expect(element(by.id('enButton'))).toBeVisible();
+    await element(by.id('enButton')).tap();
+    // Loop through onboarding carousel
     for (let i = 1; i < NUM_ONBOARDING_SCREENS; i++) {
       await expect(element(by.text(`Step ${i} of ${NUM_ONBOARDING_SCREENS}`))).toBeVisible();
-      await expect(element(by.id('nextButton'))).toBeVisible();
-      await device.takeScreenshot(`step-${i}-top`);
-      await element(by.id(`step-${i}ScrollView`)).scrollTo('bottom');
-      await device.takeScreenshot(`step-${i}-bottom`);
-      await element(by.id('nextButton')).tap();
+      await expect(element(by.id('onboardingNextButton'))).toBeVisible();
+      await device.takeScreenshot(`onboarding-step-${i}-top`);
+      await expect(element(by.id(`step-${i}OnboardingScrollView`))).toBeVisible();
+      await element(by.id(`step-${i}OnboardingScrollView`)).scrollTo('bottom');
+      await device.takeScreenshot(`onboarding-step-${i}-bottom`);
+      await element(by.id('onboardingNextButton')).tap();
     }
+    // Finish onboarding with region picker
     const finalStep = `step-${NUM_ONBOARDING_SCREENS}`;
-    await device.takeScreenshot(`${finalStep}-top`);
-    await expect(element(by.id(`${finalStep}ScrollView`))).toBeVisible();
+    await device.takeScreenshot(`onboarding-${finalStep}-top`);
+    await expect(element(by.id(`${finalStep}OnboardingScrollView`))).toBeVisible();
     await expect(element(by.id('AB'))).toBeVisible();
-    await element(by.id(`${finalStep}ScrollView`)).scrollTo('bottom');
-    await device.takeScreenshot(`${finalStep}-bottom`);
+    await element(by.id(`${finalStep}OnboardingScrollView`)).scrollTo('bottom');
+    await device.takeScreenshot(`onboarding-${finalStep}-bottom`);
     await expect(element(by.id('ON'))).toBeVisible();
     await element(by.id('ON')).tap();
-    await element(by.id('nextButton')).tap();
+    await element(by.id('onboardingNextButton')).tap();
+  });
+
+  it('has how it works screens', async () => {
+    await expect(element(by.id('enButton'))).toBeVisible();
+    await element(by.id('enButton')).tap();
+    // Go to how it works step in onboarding
+    for (let i = 1; i < HOW_IT_WORKS_STEP; i++) {
+      await expect(element(by.id('onboardingNextButton'))).toBeVisible();
+      await element(by.id('onboardingNextButton')).tap();
+    }
+    await expect(element(by.id(`step-${HOW_IT_WORKS_STEP}OnboardingScrollView`))).toBeVisible();
+    await element(by.id(`step-${HOW_IT_WORKS_STEP}OnboardingScrollView`)).scrollTo('bottom');
+    await expect(element(by.id('howItWorksCTA'))).toBeVisible();
+    await element(by.id('howItWorksCTA')).tap();
+
+    // Loop through How it works carousel
+    for (let j = 1; j <= NUM_HOW_IT_WORKS_SCREENS; j++) {
+      await device.takeScreenshot(`how-it-works-step-${j}-top`);
+      await element(by.id(`step-${j}HowItWorksScrollView`)).scrollTo('bottom');
+      await device.takeScreenshot(`how-it-works-step-${j}-bottom`);
+      await element(by.id('howItWorksNextButton')).tap();
+    }
   });
 });
