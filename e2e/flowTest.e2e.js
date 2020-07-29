@@ -15,7 +15,7 @@ describe('Setup app and landing screen', () => {
   });
 });
 
-async function setDemoMode() {
+const setDemoMode = () => {
   if (device.getPlatform() === 'ios') {
     execSync(
       'xcrun simctl status_bar "iPhone 11" override --time "12:00" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4',
@@ -34,7 +34,7 @@ async function setDemoMode() {
     // Show full battery but not in charging state
     execSync('adb shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100');
   }
-}
+};
 
 const NUM_ONBOARDING_SCREENS = 6;
 describe('Test onboarding flow', () => {
@@ -43,8 +43,8 @@ describe('Test onboarding flow', () => {
   });
 
   it('has onboarding screens', async () => {
-    await setDemoMode();
-    for (var i = 1; i < NUM_ONBOARDING_SCREENS; i++) {
+    setDemoMode();
+    for (let i = 1; i < NUM_ONBOARDING_SCREENS; i++) {
       await expect(element(by.text(`Step ${i} of ${NUM_ONBOARDING_SCREENS}`))).toBeVisible();
       await expect(element(by.text('Next'))).toBeVisible();
       await device.takeScreenshot(`step ${i}`);
