@@ -23,6 +23,7 @@ interface RegionItemProps {
   selected: boolean;
   lastItem?: boolean;
   onPress: (code: Region) => void;
+  testID?: string;
 }
 
 export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[] = [
@@ -42,13 +43,14 @@ export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[
   {code: 'None', flagIcon: null},
 ];
 
-const RegionItem_ = ({code, onPress, name, lastItem, selected}: RegionItemProps) => (
+const RegionItem_ = ({code, onPress, name, lastItem, selected, testID}: RegionItemProps) => (
   <>
     <TouchableOpacity
       activeOpacity={0.6}
       onPress={() => onPress(code)}
       accessibilityRole="radio"
       accessibilityState={{selected}}
+      testID={testID}
     >
       <Box
         paddingVertical="m"

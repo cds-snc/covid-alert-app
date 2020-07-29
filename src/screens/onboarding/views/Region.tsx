@@ -28,6 +28,7 @@ export const Region = (props: Pick<ItemViewProps, 'isActive'>) => {
           {regionData.map(item => {
             return (
               <RegionItem
+                testID={item.code}
                 key={item.code}
                 selected={region === item.code}
                 onPress={async selectedRegion => {
