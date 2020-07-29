@@ -540,7 +540,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = J7J9Q6KTWJ;
-				INFOPLIST_FILE = "CovidShield/Info-release.plist";
+				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
