@@ -145,7 +145,7 @@ yarn generate-translations
 5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
 6. Add the new option in Xcode `Localizations` settings (Project -> CovidShield -> Info tab -> Localizations) and make sure `Launch Screen.storyboard` is checked.
 
-## Test
+## Testing
 
 - [Manual Testing Plan](./TEST_PLAN.md)
 - [End to end testing with Detox](./DETOX_DOC.md)
