@@ -32,7 +32,7 @@ if (__DEV__) {
     .connect();
 }
 
-console.log('hello');
+console.error('hello');
 
 const appInit = async () => {
   captureMessage('App.appInit()');
