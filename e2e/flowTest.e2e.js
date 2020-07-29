@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 const execSync = require('child_process').execSync;
+
 const setDemoMode = () => {
   if (device.getPlatform() === 'ios') {
     execSync(
