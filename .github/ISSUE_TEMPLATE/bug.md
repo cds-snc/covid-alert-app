@@ -6,18 +6,18 @@ labels: bug, inbox
 assignees: ""
 ---
 
-## Summary
+# Summary
 
 > One paragraph explanation of the bug, including why it is a problem (i.e. what does it prevent a user from doing or accomplishing).
 
-## Steps to reproduce
+# Steps to reproduce
 
 > Sequential steps (1., 2., 3., ...) that describe how to reproduce the bug. This will help a developer experience what the user experienced so that they can debug it.
 
-## Environment
+# Environment
 
 > What kind of device was the bug experienced with. This would include device, version of the operating system (i.e. iOS or Android), and any other environmental details that might be relevant.
 
-## Unresolved questions
+# Unresolved questions
 
 > Are there any related issues you consider out of scope for this issue that could be addressed in the future?
