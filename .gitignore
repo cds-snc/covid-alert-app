@@ -91,6 +91,7 @@ fastlane/certs/*
 ios/GoogleService-Info.plist
 ios/Generated.xcconfig
 android/app/google-services.json
+.env.e2e
 .env.local
 .env.secrets
 .env.release

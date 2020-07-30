@@ -62,7 +62,7 @@ describe('Test onboarding flow', () => {
 
 describe('Test Home flow', () => {
   it('has a home screen', async () => {
-    await device.takeScreenshot(`home`);
     await expect(element(by.id('UnknownProblem'))).toBeVisible();
+    await device.takeScreenshot(`UnknownProblem`);
   });
 });
