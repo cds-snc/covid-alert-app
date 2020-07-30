@@ -13,3 +13,22 @@
 # Unresolved questions
 
 > Are there any related issues or tangent features you consider out of scope for this issue that could be addressed in the future?
+
+# Reviewer checklist
+
+This is a suggested checklist of questions reviewers might ask during their review:
+
+- [ ] Does this meet a user need?
+- [ ] Is it accessible?
+- [ ] Is it translated between both offical languages?
+- [ ] Is the code maintainable?
+- [ ] Have you tested it?
+- [ ] Are there automated tests?
+- [ ] Does this cause automated test coverage to drop?
+- [ ] Does this break existing functionality?
+- [ ] Should this be split into smaller PRs to decrease change risk?
+- [ ] Does this change the privacy policy?
+- [ ] Does this introduce any security concerns?
+- [ ] Does this significantly alter performance?
+- [ ] What is the risk level of using added dependencies?
+- [ ] Should any documentation be updated as a result of this? (i.e. README setup, etc.)
