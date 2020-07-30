@@ -35,6 +35,7 @@ describe('Setup app and landing screen', () => {
 
 const NUM_ONBOARDING_SCREENS = 6;
 
+// These must be arranged in ascending order by step
 const ctaScreens = [
   {key: 'howItWorks', step: 3, screens: 4},
   {key: 'privacyPolicy', step: 5, screens: 0},
