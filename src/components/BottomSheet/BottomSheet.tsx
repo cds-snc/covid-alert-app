@@ -97,6 +97,7 @@ const BottomSheetInternal = (
   return (
     <>
       <BottomSheetRaw
+        callbackThreshold={0.9}
         ref={bottomSheetRef}
         borderRadius={32}
         enabledContentGestureInteraction
