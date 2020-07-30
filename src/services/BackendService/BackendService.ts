@@ -147,8 +147,8 @@ export class BackendService implements BackendInterface {
 
     const body = covidshield.KeyClaimRequest.encode(uploadPayload).finish();
     const response = await blobFetch(`${this.submitUrl}/claim-key`, 'POST', body);
-
-    return {error: response.error, keyClaimResponse: covidshield.KeyClaimResponse.decode(Buffer.from(response.buffer))};
+    const keyClaimResponse = covidshield.KeyClaimResponse.decode(Buffer.from(response.buffer));
+    return {error: response.error, keyClaimResponse};
   }
 
   private async upload(
@@ -163,8 +163,11 @@ export class BackendService implements BackendInterface {
       nonce,
       payload,
     }).finish();
-    const arrayBuffer = await blobFetch(`${this.submitUrl}/upload`, 'POST', request);
-    const response = covidshield.EncryptedUploadResponse.decode(Buffer.from(arrayBuffer));
-    return response;
+    const response = await blobFetch(`${this.submitUrl}/upload`, 'POST', request);
+    const encryptedUploadResponse = covidshield.EncryptedUploadResponse.decode(Buffer.from(response.buffer));
+    if (response.error && encryptedUploadResponse.error) {
+      throw new Error(`Code ${encryptedUploadResponse.error}`);
+    }
+    return encryptedUploadResponse;
   }
 }
