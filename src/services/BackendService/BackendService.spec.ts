@@ -1,24 +1,28 @@
+import nacl from 'tweetnacl';
 import * as DateFns from 'shared/date-fns';
 
-import {downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
+import {getRandomBytes, downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
 import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
 
 import {BackendService} from './BackendService';
 import {covidshield} from './covidshield';
 
+
 jest.mock('tweetnacl', () => ({
   __esModule: true,
   default: {
     box: jest.fn(),
-  },
+    setPRNG: jest.fn(),
+  }
 }));
+
 
 jest.mock('./covidshield', () => ({
   covidshield: {
     Upload: {
       create: jest.fn(),
       encode: () => ({
-        finish: jest.fn(),
+        finish: jest.fn(() => new Uint8Array(54) )
       }),
     },
     TemporaryExposureKey: {
@@ -32,13 +36,27 @@ jest.mock('./covidshield', () => ({
     EncryptedUploadResponse: {
       decode: jest.fn(),
     },
+    KeyClaimRequest: {
+      create: jest.fn(),
+      encode: () => ({
+        finish: jest.fn(),
+      }),
+    },
+    KeyClaimResponse: {
+      decode: () => ({
+        serverPublicKey: new Uint8Array(2),
+      })
+    }
   },
 }));
 
+
 jest.mock('../../bridge/CovidShield', () => ({
-  getRandomBytes: jest.fn(),
+  getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
   downloadDiagnosisKeysFile: jest.fn(),
 }));
+
+
 
 jest.mock('../../shared/fetch', () => ({
   blobFetch: () => Promise.resolve([]),
@@ -117,6 +135,24 @@ describe('BackendService', () => {
           expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
         });
     });
+
+    it('throws if random generator is not available', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const keys = generateRandomKeys(20);
+
+      getRandomBytes.mockRejectedValueOnce('I cannot randomize');
+
+      expect(backendService.reportDiagnosisKeys(
+        {
+          clientPrivateKey: 'mock',
+          clientPublicKey: 'mock',
+          serverPublicKey: 'mock',
+        },
+        keys,
+      )).rejects.toThrow();
+
+
+    });
   });
 
   describe('retrieveDiagnosisKeys', () => {
@@ -150,4 +186,35 @@ describe('BackendService', () => {
       );
     });
   });
+
+  describe('claimOneTimeCode', () => {
+    let backendService;
+    
+    beforeEach(() => {
+      backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const bytes = new Uint8Array(34);
+      nacl.box.keyPair = () => ({ publicKey: bytes,
+                                  secretKey: bytes });
+    });
+
+    it('returns a valid submission key set if called with valid one time code', async () => {
+      const keys = await backendService.claimOneTimeCode("MYSECRETCODE");
+      expect(keys).not.toBeNull();
+      expect(keys.serverPublicKey).toBeDefined();
+    });
+
+    it('throws if random generator is not available', () => {
+      getRandomBytes.mockRejectedValueOnce('I cannot randomize');
+      expect(backendService.claimOneTimeCode("MYSECRETCODE")).rejects.toThrow();
+    });
+
+    it('throws if backend reports claim error', () => {
+      mockClaimResponseError.mockValueOnce('this is an error');
+      expect(backendService.claimOneTimeCode("THISWILLNOTWORK")).rejects.toThrow();
+    });
+  });
+/*
+  describe('getExposureConfiguration', () => {
+    it('throws on respons
+  });*/
 });
