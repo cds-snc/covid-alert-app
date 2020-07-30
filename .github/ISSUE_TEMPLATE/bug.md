@@ -8,7 +8,7 @@ assignees: ""
 
 # Summary
 
-> One paragraph explanation of the bug, including why it is a problem (i.e. what does it prevent a user from doing or accomplishing).
+> One paragraph explanation of the bug, including why it is a problem (i.e. what does it prevent a user from doing or accomplishing). Screenshots are greatly helpful here too.
 
 # Steps to reproduce
 
