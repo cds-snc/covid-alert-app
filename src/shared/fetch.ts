@@ -1,12 +1,13 @@
-export function blobFetch(uri: string, method: 'GET' | 'POST', body?: Uint8Array): Promise<ArrayBuffer> {
+export function blobFetch(
+  uri: string,
+  method: 'GET' | 'POST',
+  body?: Uint8Array,
+): Promise<{buffer: ArrayBuffer; error: boolean}> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        resolve(xhr.response);
-      } else {
-        reject(new Error(`${xhr.status}: ${xhr.statusText}`));
-      }
+      const error = !(xhr.status >= 200 && xhr.status <= 299);
+      resolve({error, buffer: xhr.response});
     };
 
     xhr.onerror = function() {

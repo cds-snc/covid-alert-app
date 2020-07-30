@@ -273,10 +273,17 @@
       "Title": "Enter your one-time key",
       "Body": "Enter the key you got when you were diagnosed.",
       "Action": "Submit",
-      "InputLabel": "COVID Alert key",
-      "ErrorTitle": "One-time key not recognized",
-      "ErrorBody": "Your key could not be recognized. Please try again.",
-      "ErrorAction": "OK"
+      "InputLabel": "COVID Alert key"
+    },
+    "DiagnosisKeyError2": {
+      "Title": "One-time key not recognized",
+      "Body": "Your key could not be recognized. Please try again.",
+      "Action": "OK"
+    },
+    "DiagnosisKeyErrorDefault": {
+      "Title": "Problem uploading your one-time key",
+      "Body": "We have no idea what happened! Please try again.",
+      "Action": "OK"
     },
     "ConsentView": {
       "Title": "Now you can upload your codes",

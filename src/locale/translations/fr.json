@@ -31,10 +31,17 @@
       "Title": "Entrez votre clé à usage unique",
       "Body": "Entrez la clé que vous avez reçue lors de votre diagnostic.",
       "Action": "Envoyer",
-      "InputLabel": "code Alerte COVID",
-      "ErrorAction": "OK",
-      "ErrorBody": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau.",
-      "ErrorTitle": "Clé à usage unique non reconnue"
+      "InputLabel": "code Alerte COVID"
+    },
+    "DiagnosisKeyError2": {
+      "Title": "Clé à usage unique non reconnue",
+      "Body": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau.",
+      "Action": "OK"
+    },
+    "DiagnosisKeyErrorDefault": {
+      "Title": "Problem uploading your one-time key",
+      "Body": "We have no idea what happened! Please try again.",
+      "Action": "OK"
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
