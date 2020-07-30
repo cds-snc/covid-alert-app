@@ -5,7 +5,7 @@
     "ios": {
       "type": "ios.simulator",
       "binaryPath": "./ios/build/Build/Products/Debug-iphonesimulator/CovidShield.app",
-      "build": "xcodebuild -workspace ios/CovidShield.xcworkspace -scheme CovidShield -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+      "build": "ENVFILE=./.env.e2e xcodebuild -workspace ios/CovidShield.xcworkspace -scheme CovidShield -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
       "device": {
         "type": "iPhone 11"
       }

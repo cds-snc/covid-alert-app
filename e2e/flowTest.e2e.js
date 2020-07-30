@@ -64,5 +64,9 @@ describe('Test Home flow', () => {
   it('has a home screen', async () => {
     await expect(element(by.id('UnknownProblem'))).toBeVisible();
     await device.takeScreenshot(`UnknownProblem`);
+    await element(by.id('headerButton')).tap();
+    await element(by.id('ExposureView')).tap();
+    await element(by.id('headerButton')).tap();
+    await device.takeScreenshot(`ExposureView`);
   });
 });
