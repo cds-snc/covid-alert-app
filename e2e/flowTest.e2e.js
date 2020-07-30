@@ -34,8 +34,12 @@ describe('Setup app and landing screen', () => {
 });
 
 const NUM_ONBOARDING_SCREENS = 6;
-const HOW_IT_WORKS_STEP = 3;
-const NUM_HOW_IT_WORKS_SCREENS = 4;
+
+const ctaScreens = [
+  {key: 'howItWorks', step: 3, screens: 4},
+  {key: 'privacyPolicy', step: 5, screens: 0},
+];
+
 describe('Test onboarding flow', () => {
   beforeEach(async () => {
     await device.relaunchApp({delete: true, permissions: {notifications: 'YES'}});
@@ -67,25 +71,37 @@ describe('Test onboarding flow', () => {
     await element(by.id('onboardingNextButton')).tap();
   });
 
-  it('has how it works screens', async () => {
+  it('has how it works and privacy policy screens', async () => {
     await expect(element(by.id('enButton'))).toBeVisible();
     await element(by.id('enButton')).tap();
-    // Go to how it works step in onboarding
-    for (let i = 1; i < HOW_IT_WORKS_STEP; i++) {
-      await expect(element(by.id('onboardingNextButton'))).toBeVisible();
-      await element(by.id('onboardingNextButton')).tap();
-    }
-    await expect(element(by.id(`step-${HOW_IT_WORKS_STEP}OnboardingScrollView`))).toBeVisible();
-    await element(by.id(`step-${HOW_IT_WORKS_STEP}OnboardingScrollView`)).scrollTo('bottom');
-    await expect(element(by.id('howItWorksCTA'))).toBeVisible();
-    await element(by.id('howItWorksCTA')).tap();
 
-    // Loop through How it works carousel
-    for (let j = 1; j <= NUM_HOW_IT_WORKS_SCREENS; j++) {
-      await device.takeScreenshot(`how-it-works-step-${j}-top`);
-      await element(by.id(`step-${j}HowItWorksScrollView`)).scrollTo('bottom');
-      await device.takeScreenshot(`how-it-works-step-${j}-bottom`);
-      await element(by.id('howItWorksNextButton')).tap();
+    let currentScreen = 1;
+    for (let i = 0; i < ctaScreens.length; i++) {
+      // Go through onboarding until we hit the current ctaScreen
+      for (; currentScreen < ctaScreens[i].step; currentScreen++) {
+        await expect(element(by.id('onboardingNextButton'))).toBeVisible();
+        await element(by.id('onboardingNextButton')).tap();
+      }
+      // Scroll to the bottom to hit the CTA
+      await expect(element(by.id(`step-${ctaScreens[i].step}OnboardingScrollView`))).toBeVisible();
+      await element(by.id(`step-${ctaScreens[i].step}OnboardingScrollView`)).scrollTo('bottom');
+      await expect(element(by.id(`${ctaScreens[i].key}CTA`))).toBeVisible();
+      await element(by.id(`${ctaScreens[i].key}CTA`)).tap();
+      if (ctaScreens[i].screens > 0) {
+        // Loop through carousel if it exists
+        for (let j = 1; j <= ctaScreens[i].screens; j++) {
+          await device.takeScreenshot(`${ctaScreens[i].key}-step-${j}-top`);
+          await element(by.id(`step-${j}${ctaScreens[i].key}ScrollView`)).scrollTo('bottom');
+          await device.takeScreenshot(`${ctaScreens[i].key}-step-${j}-bottom`);
+          await element(by.id(`${ctaScreens[i].key}NextButton`)).tap();
+        }
+      } else {
+        // Scroll to bottom of scroll view and exit
+        await device.takeScreenshot(`${ctaScreens[i].key}-top`);
+        await element(by.id(`${ctaScreens[i].key}ScrollView`)).scrollTo('bottom');
+        await device.takeScreenshot(`${ctaScreens[i].key}-bottom`);
+        await element(by.id(`toolbarCloseButton`)).tap();
+      }
     }
   });
 });
