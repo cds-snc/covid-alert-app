@@ -18,6 +18,6 @@ assignees: ""
 
 > What kind of device was the bug experienced with. This would include device, version of the operating system (i.e. iOS or Android), and any other environmental details that might be relevant.
 
-# Unresolved questions
+# Unresolved questions / Out of scope
 
 > Are there any related issues you consider out of scope for this issue that could be addressed in the future?

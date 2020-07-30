@@ -10,7 +10,7 @@
 
 > Things that you (the submitter) want reviewers to pay very close attention to when they review this.
 
-# Unresolved questions
+# Unresolved questions / Out of scope
 
 > Are there any related issues or tangent features you consider out of scope for this issue that could be addressed in the future?
 

@@ -18,6 +18,6 @@ assignees: ""
 
 > Following the example of a dark mode feature request, you might describe that text is light, backgrounds are dark, and images have sufficient contrast with the dark backgrounds.
 
-# Unresolved questions
+# Unresolved questions / Out of scope
 
 > Are there any related issues or tangent features you consider out of scope for this issue that could be addressed in the future?
