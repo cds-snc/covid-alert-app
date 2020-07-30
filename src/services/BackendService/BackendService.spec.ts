@@ -1,6 +1,7 @@
+import nacl from 'tweetnacl';
 import * as DateFns from 'shared/date-fns';
 
-import {downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
+import {getRandomBytes, downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
 import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
 
 import {BackendService} from './BackendService';
@@ -10,6 +11,7 @@ jest.mock('tweetnacl', () => ({
   __esModule: true,
   default: {
     box: jest.fn(),
+    setPRNG: jest.fn(),
   },
 }));
 
@@ -18,7 +20,7 @@ jest.mock('./covidshield', () => ({
     Upload: {
       create: jest.fn(),
       encode: () => ({
-        finish: jest.fn(),
+        finish: jest.fn(() => new Uint8Array(54)),
       }),
     },
     TemporaryExposureKey: {
@@ -32,11 +34,21 @@ jest.mock('./covidshield', () => ({
     EncryptedUploadResponse: {
       decode: jest.fn(),
     },
+    KeyClaimRequest: {
+      create: jest.fn(),
+      encode: () => ({
+        finish: jest.fn(),
+      }),
+    },
+
+    KeyClaimResponse: {
+      decode: jest.fn(),
+    },
   },
 }));
 
 jest.mock('../../bridge/CovidShield', () => ({
-  getRandomBytes: jest.fn(),
+  getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
   downloadDiagnosisKeysFile: jest.fn(),
 }));
 
@@ -117,6 +129,19 @@ describe('BackendService', () => {
           expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
         });
     });
+
+    it('throws if random generator is not available', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const keys = generateRandomKeys(20);
+      const submissionKeys = {
+        clientPrivateKey: 'mock',
+        clientPublicKey: 'mock',
+        serverPublicKey: 'mock',
+      };
+      getRandomBytes.mockRejectedValueOnce('I cannot randomize');
+
+      await expect(backendService.reportDiagnosisKeys(submissionKeys, keys)).rejects.toThrow('I cannot randomize');
+    });
   });
 
   describe('retrieveDiagnosisKeys', () => {
@@ -148,6 +173,50 @@ describe('BackendService', () => {
       expect(downloadDiagnosisKeysFile).toHaveBeenCalledWith(
         'http://localhost/retrieve/302/00000/2fd9e1da09518cf874d1520fe676b8264ac81e2e90efaefaa3a6a8eca060e742',
       );
+    });
+  });
+
+  describe('claimOneTimeCode', () => {
+    let backendService;
+
+    beforeEach(() => {
+      backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+      const bytes = new Uint8Array(34);
+      nacl.box.keyPair = () => ({publicKey: bytes, secretKey: bytes});
+      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
+        serverPublicKey: new Uint8Array(2),
+      }));
+    });
+
+    it('returns a valid submission key set if called with valid one time code', async () => {
+      const keys = await backendService.claimOneTimeCode('MYSECRETCODE');
+      expect(keys).not.toBeNull();
+      expect(keys.serverPublicKey).toBeDefined();
+    });
+
+    it('throws if random generator is not available', async () => {
+      getRandomBytes.mockRejectedValueOnce('I cannot randomize');
+      await expect(backendService.claimOneTimeCode('MYSECRETCODE')).rejects.toThrow('I cannot randomize');
+    });
+
+    it('throws if backend reports claim error', async () => {
+      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
+        error: '666',
+      }));
+      await expect(backendService.claimOneTimeCode('THISWILLNOTWORK')).rejects.toThrow('Code 666');
+    });
+  });
+
+  describe('getExposureConfiguration', () => {
+    it('retrieves configuration from backend', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve({json: () => ({})}));
+
+      await backendService.getExposureConfiguration();
+      const anticipatedURL = 'http://localhost/exposure-configuration/CA.json';
+      expect(fetch).toHaveBeenCalledWith(anticipatedURL, {headers: {'Cache-Control': 'no-store'}});
     });
   });
 });
