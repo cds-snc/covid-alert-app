@@ -3,6 +3,17 @@ import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 
 describe('ExposureConfigurationValidator', () => {
+  it('verify the schema is parseable JSON with bare minimum of properties', () => {
+    expect(exposureConfigurationSchema).toHaveProperty('$schema');
+    expect(exposureConfigurationSchema).toHaveProperty('title');
+    expect(exposureConfigurationSchema).toHaveProperty('properties');
+  });
+
+  it('verify the default config is parseable JSON with bare minimum of properties', () => {
+    expect(exposureConfigurationDefault).toHaveProperty('minimumRiskScore');
+    expect(exposureConfigurationDefault).toHaveProperty('attenuationLevelValues');
+  });
+
   it('validates the default config', () => {
     const result = new ExposureConfigurationValidator().validateExposureConfiguration(
       exposureConfigurationDefault,
