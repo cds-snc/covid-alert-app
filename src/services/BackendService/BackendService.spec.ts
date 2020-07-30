@@ -7,22 +7,20 @@ import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
 import {BackendService} from './BackendService';
 import {covidshield} from './covidshield';
 
-
 jest.mock('tweetnacl', () => ({
   __esModule: true,
   default: {
     box: jest.fn(),
     setPRNG: jest.fn(),
-  }
+  },
 }));
-
 
 jest.mock('./covidshield', () => ({
   covidshield: {
     Upload: {
       create: jest.fn(),
       encode: () => ({
-        finish: jest.fn(() => new Uint8Array(54) )
+        finish: jest.fn(() => new Uint8Array(54)),
       }),
     },
     TemporaryExposureKey: {
@@ -42,21 +40,17 @@ jest.mock('./covidshield', () => ({
         finish: jest.fn(),
       }),
     },
+
     KeyClaimResponse: {
-      decode: () => ({
-        serverPublicKey: new Uint8Array(2),
-      })
-    }
+      decode: jest.fn(),
+    },
   },
 }));
-
 
 jest.mock('../../bridge/CovidShield', () => ({
   getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
   downloadDiagnosisKeysFile: jest.fn(),
 }));
-
-
 
 jest.mock('../../shared/fetch', () => ({
   blobFetch: () => Promise.resolve([]),
@@ -139,19 +133,14 @@ describe('BackendService', () => {
     it('throws if random generator is not available', async () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
       const keys = generateRandomKeys(20);
-
+      const submissionKeys = {
+        clientPrivateKey: 'mock',
+        clientPublicKey: 'mock',
+        serverPublicKey: 'mock',
+      };
       getRandomBytes.mockRejectedValueOnce('I cannot randomize');
 
-      expect(backendService.reportDiagnosisKeys(
-        {
-          clientPrivateKey: 'mock',
-          clientPublicKey: 'mock',
-          serverPublicKey: 'mock',
-        },
-        keys,
-      )).rejects.toThrow();
-
-
+      await expect(backendService.reportDiagnosisKeys(submissionKeys, keys)).rejects.toThrow('I cannot randomize');
     });
   });
 
@@ -189,32 +178,45 @@ describe('BackendService', () => {
 
   describe('claimOneTimeCode', () => {
     let backendService;
-    
+
     beforeEach(() => {
-      backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
       const bytes = new Uint8Array(34);
-      nacl.box.keyPair = () => ({ publicKey: bytes,
-                                  secretKey: bytes });
+      nacl.box.keyPair = () => ({publicKey: bytes, secretKey: bytes});
+      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
+        serverPublicKey: new Uint8Array(2),
+      }));
     });
 
     it('returns a valid submission key set if called with valid one time code', async () => {
-      const keys = await backendService.claimOneTimeCode("MYSECRETCODE");
+      const keys = await backendService.claimOneTimeCode('MYSECRETCODE');
       expect(keys).not.toBeNull();
       expect(keys.serverPublicKey).toBeDefined();
     });
 
-    it('throws if random generator is not available', () => {
+    it('throws if random generator is not available', async () => {
       getRandomBytes.mockRejectedValueOnce('I cannot randomize');
-      expect(backendService.claimOneTimeCode("MYSECRETCODE")).rejects.toThrow();
+      await expect(backendService.claimOneTimeCode('MYSECRETCODE')).rejects.toThrow('I cannot randomize');
     });
 
-    it('throws if backend reports claim error', () => {
-      mockClaimResponseError.mockValueOnce('this is an error');
-      expect(backendService.claimOneTimeCode("THISWILLNOTWORK")).rejects.toThrow();
+    it('throws if backend reports claim error', async () => {
+      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
+        error: '666',
+      }));
+      await expect(backendService.claimOneTimeCode('THISWILLNOTWORK')).rejects.toThrow('Code 666');
     });
   });
-/*
+
   describe('getExposureConfiguration', () => {
-    it('throws on respons
-  });*/
+    it('retrieves configuration from backend', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve({json: () => ({})}));
+
+      await backendService.getExposureConfiguration();
+      const anticipatedURL = 'http://localhost/exposure-configuration/CA.json';
+      expect(fetch).toHaveBeenCalledWith(anticipatedURL, {headers: {'Cache-Control': 'no-store'}});
+    });
+  });
 });
