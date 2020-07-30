@@ -1,7 +1,7 @@
 import React from 'react';
 import {useI18n} from 'locale';
 import {Text} from 'components';
-import {useExposureStatus} from 'services/ExposureNotificationService';
+import {ExposureStatusType, useExposureStatus} from 'services/ExposureNotificationService';
 import {daysBetween, getCurrentDate} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {useStorage} from 'services/StorageService';
@@ -16,7 +16,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   const [exposureStatus] = useExposureStatus();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
-  if (exposureStatus.type !== 'diagnosed') return null;
+  if (exposureStatus.type !== ExposureStatusType.Diagnosed) return null;
 
   const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
 
