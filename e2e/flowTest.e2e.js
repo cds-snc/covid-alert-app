@@ -75,7 +75,7 @@ describe('Test onboarding flow', () => {
     await expect(element(by.id('enButton'))).toBeVisible();
     await element(by.id('enButton')).tap();
 
-    const howItWorks = ctaScreens['howItWorks'];
+    const howItWorks = ctaScreens.howItWorks;
     // Go through onboarding until we hit how it works
     for (let i = 1; i < howItWorks.step; i++) {
       await expect(element(by.id('onboardingNextButton'))).toBeVisible();
@@ -100,7 +100,7 @@ describe('Test onboarding flow', () => {
     await expect(element(by.id('enButton'))).toBeVisible();
     await element(by.id('enButton')).tap();
 
-    const privacyPolicy = ctaScreens['privacyPolicy'];
+    const privacyPolicy = ctaScreens.privacyPolicy;
     // Go through onboarding until we hit how it works
     for (let i = 1; i < privacyPolicy.step; i++) {
       await expect(element(by.id('onboardingNextButton'))).toBeVisible();
