@@ -10,6 +10,7 @@ This repository implements a React Native _client application_ for Apple/Google'
 Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/).
 
 - [Overview](#overview)
+- [App Description](#description)
 - in [development doc:](DEVELOP.md)
     - [Local development](DEVELOP.md#local-development)
     - [Customization](DEVELOP.md#customization)
@@ -19,6 +20,32 @@ Notification](https://www.apple.com/covid19/contacttracing) framework, informed 
 ## Overview
 
 This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Alert Diagnosis Server](https://github.com/cds-snc/covid-alert-server) to provide a reference for how a client application for exposure notifications could work.
+
+## Description
+
+Canada's COVID Alert app notifies you if someone you were near in the past 14 days tells the app they tested positive.
+
+COVID Alert uses Bluetooth to exchange random codes with nearby phones.
+It does not use or access any location data.
+COVID Alert works by determining how far away other phones are by the strength of their Bluetooth signal.
+
+Several times a day, COVID Alert checks a list of codes from people who tell the app they tested positive.
+You'll get a notification if a code you received matches one of the positive codes.
+
+If you test positive for COVID-19 you will receive a one-time key with your diagnosis to enter into COVID Alert.
+The app asks permission to share your random codes from the last 14 days with a central server.
+
+Other phones using COVID Alert check the central server periodically throughout the day.
+If they recorded any codes that match the codes in the central server, their user will be notified that they were exposed.
+
+COVID Alert has no way of knowing:
+
+* your location - COVID Alert does not use GPS or location services
+* your name or address
+* the place or time you were near someone
+* if you're currently near someone who was previously diagnosed
+
+Provincial and territorial governments are working to support COVID Alert across Canada.
 
 ## Who built COVID Alert?
 
