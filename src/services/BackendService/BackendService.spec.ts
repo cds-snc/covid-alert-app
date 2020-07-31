@@ -53,7 +53,7 @@ jest.mock('../../bridge/CovidShield', () => ({
 }));
 
 jest.mock('../../shared/fetch', () => ({
-  blobFetch: () => Promise.resolve([]),
+  blobFetch: () => Promise.resolve({error: false, buffer: []}),
 }));
 
 /**
@@ -203,7 +203,9 @@ describe('BackendService', () => {
       covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
         error: '666',
       }));
-      await expect(backendService.claimOneTimeCode('THISWILLNOTWORK')).rejects.toThrow('Code 666');
+      const response = await backendService.claimOneTimeCode('THISWILLNOTWORK');
+      // console.log('response', response);
+      expect(response).toStrictEqual({error: true, buffer: 'Code 666'});
     });
   });
 
