@@ -173,6 +173,7 @@
     "TurnOnBluetooth": "Activez Bluetooth",
     "UnknownProblem": {
       "Title": "Une erreur s’est produite",
+      "Body": "Il semble que votre téléphone ne puisse pas prendre en charge Alerte COVID.",
       "CTA": "Trouver de l’aide"
     }
   },

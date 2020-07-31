@@ -1,6 +1,8 @@
 import {useEffect, useState} from 'react';
 import {AccessibilityInfo, AccessibilityEvent} from 'react-native';
 
+import {captureException} from './log';
+
 export function useReduceMotionPreference() {
   const [prefersReducedMotion, setPreference] = useState(false);
   useEffect(() => {
@@ -10,7 +12,7 @@ export function useReduceMotionPreference() {
     AccessibilityInfo.isReduceMotionEnabled()
       .then(handleChange)
       .catch(error => {
-        console.warn('AccessibilityInfo.isReduceMotionEnabled promise failed', error);
+        captureException('AccessibilityInfo.isReduceMotionEnabled promise failed', error);
       });
     AccessibilityInfo.addEventListener('reduceMotionChanged', handleChange);
     return () => {
