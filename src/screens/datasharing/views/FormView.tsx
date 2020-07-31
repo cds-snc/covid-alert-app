@@ -7,7 +7,7 @@ export interface FormViewProps {
   value: string;
   onChange: (value: string) => void;
   onSuccess: () => void;
-  onError: (error: string) => void;
+  onError: (error: any) => void;
 }
 
 export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) => {

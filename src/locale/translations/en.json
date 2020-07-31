@@ -275,7 +275,7 @@
       "Action": "Submit",
       "InputLabel": "COVID Alert key"
     },
-    "DiagnosisKeyError2": {
+    "DiagnosisKeyErrorInvalidOneTimeCode": {
       "Title": "One-time key not recognized",
       "Body": "Your key could not be recognized. Please try again.",
       "Action": "OK"

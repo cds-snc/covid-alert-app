@@ -33,7 +33,7 @@
       "Action": "Envoyer",
       "InputLabel": "code Alerte COVID"
     },
-    "DiagnosisKeyError2": {
+    "DiagnosisKeyErrorInvalidOneTimeCode": {
       "Title": "Clé à usage unique non reconnue",
       "Body": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau.",
       "Action": "OK"
