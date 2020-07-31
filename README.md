@@ -9,6 +9,8 @@ Adapted from <https://github.com/CovidShield/mobile> ([upstream](https://github.
 This repository implements a React Native _client application_ for Apple/Google's [Exposure
 Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/).
 
+Download: <a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid" target="_blank">Google Play Store</a> | <a href="https://apps.apple.com/ca/app/covid-alert/id1520284227" target="_blank">Apple App Store</a>
+
 - [Overview](#overview)
 - [Local development](#local-development)
 - [Customization](#customization)
@@ -221,6 +223,8 @@ Adapté de <https://github.com/CovidShield/mobile> ([voir les modifications](htt
 
 Ce dépôt met en œuvre une _application client_ React Native pour le cadriciel [Notification
 d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, éclairé par [l’orientation fournie par le commissaire à la protection de la vie privée du Canada](https://priv.gc.ca/fr/opc-news/speeches/2020/s-d_20200507/).
+
+Télécharger: <a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid" target="_blank">Google Play Store</a> | <a href="https://apps.apple.com/ca/app/covid-alert/id1520284227" target="_blank">Apple App Store</a>
 
 - [Aperçu](#aperçu)
 - [Développement local](#développement-local)
