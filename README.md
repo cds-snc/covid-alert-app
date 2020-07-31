@@ -65,6 +65,7 @@ Ce dépôt met en œuvre une _application client_ React Native pour le cadriciel
 d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, éclairé par [l’orientation fournie par le commissaire à la protection de la vie privée du Canada](https://priv.gc.ca/fr/opc-news/speeches/2020/s-d_20200507/).
 
 - [Aperçu](#aperçu)
+- [Description](#la-description)
 - in [development doc:](DEVELOP.md#application-mobile-alerte-covid)
     - [Développement local](DEVELOP.md#développement-local)
     - [Personnalisation](DEVELOP.md#personnalisation)
@@ -74,6 +75,31 @@ d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, 
 ## Aperçu
 
 Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic Alerte COVID](https://github.com/cds-snc/covid-alert-server) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
+
+## La Description
+L’application canadienne Alerte COVID vous avise si jamais une personne que vous avez côtoyée au cours des 14 derniers jours signale un test positif à l’application.
+
+Alerte COVID utilise la technologie Bluetooth pour échanger des codes aléatoires avec les téléphones voisins.
+L’application n’utilise ni n’obtient aucune donnée de localisation.
+Alerte COVID détermine à quelle distance sont les autres téléphones grâce à la puissance de leur signal Bluetooth.
+
+Plusieurs fois par jour, Alerte COVID vérifie une liste de codes émis par les personnes qui ont signalé un test positif à l’application.
+Vous recevrez une notification si l’un des codes que vous avez reçus figure dans la liste.
+
+Si vous recevez un test positif de COVID-19, on vous donnera lors de votre diagnostic une clé à usage unique à saisir dans Alerte COVID.
+L’application vous demandera l’autorisation de partager vos codes aléatoires des 14 derniers jours avec un serveur central.
+
+Les autres téléphones qui utilisent Alerte COVID vérifient périodiquement le serveur central pendant la journée.
+S’ils ont collecté des codes qui correspondent aux codes dans le serveur central, leurs utilisateurs seront avisés d’une exposition.
+
+Alerte COVID n’a aucun moyen de savoir :
+
+* votre position (Alerte COVID n’utilise ni le GPS ni les services de localisation);
+* votre nom ou votre adresse;
+* l’endroit ou le moment où vous avez été près d’une autre personne;
+* si vous êtes actuellement près d’une personne qui a obtenu un diagnostic.
+
+Les gouvernements provinciaux et territoriaux s’efforcent de rendre Alerte COVID utilisable partout au Canada.
 
 ## Qui a conçu Alerte COVID?
 
