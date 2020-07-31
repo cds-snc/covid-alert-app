@@ -276,13 +276,18 @@
       "InputLabel": "COVID Alert key"
     },
     "DiagnosisKeyErrorInvalidOneTimeCode": {
-      "Title": "One-time key not recognized",
-      "Body": "Your key could not be recognized. Please try again.",
+      "Title": "Incorrect key",
+      "Body": "Your one-time key could not be recognized. Please try again.",
+      "Action": "OK"
+    },
+    "DiagnosisKeyErrorTemporaryBan": {
+      "Title": "Wait for 1 hour",
+      "Body": "You’ve tried to enter a one-time key too many times.",
       "Action": "OK"
     },
     "DiagnosisKeyErrorDefault": {
-      "Title": "Problem uploading your one-time key",
-      "Body": "We have no idea what happened! Please try again.",
+      "Title": "Try again later",
+      "Body": "Something went wrong with the system.",
       "Action": "OK"
     },
     "ConsentView": {

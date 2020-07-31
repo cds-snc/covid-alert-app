@@ -28,6 +28,8 @@ export const DataSharingScreen = () => {
       switch (error) {
         case covidshield.KeyClaimResponse.ErrorCode.INVALID_ONE_TIME_CODE:
           return 'DiagnosisKeyErrorInvalidOneTimeCode';
+        case covidshield.KeyClaimResponse.ErrorCode.TEMPORARY_BAN:
+          return 'DiagnosisKeyErrorTemporaryBan';
         default:
           return 'DiagnosisKeyErrorDefault';
       }

@@ -38,9 +38,14 @@
       "Body": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau.",
       "Action": "OK"
     },
+    "DiagnosisKeyErrorTemporaryBan": {
+      "Title": "Wait for 1 hour",
+      "Body": "You’ve tried to enter a one-time key too many times.",
+      "Action": "OK"
+    },
     "DiagnosisKeyErrorDefault": {
-      "Title": "Problem uploading your one-time key",
-      "Body": "We have no idea what happened! Please try again.",
+      "Title": "Try again later",
+      "Body": "Something went wrong with the system.",
       "Action": "OK"
     },
     "ConsentView": {
