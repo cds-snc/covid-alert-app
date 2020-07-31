@@ -69,6 +69,7 @@
     "@babel/runtime": "^7.6.2",
     "@react-native-community/eslint-config": "^1.0.0",
     "@shopify/eslint-plugin": "^36.0.2",
+    "@testing-library/react-native": "^7.0.0",
     "@types/crypto-js": "^3.1.45",
     "@types/jest": "^24.0.24",
     "@types/jest-when": "^2.7.1",
