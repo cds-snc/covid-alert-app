@@ -6,8 +6,7 @@
 
 Adapted from <https://github.com/CovidShield/mobile> ([upstream](https://github.com/cds-snc/covid-alert-app/blob/master/FORK.md))
 
-This repository implements a React Native _client application_ for Apple/Google's [Exposure
-Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/).
+This repository implements a React Native _client application_ for Apple/Google's [Exposure Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/).
 
 - [Overview](#overview)
 - [Local development](#local-development)
@@ -17,7 +16,8 @@ Notification](https://www.apple.com/covid19/contacttracing) framework, informed 
 
 ## Overview
 
-This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Alert Diagnosis Server](https://github.com/cds-snc/covid-alert-server) to provide a reference for how a client application for exposure notifications could work.
+This app is built using React Native and designed to work well with patterns on both Android and iOS devices.
+It works alongside the [COVID Alert Diagnosis Server](https://github.com/cds-snc/covid-alert-server) to provide a reference for how a client application for exposure notifications could work.
 
 ## Local development
 
@@ -34,12 +34,16 @@ Follow the steps outlined in [React Native Development Environment Setup](https:
 - Xcode 11.5 or greater
 - iOS device or simulator with iOS 13.5 or greater
 - [Bundler](https://bundler.io/) to install the right version of CocoaPods locally
-- You also need a provisioning profile with the Exposure Notification entitlement. For more information, visit https://developer.apple.com/documentation/exposurenotification.
+- You also need a provisioning profile with the Exposure Notification entitlement.
+For more information, visit https://developer.apple.com/documentation/exposurenotification.
 
 #### Android
 
-- Android device with the ability to run the latest version of Google Play Services or Google Play Services Beta. Sign up for beta program here https://developers.google.com/android/guides/beta-program.
-- You also need a safelisted APPLICATION_ID that will be used to publish to Google Play. You could use APPLICATION_ID from [Google Sample App](https://github.com/google/exposure-notifications-android) for testing purposes `"com.google.android.apps.exposurenotification"`. Go to [Environment config](https://github.com/CovidShield/mobile#3-environment-config) to see how to change APPLICATION_ID.
+- Android device with the ability to run the latest version of Google Play Services or Google Play Services Beta.
+Sign up for beta program here https://developers.google.com/android/guides/beta-program.
+- You also need a safelisted APPLICATION_ID that will be used to publish to Google Play.
+You could use APPLICATION_ID from [Google Sample App](https://github.com/google/exposure-notifications-android) for testing purposes `"com.google.android.apps.exposurenotification"`.
+Go to [Environment config](https://github.com/CovidShield/mobile#3-environment-config) to see how to change APPLICATION_ID.
 
 #### 1. Check out the repository
 
@@ -69,7 +73,8 @@ bundle install && yarn pod-install
 
 #### 3. Environment config
 
-Check `.env` and adjust configuration if necessary. See [react-native-config](https://www.npmjs.com/package/react-native-config#different-environments) for more information.
+Check `.env` and adjust configuration if necessary.
+See [react-native-config](https://www.npmjs.com/package/react-native-config#different-environments) for more information.
 
 Ex:
 
@@ -94,7 +99,8 @@ You can also build the app with native development tool:
 
 ### Development mode
 
-When the app is running development mode, you can tap on the COVID Alert logo at the top of the app to open the Test menu. This menu enables you to:
+When the app is running development mode, you can tap on the COVID Alert logo at the top of the app to open the Test menu.
+This menu enables you to:
 
 - Put the app into test mode to bypass the Exposure Notification API check
 - Change the system status
@@ -102,7 +108,8 @@ When the app is running development mode, you can tap on the COVID Alert logo at
 - Send a sample notification
 - Reset the app to onboarding state
 
-Note that: Test menu is enabled if the environment config file (`.env*`) has `TEST_MODE=true`. To disable test mode UI on production build, simply set it to false in the environment config file `TEST_MODE=false`.
+Note that: Test menu is enabled if the environment config file (`.env*`) has `TEST_MODE=true`.
+To disable test mode UI on production build, simply set it to false in the environment config file `TEST_MODE=false`.
 
 #### iOS Local Development
 
@@ -111,7 +118,8 @@ If you would like to:
 - connect to a COVID Alert Diagnosis Server instance with an IP address or the server does not support HTTPS, or
 - have the app run in the simulator and get automatic React-Native code updates via the Metro server;
 
-Please add the following keys to the `info.plist` file. These keys should not be commited to the repo, and used only for local development.
+Please add the following keys to the `info.plist` file.
+These keys should not be commited to the repo, and used only for local development.
 
 ```
 	<key>NSAppTransportSecurity</key>
@@ -129,7 +137,9 @@ You can customize the look and feel of the app largely by editing values found i
 
 ## Localization
 
-The COVID Alert app is available in French and English. Fully localized content can be modified by editing translations files found in the [translations directory](https://github.com/cds-snc/covid-alert-app/tree/master/src/locale/translations). More translations can be added by using the same mechanism as French and English.
+The COVID Alert app is available in French and English.
+Fully localized content can be modified by editing translations files found in the [translations directory](https://github.com/cds-snc/covid-alert-app/tree/master/src/locale/translations).
+More translations can be added by using the same mechanism as French and English.
 
 After modifying the content you must run the `generate-translations` command in order for the app to reflect your changes.
 
@@ -153,9 +163,11 @@ yarn generate-translations
 
 ## Who built COVID Alert?
 
-COVID Alert was originally developed by [volunteers at Shopify](https://www.covidshield.app/). It was [released free of charge under a flexible open-source license](https://github.com/CovidShield/mobile).
+COVID Alert was originally developed by [volunteers at Shopify](https://www.covidshield.app/).
+It was [released free of charge under a flexible open-source license](https://github.com/CovidShield/mobile).
 
-This repository is being developed by the [Canadian Digital Service](https://digital.canada.ca/). We can be reached at <cds-snc@tbs-sct.gc.ca>.
+This repository is being developed by the [Canadian Digital Service](https://digital.canada.ca/).
+We can be reached at <cds-snc@tbs-sct.gc.ca>.
 
 ## Troubleshooting
 
@@ -231,7 +243,8 @@ d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, 
 
 ## Aperçu
 
-Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic Alerte COVID](https://github.com/cds-snc/covid-alert-server) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
+Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS.
+Elle fonctionne de concert avec le [Serveur de diagnostic Alerte COVID](https://github.com/cds-snc/covid-alert-server) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
 
 ## Développement local
 
@@ -248,12 +261,16 @@ Suivez les étapes décrites dans [Configuration de l’environnement de dévelo
 - XCode 11.5 ou supérieur
 - appareil ou simulateur iOS avec iOS 13.5 ou plus récent
 - [Bundler](https://bundler.io/) pour installer la bonne version de CocoaPods localement
-- Vous avez également besoin d’un profil de provisionnement avec le droit de notification d’exposition. Pour obtenir de plus amples renseignements, visitez https://developer.apple.com/documentation/exposurenotification.
+- Vous avez également besoin d’un profil de provisionnement avec le droit de notification d’exposition.
+Pour obtenir de plus amples renseignements, visitez https://developer.apple.com/documentation/exposurenotification.
 
 #### Android
 
-- Appareil Android pouvant exécuter la dernière version de Google Play Services ou Google Play Services Beta. Inscrivez-vous au programme bêta ici https://developers.google.com/android/guides/beta-program.
-- Vous avez également besoin d’un APPLICATION_ID protégé qui sera utilisé pour publier dans Google Play. Vous pouvez utiliser l’APPLICATION_ID de [Google Sample App](https://github.com/google/exposure-notifications-android) à des fins d’essai `« com.google.android.apps.exposurenotification »`. Aller à [Environment config](https://github.com/CovidShield/mobile#3-environment-config) pour voir comment modifier l’APPLICATION_ID.
+- Appareil Android pouvant exécuter la dernière version de Google Play Services ou Google Play Services Beta.
+Inscrivez-vous au programme bêta ici https://developers.google.com/android/guides/beta-program.
+- Vous avez également besoin d’un APPLICATION_ID protégé qui sera utilisé pour publier dans Google Play.
+Vous pouvez utiliser l’APPLICATION_ID de [Google Sample App](https://github.com/google/exposure-notifications-android) à des fins d’essai `« com.google.android.apps.exposurenotification »`.
+Aller à [Environment config](https://github.com/CovidShield/mobile#3-environment-config) pour voir comment modifier l’APPLICATION_ID.
 
 #### 1. Consulter le dépôt
 
@@ -283,7 +300,8 @@ bundle install && yarn pod-install
 
 #### 3. Configuration environnement
 
-Cocher `.env` et rajuster la configuration si nécessaire. Voir [react-native-config](https://www.npmjs.com/package/react-native-config#different-environments) pour plus d’information.
+Cocher `.env` et rajuster la configuration si nécessaire.
+Voir [react-native-config](https://www.npmjs.com/package/react-native-config#different-environments) pour plus d’information.
 
 Exemple :
 
@@ -308,7 +326,8 @@ Vous pouvez également construire l’application avec un outil de développemen
 
 ### Mode de développement
 
-Lorsque l’application est en mode de développement, vous pouvez appuyer sur le logo Alerte COVID en haut de l’application pour ouvrir le menu Test. Ce menu vous permet de :
+Lorsque l’application est en mode de développement, vous pouvez appuyer sur le logo Alerte COVID en haut de l’application pour ouvrir le menu Test.
+Ce menu vous permet de :
 
 - Mettre l’application en mode test pour contourner le contrôle de l’API de notification d’exposition
 - Modifier l’état du système
@@ -316,7 +335,8 @@ Lorsque l’application est en mode de développement, vous pouvez appuyer sur l
 - Envoyer un exemple de notification
 - Réinitialiser l’application à l’état d’intégration
 
-Remarque : Le menu de test est activé si le fichier de configuration de l’environnement (`.env*`) montre « TEST_MODE=true ». Pour désactiver l’interface utilisateur du mode test en production, il suffit de la définir comme False dans le fichier de configuration d’environnement « TEST_MODE=false ».
+Remarque : Le menu de test est activé si le fichier de configuration de l’environnement (`.env*`) montre « TEST_MODE=true ».
+Pour désactiver l’interface utilisateur du mode test en production, il suffit de la définir comme False dans le fichier de configuration d’environnement « TEST_MODE=false ».
 
 ## Personnalisation
 
@@ -324,7 +344,9 @@ Vous pouvez personnaliser l’apparence de l’application en grande partie en m
 
 ## Localisation
 
-L’application Alerte COVID est disponible en français et en anglais. Le contenu entièrement localisé peut être modifié en modifiant les fichiers de traduction qui se trouvent dans le [répertoire des traductions](https://github.com/cds-snc/covid-alert-app/tree/master/src/locale/translations). On peut ajouter plus de traductions en utilisant le même mécanisme pour le français et l’anglais.
+L’application Alerte COVID est disponible en français et en anglais.
+Le contenu entièrement localisé peut être modifié en modifiant les fichiers de traduction qui se trouvent dans le [répertoire des traductions](https://github.com/cds-snc/covid-alert-app/tree/master/src/locale/translations).
+On peut ajouter plus de traductions en utilisant le même mécanisme pour le français et l’anglais.
 
 Après avoir modifié le contenu, vous devez exécuter la commande `generate-translations` pour que l’application reflète vos modifications.
 
@@ -343,9 +365,11 @@ yarn generate-translations
 
 ## Qui a conçu Alerte COVID?
 
-Alerte COVID a été développé à l’origine par [des bénévoles de Shopify](https://www.covidshield.app/). Il a été [diffusé gratuitement en vertu d’une licence ouverte flexible](https://github.com/CovidShield/server).
+Alerte COVID a été développé à l’origine par [des bénévoles de Shopify](https://www.covidshield.app/).
+Il a été [diffusé gratuitement en vertu d’une licence ouverte flexible](https://github.com/CovidShield/server).
 
-Ce dépôt est maintenu par le [Service numérique canadien](https://numerique.canada.ca/). Vous pouvez nous joindre à <cds-snc@tbs-sct.gc.ca>.
+Ce dépôt est maintenu par le [Service numérique canadien](https://numerique.canada.ca/).
+Vous pouvez nous joindre à <cds-snc@tbs-sct.gc.ca>.
 
 ## Résolution de problèmes
 
