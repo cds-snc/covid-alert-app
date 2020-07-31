@@ -54,7 +54,6 @@ jest.mock('../../bridge/CovidShield', () => ({
 }));
 
 jest.mock('../../shared/fetch', () => ({
-  // blobFetch: () => Promise.resolve({error: false, buffer: []}),
   blobFetch: jest.fn(),
 }));
 
