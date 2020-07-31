@@ -145,6 +145,31 @@ describe('BackendService', () => {
 
       await expect(backendService.reportDiagnosisKeys(submissionKeys, keys)).rejects.toThrow('I cannot randomize');
     });
+
+    it('throws if backend returns an error', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const keys = generateRandomKeys(20);
+
+      blobFetch.mockImplementationOnce(() => ({
+        error: true,
+        // decode mock will override this with error
+        buffer: new Uint8Array(0),
+      }));
+      covidshield.EncryptedUploadResponse.decode.mockImplementationOnce(() => ({
+        error: '314',
+      }));
+
+      await expect(
+        backendService.reportDiagnosisKeys(
+          {
+            clientPrivateKey: 'mock',
+            clientPublicKey: 'mock',
+            serverPublicKey: 'mock',
+          },
+          keys,
+        ),
+      ).rejects.toThrow('Code 314');
+    });
   });
 
   describe('retrieveDiagnosisKeys', () => {
@@ -212,6 +237,16 @@ describe('BackendService', () => {
         error: '666',
       }));
       await expect(backendService.claimOneTimeCode('THISWILLNOTWORK')).rejects.toThrow('Code 666');
+    });
+
+    it('throws unknown error on OOB backend communication errors', async () => {
+      blobFetch.mockImplementationOnce(() => ({
+        error: true,
+        // decode mock will override this with error
+        buffer: new Uint8Array(0),
+      }));
+      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({}));
+      await expect(backendService.claimOneTimeCode('THISWILLNOTWORK')).rejects.toThrow('Code Unknown');
     });
   });
 
