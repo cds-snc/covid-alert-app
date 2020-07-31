@@ -234,12 +234,8 @@ describe('BackendService', () => {
         // decode mock will override this with error
         buffer: new Uint8Array(0),
       }));
-      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
-        error: '666',
-      }));
-      const response = await backendService.claimOneTimeCode('THISWILLNOTWORK');
-      // console.log('response', response);
-      expect(response).toStrictEqual({error: true, buffer: 'Code 666'});
+      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({error: new Error('1')}));
+      await expect(backendService.claimOneTimeCode('THISWILLNOTWORK')).rejects.toThrow('1');
     });
 
     it('throws unknown error on OOB backend communication errors', async () => {

@@ -140,6 +140,7 @@ export class BackendService implements BackendInterface {
     const keyClaimResponse = covidshield.KeyClaimResponse.decode(Buffer.from(response.buffer));
     if (response.error) {
       if (keyClaimResponse.error) {
+        console.log('hi', keyClaimResponse.error);
         throw keyClaimResponse.error;
       }
       throw new Error(`Code Unknown`);
