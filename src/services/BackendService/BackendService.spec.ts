@@ -1,5 +1,6 @@
 import nacl from 'tweetnacl';
 import * as DateFns from 'shared/date-fns';
+import {blobFetch} from 'shared/fetch';
 
 import {getRandomBytes, downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
 import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
@@ -53,7 +54,7 @@ jest.mock('../../bridge/CovidShield', () => ({
 }));
 
 jest.mock('../../shared/fetch', () => ({
-  blobFetch: () => Promise.resolve([]),
+  blobFetch: jest.fn(),
 }));
 
 /**
@@ -100,6 +101,8 @@ describe('BackendService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
+
+    blobFetch.mockImplementation(() => Promise.resolve({buffer: new Uint8Array(0), error: false}));
   });
 
   describe('reportDiagnosisKeys', () => {
@@ -184,7 +187,7 @@ describe('BackendService', () => {
       const bytes = new Uint8Array(34);
       nacl.box.keyPair = () => ({publicKey: bytes, secretKey: bytes});
       covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
-        serverPublicKey: new Uint8Array(2),
+        serverPublicKey: Uint8Array.from('QUJD'),
       }));
     });
 
@@ -200,6 +203,11 @@ describe('BackendService', () => {
     });
 
     it('throws if backend reports claim error', async () => {
+      blobFetch.mockImplementationOnce(() => ({
+        error: true,
+        // decode mock will override this with error
+        buffer: new Uint8Array(0),
+      }));
       covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
         error: '666',
       }));
