@@ -10,4 +10,4 @@ ______________________
 
 **Ne publiez pas de problèmes de sécurité dans nos dépôts publics.** Les problèmes de sécurité doivent être signalés par courriel à <securite@cds-snc.ca>.
 
-Veuillez consulter la [Processus de divulgation des vulnérabilités pour Alerte COVID](https://github.com/cds-snc/covid-alert-documentation/blob/main/PolitiqueDivulgationVulnerabilites.md) pour de plus amples détails.
+Veuillez consulter la [Politique de divulgation des vulnérabilités pour Alerte COVID](https://github.com/cds-snc/covid-alert-documentation/blob/main/PolitiqueDivulgationVulnerabilites.md) pour de plus amples détails.
