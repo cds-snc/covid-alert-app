@@ -5,6 +5,7 @@ import {StyleSheet, Alert, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {useExposureStatus} from 'services/ExposureNotificationService';
+import {covidshield} from 'services/BackendService/covidshield';
 
 import {Step1} from './views/Step1';
 import {FormView} from './views/FormView';
@@ -24,9 +25,9 @@ export const DataSharingScreen = () => {
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
   const onErrorForm = (error: any) => {
     const getTranslationKey = (error: any) => {
-      switch (error.message) {
-        case 'Code 2':
-          return 'DiagnosisKeyError2';
+      switch (error) {
+        case covidshield.KeyClaimResponse.ErrorCode.INVALID_ONE_TIME_CODE:
+          return 'DiagnosisKeyErrorInvalidOneTimeCode';
         default:
           return 'DiagnosisKeyErrorDefault';
       }

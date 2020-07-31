@@ -72,14 +72,7 @@ export class BackendService implements BackendInterface {
     });
     const keyPair = nacl.box.keyPair();
 
-    const response = await this.keyClaim(oneTimeCode, keyPair);
-    const keyClaimResponse = response.keyClaimResponse;
-    if (response.error) {
-      if (keyClaimResponse.error) {
-        throw new Error(`Code ${keyClaimResponse.error}`);
-      }
-      throw new Error(`Code Unknown`);
-    }
+    const keyClaimResponse = await this.keyClaim(oneTimeCode, keyPair);
 
     const serverPublicKey = Buffer.from(keyClaimResponse.serverPublicKey).toString('base64');
     const clientPrivateKey = Buffer.from(keyPair.secretKey).toString('base64');
@@ -135,10 +128,7 @@ export class BackendService implements BackendInterface {
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
   }
 
-  private async keyClaim(
-    code: string,
-    keyPair: nacl.BoxKeyPair,
-  ): Promise<{error: boolean; keyClaimResponse: covidshield.KeyClaimResponse}> {
+  private async keyClaim(code: string, keyPair: nacl.BoxKeyPair): Promise<covidshield.KeyClaimResponse> {
     captureMessage('keyClaim', {code});
     const uploadPayload = covidshield.KeyClaimRequest.create({
       oneTimeCode: code,
@@ -148,7 +138,13 @@ export class BackendService implements BackendInterface {
     const body = covidshield.KeyClaimRequest.encode(uploadPayload).finish();
     const response = await blobFetch(`${this.submitUrl}/claim-key`, 'POST', body);
     const keyClaimResponse = covidshield.KeyClaimResponse.decode(Buffer.from(response.buffer));
-    return {error: response.error, keyClaimResponse};
+    if (response.error) {
+      if (keyClaimResponse.error) {
+        throw keyClaimResponse.error;
+      }
+      throw new Error(`Code Unknown`);
+    }
+    return keyClaimResponse;
   }
 
   private async upload(
