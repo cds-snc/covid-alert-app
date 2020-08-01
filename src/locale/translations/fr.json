@@ -12,7 +12,7 @@
   },
   "DataUpload": {
     "Cancel": "Annuler",
-    "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
+    "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l’étape suivante.",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "Step1": {
       "Title": "Aviser les autres personnes d’une exposition potentielle",
@@ -297,7 +297,7 @@
     },
     "EnterCodeCardTitle": "Vous avez la COVID-19?",
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
-    "ExposureNotificationCardAction": "Activez les notifications d'exposition",
+    "ExposureNotificationCardAction": "Activez les notifications d’exposition",
     "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "NotificationCardAction": "Activer les notifications",
@@ -398,8 +398,8 @@
   "Sharing": {
     "Close": "Fermer",
     "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
-    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l'application Alerte COVID : https://covidshield.app",
-    "More": "Plus d'applications",
+    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l’application Alerte COVID : https://covidshield.app",
+    "More": "Plus d’applications",
     "Platform-instagram": "Partager avec Instagram",
     "Platform-messages": "Partager avec Messages",
     "SubTitle": "Chaque personne utilisant Alerte COVID aide à ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
@@ -408,7 +408,7 @@
   "ThankYou": {
     "Body": "Les notifications d’exposition sont activées. Si Alerte COVID détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
     "Dismiss": "OK",
-    "Title": "Merci d'aider"
+    "Title": "Merci d’aider"
   },
   "Tutorial": {
     "ActionBack": "Précédent",
