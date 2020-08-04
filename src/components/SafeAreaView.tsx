@@ -57,7 +57,7 @@ export const SafeAreaView = ({children, style, ...props}: SafeAreaViewProps) => 
       {Platform.OS === 'android' ? (
         <View style={androidStyle}>{content}</View>
       ) : (
-        <RNSafeAreaView>{content}</RNSafeAreaView>
+        <RNSafeAreaView style={styles.flex}>{content}</RNSafeAreaView>
       )}
     </View>
   );
