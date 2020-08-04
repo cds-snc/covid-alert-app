@@ -39,13 +39,13 @@
       "Action": "OK"
     },
     "DiagnosisKeyErrorTemporaryBan": {
-      "Title": "Wait for 1 hour",
-      "Body": "You’ve tried to enter a one-time key too many times.",
+      "Title": "Attendez pendant 1 heure",
+      "Body": "Vous avez essayé d’entrer une clé à usage unique trop de fois.",
       "Action": "OK"
     },
     "DiagnosisKeyErrorDefault": {
-      "Title": "Try again later",
-      "Body": "Something went wrong with the system.",
+      "Title": "Réessayez plus tard",
+      "Body": "Il y a eu un problème avec le système.",
       "Action": "OK"
     },
     "ConsentView": {
