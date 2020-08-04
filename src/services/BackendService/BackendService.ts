@@ -139,7 +139,7 @@ export class BackendService implements BackendInterface {
     const response = await blobFetch(`${this.submitUrl}/claim-key`, 'POST', body);
     const keyClaimResponse = covidshield.KeyClaimResponse.decode(Buffer.from(response.buffer));
     if (response.error) {
-      if (keyClaimResponse.error) {
+      if (keyClaimResponse && keyClaimResponse.error) {
         throw keyClaimResponse.error;
       }
       throw new Error(`Code Unknown`);
@@ -161,8 +161,8 @@ export class BackendService implements BackendInterface {
     }).finish();
     const response = await blobFetch(`${this.submitUrl}/upload`, 'POST', request);
     const encryptedUploadResponse = covidshield.EncryptedUploadResponse.decode(Buffer.from(response.buffer));
-    if (response.error && encryptedUploadResponse.error) {
-      throw new Error(`Code ${encryptedUploadResponse.error}`);
+    if (response.error && encryptedUploadResponse && encryptedUploadResponse.error) {
+      throw encryptedUploadResponse.error;
     }
     return encryptedUploadResponse;
   }
