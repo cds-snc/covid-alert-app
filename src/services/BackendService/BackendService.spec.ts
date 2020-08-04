@@ -156,7 +156,7 @@ describe('BackendService', () => {
         buffer: new Uint8Array(0),
       }));
       covidshield.EncryptedUploadResponse.decode.mockImplementationOnce(() => ({
-        error: '314',
+        error: new Error('314'),
       }));
 
       await expect(
@@ -168,7 +168,7 @@ describe('BackendService', () => {
           },
           keys,
         ),
-      ).rejects.toThrow('Code 314');
+      ).rejects.toThrow('314');
     });
   });
 
