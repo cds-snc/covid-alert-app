@@ -93,7 +93,7 @@ You can also build the app with native development tool:
 
 ### Development mode
 
-When the app is running development mode, you can tap on the COVID Alert logo at the top of the app to open the Test menu. This menu enables you to:
+When the app is running in development mode, you can tap on the COVID Alert logo at the top of the app to open the Test menu. This menu enables you to:
 
 - Put the app into test mode to bypass the Exposure Notification API check
 - Change the system status
@@ -189,7 +189,7 @@ Now you can run `yarn run-android` in your root folder.
 
 ### [MacOS] Problem installing Cocoapods
 
-When following step _2.1.1 Install Cocoapods_ if you recieve an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
+When following step _2.1.1 Install Cocoapods_ if you receive an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
 
 ```bash
 ERROR:  Loading command: install (LoadError)
@@ -200,7 +200,7 @@ ERROR:  While executing gem ... (NoMethodError)
 
 This is because the version of Ruby you have installed does not have OpenSSL included.
 
-You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of ruby required with OpenSSL using the following steps:
+You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of Ruby required with OpenSSL using the following steps:
 
 1. Install RVM following the instructions here: https://rvm.io/
 1. Run the following command to install the version of Ruby needed with OpenSSL included, this will take a few minutes so be patient.
