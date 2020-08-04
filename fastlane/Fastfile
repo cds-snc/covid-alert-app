@@ -1,11 +1,8 @@
-fastlane_version '2.53.1'
+fastlane_version '2.154.0'
 import "./Android.Fastfile"
 import "./iOS.Fastfile"
 
 before_all do
-  # Load root-level shared .env
-  Dotenv.overload '../.env'
-
   # Pull all tags
   git_pull(only_tags: true)
 

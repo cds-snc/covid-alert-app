@@ -1,10 +1,27 @@
 platform :ios do
   lane :check_version_code_exists do
-    testflight_latest = latest_testflight_build_number()
+    testflight_latest = latest_testflight_build_number(
+      app_identifier: ENV["APP_ID_IOS"]
+    )
 
     versions = Array(testflight_latest)
 
     UI.user_error!("Version code #{versions} has already been used!") if Array(versions).include? ENV['APP_VERSION_CODE'].to_i
+  end
+
+  # Saving this for later, but may not need anymore
+  lane :set_version do
+    # Set the version name from the environment
+    increment_version_number(
+      xcodeproj: "ios/CovidShield.xcodeproj",
+      version_number: ENV["APP_VERSION_NAME"]
+    )
+
+    # Set the version number from the environment
+    increment_build_number(
+      xcodeproj: "ios/CovidShield.xcodeproj",
+      build_number: ENV["APP_VERSION_CODE"]
+    )
   end
 
   #
@@ -22,6 +39,7 @@ platform :ios do
 
     # Check Version Code
     check_version_code_exists
+    set_version
 
     bundle_install
 
