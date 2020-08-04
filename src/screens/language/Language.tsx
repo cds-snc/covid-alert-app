@@ -1,9 +1,8 @@
 import React, {useCallback} from 'react';
 import {TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Icon, Toolbar} from 'components';
+import {Box, Text, Icon, Toolbar, SafeAreaView} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 
 interface LanguageSelectItemProps {

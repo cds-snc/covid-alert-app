@@ -6,7 +6,7 @@ import {Region} from 'shared/Region';
 import defaultTheme, {Theme} from './default';
 
 interface ThemeProviderProps {
-  children?: React.ReactElement;
+  children?: React.ReactNode;
 }
 
 export const ThemeProvider = ({children}: ThemeProviderProps) => {

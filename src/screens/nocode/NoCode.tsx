@@ -1,13 +1,12 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Linking} from 'react-native';
-import {Box, Text, TextMultiline, Toolbar, ButtonSingleLine} from 'components';
+import {Box, Text, TextMultiline, Toolbar, ButtonSingleLine, SafeAreaView} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {BulletPoint} from 'components/BulletPoint';
 import {BulletPointOrdered} from 'components/BulletPointOrdered';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {captureException} from 'shared/log';
 

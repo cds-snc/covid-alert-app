@@ -1,9 +1,9 @@
 import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState} from 'react';
-import {StyleSheet, useWindowDimensions, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
-import {useSafeArea} from 'react-native-safe-area-context';
 import BottomSheetRaw from 'reanimated-bottom-sheet';
 import {useOrientation} from 'shared/useOrientation';
+import {useSafeArea} from 'components';
 
 import {Box} from '../Box';
 
@@ -53,14 +53,12 @@ const BottomSheetInternal = (
   useEffect(() => onStateChange?.(isExpanded), [isExpanded, onStateChange]);
   const {orientation} = useOrientation();
   const bottomPadding = orientation === 'landscape' ? 120 : 140;
-  const insets = useSafeArea();
-  const renderHeader = useCallback(() => <Box height={insets.top} />, [insets.top]);
 
   const onOpenEnd = useCallback(() => setIsExpanded(true), []);
   const onCloseEnd = useCallback(() => setIsExpanded(false), []);
 
-  const {width, height} = useWindowDimensions();
-  const snapPoints = [height, extraContent ? 200 + insets.bottom : bottomPadding + insets.bottom];
+  const {contentWidth: width, contentHeight: height} = useSafeArea();
+  const snapPoints = [height, extraContent ? 200 : bottomPadding];
 
   // Need to add snapPoints to set enough height when BottomSheet is collapsed
   useEffect(() => {
@@ -103,7 +101,6 @@ const BottomSheetInternal = (
         renderContent={renderContent}
         onOpenEnd={onOpenEnd}
         onCloseEnd={onCloseEnd}
-        renderHeader={renderHeader}
         snapPoints={snapPoints}
         initialSnap={1}
         callbackNode={bottomSheetPosition.current}

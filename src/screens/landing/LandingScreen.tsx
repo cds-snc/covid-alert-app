@@ -1,10 +1,9 @@
 import React, {useCallback} from 'react';
 import {Image, StyleSheet} from 'react-native';
 import {useStorage} from 'services/StorageService';
-import {Box, Button, Icon} from 'components';
+import {Box, Button, Icon, SafeAreaView} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 export const LandingScreen = () => {
   const i18n = useI18n();

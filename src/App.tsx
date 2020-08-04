@@ -10,7 +10,6 @@
 import React, {useMemo, useEffect} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StorageServiceProvider, useStorageService} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
 import {NativeModules, StatusBar} from 'react-native';
@@ -69,14 +68,12 @@ const App = () => {
 
 const AppProvider = () => {
   return (
-    <SafeAreaProvider>
-      <StatusBar backgroundColor="transparent" translucent />
-      <StorageServiceProvider>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </StorageServiceProvider>
-    </SafeAreaProvider>
+    <StorageServiceProvider>
+      <ThemeProvider>
+        <StatusBar backgroundColor="transparent" translucent />
+        <App />
+      </ThemeProvider>
+    </StorageServiceProvider>
   );
 };
 

@@ -1,8 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar} from 'components';
+import {Box, Toolbar, SafeAreaView} from 'components';
 import {StyleSheet, Alert, ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 

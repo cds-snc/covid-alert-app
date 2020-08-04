@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState, useRef, useLayoutEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {BottomSheet, BottomSheetBehavior, Box} from 'components';
+import {BottomSheet, BottomSheetBehavior, Box, SafeAreaView} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
 import {
   SystemStatus,
@@ -212,22 +212,30 @@ export const HomeScreen = () => {
   );
 
   return (
-    <NotificationPermissionStatusProvider>
-      <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
-        <Box
-          flex={1}
-          paddingTop="m"
-          paddingBottom="m"
-          alignSelf="stretch"
-          accessibilityElementsHidden={isBottomSheetExpanded}
-          importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
-        >
-          <Animated.View style={{opacity: fadeAnim}}>
-            <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
-          </Animated.View>
-        </Box>
-        <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
-      </Box>
-    </NotificationPermissionStatusProvider>
+    <Box flex={1} backgroundColor="mainBackground">
+      <SafeAreaView>
+        <NotificationPermissionStatusProvider>
+          <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
+            <Box
+              flex={1}
+              paddingTop="m"
+              paddingBottom="m"
+              alignSelf="stretch"
+              accessibilityElementsHidden={isBottomSheetExpanded}
+              importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
+            >
+              <Animated.View style={{opacity: fadeAnim}}>
+                <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
+              </Animated.View>
+            </Box>
+            <BottomSheet
+              ref={bottomSheetRef}
+              expandedComponent={ExpandedContent}
+              collapsedComponent={CollapsedContent}
+            />
+          </Box>
+        </NotificationPermissionStatusProvider>
+      </SafeAreaView>
+    </Box>
   );
 };

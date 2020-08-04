@@ -1,8 +1,7 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar, Text} from 'components';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Box, Toolbar, Text, SafeAreaView} from 'components';
 import {useI18n} from 'locale';
 import Markdown from 'react-native-markdown-display';
 import privacyPolicyEn from 'assets/privacypolicy';

@@ -10,19 +10,19 @@ import {useStorage} from 'services/StorageService';
 import {RegionPickerSettingsScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
+import {Box} from 'components';
 
 const MainStack = createStackNavigator();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
     return (
-      <SafeAreaProvider>
+      <Box flex={1}>
         <StatusBar barStyle="dark-content" />
         <Component {...props} />
-      </SafeAreaProvider>
+      </Box>
     );
   };
   return ComponentWithDarkNav;
@@ -32,10 +32,10 @@ const withDarkNavNonModal = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
     // for onboarding, we don't use modal navigation
     return (
-      <SafeAreaProvider>
+      <Box flex={1}>
         <StatusBar barStyle="dark-content" />
         <Component {...props} />
-      </SafeAreaProvider>
+      </Box>
     );
   };
   return ComponentWithDarkNav;

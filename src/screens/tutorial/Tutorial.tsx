@@ -1,9 +1,8 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {StyleSheet, useWindowDimensions, View} from 'react-native';
+import {StyleSheet, useWindowDimensions, View, StatusBar} from 'react-native';
 import Carousel, {CarouselStatic, CarouselProps} from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Button, Toolbar, ProgressCircles} from 'components';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Box, Button, Toolbar, ProgressCircles, SafeAreaView} from 'components';
 import {useI18n} from 'locale';
 import {useAccessibilityService} from 'services/AccessibilityService';
 

@@ -1,8 +1,7 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar, Text, TextMultiline} from 'components';
+import {Box, Toolbar, Text, TextMultiline, SafeAreaView} from 'components';
 import {ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {useI18n} from 'locale';
 import {Region} from 'shared/Region';
