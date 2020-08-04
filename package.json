@@ -19,10 +19,10 @@
     "pre:test:ios": "detox build --configuration=ios",
     "pre:test:android": "detox build --configuration=android",
     "tsc": "tsc",
-    "fastlane:ios:beta": "bundle exec fastlane ios beta",
-    "fastlane:ios:local": "bundle exec fastlane ios local",
-    "fastlane:android:internal": "bundle exec fastlane android internal",
-    "fastlane:android:local": "bundle exec fastlane android local"
+    "deploy-android:staging": "bundle exec fastlane android build_and_deploy type:staging",
+    "deploy-android:production": "bundle exec fastlane android build_and_deploy type:production",
+    "deploy-ios:staging": "bundle exec fastlane ios build_and_deploy type:staging",
+    "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production"
   },
   "dependencies": {
     "@react-native-community/async-storage": "1.9.0",
