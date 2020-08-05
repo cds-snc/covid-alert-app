@@ -1,5 +1,6 @@
 import {Platform} from 'react-native';
 import Config from 'react-native-config';
+import NetInfo from '@react-native-community/netinfo';
 
 export const APP_ID = Platform.select({
   android: Config.APP_ID_ANDROID,
@@ -21,3 +22,11 @@ export const MCC_CODE = parseInt(Config.MCC_CODE, 10) || 302;
 export const TEST_MODE = Config.TEST_MODE === 'true' || false;
 
 export const MOCK_SERVER = Config.MOCK_SERVER === 'true' || false;
+
+NetInfo.configure({
+  reachabilityUrl: 'https://retrieval.covid-notification.alpha.canada.ca/exposure-configuration/present',
+  reachabilityTest: async (response) => response.status === 204,
+  reachabilityLongTimeout: 60 * 1000, // 60s
+  reachabilityShortTimeout: 5 * 1000, // 5s
+  reachabilityRequestTimeout: 15 * 1000, // 15s
+});
