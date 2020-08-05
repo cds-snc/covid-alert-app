@@ -1,3 +1,5 @@
+export const xhrError = new Error('uriToBlob failed');
+
 export function blobFetch(
   uri: string,
   method: 'GET' | 'POST',
@@ -12,7 +14,7 @@ export function blobFetch(
 
     xhr.onerror = function() {
       // something went wrong
-      reject(new Error('uriToBlob failed'));
+      reject(xhrError);
     };
     // this helps us get a blob
     xhr.responseType = 'arraybuffer';

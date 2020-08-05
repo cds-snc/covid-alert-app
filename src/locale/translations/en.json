@@ -275,31 +275,13 @@
       "Action": "Submit",
       "InputLabel": "COVID Alert key"
     },
-    "DiagnosisKeyErrorInvalidOneTimeCode": {
-      "Title": "Incorrect key",
-      "Body": "Your one-time key could not be recognized. Please try again.",
-      "Action": "OK"
-    },
-    "DiagnosisKeyErrorTemporaryBan": {
-      "Title": "Wait for 1 hour",
-      "Body": "You’ve tried to enter a one-time key too many times.",
-      "Action": "OK"
-    },
-    "DiagnosisKeyErrorDefault": {
-      "Title": "Try again later",
-      "Body": "Something went wrong with the system.",
-      "Action": "OK"
-    },
     "ConsentView": {
       "Title": "Now you can upload your codes",
       "Body1": "Your phone will ask your permission to upload your random codes or “random IDs” from the past 14 days.",
       "Body2a": "Nobody will get any information about you ",
       "Body2b": "or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
-      "Action": "Agree",
-      "ErrorTitle": "Random codes could not be uploaded",
-      "ErrorBody": "You did not give permission.",
-      "ErrorAction": "OK"
+      "Action": "Agree"
     },
     "NoCode": {
       "NoRegion": {
@@ -444,5 +426,36 @@
     "Start": "List start",
     "End": "List end",
     "Bullet": "Bullet"
+  },
+  "Errors": {
+    "Action": "OK",
+    "TekUploadOffline": {
+      "Title": "Lost connection",
+      "Body": "Your random codes were not uploaded. Make sure your phone is connected to the Internet, through either data or WiFi."
+    },
+    "TekUploadServer": {
+      "Title": "Try again later",
+      "Body": "Something went wrong with the system."
+    },
+    "TekUploadPermission": {
+      "Title": "Random codes could not be uploaded",
+      "Body": "You did not give permission."
+    },
+    "OtcUploadInvalidOneTimeCode": {
+      "Title": "Incorrect key",
+      "Body": "Your one-time key could not be recognized. Please try again."
+    },
+    "OtcUploadTemporaryBan": {
+      "Title": "Wait for 1 hour",
+      "Body": "You’ve tried to enter a one-time key too many times."
+    },
+    "OtcUploadDefault": {
+      "Title": "Try again later",
+      "Body": "Something went wrong with the system."
+    },
+    "OtcUploadOffline": {
+      "Title": "Lost connection",
+      "Body": "Your key was not sent. Make sure your phone is connected to the Internet, through either data or WiFi."
+    }
   }
 }

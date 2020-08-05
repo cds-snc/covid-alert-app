@@ -33,21 +33,6 @@
       "Action": "Envoyer",
       "InputLabel": "code Alerte COVID"
     },
-    "DiagnosisKeyErrorInvalidOneTimeCode": {
-      "Title": "Clé à usage unique non reconnue",
-      "Body": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau.",
-      "Action": "OK"
-    },
-    "DiagnosisKeyErrorTemporaryBan": {
-      "Title": "Attendez pendant 1 heure",
-      "Body": "Vous avez essayé d’entrer une clé à usage unique trop de fois.",
-      "Action": "OK"
-    },
-    "DiagnosisKeyErrorDefault": {
-      "Title": "Réessayez plus tard",
-      "Body": "Il y a eu un problème avec le système.",
-      "Action": "OK"
-    },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
       "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
@@ -84,6 +69,37 @@
         "Body3": "Protéger les personnes et les animaux vivant avec vous.",
         "Body4": "Prendre soin de vous."
       }
+    }
+  },
+  "Errors": {
+    "Action": "OK",
+    "TekUploadOffline": {
+      "Title": "Problème de connexion",
+      "Body": "Vos codes aléatoires n’ont pas été téléversés. Vérifiez que votre téléphone est connecté à Internet au moyen du Wi-Fi ou de vos données."
+    },
+    "TekUploadServer": {
+      "Title": "Réessayez plus tard",
+      "Body": "Il y a eu un problème avec le système."
+    },
+    "TekUploadPermission": {
+      "Title": "Les codes aléatoires n’ont pas pu être téléversés",
+      "Body": "Vous n’avez pas donné votre autorisation."
+    },
+    "OtcUploadInvalidOneTimeCode": {
+      "Title": "Clé à usage unique non reconnue",
+      "Body": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau."
+    },
+    "OtcUploadTemporaryBan": {
+      "Title": "Attendez pendant 1 heure",
+      "Body": "Vous avez essayé d’entrer une clé à usage unique trop de fois."
+    },
+    "OtcUploadDefault": {
+      "Title": "Réessayez plus tard",
+      "Body": "Il y a eu un problème avec le système."
+    },
+    "OtcUploadOffline": {
+      "Title": "Problème de connexion",
+      "Body": "Votre clé n’a pas été envoyée. Vérifiez que votre téléphone est connecté à Internet au moyen du Wi-Fi ou de vos données."
     }
   },
   "Home": {

@@ -6,6 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {useExposureStatus} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
+import {xhrError} from 'shared/fetch';
 
 import {Step1} from './views/Step1';
 import {FormView} from './views/FormView';
@@ -25,30 +26,42 @@ export const DataSharingScreen = () => {
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
   const onErrorForm = (error: any) => {
     const getTranslationKey = (error: any) => {
+      // OTC = One time code (diagnosis code)
       switch (error) {
         case covidshield.KeyClaimResponse.ErrorCode.INVALID_ONE_TIME_CODE:
-          return 'DiagnosisKeyErrorInvalidOneTimeCode';
+          return 'OtcUploadInvalidOneTimeCode';
         case covidshield.KeyClaimResponse.ErrorCode.TEMPORARY_BAN:
-          return 'DiagnosisKeyErrorTemporaryBan';
+          return 'OtcUploadTemporaryBan';
+        case xhrError:
+          return 'OtcUploadOffline';
         default:
-          return 'DiagnosisKeyErrorDefault';
+          return 'OtcUploadDefault';
       }
     };
     const translationKey = getTranslationKey(error);
-    Alert.alert(
-      i18n.translate(`DataUpload.${translationKey}.Title`),
-      i18n.translate(`DataUpload.${translationKey}.Body`),
-      [{text: i18n.translate(`DataUpload.${translationKey}.Action`)}],
-    );
+    Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
+      {text: i18n.translate(`Errors.Action`)},
+    ]);
     setIsVerified(false);
   };
 
-  const onErrorConsent = () => {
-    Alert.alert(
-      i18n.translate('DataUpload.ConsentView.ErrorTitle'),
-      i18n.translate('DataUpload.ConsentView.ErrorBody'),
-      [{text: i18n.translate('DataUpload.FormView.ErrorAction')}],
-    );
+  const onErrorConsent = (error: any) => {
+    // TEK = Temporary Exposure Key
+    const getTranslationKey = (error: any) => {
+      if (Object.values(covidshield.EncryptedUploadResponse.ErrorCode).includes(error)) {
+        return 'TekUploadServer';
+      }
+      if (error === xhrError) {
+        return 'TekUploadOffline';
+      }
+      // default case
+      return 'TekUploadPermission';
+    };
+    console.log('error', error);
+    const translationKey = getTranslationKey(error);
+    Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
+      {text: i18n.translate(`Errors.Action`)},
+    ]);
   };
 
   const handleVerify = useCallback(async () => {
