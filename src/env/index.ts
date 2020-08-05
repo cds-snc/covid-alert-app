@@ -25,7 +25,7 @@ export const MOCK_SERVER = Config.MOCK_SERVER === 'true' || false;
 
 NetInfo.configure({
   reachabilityUrl: 'https://retrieval.covid-notification.alpha.canada.ca/exposure-configuration/present',
-  reachabilityTest: async (response) => response.status === 204,
+  reachabilityTest: async response => response.status === 204,
   reachabilityLongTimeout: 60 * 1000, // 60s
   reachabilityShortTimeout: 5 * 1000, // 5s
   reachabilityRequestTimeout: 15 * 1000, // 15s
