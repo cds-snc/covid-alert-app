@@ -57,7 +57,6 @@ export const DataSharingScreen = () => {
       // default case
       return 'TekUploadPermission';
     };
-    console.log('error', error);
     const translationKey = getTranslationKey(error);
     Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
       {text: i18n.translate(`Errors.Action`)},
