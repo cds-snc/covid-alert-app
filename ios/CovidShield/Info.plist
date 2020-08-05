@@ -59,5 +59,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+  <key>ENDeveloperRegion</key>
+  <string>CA</string>
+  <key>ENAPIVersion</key>
+  <number>1</number>
 </dict>
 </plist>
