@@ -29,6 +29,7 @@ export interface TemporaryExposureKey {
 }
 
 export interface ExposureSummary {
+  attenuationDurations: number[];
   daysSinceLastExposure: number;
   lastExposureTimestamp: number;
   matchedKeyCount: number;
@@ -52,6 +53,7 @@ export interface ExposureInformation {
   dateMillisSinceEpoch: number;
   durationMinutes: number;
   attenuationValue: number;
+  attenuationDurations: number[];
   transmissionRiskLevel: RiskLevel;
   totalRiskScore: number;
 }
