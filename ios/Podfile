@@ -93,6 +93,10 @@ target 'CovidShield' do
 
   pod 'RNLocalize', :path => '../node_modules/react-native-localize'
 
+  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
+
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
   target 'CovidShieldTests' do
     inherit! :complete
     # Pods for testing

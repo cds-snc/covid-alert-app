@@ -14,6 +14,10 @@ export interface CovidShieldBridge {
 
 export const downloadDiagnosisKeysFile = CovidShieldBridgeBare.downloadDiagnosisKeysFile;
 
+export const getRandomString = async (size: number) => {
+  return CovidShieldBridgeBare.getRandomBytes(size);
+};
+
 export const getRandomBytes = async (size: number) => {
   const base64encoded = await CovidShieldBridgeBare.getRandomBytes(size);
   return Buffer.from(base64encoded, 'base64');

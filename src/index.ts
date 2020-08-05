@@ -12,11 +12,14 @@ import {BackendService} from 'services/BackendService';
 import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
 import {ExposureNotificationService} from 'services/ExposureNotificationService';
 import {createBackgroundI18n} from 'locale';
+import {captureMessage} from 'shared/log';
 
 import {name as appName} from '../app.json';
 
 import {createStorageService} from './services/StorageService';
 import App from './App';
+
+captureMessage('JsBundle start');
 
 AppRegistry.registerComponent(appName, () => App);
 
