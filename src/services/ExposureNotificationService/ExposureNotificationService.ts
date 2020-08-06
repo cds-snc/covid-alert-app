@@ -370,7 +370,7 @@ export class ExposureNotificationService {
       const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
       const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
       const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
-      if (exposureDurationMinutes >= MINIMUM_EXPOSURE_DURATION_MINUTES) {
+      if (Math.round(exposureDurationMinutes) >= MINIMUM_EXPOSURE_DURATION_MINUTES) {
         return finalize(
           {
             type: 'exposed',
