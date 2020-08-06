@@ -1,5 +1,6 @@
 import {Platform} from 'react-native';
 import Config from 'react-native-config';
+import NetInfo from '@react-native-community/netinfo';
 
 export const APP_ID = Platform.select({
   android: Config.APP_ID_ANDROID,
@@ -23,3 +24,11 @@ export const TEST_MODE = Config.TEST_MODE === 'true' || false;
 export const MOCK_SERVER = Config.MOCK_SERVER === 'true' || false;
 
 export const SENTRY_DSN = Config.SENTRY_DSN;
+
+/**
+ * Set reachability check url to empty to prevent
+ * unnecessary background network activity
+ */
+NetInfo.configure({
+  reachabilityUrl: '',
+});
