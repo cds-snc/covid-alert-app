@@ -362,8 +362,8 @@ export class ExposureNotificationService {
     });
 
     try {
-      const {minimumExposureDurationMinutes, ...frameworkExposureConfiguration} = exposureConfiguration;
-      const summary = await this.exposureNotification.detectExposure(frameworkExposureConfiguration, keysFileUrls);
+      const {minimumExposureDurationMinutes} = exposureConfiguration;
+      const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       captureMessage('summary', {summary});
       // on ios attenuationDurations is in seconds, on android it is in minutes
       const divisor = Platform.OS === 'ios' ? 60 : 1;
