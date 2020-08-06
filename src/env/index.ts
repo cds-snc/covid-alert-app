@@ -24,7 +24,7 @@ export const TEST_MODE = Config.TEST_MODE === 'true' || false;
 export const MOCK_SERVER = Config.MOCK_SERVER === 'true' || false;
 
 NetInfo.configure({
-  reachabilityUrl: 'https://retrieval.covid-notification.alpha.canada.ca/exposure-configuration/present',
+  reachabilityUrl: 'https://retrieval.wild-samphire.cdssandbox.xyz/services/present',
   reachabilityTest: async response => response.status === 204,
   reachabilityLongTimeout: 60 * 1000,
   reachabilityShortTimeout: 5 * 1000,
