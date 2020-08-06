@@ -8,6 +8,7 @@ import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUT
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
+import {Platform} from 'react-native';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -361,9 +362,15 @@ export class ExposureNotificationService {
     });
 
     try {
-      const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      const {minimumExposureDurationMinutes, ...frameworkExposureConfiguration} = exposureConfiguration;
+      const summary = await this.exposureNotification.detectExposure(frameworkExposureConfiguration, keysFileUrls);
       captureMessage('summary', {summary});
-      if (summary.matchedKeyCount > 0) {
+      // on ios attenuationDurations is in seconds, on android it is in minutes
+      const divisor = Platform.OS === 'ios' ? 60 : 1;
+      const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
+      const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
+      const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
+      if (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes) {
         return finalize(
           {
             type: 'exposed',

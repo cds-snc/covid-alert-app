@@ -23,6 +23,8 @@ export const TEST_MODE = Config.TEST_MODE === 'true' || false;
 
 export const MOCK_SERVER = Config.MOCK_SERVER === 'true' || false;
 
+export const SENTRY_DSN = Config.SENTRY_DSN;
+
 /**
  * Set reachability check url to empty to prevent
  * unnecessary background network activity

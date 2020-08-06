@@ -179,6 +179,7 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     NSNumber *idx = @(self.reportedSummaries.count);
     [self.reportedSummaries addObject:summary];
     resolve(@{
+      @"attenuationDurations": summary.attenuationDurations,
       @"daysSinceLastExposure": @(summary.daysSinceLastExposure),
       @"matchedKeyCount": @(summary.matchedKeyCount),
       @"maximumRiskScore": @(summary.maximumRiskScore),
@@ -213,6 +214,7 @@ RCT_REMAP_METHOD(getExposureInformation,getExposureInformationForSummary:(NSDict
       NSMutableArray *arr = [NSMutableArray new];
       for (ENExposureInfo *info in exposures) {
         [arr addObject:@{
+          @"attenuationDurations": info.attenuationDurations,
           @"attenuationValue": @(info.attenuationValue),
           @"dateMillisSinceEpoch": @([info.date timeIntervalSince1970]),
           @"durationMinutes": @(info.duration),
