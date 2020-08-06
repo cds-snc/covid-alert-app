@@ -362,14 +362,15 @@ export class ExposureNotificationService {
     });
 
     try {
-      const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      const {minimumExposureDurationMinutes, ...frameworkExposureConfiguration} = exposureConfiguration;
+      const summary = await this.exposureNotification.detectExposure(frameworkExposureConfiguration, keysFileUrls);
       captureMessage('summary', {summary});
       // on ios attenuationDurations is in seconds, on android it is in minutes
       const divisor = Platform.OS === 'ios' ? 60 : 1;
       const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
       const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
       const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
-      if (Math.round(exposureDurationMinutes) >= exposureConfiguration.minimumExposureDurationMinutes) {
+      if (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes) {
         return finalize(
           {
             type: 'exposed',
