@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Configuration(
     @SerializedName("minimumRiskScore") val minimumRiskScore: Int,
+    @SerializedName("attenuationDurationThresholds") val attenuationDurationThresholds: List<Int>,
     @SerializedName("attenuationLevelValues") val attenuationLevelValues: List<Int>,
     @SerializedName("attenuationWeight") val attenuationWeight: Int,
     @SerializedName("daysSinceLastExposureLevelValues") val daysSinceLastExposureLevelValues: List<Int>,

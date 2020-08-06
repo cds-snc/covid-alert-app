@@ -25,6 +25,7 @@ describe('ExposureConfigurationValidator', () => {
 
   it('check bad configuration with missing: minimumRiskScore', () => {
     const exposureConfig1: any = {
+      attenuationDurationThresholds: [50, 70],
       attenuationLevelValues: [0, 0, 2, 2, 2, 2, 2, 2],
       attenuationWeight: 50,
       daysSinceLastExposureLevelValues: [0, 1, 1, 1, 1, 1, 1, 1],
