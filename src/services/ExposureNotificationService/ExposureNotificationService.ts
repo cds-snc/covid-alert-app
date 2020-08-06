@@ -8,6 +8,7 @@ import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUT
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
+import {Platform} from 'react-native';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -25,8 +26,6 @@ export const HOURS_PER_PERIOD = 24;
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export const MINIMUM_REMINDER_INTERVAL_MINUTES = 180;
-
-const MINIMUM_EXPOSURE_DURATION_MINUTES = 15;
 
 export {SystemStatus};
 
@@ -363,12 +362,15 @@ export class ExposureNotificationService {
     });
 
     try {
-      const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      const {minimumExposureDurationMinutes, ...frameworkExposureConfiguration} = exposureConfiguration;
+      const summary = await this.exposureNotification.detectExposure(frameworkExposureConfiguration, keysFileUrls);
       captureMessage('summary', {summary});
-      const durationAtImmediateSeconds = summary.attenuationDurations[0];
-      const durationAtNearSeconds = summary.attenuationDurations[1];
-      const exposureDurationSeconds = durationAtImmediateSeconds + durationAtNearSeconds;
-      if (exposureDurationSeconds > MINIMUM_EXPOSURE_DURATION_MINUTES * 60) {
+      // on ios attenuationDurations is in seconds, on android it is in minutes
+      const divisor = Platform.OS === 'ios' ? 60 : 1;
+      const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
+      const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
+      const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
+      if (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes) {
         return finalize(
           {
             type: 'exposed',
