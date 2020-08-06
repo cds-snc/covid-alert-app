@@ -136,10 +136,11 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
   }
   
-  // `attenuationDurationThresholds` are only a part of the configuration in iOS 13.6+.
-  if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 13.6) {
-    if (configDict[@"attenuationDurationThresholds"]) {
+  if (configDict[@"attenuationDurationThresholds"]) {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 13.6) {
       configuration.attenuationDurationThresholds = mapIntValues(configDict[@"attenuationDurationThresholds"]);
+    } else {
+      configuration.metadata = @{@"attenuationDurationThresholds": mapIntValues(configDict[@"attenuationDurationThresholds"])};
     }
   }
   
