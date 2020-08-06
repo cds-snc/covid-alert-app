@@ -37,7 +37,8 @@ export interface ExposureSummary {
 
 export interface ExposureConfiguration {
   metadata?: object;
-  minimumRiskScore: number;
+  minimumExposureDurationMinutes?: number;
+  attenuationDurationThresholds: number[];
   attenuationLevelValues: number[];
   attenuationWeight: number;
   daysSinceLastExposureLevelValues: number[];
