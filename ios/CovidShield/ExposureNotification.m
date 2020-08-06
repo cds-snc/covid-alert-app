@@ -136,6 +136,10 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
   }
   
+  if (configDict[@"attenuationDurationThresholds"]) {
+    configuration.attenuationDurationThresholds = mapIntValues(configDict[@"attenuationDurationThresholds"]);
+  }
+  
   if (configDict[@"attenuationLevelValues"]) {
     configuration.attenuationLevelValues = mapIntValues(configDict[@"attenuationLevelValues"]);
   }
