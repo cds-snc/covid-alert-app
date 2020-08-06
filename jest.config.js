@@ -7,6 +7,7 @@ module.exports = {
   transform: {
     '^.+\\.(js|jsx|ts|tsx)?$': 'babel-jest',
   },
+  setupFiles: ['<rootDir>/jest.setup.js'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   rootDir: '.',
   moduleDirectories: [path.join('<rootDir>', 'node_modules'), path.join('<rootDir>', 'src')],
