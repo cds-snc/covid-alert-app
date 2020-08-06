@@ -26,6 +26,8 @@ export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export const MINIMUM_REMINDER_INTERVAL_MINUTES = 180;
 
+const MINIMUM_EXPOSURE_DURATION_MINUTES = 15;
+
 export {SystemStatus};
 
 export type ExposureStatus =
@@ -363,7 +365,10 @@ export class ExposureNotificationService {
     try {
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       captureMessage('summary', {summary});
-      if (summary.matchedKeyCount > 0) {
+      const durationAtImmediateSeconds = summary.attenuationDurations[0];
+      const durationAtNearSeconds = summary.attenuationDurations[1];
+      const exposureDurationSeconds = durationAtImmediateSeconds + durationAtNearSeconds;
+      if (exposureDurationSeconds > MINIMUM_EXPOSURE_DURATION_MINUTES * 60) {
         return finalize(
           {
             type: 'exposed',
