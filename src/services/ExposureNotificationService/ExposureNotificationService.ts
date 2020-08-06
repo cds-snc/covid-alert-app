@@ -27,8 +27,6 @@ export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export const MINIMUM_REMINDER_INTERVAL_MINUTES = 180;
 
-const MINIMUM_EXPOSURE_DURATION_MINUTES = 15;
-
 export {SystemStatus};
 
 export type ExposureStatus =
@@ -371,7 +369,7 @@ export class ExposureNotificationService {
       const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
       const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
       const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
-      if (Math.round(exposureDurationMinutes) >= MINIMUM_EXPOSURE_DURATION_MINUTES) {
+      if (Math.round(exposureDurationMinutes) >= exposureConfiguration.minimumExposureDurationMinutes) {
         return finalize(
           {
             type: 'exposed',
