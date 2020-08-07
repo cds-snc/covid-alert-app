@@ -4,7 +4,7 @@ import {Box, Toolbar} from 'components';
 import {StyleSheet, Alert, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
-import {useExposureStatus} from 'services/ExposureNotificationService';
+import {useExposureStatus, cannotGetTEKsError} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 
@@ -54,8 +54,11 @@ export const DataSharingScreen = () => {
       if (error === xhrError) {
         return 'TekUploadOffline';
       }
+      if (error === cannotGetTEKsError) {
+        return 'TekUploadPermission';
+      }
       // default case
-      return 'TekUploadPermission';
+      return 'TekUploadServer';
     };
     const translationKey = getTranslationKey(error);
     Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [

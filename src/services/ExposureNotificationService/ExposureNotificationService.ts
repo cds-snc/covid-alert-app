@@ -2,6 +2,7 @@ import ExposureNotification, {
   ExposureSummary,
   Status as SystemStatus,
   ExposureConfiguration,
+  TemporaryExposureKey,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
@@ -25,6 +26,8 @@ export const HOURS_PER_PERIOD = 24;
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export const MINIMUM_REMINDER_INTERVAL_MINUTES = 180;
+
+export const cannotGetTEKsError = new Error('Unable to retrieve TEKs');
 
 export {SystemStatus};
 
@@ -181,12 +184,19 @@ export class ExposureNotificationService {
   async fetchAndSubmitKeys(): Promise<void> {
     const submissionKeysStr = await this.secureStorage.get(SUBMISSION_AUTH_KEYS);
     if (!submissionKeysStr) {
-      throw new Error('No Upload keys found, did you forget to claim one-time code?');
+      throw new Error('Submission keys: bad certificate');
     }
     const auth = JSON.parse(submissionKeysStr) as SubmissionKeySet;
-    const diagnosisKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
-    if (diagnosisKeys.length > 0) {
-      await this.backendInterface.reportDiagnosisKeys(auth, diagnosisKeys);
+    let temporaryExposureKeys: TemporaryExposureKey[];
+    try {
+      temporaryExposureKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
+    } catch {
+      throw cannotGetTEKsError;
+    }
+    if (temporaryExposureKeys.length > 0) {
+      await this.backendInterface.reportDiagnosisKeys(auth, temporaryExposureKeys);
+    } else {
+      captureMessage('No TEKs available to upload');
     }
     await this.recordKeySubmission();
   }
