@@ -89,6 +89,7 @@ export const OnboardingScreen = () => {
             onSnapToItem={onSnapToItem}
             importantForAccessibility="no"
             accessible={false}
+            initialNumToRender={1}
           />
         </View>
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
