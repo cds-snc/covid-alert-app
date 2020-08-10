@@ -61,12 +61,24 @@ describe('Test onboarding flow', () => {
 });
 
 describe('Test Home flow', () => {
-  it('has a home screen', async () => {
-    await expect(element(by.id('UnknownProblem'))).toBeVisible();
-    await device.takeScreenshot(`UnknownProblem`);
+  it('lands on the EN disabled screen', async () => {
+    await expect(element(by.id('exposureNotificationsDisabled'))).toBeVisible();
+    await device.takeScreenshot(`ExposureNotificationsDisabled`);
+  });
+
+  it('can display the exposure view', async () => {
     await element(by.id('headerButton')).tap();
     await element(by.id('ExposureView')).tap();
+    await element(by.id('exposure')).swipe('right', 'fast', 0.05);
+    await expect(element(by.id('exposure'))).toBeVisible();
+    await device.takeScreenshot(`Exposure`);
+  });
+
+  it('can display the diagnosed view', async () => {
     await element(by.id('headerButton')).tap();
-    await device.takeScreenshot(`ExposureView`);
+    await element(by.id('DiagnosedShareView')).tap();
+    await element(by.id('diagnosedShare')).swipe('right', 'fast', 0.05);
+    await expect(element(by.id('diagnosedShare'))).toBeVisible();
+    await device.takeScreenshot(`DiagnosedShare`);
   });
 });

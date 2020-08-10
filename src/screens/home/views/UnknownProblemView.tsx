@@ -16,7 +16,7 @@ export const UnknownProblemView = ({isBottomSheetExpanded}: {isBottomSheetExpand
 
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   return (
-    <BaseHomeView iconName="icon-bluetooth-disabled" testID="UnknownProblem">
+    <BaseHomeView iconName="icon-bluetooth-disabled" testID="unknownProblem">
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.UnknownProblem.Title')}
       </Text>
