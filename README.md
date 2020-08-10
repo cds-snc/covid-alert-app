@@ -103,25 +103,6 @@ When the app is running in development mode, you can tap on the COVID Alert logo
 
 Note that: Test menu is enabled if the environment config file (`.env*`) has `TEST_MODE=true`. To disable test mode UI on production build, simply set it to false in the environment config file `TEST_MODE=false`.
 
-#### iOS Local Development
-
-If you would like to:
-
-- connect to a COVID Alert Diagnosis Server instance with an IP address or the server does not support HTTPS, or
-- have the app run in the simulator and get automatic React-Native code updates via the Metro server;
-
-Please add the following keys to the `info.plist` file. These keys should not be commited to the repo, and used only for local development.
-
-```
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-	</dict>
-```
-
 ## Customization
 
 You can customize the look and feel of the app largely by editing values found in the [Theme File](https://github.com/CovidShield/mobile/blob/master/src/shared/theme.ts).
