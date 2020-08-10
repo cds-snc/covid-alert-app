@@ -2,12 +2,14 @@ import ExposureNotification, {
   ExposureSummary,
   Status as SystemStatus,
   ExposureConfiguration,
+  TemporaryExposureKey,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
+import {Platform} from 'react-native';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -25,6 +27,8 @@ export const HOURS_PER_PERIOD = 24;
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export const MINIMUM_REMINDER_INTERVAL_MINUTES = 180;
+
+export const cannotGetTEKsError = new Error('Unable to retrieve TEKs');
 
 export {SystemStatus};
 
@@ -181,12 +185,19 @@ export class ExposureNotificationService {
   async fetchAndSubmitKeys(): Promise<void> {
     const submissionKeysStr = await this.secureStorage.get(SUBMISSION_AUTH_KEYS);
     if (!submissionKeysStr) {
-      throw new Error('No Upload keys found, did you forget to claim one-time code?');
+      throw new Error('Submission keys: bad certificate');
     }
     const auth = JSON.parse(submissionKeysStr) as SubmissionKeySet;
-    const diagnosisKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
-    if (diagnosisKeys.length > 0) {
-      await this.backendInterface.reportDiagnosisKeys(auth, diagnosisKeys);
+    let temporaryExposureKeys: TemporaryExposureKey[];
+    try {
+      temporaryExposureKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
+    } catch {
+      throw cannotGetTEKsError;
+    }
+    if (temporaryExposureKeys.length > 0) {
+      await this.backendInterface.reportDiagnosisKeys(auth, temporaryExposureKeys);
+    } else {
+      captureMessage('No TEKs available to upload');
     }
     await this.recordKeySubmission();
   }
@@ -361,9 +372,15 @@ export class ExposureNotificationService {
     });
 
     try {
+      const {minimumExposureDurationMinutes} = exposureConfiguration;
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       captureMessage('summary', {summary});
-      if (summary.matchedKeyCount > 0) {
+      // on ios attenuationDurations is in seconds, on android it is in minutes
+      const divisor = Platform.OS === 'ios' ? 60 : 1;
+      const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
+      const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
+      const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
+      if (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes) {
         return finalize(
           {
             type: 'exposed',

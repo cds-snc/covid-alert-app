@@ -415,6 +415,7 @@ describe('ExposureNotificationService', () => {
           lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
           matchedKeyCount: 1,
           maximumRiskScore: 1,
+          attenuationDurations: [1020, 0, 0],
         },
       });
       bridge.detectExposure.mockResolvedValue({
@@ -422,6 +423,7 @@ describe('ExposureNotificationService', () => {
         lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
         matchedKeyCount: 1,
         maximumRiskScore: 1,
+        attenuationDurations: [1020, 0, 0],
       });
 
       await service.updateExposureStatus();
@@ -434,6 +436,7 @@ describe('ExposureNotificationService', () => {
             lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
             matchedKeyCount: 1,
             maximumRiskScore: 1,
+            attenuationDurations: [1020, 0, 0],
           },
         }),
       );
