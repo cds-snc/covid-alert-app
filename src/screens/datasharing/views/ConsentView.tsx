@@ -6,7 +6,7 @@ import {useReportDiagnosis} from 'services/ExposureNotificationService';
 
 interface Props {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error: any) => void;
 }
 
 export const ConsentView = ({onSuccess, onError}: Props) => {
@@ -20,9 +20,9 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
       await fetchAndSubmitKeys();
       setLoading(false);
       onSuccess();
-    } catch {
+    } catch (error) {
       setLoading(false);
-      onError();
+      onError(error);
     }
   }, [fetchAndSubmitKeys, onError, onSuccess]);
 
