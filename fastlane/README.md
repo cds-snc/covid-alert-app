@@ -78,6 +78,11 @@ Builds a local Debug .apk for Android
 fastlane ios check_version_code_exists
 ```
 
+### ios set_version
+```
+fastlane ios set_version
+```
+
 ### ios build_and_deploy
 ```
 fastlane ios build_and_deploy

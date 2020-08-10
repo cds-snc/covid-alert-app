@@ -53,24 +53,21 @@ platform :ios do
 
     output_directory = File.expand_path('../build/ios')
 
+    scheme = release ? "CovidShield" : "CovidShieldDEV"
+
     # Build the app
     build_app(
-      scheme: "CovidShield",
+      scheme: scheme,
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "app-store",
       output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE"]
-        }
-      }
     )
 
     # Upload to TestFlight
     groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
       groups: groups,
-      ipa: "#{output_directory}/CovidShield.ipa"
+      ipa: lane_context[SharedValues::IPA_OUTPUT_PATH]
     )
 
     # Create a Github release (if it's a release)
