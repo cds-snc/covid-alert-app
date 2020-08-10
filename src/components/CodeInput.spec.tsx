@@ -5,6 +5,8 @@ import {StorageServiceProvider} from 'services/StorageService';
 
 import {CodeInput} from './CodeInput';
 
+jest.setTimeout(10000);
+
 jest.mock('react-native-localize', () => ({
   getLocales: () => [{countryCode: 'US', languageTag: 'en-US', languageCode: 'en', isRTL: false}],
 }));
