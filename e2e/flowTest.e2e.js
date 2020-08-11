@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
 const execSync = require('child_process').execSync;
 
+const argparse = require('detox/src/utils/argparse');
+
+const platformName = argparse.getArgValue('configuration');
+
 describe('Setup app and landing screen', () => {
   beforeEach(async () => {
     await device.reloadReactNative();
@@ -57,5 +61,34 @@ describe('Test onboarding flow', () => {
     await expect(element(by.id('ON'))).toBeVisible();
     await element(by.id('ON')).tap();
     await element(by.id('nextButton')).tap();
+  });
+});
+
+describe('Test Home flow', () => {
+  it('lands on the right home screen', async () => {
+    // eslint-disable-next-line jest/no-if
+    if (platformName === 'android') {
+      await expect(element(by.id('exposureNotificationsDisabled'))).toBeVisible();
+      await device.takeScreenshot(`ExposureNotificationsDisabled`);
+    } else {
+      await expect(element(by.id('unknownProblem'))).toBeVisible();
+      await device.takeScreenshot(`UnknownProblem`);
+    }
+  });
+
+  it('can display the exposure view', async () => {
+    await element(by.id('headerButton')).tap();
+    await element(by.id('ExposureView')).tap();
+    await element(by.id('ExposureView')).swipe('right');
+    await expect(element(by.id('exposure'))).toBeVisible();
+    await device.takeScreenshot(`Exposure`);
+  });
+
+  it('can display the diagnosed view', async () => {
+    await element(by.id('headerButton')).tap();
+    await element(by.id('DiagnosedShareView')).tap();
+    await element(by.id('DiagnosedShareView')).swipe('right');
+    await expect(element(by.id('diagnosedShare'))).toBeVisible();
+    await device.takeScreenshot(`DiagnosedShare`);
   });
 });

@@ -21,7 +21,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
 
   return (
-    <BaseHomeView iconName="hand-thank-you-with-love">
+    <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">
       <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
         {i18n.translate('Home.DiagnosedView.Title')}
         {/* No exposure detected */}
