@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import Config from 'react-native-config';
 import NetInfo from '@react-native-community/netinfo';
 

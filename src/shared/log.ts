@@ -1,10 +1,10 @@
-import { CaptureConsole } from '@sentry/integrations';
-import { SENTRY_DSN } from 'env';
+import {CaptureConsole} from '@sentry/integrations';
+import {SENTRY_DSN} from 'env';
 import * as Sentry from '@sentry/react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getRandomString } from 'bridge/CovidShield';
+import {getRandomString} from 'bridge/CovidShield';
 
-let SENTRY_ENABLED = false;
+let sentryEnabled = false;
 
 if (SENTRY_DSN) {
   Sentry.init({
@@ -14,7 +14,7 @@ if (SENTRY_DSN) {
     integrations: [new CaptureConsole()],
   });
 
-  SENTRY_ENABLED = true;
+  sentryEnabled = true;
 }
 
 const UUID_KEY = 'UUID_KEY';
@@ -32,13 +32,13 @@ let currentUUID = '';
 export const setLogUUID = (uuid: string) => {
   currentUUID = uuid;
   AsyncStorage.setItem(UUID_KEY, uuid);
-}
+};
 
 export const getLogUUID = async () => {
   return currentUUID || (await cachedUUID) || 'unset';
-}
+};
 
-export const captureMessage = async (message: string, params: { [key in string]: any } = {}) => {
+export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
   let finalMessage = message;
   const finalParams = params;
 
@@ -46,7 +46,7 @@ export const captureMessage = async (message: string, params: { [key in string]:
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
 
-  if (SENTRY_ENABLED) {
+  if (sentryEnabled) {
     const uuid = await getLogUUID();
     const scope = new Sentry.Scope();
     scope.setExtras(params);
@@ -56,7 +56,7 @@ export const captureMessage = async (message: string, params: { [key in string]:
   }
 };
 
-export const captureException = async (message: string, error: any, params: { [key in string]: any } = {}) => {
+export const captureException = async (message: string, error: any, params: {[key in string]: any} = {}) => {
   let finalMessage = `Error: ${message}`;
   const finalParams = {
     ...params,
@@ -70,7 +70,7 @@ export const captureException = async (message: string, error: any, params: { [k
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
 
-  if (SENTRY_ENABLED) {
+  if (sentryEnabled) {
     const uuid = await getLogUUID();
     const scope = new Sentry.Scope();
     scope.setExtras(finalParams);
