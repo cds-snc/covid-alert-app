@@ -6,8 +6,6 @@ import { getRandomString } from 'bridge/CovidShield';
 
 let SENTRY_ENABLED = false;
 
-console.log("SENTRY DSN =========== " + SENTRY_DSN);
-
 if (SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
