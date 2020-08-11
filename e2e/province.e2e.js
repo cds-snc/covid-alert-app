@@ -1,6 +1,25 @@
 /* eslint-disable no-undef */
 import {setDemoMode} from './shared';
 
+const changeRegion = async region => {
+  // should be called from the home screen
+  await element(by.id('tapPromptCollapsed')).tap();
+  await element(by.id('changeRegion')).tap();
+  await waitFor(element(by.id(`RegionPickerSettings-${region}`)))
+    .toBeVisible()
+    .whileElement(by.id('RegionPickerSettings-ScrollView'))
+    .scroll(50, 'down');
+  await element(by.id(`RegionPickerSettings-${region}`)).tap();
+  await element(by.id('RegionPickerSettings-Close')).tap();
+  await element(by.id('bottom-sheet-close')).tap();
+};
+
+const changeScreen = async screenName => {
+  await element(by.id('headerButton')).tap();
+  await element(by.id(screenName)).tap();
+  await element(by.id(screenName)).swipe('right');
+};
+
 const NUM_ONBOARDING_SCREENS = 6;
 describe('Test province flow', () => {
   it('pass through onboarding flow', async () => {
@@ -25,19 +44,19 @@ describe('Test province flow', () => {
     }
   });
 
-  it('can display the exposure view', async () => {
-    await element(by.id('headerButton')).tap();
-    await element(by.id('ExposureView')).tap();
-    await element(by.id('ExposureView')).swipe('right');
+  it('displays the right exposure view for ON and AB', async () => {
+    await changeScreen('ExposureView');
     await expect(element(by.id('exposure'))).toBeVisible();
-    await device.takeScreenshot(`Exposure`);
+    await changeRegion('ON');
+    await expect(element(by.text('Find out what to do next'))).toBeVisible();
+    await device.takeScreenshot('Exposure-ON');
+    await changeRegion('AB');
+    await expect(element(by.text('Find out if you need to be tested'))).toBeVisible();
+    await device.takeScreenshot('Exposure-AB');
   });
-
   it('can display the diagnosed view', async () => {
-    await element(by.id('headerButton')).tap();
-    await element(by.id('DiagnosedShareView')).tap();
-    await element(by.id('DiagnosedShareView')).swipe('right');
+    await changeScreen('DiagnosedShareView');
     await expect(element(by.id('diagnosedShare'))).toBeVisible();
-    await device.takeScreenshot(`DiagnosedShare`);
+    await device.takeScreenshot('DiagnosedShare');
   });
 });

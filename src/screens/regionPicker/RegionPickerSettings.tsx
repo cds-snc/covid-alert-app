@@ -30,8 +30,9 @@ export const RegionPickerSettingsScreen = () => {
           navText={i18n.translate('RegionPicker.Close')}
           navLabel={i18n.translate('RegionPicker.Close')}
           onIconClicked={close}
+          testID="RegionPickerSettings-Close"
         />
-        <ScrollView style={regionStyles.flex}>
+        <ScrollView style={regionStyles.flex} testID="RegionPickerSettings-ScrollView">
           <Text
             paddingHorizontal="m"
             marginBottom="m"
@@ -54,6 +55,7 @@ export const RegionPickerSettingsScreen = () => {
               {regionData.map(item => {
                 return (
                   <RegionItem
+                    testID={`RegionPickerSettings-${item.code}`}
                     key={item.code}
                     selected={region === item.code}
                     onPress={toggle(item.code)}
