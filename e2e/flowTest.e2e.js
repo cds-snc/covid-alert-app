@@ -1,9 +1,5 @@
 /* eslint-disable no-undef */
-const execSync = require('child_process').execSync;
-
-const argparse = require('detox/src/utils/argparse');
-
-const platformName = argparse.getArgValue('configuration');
+import {setDemoMode} from './shared';
 
 describe('Setup app and landing screen', () => {
   beforeEach(async () => {
@@ -17,27 +13,6 @@ describe('Setup app and landing screen', () => {
     await element(by.id('enButton')).tap();
   });
 });
-
-const setDemoMode = () => {
-  if (device.getPlatform() === 'ios') {
-    execSync(
-      'xcrun simctl status_bar "iPhone 11" override --time "12:00" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4',
-    );
-  } else {
-    // enter demo mode
-    execSync('adb shell settings put global sysui_demo_allowed 1');
-    // display time 12:00
-    execSync('adb shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 1200');
-    // Display full mobile data with 4g type and no wifi
-    execSync(
-      'adb shell am broadcast -a com.android.systemui.demo -e command network -e mobile show -e level 4 -e datatype 4g -e wifi false',
-    );
-    // Hide notifications
-    execSync('adb shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false');
-    // Show full battery but not in charging state
-    execSync('adb shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100');
-  }
-};
 
 const NUM_ONBOARDING_SCREENS = 6;
 describe('Test onboarding flow', () => {
@@ -61,34 +36,5 @@ describe('Test onboarding flow', () => {
     await expect(element(by.id('ON'))).toBeVisible();
     await element(by.id('ON')).tap();
     await element(by.id('nextButton')).tap();
-  });
-});
-
-describe('Test Home flow', () => {
-  it('lands on the right home screen', async () => {
-    // eslint-disable-next-line jest/no-if
-    if (platformName === 'android') {
-      await expect(element(by.id('exposureNotificationsDisabled'))).toBeVisible();
-      await device.takeScreenshot(`ExposureNotificationsDisabled`);
-    } else {
-      await expect(element(by.id('unknownProblem'))).toBeVisible();
-      await device.takeScreenshot(`UnknownProblem`);
-    }
-  });
-
-  it('can display the exposure view', async () => {
-    await element(by.id('headerButton')).tap();
-    await element(by.id('ExposureView')).tap();
-    await element(by.id('ExposureView')).swipe('right');
-    await expect(element(by.id('exposure'))).toBeVisible();
-    await device.takeScreenshot(`Exposure`);
-  });
-
-  it('can display the diagnosed view', async () => {
-    await element(by.id('headerButton')).tap();
-    await element(by.id('DiagnosedShareView')).tap();
-    await element(by.id('DiagnosedShareView')).swipe('right');
-    await expect(element(by.id('diagnosedShare'))).toBeVisible();
-    await device.takeScreenshot(`DiagnosedShare`);
   });
 });
