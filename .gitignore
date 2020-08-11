@@ -95,9 +95,8 @@ android/app/google-services.json
 .env.*
 .env
 
+sentry.properties
+
 # generated files
 ios/assets
-
-.env.release
-
 artifacts/*

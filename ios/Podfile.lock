@@ -326,6 +326,9 @@ PODS:
     - React
   - RNSecureKeyStore (1.0.0):
     - React
+  - RNSentry (1.7.1):
+    - React
+    - Sentry (~> 5.2.0)
   - RNSVG (12.1.0):
     - React
   - RNZipArchive (5.0.2):
@@ -335,6 +338,9 @@ PODS:
   - RNZipArchive/Core (5.0.2):
     - React
     - SSZipArchive (= 2.2.2)
+  - Sentry (5.2.0):
+    - Sentry/Core (= 5.2.0)
+  - Sentry/Core (5.2.0)
   - SSZipArchive (2.2.2)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -404,6 +410,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSecureKeyStore (from `../node_modules/react-native-secure-key-store/ios`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNZipArchive (from `../node_modules/react-native-zip-archive`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -421,6 +428,7 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - OpenSSL-Universal
+    - Sentry
     - SSZipArchive
     - YogaKit
 
@@ -507,6 +515,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSecureKeyStore:
     :path: "../node_modules/react-native-secure-key-store/ios"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNZipArchive:
@@ -567,8 +577,10 @@ SPEC CHECKSUMS:
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
   RNSecureKeyStore: f1ad870e53806453039f650720d2845c678d89c8
+  RNSentry: 2bae4ffee2e66376ef42cb845a494c3bde17bc56
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNZipArchive: ab51bc004a31657f34010254a9182014c6a81217
+  Sentry: 6e04bc3e11bf771ca79140a112de64dcfbc7d8cb
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

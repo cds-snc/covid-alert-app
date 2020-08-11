@@ -1,4 +1,4 @@
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import Config from 'react-native-config';
 import NetInfo from '@react-native-community/netinfo';
 
@@ -22,6 +22,8 @@ export const MCC_CODE = parseInt(Config.MCC_CODE, 10) || 302;
 export const TEST_MODE = Config.TEST_MODE === 'true' || false;
 
 export const MOCK_SERVER = Config.MOCK_SERVER === 'true' || false;
+
+export const SENTRY_DSN = Config.SENTRY_DSN;
 
 /**
  * Set reachability check url to empty to prevent
