@@ -27,12 +27,16 @@ export const getLogUUID = async () => {
   return currentUUID || (await cachedUUID) || 'unset';
 };
 
+const isTest = () => {
+  return process.env.JEST_WORKER_ID !== undefined;
+};
+
 export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
   const uuid = await getLogUUID();
   const finalMessage = `[${uuid}] ${message}`.replace(/\n/g, '');
   const finalParams = params;
 
-  if (__DEV__) {
+  if (__DEV__ && !isTest()) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
 };
@@ -49,7 +53,7 @@ export const captureException = async (message: string, error: any, params: {[ke
     },
   };
 
-  if (__DEV__) {
+  if (__DEV__ && !isTest()) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
 };
