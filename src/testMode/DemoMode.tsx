@@ -1,32 +1,32 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
-import { TextInput, StyleSheet } from 'react-native';
-import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useI18n } from 'locale';
+import React, {useCallback, useMemo, useState, useEffect} from 'react';
+import {TextInput, StyleSheet} from 'react-native';
+import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
+import {useI18n} from 'locale';
 import PushNotification from 'bridge/PushNotification';
-import { Box, Button, LanguageToggle, Text } from 'components';
-import { useStorage } from 'services/StorageService';
+import {Box, Button, LanguageToggle, Text} from 'components';
+import {useStorage} from 'services/StorageService';
 import {
   useExposureNotificationService,
   useExposureStatus,
   useReportDiagnosis,
 } from 'services/ExposureNotificationService';
-import { APP_VERSION_NAME, APP_VERSION_CODE } from 'env';
-import { setLogUUID, getLogUUID, captureMessage } from 'shared/log';
+import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
+import {setLogUUID, getLogUUID, captureMessage} from 'shared/log';
 
-import { RadioButton } from './components/RadioButtons';
-import { MockProvider } from './MockProvider';
-import { Item } from './views/Item';
-import { Section } from './views/Section';
+import {RadioButton} from './components/RadioButtons';
+import {MockProvider} from './MockProvider';
+import {Item} from './views/Item';
+import {Section} from './views/Section';
 
 const Drawer = createDrawerNavigator();
 
 const ScreenRadioSelector = () => {
-  const { forceScreen, setForceScreen } = useStorage();
+  const {forceScreen, setForceScreen} = useStorage();
   const screenData = [
-    { displayName: 'None', value: 'None' },
-    { displayName: 'Exposed', value: 'ExposureView' },
-    { displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView' },
+    {displayName: 'None', value: 'None'},
+    {displayName: 'Exposed', value: 'ExposureView'},
+    {displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView'},
   ];
   return (
     <Box
@@ -52,10 +52,10 @@ const ScreenRadioSelector = () => {
 };
 
 const SkipAllSetRadioSelector = () => {
-  const { skipAllSet, setSkipAllSet } = useStorage();
+  const {skipAllSet, setSkipAllSet} = useStorage();
   const screenData = [
-    { displayName: 'False', value: 'false' },
-    { displayName: 'True', value: 'true' },
+    {displayName: 'False', value: 'false'},
+    {displayName: 'True', value: 'true'},
   ];
 
   return (
@@ -86,7 +86,7 @@ const SkipAllSetRadioSelector = () => {
 const DrawerContent = () => {
   const i18n = useI18n();
 
-  const { reset } = useStorage();
+  const {reset} = useStorage();
 
   const onShowSampleNotification = useCallback(() => {
     PushNotification.presentLocalNotification({
@@ -98,7 +98,7 @@ const DrawerContent = () => {
   const exposureNotificationService = useExposureNotificationService();
   const [, updateExposureStatus] = useExposureStatus();
 
-  const { fetchAndSubmitKeys } = useReportDiagnosis();
+  const {fetchAndSubmitKeys} = useReportDiagnosis();
 
   const [UUID, setUUID] = useState('');
   const onApplyUUID = useCallback(() => {
@@ -154,7 +154,7 @@ const DrawerContent = () => {
             onPress={async () => {
               captureMessage('Forcing refresh...');
               exposureNotificationService.exposureStatusUpdatePromise = null;
-              exposureNotificationService.exposureStatus.set({ type: 'monitoring' });
+              exposureNotificationService.exposureStatus.set({type: 'monitoring'});
               updateExposureStatus();
             }}
           />
@@ -179,7 +179,7 @@ export interface DemoModeProps {
   children?: React.ReactElement;
 }
 
-export const DemoMode = ({ children }: DemoModeProps) => {
+export const DemoMode = ({children}: DemoModeProps) => {
   const drawerContent = useCallback(() => <DrawerContent />, []);
   const Component = useMemo(() => {
     const Component = () => {
@@ -198,7 +198,7 @@ export const DemoMode = ({ children }: DemoModeProps) => {
 
   return (
     <MockProvider>
-      <DemoStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Demo">
+      <DemoStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Demo">
         <DemoStack.Screen name="Demo" component={Screen} />
       </DemoStack.Navigator>
     </MockProvider>

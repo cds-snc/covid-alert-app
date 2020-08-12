@@ -1,7 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { getRandomString } from 'bridge/CovidShield';
-
-let sentryEnabled = false;
+import {getRandomString} from 'bridge/CovidShield';
 
 const UUID_KEY = 'UUID_KEY';
 
@@ -24,7 +22,7 @@ export const getLogUUID = async () => {
   return currentUUID || (await cachedUUID) || 'unset';
 };
 
-export const captureMessage = async (message: string, params: { [key in string]: any } = {}) => {
+export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
   const uuid = await getLogUUID();
   const finalMessage = `[${uuid}] ${message}`.replace(/\n/g, '');
   const finalParams = params;
@@ -34,7 +32,7 @@ export const captureMessage = async (message: string, params: { [key in string]:
   }
 };
 
-export const captureException = async (message: string, error: any, params: { [key in string]: any } = {}) => {
+export const captureException = async (message: string, error: any, params: {[key in string]: any} = {}) => {
   const uuid = await getLogUUID();
   const finalMessage = `[${uuid}] Error: ${message}`.replace(/\n/g, '');
 
