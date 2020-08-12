@@ -51,7 +51,7 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
                 </Text>
               </Box>
             )}
-            <Text variant="smallText" color="bodyTextSubdued" textAlign="center">
+            <Text variant="smallText" color="bodyTextSubdued" textAlign="center" testID="tapPromptCollapsed">
               {i18n.translate('OverlayClosed.TapPrompt')}
             </Text>
           </Box>
