@@ -33,7 +33,14 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
     ) : null;
   return (
     <Box>
-      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text
+        testID="noCodeHeader"
+        focusRef={autoFocusRef}
+        variant="bodyTitle"
+        color="bodyText"
+        marginBottom="l"
+        accessibilityRole="header"
+      >
         {title}
       </Text>
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />

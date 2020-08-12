@@ -60,3 +60,14 @@ describe('Test province flow', () => {
     await device.takeScreenshot('DiagnosedShare');
   });
 });
+
+describe('Test region based screens', () => {
+  it('displays correct no code screen', async () => {
+    await changeRegion('ON');
+    await element(by.id('tapPromptCollapsed')).tap();
+    await expect(element(by.id('getCodeBtn'))).toBeVisible();
+    await element(by.id('getCodeBtn')).tap();
+    await device.takeScreenshot('noCode');
+    await expect(element(by.id('noCodeHeader'))).toBeVisible();
+  });
+});
