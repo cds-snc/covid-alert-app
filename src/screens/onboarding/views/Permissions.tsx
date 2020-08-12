@@ -42,6 +42,7 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box>
             <ButtonSingleLine
+              testID="privacyPolicyCTA"
               text={i18n.translate('Onboarding.Permissions.PrivacyButtonCTA')}
               variant="bigFlatNeutralGrey"
               internalLink

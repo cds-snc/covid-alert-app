@@ -13,10 +13,9 @@ export interface ToolbarProps {
   navIcon?: IconProps['name'] /* Android only */;
   navLabel?: string;
   accessibilityTitleAutoFocus?: boolean;
-  testID?: string;
 }
 
-export const Toolbar = ({title, navText, onIconClicked, accessibilityTitleAutoFocus, testID}: ToolbarProps) => {
+export const Toolbar = ({title, navText, onIconClicked, accessibilityTitleAutoFocus}: ToolbarProps) => {
   useEffect(() => {
     if (Platform.OS !== 'android') {
       return;
@@ -31,7 +30,7 @@ export const Toolbar = ({title, navText, onIconClicked, accessibilityTitleAutoFo
   return (
     <Box flexDirection="row" alignItems="center" minHeight={56}>
       <Box>
-        <Button text={navText} variant="text" onPress={onIconClicked} testID={testID} />
+        <Button testID="toolbarCloseButton" text={navText} variant="text" onPress={onIconClicked} />
       </Box>
       {title !== '' && (
         <Box flex={1} justifyContent="center" minWidth={100}>

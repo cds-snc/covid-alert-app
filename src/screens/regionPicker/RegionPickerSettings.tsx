@@ -30,7 +30,6 @@ export const RegionPickerSettingsScreen = () => {
           navText={i18n.translate('RegionPicker.Close')}
           navLabel={i18n.translate('RegionPicker.Close')}
           onIconClicked={close}
-          testID="RegionPickerSettings-Close"
         />
         <ScrollView style={regionStyles.flex} testID="RegionPickerSettings-ScrollView">
           <Text
