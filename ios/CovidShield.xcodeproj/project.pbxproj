@@ -228,7 +228,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				1B433DAC3FE941E9943527B3 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -317,20 +316,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ ! -z \"$SENTRY_DSN\" ]; then\n  export SENTRY_PROPERTIES=sentry.properties\n  export EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\n  # this could be different for you\n  export NVM_DIR=$HOME/.nvm\n\n  if [ -n \"$NVM_DIR\" ] && [ -d \"$NVM_DIR\" ]; then\n    echo \"nvm detected\"\n\n    # This is the path to the nvm initializer when installed via homebrew. \n    # This might be different for you.\n    source /usr/local/opt/nvm/nvm.sh\n\n    # If the project root has an .nvmrc file, change to that node  \n    # version first.\n    if [ -f \"../.nvmrc\" ]; then\n      NODE_VERSION=$(cat ../.nvmrc)\n      echo \"nvmrc found at project root, using node version: ${NODE_VERSION}\"\n      nvm use ${NODE_VERSION}\n    fi\n    export NODE_BINARY=$(nvm which node)\n  else\n    export NODE_BINARY=node\n  fi\n  ../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\nelse\n  export NODE_BINARY=node\n  ../node_modules/react-native/scripts/react-native-xcode.sh\nfi\n";
-		};
-		1B433DAC3FE941E9943527B3 /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Upload Debug Symbols to Sentry";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! -z \"$SENTRY_DSN\" ]; then\n  export SENTRY_PROPERTIES=sentry.properties\n  # this could be different for you\n  export NVM_DIR=$HOME/.nvm\n\n  if [ -n \"$NVM_DIR\" ] && [ -d \"$NVM_DIR\" ]; then\n    echo \"nvm detected\"\n\n    # This is the path to the nvm initializer when installed via homebrew. \n    # This might be different for you.\n    source /usr/local/opt/nvm/nvm.sh\n\n    # If the project root has an .nvmrc file, change to that node  \n    # version first.\n    if [ -f \"../.nvmrc\" ]; then\n      NODE_VERSION=$(cat ../.nvmrc)\n      echo \"nvmrc found at project root, using node version: ${NODE_VERSION}\"\n      nvm use ${NODE_VERSION}\n    fi\n    export NODE_BINARY=$(nvm which node)\n  else\n    export NODE_BINARY=node\n  fi\n  ../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\nfi\n";
 		};
 		2CF09B024003DB90CDBA2FC5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
