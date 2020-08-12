@@ -1,7 +1,12 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {getRandomString} from 'bridge/CovidShield';
 
 const UUID_KEY = 'UUID_KEY';
+
+const getRandomString = (size: number) => {
+  const chars = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'];
+
+  return [...Array(size)].map(_ => chars[(Math.random() * chars.length) | 0]).join('');
+};
 
 const cachedUUID = AsyncStorage.getItem(UUID_KEY)
   .then(uuid => uuid || getRandomString(8))
