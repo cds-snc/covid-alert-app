@@ -2,6 +2,8 @@ import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import {BackendInterface, SubmissionKeySet} from 'services/BackendService';
 
 const DefaultConfiguration = {
+  attenuationDurationThresholds: [50, 63],
+  minimumExposureDurationMinutes: 15,
   minimumRiskScore: 0,
   attenuationLevelValues: [1, 2, 3, 4, 5, 6, 7, 8],
   attenuationWeight: 50,

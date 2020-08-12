@@ -16,6 +16,7 @@ const RadioButton_ = ({value, onPress, name, selected}: Props) => (
       onPress={() => onPress(value)}
       accessibilityRole="radio"
       accessibilityState={{selected}}
+      testID={value}
     >
       <Box paddingVertical="s" flexDirection="row" alignContent="center" justifyContent="space-between">
         <Box flexDirection="row" alignItems="center" paddingVertical="s">

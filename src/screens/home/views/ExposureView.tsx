@@ -43,7 +43,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   }, [region, isRegionOntario]);
 
   return (
-    <BaseHomeView iconName="hand-caution">
+    <BaseHomeView iconName="hand-caution" testID="exposure">
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate(`Home.ExposureDetected.${getRegionForText()}.Title`)}
       </Text>

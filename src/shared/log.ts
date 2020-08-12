@@ -8,7 +8,7 @@ export const captureMessage = async (message: string, params: {[key in string]: 
   if (!__DEV__) {
     return;
   }
-  console.log(finalMessage, finalParams);
+  console.log(finalMessage, finalParams); // eslint-disable-line no-console
 };
 
 export const captureException = async (message: string, error: any, params: {[key in string]: any} = {}) => {
@@ -26,5 +26,5 @@ export const captureException = async (message: string, error: any, params: {[ke
   if (!__DEV__) {
     return;
   }
-  console.log(finalMessage, finalParams);
+  console.log(finalMessage, finalParams); // eslint-disable-line no-console
 };
