@@ -10,7 +10,7 @@ const changeRegion = async region => {
     .whileElement(by.id('RegionPickerSettings-ScrollView'))
     .scroll(50, 'down');
   await element(by.id(`RegionPickerSettings-${region}`)).tap();
-  await element(by.id('RegionPickerSettings-Close')).tap();
+  await element(by.id('toolbarCloseButton')).tap();
   await element(by.id('bottom-sheet-close')).tap();
 };
 
@@ -28,8 +28,8 @@ describe('Test province flow', () => {
     await element(by.id('enButton')).tap();
     setDemoMode();
     for (let i = 1; i <= NUM_ONBOARDING_SCREENS; i++) {
-      await expect(element(by.id('nextButton'))).toBeVisible();
-      await element(by.id('nextButton')).tap();
+      await expect(element(by.id('onboardingNextButton'))).toBeVisible();
+      await element(by.id('onboardingNextButton')).tap();
     }
   });
 

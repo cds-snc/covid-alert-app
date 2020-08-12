@@ -13,10 +13,9 @@ export interface ToolbarProps {
   navIcon?: IconProps['name'] /* Android only */;
   navLabel?: string;
   accessibilityTitleAutoFocus?: boolean;
-  testID?: string;
 }
 
-export const Toolbar = ({title, navText, onIconClicked, accessibilityTitleAutoFocus, testID}: ToolbarProps) => {
+export const Toolbar = ({title, navText, onIconClicked, accessibilityTitleAutoFocus}: ToolbarProps) => {
   useEffect(() => {
     if (Platform.OS !== 'android') {
       return;
