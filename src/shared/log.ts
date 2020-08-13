@@ -1,21 +1,50 @@
-export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
-  // force return for production
-  return;
+import AsyncStorage from '@react-native-community/async-storage';
 
-  const finalMessage = message;
+const UUID_KEY = 'UUID_KEY';
+
+const getRandomString = (size: number) => {
+  const chars = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'];
+
+  return [...Array(size)].map(_ => chars[(Math.random() * chars.length) | 0]).join('');
+};
+
+const cachedUUID = AsyncStorage.getItem(UUID_KEY)
+  .then(uuid => uuid || getRandomString(8))
+  .then(uuid => {
+    AsyncStorage.setItem(UUID_KEY, uuid);
+    return uuid;
+  })
+  .catch(() => null);
+
+let currentUUID = '';
+
+export const setLogUUID = (uuid: string) => {
+  currentUUID = uuid;
+  AsyncStorage.setItem(UUID_KEY, uuid);
+};
+
+export const getLogUUID = async () => {
+  return currentUUID || (await cachedUUID) || 'unset';
+};
+
+const isTest = () => {
+  return process.env.JEST_WORKER_ID !== undefined;
+};
+
+export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
+  const uuid = await getLogUUID();
+  const finalMessage = `[${uuid}] ${message}`.replace(/\n/g, '');
   const finalParams = params;
 
-  if (!__DEV__) {
-    return;
+  if (__DEV__ && !isTest()) {
+    console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
-  console.log(finalMessage, finalParams); // eslint-disable-line no-console
 };
 
 export const captureException = async (message: string, error: any, params: {[key in string]: any} = {}) => {
-  // force return for production
-  return;
+  const uuid = await getLogUUID();
+  const finalMessage = `[${uuid}] Error: ${message}`.replace(/\n/g, '');
 
-  const finalMessage = `Error: ${message}`;
   const finalParams = {
     ...params,
     error: {
@@ -23,8 +52,8 @@ export const captureException = async (message: string, error: any, params: {[ke
       error,
     },
   };
-  if (!__DEV__) {
-    return;
+
+  if (__DEV__ && !isTest()) {
+    console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
-  console.log(finalMessage, finalParams); // eslint-disable-line no-console
 };

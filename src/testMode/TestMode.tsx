@@ -55,6 +55,7 @@ const DrawerContent = () => {
           lastExposureTimestamp: 0,
           matchedKeyCount: 1,
           maximumRiskScore: 8,
+          attenuationDurations: [0, 0, 0],
         };
         break;
       default:
@@ -64,6 +65,7 @@ const DrawerContent = () => {
           lastExposureTimestamp: 0,
           matchedKeyCount: 0,
           maximumRiskScore: 0,
+          attenuationDurations: [0, 0, 0],
         };
         break;
     }

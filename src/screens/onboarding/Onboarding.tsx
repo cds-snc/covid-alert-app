@@ -89,6 +89,7 @@ export const OnboardingScreen = () => {
             onSnapToItem={onSnapToItem}
             importantForAccessibility="no"
             accessible={false}
+            initialNumToRender={1}
           />
         </View>
         <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
@@ -102,7 +103,7 @@ export const OnboardingScreen = () => {
 
           <Box flex={0} style={{...styles.offset3}}>
             <Button
-              testID="nextButton"
+              testID="onboardingNextButton"
               text={i18n.translate(`Onboarding.Action${isEnd ? 'End' : 'Next'}`)}
               variant="text"
               onPress={nextItem}

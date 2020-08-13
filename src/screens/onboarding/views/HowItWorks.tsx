@@ -27,6 +27,7 @@ export const HowItWorks = (props: Pick<ItemViewProps, 'isActive'>) => {
         <Box alignSelf="stretch" marginTop="m" marginBottom="l">
           <Box>
             <ButtonSingleLine
+              testID="howItWorksCTA"
               text={i18n.translate('Onboarding.HowItWorks.HowItWorksCTA')}
               variant="bigFlatNeutralGrey"
               internalLink

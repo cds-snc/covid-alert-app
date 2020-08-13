@@ -15,11 +15,13 @@ export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottom
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (
-      <AllSetView
-        isBottomSheetExpanded
-        titleText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
-        bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')}
-      />
+      <BaseHomeView iconName="hand-no-province-yet">
+        <AllSetView
+          isBottomSheetExpanded
+          titleText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
+          bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')}
+        />
+      </BaseHomeView>
     );
   }
   return (

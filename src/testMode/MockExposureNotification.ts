@@ -7,6 +7,7 @@ export class MockExposureNotification implements ExposureNotification {
     lastExposureTimestamp: 0,
     matchedKeyCount: 0,
     maximumRiskScore: 0,
+    attenuationDurations: [0, 0, 0],
   };
 
   start = async () => {};
