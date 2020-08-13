@@ -110,8 +110,7 @@ platform :android do
     diawi(
       token: ENV['DIAWI_TOKEN'],
       file: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
-      comment: "v#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})",
-      callback_emails: "dave.samojlenko@cds-snc.ca"
+      comment: "v#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})"
     )
   end
 
