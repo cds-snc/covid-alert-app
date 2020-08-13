@@ -29,6 +29,7 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
       <Text
+        testID="coveredRegionHeader"
         focusRef={autoFocusRef}
         variant="bodyTitle"
         color="bodyText"

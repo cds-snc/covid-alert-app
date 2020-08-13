@@ -24,6 +24,16 @@ const changeScreen = async screenName => {
   await element(by.id(screenName)).swipe('right');
 };
 
+const changeAllSet = async value => {
+  await element(by.id('headerButton')).tap();
+  await waitFor(element(by.id(value)))
+    .toBeVisible()
+    .whileElement(by.id('DemoMenu-ScrollView'))
+    .scroll(50, 'down');
+  await element(by.id(value)).tap();
+  await element(by.id(value)).swipe('right');
+};
+
 const NUM_ONBOARDING_SCREENS = 6;
 describe('Test province flow', () => {
   it('pass through onboarding flow', async () => {
@@ -70,7 +80,7 @@ describe('Test province flow', () => {
 });
 
 describe('Test region based screens', () => {
-  it('displays correct no code screen for ON and AB', async () => {
+  it('displays right no code screen for ON and AB', async () => {
     await changeRegion('ON');
     await element(by.id('tapPromptCollapsed')).tap();
     await expect(element(by.id('getCodeButton'))).toBeVisible();
@@ -91,7 +101,7 @@ describe('Test region based screens', () => {
     await element(by.id('bottom-sheet-close')).tap();
   });
 
-  it('displays correct all set screen for ON and AB', async () => {
+  it('displays right all set screen for ON and AB', async () => {
     await changeRegion('ON');
     await changeScreen('NoExposureView');
     await device.takeScreenshot('AllSetViewON');
@@ -100,5 +110,17 @@ describe('Test region based screens', () => {
     await changeScreen('NoExposureView');
     await device.takeScreenshot('AllSetViewAB');
     await expect(element(by.id('allSetUncoveredRegionView'))).toBeVisible();
+  });
+
+  it('displays right no exposure screens for ON and AB', async () => {
+    await changeRegion('ON');
+    await changeScreen('NoExposureView');
+    await changeAllSet('true');
+    await device.takeScreenshot('NoExposureViewON');
+    await expect(element(by.id('coveredRegionHeader'))).toBeVisible();
+    await changeRegion('AB');
+    await changeScreen('NoExposureView');
+    await device.takeScreenshot('NoExposureViewAB');
+    await expect(element(by.id('uncoveredRegionHeader'))).toBeVisible();
   });
 });
