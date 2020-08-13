@@ -100,8 +100,7 @@ export class BackendService implements BackendInterface {
   filterTEKs = (key: TemporaryExposureKey) => {
 
     /*
-      This function filters out TEKs that were generated outside the window
-      when the user was contagious.
+      This function filters out TEKs that were generated before the user was contagious.
 
       rollingStartIntervalNumber = A number describing when a key starts. It is equal to startTimeOfKeySinceEpochInSecs / (60 * 10).
 
@@ -109,13 +108,16 @@ export class BackendService implements BackendInterface {
 
       source: https://developers.google.com/android/reference/com/google/android/gms/nearby/exposurenotification/TemporaryExposureKey
     */
+    if (!SYMPTOM_ONSET_DATE) {
+      return true;
+    }
     const symptomOnsetHoursSinceEpoch = hoursSinceEpoch(SYMPTOM_ONSET_DATE);
     const contagiousStartHoursSinceEpoch = symptomOnsetHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET * 24;
 
     const rollingEndIntervalNumber = key.rollingStartIntervalNumber + key.rollingPeriod;
     const rollingEndIntervalHoursSinceEpoch = rollingEndIntervalNumber / 6;
     if (rollingEndIntervalHoursSinceEpoch < contagiousStartHoursSinceEpoch) {
-      // the TEK is outside the contagious period
+      // the TEK is before the contagious period
       return false;
     }
     return true;
