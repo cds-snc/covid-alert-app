@@ -66,12 +66,22 @@ describe('Test province flow', () => {
 });
 
 describe('Test region based screens', () => {
-  it('displays correct no code screen', async () => {
+  it('displays correct no code screen for ON and AB', async () => {
     await changeRegion('ON');
     await element(by.id('tapPromptCollapsed')).tap();
-    await expect(element(by.id('getCodeBtn'))).toBeVisible();
-    await element(by.id('getCodeBtn')).tap();
-    await device.takeScreenshot('noCode');
+    await expect(element(by.id('getCodeButton'))).toBeVisible();
+    await element(by.id('getCodeButton')).tap();
+    await device.takeScreenshot('noCodeON');
     await expect(element(by.id('noCodeHeader'))).toBeVisible();
+    await expect(element(by.id('noCodeCTA'))).toBeVisible();
+    await element(by.id('toolbarCloseButton')).tap();
+    await element(by.id('bottom-sheet-close')).tap();
+    await changeRegion('AB');
+    await element(by.id('tapPromptCollapsed')).tap();
+    await expect(element(by.id('getCodeButton'))).toBeVisible();
+    await element(by.id('getCodeButton')).tap();
+    await device.takeScreenshot('noCodeAB');
+    await expect(element(by.id('noCodeHeader'))).toBeVisible();
+    await expect(element(by.id('noCodeCTA'))).toBeNotVisible();
   });
 });

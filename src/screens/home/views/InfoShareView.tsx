@@ -74,7 +74,7 @@ export const InfoShareView = () => {
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
         <InfoShareItem
-          testID="getCodeBtn"
+          testID="getCodeButton"
           onPress={onGetCode}
           text={i18n.translate('Info.GetCode')}
           icon="icon-chevron"

@@ -25,6 +25,7 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
   const externalLinkButton =
     externalLinkCTA && externalLinkText ? (
       <ButtonSingleLine
+        testID="noCodeCTA"
         variant="bigFlat"
         text={externalLinkText}
         onPress={() => Linking.openURL(externalLinkCTA).catch(error => captureException('An error occurred', error))}
