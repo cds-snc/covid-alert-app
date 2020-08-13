@@ -70,20 +70,22 @@ platform :ios do
     groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
       groups: groups,
-      ipa: "#{output_directory}/CovidShield.ipa"
+      ipa: lane_context[SharedValues::IPA_OUTPUT_PATH]
     )
 
     # Create a Github release (if it's a release)
     if release
       create_github_release(
         platform: 'iOS',
-        upload_assets: ["#{output_directory}/CovidShield.ipa", "#{output_directory}/CovidShield.app.dSYM.zip"]
+        upload_assets: [lane_context[SharedValues::IPA_OUTPUT_PATH], lane_context[SharedValues::DSYM_OUTPUT_PATH]]
       )
     end
   end
 
   desc "Builds a local iOS adhoc .ipa"
   lane :local do
+    load_env_file(buildType:'local')
+
     bundle_install
 
     # install pods
