@@ -17,6 +17,7 @@ export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottom
     return (
       <BaseHomeView iconName="hand-no-province-yet">
         <AllSetView
+          testID="allSetUncoveredRegionView"
           isBottomSheetExpanded
           titleText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
           bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')}

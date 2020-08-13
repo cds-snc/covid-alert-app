@@ -116,7 +116,7 @@ const DrawerContent = () => {
   }, []);
 
   return (
-    <DrawerContentScrollView keyboardShouldPersistTaps="handled">
+    <DrawerContentScrollView testID="DemoMenu-ScrollView" keyboardShouldPersistTaps="handled">
       <Box marginHorizontal="m">
         <Section>
           <Text paddingLeft="m" paddingRight="m" fontWeight="bold" paddingBottom="s" color="overlayBodyText">

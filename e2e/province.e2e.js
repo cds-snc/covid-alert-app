@@ -16,6 +16,10 @@ const changeRegion = async region => {
 
 const changeScreen = async screenName => {
   await element(by.id('headerButton')).tap();
+  await waitFor(element(by.id(screenName)))
+    .toBeVisible()
+    .whileElement(by.id('DemoMenu-ScrollView'))
+    .scroll(50, 'down');
   await element(by.id(screenName)).tap();
   await element(by.id(screenName)).swipe('right');
 };
@@ -83,5 +87,18 @@ describe('Test region based screens', () => {
     await device.takeScreenshot('noCodeAB');
     await expect(element(by.id('noCodeHeader'))).toBeVisible();
     await expect(element(by.id('noCodeCTA'))).toBeNotVisible();
+    await element(by.id('toolbarCloseButton')).tap();
+    await element(by.id('bottom-sheet-close')).tap();
+  });
+
+  it('displays correct all set screen for ON and AB', async () => {
+    await changeRegion('ON');
+    await changeScreen('NoExposureView');
+    await device.takeScreenshot('AllSetViewON');
+    await expect(element(by.id('allSetCoveredRegionView'))).toBeVisible();
+    await changeRegion('AB');
+    await changeScreen('NoExposureView');
+    await device.takeScreenshot('AllSetViewAB');
+    await expect(element(by.id('allSetUncoveredRegionView'))).toBeVisible();
   });
 });
