@@ -76,12 +76,6 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   switch (forceScreen) {
     case 'NoExposureView':
       return getNoExposureView(regionCase);
-    case 'NoExposureCoveredRegionView':
-      return <NoExposureCoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case 'NoExposureUncoveredRegionView':
-      return <NoExposureUncoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case 'NoExposureNoRegionView':
-      return <NoExposureNoRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case 'ExposureView':
       return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case 'DiagnosedShareView':

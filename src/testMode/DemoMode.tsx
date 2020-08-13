@@ -26,9 +26,6 @@ const ScreenRadioSelector = () => {
   const screenData = [
     {displayName: 'None', value: 'None'},
     {displayName: 'Not Exposed', value: 'NoExposureView'},
-    {displayName: 'Not Exposed (Region covered)', value: 'NoExposureCoveredRegionView'},
-    {displayName: 'Not Exposed (Region not covered)', value: 'NoExposureUncoveredRegionView'},
-    {displayName: 'Not Exposed (Region not set)', value: 'NoExposureNoRegionView'},
     {displayName: 'Exposed', value: 'ExposureView'},
     {displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView'},
   ];
