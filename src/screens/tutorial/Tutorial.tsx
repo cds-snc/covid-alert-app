@@ -54,7 +54,6 @@ export const TutorialScreen = () => {
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
         <Toolbar
-          testID="Tutorial-Toolbar-Close"
           title=""
           navIcon="icon-back-arrow"
           navText={i18n.translate('Tutorial.Close')}
