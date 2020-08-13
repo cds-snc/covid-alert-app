@@ -4,7 +4,7 @@ import {Box, Toolbar} from 'components';
 import {StyleSheet, Alert, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
-import {useExposureStatus, cannotGetTEKsError} from 'services/ExposureNotificationService';
+import {ExposureStatusType, useExposureStatus, cannotGetTEKsError} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 
@@ -22,7 +22,7 @@ export const DataSharingScreen = () => {
   const acceptStep1 = useCallback(() => setIsConfirmedStep1(true), []);
 
   // if keySubmissionStatus is None we need the 1-time code, otherwise we should go right to consent
-  const [isVerified, setIsVerified] = useState(exposureStatus.type === 'diagnosed');
+  const [isVerified, setIsVerified] = useState(exposureStatus.type === ExposureStatusType.Diagnosed);
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
   const onErrorForm = (error: any) => {
     const getTranslationKey = (error: any) => {

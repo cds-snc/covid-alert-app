@@ -5,6 +5,7 @@ import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'c
 import {useI18n, I18n} from 'locale';
 import {Linking, Platform, TouchableOpacity, StyleSheet, View} from 'react-native';
 import {
+  ExposureStatusType,
   SystemStatus,
   useExposureStatus,
   useStartExposureNotificationService,
@@ -95,7 +96,7 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
 
   const network = useNetInfo();
 
-  if (!network.isConnected && exposureStatus.type !== 'diagnosed') {
+  if (!network.isConnected && exposureStatus.type !== ExposureStatusType.Diagnosed) {
     return (
       <InfoBlock
         titleBolded={i18n.translate('OverlayOpen.NoConnectivityCardAction')}
@@ -111,7 +112,7 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
     );
   }
 
-  if (exposureStatus.type === 'diagnosed') {
+  if (exposureStatus.type === ExposureStatusType.Diagnosed) {
     const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
     let bodyText = i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed');
     if (daysLeft > 0) {

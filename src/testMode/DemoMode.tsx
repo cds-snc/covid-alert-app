@@ -7,6 +7,7 @@ import PushNotification from 'bridge/PushNotification';
 import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
 import {
+  ExposureStatusType,
   useExposureNotificationService,
   useExposureStatus,
   useReportDiagnosis,
@@ -154,7 +155,7 @@ const DrawerContent = () => {
             onPress={async () => {
               captureMessage('Forcing refresh...');
               exposureNotificationService.exposureStatusUpdatePromise = null;
-              exposureNotificationService.exposureStatus.set({type: 'monitoring'});
+              exposureNotificationService.exposureStatus.set({type: ExposureStatusType.Monitoring});
               updateExposureStatus();
             }}
           />

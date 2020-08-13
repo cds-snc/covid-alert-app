@@ -4,6 +4,7 @@ import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
 import {
+  ExposureStatusType,
   SystemStatus,
   useExposureStatus,
   useStartExposureNotificationService,
@@ -103,15 +104,15 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   }
 
   switch (exposureStatus.type) {
-    case 'exposed':
+    case ExposureStatusType.Exposed:
       return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case 'diagnosed':
+    case ExposureStatusType.Diagnosed:
       return exposureStatus.needsSubmission ? (
         <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
         <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
       );
-    case 'monitoring':
+    case ExposureStatusType.Monitoring:
     default:
       switch (systemStatus) {
         case SystemStatus.Active:
@@ -192,7 +193,7 @@ export const HomeScreen = () => {
   const currentStatus = useExposureStatus()[0].type;
   const previousStatus = usePrevious(currentStatus);
   useLayoutEffect(() => {
-    if (previousStatus === 'monitoring' && currentStatus === 'diagnosed') {
+    if (previousStatus === ExposureStatusType.Monitoring && currentStatus === ExposureStatusType.Diagnosed) {
       bottomSheetRef.current?.collapse();
     }
   }, [currentStatus, previousStatus]);
