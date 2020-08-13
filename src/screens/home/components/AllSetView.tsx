@@ -11,7 +11,7 @@ export const AllSetView = ({
   isBottomSheetExpanded: boolean;
   titleText: string;
   bodyText: string;
-  testID: string;
+  testID?: string;
 }) => {
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   return (
