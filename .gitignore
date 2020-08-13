@@ -101,3 +101,5 @@ ios/assets
 .env.release
 
 artifacts/*
+
+devices.txt

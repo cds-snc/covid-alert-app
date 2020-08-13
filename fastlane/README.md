@@ -64,6 +64,11 @@ fastlane android build_and_deploy
 fastlane android local
 ```
 Builds a local Release .apk for Android
+### android adhoc
+```
+fastlane android adhoc
+```
+
 ### android local_debug
 ```
 fastlane android local_debug
@@ -93,6 +98,16 @@ fastlane ios build_and_deploy
 fastlane ios local
 ```
 Builds a local iOS adhoc .ipa
+### ios devices_file_exists
+```
+fastlane ios devices_file_exists
+```
+
+### ios adhoc
+```
+fastlane ios adhoc
+```
+Adhoc build, upload to Diawi
 
 ----
 

@@ -88,16 +88,37 @@ platform :android do
 
   desc "Builds a local Release .apk for Android"
   lane :local do
+    load_env_file(buildType:'local')
+
     ensure_keystore_properties
     ensure_build_directory
-    build
 
+    gradle(
+      task: "assemble",
+      build_type: "Release",
+      project_dir: 'android/'
+    )
+
+    output_directory = File.expand_path('../build/android')
     APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
-    sh "cp #{APK_LOCATION} ../build/android/"
+    sh "cp #{APK_LOCATION} #{output_directory}"
+  end
+
+  lane :adhoc do
+    local
+
+    diawi(
+      token: ENV['DIAWI_TOKEN'],
+      file: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
+      comment: "v#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})",
+      callback_emails: "dave.samojlenko@cds-snc.ca"
+    )
   end
 
   desc "Builds a local Debug .apk for Android"
   lane :local_debug do
+    load_env_file(buildType:'local')
+
     gradle(
       task: "assembleDebug",
       flags: "-DbundleInDebug=true",
