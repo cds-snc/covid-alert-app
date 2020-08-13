@@ -60,9 +60,22 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
 
+  const getNoExposureView = (_regionCase: RegionCase) => {
+    switch (_regionCase) {
+      case 'noRegionSet':
+        return <NoExposureNoRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      case 'regionCovered':
+        return <NoExposureCoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      case 'regionNotCovered':
+        return <NoExposureUncoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    }
+  };
+
   // this is for the test menu
   const {forceScreen} = useStorage();
   switch (forceScreen) {
+    case 'NoExposureView':
+      return getNoExposureView(regionCase);
     case 'NoExposureCoveredRegionView':
       return <NoExposureCoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case 'NoExposureUncoveredRegionView':
@@ -76,17 +89,6 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     default:
       break;
   }
-
-  const getNoExposureView = (_regionCase: RegionCase) => {
-    switch (_regionCase) {
-      case 'noRegionSet':
-        return <NoExposureNoRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case 'regionCovered':
-        return <NoExposureCoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case 'regionNotCovered':
-        return <NoExposureUncoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    }
-  };
 
   if (systemStatus === SystemStatus.Undefined) {
     return null;
