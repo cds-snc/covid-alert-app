@@ -97,25 +97,35 @@ export class BackendService implements BackendInterface {
     };
   }
 
-  async reportDiagnosisKeys(keyPair: SubmissionKeySet, _exposureKeys: TemporaryExposureKey[]) {
+  filterTEKs = (key: TemporaryExposureKey) => {
+
+    /*
+      This function filters out TEKs that were generated outside the window
+      when the user was contagious.
+
+      rollingStartIntervalNumber = A number describing when a key starts. It is equal to startTimeOfKeySinceEpochInSecs / (60 * 10).
+
+      rollingPeriod = A number describing how long a key is valid. It is expressed in increments of 10 minutes (e.g. 144 for 24 hours).
+
+      source: https://developers.google.com/android/reference/com/google/android/gms/nearby/exposurenotification/TemporaryExposureKey
+    */
     const symptomOnsetHoursSinceEpoch = hoursSinceEpoch(SYMPTOM_ONSET_DATE);
     const contagiousStartHoursSinceEpoch = symptomOnsetHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET * 24;
 
+    const rollingEndIntervalNumber = key.rollingStartIntervalNumber + key.rollingPeriod;
+    const rollingEndIntervalHoursSinceEpoch = rollingEndIntervalNumber / 6;
+    if (rollingEndIntervalHoursSinceEpoch < contagiousStartHoursSinceEpoch) {
+      // the TEK is outside the contagious period
+      return false;
+    }
+    return true;
+  };
+
+  async reportDiagnosisKeys(keyPair: SubmissionKeySet, _exposureKeys: TemporaryExposureKey[]) {
     // Ref https://github.com/CovidShield/mobile/issues/192
     const filteredExposureKeys = Object.values(
       _exposureKeys
-        .filter(key => {
-          // rollingStartIntervalNumber = A number describing when a key starts. It is equal to startTimeOfKeySinceEpochInSecs / (60 * 10).
-          // rollingPeriod = A number describing how long a key is valid. It is expressed in increments of 10 minutes (e.g. 144 for 24 hours).
-          // source: https://developers.google.com/android/reference/com/google/android/gms/nearby/exposurenotification/TemporaryExposureKey
-          const rollingEndIntervalNumber = key.rollingStartIntervalNumber + key.rollingPeriod;
-          const rollingEndIntervalHoursSinceEpoch = rollingEndIntervalNumber / 6;
-          if (rollingEndIntervalHoursSinceEpoch < contagiousStartHoursSinceEpoch) {
-            // the TEK is outside the contagious period
-            return false;
-          }
-          return true;
-        })
+        .filter(this.filterTEKs)
         .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
