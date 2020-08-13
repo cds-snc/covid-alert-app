@@ -8,7 +8,7 @@ import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE} from 'env';
 import {captureMessage, captureException} from 'shared/log';
-import {getMillisSinceUTCEpoch} from 'shared/date-fns';
+import {getMillisSinceUTCEpoch, hoursSinceEpoch} from 'shared/date-fns';
 
 import {Observable} from '../../shared/Observable';
 import {Region} from '../../shared/Region';
@@ -22,6 +22,11 @@ const TRANSMISSION_RISK_LEVEL = 1;
 
 // See https://github.com/cds-snc/covid-shield-server/pull/176
 const LAST_14_DAYS_PERIOD = '00000';
+
+const CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET = 2;
+// this is a placeholder value to be replaced with one supplied
+// by the user.
+const SYMPTOM_ONSET_DATE = new Date(2020, 7, 1);
 
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
@@ -86,9 +91,25 @@ export class BackendService implements BackendInterface {
   }
 
   async reportDiagnosisKeys(keyPair: SubmissionKeySet, _exposureKeys: TemporaryExposureKey[]) {
+    const symptomOnsetHoursSinceEpoch = hoursSinceEpoch(SYMPTOM_ONSET_DATE);
+    const contagiousStartHoursSinceEpoch = symptomOnsetHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET * 24;
+
     // Ref https://github.com/CovidShield/mobile/issues/192
     const filteredExposureKeys = Object.values(
-      _exposureKeys.sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
+      _exposureKeys
+        .filter(key => {
+          // rollingStartIntervalNumber = A number describing when a key starts. It is equal to startTimeOfKeySinceEpochInSecs / (60 * 10).
+          // rollingPeriod = A number describing how long a key is valid. It is expressed in increments of 10 minutes (e.g. 144 for 24 hours).
+          // source: https://developers.google.com/android/reference/com/google/android/gms/nearby/exposurenotification/TemporaryExposureKey
+          const rollingEndIntervalNumber = key.rollingStartIntervalNumber + key.rollingPeriod;
+          const rollingEndIntervalHoursSinceEpoch = rollingEndIntervalNumber / 6;
+          if (rollingEndIntervalHoursSinceEpoch < contagiousStartHoursSinceEpoch) {
+            // the TEK is outside the contagious period
+            return false;
+          }
+          return true;
+        })
+        .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
     captureMessage('reportDiagnosisKeys', {
