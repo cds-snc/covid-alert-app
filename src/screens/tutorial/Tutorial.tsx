@@ -84,6 +84,7 @@ export const TutorialScreen = () => {
 
           <Box flex={0} style={{...styles.offset3}}>
             <Button
+              testID="howItWorksNextButton"
               text={i18n.translate(`Tutorial.Action${isEnd ? 'End' : 'Next'}`)}
               variant="text"
               onPress={nextItem}
