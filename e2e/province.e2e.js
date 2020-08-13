@@ -101,25 +101,31 @@ describe('Test region based screens', () => {
     await element(by.id('bottom-sheet-close')).tap();
   });
 
-  it('displays right all set screen for ON and AB', async () => {
-    await changeRegion('ON');
+  it('displays right no exposure screens for no region', async () => {
+    await changeRegion('None');
     await changeScreen('NoExposureView');
+    await device.takeScreenshot('AllSetViewNoRegion');
+    await changeAllSet('true');
+    await device.takeScreenshot('NoExposureViewNoRegion');
+    await expect(element(by.id('noRegionHeader'))).toBeVisible();
+  });
+
+  it('displays right all set screen for ON and AB', async () => {
+    await changeAllSet('false');
+    await changeRegion('ON');
     await device.takeScreenshot('AllSetViewON');
     await expect(element(by.id('allSetCoveredRegionView'))).toBeVisible();
     await changeRegion('AB');
-    await changeScreen('NoExposureView');
     await device.takeScreenshot('AllSetViewAB');
     await expect(element(by.id('allSetUncoveredRegionView'))).toBeVisible();
   });
 
   it('displays right no exposure screens for ON and AB', async () => {
     await changeRegion('ON');
-    await changeScreen('NoExposureView');
     await changeAllSet('true');
     await device.takeScreenshot('NoExposureViewON');
     await expect(element(by.id('coveredRegionHeader'))).toBeVisible();
     await changeRegion('AB');
-    await changeScreen('NoExposureView');
     await device.takeScreenshot('NoExposureViewAB');
     await expect(element(by.id('uncoveredRegionHeader'))).toBeVisible();
   });
