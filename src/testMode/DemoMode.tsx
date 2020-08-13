@@ -40,6 +40,7 @@ const ScreenRadioSelector = () => {
       {screenData.map(x => {
         return (
           <RadioButton
+            testID={x.value}
             key={x.displayName}
             selected={forceScreen === x.value}
             onPress={setForceScreen}
@@ -70,6 +71,7 @@ const SkipAllSetRadioSelector = () => {
       {screenData.map(x => {
         return (
           <RadioButton
+            testID={`allSetToggle-${x.value}`}
             key={x.displayName}
             selected={skipAllSet.toString() === x.value}
             onPress={val => {

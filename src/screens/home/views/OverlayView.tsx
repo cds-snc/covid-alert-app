@@ -15,6 +15,7 @@ import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {TEST_MODE} from 'env';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -154,8 +155,8 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
 const AccessibleView = ({children}: {children: React.ReactNode}) => {
   const accessibilityService = useAccessibilityService();
 
-  return accessibilityService.isScreenReaderEnabled ? (
-    <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+  return accessibilityService.isScreenReaderEnabled || TEST_MODE ? (
+    <ScrollView testID="BottomSheet-ScrollView" style={styles.content} showsVerticalScrollIndicator={false}>
       {children}
     </ScrollView>
   ) : (
@@ -184,7 +185,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               style={styles.collapseButton}
               accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
               accessibilityRole="button"
-              testID="bottom-sheet-close"
+              testID="BottomSheet-Close"
             >
               <Icon name="sheet-handle-bar-close" size={36} />
             </TouchableOpacity>

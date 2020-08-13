@@ -8,10 +8,10 @@ const changeRegion = async region => {
   await waitFor(element(by.id(`RegionPickerSettings-${region}`)))
     .toBeVisible()
     .whileElement(by.id('RegionPickerSettings-ScrollView'))
-    .scroll(50, 'down');
+    .scroll(100, 'down');
   await element(by.id(`RegionPickerSettings-${region}`)).tap();
   await element(by.id('toolbarCloseButton')).tap();
-  await element(by.id('bottom-sheet-close')).tap();
+  await element(by.id('BottomSheet-Close')).tap();
 };
 
 const changeScreen = async screenName => {
@@ -19,19 +19,28 @@ const changeScreen = async screenName => {
   await waitFor(element(by.id(screenName)))
     .toBeVisible()
     .whileElement(by.id('DemoMenu-ScrollView'))
-    .scroll(50, 'down');
+    .scroll(100, 'down');
   await element(by.id(screenName)).tap();
   await element(by.id(screenName)).swipe('right');
 };
 
 const changeAllSet = async value => {
   await element(by.id('headerButton')).tap();
-  await waitFor(element(by.id(value)))
+  await waitFor(element(by.id(`allSetToggle-${value}`)))
     .toBeVisible()
     .whileElement(by.id('DemoMenu-ScrollView'))
-    .scroll(50, 'down');
-  await element(by.id(value)).tap();
-  await element(by.id(value)).swipe('right');
+    .scroll(100, 'down');
+  await element(by.id(`allSetToggle-${value}`)).tap();
+  await element(by.id(`allSetToggle-${value}`)).swipe('right');
+};
+
+const closeBottomSheet = async () => {
+  if (device.getPlatform() === 'ios') {
+    await element(by.id('BottomSheet-ScrollView')).scrollTo('top');
+  } else {
+    await element(by.id('BottomSheet-ScrollView')).swipe('down', 'fast', 1.0);
+  }
+  await element(by.id('BottomSheet-Close')).tap();
 };
 
 const NUM_ONBOARDING_SCREENS = 6;
@@ -81,24 +90,27 @@ describe('Test province flow', () => {
 
 describe('Test region based screens', () => {
   it('displays right no code screen for ON and AB', async () => {
+    // ON
     await changeRegion('ON');
     await element(by.id('tapPromptCollapsed')).tap();
-    await expect(element(by.id('getCodeButton'))).toBeVisible();
+    await element(by.id('BottomSheet-ScrollView')).scrollTo('bottom');
     await element(by.id('getCodeButton')).tap();
     await device.takeScreenshot('noCodeON');
     await expect(element(by.id('noCodeHeader'))).toBeVisible();
     await expect(element(by.id('noCodeCTA'))).toBeVisible();
     await element(by.id('toolbarCloseButton')).tap();
-    await element(by.id('bottom-sheet-close')).tap();
+    await closeBottomSheet();
+
+    // AB
     await changeRegion('AB');
     await element(by.id('tapPromptCollapsed')).tap();
-    await expect(element(by.id('getCodeButton'))).toBeVisible();
+    await element(by.id('BottomSheet-ScrollView')).scrollTo('bottom');
     await element(by.id('getCodeButton')).tap();
     await device.takeScreenshot('noCodeAB');
     await expect(element(by.id('noCodeHeader'))).toBeVisible();
-    await expect(element(by.id('noCodeCTA'))).toBeNotVisible();
+    await expect(element(by.id('noCodeCTA'))).not.toBeVisible();
     await element(by.id('toolbarCloseButton')).tap();
-    await element(by.id('bottom-sheet-close')).tap();
+    await closeBottomSheet();
   });
 
   it('displays right no exposure screens for no region', async () => {
@@ -112,19 +124,26 @@ describe('Test region based screens', () => {
 
   it('displays right all set screen for ON and AB', async () => {
     await changeAllSet('false');
+
+    // ON
     await changeRegion('ON');
     await device.takeScreenshot('AllSetViewON');
     await expect(element(by.id('allSetCoveredRegionView'))).toBeVisible();
+
+    // AB
     await changeRegion('AB');
     await device.takeScreenshot('AllSetViewAB');
     await expect(element(by.id('allSetUncoveredRegionView'))).toBeVisible();
   });
 
   it('displays right no exposure screens for ON and AB', async () => {
+    // ON
     await changeRegion('ON');
     await changeAllSet('true');
     await device.takeScreenshot('NoExposureViewON');
     await expect(element(by.id('coveredRegionHeader'))).toBeVisible();
+
+    // AB
     await changeRegion('AB');
     await device.takeScreenshot('NoExposureViewAB');
     await expect(element(by.id('uncoveredRegionHeader'))).toBeVisible();
