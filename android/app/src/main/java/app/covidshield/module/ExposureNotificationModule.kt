@@ -2,8 +2,12 @@ package app.covidshield.module
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
+import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.location.LocationManager
+import androidx.core.location.LocationManagerCompat
 import app.covidshield.extensions.cleanup
 import app.covidshield.extensions.launch
 import app.covidshield.extensions.log
@@ -63,7 +67,14 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     private var getTekResolutionCompleter: CompletableDeferred<Unit>? = null
     private var detectExposureResolutionCompleters = hashMapOf<Token, CompletableDeferred<Token>?>()
 
-    private val bluetoothAdapter get() = BluetoothAdapter.getDefaultAdapter()
+    private val bluetoothAdapter: BluetoothAdapter? by lazy(LazyThreadSafetyMode.NONE) {
+        val bluetoothManager = context.applicationContext.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
+        BluetoothAdapter.getDefaultAdapter() ?: bluetoothManager?.adapter
+    }
+
+    private val locationManager: LocationManager? by lazy(LazyThreadSafetyMode.NONE) {
+        context.applicationContext.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+    }
 
     override fun getName(): String = "ExposureNotification"
 
@@ -283,14 +294,10 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         } catch (_: Exception) {
             false
         }
-        val isBluetoothEnabled = try {
-            bluetoothAdapter.isEnabled
-        } catch (_: Exception) {
-            false
-        }
         return when {
             !isExposureNotificationEnabled -> Status.DISABLED
-            !isBluetoothEnabled -> Status.BLUETOOTH_OFF
+            !isBluetoothEnabled() -> Status.BLUETOOTH_OFF
+            !isLocationEnabled() -> Status.LOCATION_OFF
             else -> Status.ACTIVE
         }
     }
@@ -299,6 +306,14 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         val context = reactApplicationContext.applicationContext
         val exposureNotificationSettingsIntent = Intent(ACTION_EXPOSURE_NOTIFICATION_SETTINGS)
         return exposureNotificationSettingsIntent.resolveActivity(context.packageManager) != null
+    }
+
+    private fun isBluetoothEnabled(): Boolean {
+        return bluetoothAdapter?.isEnabled ?: false
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        return locationManager?.let { LocationManagerCompat.isLocationEnabled(it) } ?: false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -326,5 +341,6 @@ private enum class Status(val value: String) {
     ACTIVE("active"),
     DISABLED("disabled"),
     BLUETOOTH_OFF("bluetooth_off"),
-    PLAY_SERVICES_NOT_AVAILABLE("play_services_not_available")
+    LOCATION_OFF("location_off"),
+    PLAY_SERVICES_NOT_AVAILABLE("play_services_not_available"),
 }

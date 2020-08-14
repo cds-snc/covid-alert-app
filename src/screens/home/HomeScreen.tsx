@@ -35,6 +35,7 @@ import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
+import {LocationOffView} from './views/LocationOffView';
 
 type BackgroundColor = keyof Theme['colors'];
 
@@ -85,20 +86,18 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
       break;
   }
 
-  if (systemStatus === SystemStatus.Undefined) {
-    return null;
-  }
-  // this case should be highest priority - if bluetooth is off, the app doesn't work
-  if (systemStatus === SystemStatus.BluetoothOff) {
-    return <BluetoothDisabledView />;
-  }
-
-  if (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) {
-    return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
-  }
-
-  if (systemStatus === SystemStatus.PlayServicesNotAvailable) {
-    return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
+  switch (systemStatus) {
+    case SystemStatus.Undefined:
+      return null;
+    case SystemStatus.BluetoothOff:
+      return <BluetoothDisabledView />;
+    case SystemStatus.Disabled:
+    case SystemStatus.Restricted:
+      return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    case SystemStatus.PlayServicesNotAvailable:
+      return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    case SystemStatus.LocationOff:
+      return <LocationOffView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
   if (!network.isConnected) {
