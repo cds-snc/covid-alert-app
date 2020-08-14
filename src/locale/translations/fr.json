@@ -59,7 +59,7 @@
           "Body4": "Notez la clé à usage unique.",
           "Body5": "Revenez ici et entrez la clé.",
           "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
-          "Link": "https://covid19results.ehealthontario.ca:4443/login"
+          "Link": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
         }
       },
       "RegionNotCovered": {
@@ -118,7 +118,7 @@
       "TipTitle": "CONSEIL : ",
       "TipBody": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
       "TipLinkText": "Site des résultats du test",
-      "TipURL": "https://covid19results.ehealthontario.ca:4443/login"
+      "TipURL": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
     },
     "DiagnosedShareView": {
       "Title": "Téléverser les codes aléatoires",
