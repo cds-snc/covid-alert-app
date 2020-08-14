@@ -30,7 +30,7 @@ export const Toolbar = ({title, navText, onIconClicked, accessibilityTitleAutoFo
   return (
     <Box flexDirection="row" alignItems="center" minHeight={56}>
       <Box>
-        <Button text={navText} variant="text" onPress={onIconClicked} />
+        <Button testID="toolbarCloseButton" text={navText} variant="text" onPress={onIconClicked} />
       </Box>
       {title !== '' && (
         <Box flex={1} justifyContent="center" minWidth={100}>

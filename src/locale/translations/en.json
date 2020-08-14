@@ -1,7 +1,7 @@
 {
   "Home": {
     "NoExposureDetected": {
-      "AllSetTitle": "You're all set",
+      "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
         "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
@@ -82,6 +82,7 @@
     },
     "UnknownProblem": {
       "Title": "Something went wrong",
+      "Body": "It looks like your phone cannot support COVID Alert.",
       "CTA": "Get Help"
     },
     "NoConnectivity": "COVID Alert is offline",
@@ -123,7 +124,7 @@
     },
     "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
-    "NotificationCardBody": "You will not receive notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
+    "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
@@ -173,7 +174,7 @@
     "step-3": "If someone with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.",
     "step-4Title": "Looking for exposures",
     "step-4AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
-    "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you've been exposed and explains what to do next.",
+    "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you’ve been exposed and explains what to do next.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -215,7 +216,7 @@
       "Body2": "It has **no way of knowing**:",
       "Bullet1": "Your location.",
       "Bullet2": "Your name or address.",
-      "Bullet3": "Your phone's contacts.",
+      "Bullet3": "Your phone’s contacts.",
       "Bullet4": "Your health information.",
       "Bullet5": "The health information of anyone you’re near."
     },
@@ -248,7 +249,7 @@
   },
   "ThankYou": {
     "Title": "Thank you for helping",
-    "Body": "Exposure notifications are on. You will receive a message if COVID Alert detects that you've been near someone who has reported a COVID-19 diagnosis.",
+    "Body": "Exposure notifications are on. You will receive a message if COVID Alert detects that you’ve been near someone who has reported a COVID-19 diagnosis.",
     "Dismiss": "Dismiss"
   },
   "DataUpload": {
@@ -272,10 +273,7 @@
       "Title": "Enter your one-time key",
       "Body": "Enter the key you got when you were diagnosed.",
       "Action": "Submit",
-      "InputLabel": "COVID Alert key",
-      "ErrorTitle": "One-time key not recognized",
-      "ErrorBody": "Your key could not be recognized. Please try again.",
-      "ErrorAction": "OK"
+      "InputLabel": "COVID Alert key"
     },
     "ConsentView": {
       "Title": "Now you can upload your codes",
@@ -283,10 +281,7 @@
       "Body2a": "Nobody will get any information about you ",
       "Body2b": "or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
-      "Action": "Agree",
-      "ErrorTitle": "Random codes could not be uploaded",
-      "ErrorBody": "You did not give permission.",
-      "ErrorAction": "OK"
+      "Action": "Agree"
     },
     "NoCode": {
       "NoRegion": {
@@ -319,7 +314,7 @@
     "ExposedMessageTitle": "You’ve been exposed",
     "ExposedMessageBody": "You’ve had close contact with someone who reported a COVID-19 diagnosis through the app. Learn more about what to do next.",
     "OffMessageTitle": "COVID Alert is off",
-    "OffMessageBody": "Turn on COVID Alert to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
+    "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
     "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes."
   },
@@ -431,5 +426,36 @@
     "Start": "List start",
     "End": "List end",
     "Bullet": "Bullet"
+  },
+  "Errors": {
+    "Action": "OK",
+    "TekUploadOffline": {
+      "Title": "Lost connection",
+      "Body": "Your random codes were not uploaded. Make sure your phone is connected to the Internet, through either data or WiFi."
+    },
+    "TekUploadServer": {
+      "Title": "Try again later",
+      "Body": "Something went wrong with the system."
+    },
+    "TekUploadPermission": {
+      "Title": "Random codes could not be uploaded",
+      "Body": "You did not give permission."
+    },
+    "OtcUploadInvalidOneTimeCode": {
+      "Title": "Incorrect key",
+      "Body": "Your one-time key could not be recognized. Please try again."
+    },
+    "OtcUploadTemporaryBan": {
+      "Title": "Wait for 1 hour",
+      "Body": "You’ve tried to enter a one-time key too many times."
+    },
+    "OtcUploadDefault": {
+      "Title": "Try again later",
+      "Body": "Something went wrong with the system."
+    },
+    "OtcUploadOffline": {
+      "Title": "Lost connection",
+      "Body": "Your key was not sent. Make sure your phone is connected to the Internet, through either data or WiFi."
+    }
   }
 }

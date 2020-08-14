@@ -15,17 +15,21 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (
-      <AllSetView
-        isBottomSheetExpanded={isBottomSheetExpanded}
-        titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
-        bodyText={i18n.translate('Home.NoExposureDetected.RegionCovered.AllSetBody')}
-      />
+      <BaseHomeView iconName="thumbs-up">
+        <AllSetView
+          testID="allSetCoveredRegionView"
+          isBottomSheetExpanded={isBottomSheetExpanded}
+          titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
+          bodyText={i18n.translate('Home.NoExposureDetected.RegionCovered.AllSetBody')}
+        />
+      </BaseHomeView>
     );
   }
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
       <Text
+        testID="coveredRegionHeader"
         focusRef={autoFocusRef}
         variant="bodyTitle"
         color="bodyText"

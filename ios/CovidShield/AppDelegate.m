@@ -8,6 +8,8 @@
 #import <RNCPushNotificationIOS.h>
 
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
+#import <BackgroundTasks/BackgroundTasks.h>
+#import <objc/runtime.h>
 
 #if DEBUG
 #import <FlipperKit/FlipperClient.h>
@@ -27,6 +29,8 @@ static void InitializeFlipper(UIApplication *application) {
   [client start];
 }
 #endif
+
+static void patchBGTaskSubmission();
 
 @implementation AppDelegate
 
@@ -99,6 +103,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   }
 
   // [REQUIRED] Register BackgroundFetch
+  patchBGTaskSubmission();
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
 
   // Define UNUserNotificationCenter
@@ -124,3 +129,25 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 }
 
 @end
+#pragma mark Patch for BackgroundTask submission
+static IMP _BGTaskScheduler_submitTaskRequest_orig = NULL;
+
+static BOOL preSubmitTaskHook(id me, SEL selector, BGTaskRequest *req, NSError **perr) {
+  if([req isKindOfClass: [BGProcessingTaskRequest class]] &&
+     [req.identifier isEqualToString: @"app.covidshield.exposure-notification"]) {
+    ((BGProcessingTaskRequest*)req).requiresNetworkConnectivity = YES;
+    ((BGProcessingTaskRequest*)req).requiresExternalPower = NO;
+  }
+  
+  return ((BOOL (*)(id, SEL, BGTaskRequest*, NSError**))*_BGTaskScheduler_submitTaskRequest_orig)(me, selector, req, perr);
+}
+
+
+static void patchBGTaskSubmission() {
+  SEL submitSelector = @selector(submitTaskRequest:error:);
+  Class schedulerClass = objc_getClass("BGTaskScheduler");
+  if(schedulerClass == nil) return;
+
+  _BGTaskScheduler_submitTaskRequest_orig = class_replaceMethod(schedulerClass, submitSelector, (IMP)preSubmitTaskHook, "B@:@@");
+}
+

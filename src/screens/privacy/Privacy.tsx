@@ -24,7 +24,7 @@ export const PrivacyScreen = () => {
           onIconClicked={close}
           accessibilityTitleAutoFocus
         />
-        <ScrollView style={styles.flex}>
+        <ScrollView testID="privacyPolicyScrollView" style={styles.flex}>
           <Text
             paddingHorizontal="m"
             variant="bodyTitle"

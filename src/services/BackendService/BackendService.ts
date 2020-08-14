@@ -64,7 +64,7 @@ export class BackendService implements BackendInterface {
     try {
       randomBytes = await getRandomBytes(32);
     } catch (error) {
-      console.error('getRandomBytes()', error);
+      captureException('getRandomBytes()', error);
       throw new Error(error);
     }
     nacl.setPRNG(buff => {
@@ -73,9 +73,6 @@ export class BackendService implements BackendInterface {
     const keyPair = nacl.box.keyPair();
 
     const keyClaimResponse = await this.keyClaim(oneTimeCode, keyPair);
-    if (keyClaimResponse.error) {
-      throw new Error(`Code ${keyClaimResponse.error}`);
-    }
 
     const serverPublicKey = Buffer.from(keyClaimResponse.serverPublicKey).toString('base64');
     const clientPrivateKey = Buffer.from(keyPair.secretKey).toString('base64');
@@ -139,9 +136,15 @@ export class BackendService implements BackendInterface {
     });
 
     const body = covidshield.KeyClaimRequest.encode(uploadPayload).finish();
-    const buffer = await blobFetch(`${this.submitUrl}/claim-key`, 'POST', body);
-
-    return covidshield.KeyClaimResponse.decode(Buffer.from(buffer));
+    const response = await blobFetch(`${this.submitUrl}/claim-key`, 'POST', body);
+    const keyClaimResponse = covidshield.KeyClaimResponse.decode(Buffer.from(response.buffer));
+    if (response.error) {
+      if (keyClaimResponse && keyClaimResponse.error) {
+        throw keyClaimResponse.error;
+      }
+      throw new Error('Code Unknown');
+    }
+    return keyClaimResponse;
   }
 
   private async upload(
@@ -156,8 +159,14 @@ export class BackendService implements BackendInterface {
       nonce,
       payload,
     }).finish();
-    const arrayBuffer = await blobFetch(`${this.submitUrl}/upload`, 'POST', request);
-    const response = covidshield.EncryptedUploadResponse.decode(Buffer.from(arrayBuffer));
-    return response;
+    const response = await blobFetch(`${this.submitUrl}/upload`, 'POST', request);
+    const encryptedUploadResponse = covidshield.EncryptedUploadResponse.decode(Buffer.from(response.buffer));
+    if (response.error) {
+      if (encryptedUploadResponse && encryptedUploadResponse.error) {
+        throw encryptedUploadResponse.error;
+      }
+      throw new Error('Code Unknown');
+    }
+    return encryptedUploadResponse;
   }
 }

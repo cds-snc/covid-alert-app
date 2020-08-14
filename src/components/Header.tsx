@@ -27,7 +27,11 @@ export const Header = () => {
   }, [navigation]);
 
   if (TEST_MODE) {
-    return <TouchableWithoutFeedback onPress={onLogoPress}>{BasicHeader()}</TouchableWithoutFeedback>;
+    return (
+      <TouchableWithoutFeedback onPress={onLogoPress} testID="headerButton">
+        {BasicHeader()}
+      </TouchableWithoutFeedback>
+    );
   }
   return <BasicHeader />;
 };

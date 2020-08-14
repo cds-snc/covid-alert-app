@@ -4,6 +4,16 @@
 
 ![Lint + Typscript](https://github.com/cds-snc/covid-alert-app/workflows/CI/badge.svg)
 
+*Available for iOS and Android:*
+
+<a href="https://apps.apple.com/ca/app/id1520284227"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/app-store-eng.png" alt="Download on the App Store"></a>
+<a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/google-play-eng.png" alt="Get it on Google Play"></a>
+
+*Pour iOS et Android:*
+
+<a href="https://apps.apple.com/ca/app/id1520284227?l=fr"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/app-store-fra.png" alt="Télécharger dans l'App Store"></a>
+<a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid&hl=fr"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/google-play-fra.png" alt="Disponible sur Google Play"></a>
+
 Adapted from <https://github.com/CovidShield/mobile> ([upstream](https://github.com/cds-snc/covid-alert-app/blob/master/FORK.md))
 
 This repository implements a React Native _client application_ for Apple/Google's [Exposure
@@ -93,7 +103,7 @@ You can also build the app with native development tool:
 
 ### Development mode
 
-When the app is running development mode, you can tap on the COVID Alert logo at the top of the app to open the Test menu. This menu enables you to:
+When the app is running in development mode, you can tap on the COVID Alert logo at the top of the app to open the Test menu. This menu enables you to:
 
 - Put the app into test mode to bypass the Exposure Notification API check
 - Change the system status
@@ -106,6 +116,7 @@ Note that: Test menu is enabled if the environment config file (`.env*`) has `TE
 #### iOS Local Development
 
 If you would like to:
+
 - connect to a COVID Alert Diagnosis Server instance with an IP address or the server does not support HTTPS, or
 - have the app run in the simulator and get automatic React-Native code updates via the Metro server;
 
@@ -144,9 +155,10 @@ yarn generate-translations
 5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
 6. Add the new option in Xcode `Localizations` settings (Project -> CovidShield -> Info tab -> Localizations) and make sure `Launch Screen.storyboard` is checked.
 
-## Test plan
+## Testing
 
-See [Test Plan](./TEST_PLAN.md)
+- [Manual Testing Plan](./TEST_PLAN.md)
+- [End to end testing with Detox](./e2e/DETOX_DOC.md)
 
 ## Who built COVID Alert?
 
@@ -187,7 +199,7 @@ Now you can run `yarn run-android` in your root folder.
 
 ### [MacOS] Problem installing Cocoapods
 
-When following step _2.1.1 Install Cocoapods_ if you recieve an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
+When following step _2.1.1 Install Cocoapods_ if you receive an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
 
 ```bash
 ERROR:  Loading command: install (LoadError)
@@ -198,7 +210,7 @@ ERROR:  While executing gem ... (NoMethodError)
 
 This is because the version of Ruby you have installed does not have OpenSSL included.
 
-You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of ruby required with OpenSSL using the following steps:
+You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of Ruby required with OpenSSL using the following steps:
 
 1. Install RVM following the instructions here: https://rvm.io/
 1. Run the following command to install the version of Ruby needed with OpenSSL included, this will take a few minutes so be patient.
@@ -209,7 +221,7 @@ rvm reinstall 2.6.5 --with-openssl-dir=/usr/local/opt/openssl
 
 You should now be able to install cocoapods and gem commands should now work.
 
-____
+---
 
 # Application mobile Alerte COVID
 
