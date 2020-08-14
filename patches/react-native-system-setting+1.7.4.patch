@@ -1,8 +1,8 @@
 diff --git a/node_modules/react-native-system-setting/android/src/main/java/com/ninty/system/setting/SystemSetting.java b/node_modules/react-native-system-setting/android/src/main/java/com/ninty/system/setting/SystemSetting.java
-index dedd524..621036c 100644
+index dedd524..3b0337a 100644
 --- a/node_modules/react-native-system-setting/android/src/main/java/com/ninty/system/setting/SystemSetting.java
 +++ b/node_modules/react-native-system-setting/android/src/main/java/com/ninty/system/setting/SystemSetting.java
-@@ -35,73 +35,25 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+@@ -35,73 +35,26 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
  
      private String TAG = SystemSetting.class.getSimpleName();
  
@@ -16,13 +16,13 @@ index dedd524..621036c 100644
      private ReactApplicationContext mContext;
 -    private AudioManager am;
 -    private WifiManager wm;
--    private LocationManager lm;
+     private LocationManager lm;
 -    private VolumeBroadcastReceiver volumeBR;
 -    private volatile BroadcastReceiver wifiBR;
      private volatile BroadcastReceiver bluetoothBR;
--    private volatile BroadcastReceiver locationBR;
+     private volatile BroadcastReceiver locationBR;
 -    private volatile BroadcastReceiver locationModeBR;
--    private volatile BroadcastReceiver airplaneBR;
+     private volatile BroadcastReceiver airplaneBR;
  
      public SystemSetting(ReactApplicationContext reactContext) {
          super(reactContext);
@@ -30,7 +30,7 @@ index dedd524..621036c 100644
          reactContext.addLifecycleEventListener(this);
 -        am = (AudioManager) mContext.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 -        wm = (WifiManager) mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
--        lm = (LocationManager) mContext.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+         lm = (LocationManager) mContext.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 -
 -        volumeBR = new VolumeBroadcastReceiver();
      }
@@ -41,7 +41,6 @@ index dedd524..621036c 100644
 -            mContext.registerReceiver(volumeBR, filter);
 -            volumeBR.setRegistered(true);
 -        }
-+        // to remove
      }
  
      private void unregisterVolumeReceiver() {
@@ -49,7 +48,6 @@ index dedd524..621036c 100644
 -            mContext.unregisterReceiver(volumeBR);
 -            volumeBR.setRegistered(false);
 -        }
-+        // to remove
      }
  
      private void listenWifiState() {
@@ -75,11 +73,10 @@ index dedd524..621036c 100644
 -                }
 -            }
 -        }
-+        // to remove
      }
  
      private void listenBluetoothState() {
-@@ -115,7 +67,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+@@ -115,7 +68,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
                                  int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
                                  if (state == BluetoothAdapter.STATE_ON || state == BluetoothAdapter.STATE_OFF) {
                                      mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
@@ -88,30 +85,16 @@ index dedd524..621036c 100644
                                  }
                              }
                          }
-@@ -130,72 +82,15 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
-     }
- 
-     private void listenLocationState() {
--        if (locationBR == null) {
--            synchronized (this) {
--                if (locationBR == null) {
--                    locationBR = new BroadcastReceiver() {
--                        @Override
--                        public void onReceive(Context context, Intent intent) {
--                            if (intent.getAction().equals(LocationManager.PROVIDERS_CHANGED_ACTION)) {
--                                mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+@@ -138,7 +91,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+                         public void onReceive(Context context, Intent intent) {
+                             if (intent.getAction().equals(LocationManager.PROVIDERS_CHANGED_ACTION)) {
+                                 mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
 -                                        .emit("EventLocationChange", isLocationEnable());
--                            }
--                        }
--                    };
--                    IntentFilter locationFilter = new IntentFilter();
--                    locationFilter.addAction(LocationManager.PROVIDERS_CHANGED_ACTION);
--
--                    mContext.registerReceiver(locationBR, locationFilter);
--                }
--            }
--        }
-+        // to remove
++                                    .emit("EventLocationChange", isLocationEnable());
+                             }
+                         }
+                     };
+@@ -152,25 +105,6 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
      }
  
      private void listenLocationModeState() {
@@ -134,43 +117,24 @@ index dedd524..621036c 100644
 -                }
 -            }
 -        }
-+        // to remove
      }
  
      private void listenAirplaneState() {
--        if (airplaneBR == null) {
--            synchronized (this) {
--                if (airplaneBR == null) {
--                    airplaneBR = new BroadcastReceiver() {
--                        @Override
--                        public void onReceive(Context context, Intent intent) {
--                            try {
--                                int val = Settings.System.getInt(mContext.getContentResolver(), Settings.System.AIRPLANE_MODE_ON);
--                                mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+@@ -183,7 +117,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+                             try {
+                                 int val = Settings.System.getInt(mContext.getContentResolver(), Settings.System.AIRPLANE_MODE_ON);
+                                 mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
 -                                        .emit("EventAirplaneChange", val == 1);
--                            } catch (Settings.SettingNotFoundException e) {
--                                Log.e(TAG, "err", e);
--                            }
--                        }
--                    };
--                    IntentFilter locationFilter = new IntentFilter();
--                    locationFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
--
--                    mContext.registerReceiver(airplaneBR, locationFilter);
--                }
--            }
--        }
-+        // to remove
-     }
- 
-     @Override
-@@ -205,61 +100,27 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
++                                    .emit("EventAirplaneChange", val == 1);
+                             } catch (Settings.SettingNotFoundException e) {
+                                 Log.e(TAG, "err", e);
+                             }
+@@ -205,61 +139,22 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
  
      @ReactMethod
      public void setScreenMode(int mode, Promise promise) {
 -        mode = mode == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL ? mode : Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
 -        checkAndSet(Settings.System.SCREEN_BRIGHTNESS_MODE, mode, promise);
-+        // to remove
      }
  
      @ReactMethod
@@ -182,14 +146,12 @@ index dedd524..621036c 100644
 -            Log.e(TAG, "err", e);
 -            promise.reject("-1", "get screen mode fail", e);
 -        }
-+        // to remove
      }
  
      @ReactMethod
      public void setBrightness(float val, Promise promise) {
 -        final int brightness = (int) (val * 255);
 -        checkAndSet(Settings.System.SCREEN_BRIGHTNESS, brightness, promise);
-+        // to remove
      }
  
      @ReactMethod
@@ -206,7 +168,6 @@ index dedd524..621036c 100644
 -                curActivity.getWindow().setAttributes(lp);
 -            }
 -        });
-+        // to remove
      }
  
      @ReactMethod
@@ -227,11 +188,10 @@ index dedd524..621036c 100644
 -            Log.e(TAG, "err", e);
 -            promise.reject("-1", "get app's brightness fail", e);
 -        }
-+        // to remove
      }
  
      @ReactMethod
-@@ -270,50 +131,17 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+@@ -270,50 +165,14 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
  
      @ReactMethod
      public void getBrightness(Promise promise) {
@@ -242,7 +202,6 @@ index dedd524..621036c 100644
 -            Log.e(TAG, "err", e);
 -            promise.reject("-1", "get brightness fail", e);
 -        }
-+        // to remove
      }
  
      @ReactMethod
@@ -275,17 +234,15 @@ index dedd524..621036c 100644
 -            Log.e(TAG, "err", e);
 -        }
 -        registerVolumeReceiver();
-+        // to remove
      }
  
      @ReactMethod
      public void getVolume(String type, Promise promise) {
 -        promise.resolve(getNormalizationVolume(type));
-+        // to remove
      }
  
      private void checkAndSet(String name, int value, Promise promise) {
-@@ -342,89 +170,34 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+@@ -342,50 +201,16 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
          }
      }
  
@@ -318,7 +275,6 @@ index dedd524..621036c 100644
 -        } else {
 -            promise.reject("-1", "get wifi manager fail");
 -        }
-+        // to remove
      }
  
      @ReactMethod
@@ -329,24 +285,15 @@ index dedd524..621036c 100644
 -        } else {
 -            Log.w(TAG, "Cannot get wifi manager, switchWifi will be ignored");
 -        }
-+        // to remove
      }
  
      @ReactMethod
      public void switchWifi() {
 -        switchSetting(SysSettings.WIFI);
-+        // to remove
      }
  
      @ReactMethod
-     public void isLocationEnabled(Promise promise) {
--        if (lm != null) {
--            promise.resolve(isLocationEnable());
--        } else {
--            promise.reject("-1", "get location manager fail");
--        }
-+        // to remove
-     }
+@@ -399,32 +224,15 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
  
      @ReactMethod
      public void getLocationMode(Promise promise) {
@@ -366,22 +313,21 @@ index dedd524..621036c 100644
 -            result |= 1 << 1;
 -        }
 -        return result;
--    }
--
--    private boolean isLocationEnable() {
--        return lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+     }
+ 
+     private boolean isLocationEnable() {
+         return lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
 -                || lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-+        // to remove
++            || lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
      }
  
      @ReactMethod
      public void switchLocation() {
 -        switchSetting(SysSettings.LOCATION);
-+        // to remove
      }
  
      @ReactMethod
-@@ -520,7 +293,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+@@ -520,7 +328,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
          SysSettings setting = SysSettings.get(requestCode);
          if (setting != SysSettings.UNKNOW) {
              mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
@@ -390,7 +336,7 @@ index dedd524..621036c 100644
              mContext.removeActivityEventListener(this);
          }
      }
-@@ -542,59 +315,9 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+@@ -542,10 +350,6 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
  
      @Override
      public void onHostDestroy() {
@@ -401,20 +347,19 @@ index dedd524..621036c 100644
          if (bluetoothBR != null) {
              mContext.unregisterReceiver(bluetoothBR);
              bluetoothBR = null;
+@@ -554,47 +358,9 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
+             mContext.unregisterReceiver(locationBR);
+             locationBR = null;
          }
--        if (locationBR != null) {
--            mContext.unregisterReceiver(locationBR);
--            locationBR = null;
--        }
 -        if (locationModeBR != null) {
 -            mContext.unregisterReceiver(locationModeBR);
 -            locationBR = null;
 -        }
--        if (airplaneBR != null) {
--            mContext.unregisterReceiver(airplaneBR);
--            airplaneBR = null;
--        }
--    }
+         if (airplaneBR != null) {
+             mContext.unregisterReceiver(airplaneBR);
+             airplaneBR = null;
+         }
+     }
 -
 -    private class VolumeBroadcastReceiver extends BroadcastReceiver {
 -
@@ -448,26 +393,5 @@ index dedd524..621036c 100644
 -                }
 -            }
 -        }
-     }
+-    }
  }
-diff --git a/node_modules/react-native-system-setting/ios/RTCSystemSetting.m b/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
-index c94aaad..6099e57 100644
---- a/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
-+++ b/node_modules/react-native-system-setting/ios/RTCSystemSetting.m
-@@ -8,7 +8,6 @@
- 
- #import "RTCSystemSetting.h"
- #import <SystemConfiguration/CaptiveNetwork.h>
--#import <CoreLocation/CoreLocation.h>
- #import <CoreTelephony/CTTelephonyNetworkInfo.h>
- #import <ifaddrs.h>
- #import <net/if.h>
-@@ -122,7 +121,7 @@ +(BOOL)requiresMainQueueSetup{
- }
- 
- RCT_EXPORT_METHOD(isLocationEnabled:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
--    resolve([NSNumber numberWithBool:[CLLocationManager locationServicesEnabled]]);
-+    resolve(@NO);
- }
- 
- RCT_EXPORT_METHOD(switchBluetooth){

@@ -3,7 +3,12 @@ import {when} from 'jest-when';
 
 import {periodSinceEpoch} from '../../shared/date-fns';
 
-import {ExposureNotificationService, EXPOSURE_STATUS, HOURS_PER_PERIOD} from './ExposureNotificationService';
+import {
+  ExposureNotificationService,
+  ExposureStatusType,
+  EXPOSURE_STATUS,
+  HOURS_PER_PERIOD,
+} from './ExposureNotificationService';
 
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
@@ -178,7 +183,7 @@ describe('ExposureNotificationService', () => {
     await service.startKeysSubmission('12345678');
     expect(service.exposureStatus.get()).toStrictEqual(
       expect.objectContaining({
-        type: 'diagnosed',
+        type: ExposureStatusType.Diagnosed,
         cycleEndsAt: expect.any(Number),
         needsSubmission: true,
       }),
@@ -190,7 +195,7 @@ describe('ExposureNotificationService', () => {
       .calledWith(EXPOSURE_STATUS)
       .mockResolvedValueOnce(
         JSON.stringify({
-          type: 'diagnosed',
+          type: ExposureStatusType.Diagnosed,
           cycleStartsAt: new OriginalDate('2020-05-18T04:10:00+0000').toString(),
         }),
       );
@@ -202,7 +207,7 @@ describe('ExposureNotificationService', () => {
 
     expect(service.exposureStatus.get()).toStrictEqual(
       expect.objectContaining({
-        type: 'diagnosed',
+        type: ExposureStatusType.Diagnosed,
       }),
     );
   });
@@ -213,7 +218,7 @@ describe('ExposureNotificationService', () => {
         args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
       );
       service.exposureStatus.append({
-        type: 'diagnosed',
+        type: ExposureStatusType.Diagnosed,
         cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
       });
     });
@@ -249,7 +254,7 @@ describe('ExposureNotificationService', () => {
     let currentDateString = '2020-05-19T04:10:00+0000';
 
     service.exposureStatus.append({
-      type: 'diagnosed',
+      type: ExposureStatusType.Diagnosed,
       needsSubmission: false,
       cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
       cycleEndsAt: new OriginalDate('2020-05-28T04:10:00+0000').getTime(),
@@ -263,7 +268,7 @@ describe('ExposureNotificationService', () => {
     await service.start();
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({type: 'diagnosed', needsSubmission: true}),
+      expect.objectContaining({type: ExposureStatusType.Diagnosed, needsSubmission: true}),
     );
 
     currentDateString = '2020-05-20T04:10:00+0000';
@@ -280,7 +285,7 @@ describe('ExposureNotificationService', () => {
     );
 
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({type: 'diagnosed', needsSubmission: false}),
+      expect.objectContaining({type: ExposureStatusType.Diagnosed, needsSubmission: false}),
     );
 
     service.exposureStatus.append({
@@ -292,7 +297,7 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({type: 'diagnosed', needsSubmission: true}),
+      expect.objectContaining({type: ExposureStatusType.Diagnosed, needsSubmission: true}),
     );
 
     // advance 14 days
@@ -302,7 +307,7 @@ describe('ExposureNotificationService', () => {
     });
 
     await service.updateExposureStatus();
-    expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: 'monitoring'}));
+    expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Monitoring}));
   });
 
   describe('updateExposureStatus', () => {
@@ -311,7 +316,7 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((args: any) => (args ? new OriginalDate(args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       service.exposureStatus.set({
-        type: 'diagnosed',
+        type: ExposureStatusType.Diagnosed,
         cycleStartsAt: today.getTime() - 14 * 3600 * 24 * 1000,
         cycleEndsAt: today.getTime(),
         lastChecked: {
@@ -328,7 +333,7 @@ describe('ExposureNotificationService', () => {
             period,
             timestamp: today.getTime(),
           },
-          type: 'monitoring',
+          type: ExposureStatusType.Monitoring,
         }),
       );
     });
@@ -338,7 +343,7 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       service.exposureStatus.set({
-        type: 'exposed',
+        type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
           timestamp: today.getTime(),
@@ -359,7 +364,7 @@ describe('ExposureNotificationService', () => {
             period,
             timestamp: today.getTime(),
           },
-          type: 'monitoring',
+          type: ExposureStatusType.Monitoring,
         }),
       );
     });
@@ -369,7 +374,7 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       service.exposureStatus.set({
-        type: 'exposed',
+        type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
           timestamp: today.getTime(),
@@ -386,7 +391,7 @@ describe('ExposureNotificationService', () => {
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          type: 'exposed',
+          type: ExposureStatusType.Exposed,
           lastChecked: {
             period,
             timestamp: today.getTime(),
@@ -406,7 +411,7 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       service.exposureStatus.set({
-        type: 'exposed',
+        type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
           timestamp: today.getTime(),
@@ -431,7 +436,7 @@ describe('ExposureNotificationService', () => {
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          type: 'exposed',
+          type: ExposureStatusType.Exposed,
           summary: {
             daysSinceLastExposure: 7,
             lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
@@ -448,7 +453,7 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       service.exposureStatus.set({
-        type: 'exposed',
+        type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
           timestamp: today.getTime(),
@@ -471,7 +476,7 @@ describe('ExposureNotificationService', () => {
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          type: 'exposed',
+          type: ExposureStatusType.Exposed,
           summary: {
             daysSinceLastExposure: 8,
             lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
