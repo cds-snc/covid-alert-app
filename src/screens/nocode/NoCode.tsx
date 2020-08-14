@@ -25,6 +25,7 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
   const externalLinkButton =
     externalLinkCTA && externalLinkText ? (
       <ButtonSingleLine
+        testID="noCodeCTA"
         variant="bigFlat"
         text={externalLinkText}
         onPress={() => Linking.openURL(externalLinkCTA).catch(error => captureException('An error occurred', error))}
@@ -33,7 +34,14 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
     ) : null;
   return (
     <Box>
-      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text
+        testID="noCodeHeader"
+        focusRef={autoFocusRef}
+        variant="bodyTitle"
+        color="bodyText"
+        marginBottom="l"
+        accessibilityRole="header"
+      >
         {title}
       </Text>
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />

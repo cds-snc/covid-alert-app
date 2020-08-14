@@ -185,7 +185,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               style={styles.collapseButton}
               accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
               accessibilityRole="button"
-              testID="bottom-sheet-close"
+              testID="BottomSheet-Close"
             >
               <Icon name="sheet-handle-bar-close" size={36} />
             </TouchableOpacity>

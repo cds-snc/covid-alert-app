@@ -26,6 +26,7 @@ const ScreenRadioSelector = () => {
   const {forceScreen, setForceScreen} = useStorage();
   const screenData = [
     {displayName: 'None', value: 'None'},
+    {displayName: 'Not Exposed', value: 'NoExposureView'},
     {displayName: 'Exposed', value: 'ExposureView'},
     {displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView'},
   ];
@@ -40,6 +41,7 @@ const ScreenRadioSelector = () => {
       {screenData.map(x => {
         return (
           <RadioButton
+            testID={x.value}
             key={x.displayName}
             selected={forceScreen === x.value}
             onPress={setForceScreen}
@@ -70,6 +72,7 @@ const SkipAllSetRadioSelector = () => {
       {screenData.map(x => {
         return (
           <RadioButton
+            testID={`allSetToggle-${x.value}`}
             key={x.displayName}
             selected={skipAllSet.toString() === x.value}
             onPress={val => {
@@ -113,7 +116,7 @@ const DrawerContent = () => {
   }, []);
 
   return (
-    <DrawerContentScrollView keyboardShouldPersistTaps="handled">
+    <DrawerContentScrollView testID="DemoMenu-ScrollView" keyboardShouldPersistTaps="handled">
       <Box marginHorizontal="m">
         <Section>
           <Text paddingLeft="m" paddingRight="m" fontWeight="bold" paddingBottom="s" color="overlayBodyText">
