@@ -28,6 +28,7 @@ export interface ButtonProps {
   internalLink?: boolean;
   backButton?: boolean;
   iconName?: IconName;
+  testID?: string;
 }
 
 export const Button = ({
@@ -41,6 +42,7 @@ export const Button = ({
   internalLink,
   backButton,
   iconName,
+  testID,
 }: ButtonProps) => {
   const i18n = useI18n();
   const theme = useTheme<Theme>();
@@ -122,6 +124,7 @@ export const Button = ({
         onPress={onPressHandler}
         backgroundColor={color}
         borderRadius={borderRadius}
+        testID={testID}
         {...accessibilityProps}
       >
         {content}
@@ -134,6 +137,7 @@ export const Button = ({
       onPress={onPressHandler}
       style={styles.stretch}
       disabled={disabled}
+      testID={testID}
       {...accessibilityProps}
     >
       {content}

@@ -1,11 +1,27 @@
-fastlane_version '2.53.1'
+fastlane_version '2.154.0'
+import "./Android.Fastfile"
+import "./iOS.Fastfile"
 
 before_all do
-  # Load root-level shared .env
-  Dotenv.overload '../.env'
-
   # Pull all tags
   git_pull(only_tags: true)
+
+  # Run yarn install
+  yarn(
+    command: 'install'
+  )
+end
+
+lane :load_env_file do |options|
+  buildType = options[:buildType]
+
+  # Make sure required env file exists
+  env_file=".env.#{buildType}"
+  ensure_env_file_exists(file: env_file)
+
+  # Load the environment
+  Dotenv.overload "../#{env_file}"
+  ENV["ENVFILE"] = env_file
 end
 
 desc "Creates a Github Release"
@@ -14,7 +30,7 @@ lane :create_github_release do |options|
   upload_assets = options[:upload_assets] ? options[:upload_assets] : []
 
   set_github_release(
-    repository_name: "cds-snc/covid-shield-mobile",
+    repository_name: "cds-snc/covid-alert-app",
     api_token: ENV["GITHUB_TOKEN"],
     name: "#{options[:platform]}  v#{ENV['APP_VERSION_NAME']} (#{ENV['APP_VERSION_CODE']})",
     tag_name: "#{options[:platform]}-v#{ENV['APP_VERSION_NAME']}-#{ENV['APP_VERSION_CODE']}",
@@ -39,12 +55,6 @@ lane :default_changelog do |options|
   clean
 end
 
-lane :ensure_keystore_properties do
-  file_exists = File.exist? File.expand_path "../android/keystore.properties"
-
-  UI.user_error!("keystore.properties file is missing!") unless file_exists
-end
-
 lane :ensure_build_directory do
   UI.message("Checking for build directories")
 
@@ -56,142 +66,10 @@ lane :ensure_build_directory do
   end
 end
 
-def version_string(version_number, build_number)
-  "#{version_number} (#{build_number})"
-end
+lane :ensure_env_file_exists do |options|
+  file = options[:file]
+  file_exists = File.exist? File.expand_path "../#{file}"
 
-platform :ios do
-  desc "Submit a new Covid Alert beta build to Apple TestFlight"
-  lane :beta do
-    # ensure_git_branch
-    ensure_build_directory
-
-    increment_build_number(
-      build_number: ENV["APP_VERSION_CODE"],
-      xcodeproj: "ios/CovidShield.xcodeproj"
-    )
-
-    output_directory = File.expand_path('../build/ios')
-
-    match(
-      git_url: ENV["CERTS_REPO"],
-      app_identifier: ENV["APP_ID_IOS"],
-      username: ENV["APPLE_ID"],
-      type: "appstore",
-      readonly: true
-    )
-
-    build_app(
-      scheme: "CovidShield",
-      workspace: "./ios/CovidShield.xcworkspace",
-      export_method: "app-store",
-      output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE"]
-        }
-      }
-    )
-
-    groups = ENV["TEST_GROUPS"].split(",")
-    upload_to_testflight(
-      groups: groups,
-      changelog: default_changelog(simple: true),
-      ipa: "#{output_directory}/CovidShield.ipa"
-    )
-
-    create_github_release(
-      platform: 'iOS',
-      upload_assets: ["#{output_directory}/CovidShield.ipa", "#{output_directory}/CovidShield.app.dSYM.zip"]
-    )
-  end
-
-  desc "Builds a local iOS adhoc .ipa"
-  lane :local do
-    ensure_build_directory
-
-    match(
-      git_url: ENV["CERTS_REPO"],
-      app_identifier: ENV["APP_ID_IOS"],
-      username: ENV["APPLE_ID"],
-      type: "adhoc",
-      readonly: true
-    )
-
-    output_directory = File.expand_path('../build/ios')
-
-    build_app(
-      scheme: "CovidShield",
-      workspace: "./ios/CovidShield.xcworkspace",
-      export_method: "ad-hoc",
-      output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
-        }
-      }
-    )
-  end
-end
-
-platform :android do
-  private_lane :build do |options|
-    task = (options[:bundle] ? "bundle" : "assemble")
-    properties = (options[:properties] ? options[:properties] : {})
-    buildType = (options[:buildType] ? options[:buildType] : "Release")
-
-    gradle(
-      task: task,
-      build_type: buildType,
-      project_dir: 'android/',
-      properties: properties
-    )
-  end
-
-  desc "Pushes a new build to Google Play Internal Testing Track"
-  lane :internal do
-    # ensure_git_branch
-    ensure_keystore_properties
-
-    versionCode = ENV["APP_VERSION_CODE"]
-    versionName = version_string(ENV['APP_VERSION_NAME'], ENV['APP_VERSION_CODE'])
-
-    build(bundle: true, properties: {
-        "versionCode" => versionCode,
-        "versionName" => versionName
-      }
-    )
-
-    upload_to_play_store(
-      track: 'internal',
-      skip_upload_apk: true,
-      aab: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH],
-      version_name: versionName,
-      version_code: versionCode
-    )
-
-    create_github_release(platform: "Android")
-  end
-
-  desc "Builds a local Release .apk for Android"
-  lane :local do
-    ensure_keystore_properties
-    ensure_build_directory
-    build
-
-    APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
-    sh "cp #{APK_LOCATION} ../build/android/"
-  end
-
-  desc "Builds a local Debug .apk for Android"
-  lane :local_debug do
-    gradle(
-      task: "assembleDebug",
-      flags: "-DbundleInDebug=true",
-      project_dir: 'android/',
-    )
-
-    APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
-    sh "cp #{APK_LOCATION} ../build/android/"
-  end
+  UI.user_error!("#{file} environment file is missing!") unless file_exists
+  UI.success("Using environment file #{file}")
 end

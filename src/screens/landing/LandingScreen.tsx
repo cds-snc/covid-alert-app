@@ -34,10 +34,10 @@ export const LandingScreen = () => {
         </Box>
         <Box style={styles.overlay} paddingVertical="m">
           <Box paddingHorizontal="m" marginTop="s" marginBottom="s">
-            <Button onPress={toggle('en')} text={i18n.translate('Landing.En')} variant="thinFlat" />
+            <Button testID="enButton" onPress={toggle('en')} text={i18n.translate('Landing.En')} variant="thinFlat" />
           </Box>
           <Box paddingHorizontal="m">
-            <Button onPress={toggle('fr')} text={i18n.translate('Landing.Fr')} variant="thinFlat" />
+            <Button testID="frButton" onPress={toggle('fr')} text={i18n.translate('Landing.Fr')} variant="thinFlat" />
           </Box>
           <Box
             accessible

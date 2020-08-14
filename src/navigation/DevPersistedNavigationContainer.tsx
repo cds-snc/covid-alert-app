@@ -2,6 +2,7 @@ import {InitialState, NavigationContainerRef, NavigationContainer} from '@react-
 import AsyncStorage from '@react-native-community/async-storage';
 import * as React from 'react';
 import {InteractionManager} from 'react-native';
+import {captureException} from 'shared/log';
 
 interface DevPersistedNavigationContainerProps extends React.ComponentProps<typeof NavigationContainer> {
   persistKey: string;
@@ -20,8 +21,8 @@ function DevPersistedNavigationContainerImpl(
         persistInteractionRef.current = null;
         try {
           await AsyncStorage.setItem(persistKey, JSON.stringify(state));
-        } catch (ex) {
-          console.warn(`Failed to persist state. ${ex.message}`);
+        } catch (error) {
+          captureException(`Failed to persist state.`, error);
         }
       };
 
@@ -48,8 +49,8 @@ function DevPersistedNavigationContainerImpl(
           setInitialState(JSON.parse(jsonString));
         }
         setIsReady(true);
-      } catch (ex) {
-        console.warn(`Failed to load state. ${ex.message}`);
+      } catch (error) {
+        captureException(`Failed to load state.`, error);
         setIsReady(true);
       }
     };

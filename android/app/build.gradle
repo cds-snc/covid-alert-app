@@ -144,6 +144,8 @@ android {
         versionCode project.env.get("APP_VERSION_CODE") as Integer
         versionName project.env.get("APP_VERSION_NAME")
         resValue "string", "build_config_package", "app.covidshield"
+        testBuildType System.getProperty('testBuildType', 'debug')
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     splits {
         abi {
@@ -179,6 +181,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
         }
     }
 
@@ -243,6 +246,10 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    androidTestImplementation('com.wix:detox:+') { transitive = true }
+    androidTestImplementation 'junit:junit:4.12'
+    implementation "androidx.annotation:annotation:1.1.0"
 }
 
 // Run this once to be able to run the application with BUCK

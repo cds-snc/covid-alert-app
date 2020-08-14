@@ -29,6 +29,7 @@ export const TutorialContent = ({item, isActive}: TutorialContentProps) => {
   const Item = viewComponents[item];
   return (
     <ScrollView
+      testID={`${item}howItWorksScrollView`}
       fadeSize={50}
       fadeColors={['rgba(255, 255, 255, 0.18)', 'rgba(255, 255, 255, 0.6)', 'rgba(255, 255, 255, 0.9)']}
       style={styles.flex}

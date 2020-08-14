@@ -36,8 +36,6 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
               <Box
                 backgroundColor="infoBlockNeutralBackground"
                 borderRadius={10}
-                borderColor="gray2"
-                borderWidth={1}
                 padding="m"
                 flex={1}
                 marginBottom="xs"
@@ -53,7 +51,7 @@ export const CollapsedOverlayView = ({status, notificationWarning, bottomSheetBe
                 </Text>
               </Box>
             )}
-            <Text variant="smallText" color="bodyTextSubdued" textAlign="center">
+            <Text variant="smallText" color="bodyTextSubdued" textAlign="center" testID="tapPromptCollapsed">
               {i18n.translate('OverlayClosed.TapPrompt')}
             </Text>
           </Box>

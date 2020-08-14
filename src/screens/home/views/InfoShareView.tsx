@@ -3,15 +3,15 @@ import {TouchableOpacity, TouchableOpacityProps, Linking} from 'react-native';
 import {Box, Text, Icon, IconProps} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
+import {captureException} from 'shared/log';
 
 interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
   text: string;
   icon: IconProps['name'];
-  firstItem?: boolean;
   lastItem?: boolean;
 }
-const InfoShareItem = ({onPress, text, icon, firstItem, lastItem, ...touchableProps}: InfoShareItemProps) => (
+const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoShareItemProps) => (
   <>
     <TouchableOpacity activeOpacity={0.6} onPress={onPress} accessibilityRole="button" {...touchableProps}>
       <Box
@@ -22,13 +22,7 @@ const InfoShareItem = ({onPress, text, icon, firstItem, lastItem, ...touchablePr
         alignContent="center"
         justifyContent="space-between"
         backgroundColor="infoBlockNeutralBackground"
-        borderColor="gray2"
-        borderWidth={1}
         borderRadius={5}
-        borderTopLeftRadius={firstItem ? 10 : 5}
-        borderTopRightRadius={firstItem ? 10 : 5}
-        borderBottomLeftRadius={lastItem ? 10 : 5}
-        borderBottomRightRadius={lastItem ? 10 : 5}
       >
         <Box flex={1}>
           <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
@@ -54,7 +48,7 @@ export const InfoShareView = () => {
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
   const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
   const onHelp = useCallback(() => {
-    Linking.openURL(i18n.translate('Info.HelpUrl')).catch(err => console.error('An error occurred', err));
+    Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
 
   return (
@@ -64,8 +58,13 @@ export const InfoShareView = () => {
           {i18n.translate('Info.SettingsTitle')}
         </Text>
       </Box>
-      <Box paddingHorizontal="m" marginBottom="m">
-        <InfoShareItem onPress={onRegion} text={i18n.translate('Info.ChangeRegion')} icon="icon-chevron" firstItem />
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
+        <InfoShareItem
+          onPress={onRegion}
+          text={i18n.translate('Info.ChangeRegion')}
+          icon="icon-chevron"
+          testID="changeRegion"
+        />
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" lastItem />
       </Box>
       <Box marginTop="l" marginBottom="m">
@@ -73,8 +72,13 @@ export const InfoShareView = () => {
           {i18n.translate('Info.InformationTitle')}
         </Text>
       </Box>
-      <Box paddingHorizontal="m" marginBottom="l">
-        <InfoShareItem onPress={onGetCode} text={i18n.translate('Info.GetCode')} icon="icon-chevron" firstItem />
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
+        <InfoShareItem
+          testID="getCodeButton"
+          onPress={onGetCode}
+          text={i18n.translate('Info.GetCode')}
+          icon="icon-chevron"
+        />
         <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
         <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
         <InfoShareItem

@@ -9,6 +9,7 @@ import {BulletPoint} from 'components/BulletPoint';
 import {BulletPointOrdered} from 'components/BulletPointOrdered';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {captureException} from 'shared/log';
 
 interface ContentProps {
   title: string;
@@ -24,15 +25,23 @@ const Content = ({title, body, notCoveredList, coveredList, externalLinkText, ex
   const externalLinkButton =
     externalLinkCTA && externalLinkText ? (
       <ButtonSingleLine
-        variant="bigFlatNeutralGrey"
+        testID="noCodeCTA"
+        variant="bigFlat"
         text={externalLinkText}
-        onPress={() => Linking.openURL(externalLinkCTA).catch(err => console.error('An error occurred', err))}
+        onPress={() => Linking.openURL(externalLinkCTA).catch(error => captureException('An error occurred', error))}
         externalLink
       />
     ) : null;
   return (
     <Box>
-      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="l" accessibilityRole="header">
+      <Text
+        testID="noCodeHeader"
+        focusRef={autoFocusRef}
+        variant="bodyTitle"
+        color="bodyText"
+        marginBottom="l"
+        accessibilityRole="header"
+      >
         {title}
       </Text>
       <TextMultiline variant="bodyText" color="bodyText" marginBottom="l" text={body} />
@@ -118,7 +127,7 @@ export const NoCodeScreen = () => {
           />
           <ButtonSingleLine
             text={i18n.translate('DataUpload.NoCode.NoRegion.ChooseRegionCTA')}
-            variant="bigFlatNeutralGrey"
+            variant="bigFlatDarkGrey"
             internalLink
             onPress={onChooseRegion}
           />

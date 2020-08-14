@@ -1,13 +1,23 @@
-[La version française suit.](#application-mobile-covid-shield)
+[La version française suit.](#application-mobile-alerte-covid)
 
-# COVID Shield Mobile App
+# COVID Alert Mobile App
 
-![Lint + Typscript](https://github.com/CovidShield/mobile/workflows/CI/badge.svg)
+![Lint + Typscript](https://github.com/cds-snc/covid-alert-app/workflows/CI/badge.svg)
 
-Adapted from <https://github.com/CovidShield/mobile> ([upstream](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
+*Available for iOS and Android:*
+
+<a href="https://apps.apple.com/ca/app/id1520284227"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/app-store-eng.png" alt="Download on the App Store"></a>
+<a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/google-play-eng.png" alt="Get it on Google Play"></a>
+
+*Pour iOS et Android:*
+
+<a href="https://apps.apple.com/ca/app/id1520284227?l=fr"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/app-store-fra.png" alt="Télécharger dans l'App Store"></a>
+<a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid&hl=fr"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/google-play-fra.png" alt="Disponible sur Google Play"></a>
+
+Adapted from <https://github.com/CovidShield/mobile> ([upstream](https://github.com/cds-snc/covid-alert-app/blob/master/FORK.md))
 
 This repository implements a React Native _client application_ for Apple/Google's [Exposure
-Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/). For more information on how this all works, read through the [COVID Shield Rationale](https://github.com/CovidShield/rationale).
+Notification](https://www.apple.com/covid19/contacttracing) framework, informed by the [guidance provided by Canada's Privacy Commissioners](https://priv.gc.ca/en/opc-news/speeches/2020/s-d_20200507/).
 
 - [Overview](#overview)
 - [Local development](#local-development)
@@ -16,7 +26,7 @@ Notification](https://www.apple.com/covid19/contacttracing) framework, informed 
 
 ## Overview
 
-This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Shield Diagnosis Server](https://github.com/cds-snc/covid-shield-server) to provide a reference for how a client application for exposure notifications could work.
+This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Alert Diagnosis Server](https://github.com/cds-snc/covid-alert-server) to provide a reference for how a client application for exposure notifications could work.
 
 ## Local development
 
@@ -93,7 +103,7 @@ You can also build the app with native development tool:
 
 ### Development mode
 
-When the app is running development mode, you can tap on the COVID Shield logo at the top of the app to open the Test menu. This menu enables you to:
+When the app is running in development mode, you can tap on the COVID Alert logo at the top of the app to open the Test menu. This menu enables you to:
 
 - Put the app into test mode to bypass the Exposure Notification API check
 - Change the system status
@@ -105,8 +115,9 @@ Note that: Test menu is enabled if the environment config file (`.env*`) has `TE
 
 #### iOS Local Development
 
-If you would like to: 
-- connect to a COVID Shield Diagnosis Server instance with an IP address or the server does not support HTTPS, or
+If you would like to:
+
+- connect to a COVID Alert Diagnosis Server instance with an IP address or the server does not support HTTPS, or
 - have the app run in the simulator and get automatic React-Native code updates via the Metro server;
 
 Please add the following keys to the `info.plist` file. These keys should not be commited to the repo, and used only for local development.
@@ -127,7 +138,7 @@ You can customize the look and feel of the app largely by editing values found i
 
 ## Localization
 
-The COVID Shield app is available in French and English. Fully localized content can be modified by editing translations files found in the [translations directory](https://github.com/CovidShield/mobile/tree/master/src/locale/translations). More translations can be added by using the same mechanism as French and English.
+The COVID Alert app is available in French and English. Fully localized content can be modified by editing translations files found in the [translations directory](https://github.com/cds-snc/covid-alert-app/tree/master/src/locale/translations). More translations can be added by using the same mechanism as French and English.
 
 After modifying the content you must run the `generate-translations` command in order for the app to reflect your changes.
 
@@ -144,13 +155,14 @@ yarn generate-translations
 5. Add the new option in [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
 6. Add the new option in Xcode `Localizations` settings (Project -> CovidShield -> Info tab -> Localizations) and make sure `Launch Screen.storyboard` is checked.
 
-## Test plan
+## Testing
 
-See [Test Plan](./TEST_PLAN.md)
+- [Manual Testing Plan](./TEST_PLAN.md)
+- [End to end testing with Detox](./e2e/DETOX_DOC.md)
 
-## Who built COVID Shield?
+## Who built COVID Alert?
 
-COVID Shield was originally developed by [volunteers at Shopify](https://www.covidshield.app/). It was [released free of charge under a flexible open-source license](https://github.com/CovidShield/mobile).
+COVID Alert was originally developed by [volunteers at Shopify](https://www.covidshield.app/). It was [released free of charge under a flexible open-source license](https://github.com/CovidShield/mobile).
 
 This repository is being developed by the [Canadian Digital Service](https://digital.canada.ca/). We can be reached at <cds-snc@tbs-sct.gc.ca>.
 
@@ -187,7 +199,7 @@ Now you can run `yarn run-android` in your root folder.
 
 ### [MacOS] Problem installing Cocoapods
 
-When following step _2.1.1 Install Cocoapods_ if you recieve an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
+When following step _2.1.1 Install Cocoapods_ if you receive an error that looks like the following (_Please Note:_ Error message will not be identical but simliar):
 
 ```bash
 ERROR:  Loading command: install (LoadError)
@@ -198,7 +210,7 @@ ERROR:  While executing gem ... (NoMethodError)
 
 This is because the version of Ruby you have installed does not have OpenSSL included.
 
-You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of ruby required with OpenSSL using the following steps:
+You can fix this error by installing Ruby Version Manager (if you do not already have it), and reinstalling the version of Ruby required with OpenSSL using the following steps:
 
 1. Install RVM following the instructions here: https://rvm.io/
 1. Run the following command to install the version of Ruby needed with OpenSSL included, this will take a few minutes so be patient.
@@ -209,16 +221,16 @@ rvm reinstall 2.6.5 --with-openssl-dir=/usr/local/opt/openssl
 
 You should now be able to install cocoapods and gem commands should now work.
 
-____
+---
 
-# Application mobile COVID Shield
+# Application mobile Alerte COVID
 
-![Lint + Typscript](https://github.com/CovidShield/mobile/workflows/CI/badge.svg)
+![Lint + Typscript](https://github.com/cds-snc/covid-alert-app/workflows/CI/badge.svg)
 
-Adapté de <https://github.com/CovidShield/mobile> ([voir les modifications](https://github.com/cds-snc/covid-shield-mobile/blob/master/FORK.md))
+Adapté de <https://github.com/CovidShield/mobile> ([voir les modifications](https://github.com/cds-snc/covid-alert-app/blob/master/FORK.md))
 
 Ce dépôt met en œuvre une _application client_ React Native pour le cadriciel [Notification
-d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, éclairé par [l’orientation fournie par le commissaire à la protection de la vie privée du Canada](https://priv.gc.ca/fr/opc-news/speeches/2020/s-d_20200507/). Pour en savoir plus sur la façon dont tout cela fonctionne, lisez la [justification du COVID Shield](https://github.com/CovidShield/rationale).
+d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, éclairé par [l’orientation fournie par le commissaire à la protection de la vie privée du Canada](https://priv.gc.ca/fr/opc-news/speeches/2020/s-d_20200507/).
 
 - [Aperçu](#aperçu)
 - [Développement local](#développement-local)
@@ -227,7 +239,7 @@ d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, 
 
 ## Aperçu
 
-Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic COVID Shield](https://github.com/cds-snc/covid-shield-server) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
+Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic Alerte COVID](https://github.com/cds-snc/covid-alert-server) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
 
 ## Développement local
 
@@ -304,7 +316,7 @@ Vous pouvez également construire l’application avec un outil de développemen
 
 ### Mode de développement
 
-Lorsque l’application est en mode de développement, vous pouvez appuyer sur le logo COVID Shield en haut de l’application pour ouvrir le menu Test. Ce menu vous permet de :
+Lorsque l’application est en mode de développement, vous pouvez appuyer sur le logo Alerte COVID en haut de l’application pour ouvrir le menu Test. Ce menu vous permet de :
 
 - Mettre l’application en mode test pour contourner le contrôle de l’API de notification d’exposition
 - Modifier l’état du système
@@ -320,7 +332,7 @@ Vous pouvez personnaliser l’apparence de l’application en grande partie en m
 
 ## Localisation
 
-L’application COVID Shield est disponible en français et en anglais. Le contenu entièrement localisé peut être modifié en modifiant les fichiers de traduction qui se trouvent dans le [répertoire des traductions](https://github.com/CovidShield/mobile/tree/master/src/locale/translations). On peut ajouter plus de traductions en utilisant le même mécanisme pour le français et l’anglais.
+L’application Alerte COVID est disponible en français et en anglais. Le contenu entièrement localisé peut être modifié en modifiant les fichiers de traduction qui se trouvent dans le [répertoire des traductions](https://github.com/cds-snc/covid-alert-app/tree/master/src/locale/translations). On peut ajouter plus de traductions en utilisant le même mécanisme pour le français et l’anglais.
 
 Après avoir modifié le contenu, vous devez exécuter la commande `generate-translations` pour que l’application reflète vos modifications.
 
@@ -337,9 +349,9 @@ yarn generate-translations
 5. Ajouter la nouvelle option dans [src/screens/language/Language.tsx](./src/screens/language/Language.tsx).
 6. Ajouter la nouvelle option dans les paramètres Xcode `Localizations` (Project -> CovidShield -> onglet Info -> Localizations) et assurez-vous que `Launch Screen.storyboard` est coché.
 
-## Qui a conçu COVID Shield?
+## Qui a conçu Alerte COVID?
 
-COVID Shield a été développé à l’origine par [des bénévoles de Shopify](https://www.covidshield.app/). Il a été [diffusé gratuitement en vertu d’une licence ouverte flexible](https://github.com/CovidShield/server).
+Alerte COVID a été développé à l’origine par [des bénévoles de Shopify](https://www.covidshield.app/). Il a été [diffusé gratuitement en vertu d’une licence ouverte flexible](https://github.com/CovidShield/server).
 
 Ce dépôt est maintenu par le [Service numérique canadien](https://numerique.canada.ca/). Vous pouvez nous joindre à <cds-snc@tbs-sct.gc.ca>.
 

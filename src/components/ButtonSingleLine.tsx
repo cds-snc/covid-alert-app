@@ -27,6 +27,7 @@ export interface ButtonSingleLineProps {
   externalLink?: boolean;
   internalLink?: boolean;
   iconName?: IconName;
+  testID?: string;
 }
 
 export const ButtonSingleLine = ({
@@ -39,6 +40,7 @@ export const ButtonSingleLine = ({
   externalLink,
   internalLink,
   iconName,
+  testID,
 }: ButtonSingleLineProps) => {
   const i18n = useI18n();
   const theme = useTheme<Theme>();
@@ -72,7 +74,7 @@ export const ButtonSingleLine = ({
         borderWidth,
         borderColor: buttonColor,
         borderBottomWidth,
-        borderBottomColor,
+        borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
       }}
       paddingHorizontal="m"
       paddingVertical="m"
@@ -136,6 +138,7 @@ export const ButtonSingleLine = ({
         onPress={onPressHandler}
         backgroundColor={color}
         borderRadius={borderRadius}
+        testID={testID}
         {...accessibilityProps}
       >
         {content}
@@ -148,6 +151,7 @@ export const ButtonSingleLine = ({
       onPress={onPressHandler}
       style={styles.stretch}
       disabled={disabled}
+      testID={testID}
       {...accessibilityProps}
     >
       {content}

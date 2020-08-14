@@ -13,7 +13,7 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   return (
-    <BaseHomeView iconName="hand-reminder">
+    <BaseHomeView iconName="hand-reminder" testID="diagnosedShare">
       <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.DiagnosedShareView.Title')}
       </Text>

@@ -8,6 +8,7 @@ import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {getCurrentDate} from 'shared/date-fns';
+import {useAccessibilityService} from 'services/AccessibilityService';
 
 import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingContent';
 
@@ -21,29 +22,34 @@ export const OnboardingScreen = () => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const isStart = currentStep === 0;
   const isEnd = currentStep === onboardingData.length - 1;
+  const {isScreenReaderEnabled} = useAccessibilityService();
+  const currentStepForRenderItem = isScreenReaderEnabled ? currentStep : -1;
 
   const renderItem = useCallback<CarouselProps<OnboardingKey>['renderItem']>(
     ({item, index}) => {
       return (
-        <View style={styles.flex} accessibilityElementsHidden={index !== currentStep}>
-          <OnboardingContent key={item} item={item} isActive={index === currentStep} />
+        <View style={styles.flex} accessibilityElementsHidden={index !== currentStepForRenderItem}>
+          <OnboardingContent key={item} item={item} isActive={index === currentStepForRenderItem} />
         </View>
       );
     },
-    [currentStep],
+    [currentStepForRenderItem],
   );
 
-  const onSnapToNewPage = (index: number) => {
-    // we want the EN permission dialogue to appear on the last step.
-    if (index === onboardingData.length - 1) {
-      startExposureNotificationService();
-    }
+  const onSnapToNewPage = useCallback(
+    (index: number) => {
+      // we want the EN permission dialogue to appear on the last step.
+      if (index === onboardingData.length - 1) {
+        startExposureNotificationService();
+      }
 
-    // we want region cleared on the 2nd last step
-    if (index === onboardingData.length - 2) {
-      setRegion(undefined);
-    }
-  };
+      // we want region cleared on the 2nd last step
+      if (index === onboardingData.length - 2) {
+        setRegion(undefined);
+      }
+    },
+    [setRegion, startExposureNotificationService],
+  );
 
   const nextItem = useCallback(async () => {
     if (isEnd) {
@@ -62,6 +68,14 @@ export const OnboardingScreen = () => {
     carouselRef.current?.snapToPrev();
   }, []);
 
+  const onSnapToItem = useCallback(
+    (newIndex: number) => {
+      setCurrentStep(newIndex);
+      onSnapToNewPage(newIndex);
+    },
+    [onSnapToNewPage],
+  );
+
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
@@ -72,15 +86,13 @@ export const OnboardingScreen = () => {
             renderItem={renderItem}
             sliderWidth={viewportWidth}
             itemWidth={viewportWidth}
-            onSnapToItem={newIndex => {
-              setCurrentStep(newIndex);
-              onSnapToNewPage(newIndex);
-            }}
+            onSnapToItem={onSnapToItem}
             importantForAccessibility="no"
             accessible={false}
+            initialNumToRender={1}
           />
         </View>
-        <Box flexDirection="row" borderTopWidth={1} borderTopColor="gray2">
+        <Box flexDirection="row" borderTopWidth={2} borderTopColor="gray5">
           <Box flex={0} style={{...styles.offset1}}>
             {!isStart && <Button text={i18n.translate(`Onboarding.ActionBack`)} variant="text" onPress={prevItem} />}
           </Box>
@@ -91,6 +103,7 @@ export const OnboardingScreen = () => {
 
           <Box flex={0} style={{...styles.offset3}}>
             <Button
+              testID="onboardingNextButton"
               text={i18n.translate(`Onboarding.Action${isEnd ? 'End' : 'Next'}`)}
               variant="text"
               onPress={nextItem}

@@ -4,7 +4,9 @@ import {Box, Toolbar} from 'components';
 import {StyleSheet, Alert, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
-import {useExposureStatus} from 'services/ExposureNotificationService';
+import {ExposureStatusType, useExposureStatus, cannotGetTEKsError} from 'services/ExposureNotificationService';
+import {covidshield} from 'services/BackendService/covidshield';
+import {xhrError} from 'shared/fetch';
 
 import {Step1} from './views/Step1';
 import {FormView} from './views/FormView';
@@ -20,21 +22,48 @@ export const DataSharingScreen = () => {
   const acceptStep1 = useCallback(() => setIsConfirmedStep1(true), []);
 
   // if keySubmissionStatus is None we need the 1-time code, otherwise we should go right to consent
-  const [isVerified, setIsVerified] = useState(exposureStatus.type === 'diagnosed');
+  const [isVerified, setIsVerified] = useState(exposureStatus.type === ExposureStatusType.Diagnosed);
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
-  const onErrorForm = () => {
-    Alert.alert(i18n.translate('DataUpload.FormView.ErrorTitle'), i18n.translate('DataUpload.FormView.ErrorBody'), [
-      {text: i18n.translate('DataUpload.FormView.ErrorAction')},
+  const onErrorForm = (error: any) => {
+    const getTranslationKey = (error: any) => {
+      // OTC = One time code (diagnosis code)
+      switch (error) {
+        case covidshield.KeyClaimResponse.ErrorCode.INVALID_ONE_TIME_CODE:
+          return 'OtcUploadInvalidOneTimeCode';
+        case covidshield.KeyClaimResponse.ErrorCode.TEMPORARY_BAN:
+          return 'OtcUploadTemporaryBan';
+        case xhrError:
+          return 'OtcUploadOffline';
+        default:
+          return 'OtcUploadDefault';
+      }
+    };
+    const translationKey = getTranslationKey(error);
+    Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
+      {text: i18n.translate(`Errors.Action`)},
     ]);
     setIsVerified(false);
   };
 
-  const onErrorConsent = () => {
-    Alert.alert(
-      i18n.translate('DataUpload.ConsentView.ErrorTitle'),
-      i18n.translate('DataUpload.ConsentView.ErrorBody'),
-      [{text: i18n.translate('DataUpload.FormView.ErrorAction')}],
-    );
+  const onErrorConsent = (error: any) => {
+    // TEK = Temporary Exposure Key
+    const getTranslationKey = (error: any) => {
+      if (Object.values(covidshield.EncryptedUploadResponse.ErrorCode).includes(error)) {
+        return 'TekUploadServer';
+      }
+      if (error === xhrError) {
+        return 'TekUploadOffline';
+      }
+      if (error === cannotGetTEKsError) {
+        return 'TekUploadPermission';
+      }
+      // default case
+      return 'TekUploadServer';
+    };
+    const translationKey = getTranslationKey(error);
+    Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
+      {text: i18n.translate(`Errors.Action`)},
+    ]);
   };
 
   const handleVerify = useCallback(async () => {

@@ -37,6 +37,7 @@ export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
   const rightMargin = orientation === 'landscape' && Platform.OS === 'ios' ? 'l' : 'none';
   return (
     <ScrollView
+      testID={`${item}OnboardingScrollView`}
       fadeSize={50}
       fadeColors={['rgba(255, 255, 255, 0.18)', 'rgba(255, 255, 255, 0.6)', 'rgba(255, 255, 255, 0.9)']}
       style={styles.flex}

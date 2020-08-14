@@ -4,6 +4,7 @@ import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
 import {
+  ExposureStatusType,
   SystemStatus,
   useExposureStatus,
   useStartExposureNotificationService,
@@ -60,17 +61,6 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
 
-  // this is for the test menu
-  const {forceScreen} = useStorage();
-  switch (forceScreen) {
-    case 'ExposureView':
-      return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case 'DiagnosedShareView':
-      return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    default:
-      break;
-  }
-
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
       case 'noRegionSet':
@@ -81,6 +71,19 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
         return <NoExposureUncoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
     }
   };
+
+  // this is for the test menu
+  const {forceScreen} = useStorage();
+  switch (forceScreen) {
+    case 'NoExposureView':
+      return getNoExposureView(regionCase);
+    case 'ExposureView':
+      return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    case 'DiagnosedShareView':
+      return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    default:
+      break;
+  }
 
   if (systemStatus === SystemStatus.Undefined) {
     return null;
@@ -103,15 +106,15 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   }
 
   switch (exposureStatus.type) {
-    case 'exposed':
+    case ExposureStatusType.Exposed:
       return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case 'diagnosed':
+    case ExposureStatusType.Diagnosed:
       return exposureStatus.needsSubmission ? (
         <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
         <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
       );
-    case 'monitoring':
+    case ExposureStatusType.Monitoring:
     default:
       switch (systemStatus) {
         case SystemStatus.Active:
@@ -192,7 +195,7 @@ export const HomeScreen = () => {
   const currentStatus = useExposureStatus()[0].type;
   const previousStatus = usePrevious(currentStatus);
   useLayoutEffect(() => {
-    if (previousStatus === 'monitoring' && currentStatus === 'diagnosed') {
+    if (previousStatus === ExposureStatusType.Monitoring && currentStatus === ExposureStatusType.Diagnosed) {
       bottomSheetRef.current?.collapse();
     }
   }, [currentStatus, previousStatus]);
