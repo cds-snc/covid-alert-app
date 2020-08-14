@@ -34,12 +34,25 @@ const changeAllSet = async value => {
   await element(by.id(`allSetToggle-${value}`)).swipe('right');
 };
 
-const closeBottomSheet = async () => {
-  if (device.getPlatform() === 'ios') {
-    await element(by.id('BottomSheet-ScrollView')).scrollTo('top');
-  } else {
-    await element(by.id('BottomSheet-ScrollView')).swipe('down', 'fast', 1.0);
+// The number of swipes needed to get to the top/bottom of the bottom sheet
+const BOTTOM_SHEET_SWIPE_COUNT = 5;
+/**
+ * Scroll through the BottomSheet (Only for Android)
+ * @param {string} scroll - direction to scroll: up/down
+ */
+const scrollBottomSheet = async scroll => {
+  if (device.getPlatform() === 'ios') return;
+  let i = 0;
+  while (i < BOTTOM_SHEET_SWIPE_COUNT) {
+    scroll === 'up'
+      ? await element(by.id('changeRegion')).swipe('down', 'fast', 1.0)
+      : await element(by.id('changeRegion')).swipe('up', 'fast', 1.0);
+    i++;
   }
+};
+
+const closeBottomSheet = async () => {
+  await scrollBottomSheet('up');
   await element(by.id('BottomSheet-Close')).tap();
 };
 
@@ -93,7 +106,7 @@ describe('Test region based screens', () => {
     // ON
     await changeRegion('ON');
     await element(by.id('tapPromptCollapsed')).tap();
-    await element(by.id('BottomSheet-ScrollView')).scrollTo('bottom');
+    await scrollBottomSheet('down');
     await element(by.id('getCodeButton')).tap();
     await device.takeScreenshot('noCodeON');
     await expect(element(by.id('noCodeHeader'))).toBeVisible();
@@ -104,7 +117,7 @@ describe('Test region based screens', () => {
     // AB
     await changeRegion('AB');
     await element(by.id('tapPromptCollapsed')).tap();
-    await element(by.id('BottomSheet-ScrollView')).scrollTo('bottom');
+    await scrollBottomSheet('down');
     await element(by.id('getCodeButton')).tap();
     await device.takeScreenshot('noCodeAB');
     await expect(element(by.id('noCodeHeader'))).toBeVisible();

@@ -155,8 +155,8 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
 const AccessibleView = ({children}: {children: React.ReactNode}) => {
   const accessibilityService = useAccessibilityService();
 
-  return accessibilityService.isScreenReaderEnabled || TEST_MODE ? (
-    <ScrollView testID="BottomSheet-ScrollView" style={styles.content} showsVerticalScrollIndicator={false}>
+  return accessibilityService.isScreenReaderEnabled ? (
+    <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
       {children}
     </ScrollView>
   ) : (
