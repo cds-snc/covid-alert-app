@@ -36,6 +36,7 @@ const changeAllSet = async value => {
 
 // The number of swipes needed to get to the top/bottom of the bottom sheet
 const BOTTOM_SHEET_SWIPE_COUNT = 5;
+
 /**
  * Scroll through the BottomSheet (Only for Android)
  * @param {string} scroll - direction to scroll: up/down
@@ -44,9 +45,11 @@ const scrollBottomSheet = async scroll => {
   if (device.getPlatform() === 'ios') return;
   let i = 0;
   while (i < BOTTOM_SHEET_SWIPE_COUNT) {
-    scroll === 'up'
-      ? await element(by.id('changeRegion')).swipe('down', 'fast', 1.0)
-      : await element(by.id('changeRegion')).swipe('up', 'fast', 1.0);
+    if (scroll === 'up') {
+      await element(by.id('changeRegion')).swipe('down', 'fast', 1.0);
+    } else {
+      await element(by.id('changeRegion')).swipe('up', 'fast', 1.0);
+    }
     i++;
   }
 };
