@@ -47,6 +47,7 @@ export const CodeInput = ({value, onChange, accessibilityLabel}: CodeInputProps)
             autoCapitalize="characters"
             fontFamily="Menlo"
             letterSpacing={5}
+            testID="textInput"
           />
         </Box>
       </Box>

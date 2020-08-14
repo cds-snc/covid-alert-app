@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 const execSync = require('child_process').execSync;
 
+const NUM_ONBOARDING_SCREENS = 6;
+
 export const setDemoMode = () => {
   if (device.getPlatform() === 'ios') {
     execSync(
@@ -19,5 +21,16 @@ export const setDemoMode = () => {
     execSync('adb shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false');
     // Show full battery but not in charging state
     execSync('adb shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100');
+  }
+};
+
+export const onboard = async () => {
+  await device.launchApp({permissions: {notifications: 'YES'}});
+  await expect(element(by.id('enButton'))).toBeVisible();
+  await element(by.id('enButton')).tap();
+  setDemoMode();
+  for (let i = 1; i <= NUM_ONBOARDING_SCREENS; i++) {
+    await expect(element(by.id('onboardingNextButton'))).toBeVisible();
+    await element(by.id('onboardingNextButton')).tap();
   }
 };

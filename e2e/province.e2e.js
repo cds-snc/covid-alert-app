@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import {setDemoMode} from './shared';
+import {onboard} from './shared';
 
 const changeRegion = async region => {
   // should be called from the home screen
@@ -59,20 +59,9 @@ const closeBottomSheet = async () => {
   await element(by.id('BottomSheet-Close')).tap();
 };
 
-const NUM_ONBOARDING_SCREENS = 6;
 describe('Test province flow', () => {
-  it('pass through onboarding flow', async () => {
-    await device.launchApp({permissions: {notifications: 'YES'}});
-    await expect(element(by.id('enButton'))).toBeVisible();
-    await element(by.id('enButton')).tap();
-    setDemoMode();
-    for (let i = 1; i <= NUM_ONBOARDING_SCREENS; i++) {
-      await expect(element(by.id('onboardingNextButton'))).toBeVisible();
-      await element(by.id('onboardingNextButton')).tap();
-    }
-  });
-
   it('lands on the right home screen', async () => {
+    await onboard();
     // eslint-disable-next-line jest/no-if
     if (device.getPlatform() === 'android') {
       await expect(element(by.id('exposureNotificationsDisabled'))).toBeVisible();
