@@ -412,7 +412,7 @@ export class ExposureNotificationService {
       return false;
     }
     const exposureStatus = this.exposureStatus.get();
-    
+
     if (exposureStatus.type === ExposureStatusType.Diagnosed || !summary || summary.matchedKeyCount <= 0) {
       return;
     }
