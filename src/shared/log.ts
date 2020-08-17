@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import {LOGGLY_URL} from 'env';
 
 const UUID_KEY = 'UUID_KEY';
 
@@ -39,6 +40,22 @@ export const captureMessage = async (message: string, params: {[key in string]: 
   if (__DEV__ && !isTest()) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
+
+  if (LOGGLY_URL) {
+    fetch(LOGGLY_URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        uuid,
+        payload: finalParams,
+      }),
+    }).catch(error => {
+      console.log(error); // eslint-disable-line no-console
+    });
+  }
 };
 
 export const captureException = async (message: string, error: any, params: {[key in string]: any} = {}) => {
@@ -55,5 +72,21 @@ export const captureException = async (message: string, error: any, params: {[ke
 
   if (__DEV__ && !isTest()) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
+  }
+
+  if (LOGGLY_URL) {
+    fetch(LOGGLY_URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        uuid,
+        payload: finalParams,
+      }),
+    }).catch(error => {
+      console.log(error); // eslint-disable-line no-console
+    });
   }
 };
