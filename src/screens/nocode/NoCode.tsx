@@ -11,24 +11,24 @@ import {NoRegionView} from './views/NoRegionView';
 import {RegionNotCoveredView} from './views/RegionNotCoveredView';
 import {RegionCoveredView} from './views/RegionCoveredView';
 
+const Content = () => {
+  const {region} = useStorage();
+  const regionCase = getRegionCase(region);
+  switch (regionCase) {
+    case 'regionNotCovered':
+      return <RegionNotCoveredView />;
+    case 'regionCovered':
+      return <RegionCoveredView />;
+    default:
+      return <NoRegionView />;
+  }
+};
+
 export const NoCodeScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
-  const {region} = useStorage();
-  const regionCase = getRegionCase(region);
-  let content = null;
-  switch (regionCase) {
-    case 'regionNotCovered':
-      content = RegionNotCoveredView;
-      break;
-    case 'regionCovered':
-      content = RegionCoveredView;
-      break;
-    default:
-      content = NoRegionView;
-      break;
-  }
+
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
@@ -40,7 +40,9 @@ export const NoCodeScreen = () => {
           onIconClicked={close}
         />
         <ScrollView style={styles.flex}>
-          <Box paddingHorizontal="m">{content}</Box>
+          <Box paddingHorizontal="m" paddingBottom="l">
+            <Content />
+          </Box>
         </ScrollView>
       </SafeAreaView>
     </Box>
