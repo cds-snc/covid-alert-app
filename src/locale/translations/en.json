@@ -21,20 +21,16 @@
       }
     },
     "ExposureDetected": {
-      "CA": {
-        "Title": "You’ve been exposed in the last 14 days",
-        "Title2": "What now?",
-        "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+      "Title": "You’ve been exposed in the last 14 days",
+      "Title2": "What now?",
+      "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+      "RegionNotCovered": {
         "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
         "Body3": "consider self-isolating for 14 days.",
         "HowToIsolateCTA": "How to self-isolate"
       },
-      "ON": {
-        "Title": "You’ve been exposed in the last 14 days",
-        "Title2": "What now?",
-        "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
-        "Body2": "You’re at risk of being infected.",
-        "HowToIsolateCTA": "How to self-isolate"
+      "RegionCovered": {
+        "Body2": "You’re at risk of being infected."
       }
     },
     "ChooseRegionCTA": "Choose province or territory",
@@ -386,8 +382,8 @@
       "URL": "https://www2.gnb.ca/content/gnb/en/departments/ocmoh/cdc/content/respiratory_diseases/coronavirus/coronavirusexposure.html#/app/symptom-checker/guides/399/what-to-do"
     },
     "NL": {
-      "CTA": "Find out if you need to be tested",
-      "URL": "https://nl.thrive.health/covid19/en"
+      "CTA": "Find out what to do next",
+      "URL": "https://www.gov.nl.ca/covid-19/exposed/"
     },
     "NT": {
       "CTA": "Find out if you need to be tested",

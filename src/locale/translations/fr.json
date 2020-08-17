@@ -138,20 +138,16 @@
     },
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
-      "CA": {
-        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
-        "Title2": "Que faire maintenant?",
-        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+      "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+      "Title2": "Que faire maintenant?",
+      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+      "RegionNotCovered": {
         "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
         "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
         "HowToIsolateCTA": "Comment vous isoler"
       },
-      "ON": {
-        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
-        "Title2": "Que faire maintenant?",
-        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
-        "Body2": "Vous êtes à risque d’être infecté.",
-        "HowToIsolateCTA": "Comment vous isoler"
+      "RegionCovered": {
+        "Body2": "Vous êtes à risque d’être infecté."
       }
     },
     "EnDisabled": {
@@ -396,8 +392,8 @@
       "URL": "https://www2.gnb.ca/content/gnb/fr/ministeres/bmhc/maladies_transmissibles/content/maladies_respiratoires/coronavirus/expositionaucoronavirus.html#/app/symptom-checker/guides/399/what-to-do"
     },
     "NL": {
-      "CTA": "Découvrez si vous devriez vous faire tester",
-      "URL": "https://www.811healthline.ca/fr/autoevaluation-pour-la-covid-19/"
+      "CTA": "Lisez les étapes à suivre (lien en anglais)",
+      "URL": "https://www.gov.nl.ca/covid-19/exposed/"
     },
     "NT": {
       "CTA": "Découvrez si vous devriez vous faire tester",
