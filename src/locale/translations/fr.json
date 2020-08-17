@@ -121,10 +121,19 @@
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
       "Body3": "Si vos symptômes vous inquiètent, cherchez à obtenir des soins médicaux dès que vous le pouvez. Prenez soin de vous et de votre famille pendant ce temps.",
       "Title": "Merci d’aider à lutter contre la COVID",
-      "TipTitle": "CONSEIL : ",
-      "TipBody": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
-      "TipLinkText": "Site des résultats du test",
-      "TipURL": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+      "Tip": {
+        "Title": "CONSEIL : ",
+        "ON": {
+          "Body": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
+          "CTA": "Site des résultats du test",
+          "URL": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+        },
+        "NL": {
+          "Body": "Vous devez vous isoler et suivre les recommandations de santé publique.",
+          "CTA": "Comment vous isoler (lien en anglais)",
+          "URL": "https://www.gov.nl.ca/covid-19/files/factsheet-covid-19-how-to-self-isolate-1.pdf"
+        }
+      }
     },
     "DiagnosedShareView": {
       "Title": "Téléverser les codes aléatoires",
@@ -135,20 +144,16 @@
     },
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
-      "CA": {
-        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
-        "Title2": "Que faire maintenant?",
-        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+      "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+      "Title2": "Que faire maintenant?",
+      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+      "RegionNotCovered": {
         "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
         "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
         "HowToIsolateCTA": "Comment vous isoler"
       },
-      "ON": {
-        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
-        "Title2": "Que faire maintenant?",
-        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
-        "Body2": "Vous êtes à risque d’être infecté.",
-        "HowToIsolateCTA": "Comment vous isoler"
+      "RegionCovered": {
+        "Body2": "Vous êtes à risque d’être infecté."
       }
     },
     "EnDisabled": {
@@ -393,8 +398,8 @@
       "URL": "https://www2.gnb.ca/content/gnb/fr/ministeres/bmhc/maladies_transmissibles/content/maladies_respiratoires/coronavirus/expositionaucoronavirus.html#/app/symptom-checker/guides/399/what-to-do"
     },
     "NL": {
-      "CTA": "Découvrez si vous devriez vous faire tester",
-      "URL": "https://www.811healthline.ca/fr/autoevaluation-pour-la-covid-19/"
+      "CTA": "Lisez les étapes à suivre (lien en anglais)",
+      "URL": "https://www.gov.nl.ca/covid-19/exposed/"
     },
     "NT": {
       "CTA": "Découvrez si vous devriez vous faire tester",
