@@ -5,7 +5,7 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {Linking} from 'react-native';
 import {captureException} from 'shared/log';
 
-export const RegionCoveredNLView = () => {
+export const NLView = () => {
   const i18n = useI18n();
   const autoFocusRef = useAccessibilityAutoFocus(true);
   const onClick = () =>

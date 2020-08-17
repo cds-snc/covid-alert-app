@@ -7,7 +7,7 @@ import {BulletPointOrdered} from 'components/BulletPointOrdered';
 import {Linking} from 'react-native';
 import {captureException} from 'shared/log';
 
-export const RegionCoveredView = () => {
+export const ONView = () => {
   const i18n = useI18n();
   const {region} = useStorage();
   const autoFocusRef = useAccessibilityAutoFocus(true);
