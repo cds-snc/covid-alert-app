@@ -304,6 +304,12 @@
           "Body5": "Come back here and enter the key.",
           "CTA": "Go to COVID-19 Test Results Website",
           "Link": "https://covid19results.ehealthontario.ca:4443/"
+        },
+        "NL": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+          "CTA": "Help",
+          "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
         }
       },
       "RegionNotCovered": {

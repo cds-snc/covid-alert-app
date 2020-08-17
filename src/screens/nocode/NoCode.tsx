@@ -9,7 +9,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {NoRegionView} from './views/NoRegionView';
 import {RegionNotCoveredView} from './views/RegionNotCoveredView';
-import {RegionCoveredView} from './views/RegionCoveredView';
+import {ONView} from './views/ONView';
+import {NLView} from './views/NLView';
 
 const Content = () => {
   const {region} = useStorage();
@@ -18,7 +19,12 @@ const Content = () => {
     case 'regionNotCovered':
       return <RegionNotCoveredView />;
     case 'regionCovered':
-      return <RegionCoveredView />;
+      if (region === 'NL') {
+        return <NLView />;
+      } else if (region === 'ON') {
+        return <ONView />;
+      }
+      return <RegionNotCoveredView />;
     default:
       return <NoRegionView />;
   }
