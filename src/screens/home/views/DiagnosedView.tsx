@@ -6,6 +6,7 @@ import {daysBetween, getCurrentDate} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {isRegionCovered} from 'shared/RegionLogic';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {Tip} from '../components/Tip';
@@ -37,7 +38,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
           <Text variant="bodyText" color="bodyText" marginBottom="l">
             {i18n.translate('Home.DiagnosedView.Body3')}
           </Text>
-          {region === 'ON' || region === 'NL' ? <Tip /> : null}
+          {isRegionCovered(region) ? <Tip /> : null}
         </>
       )}
     </BaseHomeView>
