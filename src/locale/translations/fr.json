@@ -60,6 +60,12 @@
           "Body5": "Revenez ici et entrez la clé.",
           "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
           "Link": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+        },
+        "NL": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "Aide",
+          "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
         }
       },
       "RegionNotCovered": {
