@@ -6,6 +6,7 @@ import {Text, Box, ButtonSingleLine} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {captureException} from 'shared/log';
+import {isRegionCovered} from 'shared/RegionLogic';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -32,8 +33,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
-  const coveredRegions = ['ON', 'NL'];
-  const isRegionCovered = region && coveredRegions.indexOf(region) > -1;
+  const regionCovered = isRegionCovered(region);
 
   return (
     <BaseHomeView iconName="hand-caution" testID="exposure">
@@ -45,7 +45,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         {i18n.translate(`Home.ExposureDetected.Title2`)}
       </Text>
       <Text>
-        {isRegionCovered ? (
+        {regionCovered ? (
           <Text>{i18n.translate('Home.ExposureDetected.RegionCovered.Body2')}</Text>
         ) : (
           <>
@@ -55,10 +55,10 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         )}
       </Text>
 
-      <Box alignSelf="stretch" marginTop="l" marginBottom={isRegionCovered ? 'xxl' : 'm'}>
+      <Box alignSelf="stretch" marginTop="l" marginBottom={regionCovered ? 'xxl' : 'm'}>
         <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
       </Box>
-      {!isRegionCovered && (
+      {!regionCovered && (
         <Box alignSelf="stretch" marginBottom="xl">
           <ButtonSingleLine
             text={i18n.translate(`Home.ExposureDetected.RegionNotCovered.HowToIsolateCTA`)}
