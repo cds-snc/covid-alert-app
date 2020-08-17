@@ -76,8 +76,7 @@ RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolv
       break;
     case ENStatusRestricted: resolve(@"restricted");
       break;
-    case ENStatusPaused: resolve(@"paused");
-      break;
+    case ENStatusPaused:
     case ENStatusUnknown:
     default:
       resolve(@"unknown");
