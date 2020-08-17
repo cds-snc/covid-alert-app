@@ -16,7 +16,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   const [exposureStatus] = useExposureStatus();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
-  if (exposureStatus.type !== ExposureStatusType.Diagnosed) return null;
+  // if (exposureStatus.type !== ExposureStatusType.Diagnosed) return null;
 
   const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
 
@@ -37,7 +37,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
           <Text variant="bodyText" color="bodyText" marginBottom="l">
             {i18n.translate('Home.DiagnosedView.Body3')}
           </Text>
-          {region === 'ON' ? <Tip /> : null}
+          {region === 'ON' || region === 'NL' ? <Tip /> : null}
         </>
       )}
     </BaseHomeView>

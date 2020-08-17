@@ -115,10 +115,19 @@
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
       "Body3": "Si vos symptômes vous inquiètent, cherchez à obtenir des soins médicaux dès que vous le pouvez. Prenez soin de vous et de votre famille pendant ce temps.",
       "Title": "Merci d’aider à lutter contre la COVID",
-      "TipTitle": "CONSEIL : ",
-      "TipBody": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
-      "TipLinkText": "Site des résultats du test",
-      "TipURL": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+      "Tip": {
+        "Title": "CONSEIL : ",
+        "ON": {
+          "Body": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
+          "CTA": "Site des résultats du test",
+          "URL": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+        },
+        "NL": {
+          "Body": "Vous devez vous isoler et suivre les recommandations de santé publique.",
+          "CTA": "Comment vous isoler (lien en anglais)",
+          "URL": ""
+        }
+      }
     },
     "DiagnosedShareView": {
       "Title": "Téléverser les codes aléatoires",
