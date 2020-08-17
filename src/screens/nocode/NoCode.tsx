@@ -21,8 +21,10 @@ const Content = () => {
     case 'regionCovered':
       if (region === 'NL') {
         return <NLView />;
+      } else if (region === 'ON') {
+        return <ONView />;
       }
-      return <ONView />;
+      return <RegionNotCoveredView />;
     default:
       return <NoRegionView />;
   }
