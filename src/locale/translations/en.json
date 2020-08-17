@@ -45,10 +45,19 @@
       },
       "Body2": "You do not have to agree, even if you agreed the day before.",
       "Body3": "If you’re worried about your symptoms, get medical care as soon as you can. Take care of yourself and your family during this time.",
-      "TipTitle": "TIP: ",
-      "TipBody": "You can prepare for your call from Public Health through the test results website.  ",
-      "TipLinkText": "Test results website",
-      "TipURL": "https://covid19results.ehealthontario.ca:4443/login"
+      "Tip": {
+        "Title": "TIP: ",
+        "ON": {
+          "Body": "You can prepare for your call from Public Health through the test results website.",
+          "CTA": "Test results website",
+          "URL": "https://covid19results.ehealthontario.ca:4443/login"
+        },
+        "NL": {
+          "Body": "You need to self-isolate and follow advice from public health.",
+          "CTA": "How to self-isolate",
+          "URL": "https://www.gov.nl.ca/covid-19/files/factsheet-covid-19-how-to-self-isolate-1.pdf"
+        }
+      }
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {

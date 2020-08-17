@@ -1,8 +1,9 @@
 import {Region, RegionCase} from './Region';
 
-const isRegionCovered = (region: Region) => {
-  const onboardedCovered = ['ON'];
-  if (onboardedCovered.indexOf(region) > -1) {
+const onboardedCovered = ['ON', 'NL'];
+
+export const isRegionCovered = (region: Region | undefined) => {
+  if (region && onboardedCovered.indexOf(region) > -1) {
     return true;
   }
   return false;
