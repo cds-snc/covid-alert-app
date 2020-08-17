@@ -63,6 +63,7 @@ export const RegionCoveredView = () => {
         variant="bigFlat"
         text={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.CTA`)}
         onPress={onClick}
+        externalLink
       />
     </Box>
   );
