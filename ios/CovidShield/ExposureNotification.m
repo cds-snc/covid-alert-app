@@ -67,9 +67,8 @@ RCT_REMAP_METHOD(stop, stopWithResolver:(RCTPromiseResolveBlock)resolve rejecter
 
 RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
+  // TODO: return a more meaningful status for 'ENStatusPaused' when it's known how to pause the EN framework.
   switch (self.enManager.exposureNotificationStatus) {
-    case ENStatusUnknown: resolve(@"unknown");
-      break;
     case ENStatusActive: resolve(@"active");
       break;
     case ENStatusDisabled: resolve(@"disabled");
@@ -77,6 +76,11 @@ RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolv
     case ENStatusBluetoothOff: resolve(@"bluetooth_off");
       break;
     case ENStatusRestricted: resolve(@"restricted");
+      break;
+    case ENStatusPaused:
+    case ENStatusUnknown:
+    default:
+      resolve(@"unknown");
       break;
   }
 }
