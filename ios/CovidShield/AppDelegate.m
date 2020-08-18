@@ -30,7 +30,7 @@ static void InitializeFlipper(UIApplication *application) {
 }
 #endif
 
-static void patchBGTaskSubmission();
+static void patchBGTaskSubmission(void);
 
 @implementation AppDelegate
 
