@@ -129,10 +129,6 @@ const CollapsedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
 
-  // if (systemStatus === SystemStatus.Unknown) {
-  //   return null;
-  // }
-
   return (
     <CollapsedOverlayView
       status={systemStatus}
@@ -151,9 +147,6 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
     Linking.openSettings();
   }, []);
   const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
-  // if (systemStatus === SystemStatus.Unknown) {
-  //   return null;
-  // }
 
   return (
     <OverlayView
