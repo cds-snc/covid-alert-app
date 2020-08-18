@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {LOGGLY_URL} from 'env';
+import {LOGGLY_URL, APP_VERSION_NAME, APP_VERSION_CODE, APP_ID, SUBMIT_URL, RETRIEVE_URL} from 'env';
 
 const UUID_KEY = 'UUID_KEY';
 
@@ -50,6 +50,11 @@ export const captureMessage = async (message: string, params: {[key in string]: 
       },
       body: JSON.stringify({
         uuid,
+        APP_ID,
+        APP_VERSION_CODE,
+        APP_VERSION_NAME,
+        SUBMIT_URL,
+        RETRIEVE_URL,
         payload: finalParams,
       }),
     }).catch(error => {
@@ -83,6 +88,11 @@ export const captureException = async (message: string, error: any, params: {[ke
       },
       body: JSON.stringify({
         uuid,
+        APP_ID,
+        APP_VERSION_CODE,
+        APP_VERSION_NAME,
+        SUBMIT_URL,
+        RETRIEVE_URL,
         payload: finalParams,
       }),
     }).catch(error => {
