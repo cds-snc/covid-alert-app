@@ -15,6 +15,6 @@ describe('Test one time code flow', () => {
     await element(by.id('textInput')).typeText('ABC123ABCD');
     await element(by.text('Submit')).tap();
     await device.takeScreenshot('OTC-Step2-error');
-    await expect(element(by.text('Try again later'))).toBeVisible();
+    await expect(element(by.text('OK'))).toBeVisible();
   });
 });

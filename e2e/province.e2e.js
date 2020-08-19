@@ -72,19 +72,29 @@ describe('Test province flow', () => {
     }
   });
 
-  it('displays the right exposure view for ON and AB', async () => {
+  it('displays the right exposure view for ON, AB, NL', async () => {
     await changeScreen('ExposureView');
     await expect(element(by.id('exposure'))).toBeVisible();
+
+    // ON
     await changeRegion('ON');
     await device.takeScreenshot('Exposure-ON-top');
     await element(by.id('exposure')).swipe('up');
     await device.takeScreenshot('Exposure-ON-bottom');
     await expect(element(by.text('Find out what to do next'))).toBeVisible();
+
+    // AB
     await changeRegion('AB');
     await device.takeScreenshot('Exposure-AB-top');
     await element(by.id('exposure')).swipe('up');
     await device.takeScreenshot('Exposure-AB-bottom');
     await expect(element(by.text('Find out if you need to be tested'))).toBeVisible();
+
+    await changeRegion('NL');
+    await device.takeScreenshot('Exposure-NL-top');
+    await element(by.id('exposure')).swipe('up');
+    await device.takeScreenshot('Exposure-NL-bottom');
+    await expect(element(by.text('Find out what to do next'))).toBeVisible();
   });
   it('can display the diagnosed view', async () => {
     await changeScreen('DiagnosedShareView');
@@ -94,7 +104,7 @@ describe('Test province flow', () => {
 });
 
 describe('Test region based screens', () => {
-  it('displays right no code screen for ON and AB', async () => {
+  it('displays right no code screen for ON, AB, NL', async () => {
     // ON
     await changeRegion('ON');
     await element(by.id('tapPromptCollapsed')).tap();
@@ -116,6 +126,17 @@ describe('Test region based screens', () => {
     await expect(element(by.id('noCodeCTA'))).not.toBeVisible();
     await element(by.id('toolbarCloseButton')).tap();
     await closeBottomSheet();
+
+    // NL
+    await changeRegion('NL');
+    await element(by.id('tapPromptCollapsed')).tap();
+    await scrollBottomSheet('down');
+    await element(by.id('getCodeButton')).tap();
+    await device.takeScreenshot('noCodeNL');
+    await expect(element(by.id('noCodeHeader'))).toBeVisible();
+    await expect(element(by.id('noCodeCTA'))).toBeVisible();
+    await element(by.id('toolbarCloseButton')).tap();
+    await closeBottomSheet();
   });
 
   it('displays right no exposure screens for no region', async () => {
@@ -127,12 +148,17 @@ describe('Test region based screens', () => {
     await expect(element(by.id('noRegionHeader'))).toBeVisible();
   });
 
-  it('displays right all set screen for ON and AB', async () => {
+  it('displays right all set screen for ON, AB, NL', async () => {
     await changeAllSet('false');
 
     // ON
     await changeRegion('ON');
     await device.takeScreenshot('AllSetViewON');
+    await expect(element(by.id('allSetCoveredRegionView'))).toBeVisible();
+
+    // NL
+    await changeRegion('NL');
+    await device.takeScreenshot('AllSetViewNL');
     await expect(element(by.id('allSetCoveredRegionView'))).toBeVisible();
 
     // AB
@@ -141,11 +167,16 @@ describe('Test region based screens', () => {
     await expect(element(by.id('allSetUncoveredRegionView'))).toBeVisible();
   });
 
-  it('displays right no exposure screens for ON and AB', async () => {
+  it('displays right no exposure screens for ON, AB, NL', async () => {
     // ON
     await changeRegion('ON');
     await changeAllSet('true');
     await device.takeScreenshot('NoExposureViewON');
+    await expect(element(by.id('coveredRegionHeader'))).toBeVisible();
+
+    // NL
+    await changeRegion('NL');
+    await device.takeScreenshot('NoExposureViewNL');
     await expect(element(by.id('coveredRegionHeader'))).toBeVisible();
 
     // AB

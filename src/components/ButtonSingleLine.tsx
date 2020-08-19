@@ -128,6 +128,7 @@ export const ButtonSingleLine = ({
         disabled={disabled}
         onPress={onPressHandler}
         activeOpacity={0.6}
+        testID={testID}
         {...accessibilityProps}
       >
         {content}
