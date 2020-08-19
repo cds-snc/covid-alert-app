@@ -72,19 +72,29 @@ describe('Test province flow', () => {
     }
   });
 
-  it('displays the right exposure view for ON and AB', async () => {
+  it('displays the right exposure view for ON, AB, NL', async () => {
     await changeScreen('ExposureView');
     await expect(element(by.id('exposure'))).toBeVisible();
+
+    // ON
     await changeRegion('ON');
     await device.takeScreenshot('Exposure-ON-top');
     await element(by.id('exposure')).swipe('up');
     await device.takeScreenshot('Exposure-ON-bottom');
     await expect(element(by.text('Find out what to do next'))).toBeVisible();
+
+    // AB
     await changeRegion('AB');
     await device.takeScreenshot('Exposure-AB-top');
     await element(by.id('exposure')).swipe('up');
     await device.takeScreenshot('Exposure-AB-bottom');
     await expect(element(by.text('Find out if you need to be tested'))).toBeVisible();
+
+    await changeRegion('NL');
+    await device.takeScreenshot('Exposure-NL-top');
+    await element(by.id('exposure')).swipe('up');
+    await device.takeScreenshot('Exposure-NL-bottom');
+    await expect(element(by.text('Find out what to do next'))).toBeVisible();
   });
   it('can display the diagnosed view', async () => {
     await changeScreen('DiagnosedShareView');
