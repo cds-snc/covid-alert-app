@@ -67,9 +67,8 @@ RCT_REMAP_METHOD(stop, stopWithResolver:(RCTPromiseResolveBlock)resolve rejecter
 
 RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
+  // TODO: return a more meaningful status for 'ENStatusPaused' when it's known how to pause the EN framework.
   switch (self.enManager.exposureNotificationStatus) {
-    case ENStatusUnknown: resolve(@"unknown");
-      break;
     case ENStatusActive: resolve(@"active");
       break;
     case ENStatusDisabled: resolve(@"disabled");
@@ -77,6 +76,11 @@ RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolv
     case ENStatusBluetoothOff: resolve(@"bluetooth_off");
       break;
     case ENStatusRestricted: resolve(@"restricted");
+      break;
+    case ENStatusPaused:
+    case ENStatusUnknown:
+    default:
+      resolve(@"unknown");
       break;
   }
 }
@@ -136,6 +140,14 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
   }
   
+  if (configDict[@"attenuationDurationThresholds"]) {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 13.6) {
+      configuration.attenuationDurationThresholds = mapIntValues(configDict[@"attenuationDurationThresholds"]);
+    } else {
+      configuration.metadata = @{@"attenuationDurationThresholds": mapIntValues(configDict[@"attenuationDurationThresholds"])};
+    }
+  }
+  
   if (configDict[@"attenuationLevelValues"]) {
     configuration.attenuationLevelValues = mapIntValues(configDict[@"attenuationLevelValues"]);
   }
@@ -179,6 +191,7 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     NSNumber *idx = @(self.reportedSummaries.count);
     [self.reportedSummaries addObject:summary];
     resolve(@{
+      @"attenuationDurations": summary.attenuationDurations,
       @"daysSinceLastExposure": @(summary.daysSinceLastExposure),
       @"matchedKeyCount": @(summary.matchedKeyCount),
       @"maximumRiskScore": @(summary.maximumRiskScore),
@@ -213,6 +226,7 @@ RCT_REMAP_METHOD(getExposureInformation,getExposureInformationForSummary:(NSDict
       NSMutableArray *arr = [NSMutableArray new];
       for (ENExposureInfo *info in exposures) {
         [arr addObject:@{
+          @"attenuationDurations": info.attenuationDurations,
           @"attenuationValue": @(info.attenuationValue),
           @"dateMillisSinceEpoch": @([info.date timeIntervalSince1970]),
           @"durationMinutes": @(info.duration),

@@ -6,15 +6,16 @@ import {Box, Header, Icon, IconName} from 'components';
 interface BaseHomeViewProps {
   children?: React.ReactNode;
   iconName?: IconName;
+  testID?: string;
 }
 
-export const BaseHomeView = ({children, iconName}: BaseHomeViewProps) => {
+export const BaseHomeView = ({children, iconName, testID}: BaseHomeViewProps) => {
   return (
     <>
       <SafeAreaView edges={['top']}>
         <Header />
       </SafeAreaView>
-      <ScrollView alwaysBounceVertical={false} style={styles.scrollView} contentContainerStyle={styles.scrollContainer}>
+      <ScrollView alwaysBounceVertical={false} style={styles.scrollView} testID={testID} contentContainerStyle={styles.scrollContainer}>
         <SafeAreaView edges={['left', 'right']}>
           <Box width="100%" justifyContent="flex-start" marginBottom="-l">
             <Box style={{...styles.primaryIcon}}>

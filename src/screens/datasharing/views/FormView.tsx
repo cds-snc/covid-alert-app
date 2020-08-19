@@ -7,7 +7,7 @@ export interface FormViewProps {
   value: string;
   onChange: (value: string) => void;
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error: any) => void;
 }
 
 export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) => {
@@ -20,9 +20,9 @@ export const FormView = ({value, onChange, onSuccess, onError}: FormViewProps) =
       await startSubmission(value);
       setLoading(false);
       onSuccess();
-    } catch {
+    } catch (error) {
       setLoading(false);
-      onError();
+      onError(error);
     }
   }, [startSubmission, value, onSuccess, onError]);
 

@@ -12,7 +12,7 @@
   },
   "DataUpload": {
     "Cancel": "Annuler",
-    "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l'étape suivante.",
+    "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l’étape suivante.",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
     "Step1": {
       "Title": "Aviser les autres personnes d’une exposition potentielle",
@@ -31,10 +31,7 @@
       "Title": "Entrez votre clé à usage unique",
       "Body": "Entrez la clé que vous avez reçue lors de votre diagnostic.",
       "Action": "Envoyer",
-      "InputLabel": "code Alerte COVID",
-      "ErrorAction": "OK",
-      "ErrorBody": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau.",
-      "ErrorTitle": "Clé à usage unique non reconnue"
+      "InputLabel": "code Alerte COVID"
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
@@ -62,7 +59,13 @@
           "Body4": "Notez la clé à usage unique.",
           "Body5": "Revenez ici et entrez la clé.",
           "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
-          "Link": "https://covid19results.ehealthontario.ca:4443/login"
+          "Link": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+        },
+        "NL": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "Aide",
+          "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
         }
       },
       "RegionNotCovered": {
@@ -72,6 +75,37 @@
         "Body3": "Protéger les personnes et les animaux vivant avec vous.",
         "Body4": "Prendre soin de vous."
       }
+    }
+  },
+  "Errors": {
+    "Action": "OK",
+    "TekUploadOffline": {
+      "Title": "Problème de connexion",
+      "Body": "Vos codes aléatoires n’ont pas été téléversés. Vérifiez que votre téléphone est connecté à Internet au moyen du Wi-Fi ou de vos données."
+    },
+    "TekUploadServer": {
+      "Title": "Réessayez plus tard",
+      "Body": "Il y a eu un problème avec le système."
+    },
+    "TekUploadPermission": {
+      "Title": "Les codes aléatoires n’ont pas pu être téléversés",
+      "Body": "Vous n’avez pas donné votre autorisation."
+    },
+    "OtcUploadInvalidOneTimeCode": {
+      "Title": "Clé à usage unique non reconnue",
+      "Body": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau."
+    },
+    "OtcUploadTemporaryBan": {
+      "Title": "Attendez pendant 1 heure",
+      "Body": "Vous avez essayé d’entrer une clé à usage unique trop de fois."
+    },
+    "OtcUploadDefault": {
+      "Title": "Réessayez plus tard",
+      "Body": "Il y a eu un problème avec le système."
+    },
+    "OtcUploadOffline": {
+      "Title": "Problème de connexion",
+      "Body": "Votre clé n’a pas été envoyée. Vérifiez que votre téléphone est connecté à Internet au moyen du Wi-Fi ou de vos données."
     }
   },
   "Home": {
@@ -87,10 +121,19 @@
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
       "Body3": "Si vos symptômes vous inquiètent, cherchez à obtenir des soins médicaux dès que vous le pouvez. Prenez soin de vous et de votre famille pendant ce temps.",
       "Title": "Merci d’aider à lutter contre la COVID",
-      "TipTitle": "CONSEIL : ",
-      "TipBody": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
-      "TipLinkText": "Site des résultats du test",
-      "TipURL": "https://covid19results.ehealthontario.ca:4443/login"
+      "Tip": {
+        "Title": "CONSEIL : ",
+        "ON": {
+          "Body": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
+          "CTA": "Site des résultats du test",
+          "URL": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+        },
+        "NL": {
+          "Body": "Vous devez vous isoler et suivre les recommandations de santé publique.",
+          "CTA": "Comment vous isoler (lien en anglais)",
+          "URL": "https://www.gov.nl.ca/covid-19/files/factsheet-covid-19-how-to-self-isolate-1.pdf"
+        }
+      }
     },
     "DiagnosedShareView": {
       "Title": "Téléverser les codes aléatoires",
@@ -101,20 +144,16 @@
     },
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
-      "CA": {
-        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
-        "Title2": "Que faire maintenant?",
-        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+      "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+      "Title2": "Que faire maintenant?",
+      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+      "RegionNotCovered": {
         "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
         "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
         "HowToIsolateCTA": "Comment vous isoler"
       },
-      "ON": {
-        "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
-        "Title2": "Que faire maintenant?",
-        "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
-        "Body2": "Vous êtes à risque d’être infecté.",
-        "HowToIsolateCTA": "Comment vous isoler"
+      "RegionCovered": {
+        "Body2": "Vous êtes à risque d’être infecté."
       }
     },
     "EnDisabled": {
@@ -297,7 +336,7 @@
     },
     "EnterCodeCardTitle": "Vous avez la COVID-19?",
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
-    "ExposureNotificationCardAction": "Activez les notifications d'exposition",
+    "ExposureNotificationCardAction": "Activez les notifications d’exposition",
     "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "NotificationCardAction": "Activer les notifications",
@@ -359,8 +398,8 @@
       "URL": "https://www2.gnb.ca/content/gnb/fr/ministeres/bmhc/maladies_transmissibles/content/maladies_respiratoires/coronavirus/expositionaucoronavirus.html#/app/symptom-checker/guides/399/what-to-do"
     },
     "NL": {
-      "CTA": "Découvrez si vous devriez vous faire tester",
-      "URL": "https://www.811healthline.ca/fr/autoevaluation-pour-la-covid-19/"
+      "CTA": "Lisez les étapes à suivre (lien en anglais)",
+      "URL": "https://www.gov.nl.ca/covid-19/exposed/"
     },
     "NT": {
       "CTA": "Découvrez si vous devriez vous faire tester",
@@ -398,8 +437,8 @@
   "Sharing": {
     "Close": "Fermer",
     "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
-    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l'application Alerte COVID : https://covidshield.app",
-    "More": "Plus d'applications",
+    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l’application Alerte COVID : https://covidshield.app",
+    "More": "Plus d’applications",
     "Platform-instagram": "Partager avec Instagram",
     "Platform-messages": "Partager avec Messages",
     "SubTitle": "Chaque personne utilisant Alerte COVID aide à ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
@@ -408,7 +447,7 @@
   "ThankYou": {
     "Body": "Les notifications d’exposition sont activées. Si Alerte COVID détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
     "Dismiss": "OK",
-    "Title": "Merci d'aider"
+    "Title": "Merci d’aider"
   },
   "Tutorial": {
     "ActionBack": "Précédent",

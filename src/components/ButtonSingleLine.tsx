@@ -27,6 +27,7 @@ export interface ButtonSingleLineProps {
   externalLink?: boolean;
   internalLink?: boolean;
   iconName?: IconName;
+  testID?: string;
 }
 
 export const ButtonSingleLine = ({
@@ -39,6 +40,7 @@ export const ButtonSingleLine = ({
   externalLink,
   internalLink,
   iconName,
+  testID,
 }: ButtonSingleLineProps) => {
   const i18n = useI18n();
   const theme = useTheme<Theme>();
@@ -67,7 +69,7 @@ export const ButtonSingleLine = ({
       justifyContent="center"
       // eslint-disable-next-line react-native/no-inline-styles
       style={{
-        backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
+        backgroundColor: Platform.OS === 'ios' || externalLink ? color : 'transparent',
         minHeight: height,
         borderWidth,
         borderColor: buttonColor,
@@ -120,12 +122,23 @@ export const ButtonSingleLine = ({
   };
 
   if (Platform.OS === 'android') {
-    return (
+    return externalLink ? (
+      <TouchableOpacity
+        accessible
+        disabled={disabled}
+        onPress={onPressHandler}
+        activeOpacity={0.6}
+        {...accessibilityProps}
+      >
+        {content}
+      </TouchableOpacity>
+    ) : (
       <Ripple
         disabled={disabled}
         onPress={onPressHandler}
         backgroundColor={color}
         borderRadius={borderRadius}
+        testID={testID}
         {...accessibilityProps}
       >
         {content}
@@ -138,6 +151,7 @@ export const ButtonSingleLine = ({
       onPress={onPressHandler}
       style={styles.stretch}
       disabled={disabled}
+      testID={testID}
       {...accessibilityProps}
     >
       {content}

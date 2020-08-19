@@ -1,4 +1,5 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState, useEffect} from 'react';
+import {TextInput, StyleSheet} from 'react-native';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useI18n} from 'locale';
@@ -6,11 +7,13 @@ import PushNotification from 'bridge/PushNotification';
 import {Box, Button, LanguageToggle, Text} from 'components';
 import {useStorage} from 'services/StorageService';
 import {
+  ExposureStatusType,
   useExposureNotificationService,
   useExposureStatus,
   useReportDiagnosis,
 } from 'services/ExposureNotificationService';
-import {captureMessage} from 'shared/log';
+import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
+import {setLogUUID, getLogUUID, captureMessage} from 'shared/log';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -23,6 +26,7 @@ const ScreenRadioSelector = () => {
   const {forceScreen, setForceScreen} = useStorage();
   const screenData = [
     {displayName: 'None', value: 'None'},
+    {displayName: 'Not Exposed', value: 'NoExposureView'},
     {displayName: 'Exposed', value: 'ExposureView'},
     {displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView'},
   ];
@@ -37,6 +41,7 @@ const ScreenRadioSelector = () => {
       {screenData.map(x => {
         return (
           <RadioButton
+            testID={x.value}
             key={x.displayName}
             selected={forceScreen === x.value}
             onPress={setForceScreen}
@@ -67,6 +72,7 @@ const SkipAllSetRadioSelector = () => {
       {screenData.map(x => {
         return (
           <RadioButton
+            testID={`allSetToggle-${x.value}`}
             key={x.displayName}
             selected={skipAllSet.toString() === x.value}
             onPress={val => {
@@ -98,8 +104,19 @@ const DrawerContent = () => {
 
   const {fetchAndSubmitKeys} = useReportDiagnosis();
 
+  const [UUID, setUUID] = useState('');
+  const onApplyUUID = useCallback(() => {
+    setLogUUID(UUID);
+  }, [UUID]);
+
+  useEffect(() => {
+    (async () => {
+      setUUID(await getLogUUID());
+    })();
+  }, []);
+
   return (
-    <DrawerContentScrollView>
+    <DrawerContentScrollView testID="DemoMenu-ScrollView" keyboardShouldPersistTaps="handled">
       <Box marginHorizontal="m">
         <Section>
           <Text paddingLeft="m" paddingRight="m" fontWeight="bold" paddingBottom="s" color="overlayBodyText">
@@ -118,6 +135,13 @@ const DrawerContent = () => {
           <SkipAllSetRadioSelector />
         </Section>
         <Section>
+          <Item title="UUID for debugging" />
+          <Box flexDirection="row">
+            <TextInput style={styles.uuidTextInput} placeholder="UUID..." value={UUID} onChangeText={setUUID} />
+            <Button variant="thinFlat" text="Apply" onPress={onApplyUUID} />
+          </Box>
+        </Section>
+        <Section>
           <Button
             text="Force upload keys"
             variant="bigFlat"
@@ -134,7 +158,7 @@ const DrawerContent = () => {
             onPress={async () => {
               captureMessage('Forcing refresh...');
               exposureNotificationService.exposureStatusUpdatePromise = null;
-              exposureNotificationService.exposureStatus.set({type: 'monitoring'});
+              exposureNotificationService.exposureStatus.set({type: ExposureStatusType.Monitoring});
               updateExposureStatus();
             }}
           />
@@ -144,6 +168,9 @@ const DrawerContent = () => {
         </Section>
         <Section>
           <Button text="Clear data" onPress={reset} variant="danger50Flat" />
+        </Section>
+        <Section>
+          <Item title={`Version: ${APP_VERSION_NAME} (${APP_VERSION_CODE})`} />
         </Section>
       </Box>
     </DrawerContentScrollView>
@@ -181,3 +208,10 @@ export const DemoMode = ({children}: DemoModeProps) => {
     </MockProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  uuidTextInput: {
+    flex: 1,
+    color: '#000000',
+  },
+});

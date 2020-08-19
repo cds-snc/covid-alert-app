@@ -4,6 +4,7 @@ import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
 import {
+  ExposureStatusType,
   SystemStatus,
   useExposureStatus,
   useStartExposureNotificationService,
@@ -34,6 +35,7 @@ import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
+import {LocationOffView} from './views/LocationOffView';
 
 type BackgroundColor = keyof Theme['colors'];
 
@@ -60,17 +62,6 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   const network = useNetInfo();
   setBackgroundColor('mainBackground');
 
-  // this is for the test menu
-  const {forceScreen} = useStorage();
-  switch (forceScreen) {
-    case 'ExposureView':
-      return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case 'DiagnosedShareView':
-      return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    default:
-      break;
-  }
-
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
       case 'noRegionSet':
@@ -82,20 +73,31 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     }
   };
 
-  if (systemStatus === SystemStatus.Undefined) {
-    return null;
-  }
-  // this case should be highest priority - if bluetooth is off, the app doesn't work
-  if (systemStatus === SystemStatus.BluetoothOff) {
-    return <BluetoothDisabledView />;
+  // this is for the test menu
+  const {forceScreen} = useStorage();
+  switch (forceScreen) {
+    case 'NoExposureView':
+      return getNoExposureView(regionCase);
+    case 'ExposureView':
+      return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    case 'DiagnosedShareView':
+      return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    default:
+      break;
   }
 
-  if (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) {
-    return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
-  }
-
-  if (systemStatus === SystemStatus.PlayServicesNotAvailable) {
-    return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
+  switch (systemStatus) {
+    case SystemStatus.Undefined:
+      return null;
+    case SystemStatus.BluetoothOff:
+      return <BluetoothDisabledView />;
+    case SystemStatus.Disabled:
+    case SystemStatus.Restricted:
+      return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    case SystemStatus.PlayServicesNotAvailable:
+      return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    case SystemStatus.LocationOff:
+      return <LocationOffView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
   if (!network.isConnected) {
@@ -103,15 +105,15 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   }
 
   switch (exposureStatus.type) {
-    case 'exposed':
+    case ExposureStatusType.Exposed:
       return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case 'diagnosed':
+    case ExposureStatusType.Diagnosed:
       return exposureStatus.needsSubmission ? (
         <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
         <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
       );
-    case 'monitoring':
+    case ExposureStatusType.Monitoring:
     default:
       switch (systemStatus) {
         case SystemStatus.Active:
@@ -192,7 +194,7 @@ export const HomeScreen = () => {
   const currentStatus = useExposureStatus()[0].type;
   const previousStatus = usePrevious(currentStatus);
   useLayoutEffect(() => {
-    if (previousStatus === 'monitoring' && currentStatus === 'diagnosed') {
+    if (previousStatus === ExposureStatusType.Monitoring && currentStatus === ExposureStatusType.Diagnosed) {
       bottomSheetRef.current?.collapse();
     }
   }, [currentStatus, previousStatus]);

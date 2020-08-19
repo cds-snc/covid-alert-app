@@ -4,6 +4,7 @@ import {useI18n} from 'locale';
 import PushNotification from 'bridge/PushNotification';
 import {Box, Text} from 'components';
 import {
+  ExposureStatusType,
   SystemStatus,
   useSystemStatus,
   useExposureStatus,
@@ -47,13 +48,14 @@ const DrawerContent = () => {
   const onToggleExposureStatus = useCallback(() => {
     let newExposureSummary: ExposureSummary;
     switch (exposureStatus.type) {
-      case 'monitoring':
+      case ExposureStatusType.Monitoring:
         // Change to exposed
         newExposureSummary = {
           daysSinceLastExposure: 0,
           lastExposureTimestamp: 0,
           matchedKeyCount: 1,
           maximumRiskScore: 8,
+          attenuationDurations: [0, 0, 0],
         };
         break;
       default:
@@ -63,6 +65,7 @@ const DrawerContent = () => {
           lastExposureTimestamp: 0,
           matchedKeyCount: 0,
           maximumRiskScore: 0,
+          attenuationDurations: [0, 0, 0],
         };
         break;
     }
@@ -105,7 +108,7 @@ const DrawerContent = () => {
               <Item
                 title="Claim OneTimeCode Response"
                 onPress={onToggleClaimOneTimeCodeResponse}
-                connectedRight={claimOneTimeCodeResponse ? 'diagnosed' : 'none'}
+                connectedRight={claimOneTimeCodeResponse ? ExposureStatusType.Diagnosed : 'none'}
               />
             </>
           )}
@@ -118,7 +121,7 @@ const DrawerContent = () => {
                 onPress={async () => {
                   captureMessage('forcing refresh...');
                   exposureNotificationService.exposureStatusUpdatePromise = null;
-                  exposureNotificationService.exposureStatus.set({type: 'monitoring'});
+                  exposureNotificationService.exposureStatus.set({type: ExposureStatusType.Monitoring});
                   updateExposureStatus();
                 }}
               />

@@ -1,7 +1,7 @@
 {
   "Home": {
     "NoExposureDetected": {
-      "AllSetTitle": "You're all set",
+      "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
         "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
@@ -21,20 +21,16 @@
       }
     },
     "ExposureDetected": {
-      "CA": {
-        "Title": "You’ve been exposed in the last 14 days",
-        "Title2": "What now?",
-        "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+      "Title": "You’ve been exposed in the last 14 days",
+      "Title2": "What now?",
+      "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
+      "RegionNotCovered": {
         "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
         "Body3": "consider self-isolating for 14 days.",
         "HowToIsolateCTA": "How to self-isolate"
       },
-      "ON": {
-        "Title": "You’ve been exposed in the last 14 days",
-        "Title2": "What now?",
-        "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
-        "Body2": "You’re at risk of being infected.",
-        "HowToIsolateCTA": "How to self-isolate"
+      "RegionCovered": {
+        "Body2": "You’re at risk of being infected."
       }
     },
     "ChooseRegionCTA": "Choose province or territory",
@@ -49,10 +45,19 @@
       },
       "Body2": "You do not have to agree, even if you agreed the day before.",
       "Body3": "If you’re worried about your symptoms, get medical care as soon as you can. Take care of yourself and your family during this time.",
-      "TipTitle": "TIP: ",
-      "TipBody": "You can prepare for your call from Public Health through the test results website.  ",
-      "TipLinkText": "Test results website",
-      "TipURL": "https://covid19results.ehealthontario.ca:4443/login"
+      "Tip": {
+        "Title": "TIP: ",
+        "ON": {
+          "Body": "You can prepare for your call from Public Health through the test results website.",
+          "CTA": "Test results website",
+          "URL": "https://covid19results.ehealthontario.ca:4443/login"
+        },
+        "NL": {
+          "Body": "You need to self-isolate and follow advice from public health.",
+          "CTA": "How to self-isolate",
+          "URL": "https://www.gov.nl.ca/covid-19/files/factsheet-covid-19-how-to-self-isolate-1.pdf"
+        }
+      }
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
@@ -124,7 +129,7 @@
     },
     "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
-    "NotificationCardBody": "You will not receive notifications if you've been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
+    "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
@@ -174,7 +179,7 @@
     "step-3": "If someone with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.",
     "step-4Title": "Looking for exposures",
     "step-4AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
-    "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you've been exposed and explains what to do next.",
+    "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you’ve been exposed and explains what to do next.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -216,7 +221,7 @@
       "Body2": "It has **no way of knowing**:",
       "Bullet1": "Your location.",
       "Bullet2": "Your name or address.",
-      "Bullet3": "Your phone's contacts.",
+      "Bullet3": "Your phone’s contacts.",
       "Bullet4": "Your health information.",
       "Bullet5": "The health information of anyone you’re near."
     },
@@ -249,7 +254,7 @@
   },
   "ThankYou": {
     "Title": "Thank you for helping",
-    "Body": "Exposure notifications are on. You will receive a message if COVID Alert detects that you've been near someone who has reported a COVID-19 diagnosis.",
+    "Body": "Exposure notifications are on. You will receive a message if COVID Alert detects that you’ve been near someone who has reported a COVID-19 diagnosis.",
     "Dismiss": "Dismiss"
   },
   "DataUpload": {
@@ -273,10 +278,7 @@
       "Title": "Enter your one-time key",
       "Body": "Enter the key you got when you were diagnosed.",
       "Action": "Submit",
-      "InputLabel": "COVID Alert key",
-      "ErrorTitle": "One-time key not recognized",
-      "ErrorBody": "Your key could not be recognized. Please try again.",
-      "ErrorAction": "OK"
+      "InputLabel": "COVID Alert key"
     },
     "ConsentView": {
       "Title": "Now you can upload your codes",
@@ -284,10 +286,7 @@
       "Body2a": "Nobody will get any information about you ",
       "Body2b": "or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
-      "Action": "Agree",
-      "ErrorTitle": "Random codes could not be uploaded",
-      "ErrorBody": "You did not give permission.",
-      "ErrorAction": "OK"
+      "Action": "Agree"
     },
     "NoCode": {
       "NoRegion": {
@@ -305,6 +304,12 @@
           "Body5": "Come back here and enter the key.",
           "CTA": "Go to COVID-19 Test Results Website",
           "Link": "https://covid19results.ehealthontario.ca:4443/"
+        },
+        "NL": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+          "CTA": "Help",
+          "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
         }
       },
       "RegionNotCovered": {
@@ -320,7 +325,7 @@
     "ExposedMessageTitle": "You’ve been exposed",
     "ExposedMessageBody": "You’ve had close contact with someone who reported a COVID-19 diagnosis through the app. Learn more about what to do next.",
     "OffMessageTitle": "COVID Alert is off",
-    "OffMessageBody": "Turn on COVID Alert to get notified if you've been near someone who has reported a COVID-19 diagnosis.",
+    "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
     "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes."
   },
@@ -383,8 +388,8 @@
       "URL": "https://www2.gnb.ca/content/gnb/en/departments/ocmoh/cdc/content/respiratory_diseases/coronavirus/coronavirusexposure.html#/app/symptom-checker/guides/399/what-to-do"
     },
     "NL": {
-      "CTA": "Find out if you need to be tested",
-      "URL": "https://nl.thrive.health/covid19/en"
+      "CTA": "Find out what to do next",
+      "URL": "https://www.gov.nl.ca/covid-19/exposed/"
     },
     "NT": {
       "CTA": "Find out if you need to be tested",
@@ -432,5 +437,36 @@
     "Start": "List start",
     "End": "List end",
     "Bullet": "Bullet"
+  },
+  "Errors": {
+    "Action": "OK",
+    "TekUploadOffline": {
+      "Title": "Lost connection",
+      "Body": "Your random codes were not uploaded. Make sure your phone is connected to the Internet, through either data or WiFi."
+    },
+    "TekUploadServer": {
+      "Title": "Try again later",
+      "Body": "Something went wrong with the system."
+    },
+    "TekUploadPermission": {
+      "Title": "Random codes could not be uploaded",
+      "Body": "You did not give permission."
+    },
+    "OtcUploadInvalidOneTimeCode": {
+      "Title": "Incorrect key",
+      "Body": "Your one-time key could not be recognized. Please try again."
+    },
+    "OtcUploadTemporaryBan": {
+      "Title": "Wait for 1 hour",
+      "Body": "You’ve tried to enter a one-time key too many times."
+    },
+    "OtcUploadDefault": {
+      "Title": "Try again later",
+      "Body": "Something went wrong with the system."
+    },
+    "OtcUploadOffline": {
+      "Title": "Lost connection",
+      "Body": "Your key was not sent. Make sure your phone is connected to the Internet, through either data or WiFi."
+    }
   }
 }

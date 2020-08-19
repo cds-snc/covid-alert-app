@@ -15,6 +15,16 @@ Install _fastlane_ using
 or alternatively using `brew install fastlane`
 
 # Available Actions
+### ensure_keystore_properties
+```
+fastlane ensure_keystore_properties
+```
+
+### load_env_file
+```
+fastlane load_env_file
+```
+
 ### create_github_release
 ```
 fastlane create_github_release
@@ -25,54 +35,79 @@ Creates a Github Release
 fastlane default_changelog
 ```
 Returns a default changelog.
-### ensure_keystore_properties
-```
-fastlane ensure_keystore_properties
-```
-
 ### ensure_build_directory
 ```
 fastlane ensure_build_directory
 ```
 
-### test
+### ensure_env_file_exists
 ```
-fastlane test
+fastlane ensure_env_file_exists
 ```
 
-
-----
-
-## iOS
-### ios beta
-```
-fastlane ios beta
-```
-Submit a new Covid Alert beta build to Apple TestFlight
-### ios local
-```
-fastlane ios local
-```
-Builds a local iOS adhoc .ipa
 
 ----
 
 ## Android
-### android internal
+### android check_version_code_exists
 ```
-fastlane android internal
+fastlane android check_version_code_exists
 ```
-Pushes a new build to Google Play Internal Testing Track
+
+### android build_and_deploy
+```
+fastlane android build_and_deploy
+```
+
 ### android local
 ```
 fastlane android local
 ```
 Builds a local Release .apk for Android
+### android adhoc
+```
+fastlane android adhoc
+```
+
 ### android local_debug
 ```
 fastlane android local_debug
 ```
 Builds a local Debug .apk for Android
+
+----
+
+## iOS
+### ios check_version_code_exists
+```
+fastlane ios check_version_code_exists
+```
+
+### ios set_version
+```
+fastlane ios set_version
+```
+
+### ios build_and_deploy
+```
+fastlane ios build_and_deploy
+```
+
+### ios local
+```
+fastlane ios local
+```
+Builds a local iOS adhoc .ipa
+### ios devices_file_exists
+```
+fastlane ios devices_file_exists
+```
+
+### ios adhoc
+```
+fastlane ios adhoc
+```
+Adhoc build, upload to Diawi
 
 ----
 
