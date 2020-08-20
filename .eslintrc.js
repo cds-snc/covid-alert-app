@@ -35,6 +35,7 @@ module.exports = {
     'jsx-a11y/no-autofocus': 'off',
   },
   ignorePatterns: [
+    '**/node_modules',
     '**/services/BackendService/covidshield/*.d.ts',
     '**/services/BackendService/covidshield/*.js',
     '**/translations/index.js',
