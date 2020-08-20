@@ -8,7 +8,7 @@ export const Tip = () => {
   const i18n = useI18n();
   const {region} = useStorage();
   return (
-    <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="m" marginBottom="xl">
+    <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="m" marginBottom="m">
       <Box flexDirection="row" paddingLeft="s" paddingRight="m">
         <Box flex={0} paddingTop="xxs" marginRight="xxs">
           <Icon name="icon-light-bulb" size={40} />

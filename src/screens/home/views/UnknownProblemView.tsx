@@ -21,7 +21,7 @@ export const UnknownProblemView = ({isBottomSheetExpanded}: {isBottomSheetExpand
         {i18n.translate('Home.UnknownProblem.Title')}
       </Text>
       <Text marginBottom="m">{i18n.translate('Home.UnknownProblem.Body')}</Text>
-      <Box alignSelf="stretch" marginBottom="l" marginTop="l">
+      <Box alignSelf="stretch" marginBottom="m" marginTop="l">
         <ButtonSingleLine
           text={i18n.translate('Home.UnknownProblem.CTA')}
           variant="danger50Flat"

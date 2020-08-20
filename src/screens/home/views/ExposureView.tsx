@@ -59,7 +59,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
       </Box>
       {!regionCovered && (
-        <Box alignSelf="stretch" marginBottom="xl">
+        <Box alignSelf="stretch" marginBottom="m">
           <ButtonSingleLine
             text={i18n.translate(`Home.ExposureDetected.RegionNotCovered.HowToIsolateCTA`)}
             variant="bigFlatDarkGrey"

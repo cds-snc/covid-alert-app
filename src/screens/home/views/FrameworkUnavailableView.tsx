@@ -21,7 +21,7 @@ export const FrameworkUnavailableView = ({isBottomSheetExpanded}: {isBottomSheet
         {i18n.translate('Home.FrameworkUnavailable.Title')}
       </Text>
       <TextMultiline marginBottom="m" text={i18n.translate('Home.FrameworkUnavailable.Body')} />
-      <Box alignSelf="stretch" marginBottom="l" marginTop="l">
+      <Box alignSelf="stretch" marginBottom="m" marginTop="l">
         <ButtonSingleLine
           text={i18n.translate('Home.FrameworkUnavailable.CTA')}
           variant="danger50Flat"

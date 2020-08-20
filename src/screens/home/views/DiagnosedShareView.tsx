@@ -24,7 +24,7 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
         <Text fontWeight="bold">{i18n.translate('Home.DiagnosedShareView.Body2')}</Text>
         {i18n.translate('Home.DiagnosedShareView.Body3')}
       </Text>
-      <Box alignSelf="stretch" marginTop="l" marginBottom="xl">
+      <Box alignSelf="stretch" marginTop="l" marginBottom="m">
         <ButtonSingleLine
           text={i18n.translate('Home.DiagnosedShareView.ButtonCTA')}
           variant="bigFlat"

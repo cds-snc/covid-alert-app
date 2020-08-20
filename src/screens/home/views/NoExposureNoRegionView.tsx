@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TextMultiline, LastCheckedDisplay} from 'components';
+import {Text, TextMultiline, LastCheckedDisplay, Box} from 'components';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
@@ -47,7 +47,9 @@ export const NoExposureNoRegionView = ({isBottomSheetExpanded}: {isBottomSheetEx
         marginBottom="m"
         text={i18n.translate('Home.NoExposureDetected.NoRegion.Body')}
       />
-      <LastCheckedDisplay textDark />
+      <Box marginBottom="m">
+        <LastCheckedDisplay textDark />
+      </Box>
     </BaseHomeView>
   );
 };
