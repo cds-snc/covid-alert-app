@@ -1,19 +1,9 @@
-const globby = require('globby');
 const fs = require('fs');
+
+const globby = require('globby');
 const {argv} = require('yargs');
-const {exit} = require('process');
-
-//  node index.js --dir="ios.2020-08-19 17-21-59Z"
-
-if (!argv.dir) {
-  console.log('you need to pass a directory name');
-  exit;
-}
-
-console.log('render file for: ', argv.dir);
 
 const dirPattern = `../artifacts/${argv.dir}`;
-
 const fileName = `${dirPattern}.html`;
 const asyncForEach = async (array, callback) => {
   for (let index = 0; index < array.length; index++) {
@@ -23,7 +13,7 @@ const asyncForEach = async (array, callback) => {
 
 const styledTitle = val => {
   let style = 'color:green;';
-  if (val.indexOf('✗') != -1) {
+  if (val.indexOf('✗') !== -1) {
     style = 'color:red;';
   }
   return `<h3 style="${style}">${val}</h3>`;
@@ -55,11 +45,19 @@ const writeFile = content => {
   html += '</body></html>';
 
   fs.writeFile(fileName, html, function(err) {
-    if (err) return console.log(err);
+    if (err) return console.log(err); // eslint-disable-line no-console
   });
 };
 
 (async () => {
+  //  node index.js --dir="ios.2020-08-19 17-21-59Z"
+  if (!argv.dir) {
+    console.log('you need to pass a directory name'); // eslint-disable-line no-console
+    return;
+  }
+
+  console.log('render file for: ', argv.dir); // eslint-disable-line no-console
+
   const paths = await globby(dirPattern, {
     onlyFiles: false,
   });
