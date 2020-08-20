@@ -35,7 +35,7 @@ Les codes aléatoires sont stockés et utilisés uniquement dans le but de vous 
 - Seuls l’application et son serveur auront accès aux codes aléatoires.
 
 ### Si vous recevez un diagnostic de COVID-19
-- Vous pouvez décider de partager vos codes aléatoires des 14 derniers jours avec un serveur central administré par le Gouvernement du Canada.
+- Vous pouvez décider de partager vos codes aléatoires des 14 derniers jours avec un serveur central administré par le gouvernement du Canada.
 - Si vous partagez vos codes, personne ne recevra d’information sur vous ou sur le moment de votre proximité.
 - On vous demandera aussi l’autorisation de partager vos codes aléatoires avec le serveur central pendant les 13 jours qui suivent.
 
@@ -49,7 +49,7 @@ Les codes aléatoires sont stockés et utilisés uniquement dans le but de vous 
 - Si vous avez téléversé vos codes aléatoires avant de supprimer l’application, les codes aléatoires seront supprimés du serveur après 15 jours.
 
 ## Autres renseignements à votre sujet
-Alerte COVID est une application créée par le Gouvernement du Canada. Elle est conçue de sorte que vos renseignements médicaux restent entre les mains de votre fournisseur de soins de santé provincial ou territorial. Votre identité et vos informations de santé ne seront pas partagées avec le Gouvernement du Canada. Alerte COVID ne sait pas qui vous êtes et ne peut pas avoir accès ces renseignements.
+Alerte COVID est une application créée par le gouvernement du Canada. Elle est conçue de sorte que vos renseignements médicaux restent entre les mains de votre fournisseur de soins de santé provincial ou territorial. Votre identité et vos informations de santé ne seront pas partagées avec le gouvernement du Canada. Alerte COVID ne sait pas qui vous êtes et ne peut pas avoir accès ces renseignements.
 - La clé à usage unique fournie par votre professionnel de la santé indique à Alerte COVID que vous pouvez téléverser vos codes aléatoires.
 - L’application Alerte COVID a confiance en cette clé. Elle l’utilise pour ne pas avoir à collecter de renseignements personnels qui permettraient de vous identifier.
 - Les travailleurs de la santé n’ont aucun moyen de fournir vos renseignements personnels à Alerte COVID.
@@ -64,14 +64,20 @@ Par mesure de sécurité, le serveur central stocke votre adresse IP dans des jo
 - Soumettre une clé à usage unique.
 - Téléverser vos codes aléatoires.
 
+Votre adresse IP n’est associée à aucune autre information du système, comme les clés à usage unique ou les codes aléatoires.
+
 Sans ces protections de sécurité en place, les polluposteurs pourraient inonder le système Alerte COVID et votre téléphone avec de fausses notifications d’exposition.
 
 ### Utilisation et protection des adresses IP
 
-- Aucun lien n’est établi entre votre adresse IP et vos renseignements. L’adresse IP est uniquement utilisée pour garantir l’intégrité du système.
+- Les adresses IP sont stockées dans des journaux système. 
 - En temps normal, les journaux système sont conservés pendant au plus 3 mois. S’il y a une enquête en raison d’activités suspectes, nous conservons les journaux système pendant un maximum de 2 ans pour aider l’enquête.
 - Les journaux système sont étroitement protégés. Ils ne peuvent être utilisés que pour garantir la performance du système et contrer des menaces à la sécurité.
-- S’il y a enquête, nous pourrions avoir à partager les journaux système pertinents aux organismes d’application de la loi, tel que requis par la loi.
+- S’il y a enquête, nous pourrions avoir à partager les journaux système pertinents, y compris les adresses IP, aux organismes d’application de la loi, comme la loi l’exige. Ces journaux pourraient servir à identifier les personnes qui s’attaquent au système.
+
+## Liens vers d’autres sites Web
+L’application contient des liens vers des sites Web gérés par les gouvernements provinciaux et territoriaux. Ces sites peuvent demander ou collecter des informations vous concernant. Le système Alerte COVID n’a pas accès aux informations que vous pourriez fournir à ces sites Web.
+
 
 ## Questions?
 Contactez la ligne d’information sur la COVID-19 :

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import app.covidshield.extensions.log
+import com.facebook.react.ReactApplication
 import com.transistorsoft.rnbackgroundfetch.HeadlessTask
-import com.transistorsoft.tsbackgroundfetch.BackgroundFetch
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
@@ -66,7 +66,11 @@ class HeadlessJsTaskWorker(
 
         fun shouldStartHeadlessJsTask(context: Context): Boolean {
             return try {
-                !BackgroundFetch.getInstance(context).isMainActivityActive
+                val reactApplication = context.applicationContext as ReactApplication
+                val reactNativeHost = reactApplication.reactNativeHost
+                val reactInstanceManager = reactNativeHost.reactInstanceManager
+                val currentReactContext = reactInstanceManager.currentReactContext
+                currentReactContext == null
             } catch (_: Exception) {
                 false
             }
