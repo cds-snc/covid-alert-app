@@ -18,8 +18,8 @@ export default function ExposureNotificationAdapter(
         components.pop();
         components.push('keys-export');
         const targetDir = components.join('/');
-
         const unzippedLocation = await unzip(keysZipUrl, targetDir);
+
         summary = await exposureNotificationAPI.detectExposure(configuration, [
           `${unzippedLocation}/export.bin`,
           `${unzippedLocation}/export.sig`,
