@@ -70,8 +70,8 @@ const writeFile = content => {
       return;
     }
 
-    html += styledTitle(path);
-    html += await imgHTML(path);
+    const img = await imgHTML(path);
+    html += styledTitle(path) + img;
   });
 
   writeFile(html);
