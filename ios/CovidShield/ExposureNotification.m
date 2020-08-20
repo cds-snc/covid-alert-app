@@ -207,8 +207,8 @@ RCT_REMAP_METHOD(getExposureInformation,getExposureInformationForSummary:(NSDict
     reject(@"", @"Missing _summaryIdx", [NSError errorWithDomain:@"" code:0 userInfo:@{}]);
     return;
   }
-  NSInteger summaryIdx = [summaryDict[@"_summaryIdx"] intValue];
-  if (summaryIdx < 0 || summaryIdx >= self.reportedSummaries.count) {
+  NSInteger summaryIdx = [summaryDict[@"_summaryIdx"] unsignedIntValue];
+  if (summaryIdx >= self.reportedSummaries.count) {
     reject(@"", @"Invalid _summaryIdx", [NSError errorWithDomain:@"" code:0 userInfo:@{}]);
     return;
   }
