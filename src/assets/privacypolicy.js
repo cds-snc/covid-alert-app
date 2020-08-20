@@ -23,7 +23,6 @@ The random codes are only stored and used for the purpose of notifying you, or o
 - Your health information.
 
 ## If you have an Android phone
-
 - To use Bluetooth scanning, Android phones need Location setting on for all apps. While COVID Alert has no way of knowing where you are, Google may have access to your location. If you have an Android phone, you may want to use the lowest accuracy option for Location and turn off Google Location History.
 - You can check the app’s permissions in your phone’s settings. You’ll see that COVID Alert does not have permission to use location services.
 
@@ -58,22 +57,24 @@ COVID Alert is a Government of Canada app. It is designed so that your health in
 - COVID Alert does not connect with or collect any information from any other app on your phone.
 
 ## Your IP address
-
 As a security measure, the server will store your IP address in system logs when the app does any of the following actions:
 
 - Download a list of positive codes.
 - Enter a one-time key.
 - Upload your random codes.
 
+Your IP address is not connected to any other information in the system, like one-time keys or random codes.
+
 Without these security protections in place, spammers could flood the COVID Alert system and your phone with fake exposure notifications.
 
 ### How IP addresses are used and protected
-
-- Your IP address is not connected to any other information about you, and it’s only used to ensure the integrity of the system.
+- IP addresses are stored in system logs.
 - System logs are kept for up to 3 months under normal conditions. If there’s an investigation into suspicious activity, we keep system logs for up to 2 years to help the investigation.
 - System logs are closely protected. They can only be used for ensuring performance and responding to security threats.
-- If there’s an investigation, we may need to share the relevant system logs with law enforcement, as required by law.
+- If there’s an investigation, we may need to share the relevant system logs, including IP addresses, with law enforcement, as required by law. They could use these logs to identify people who attack the system.
 
+##Links to other websites
+The app contains some links to websites that are managed by provincial and territorial governments. They may ask for or collect information about you. The COVID Alert system has no access to any information you may give to those websites.
 
 ## Questions?
 Contact the COVID-19 information line:
