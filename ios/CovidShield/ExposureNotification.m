@@ -201,42 +201,5 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
   }];
 }
 
-RCT_REMAP_METHOD(getExposureInformation,getExposureInformationForSummary:(NSDictionary *)summaryDict withUserExplanation: (NSString *)userExplanation withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-  if (summaryDict[@"_summaryIdx"] == nil) {
-    reject(@"", @"Missing _summaryIdx", [NSError errorWithDomain:@"" code:0 userInfo:@{}]);
-    return;
-  }
-  NSInteger summaryIdx = [summaryDict[@"_summaryIdx"] unsignedIntValue];
-  if (summaryIdx >= self.reportedSummaries.count) {
-    reject(@"", @"Invalid _summaryIdx", [NSError errorWithDomain:@"" code:0 userInfo:@{}]);
-    return;
-  }
-  if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
-    reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
-    return;
-  }
-  ENExposureDetectionSummary *summary = self.reportedSummaries[summaryIdx];
-  [self.enManager getExposureInfoFromSummary:summary
-                             userExplanation:userExplanation
-                           completionHandler:^(NSArray<ENExposureInfo *> * _Nullable exposures, NSError * _Nullable error) {
-    if (error) {
-       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
-    } else {
-      NSMutableArray *arr = [NSMutableArray new];
-      for (ENExposureInfo *info in exposures) {
-        [arr addObject:@{
-          @"attenuationDurations": info.attenuationDurations,
-          @"attenuationValue": @(info.attenuationValue),
-          @"dateMillisSinceEpoch": @([info.date timeIntervalSince1970]),
-          @"durationMinutes": @(info.duration),
-          @"totalRiskScore": @(info.totalRiskScore),
-          @"transmissionRiskLevel": @(info.transmissionRiskLevel)
-        }];
-      }
-      resolve(arr);
-    }
-
-  }];
-}
 @end
+  
