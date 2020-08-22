@@ -70,10 +70,6 @@ export interface ExposureNotification {
   getTemporaryExposureKeyHistory(): Promise<TemporaryExposureKey[]>;
 
   detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary>;
-  getExposureInformation(
-    summary: ExposureSummary,
-    userExplanation: string /* used only by iOS */,
-  ): Promise<ExposureInformation[]>;
-
+  getExposureInformation(summary: ExposureSummary): Promise<ExposureInformation[]> /* used only by Android */;
   getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
 }
