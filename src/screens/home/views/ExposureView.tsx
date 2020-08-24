@@ -19,7 +19,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
     if (region !== undefined && region !== 'None') {
       return regionCovered
         ? i18n.translate(`Home.ExposureDetected.RegionCovered.${region}.RegionalGuidance.URL`)
-        : i18n.translate(`RegionalGuidance.${region}.URL.Default`);
+        : i18n.translate(`RegionalGuidance.${region}.URL`);
     }
     return i18n.translate(`RegionalGuidance.CA.URL`);
   }, [i18n, region]);
