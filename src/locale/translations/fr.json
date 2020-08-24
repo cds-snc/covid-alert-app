@@ -156,14 +156,14 @@
         "Body2": "Vous êtes à risque d’être infecté.",
         "ON": {
           "RegionalGuidance": {
-            "CTA": "Go to COVID-19 Test Results Website",
-            "URL": "https://covid19results.ehealthontario.ca:4443/"
+            "CTA": "Lisez les étapes à suivre",
+            "URL": "https://ontario.ca/covidalerte-expose"
           }
         },
         "NL": {
           "RegionalGuidance": {
-            "CTA": "Find out what to do next",
-            "URL": "https://www.gov.nl.ca/covid-19/exposed/"
+            "CTA": "Découvrez si vous devriez vous faire tester",
+            "URL": "https://www.811healthline.ca/fr/autoevaluation-pour-la-covid-19"
           }
         }
       }
