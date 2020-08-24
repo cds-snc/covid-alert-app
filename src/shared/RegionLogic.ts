@@ -1,5 +1,6 @@
-import {Region, RegionCase} from './Region';
 import {ACTIVE_REGIONS} from 'env';
+
+import {Region, RegionCase} from './Region';
 
 const defaultRegions: Region[] = ['ON'];
 
