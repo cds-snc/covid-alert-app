@@ -14,16 +14,21 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   const {region} = useStorage();
   const i18n = useI18n();
   const navigation = useNavigation();
+  const regionCovered = isRegionCovered(region);
   const getGuidanceURL = useCallback(() => {
     if (region !== undefined && region !== 'None') {
-      return i18n.translate(`RegionalGuidance.${region}.URL`);
+      return regionCovered
+        ? i18n.translate(`Home.ExposureDetected.RegionCovered.${region}.RegionalGuidance.URL`)
+        : i18n.translate(`RegionalGuidance.${region}.URL`);
     }
     return i18n.translate(`RegionalGuidance.CA.URL`);
   }, [i18n, region]);
 
   const getGuidanceCTA = useCallback(() => {
     if (region !== undefined && region !== 'None') {
-      return i18n.translate(`RegionalGuidance.${region}.CTA`);
+      return regionCovered
+        ? i18n.translate(`Home.ExposureDetected.RegionCovered.${region}.RegionalGuidance.CTA`)
+        : i18n.translate(`RegionalGuidance.${region}.CTA`);
     }
     return i18n.translate(`RegionalGuidance.CA.CTA`);
   }, [i18n, region]);
@@ -33,7 +38,6 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
-  const regionCovered = isRegionCovered(region);
 
   return (
     <BaseHomeView iconName="hand-caution" testID="exposure">

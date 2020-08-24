@@ -30,7 +30,19 @@
         "HowToIsolateCTA": "How to self-isolate"
       },
       "RegionCovered": {
-        "Body2": "You’re at risk of being infected."
+        "Body2": "You’re at risk of being infected.",
+        "ON": {
+          "RegionalGuidance": {
+            "CTA": "Find out what to do next",
+            "URL": "https://ontario.ca/covidalert-exposed"
+          }
+        },
+        "NL": {
+          "RegionalGuidance": {
+            "CTA": "Find out what to do next",
+            "URL": "https://www.gov.nl.ca/covid-19/exposed/"
+          }
+        }
       }
     },
     "ChooseRegionCTA": "Choose province or territory",

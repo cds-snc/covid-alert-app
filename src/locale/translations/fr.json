@@ -153,7 +153,19 @@
         "HowToIsolateCTA": "Comment vous isoler"
       },
       "RegionCovered": {
-        "Body2": "Vous êtes à risque d’être infecté."
+        "Body2": "Vous êtes à risque d’être infecté.",
+        "ON": {
+          "RegionalGuidance": {
+            "CTA": "Lisez les étapes à suivre",
+            "URL": "https://ontario.ca/covidalerte-expose"
+          }
+        },
+        "NL": {
+          "RegionalGuidance": {
+            "CTA": "Découvrez si vous devriez vous faire tester",
+            "URL": "https://www.811healthline.ca/fr/autoevaluation-pour-la-covid-19"
+          }
+        }
       }
     },
     "EnDisabled": {
