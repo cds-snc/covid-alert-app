@@ -23,6 +23,8 @@ export const TEST_MODE = Config.TEST_MODE === 'true' || false;
 
 export const MOCK_SERVER = Config.MOCK_SERVER === 'true' || false;
 
+export const ACTIVE_REGIONS = Config.ACTIVE_REGIONS;
+
 /**
  * Set reachability check url to empty to prevent
  * unnecessary background network activity
