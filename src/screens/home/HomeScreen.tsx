@@ -89,25 +89,20 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   switch (systemStatus) {
     case SystemStatus.Undefined:
       return null;
-    case SystemStatus.BluetoothOff:
-      return <BluetoothDisabledView />;
     case SystemStatus.Disabled:
     case SystemStatus.Restricted:
       return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case SystemStatus.PlayServicesNotAvailable:
       return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case SystemStatus.LocationOff:
-      return <LocationOffView isBottomSheetExpanded={isBottomSheetExpanded} />;
-  }
-
-  if (!network.isConnected) {
-    return <NetworkDisabledView />;
   }
 
   switch (exposureStatus.type) {
     case ExposureStatusType.Exposed:
       return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case ExposureStatusType.Diagnosed:
+      if (!network.isConnected) {
+        return <NetworkDisabledView />;
+      }
       return exposureStatus.needsSubmission ? (
         <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
@@ -115,7 +110,14 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
       );
     case ExposureStatusType.Monitoring:
     default:
+      if (!network.isConnected) {
+        return <NetworkDisabledView />;
+      }
       switch (systemStatus) {
+        case SystemStatus.BluetoothOff:
+          return <BluetoothDisabledView />;
+        case SystemStatus.LocationOff:
+          return <LocationOffView isBottomSheetExpanded={isBottomSheetExpanded} />;
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
