@@ -24,26 +24,6 @@ export const DataSharingScreen = () => {
   // if keySubmissionStatus is None we need the 1-time code, otherwise we should go right to consent
   const [isVerified, setIsVerified] = useState(exposureStatus.type === ExposureStatusType.Diagnosed);
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
-  const onErrorForm = (error: any) => {
-    const getTranslationKey = (error: any) => {
-      // OTC = One time code (diagnosis code)
-      switch (error) {
-        case covidshield.KeyClaimResponse.ErrorCode.INVALID_ONE_TIME_CODE:
-          return 'OtcUploadInvalidOneTimeCode';
-        case covidshield.KeyClaimResponse.ErrorCode.TEMPORARY_BAN:
-          return 'OtcUploadTemporaryBan';
-        case xhrError:
-          return 'OtcUploadOffline';
-        default:
-          return 'OtcUploadDefault';
-      }
-    };
-    const translationKey = getTranslationKey(error);
-    Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
-      {text: i18n.translate(`Errors.Action`)},
-    ]);
-    setIsVerified(false);
-  };
 
   const onErrorConsent = (error: any) => {
     // TEK = Temporary Exposure Key

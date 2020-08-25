@@ -15,44 +15,42 @@ export const Step1 = ({onSuccess}: Props) => {
   const onNoCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
 
   return (
-    <>
-      <ScrollView style={styles.flex}>
-        <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-            {i18n.translate('DataUpload.Step1.Title')}
-          </Text>
+    <ScrollView style={styles.flex}>
+      <Box paddingHorizontal="m">
+        <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+          {i18n.translate('DataUpload.Step1.Title')}
+        </Text>
 
-          <Text marginBottom="l">
-            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body1a')}</Text>
-            <Text>{i18n.translate('DataUpload.Step1.Body1b')}</Text>
-          </Text>
-          <Text marginBottom="l">
-            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body2a')}</Text>
-            <Text>{i18n.translate('DataUpload.Step1.Body2b')}</Text>
-          </Text>
-          <Text marginBottom="l">
-            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body3a')}</Text>
-            <Text>{i18n.translate('DataUpload.Step1.Body3b')}</Text>
-          </Text>
-          <Text marginBottom="l">
-            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body4a')}</Text>
-            <Text>{i18n.translate('DataUpload.Step1.Body4b')}</Text>
-          </Text>
+        <Text marginBottom="l">
+          <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body1a')}</Text>
+          <Text>{i18n.translate('DataUpload.Step1.Body1b')}</Text>
+        </Text>
+        <Text marginBottom="l">
+          <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body2a')}</Text>
+          <Text>{i18n.translate('DataUpload.Step1.Body2b')}</Text>
+        </Text>
+        <Text marginBottom="l">
+          <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body3a')}</Text>
+          <Text>{i18n.translate('DataUpload.Step1.Body3b')}</Text>
+        </Text>
+        <Text marginBottom="l">
+          <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body4a')}</Text>
+          <Text>{i18n.translate('DataUpload.Step1.Body4b')}</Text>
+        </Text>
 
-          <Box marginTop="m">
-            <Button variant="thinFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
-          </Box>
-          <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
-            <ButtonSingleLine
-              text={i18n.translate('DataUpload.Step1.NoCode')}
-              variant="bigFlatNeutralGrey"
-              internalLink
-              onPress={onNoCode}
-            />
-          </Box>
+        <Box marginTop="m">
+          <Button variant="thinFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
         </Box>
-      </ScrollView>
-    </>
+        <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
+          <ButtonSingleLine
+            text={i18n.translate('DataUpload.Step1.NoCode')}
+            variant="bigFlatNeutralGrey"
+            internalLink
+            onPress={onNoCode}
+          />
+        </Box>
+      </Box>
+    </ScrollView>
   );
 };
 

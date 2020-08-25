@@ -4,6 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {DataSharingScreen} from 'screens/datasharing';
+import {Step1Screen} from 'screens/datasharing/Step1';
+import {FormViewScreen} from 'screens/datasharing/FormView';
 import {PrivacyScreen} from 'screens/privacy';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
@@ -60,6 +62,8 @@ const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const DataSharingScreenWithNavBar = withDarkNav(DataSharingScreen);
+const Step1ScreenWithNavBar = withDarkNav(Step1Screen);
+const FormViewScreenWithNavBar = withDarkNav(FormViewScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
@@ -74,6 +78,15 @@ const OnboardingNavigator = () => {
     <OnboardingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Onboarding">
       <OnboardingStack.Screen name="Onboarding" component={OnboardingWithNavBar} />
     </OnboardingStack.Navigator>
+  );
+};
+const DataSharingStack = createStackNavigator();
+const DataSharingNavigator = () => {
+  return (
+    <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step1">
+      <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
+      <DataSharingStack.Screen name="FormView" component={FormViewScreenWithNavBar} />
+    </DataSharingStack.Navigator>
   );
 };
 
@@ -99,7 +112,11 @@ const MainNavigator = () => {
         component={OnboardingNavigator}
       />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
-      <MainStack.Screen name="DataSharing" component={DataSharingScreenWithNavBar} />
+      <MainStack.Screen
+        name="DataSharing"
+        component={DataSharingNavigator}
+        options={{cardStyleInterpolator: forFade}}
+      />
       <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
