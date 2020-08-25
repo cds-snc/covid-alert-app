@@ -1,0 +1,18 @@
+{
+  "messages": [
+    {
+      "id": "95d50a77-817f-422f-8506-5931e92a32e4",
+      "title": {
+        "en": "Covid Alert is now available in Newfoundland and Labrador!",
+        "fr": "[title in french]"
+      },
+      "message": {
+        "en": "If you live in Newfoundland and Labrador...",
+        "fr": "[message in french]"
+      },
+      "region": "NL",
+      "posted_at": "2020-08-25T13:13:47+00:00",
+      "expires_at": "2020-08-25T13:13:47+00:00"
+    }
+  ]
+}
