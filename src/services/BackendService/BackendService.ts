@@ -16,8 +16,6 @@ import {Region} from '../../shared/Region';
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
-import regionContent from '../../locale/translations/region.json';
-
 const MAX_UPLOAD_KEYS = 14;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 const TRANSMISSION_RISK_LEVEL = 1;
@@ -53,7 +51,9 @@ export class BackendService implements BackendInterface {
   }
 
   async getRegionContent() {
-    return regionContent;
+    const regionPath = '/exposure-configuration/region.json';
+    const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
+    return (await fetch(regionContentUrl, FETCH_HEADERS)).json();
   }
 
   async getExposureConfiguration() {

@@ -10,5 +10,6 @@ export interface BackendInterface {
   claimOneTimeCode(code: string): Promise<SubmissionKeySet>;
   reportDiagnosisKeys(submissionKeyPair: SubmissionKeySet, keys: TemporaryExposureKey[]): Promise<void>;
   retrieveDiagnosisKeys(period: number): Promise<string>;
+  getRegionContent(): Promise<JSON>;
   getExposureConfiguration(): Promise<ExposureConfiguration>;
 }
