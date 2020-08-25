@@ -1,11 +1,16 @@
 import {captureMessage, captureException} from 'shared/log';
 import PushNotification from 'bridge/PushNotification';
 import {openDatabase} from 'react-native-sqlite-storage';
+import AsyncStorage from '@react-native-community/async-storage';
+import {APP_VERSION_NAME} from 'env';
 
 const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77';
 
 const checkForNotifications = async () => {
   const DB = await getDbConnection();
+  const SELECTED_REGION = (await AsyncStorage.getItem('Region')) || 'CA';
+  const APP_VERSION = APP_VERSION_NAME;
+
   // DB.executeSql('DELETE FROM receipts');
 
   captureMessage('>>>>>> Poll for notifications');
@@ -19,15 +24,17 @@ const checkForNotifications = async () => {
 
         if (!results.rows.length) {
           // check region
-          // check version
-          PushNotification.presentLocalNotification({
-            alertTitle: message.title.en,
-            alertBody: message.message.en,
-          });
+          if (message.target_regions.includes(SELECTED_REGION) || message.target_regions.includes('CA')) {
+            // check version
+            PushNotification.presentLocalNotification({
+              alertTitle: message.title.en,
+              alertBody: message.message.en,
+            });
 
-          tx.executeSql('INSERT INTO receipts (message_id) VALUES (?)', [message.id], (tx, results) => {
-            captureMessage('>>>>>> INSERT Results :' + results.rowsAffected.toString);
-          });
+            tx.executeSql('INSERT INTO receipts (message_id) VALUES (?)', [message.id], (tx, results) => {
+              captureMessage('>>>>>> INSERT Results :' + results.rowsAffected.toString);
+            });
+          }
         }
       });
     });
