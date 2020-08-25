@@ -36,6 +36,7 @@ import {
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
+import {PollNotifications} from 'services/PollNotificationService';
 
 type BackgroundColor = keyof Theme['colors'];
 
@@ -174,6 +175,10 @@ export const HomeScreen = () => {
       });
     }
   }, [navigation]);
+
+  useEffect(() => {
+    PollNotifications.checkForNotifications();
+  }, [PollNotifications]);
 
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().
