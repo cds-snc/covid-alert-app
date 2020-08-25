@@ -2,13 +2,18 @@ import React, {createContext, useMemo, useContext, useRef, useEffect} from 'reac
 import {I18n as ReactI18n, I18nManager} from '@shopify/react-i18n';
 import {createStorageService, useStorage} from 'services/StorageService';
 import {captureException} from 'shared/log';
+import merge from 'deepmerge';
 
 import LOCALES from './translations';
 import FALLBACK_LOCALE from './translations/en.json';
+import REGION_CONTENT from './translations/region.json';
 
 export type I18n = Pick<ReactI18n, 'locale' | 'translate'>;
 
 const I18nContext = createContext<I18n | undefined>(undefined);
+
+const content: any = merge(LOCALES, REGION_CONTENT);
+const fallbackContent: any = merge(FALLBACK_LOCALE, REGION_CONTENT.en);
 
 export const createI18n = (locale: string) => {
   const i18nManager = new I18nManager({
@@ -18,7 +23,7 @@ export const createI18n = (locale: string) => {
     },
   });
   i18nManager.register({id: 'global'});
-  return new ReactI18n([LOCALES[locale], FALLBACK_LOCALE], {...i18nManager.details});
+  return new ReactI18n([content[locale], fallbackContent], {...i18nManager.details});
 };
 
 export const createBackgroundI18n = async (forceLocale?: string) => {

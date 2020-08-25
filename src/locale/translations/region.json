@@ -1,7 +1,7 @@
 {
   "Active": ["ON", "NL"],
   "en": {
-    "RegionalContent": {
+    "RegionContent": {
       "DiagnosedView": {
         "Active": {
           "ON": {
@@ -102,7 +102,7 @@
     }
   },
   "fr": {
-    "RegionalContent": {
+    "RegionContent": {
       "DiagnosedView": {
         "Active": {
           "ON": {
