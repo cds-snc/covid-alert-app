@@ -33,9 +33,9 @@
           }
         }
       },
-      "target_region": {
-        "type": "string",
-        "description": "Region (Province code) to display the notification within (CA for all)"
+      "target_regions": {
+        "type": "array",
+        "description": "Array of regions (Province code) to display the notification to (CA for all)"
       },
       "target_version": {
         "type": "string",
@@ -47,7 +47,7 @@
       },
       "expires_at": {
         "type": "string",
-        "description": "(optional) The expiry date for the message (optional)"
+        "description": "(optional) The expiry date for the message"
       }
     },
     "required": ["id", "title", "message", "target_region", "posted_at"]
