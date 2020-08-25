@@ -18,19 +18,19 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   const getGuidanceURL = useCallback(() => {
     if (region !== undefined && region !== 'None') {
       return regionCovered
-        ? i18n.translate(`Home.ExposureDetected.RegionCovered.${region}.RegionalGuidance.URL`)
-        : i18n.translate(`RegionalGuidance.${region}.URL`);
+        ? i18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
+        : i18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
     }
-    return i18n.translate(`RegionalGuidance.CA.URL`);
+    return i18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
   }, [i18n, region, regionCovered]);
 
   const getGuidanceCTA = useCallback(() => {
     if (region !== undefined && region !== 'None') {
       return regionCovered
-        ? i18n.translate(`Home.ExposureDetected.RegionCovered.${region}.RegionalGuidance.CTA`)
-        : i18n.translate(`RegionalGuidance.${region}.CTA`);
+        ? i18n.translate(`RegionContent.ExposureView.Active.${region}.CTA`)
+        : i18n.translate(`RegionContent.ExposureView.Inactive.${region}.CTA`);
     }
-    return i18n.translate(`RegionalGuidance.CA.CTA`);
+    return i18n.translate(`RegionContent.ExposureView.Inactive.CA.CTA`);
   }, [i18n, region, regionCovered]);
 
   const onActionGuidance = useCallback(() => {
