@@ -39,7 +39,7 @@
       },
       "target_version": {
         "type": "string",
-        "description": "(optional) App version that should receive the notification"
+        "description": "(optional) App version that should receive the notification using"
       },
       "posted_at": {
         "type": "string",
@@ -48,6 +48,10 @@
       "expires_at": {
         "type": "string",
         "description": "(optional) The expiry date for the message"
+      },
+      "priority": {
+        "type": "integer",
+        "description": "Priority of the message. Determines display order if multiple eligible notifications."
       }
     },
     "required": ["id", "title", "message", "target_region", "posted_at"]

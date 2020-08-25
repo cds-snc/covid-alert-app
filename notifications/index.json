@@ -12,7 +12,8 @@
       },
       "target_regions": ["NL"],
       "posted_at": "2020-08-25T13:13:47+00:00",
-      "expires_at": "2020-08-25T13:13:47+00:00"
+      "expires_at": "2020-08-25T13:13:47+00:00",
+      "priority": 1
     },
     {
       "id": "d865efb5-b8de-42e8-b100-6c814544f817",
@@ -27,7 +28,8 @@
       "target_regions": ["CA"],
       "target_version": "1.0.4",
       "posted_at": "2020-08-25T13:13:47+00:00",
-      "expires_at": "2020-08-25T13:13:47+00:00"
+      "expires_at": "2020-08-25T13:13:47+00:00",
+      "priority": 2
     }
   ]
 }
