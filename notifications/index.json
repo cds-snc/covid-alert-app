@@ -13,6 +13,21 @@
       "region": "NL",
       "posted_at": "2020-08-25T13:13:47+00:00",
       "expires_at": "2020-08-25T13:13:47+00:00"
+    },
+    {
+      "id": "d865efb5-b8de-42e8-b100-6c814544f817",
+      "title": {
+        "en": "Covid Alert has been updated",
+        "fr": "[title in french]"
+      },
+      "message": {
+        "en": "Update today to Covid Alert 1.0.5",
+        "fr": "[message in french]"
+      },
+      "region": "CA",
+      "version": "1.0.4",
+      "posted_at": "2020-08-25T13:13:47+00:00",
+      "expires_at": "2020-08-25T13:13:47+00:00"
     }
   ]
 }

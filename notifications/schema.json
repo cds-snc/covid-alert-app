@@ -1,0 +1,55 @@
+{
+  "message": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "The unique identifier for a message [guid]"
+      },
+      "title": {
+        "type": "object",
+        "description": "Bilingual title",
+        "properties": {
+          "en": {
+            "type": "string",
+            "description": "Title in English"
+          },
+          "fr": {
+            "type": "string",
+            "description": "Title in French"
+          }
+        }
+      },
+      "message": {
+        "type": "object",
+        "description": "Bilingual message body",
+        "properties": {
+          "en": {
+            "type": "string",
+            "description": "Message body in English"
+          },
+          "fr": {
+            "type": "string",
+            "description": "Message body in French"
+          }
+        }
+      },
+      "region": {
+        "type": "string",
+        "description": "Region (Province code) to display the notification within (CA for all)"
+      },
+      "target_version": {
+        "type": "string",
+        "description": "(optional) App version that should receive the notification"
+      },
+      "posted_at": {
+        "type": "string",
+        "description": "The date/time that the message was posted at (datetime)"
+      },
+      "expires_at": {
+        "type": "string",
+        "description": "(optional) The expiry date for the message (optional)"
+      }
+    },
+    "required": ["id", "title", "message", "region", "posted_at"]
+  }
+}
