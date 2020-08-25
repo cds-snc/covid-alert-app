@@ -67,9 +67,6 @@ export const useI18nRef = () => {
       translate: (id: any, optionsOrReplacements?: any, replacements?: any) => {
         return ref.current.translate(id, optionsOrReplacements, replacements) as any;
       },
-      getRegionContent: () => {
-        console.log();
-      },
     };
   }, []);
 };
