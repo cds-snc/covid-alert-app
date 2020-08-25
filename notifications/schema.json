@@ -33,7 +33,7 @@
           }
         }
       },
-      "region": {
+      "target_region": {
         "type": "string",
         "description": "Region (Province code) to display the notification within (CA for all)"
       },
@@ -50,6 +50,6 @@
         "description": "(optional) The expiry date for the message (optional)"
       }
     },
-    "required": ["id", "title", "message", "region", "posted_at"]
+    "required": ["id", "title", "message", "target_region", "posted_at"]
   }
 }

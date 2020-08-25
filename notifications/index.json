@@ -10,7 +10,7 @@
         "en": "If you live in Newfoundland and Labrador...",
         "fr": "[message in french]"
       },
-      "region": "NL",
+      "target_region": "NL",
       "posted_at": "2020-08-25T13:13:47+00:00",
       "expires_at": "2020-08-25T13:13:47+00:00"
     },
@@ -24,7 +24,7 @@
         "en": "Update today to Covid Alert 1.0.5",
         "fr": "[message in french]"
       },
-      "region": "CA",
+      "target_region": "CA",
       "target_version": "1.0.4",
       "posted_at": "2020-08-25T13:13:47+00:00",
       "expires_at": "2020-08-25T13:13:47+00:00"
