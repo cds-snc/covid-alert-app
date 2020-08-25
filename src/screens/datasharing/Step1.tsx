@@ -6,15 +6,11 @@ import {useNavigation} from '@react-navigation/native';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
-interface Props {
-  onSuccess: () => void;
-}
-
-export const Step1Screen = ({onSuccess}: Props) => {
+export const Step1Screen = () => {
   const i18n = useI18n();
+  const navigation = useNavigation();
   const onNext = useCallback(() => navigation.navigate('FormView'), [navigation]);
 
-  const navigation = useNavigation();
   const onNoCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
 
   return (

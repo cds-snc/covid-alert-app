@@ -17,34 +17,11 @@ export const DataSharingScreen = () => {
   const i18n = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const [exposureStatus] = useExposureStatus();
-  const [codeValue, setCodeValue] = useState('');
-  const handleChange = useCallback(text => setCodeValue(text), []);
   const acceptStep1 = useCallback(() => setIsConfirmedStep1(true), []);
 
   // if keySubmissionStatus is None we need the 1-time code, otherwise we should go right to consent
   const [isVerified, setIsVerified] = useState(exposureStatus.type === ExposureStatusType.Diagnosed);
   const [isConfirmedStep1, setIsConfirmedStep1] = useState(false);
-
-  const onErrorConsent = (error: any) => {
-    // TEK = Temporary Exposure Key
-    const getTranslationKey = (error: any) => {
-      if (Object.values(covidshield.EncryptedUploadResponse.ErrorCode).includes(error)) {
-        return 'TekUploadServer';
-      }
-      if (error === xhrError) {
-        return 'TekUploadOffline';
-      }
-      if (error === cannotGetTEKsError) {
-        return 'TekUploadPermission';
-      }
-      // default case
-      return 'TekUploadServer';
-    };
-    const translationKey = getTranslationKey(error);
-    Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
-      {text: i18n.translate(`Errors.Action`)},
-    ]);
-  };
 
   const handleVerify = useCallback(async () => {
     setIsVerified(true);
@@ -58,7 +35,7 @@ export const DataSharingScreen = () => {
     if (isVerified) {
       return <ConsentView onSuccess={handleUploaded} onError={onErrorConsent} />;
     } else if (!isVerified && isConfirmedStep1) {
-      return <FormView value={codeValue} onChange={handleChange} onSuccess={handleVerify} onError={onErrorForm} />;
+      return <FormView value={codeValue} onChange={handleChange} onSuccess={handleVerify} />;
     } else {
       return <Step1 onSuccess={acceptStep1} />;
     }

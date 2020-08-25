@@ -5,6 +5,7 @@ import {useReportDiagnosis, ExposureStatusType, useExposureStatus} from 'service
 import {Alert} from 'react-native';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
+import {useNavigation} from '@react-navigation/native';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
@@ -12,13 +13,13 @@ export const FormViewScreen = () => {
   const i18n = useI18n();
   const [codeValue, setCodeValue] = useState('');
   const handleChange = useCallback(text => setCodeValue(text), []);
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const {startSubmission} = useReportDiagnosis();
-  const [exposureStatus] = useExposureStatus();
-  const [isVerified, setIsVerified] = useState(exposureStatus.type === ExposureStatusType.Diagnosed);
-  const onSuccess = useCallback(async () => {
-    setIsVerified(true);
-  }, []);
+  // const [exposureStatus] = useExposureStatus();
+  // const [isVerified, setIsVerified] = useState(exposureStatus.type === ExposureStatusType.Diagnosed);
+  const onSuccess = useCallback(() => navigation.navigate('ConsentView'), [navigation]);
+
   const getTranslationKey = (error: any) => {
     // OTC = One time code (diagnosis code)
     switch (error) {
@@ -38,12 +39,12 @@ export const FormViewScreen = () => {
       Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
         {text: i18n.translate(`Errors.Action`)},
       ]);
-      setIsVerified(false);
+      // setIsVerified(false);
     },
     [i18n],
   );
 
-  const handleVerify = useCallback(async () => {
+  const onSubmit = useCallback(async () => {
     setLoading(true);
     try {
       await startSubmission(codeValue);
@@ -84,7 +85,7 @@ export const FormViewScreen = () => {
           disabled={codeValue.length < 10}
           variant="thinFlat"
           text={i18n.translate('DataUpload.FormView.Action')}
-          onPress={handleVerify}
+          onPress={onSubmit}
         />
       </Box>
     </BaseDataSharingView>
