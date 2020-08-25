@@ -21,13 +21,13 @@ export const NLView = () => {
         marginBottom="l"
         accessibilityRole="header"
       >
-        {i18n.translate('DataUpload.NoCode.RegionCovered.NL.Title')}
+        {i18n.translate('RegionContent.NoCode.Active.NL.Title')}
       </Text>
-      <TextMultiline marginBottom="l" text={i18n.translate('DataUpload.NoCode.RegionCovered.NL.Body')} />
+      <TextMultiline marginBottom="l" text={i18n.translate('RegionContent.NoCode.Active.NL.Body')} />
       <ButtonSingleLine
         testID="noCodeCTA"
         variant="bigFlat"
-        text={i18n.translate('DataUpload.NoCode.RegionCovered.NL.CTA')}
+        text={i18n.translate('RegionContent.NoCode.Active.NL.CTA')}
         onPress={onClick}
         externalLink
       />
