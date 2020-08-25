@@ -12,7 +12,7 @@ export const ONView = () => {
   const {region} = useStorage();
   const autoFocusRef = useAccessibilityAutoFocus(true);
   const onClick = () =>
-    Linking.openURL(i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Link`)).catch(error =>
+    Linking.openURL(i18n.translate(`RegionContent.NoCode.Active.${region}.Link`)).catch(error =>
       captureException('An error occurred', error),
     );
 
@@ -20,22 +20,22 @@ export const ONView = () => {
     {
       number: '1.',
       listAccessibile: 'listStart',
-      text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body2`),
+      text: i18n.translate(`RegionContent.NoCode.Active.${region}.Body2`),
     },
     {
       number: '2.',
       listAccessibile: 'item',
-      text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body3`),
+      text: i18n.translate(`RegionContent.NoCode.Active.${region}.Body3`),
     },
     {
       number: '3.',
       listAccessibile: 'item',
-      text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body4`),
+      text: i18n.translate(`RegionContent.NoCode.Active.${region}.Body4`),
     },
     {
       number: '4.',
       listAccessibile: 'listEnd',
-      text: i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body5`),
+      text: i18n.translate(`RegionContent.NoCode.Active.${region}.Body5`),
     },
   ];
   return (
@@ -47,9 +47,9 @@ export const ONView = () => {
         marginBottom="l"
         accessibilityRole="header"
       >
-        {i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Title`)}
+        {i18n.translate(`RegionContent.NoCode.Active.${region}.Title`)}
       </Text>
-      <TextMultiline marginBottom="l" text={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.Body`)} />
+      <TextMultiline marginBottom="l" text={i18n.translate(`RegionContent.NoCode.Active.${region}.Body`)} />
       {coveredList.map(item => (
         <BulletPointOrdered
           key={item.text}
@@ -61,7 +61,7 @@ export const ONView = () => {
       <ButtonSingleLine
         testID="noCodeCTA"
         variant="bigFlat"
-        text={i18n.translate(`DataUpload.NoCode.RegionCovered.${region}.CTA`)}
+        text={i18n.translate(`RegionContent.NoCode.Active.${region}.CTA`)}
         onPress={onClick}
         externalLink
       />

@@ -22,7 +22,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         : i18n.translate(`RegionalGuidance.${region}.URL`);
     }
     return i18n.translate(`RegionalGuidance.CA.URL`);
-  }, [i18n, region]);
+  }, [i18n, region, regionCovered]);
 
   const getGuidanceCTA = useCallback(() => {
     if (region !== undefined && region !== 'None') {
@@ -31,7 +31,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         : i18n.translate(`RegionalGuidance.${region}.CTA`);
     }
     return i18n.translate(`RegionalGuidance.CA.CTA`);
-  }, [i18n, region]);
+  }, [i18n, region, regionCovered]);
 
   const onActionGuidance = useCallback(() => {
     Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
