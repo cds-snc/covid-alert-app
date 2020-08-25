@@ -16,6 +16,8 @@ import {Region} from '../../shared/Region';
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
+import regionContent from '../../locale/translations/region.json';
+
 const MAX_UPLOAD_KEYS = 14;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 const TRANSMISSION_RISK_LEVEL = 1;
@@ -48,6 +50,10 @@ export class BackendService implements BackendInterface {
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${periodStr}/${hmac}`;
     captureMessage('retrieveDiagnosisKeys', {period, url});
     return downloadDiagnosisKeysFile(url);
+  }
+
+  async getRegionContent() {
+    return regionContent;
   }
 
   async getExposureConfiguration() {
