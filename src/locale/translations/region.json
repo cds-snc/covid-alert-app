@@ -12,9 +12,11 @@
             }
           },
           "NL": {
-            "Body": "You need to self-isolate and follow advice from public health.",
-            "CTA": "How to self-isolate",
-            "URL": "https://www.gov.nl.ca/covid-19/individuals-and-households/self-isolation-and-self-monitoring/"
+            "Tip": {
+              "Body": "You need to self-isolate and follow advice from public health.",
+              "CTA": "How to self-isolate",
+              "URL": "https://www.gov.nl.ca/covid-19/individuals-and-households/self-isolation-and-self-monitoring/"
+            }
           }
         }
       },
@@ -48,64 +50,65 @@
             "RegionalGuidance": {
               "CTA": "Find out what to do next",
               "URL": "https://www.gov.nl.ca/covid-19/exposed/"
-          }
-        },
-        "Default": {
-          "CA": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://ca.thrive.health/covid19/en"
+            }
           },
-          "AB": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://myhealth.alberta.ca/Journey/COVID-19/Pages/PubAsympIsolate.aspx"
-          },
-          "BC": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://bc.thrive.health/covid19/en"
-          },
-          "MB": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://sharedhealthmb.ca/covid19/screening-tool/"
-          },
-          "NB": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://www2.gnb.ca/content/gnb/en/departments/ocmoh/cdc/content/respiratory_diseases/coronavirus/coronavirusexposure.html#/app/symptom-checker/guides/399/what-to-do"
-          },
-          "NL": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://nl.thrive.health/covid19/en"
-          },
-          "NT": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://www.gov.nt.ca/covid-19/en/services/nwt-online-covid-19-self-assessment-tool"
-          },
-          "NS": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://novascotia.ca/coronavirus/when-to-seek-help/#if-exposed"
-          },
-          "NU": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://nu.thrive.health/covid19/en"
-          },
-          "ON": {
-            "CTA": "Find out what to do next",
-            "URL": "https://ontario.ca/covidalert-exposed"
-          },
-          "PE": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-19-self-isolation"
-          },
-          "QC": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/instructions-for-people-who-have-been-in-contact-with-a-confirmed-case-of-covid-19/"
-          },
-          "SK": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/covid-19-self-assessment"
-          },
-          "YT": {
-            "CTA": "Find out if you need to be tested",
-            "URL": "https://service.yukon.ca/en/covid-19-self-assessment/"
+          "Default": {
+            "CA": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://ca.thrive.health/covid19/en"
+            },
+            "AB": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://myhealth.alberta.ca/Journey/COVID-19/Pages/PubAsympIsolate.aspx"
+            },
+            "BC": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://bc.thrive.health/covid19/en"
+            },
+            "MB": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://sharedhealthmb.ca/covid19/screening-tool/"
+            },
+            "NB": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://www2.gnb.ca/content/gnb/en/departments/ocmoh/cdc/content/respiratory_diseases/coronavirus/coronavirusexposure.html#/app/symptom-checker/guides/399/what-to-do"
+            },
+            "NL": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://nl.thrive.health/covid19/en"
+            },
+            "NT": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://www.gov.nt.ca/covid-19/en/services/nwt-online-covid-19-self-assessment-tool"
+            },
+            "NS": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://novascotia.ca/coronavirus/when-to-seek-help/#if-exposed"
+            },
+            "NU": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://nu.thrive.health/covid19/en"
+            },
+            "ON": {
+              "CTA": "Find out what to do next",
+              "URL": "https://ontario.ca/covidalert-exposed"
+            },
+            "PE": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-19-self-isolation"
+            },
+            "QC": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/instructions-for-people-who-have-been-in-contact-with-a-confirmed-case-of-covid-19/"
+            },
+            "SK": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/covid-19-self-assessment"
+            },
+            "YT": {
+              "CTA": "Find out if you need to be tested",
+              "URL": "https://service.yukon.ca/en/covid-19-self-assessment/"
+            }
           }
         }
       }
@@ -123,9 +126,11 @@
             }
           },
           "NL": {
-            "Body": "Vous devez vous isoler et suivre les recommandations de santé publique.",
-            "CTA": "Comment vous isoler (lien en anglais)",
-            "URL": "https://www.gov.nl.ca/covid-19/individuals-and-households/self-isolation-and-self-monitoring/"
+            "Tip": {
+              "Body": "Vous devez vous isoler et suivre les recommandations de santé publique.",
+              "CTA": "Comment vous isoler (lien en anglais)",
+              "URL": "https://www.gov.nl.ca/covid-19/individuals-and-households/self-isolation-and-self-monitoring/"
+            }
           }
         }
       },

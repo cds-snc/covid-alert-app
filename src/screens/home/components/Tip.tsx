@@ -16,16 +16,16 @@ export const Tip = () => {
         <Box flex={1}>
           <Text>
             <Text fontWeight="bold">{i18n.translate('Home.DiagnosedView.Tip.Title')}</Text>
-            <Text>{i18n.translate(`Home.DiagnosedView.Tip.${region}.Body`)}</Text>
+            <Text>{i18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.Body`)}</Text>
           </Text>
         </Box>
       </Box>
       <Box paddingHorizontal="m" paddingTop="s">
         <ButtonSingleLine
-          text={i18n.translate(`Home.DiagnosedView.Tip.${region}.CTA`)}
+          text={i18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.CTA`)}
           variant="thinFlatNeutralGrey"
           externalLink
-          onPress={() => Linking.openURL(i18n.translate(`Home.DiagnosedView.Tip.${region}.URL`))}
+          onPress={() => Linking.openURL(i18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.URL`))}
         />
       </Box>
     </Box>
