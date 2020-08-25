@@ -40,3 +40,7 @@ The mobile app will store read receipts in a local SQLite database
 - Can optionally provide a target_version for app version-specific display (ie, update available!)
   - The version can use semver version comparators/ranges (ie, >, >=, <, etc...)
 - Version and Region checks are run locally
+
+## Other considerations
+
+- Is there a way we can check for new notifications before downloading the full notifications feed to limit bandwidth usage? Maybe a modified header that can be stored locally after download?
