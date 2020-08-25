@@ -33,7 +33,7 @@ describe('CodeInput', () => {
   });
 
   it('returns trimmed text', async () => {
-    const textInput = componentQuery.getByHintText('codeInput');
+    const textInput = componentQuery.getByTestId('textInput');
     fireEvent.changeText(textInput, ' MYSECRETCODE ');
     expect(changeMock).toHaveBeenCalledWith('MYSECRETCODE');
   });
