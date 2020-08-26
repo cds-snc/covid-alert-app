@@ -7,6 +7,8 @@
  *
  * @format
  */
+import crypto from 'crypto';
+
 import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
@@ -19,11 +21,12 @@ import {DemoMode} from 'testMode';
 import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
-import {I18nProvider} from 'locale';
-import {RegionalProvider} from 'locale';
+import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, captureException} from 'shared/log';
+
+import {RegionContent} from './shared/Region';
 
 // grabs the ip address
 if (__DEV__) {
@@ -42,28 +45,40 @@ const appInit = async () => {
 };
 
 const App = () => {
-  const [regionContent, setRegionContent] = useState<IFetchData>({payload: {en: '', fr: ''}});
+  const initialRegionContent: RegionContent = {Active: 'None', en: '', fr: ''};
+
+  const storageService = useStorageService();
+  const backendService = useMemo(
+    () => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region),
+    [],
+  );
+  const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const content = await backendService.getRegionContent();
+        const downloadedContent: RegionContent = await backendService.getRegionContent();
         captureMessage('server content ready');
-        setRegionContent({payload: content});
+        const initialRegionContentHash = crypto
+          .createHash('md5')
+          .update(JSON.stringify(initialRegionContent))
+          .digest('hex');
+        const newRegionContentHash = crypto
+          .createHash('md5')
+          .update(JSON.stringify(downloadedContent))
+          .digest('hex');
+        if (initialRegionContentHash !== newRegionContentHash) {
+          setRegionContent({payload: downloadedContent});
+        }
         appInit();
-      } catch (e) {
+      } catch (error) {
         appInit();
-        captureException(e.message, e);
+        captureException(error.message, error);
       }
     };
 
     fetchData();
-  }, []);
-
-  const storageService = useStorageService();
-  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region), [
-    storageService,
-  ]);
+  }, [backendService, initialRegionContent]);
 
   return (
     <I18nProvider>
