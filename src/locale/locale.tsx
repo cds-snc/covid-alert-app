@@ -6,14 +6,13 @@ import merge from 'deepmerge';
 
 import LOCALES from './translations';
 import FALLBACK_LOCALE from './translations/en.json';
-import REGION_CONTENT from './translations/region.json';
 
 export type I18n = Pick<ReactI18n, 'locale' | 'translate'>;
 
 const I18nContext = createContext<I18n | undefined>(undefined);
 
-const content: any = merge(LOCALES, REGION_CONTENT);
-const fallbackContent: any = merge(FALLBACK_LOCALE, REGION_CONTENT.en);
+let content: any;
+let fallbackContent: any;
 
 export const createI18n = (locale: string) => {
   const i18nManager = new I18nManager({
@@ -34,10 +33,19 @@ export const createBackgroundI18n = async (forceLocale?: string) => {
 
 export interface I18nProviderProps {
   locale?: string;
+  regionContent?: any;
   children?: React.ReactElement;
 }
 
-export const I18nProvider = ({locale: forceLocale, children}: I18nProviderProps) => {
+export const I18nProvider = ({locale: forceLocale, regionContent, children}: I18nProviderProps) => {
+  if (regionContent) {
+    content = merge(LOCALES, regionContent);
+    fallbackContent = merge(FALLBACK_LOCALE, regionContent.en);
+  } else {
+    content = LOCALES;
+    fallbackContent = FALLBACK_LOCALE;
+  }
+
   const {locale: persistedLocale} = useStorage();
   const locale = forceLocale || persistedLocale;
   const i18n = useMemo(() => createI18n(locale), [locale]);

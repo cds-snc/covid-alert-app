@@ -32,15 +32,20 @@ if (__DEV__) {
     .connect();
 }
 
-const appInit = async () => {
+let regionContent: any = null;
+
+const appInit = async (backendService: BackendService) => {
   captureMessage('App.appInit()');
+  if (backendService) {
+    regionContent = backendService.getRegionContent();
+  }
   // only hide splash screen after our init is done
   SplashScreen.hide();
 };
 
 const App = () => {
   useEffect(() => {
-    appInit();
+    appInit(backendService);
   }, []);
 
   const storageService = useStorageService();
@@ -49,7 +54,7 @@ const App = () => {
   ]);
 
   return (
-    <I18nProvider>
+    <I18nProvider regionContent={regionContent}>
       <ExposureNotificationServiceProvider backendInterface={backendService}>
         <DevPersistedNavigationContainer persistKey="navigationState">
           <AccessibilityServiceProvider>
