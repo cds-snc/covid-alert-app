@@ -2,7 +2,7 @@ export type Region = 'AB' | 'BC' | 'MB' | 'NB' | 'NL' | 'NT' | 'NS' | 'NU' | 'ON
 export type RegionCase = 'regionNotActive' | 'noRegionSet' | 'regionActive';
 
 export interface RegionContent {
-  Active: Region | Region[];
+  Active: Region[];
   en: any;
   fr: any;
 }
