@@ -22,7 +22,7 @@ import {BackendService} from 'services/BackendService';
 import {I18nProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage} from 'shared/log';
+import {captureMessage, captureException} from 'shared/log';
 
 // grabs the ip address
 if (__DEV__) {
@@ -37,8 +37,14 @@ let regionContent: any = null;
 const appInit = async (backendService: BackendService) => {
   captureMessage('App.appInit()');
   if (backendService) {
-    regionContent = backendService.getRegionContent();
+    try {
+      regionContent = await backendService.getRegionContent();
+    } catch (e) {
+      captureException(e.message, e);
+    }
   }
+
+  console.log(regionContent);
   // only hide splash screen after our init is done
   SplashScreen.hide();
 };
