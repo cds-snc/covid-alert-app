@@ -3,7 +3,7 @@ import {useStorage} from 'services/StorageService';
 
 type RegionalProviderProps = {
   content?: any;
-  translate: () => void;
+  translate?: () => void;
   children?: React.ReactElement;
 };
 
