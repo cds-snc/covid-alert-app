@@ -300,6 +300,13 @@
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
       "Action": "Agree"
     },
+    "SymptomOnsetDate": {
+      "Title": "Date you started feeling sick",
+      "Body1": "Enter the date you first noticed you were not feeling well.",
+      "Body2": "This information will never be shared from your phone.",
+      "Body3": "The app will only share exposures from 2 days before this date until today. People will be notified they’ve been exposed.",
+      "CTA": "Share exposures"
+    },
     "NoCode": {
       "NoRegion": {
         "Title": "You skipped choosing province or territory",
