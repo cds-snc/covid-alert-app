@@ -3,8 +3,7 @@ import PushNotification from 'bridge/PushNotification';
 import {openDatabase} from 'react-native-sqlite-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
-
-const semver = require('semver');
+import semver from 'semver';
 
 const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/2';
 
@@ -14,7 +13,7 @@ const checkForNotifications = async () => {
   const selectedLocale = (await AsyncStorage.getItem('Locale')) || 'en';
 
   // For testing only
-  db.executeSql('DELETE FROM receipts');
+  clearNotificationReceipts();
 
   // Fetch messages from api
   const messages = await fetchNotifications();
@@ -43,6 +42,11 @@ const checkForNotifications = async () => {
       });
     });
   });
+};
+
+const clearNotificationReceipts = async () => {
+  const db = await getDbConnection();
+  db.executeSql('DELETE FROM receipts');
 };
 
 // Validate that there is a locale-specific message
@@ -108,4 +112,5 @@ const fetchNotifications = async () => {
 
 export const PollNotifications = {
   checkForNotifications,
+  clearNotificationReceipts,
 };
