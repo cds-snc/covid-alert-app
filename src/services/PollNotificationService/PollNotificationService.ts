@@ -1,52 +1,59 @@
 import {captureException} from 'shared/log';
 import PushNotification from 'bridge/PushNotification';
-import {openDatabase} from 'react-native-sqlite-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
 import semver from 'semver';
 
-const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/2';
+const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
+const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/6';
 
 const checkForNotifications = async () => {
-  const db = await getDbConnection();
   const selectedRegion = (await AsyncStorage.getItem('Region')) || 'CA';
   const selectedLocale = (await AsyncStorage.getItem('Locale')) || 'en';
-
-  // For testing only
-  clearNotificationReceipts();
+  const readReceipts = await getReadReceipts();
 
   // Fetch messages from api
   const messages = await fetchNotifications();
 
   messages.forEach(async (message: any) => {
-    // check local storage for read receipt
-    db.transaction(function(tx) {
-      tx.executeSql('SELECT * FROM receipts where message_id = ?', [message.id], (tx, results) => {
-        if (!results.rows.length) {
-          // no receipt found, check display constraints
-          if (
-            checkRegion(message.target_regions, selectedRegion) &&
-            checkVersion(message.target_version, APP_VERSION_NAME) &&
-            checkDate(message.expires_at) &&
-            checkMessage(message, selectedLocale)
-          ) {
-            PushNotification.presentLocalNotification({
-              alertTitle: message.title[selectedLocale],
-              alertBody: message.message[selectedLocale],
-            });
+    if (!readReceipts.includes(message.id)) {
+      if (
+        checkRegion(message.target_regions, selectedRegion) &&
+        checkVersion(message.target_version, APP_VERSION_NAME) &&
+        checkDate(message.expires_at) &&
+        checkMessage(message, selectedLocale)
+      ) {
+        PushNotification.presentLocalNotification({
+          alertTitle: message.title[selectedLocale],
+          alertBody: message.message[selectedLocale],
+        });
 
-            // save read receipt
-            tx.executeSql('INSERT INTO receipts (message_id) VALUES (?)', [message.id]);
-          }
-        }
-      });
-    });
+        // push message id onto readReceipts
+        readReceipts.push(message.id);
+      }
+    }
   });
+
+  // Save read receipts back to storage
+  saveReadReceipts(readReceipts);
+};
+
+const getReadReceipts = async () => {
+  const readReceipts = await AsyncStorage.getItem(READ_RECEIPTS_KEY);
+
+  if (readReceipts) {
+    return JSON.parse(readReceipts);
+  }
+
+  return [];
+};
+
+const saveReadReceipts = async (receipts: string[]) => {
+  await AsyncStorage.setItem(READ_RECEIPTS_KEY, JSON.stringify(receipts));
 };
 
 const clearNotificationReceipts = async () => {
-  const db = await getDbConnection();
-  db.executeSql('DELETE FROM receipts');
+  await AsyncStorage.removeItem(READ_RECEIPTS_KEY);
 };
 
 // Validate that there is a locale-specific message
@@ -66,7 +73,7 @@ const checkDate = (target: string) => {
 // If a version constraint is provided, check the current app version against it
 const checkVersion = (target: string, current: string) => {
   // Normalize the version string
-  const currentVersion = semver.valid(semver.coerce(current));
+  const currentVersion = semver.valid(semver.coerce(current)) || '';
 
   // If no target version provided, display to all
   if (target === undefined) {
@@ -84,19 +91,6 @@ const checkRegion = (target: string[], selected: string) => {
   }
 
   return false;
-};
-
-// Bootstrap the database and return a connection
-const getDbConnection = async () => {
-  // openDatabase will create the file if it doesn't already exist
-  const db = await openDatabase({name: 'CovidAlert.db', location: 'default'});
-
-  // Make sure the receipts table exists
-  db.transaction(function(txn) {
-    txn.executeSql('CREATE TABLE IF NOT EXISTS receipts(id integer primary key autoincrement, message_id text)', []);
-  });
-
-  return db;
 };
 
 // Fetch notifications from the endpoint
