@@ -1,6 +1,7 @@
 import React, {createContext, useContext} from 'react';
 import {useStorage} from 'services/StorageService';
 import {resolveObjectPath} from '../shared/resolveObjectPath';
+import {captureMessage} from 'shared/log';
 
 type RegionalProviderProps = {
   content?: any;
@@ -13,11 +14,12 @@ export const createRegionalI18n = (locale: string, content: any) => {
     locale: locale,
     content: content,
     translate: (id: string) => {
-      console.log('translate', id, content[locale][`${id}`]);
-
-      //console.log(resolveObjectPath(`${}`))
       try {
-        return content[locale].RegionContent.ExposureView.Active.NL.CTA;
+        const str = resolveObjectPath(`${locale}.${id}`, content);
+        if (!str || str === '') {
+          captureMessage(`String not found ${str}`);
+        }
+        return str;
       } catch (e) {
         return 'not ready';
       }
