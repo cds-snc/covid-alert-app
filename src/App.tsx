@@ -45,8 +45,6 @@ const App = () => {
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: {en: '', fr: ''}});
 
   useEffect(() => {
-    setRegionContent({payload: regionContent.payload});
-
     const fetchData = async () => {
       try {
         const content = await backendService.getRegionContent();
