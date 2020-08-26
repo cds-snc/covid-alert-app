@@ -5,9 +5,11 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {Linking} from 'react-native';
 import {captureException} from 'shared/log';
 import {useStorage} from 'services/StorageService';
+import {useRegionalI18n} from 'locale/regional';
 
 export const ActiveParagraphView = () => {
   const i18n = useI18n();
+  const regionalI18n = useRegionalI18n();
   const {region} = useStorage();
   const autoFocusRef = useAccessibilityAutoFocus(true);
   const onClick = () =>
@@ -23,13 +25,13 @@ export const ActiveParagraphView = () => {
         marginBottom="l"
         accessibilityRole="header"
       >
-        {i18n.translate(`RegionContent.NoCode.Active.${region}.Title`)}
+        {regionalI18n.translate(`RegionContent.NoCode.Active.${region}.Title`)}
       </Text>
-      <TextMultiline marginBottom="l" text={i18n.translate(`RegionContent.NoCode.Active.${region}.Body`)} />
+      <TextMultiline marginBottom="l" text={regionalI18n.translate(`RegionContent.NoCode.Active.${region}.Body`)} />
       <ButtonSingleLine
         testID="noCodeCTA"
         variant="bigFlat"
-        text={i18n.translate(`RegionContent.NoCode.Active.${region}.CTA`)}
+        text={regionalI18n.translate(`RegionContent.NoCode.Active.${region}.CTA`)}
         onPress={onClick}
         externalLink
       />
