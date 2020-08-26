@@ -68,14 +68,6 @@ const App = () => {
     storageService,
   ]);
 
-  console.log('*************  regionContent *************');
-  try {
-    console.log(regionContent.payload.en.RegionContent.ExposureView.Active.NL.CTA);
-  } catch (e) {
-    console.log('not yet');
-  }
-  console.log('*******************************************');
-
   return (
     <I18nProvider regionContent={regionContent.payload}>
       <RegionalProvider content={regionContent.payload}>

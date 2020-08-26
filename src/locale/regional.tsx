@@ -3,7 +3,7 @@ import {useStorage} from 'services/StorageService';
 
 type RegionalProviderProps = {
   content?: any;
-  translate?: () => void;
+  translate: (id: string) => string;
   children?: React.ReactElement;
 };
 
@@ -11,9 +11,10 @@ export const createRegionalI18n = (locale: string, content: any) => {
   return {
     locale: locale,
     content: content,
-    translate: () => {
+    translate: (id: string) => {
+      console.log('translate', id, content[locale][`${id}`]);
       try {
-        return 'got it ' + locale + '' + JSON.stringify(content[locale].RegionContent.ExposureView.Active.NL.URL);
+        return content[locale].RegionContent.ExposureView.Active.NL.CTA;
       } catch (e) {
         return 'not ready';
       }
