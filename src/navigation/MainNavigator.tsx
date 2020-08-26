@@ -83,10 +83,7 @@ const OnboardingNavigator = () => {
 const DataSharingStack = createStackNavigator();
 const DataSharingNavigator = () => {
   return (
-    <DataSharingStack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName={isDiagnosed ? 'ConsentView' : 'Step1'}
-    >
+    <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step1">
       <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
       <DataSharingStack.Screen name="FormView" component={FormViewScreenWithNavBar} />
       <DataSharingStack.Screen name="ConsentView" component={ConsentViewScreenWithNavBar} />
