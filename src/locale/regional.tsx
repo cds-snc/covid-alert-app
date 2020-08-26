@@ -13,17 +13,12 @@ export const createRegionalI18n = (locale: string, content: any) => {
   return {
     locale: locale,
     content: content,
-    translate: (id: string) => {
-      try {
-        const str = resolveObjectPath(`${locale}.${id}`, content);
-        if (!str || str === '') {
-          captureMessage(`String not found ${id}`);
-        }
-        captureMessage(`String found ${id}`);
-        return str;
-      } catch (e) {
-        return 'not ready';
+    translate: (id: string): string => {
+      const str = resolveObjectPath(`${locale}.${id}`, content);
+      if (!str || str === '') {
+        captureMessage(`String not found ${id}`);
       }
+      return str;
     },
   };
 };
