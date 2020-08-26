@@ -17,8 +17,9 @@ export const createRegionalI18n = (locale: string, content: any) => {
       try {
         const str = resolveObjectPath(`${locale}.${id}`, content);
         if (!str || str === '') {
-          captureMessage(`String not found ${str}`);
+          captureMessage(`String not found ${id}`);
         }
+        captureMessage(`String found ${id}`);
         return str;
       } catch (e) {
         return 'not ready';
