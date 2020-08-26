@@ -2,7 +2,6 @@ import React, {createContext, useMemo, useContext, useRef, useEffect} from 'reac
 import {I18n as ReactI18n, I18nManager} from '@shopify/react-i18n';
 import {createStorageService, useStorage} from 'services/StorageService';
 import {captureException} from 'shared/log';
-import merge from 'deepmerge';
 
 import LOCALES from './translations';
 import FALLBACK_LOCALE from './translations/en.json';
@@ -10,9 +9,6 @@ import FALLBACK_LOCALE from './translations/en.json';
 export type I18n = Pick<ReactI18n, 'locale' | 'translate'>;
 
 const I18nContext = createContext<I18n | undefined>(undefined);
-
-let content: any;
-let fallbackContent: any;
 
 export const createI18n = (locale: string) => {
   const i18nManager = new I18nManager({
@@ -22,7 +18,7 @@ export const createI18n = (locale: string) => {
     },
   });
   i18nManager.register({id: 'global'});
-  return new ReactI18n([content[locale], fallbackContent], {...i18nManager.details});
+  return new ReactI18n([LOCALES[locale], FALLBACK_LOCALE], {...i18nManager.details});
 };
 
 export const createBackgroundI18n = async (forceLocale?: string) => {
@@ -33,19 +29,10 @@ export const createBackgroundI18n = async (forceLocale?: string) => {
 
 export interface I18nProviderProps {
   locale?: string;
-  regionContent?: any;
   children?: React.ReactElement;
 }
 
-export const I18nProvider = ({locale: forceLocale, regionContent, children}: I18nProviderProps) => {
-  if (regionContent) {
-    content = merge(LOCALES, regionContent);
-    fallbackContent = merge(FALLBACK_LOCALE, regionContent.en);
-  } else {
-    content = LOCALES;
-    fallbackContent = FALLBACK_LOCALE;
-  }
-
+export const I18nProvider = ({locale: forceLocale, children}: I18nProviderProps) => {
   const {locale: persistedLocale} = useStorage();
   const locale = forceLocale || persistedLocale;
   const i18n = useMemo(() => createI18n(locale), [locale]);
