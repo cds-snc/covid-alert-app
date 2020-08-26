@@ -1,4 +1,4 @@
-import {captureException, captureMessage} from 'shared/log';
+import {captureException} from 'shared/log';
 import PushNotification from 'bridge/PushNotification';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
@@ -14,7 +14,6 @@ const checkForNotifications = async () => {
 
   // Fetch messages from api
   const messages = await fetchNotifications();
-  captureMessage('Fetched Messages', messages);
 
   messages.forEach(async (message: any) => {
     if (!readReceipts.includes(message.id)) {
