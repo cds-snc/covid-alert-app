@@ -1,11 +1,11 @@
-import {captureException} from 'shared/log';
+import {captureException, captureMessage} from 'shared/log';
 import PushNotification from 'bridge/PushNotification';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
 import semver from 'semver';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
-const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/2';
+const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/8';
 
 const checkForNotifications = async () => {
   const selectedRegion = (await AsyncStorage.getItem('Region')) || 'CA';
@@ -14,6 +14,7 @@ const checkForNotifications = async () => {
 
   // Fetch messages from api
   const messages = await fetchNotifications();
+  captureMessage('Fetched Messages', messages);
 
   messages.forEach(async (message: any) => {
     if (!readReceipts.includes(message.id)) {
