@@ -32,10 +32,8 @@ if (__DEV__) {
     .useReactNative()
     .connect();
 }
-
-export interface IFetchData {
+interface IFetchData {
   payload: any;
-  isFetching: boolean;
 }
 
 const appInit = async () => {
@@ -44,17 +42,17 @@ const appInit = async () => {
 };
 
 const App = () => {
-  const [regionContent, setRegionContent] = useState<IFetchData>({payload: {en: '', fr: ''}, isFetching: false});
+  const [regionContent, setRegionContent] = useState<IFetchData>({payload: {en: '', fr: ''}});
 
   useEffect(() => {
-    setRegionContent({payload: regionContent.payload, isFetching: true});
+    setRegionContent({payload: regionContent.payload});
 
     const fetchData = async () => {
       try {
-        setRegionContent({payload: await backendService.getRegionContent(), isFetching: true});
+        setRegionContent({payload: await backendService.getRegionContent()});
         appInit();
       } catch (e) {
-        setRegionContent({payload: {error: e.message}, isFetching: false});
+        setRegionContent({payload: {error: e.message}});
         appInit();
         captureException(e.message, e);
       }
