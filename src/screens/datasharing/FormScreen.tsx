@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Box, CodeInput, Text, Button} from 'components';
 import {useI18n} from 'locale';
-import {useReportDiagnosis, ExposureStatusType, useExposureStatus} from 'services/ExposureNotificationService';
+import {useReportDiagnosis} from 'services/ExposureNotificationService';
 import {Alert} from 'react-native';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
@@ -16,8 +16,6 @@ export const FormScreen = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const {startSubmission} = useReportDiagnosis();
-  // const [exposureStatus] = useExposureStatus();
-  // const [isVerified, setIsVerified] = useState(exposureStatus.type === ExposureStatusType.Diagnosed);
   const onSuccess = useCallback(() => navigation.navigate('ConsentView'), [navigation]);
 
   const getTranslationKey = (error: any) => {
@@ -39,7 +37,6 @@ export const FormScreen = () => {
       Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
         {text: i18n.translate(`Errors.Action`)},
       ]);
-      // setIsVerified(false);
     },
     [i18n],
   );
