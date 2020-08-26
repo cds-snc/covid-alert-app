@@ -5,7 +5,7 @@ import {APP_VERSION_NAME} from 'env';
 import semver from 'semver';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
-const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/6';
+const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/2';
 
 const checkForNotifications = async () => {
   const selectedRegion = (await AsyncStorage.getItem('Region')) || 'CA';

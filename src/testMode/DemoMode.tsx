@@ -14,6 +14,7 @@ import {
 } from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 import {setLogUUID, getLogUUID, captureMessage} from 'shared/log';
+import {PollNotifications} from 'services/PollNotificationService';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -99,6 +100,14 @@ const DrawerContent = () => {
     });
   }, [i18n]);
 
+  const onClearReadReceipts = useCallback(() => {
+    PollNotifications.clearNotificationReceipts();
+  }, []);
+
+  const onPollNotifications = useCallback(() => {
+    PollNotifications.checkForNotifications();
+  }, []);
+
   const exposureNotificationService = useExposureNotificationService();
   const [, updateExposureStatus] = useExposureStatus();
 
@@ -168,6 +177,12 @@ const DrawerContent = () => {
         </Section>
         <Section>
           <Button text="Clear data" onPress={reset} variant="danger50Flat" />
+        </Section>
+        <Section>
+          <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
+        </Section>
+        <Section>
+          <Button text="Clear notification receipts" onPress={onClearReadReceipts} variant="bigFlat" />
         </Section>
         <Section>
           <Item title={`Version: ${APP_VERSION_NAME} (${APP_VERSION_CODE})`} />
