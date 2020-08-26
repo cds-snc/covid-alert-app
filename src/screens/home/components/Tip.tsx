@@ -3,9 +3,11 @@ import {Box, ButtonSingleLine, Icon, Text} from 'components';
 import {Linking} from 'react-native';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
+import {useRegionalI18n} from 'locale/regional';
 
 export const Tip = () => {
   const i18n = useI18n();
+  const regionalI18n = useRegionalI18n();
   const {region} = useStorage();
   return (
     <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="m" marginBottom="m">
@@ -16,16 +18,18 @@ export const Tip = () => {
         <Box flex={1}>
           <Text>
             <Text fontWeight="bold">{i18n.translate('Home.DiagnosedView.Tip.Title')}</Text>
-            <Text>{i18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.Body`)}</Text>
+            <Text>{regionalI18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.Body`)}</Text>
           </Text>
         </Box>
       </Box>
       <Box paddingHorizontal="m" paddingTop="s">
         <ButtonSingleLine
-          text={i18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.CTA`)}
+          text={regionalI18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.CTA`)}
           variant="thinFlatNeutralGrey"
           externalLink
-          onPress={() => Linking.openURL(i18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.URL`))}
+          onPress={() =>
+            Linking.openURL(regionalI18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.URL`))
+          }
         />
       </Box>
     </Box>

@@ -7,9 +7,9 @@ import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {captureException} from 'shared/log';
 import {isRegionCovered} from 'shared/RegionLogic';
+import {useRegionalI18n} from 'locale/regional';
 
 import {BaseHomeView} from '../components/BaseHomeView';
-import {useRegionalI18n} from 'locale/regional';
 
 export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const {region} = useStorage();
@@ -20,20 +20,20 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   const getGuidanceURL = useCallback(() => {
     if (region !== undefined && region !== 'None') {
       return regionCovered
-        ? i18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
-        : i18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
+        ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
+        : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
     }
     return i18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
-  }, [i18n, region, regionCovered]);
+  }, [i18n, region, regionCovered, regionalI18n]);
 
   const getGuidanceCTA = useCallback(() => {
     if (region !== undefined && region !== 'None') {
       return regionCovered
         ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.CTA`)
-        : i18n.translate(`RegionContent.ExposureView.Inactive.${region}.CTA`);
+        : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.CTA`);
     }
-    return i18n.translate(`RegionContent.ExposureView.Inactive.CA.CTA`);
-  }, [i18n, region, regionCovered]);
+    return regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.CTA`);
+  }, [region, regionCovered, regionalI18n]);
 
   const onActionGuidance = useCallback(() => {
     Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
