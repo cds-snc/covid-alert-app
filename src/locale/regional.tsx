@@ -4,8 +4,8 @@ import {resolveObjectPath} from '../shared/resolveObjectPath';
 import {captureMessage} from 'shared/log';
 
 type RegionalProviderProps = {
-  content?: any;
-  translate: (id: string) => string;
+  regionContent?: any;
+  translate?: (id: string) => string;
   children?: React.ReactElement;
 };
 
@@ -30,11 +30,10 @@ export const createRegionalI18n = (locale: string, content: any) => {
 
 export const RegionalContext = createContext<RegionalProviderProps | undefined>(undefined);
 
-export const RegionalProvider = ({content, children}: RegionalProviderProps) => {
+export const RegionalProvider = ({regionContent, children}: RegionalProviderProps) => {
   const {locale: persistedLocale} = useStorage();
   const locale = persistedLocale;
-
-  const value = createRegionalI18n(locale, content);
+  const value = createRegionalI18n(locale, regionContent);
 
   return <RegionalContext.Provider value={value}>{children}</RegionalContext.Provider>;
 };

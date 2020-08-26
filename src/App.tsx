@@ -69,8 +69,8 @@ const App = () => {
   ]);
 
   return (
-    <I18nProvider regionContent={regionContent.payload}>
-      <RegionalProvider content={regionContent.payload}>
+    <I18nProvider>
+      <RegionalProvider regionContent={regionContent.payload}>
         <ExposureNotificationServiceProvider backendInterface={backendService}>
           <DevPersistedNavigationContainer persistKey="navigationState">
             <AccessibilityServiceProvider>
