@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
 
 const semver = require('semver');
-const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/1';
+const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/2';
 
 const checkForNotifications = async () => {
   const DB = await getDbConnection();
@@ -22,10 +22,11 @@ const checkForNotifications = async () => {
     DB.transaction(function(tx) {
       tx.executeSql('SELECT * FROM receipts where message_id = ?', [message.id], (tx, results) => {
         if (!results.rows.length) {
-          // no receipt found
+          // no receipt found, check display constraints
           if (
             checkRegion(message.target_regions, SELECTED_REGION) &&
-            checkVersion(message.target_version, APP_VERSION_NAME)
+            checkVersion(message.target_version, APP_VERSION_NAME) &&
+            checkDate(message.expires_at)
           ) {
             PushNotification.presentLocalNotification({
               alertTitle: message.title.en,
@@ -39,6 +40,14 @@ const checkForNotifications = async () => {
       });
     });
   });
+};
+
+const checkDate = (target: string) => {
+  if (target === undefined) {
+    return true;
+  }
+
+  return Date.parse(target) >= Date.now();
 };
 
 const checkVersion = (target: string, current: string) => {
