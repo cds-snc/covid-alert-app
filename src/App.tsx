@@ -7,8 +7,7 @@
  *
  * @format
  */
-import crypto from 'crypto';
-
+import md5 from 'crypto-js/md5';
 import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
@@ -59,14 +58,8 @@ const App = () => {
       try {
         const downloadedContent: RegionContent = await backendService.getRegionContent();
         captureMessage('server content ready');
-        const initialRegionContentHash = crypto
-          .createHash('md5')
-          .update(JSON.stringify(initialRegionContent))
-          .digest('hex');
-        const newRegionContentHash = crypto
-          .createHash('md5')
-          .update(JSON.stringify(downloadedContent))
-          .digest('hex');
+        const initialRegionContentHash = md5(JSON.stringify(initialRegionContent));
+        const newRegionContentHash = md5(JSON.stringify(downloadedContent));
         if (initialRegionContentHash !== newRegionContentHash) {
           setRegionContent({payload: downloadedContent});
         }
