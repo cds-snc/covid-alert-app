@@ -7,7 +7,7 @@
  *
  * @format
  */
-import React, {useMemo, useEffect} from 'react';
+import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -23,6 +23,7 @@ import {I18nProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, captureException} from 'shared/log';
+import { catch } from '../metro.config';
 
 // grabs the ip address
 if (__DEV__) {
@@ -32,26 +33,34 @@ if (__DEV__) {
     .connect();
 }
 
-let regionContent: any = null;
+export interface IFetchData {
+  payload: any;
+  isFetching: boolean;
+}
 
-const appInit = async (backendService: BackendService) => {
+const appInit = async () => {
   captureMessage('App.appInit()');
-  if (backendService) {
-    try {
-      regionContent = await backendService.getRegionContent();
-    } catch (e) {
-      captureException(e.message, e);
-    }
-  }
-
-  console.log(regionContent);
-  // only hide splash screen after our init is done
   SplashScreen.hide();
 };
 
 const App = () => {
+  const [regionContent, setRegionContent] = useState<IFetchData>({payload: {en: '', fr: ''}, isFetching: false});
+
   useEffect(() => {
-    appInit(backendService);
+    setRegionContent({payload: regionContent.payload, isFetching: true});
+
+    const fetchData = async () => {
+      try {
+        setRegionContent({payload: await backendService.getRegionContent(), isFetching: true});
+        appInit();
+      } catch (e) {
+        setRegionContent({payload: {error: e.message}, isFetching: false});
+        appInit();
+        captureException(e.message, e);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const storageService = useStorageService();
@@ -59,8 +68,16 @@ const App = () => {
     storageService,
   ]);
 
+  console.log('*************  regionContent *************');
+  try{
+    console.log(regionContent.payload.en.RegionContent.ExposureView.Active.NL.CTA);
+  }catch(e){
+    console.log("not yet");
+  }
+  console.log('*******************************************');
+
   return (
-    <I18nProvider regionContent={regionContent}>
+    <I18nProvider regionContent={regionContent.payload}>
       <ExposureNotificationServiceProvider backendInterface={backendService}>
         <DevPersistedNavigationContainer persistKey="navigationState">
           <AccessibilityServiceProvider>
