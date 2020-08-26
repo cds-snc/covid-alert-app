@@ -49,10 +49,11 @@ const App = () => {
 
     const fetchData = async () => {
       try {
-        setRegionContent({payload: await backendService.getRegionContent()});
+        const content = await backendService.getRegionContent();
+        captureMessage('server content ready');
+        setRegionContent({payload: content});
         appInit();
       } catch (e) {
-        setRegionContent({payload: {error: e.message}});
         appInit();
         captureException(e.message, e);
       }
