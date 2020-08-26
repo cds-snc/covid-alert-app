@@ -4,36 +4,36 @@ import {openDatabase} from 'react-native-sqlite-storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
 
-const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77';
+const semver = require('semver');
+const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/1';
 
 const checkForNotifications = async () => {
   const DB = await getDbConnection();
   const SELECTED_REGION = (await AsyncStorage.getItem('Region')) || 'CA';
-  const APP_VERSION = APP_VERSION_NAME;
 
-  // DB.executeSql('DELETE FROM receipts');
+  // For testing only
+  DB.executeSql('DELETE FROM receipts');
 
-  captureMessage('>>>>>> Poll for notifications');
+  // Fetch messages from api
   const messages = await fetchNotifications();
 
   messages.forEach(async (message: any) => {
     // check local storage for existing id
     DB.transaction(function(tx) {
       tx.executeSql('SELECT * FROM receipts where message_id = ?', [message.id], (tx, results) => {
-        captureMessage('>>>>>>> receipts', results.rows.item(0));
-
         if (!results.rows.length) {
-          // check region
-          if (message.target_regions.includes(SELECTED_REGION) || message.target_regions.includes('CA')) {
-            // check version
+          // no receipt found
+          if (
+            checkRegion(message.target_regions, SELECTED_REGION) &&
+            checkVersion(message.target_version, APP_VERSION_NAME)
+          ) {
             PushNotification.presentLocalNotification({
               alertTitle: message.title.en,
               alertBody: message.message.en,
             });
 
-            tx.executeSql('INSERT INTO receipts (message_id) VALUES (?)', [message.id], (tx, results) => {
-              captureMessage('>>>>>> INSERT Results :' + results.rowsAffected.toString);
-            });
+            // save read receipt
+            tx.executeSql('INSERT INTO receipts (message_id) VALUES (?)', [message.id]);
           }
         }
       });
@@ -41,9 +41,32 @@ const checkForNotifications = async () => {
   });
 };
 
+const checkVersion = (target: string, current: string) => {
+  // Normalize the version string
+  const currentVersion = semver.valid(semver.coerce(current));
+
+  // If no target version provided, display to all
+  if (target === undefined) {
+    return true;
+  }
+
+  // Check the version constraint against current
+  return semver.satisfies(currentVersion, target);
+};
+
+const checkRegion = (target: string[], selected: string) => {
+  if (target.includes('CA') || target.includes(selected)) {
+    return true;
+  }
+
+  return false;
+};
+
 const getDbConnection = async () => {
+  // openDatabase will create the file if it doesn't already exist
   var db = await openDatabase({name: 'CovidAlert.db', location: 'default'});
 
+  // Make sure the receipts table exists
   db.transaction(function(txn) {
     txn.executeSql('CREATE TABLE IF NOT EXISTS receipts(id integer primary key autoincrement, message_id text)', []);
   });
