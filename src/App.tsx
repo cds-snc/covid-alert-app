@@ -20,10 +20,10 @@ import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
 import {I18nProvider} from 'locale';
+import {RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, captureException} from 'shared/log';
-import { catch } from '../metro.config';
 
 // grabs the ip address
 if (__DEV__) {
@@ -69,28 +69,30 @@ const App = () => {
   ]);
 
   console.log('*************  regionContent *************');
-  try{
+  try {
     console.log(regionContent.payload.en.RegionContent.ExposureView.Active.NL.CTA);
-  }catch(e){
-    console.log("not yet");
+  } catch (e) {
+    console.log('not yet');
   }
   console.log('*******************************************');
 
   return (
     <I18nProvider regionContent={regionContent.payload}>
-      <ExposureNotificationServiceProvider backendInterface={backendService}>
-        <DevPersistedNavigationContainer persistKey="navigationState">
-          <AccessibilityServiceProvider>
-            {TEST_MODE ? (
-              <DemoMode>
+      <RegionalProvider content={regionContent.payload}>
+        <ExposureNotificationServiceProvider backendInterface={backendService}>
+          <DevPersistedNavigationContainer persistKey="navigationState">
+            <AccessibilityServiceProvider>
+              {TEST_MODE ? (
+                <DemoMode>
+                  <MainNavigator />
+                </DemoMode>
+              ) : (
                 <MainNavigator />
-              </DemoMode>
-            ) : (
-              <MainNavigator />
-            )}
-          </AccessibilityServiceProvider>
-        </DevPersistedNavigationContainer>
-      </ExposureNotificationServiceProvider>
+              )}
+            </AccessibilityServiceProvider>
+          </DevPersistedNavigationContainer>
+        </ExposureNotificationServiceProvider>
+      </RegionalProvider>
     </I18nProvider>
   );
 };

@@ -9,10 +9,12 @@ import {captureException} from 'shared/log';
 import {isRegionCovered} from 'shared/RegionLogic';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {useRegionalI18n} from 'locale/regional';
 
 export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const {region} = useStorage();
   const i18n = useI18n();
+  const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
   const regionCovered = isRegionCovered(region);
   const getGuidanceURL = useCallback(() => {
@@ -38,6 +40,8 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+
+  console.log('regionalI18n', regionalI18n.translate());
 
   return (
     <BaseHomeView iconName="hand-caution" testID="exposure">
