@@ -15,7 +15,6 @@ export const ConsentScreen = () => {
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys} = useReportDiagnosis();
   const onSuccess = useCallback(() => {
-    // todo: fix this
     navigation.navigate('Home');
   }, [navigation]);
   // TEK = Temporary Exposure Key
