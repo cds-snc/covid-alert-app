@@ -14,6 +14,7 @@ import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
+import {PollNotifications} from 'services/PollNotificationService';
 
 import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
 import {RegionCase} from '../../shared/Region';
@@ -36,7 +37,6 @@ import {
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
-import {PollNotifications} from 'services/PollNotificationService';
 
 type BackgroundColor = keyof Theme['colors'];
 
@@ -178,7 +178,7 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     PollNotifications.checkForNotifications();
-  }, [PollNotifications]);
+  }, []);
 
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().

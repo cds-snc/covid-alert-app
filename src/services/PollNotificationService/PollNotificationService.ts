@@ -5,34 +5,35 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
 
 const semver = require('semver');
+
 const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/2';
 
 const checkForNotifications = async () => {
-  const DB = await getDbConnection();
-  const SELECTED_REGION = (await AsyncStorage.getItem('Region')) || 'CA';
-  const SELECTED_LOCALE = (await AsyncStorage.getItem('Locale')) || 'en';
+  const db = await getDbConnection();
+  const selectedRegion = (await AsyncStorage.getItem('Region')) || 'CA';
+  const selectedLocale = (await AsyncStorage.getItem('Locale')) || 'en';
 
   // For testing only
-  DB.executeSql('DELETE FROM receipts');
+  db.executeSql('DELETE FROM receipts');
 
   // Fetch messages from api
   const messages = await fetchNotifications();
 
   messages.forEach(async (message: any) => {
     // check local storage for read receipt
-    DB.transaction(function(tx) {
+    db.transaction(function(tx) {
       tx.executeSql('SELECT * FROM receipts where message_id = ?', [message.id], (tx, results) => {
         if (!results.rows.length) {
           // no receipt found, check display constraints
           if (
-            checkRegion(message.target_regions, SELECTED_REGION) &&
+            checkRegion(message.target_regions, selectedRegion) &&
             checkVersion(message.target_version, APP_VERSION_NAME) &&
             checkDate(message.expires_at) &&
-            checkMessage(message, SELECTED_LOCALE)
+            checkMessage(message, selectedLocale)
           ) {
             PushNotification.presentLocalNotification({
-              alertTitle: message.title[SELECTED_LOCALE],
-              alertBody: message.message[SELECTED_LOCALE],
+              alertTitle: message.title[selectedLocale],
+              alertBody: message.message[selectedLocale],
             });
 
             // save read receipt
@@ -84,7 +85,7 @@ const checkRegion = (target: string[], selected: string) => {
 // Bootstrap the database and return a connection
 const getDbConnection = async () => {
   // openDatabase will create the file if it doesn't already exist
-  var db = await openDatabase({name: 'CovidAlert.db', location: 'default'});
+  const db = await openDatabase({name: 'CovidAlert.db', location: 'default'});
 
   // Make sure the receipts table exists
   db.transaction(function(txn) {
@@ -97,8 +98,8 @@ const getDbConnection = async () => {
 // Fetch notifications from the endpoint
 const fetchNotifications = async () => {
   try {
-    let response = await fetch(FEED_URL);
-    let json = await response.json();
+    const response = await fetch(FEED_URL);
+    const json = await response.json();
     return json.messages;
   } catch (error) {
     captureException('>>>>>> Error', error);
