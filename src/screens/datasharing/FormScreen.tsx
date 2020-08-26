@@ -9,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
-export const FormViewScreen = () => {
+export const FormScreen = () => {
   const i18n = useI18n();
   const [codeValue, setCodeValue] = useState('');
   const handleChange = useCallback(text => setCodeValue(text), []);

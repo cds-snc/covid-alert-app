@@ -3,9 +3,7 @@ import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
-import {Step1Screen} from 'screens/datasharing/Step1';
-import {FormViewScreen} from 'screens/datasharing/FormView';
-import {ConsentViewScreen} from 'screens/datasharing/ConsentView';
+import {Step1Screen, FormScreen, ConsentScreen} from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
@@ -62,8 +60,8 @@ const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const Step1ScreenWithNavBar = withDarkNav(Step1Screen);
-const FormViewScreenWithNavBar = withDarkNav(FormViewScreen);
-const ConsentViewScreenWithNavBar = withDarkNav(ConsentViewScreen);
+const FormScreenWithNavBar = withDarkNav(FormScreen);
+const ConsentScreenWithNavBar = withDarkNav(ConsentScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
@@ -85,8 +83,8 @@ const DataSharingNavigator = () => {
   return (
     <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step1">
       <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
-      <DataSharingStack.Screen name="FormView" component={FormViewScreenWithNavBar} />
-      <DataSharingStack.Screen name="ConsentView" component={ConsentViewScreenWithNavBar} />
+      <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
+      <DataSharingStack.Screen name="ConsentView" component={ConsentScreenWithNavBar} />
     </DataSharingStack.Navigator>
   );
 };

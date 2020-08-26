@@ -1,4 +1,3 @@
-export * from './DataSharing';
-export * from './Step1';
-export * from './FormView';
-export * from './ConsentView';
+export * from './Step1Screen';
+export * from './FormScreen';
+export * from './ConsentScreen';

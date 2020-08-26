@@ -9,7 +9,7 @@ import {xhrError} from 'shared/fetch';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
-export const ConsentViewScreen = () => {
+export const ConsentScreen = () => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
