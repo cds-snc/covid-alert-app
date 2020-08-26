@@ -1,4 +1,4 @@
-import {captureMessage, captureException} from 'shared/log';
+import {captureException} from 'shared/log';
 import PushNotification from 'bridge/PushNotification';
 import {openDatabase} from 'react-native-sqlite-storage';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -10,6 +10,7 @@ const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/2';
 const checkForNotifications = async () => {
   const DB = await getDbConnection();
   const SELECTED_REGION = (await AsyncStorage.getItem('Region')) || 'CA';
+  const SELECTED_LOCALE = (await AsyncStorage.getItem('Locale')) || 'en';
 
   // For testing only
   DB.executeSql('DELETE FROM receipts');
@@ -18,7 +19,7 @@ const checkForNotifications = async () => {
   const messages = await fetchNotifications();
 
   messages.forEach(async (message: any) => {
-    // check local storage for existing id
+    // check local storage for read receipt
     DB.transaction(function(tx) {
       tx.executeSql('SELECT * FROM receipts where message_id = ?', [message.id], (tx, results) => {
         if (!results.rows.length) {
@@ -26,11 +27,12 @@ const checkForNotifications = async () => {
           if (
             checkRegion(message.target_regions, SELECTED_REGION) &&
             checkVersion(message.target_version, APP_VERSION_NAME) &&
-            checkDate(message.expires_at)
+            checkDate(message.expires_at) &&
+            checkMessage(message, SELECTED_LOCALE)
           ) {
             PushNotification.presentLocalNotification({
-              alertTitle: message.title.en,
-              alertBody: message.message.en,
+              alertTitle: message.title[SELECTED_LOCALE],
+              alertBody: message.message[SELECTED_LOCALE],
             });
 
             // save read receipt
@@ -42,6 +44,12 @@ const checkForNotifications = async () => {
   });
 };
 
+// Validate that there is a locale-specific message
+const checkMessage = (message: any, locale: string) => {
+  return typeof message.title[locale] === 'string' && typeof message.message[locale] === 'string';
+};
+
+// If an expiry date is provide, validate that it's in the future
 const checkDate = (target: string) => {
   if (target === undefined) {
     return true;
@@ -50,6 +58,7 @@ const checkDate = (target: string) => {
   return Date.parse(target) >= Date.now();
 };
 
+// If a version constraint is provided, check the current app version against it
 const checkVersion = (target: string, current: string) => {
   // Normalize the version string
   const currentVersion = semver.valid(semver.coerce(current));
@@ -63,6 +72,7 @@ const checkVersion = (target: string, current: string) => {
   return semver.satisfies(currentVersion, target);
 };
 
+// Validate the region specified for display
 const checkRegion = (target: string[], selected: string) => {
   if (target.includes('CA') || target.includes(selected)) {
     return true;
@@ -71,6 +81,7 @@ const checkRegion = (target: string[], selected: string) => {
   return false;
 };
 
+// Bootstrap the database and return a connection
 const getDbConnection = async () => {
   // openDatabase will create the file if it doesn't already exist
   var db = await openDatabase({name: 'CovidAlert.db', location: 'default'});
@@ -83,6 +94,7 @@ const getDbConnection = async () => {
   return db;
 };
 
+// Fetch notifications from the endpoint
 const fetchNotifications = async () => {
   try {
     let response = await fetch(FEED_URL);
