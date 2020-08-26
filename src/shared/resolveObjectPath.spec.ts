@@ -1,4 +1,5 @@
 import REGION_CONTENT from '../locale/translations/region.json';
+
 import {resolveObjectPath} from './resolveObjectPath';
 
 describe('resolveObjectPath', () => {
