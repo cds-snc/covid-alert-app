@@ -6,7 +6,7 @@ import {Text, Box, ButtonSingleLine} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {captureException} from 'shared/log';
-import {isRegionCovered} from 'shared/RegionLogic';
+import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -16,24 +16,24 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   const i18n = useI18n();
   const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
-  const regionCovered = isRegionCovered(region);
+  const regionActive = isRegionActive(region, regionalI18n.activeRegions);
   const getGuidanceURL = useCallback(() => {
     if (region !== undefined && region !== 'None') {
-      return regionCovered
+      return regionActive
         ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
         : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
     }
     return i18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
-  }, [i18n, region, regionCovered, regionalI18n]);
+  }, [i18n, region, regionActive, regionalI18n]);
 
   const getGuidanceCTA = useCallback(() => {
     if (region !== undefined && region !== 'None') {
-      return regionCovered
+      return regionActive
         ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.CTA`)
         : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.CTA`);
     }
     return regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.CTA`);
-  }, [region, regionCovered, regionalI18n]);
+  }, [region, regionActive, regionalI18n]);
 
   const onActionGuidance = useCallback(() => {
     Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
@@ -51,7 +51,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         {i18n.translate(`Home.ExposureDetected.Title2`)}
       </Text>
       <Text>
-        {regionCovered ? (
+        {regionActive ? (
           <Text>{i18n.translate('Home.ExposureDetected.RegionCovered.Body2')}</Text>
         ) : (
           <>
@@ -61,10 +61,10 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         )}
       </Text>
 
-      <Box alignSelf="stretch" marginTop="l" marginBottom={regionCovered ? 'xxl' : 'm'}>
+      <Box alignSelf="stretch" marginTop="l" marginBottom={regionActive ? 'xxl' : 'm'}>
         <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
       </Box>
-      {!regionCovered && (
+      {!regionActive && (
         <Box alignSelf="stretch" marginBottom="m">
           <ButtonSingleLine
             text={i18n.translate(`Home.ExposureDetected.RegionNotCovered.HowToIsolateCTA`)}

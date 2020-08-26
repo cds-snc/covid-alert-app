@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useRegionalI18n} from 'locale/regional';
 
 import {NoRegionView} from './views/NoRegionView';
 import {RegionNotCoveredView} from './views/RegionNotCoveredView';
@@ -14,11 +15,12 @@ import {ActiveParagraphView} from './views/ActiveParagraphView';
 
 const Content = () => {
   const {region} = useStorage();
-  const regionCase = getRegionCase(region);
+  const regionalI18n = useRegionalI18n();
+  const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   switch (regionCase) {
-    case 'regionNotCovered':
+    case 'regionNotActive':
       return <RegionNotCoveredView />;
-    case 'regionCovered':
+    case 'regionActive':
       if (region === 'ON') {
         return <ActiveListView />;
       }

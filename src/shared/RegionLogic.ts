@@ -1,20 +1,18 @@
 import {Region, RegionCase} from './Region';
 
-const onboardedCovered = ['ON', 'NL'];
-
-export const isRegionCovered = (region: Region | undefined) => {
-  if (region && onboardedCovered.indexOf(region) > -1) {
+export const isRegionActive = (region: Region | undefined, activeRegions: Region[] | []) => {
+  if (region && activeRegions.indexOf(region) > -1) {
     return true;
   }
   return false;
 };
 
-export const getRegionCase = (region: Region | undefined) => {
-  let regionCase: RegionCase = 'regionNotCovered';
+export const getRegionCase = (region: Region | undefined, activeRegions: Region[] | []) => {
+  let regionCase: RegionCase = 'regionNotActive';
   if (!region || region === 'None') {
     regionCase = 'noRegionSet';
-  } else if (isRegionCovered(region)) {
-    regionCase = 'regionCovered';
+  } else if (isRegionActive(region, activeRegions)) {
+    regionCase = 'regionActive';
   }
   return regionCase;
 };

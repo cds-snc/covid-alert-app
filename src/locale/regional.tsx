@@ -1,18 +1,21 @@
 import React, {createContext, useContext} from 'react';
 import {useStorage} from 'services/StorageService';
-import {resolveObjectPath} from '../shared/resolveObjectPath';
 import {captureMessage} from 'shared/log';
+import {Region} from 'shared/Region';
+import {resolveObjectPath} from 'shared/resolveObjectPath';
 
-type RegionalProviderProps = {
+interface RegionalProviderProps {
   regionContent?: any;
   translate?: (id: string) => string;
   children?: React.ReactElement;
-};
+  activeRegions: Region[] | [];
+}
 
 export const createRegionalI18n = (locale: string, content: any) => {
   return {
-    locale: locale,
-    content: content,
+    locale,
+    regionContent: content,
+    activeRegions: content && content.Active === undefined ? [] : content.Active,
     translate: (id: string): string => {
       const str = resolveObjectPath(`${locale}.${id}`, content);
       if (!str || str === '') {
@@ -29,7 +32,6 @@ export const RegionalProvider = ({regionContent, children}: RegionalProviderProp
   const {locale: persistedLocale} = useStorage();
   const locale = persistedLocale;
   const value = createRegionalI18n(locale, regionContent);
-
   return <RegionalContext.Provider value={value}>{children}</RegionalContext.Provider>;
 };
 
