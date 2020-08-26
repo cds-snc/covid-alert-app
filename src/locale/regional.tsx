@@ -1,6 +1,5 @@
 import React, {createContext, useContext} from 'react';
 import {useStorage} from 'services/StorageService';
-import { catch } from '../../metro.config';
 
 type RegionalProviderProps = {
   content?: any;
@@ -13,10 +12,10 @@ export const createRegionalI18n = (locale: string, content: any) => {
     locale: locale,
     content: content,
     translate: () => {
-      try{
-        return 'got it ' + locale +  "" + JSON.stringify(content[locale].RegionContent.ExposureView.Active.NL.URL);
-      }catch(e){
-        return "not ready"
+      try {
+        return 'got it ' + locale + '' + JSON.stringify(content[locale].RegionContent.ExposureView.Active.NL.URL);
+      } catch (e) {
+        return 'not ready';
       }
     },
   };
