@@ -2,7 +2,7 @@ import {Buffer} from 'buffer';
 
 import hmac256 from 'crypto-js/hmac-sha256';
 import encHex from 'crypto-js/enc-hex';
-import {TemporaryExposureKey} from 'bridge/ExposureNotification';
+import {ExposureConfiguration, TemporaryExposureKey} from 'bridge/ExposureNotification';
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
@@ -11,7 +11,7 @@ import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 
 import {Observable} from '../../shared/Observable';
-import {Region} from '../../shared/Region';
+import {Region, RegionContent} from '../../shared/Region';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -50,14 +50,14 @@ export class BackendService implements BackendInterface {
     return downloadDiagnosisKeysFile(url);
   }
 
-  async getRegionContent() {
+  async getRegionContent(): Promise<RegionContent> {
     const regionPath = 'exposure-configuration/region.json';
     const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
     captureMessage('getRegionContent', {regionContentUrl});
     return (await fetch(regionContentUrl, FETCH_HEADERS)).json();
   }
 
-  async getExposureConfiguration() {
+  async getExposureConfiguration(): Promise<ExposureConfiguration> {
     // purposely setting 'region' to the default value of `CA` regardless of what the user selected.
     // this is only for the purpose of downloading the configuration file.
     const region = 'CA';
