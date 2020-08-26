@@ -83,7 +83,10 @@ const OnboardingNavigator = () => {
 const DataSharingStack = createStackNavigator();
 const DataSharingNavigator = () => {
   return (
-    <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step1">
+    <DataSharingStack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={isDiagnosed ? 'ConsentView' : 'Step1'}
+    >
       <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
       <DataSharingStack.Screen name="FormView" component={FormViewScreenWithNavBar} />
       <DataSharingStack.Screen name="ConsentView" component={ConsentViewScreenWithNavBar} />
@@ -113,11 +116,7 @@ const MainNavigator = () => {
         component={OnboardingNavigator}
       />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
-      <MainStack.Screen
-        name="DataSharing"
-        component={DataSharingNavigator}
-        options={{cardStyleInterpolator: forFade}}
-      />
+      <MainStack.Screen name="DataSharing" component={DataSharingNavigator} />
       <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />

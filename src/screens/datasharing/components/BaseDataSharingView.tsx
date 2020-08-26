@@ -12,7 +12,7 @@ interface BaseDataSharingViewProps {
 export const BaseDataSharingView = ({children}: BaseDataSharingViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
-  const close = useCallback(() => navigation.goBack(), [navigation]);
+  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
