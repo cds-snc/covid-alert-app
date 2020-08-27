@@ -1,13 +1,20 @@
 import React, {useCallback, useState} from 'react';
-import {Modal, Platform, ScrollView, StyleSheet} from 'react-native';
+import {Modal, ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Picker} from '@react-native-community/picker';
 import {addDays, getCurrentDate} from 'shared/date-fns';
+
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
-const DatePicker = (symptomOnsetDate, setSymptomOnsetDate, dateOptions) => {
+interface DatePickerProps {
+  symptomOnsetDate: Date;
+  setSymptomOnsetDate: any;
+  dateOptions: array;
+}
+
+const DatePicker = ({symptomOnsetDate, setSymptomOnsetDate, dateOptions}: DatePickerProps) => {
   return (
     <Picker selectedValue={symptomOnsetDate} onValueChange={value => setSymptomOnsetDate(value)} mode="dialog">
       {dateOptions.map(x => (
@@ -17,7 +24,12 @@ const DatePicker = (symptomOnsetDate, setSymptomOnsetDate, dateOptions) => {
   );
 };
 
-const ModalWrapper = (labelDict, symptomOnsetDate) => {
+interface ModalWrapperProps {
+  labelDict: any;
+  symptomOnsetDate: Date;
+}
+
+const ModalWrapper = ({labelDict, symptomOnsetDate}: ModalWrapperProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -62,7 +74,12 @@ export const SymptomOnsetDateScreen = () => {
       case 13:
         return 'Even earlier';
       default:
-        return date.toLocaleString(dateLocale, {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
+        return date.toLocaleString(dateLocale, {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
     }
   };
   const labelDict = {'': 'None selected'};
@@ -82,21 +99,11 @@ export const SymptomOnsetDateScreen = () => {
             {i18n.translate('DataUpload.SymptomOnsetDate.Title')}
           </Text>
           <Text marginBottom="s">{i18n.translate('DataUpload.SymptomOnsetDate.Body1')}</Text>
-          {Platform.OS === 'ios' ? (
-            <ModalWrapper labelDict={labelDict} symptomOnsetDate={symptomOnsetDate}>
-              <DatePicker
-                symptomOnsetDate={symptomOnsetDate}
-                setSymptomOnsetDate={setSymptomOnsetDate}
-                dateOptions={dateOptions}
-              />
-            </ModalWrapper>
-          ) : (
-            <DatePicker
-              symptomOnsetDate={symptomOnsetDate}
-              setSymptomOnsetDate={setSymptomOnsetDate}
-              dateOptions={dateOptions}
-            />
-          )}
+          <DatePicker
+            symptomOnsetDate={symptomOnsetDate}
+            setSymptomOnsetDate={setSymptomOnsetDate}
+            dateOptions={dateOptions}
+          />
           <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body2')}</Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body3')}</Text>
           <Box marginTop="m">
