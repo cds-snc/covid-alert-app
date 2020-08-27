@@ -7,11 +7,11 @@ import {useI18n} from 'locale';
 
 interface ModalWrapperProps {
   labelDict: any;
-  symptomOnsetDate: string;
+  selectedDate: string;
   children: React.ReactNode;
 }
 
-const ModalWrapper = ({labelDict, symptomOnsetDate, children}: ModalWrapperProps) => {
+const ModalWrapper = ({labelDict, selectedDate, children}: ModalWrapperProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -34,21 +34,21 @@ const ModalWrapper = ({labelDict, symptomOnsetDate, children}: ModalWrapperProps
         onPress={() => {
           setModalVisible(true);
         }}
-        text={`Date: ${labelDict[symptomOnsetDate]}`}
+        text={`Date: ${labelDict[selectedDate]}`}
       />
     </>
   );
 };
 
 interface DatePickerInternalProps {
-  symptomOnsetDate: string;
-  setSymptomOnsetDate: any;
+  selectedDate: string;
+  setSelectedDate: any;
   dateOptions: any[];
 }
 
-const DatePickerInternal = ({symptomOnsetDate, setSymptomOnsetDate, dateOptions}: DatePickerInternalProps) => {
+const DatePickerInternal = ({selectedDate, setSelectedDate, dateOptions}: DatePickerInternalProps) => {
   return (
-    <Picker selectedValue={symptomOnsetDate} onValueChange={value => setSymptomOnsetDate(value)} mode="dialog">
+    <Picker selectedValue={selectedDate} onValueChange={value => setSelectedDate(value)} mode="dialog">
       {dateOptions.map(x => (
         <Picker.Item key={x.value} label={x.label} value={x.value} />
       ))}
@@ -57,11 +57,12 @@ const DatePickerInternal = ({symptomOnsetDate, setSymptomOnsetDate, dateOptions}
 };
 
 interface DatePickerProps {
-  symptomOnsetDate: string;
-  setSymptomOnsetDate: any;
+  selectedDate: string;
+  setSelectedDate: any;
+  daysBack: number;
 }
 
-export const DatePicker = ({symptomOnsetDate, setSymptomOnsetDate}: DatePickerProps) => {
+export const DatePicker = ({daysBack, selectedDate, setSelectedDate}: DatePickerProps) => {
   const i18n = useI18n();
   const today = getCurrentDate();
   const dateOptions = [];
@@ -74,7 +75,7 @@ export const DatePicker = ({symptomOnsetDate, setSymptomOnsetDate}: DatePickerPr
         return 'Today';
       case 1:
         return 'Yesterday';
-      case 13:
+      case daysBack - 1:
         return 'Even earlier';
       default:
         return date.toLocaleString(dateLocale, {
@@ -86,10 +87,10 @@ export const DatePicker = ({symptomOnsetDate, setSymptomOnsetDate}: DatePickerPr
     }
   };
   const labelDict: {[key: string]: string} = {'': 'None selected'};
-  for (let step = 0; step < 14; step++) {
+  for (let step = 0; step < daysBack; step++) {
     const date = addDays(today, -1 * step);
     const dateAtMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     const label = getLabel(step, dateAtMidnight);
     labelDict[dateString] = label;
     dateOptions.push({label, value: dateString});
@@ -97,22 +98,12 @@ export const DatePicker = ({symptomOnsetDate, setSymptomOnsetDate}: DatePickerPr
 
   if (Platform.OS === 'ios') {
     return (
-      <ModalWrapper labelDict={labelDict} symptomOnsetDate={symptomOnsetDate}>
-        <DatePickerInternal
-          symptomOnsetDate={symptomOnsetDate}
-          setSymptomOnsetDate={setSymptomOnsetDate}
-          dateOptions={dateOptions}
-        />
+      <ModalWrapper labelDict={labelDict} selectedDate={selectedDate}>
+        <DatePickerInternal selectedDate={selectedDate} setSelectedDate={setSelectedDate} dateOptions={dateOptions} />
       </ModalWrapper>
     );
   }
-  return (
-    <DatePickerInternal
-      symptomOnsetDate={symptomOnsetDate}
-      setSymptomOnsetDate={setSymptomOnsetDate}
-      dateOptions={dateOptions}
-    />
-  );
+  return <DatePickerInternal selectedDate={selectedDate} setSelectedDate={setSelectedDate} dateOptions={dateOptions} />;
 };
 
 const styles = StyleSheet.create({

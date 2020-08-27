@@ -7,12 +7,12 @@ import {BaseTekUploadView, DatePicker} from './components';
 
 export const SymptomOnsetDateScreen = () => {
   const i18n = useI18n();
-  const [symptomOnsetDate, setSymptomOnsetDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
 
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.SymptomOnsetDate.CTA')}
-      dateInfo={{dateType: 'symptomOnsetDate', dateString: symptomOnsetDate}}
+      contagiousDateInfo={{dateType: 'symptomOnsetDate', dateString: selectedDate}}
     >
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
@@ -20,7 +20,7 @@ export const SymptomOnsetDateScreen = () => {
             {i18n.translate('DataUpload.SymptomOnsetDate.Title')}
           </Text>
           <Text marginBottom="s">{i18n.translate('DataUpload.SymptomOnsetDate.Body1')}</Text>
-          <DatePicker symptomOnsetDate={symptomOnsetDate} setSymptomOnsetDate={setSymptomOnsetDate} />
+          <DatePicker daysBack={14} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
           <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body2')}</Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body3')}</Text>
         </Box>

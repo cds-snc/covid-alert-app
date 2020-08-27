@@ -9,6 +9,7 @@ import {blobFetch} from 'shared/fetch';
 import {MCC_CODE} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
+import {ContagiousDateInfo} from 'screens/datasharing/components';
 
 import {Observable} from '../../shared/Observable';
 import {Region} from '../../shared/Region';
@@ -85,7 +86,12 @@ export class BackendService implements BackendInterface {
     };
   }
 
-  async reportDiagnosisKeys(keyPair: SubmissionKeySet, _exposureKeys: TemporaryExposureKey[]) {
+  async reportDiagnosisKeys(
+    keyPair: SubmissionKeySet,
+    _exposureKeys: TemporaryExposureKey[],
+    contagiousDateInfo: ContagiousDateInfo,
+  ) {
+    captureMessage('contagiousDateInfo', contagiousDateInfo);
     // Ref https://github.com/CovidShield/mobile/issues/192
     const filteredExposureKeys = Object.values(
       _exposureKeys.sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
