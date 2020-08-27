@@ -35,6 +35,8 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
     return regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.CTA`);
   }, [region, regionActive, regionalI18n]);
 
+  const regionalGuidanceCTA = getGuidanceCTA();
+
   const onActionGuidance = useCallback(() => {
     Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
   }, [getGuidanceURL]);
@@ -61,9 +63,12 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         )}
       </Text>
 
-      <Box alignSelf="stretch" marginTop="l" marginBottom={regionActive ? 'xxl' : 'm'}>
-        <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
-      </Box>
+      {regionalGuidanceCTA !== '' ? (
+        <Box alignSelf="stretch" marginTop="l" marginBottom={regionActive ? 'xxl' : 'm'}>
+          <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
+        </Box>
+      ) : null}
+
       {!regionActive && (
         <Box alignSelf="stretch" marginBottom="m">
           <ButtonSingleLine
