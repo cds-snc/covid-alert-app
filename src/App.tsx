@@ -7,7 +7,7 @@
  *
  * @format
  */
-import md5 from 'crypto-js/md5';
+// import md5 from 'crypto-js/md5';
 import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
