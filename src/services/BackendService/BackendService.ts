@@ -51,9 +51,9 @@ export class BackendService implements BackendInterface {
   }
 
   async getRegionContent(): Promise<RegionContent> {
-    // const regionPath = 'exposure-configuration/region.json';
-    // const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
-    const regionContentUrl = 'https://e76513579f60.ngrok.io/db';
+    const regionPath = 'exposure-configuration/region.json';
+    const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
+    //const regionContentUrl = 'https://e76513579f60.ngrok.io/db';
     captureMessage('getRegionContent', {regionContentUrl});
     return (await fetch(regionContentUrl, FETCH_HEADERS)).json();
   }
