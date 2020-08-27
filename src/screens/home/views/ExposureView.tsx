@@ -63,11 +63,11 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         )}
       </Text>
 
-      {regionalGuidanceCTA !== '' ? (
+      {regionalGuidanceCTA !== '' && (
         <Box alignSelf="stretch" marginTop="l" marginBottom={regionActive ? 'xxl' : 'm'}>
           <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
         </Box>
-      ) : null}
+      )}
 
       {!regionActive && (
         <Box alignSelf="stretch" marginBottom="m">
