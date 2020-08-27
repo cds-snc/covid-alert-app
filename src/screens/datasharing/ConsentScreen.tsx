@@ -1,18 +1,45 @@
 import React, {useCallback, useState} from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {ActivityIndicator, ScrollView, StyleSheet, Alert} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
-import {useReportDiagnosis} from 'services/ExposureNotificationService';
+import {useReportDiagnosis, cannotGetTEKsError} from 'services/ExposureNotificationService';
+import {covidshield} from 'services/BackendService/covidshield';
+import {xhrError} from 'shared/fetch';
 
-interface Props {
-  onSuccess: () => void;
-  onError: (error: any) => void;
-}
+import {BaseDataSharingView} from './components/BaseDataSharingView';
 
-export const ConsentView = ({onSuccess, onError}: Props) => {
+export const ConsentScreen = () => {
+  const navigation = useNavigation();
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys} = useReportDiagnosis();
+  const onSuccess = useCallback(() => {
+    navigation.navigate('Home');
+  }, [navigation]);
+  // TEK = Temporary Exposure Key
+  const getTranslationKey = (error: any) => {
+    if (Object.values(covidshield.EncryptedUploadResponse.ErrorCode).includes(error)) {
+      return 'TekUploadServer';
+    }
+    if (error === xhrError) {
+      return 'TekUploadOffline';
+    }
+    if (error === cannotGetTEKsError) {
+      return 'TekUploadPermission';
+    }
+    // default case
+    return 'TekUploadServer';
+  };
+  const onError = useCallback(
+    (error: any) => {
+      const translationKey = getTranslationKey(error);
+      Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
+        {text: i18n.translate(`Errors.Action`)},
+      ]);
+    },
+    [i18n],
+  );
 
   const handleUpload = useCallback(async () => {
     setLoading(true);
@@ -34,7 +61,7 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
     );
   }
   return (
-    <>
+    <BaseDataSharingView>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
@@ -53,7 +80,7 @@ export const ConsentView = ({onSuccess, onError}: Props) => {
       <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
         <Button variant="thinFlat" text={i18n.translate('DataUpload.ConsentView.Action')} onPress={handleUpload} />
       </Box>
-    </>
+    </BaseDataSharingView>
   );
 };
 
