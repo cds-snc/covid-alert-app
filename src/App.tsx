@@ -45,23 +45,29 @@ const appInit = async () => {
 
 const App = () => {
   const initialRegionContent: RegionContent = {Active: ['None'], en: '', fr: ''};
-
   const storageService = useStorageService();
   const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region), [
     storageService,
   ]);
+
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const downloadedContent: RegionContent = await backendService.getRegionContent();
+        setRegionContent({payload: downloadedContent});
         captureMessage('server content ready');
+
+        // @todo replace initialRegionContentHash with copy pulled from storage
+
+        /*
         const initialRegionContentHash = md5(JSON.stringify(initialRegionContent));
         const newRegionContentHash = md5(JSON.stringify(downloadedContent));
         if (initialRegionContentHash !== newRegionContentHash) {
           setRegionContent({payload: downloadedContent});
         }
+        */
         appInit();
       } catch (error) {
         appInit();
@@ -70,7 +76,7 @@ const App = () => {
     };
 
     fetchData();
-  }, [backendService, initialRegionContent]);
+  }, [backendService]);
 
   return (
     <I18nProvider>
