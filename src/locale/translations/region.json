@@ -1,8 +1,5 @@
 {
-  "Active": [
-    "ON",
-    "NL"
-  ],
+  "Active": ["ON", "NL", "NB"],
   "en": {
     "RegionContent": {
       "DiagnosedView": {
@@ -19,6 +16,13 @@
               "Body": "You need to self-isolate and follow advice from public health.",
               "CTA": "How to self-isolate",
               "URL": "https://www.gov.nl.ca/covid-19/individuals-and-households/self-isolation-and-self-monitoring/"
+            }
+          },
+          "NB": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
             }
           }
         }
@@ -38,20 +42,33 @@
           "NL": {
             "Title": "Get a one-time key",
             "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
-            "CTA": "Help",
-            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
+            "CTA": "Go to Covid-19 Test Results Website",
+            "Link": "https://healthenl.ca/concerto/covidresults"
+          },
+          "NB": {
+            "Title": "Get a one-time key",
+            "Body": "If you test positive for COVID-19, public health gives you one-time key over the phone when you get your positive test result.\n\nYou will only get one key, and it expires in 24 hours or after you submit it.",
+            "CTA": "Go to Covid-19 Test Results Website",
+            "Link": "https://www2.gnb.ca/content/gnb/en/corporate/promo/covid-19.html"
           }
         }
       },
       "ExposureView": {
         "Active": {
           "ON": {
+            "Body": "You’re at risk of being infected.",
             "CTA": "Find out what to do next",
             "URL": "https://ontario.ca/covidalert-exposed"
           },
           "NL": {
+            "Body": "You’re at risk of being infected.",
             "CTA": "Find out what to do next",
             "URL": "https://www.gov.nl.ca/covid-19/exposed/"
+          },
+          "NB": {
+            "Body": "You’re at risk of being infected.",
+            "CTA": "Find out what to do next",
+            "URL": "https://www2.gnb.ca/content/gnb/en/departments/ocmoh/cdc/content/respiratory_diseases/coronavirus/coronavirusexposure.html#/app/symptom-checker/guides/399/what-to-do"
           }
         },
         "Inactive": {
@@ -131,6 +148,13 @@
               "Body": "Vous devez vous isoler et suivre les recommandations de santé publique.",
               "CTA": "Comment vous isoler (lien en anglais)",
               "URL": "https://www.gov.nl.ca/covid-19/individuals-and-households/self-isolation-and-self-monitoring/"
+            },
+            "NB": {
+              "Tip": {
+                "Body": "",
+                "CTA": "",
+                "URL": ""
+              }
             }
           }
         }
@@ -150,20 +174,33 @@
           "NL": {
             "Title": "Obtenir une clé à usage unique",
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
-            "CTA": "Aide",
-            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
+            "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
+            "Link": "https://healthenl.ca/concerto/covidresults"
+          },
+          "NB": {
+            "Title": "Obtenir une clé à usage unique",
+            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+            "CTA": "",
+            "Link": ""
           }
         }
       },
       "ExposureView": {
         "Active": {
           "ON": {
+            "Body": "Vous êtes à risque d’être infecté.",
             "CTA": "Lisez les étapes à suivre",
             "URL": "https://ontario.ca/covidalerte-expose"
           },
           "NL": {
+            "Body": "Vous êtes à risque d’être infecté.",
             "CTA": "Découvrez si vous devriez vous faire tester",
             "URL": "https://www.811healthline.ca/fr/autoevaluation-pour-la-covid-19"
+          },
+          "NB": {
+            "Body": "Vous êtes à risque d’être infecté.",
+            "CTA": "Lisez les étapes à suivre",
+            "URL": "https://www2.gnb.ca/content/gnb/fr/ministeres/bmhc/maladies_transmissibles/content/maladies_respiratoires/coronavirus/expositionaucoronavirus.html#/app/symptom-checker/guides/399/what-to-do"
           }
         },
         "Inactive": {
