@@ -9,9 +9,9 @@ import {addDays, getCurrentDate} from 'shared/date-fns';
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
 interface DatePickerProps {
-  symptomOnsetDate: Date;
+  symptomOnsetDate: string;
   setSymptomOnsetDate: any;
-  dateOptions: array;
+  dateOptions: any[];
 }
 
 const DatePicker = ({symptomOnsetDate, setSymptomOnsetDate, dateOptions}: DatePickerProps) => {
@@ -26,10 +26,10 @@ const DatePicker = ({symptomOnsetDate, setSymptomOnsetDate, dateOptions}: DatePi
 
 interface ModalWrapperProps {
   labelDict: any;
-  symptomOnsetDate: Date;
+  symptomOnsetDate: string;
 }
 
-const ModalWrapper = ({labelDict, symptomOnsetDate}: ModalWrapperProps) => {
+export const ModalWrapper = ({labelDict, symptomOnsetDate}: ModalWrapperProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -82,7 +82,7 @@ export const SymptomOnsetDateScreen = () => {
         });
     }
   };
-  const labelDict = {'': 'None selected'};
+  const labelDict: {[key: string]: string} = {'': 'None selected'};
   for (let step = 0; step < 14; step++) {
     const date = addDays(today, -1 * step);
     const dateAtMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());
