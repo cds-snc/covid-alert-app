@@ -13,9 +13,9 @@ interface RegionalProviderProps {
 
 export const createRegionalI18n = (locale: string, regionContent: any) => {
   const activeRegions = regionContent && regionContent.Active === undefined ? [] : regionContent.Active;
-  console.log(regionContent);
 
   captureMessage(`activeRegions ${activeRegions}`);
+
   return {
     locale,
     regionContent,

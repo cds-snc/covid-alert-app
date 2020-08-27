@@ -54,8 +54,7 @@ export class BackendService implements BackendInterface {
     // const regionPath = 'exposure-configuration/region.json';
     // const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
     // https://jsonbin.io/5f479a98514ec5112d0f4f59
-    const regionContentUrl =
-      'https://raw.githubusercontent.com/cds-snc/covid-alert-app/6b6bb5812e40094a12a7c5fe3696531446578520/src/locale/translations/region.json';
+    const regionContentUrl = 'https://api.jsonbin.io/b/5f479a98514ec5112d0f4f59/2';
     captureMessage('getRegionContent', {regionContentUrl});
     return (await fetch(regionContentUrl, FETCH_HEADERS)).json();
   }
