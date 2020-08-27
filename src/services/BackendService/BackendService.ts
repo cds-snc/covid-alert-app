@@ -51,10 +51,8 @@ export class BackendService implements BackendInterface {
   }
 
   async getRegionContent(): Promise<RegionContent> {
-    // const regionPath = 'exposure-configuration/region.json';
-    // const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
-    // https://jsonbin.io/5f479a98514ec5112d0f4f59
-    const regionContentUrl = 'https://api.jsonbin.io/b/5f479a98514ec5112d0f4f59/2';
+    const regionPath = 'exposure-configuration/region.json';
+    const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
     captureMessage('getRegionContent', {regionContentUrl});
     return (await fetch(regionContentUrl, FETCH_HEADERS)).json();
   }
