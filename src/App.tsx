@@ -26,7 +26,7 @@ import {captureMessage} from 'shared/log';
 
 // this allows us to use new Date().toLocaleString() for date formatting on android
 // https://github.com/facebook/react-native/issues/19410#issuecomment-482804142
-if (Platform === 'android') {
+if (Platform.OS === 'android') {
   require('intl');
   require('intl/locale-data/jsonp/en-CA');
   require('intl/locale-data/jsonp/fr-CA');
