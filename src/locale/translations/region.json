@@ -35,8 +35,8 @@
           "NL": {
             "Title": "Get a one-time key",
             "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
-            "CTA": "Help",
-            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
+            "CTA": "Go to Covid-19 Test Results Website",
+            "Link": "https://healthenl.ca/concerto/covidresults"
           }
         }
       },
@@ -149,8 +149,8 @@
           "NL": {
             "Title": "Obtenir une clé à usage unique",
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
-            "CTA": "Aide",
-            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
+            "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
+            "Link": "https://healthenl.ca/concerto/covidresults"
           }
         }
       },
