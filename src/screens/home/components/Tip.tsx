@@ -9,6 +9,13 @@ export const Tip = () => {
   const i18n = useI18n();
   const regionalI18n = useRegionalI18n();
   const {region} = useStorage();
+  const cta = regionalI18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.CTA`);
+  const url = regionalI18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.URL`);
+
+  if (cta === '' || url === '') {
+    return null;
+  }
+
   return (
     <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="m" marginBottom="m">
       <Box flexDirection="row" paddingLeft="s" paddingRight="m">
@@ -22,15 +29,9 @@ export const Tip = () => {
           </Text>
         </Box>
       </Box>
+
       <Box paddingHorizontal="m" paddingTop="s">
-        <ButtonSingleLine
-          text={regionalI18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.CTA`)}
-          variant="thinFlatNeutralGrey"
-          externalLink
-          onPress={() =>
-            Linking.openURL(regionalI18n.translate(`RegionContent.DiagnosedView.Active.${region}.Tip.URL`))
-          }
-        />
+        <ButtonSingleLine text={cta} variant="thinFlatNeutralGrey" externalLink onPress={() => Linking.openURL(url)} />
       </Box>
     </Box>
   );
