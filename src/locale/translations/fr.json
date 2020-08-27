@@ -88,6 +88,10 @@
     "OtcUploadOffline": {
       "Title": "Problème de connexion",
       "Body": "Votre clé n’a pas été envoyée. Vérifiez que votre téléphone est connecté à Internet au moyen du Wi-Fi ou de vos données."
+    },
+    "ContentNoConnect": {
+      "Title": "Impossible d’accéder aux informations de votre province ou de votre territoire",
+      "Body": "Réessayez d’y accéder plus tard."
     }
   },
   "Home": {

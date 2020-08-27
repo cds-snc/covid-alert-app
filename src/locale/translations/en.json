@@ -381,6 +381,10 @@
     "OtcUploadOffline": {
       "Title": "Lost connection",
       "Body": "Your key was not sent. Make sure your phone is connected to the Internet, through either data or WiFi."
+    },
+    "ContentNoConnect": {
+      "Title": "Cannot connect to information for your province or territory",
+      "Body": "Try again later for this information."
     }
   }
 }
