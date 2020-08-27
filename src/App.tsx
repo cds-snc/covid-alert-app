@@ -14,7 +14,7 @@ import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StorageServiceProvider, useStorageService} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
-import {AsyncStorage, NativeModules, StatusBar} from 'react-native';
+import {NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {DemoMode} from 'testMode';
 import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
@@ -24,6 +24,7 @@ import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, captureException} from 'shared/log';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent} from './shared/Region';
@@ -45,38 +46,39 @@ const appInit = async () => {
   SplashScreen.hide();
 };
 
-const App = async () => {
+const App = () => {
+  const initialRegionContent: RegionContent = regionContentDefault as RegionContent;
   const storageService = useStorageService();
   const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region), [
     storageService,
   ]);
 
-  const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
-  let initialRegionContent: RegionContent = {Active: ['None'], en: '', fr: ''};
-  if (storedRegionContent) {
-    initialRegionContent = JSON.parse(storedRegionContent);
-  } else {
-    initialRegionContent = regionContentDefault as RegionContent;
-  }
-
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
   captureMessage(JSON.stringify(regionContent));
 
   useEffect(() => {
+    const initData = async () => {
+      const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
+      if (storedRegionContent) {
+        return JSON.parse(storedRegionContent);
+      } else {
+        return regionContentDefault as RegionContent;
+      }
+    };
+
     const fetchData = async () => {
+      const defaultData = await initData();
       try {
         const downloadedContent: RegionContent = await backendService.getRegionContent();
-        captureMessage('server content ready');
 
-        // @todo replace initialRegionContentHash with copy pulled from storage
-
-        const initialRegionContentHash = sha256(JSON.stringify(initialRegionContent));
+        const initialRegionContentHash = sha256(JSON.stringify(defaultData));
         const downloadedRegionContentHash = sha256(JSON.stringify(downloadedContent));
+
         if (initialRegionContentHash.toString() === downloadedRegionContentHash.toString()) {
-          captureMessage('content IS the same...');
+          captureMessage('region content is the same.');
         } else {
-          captureMessage('content not the same.');
-          AsyncStorage.setItem(REGION_CONTENT_KEY, JSON.stringify(downloadedContent));
+          captureMessage('region content is not the same.');
+          await AsyncStorage.setItem(REGION_CONTENT_KEY, JSON.stringify(downloadedContent));
           setRegionContent({payload: downloadedContent});
         }
         appInit();
