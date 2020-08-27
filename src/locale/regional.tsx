@@ -11,13 +11,17 @@ interface RegionalProviderProps {
   activeRegions: Region[];
 }
 
-export const createRegionalI18n = (locale: string, content: any) => {
+export const createRegionalI18n = (locale: string, regionContent: any) => {
+  const activeRegions = regionContent && regionContent.Active === undefined ? [] : regionContent.Active;
+  console.log(regionContent);
+
+  captureMessage(`activeRegions ${activeRegions}`);
   return {
     locale,
-    regionContent: content,
-    activeRegions: content && content.Active === undefined ? [] : content.Active,
+    regionContent,
+    activeRegions,
     translate: (id: string): string => {
-      const str = resolveObjectPath(`${locale}.${id}`, content);
+      const str = resolveObjectPath(`${locale}.${id}`, regionContent);
       if (!str || str === '') {
         captureMessage(`String not found ${id}`);
       }

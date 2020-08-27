@@ -52,7 +52,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
       </Text>
       <Text>
         {regionActive ? (
-          <Text>{i18n.translate('Home.ExposureDetected.RegionCovered.Body2')}</Text>
+          <Text>{regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`)}</Text>
         ) : (
           <>
             <Text>{i18n.translate('Home.ExposureDetected.RegionNotCovered.Body2')}</Text>
