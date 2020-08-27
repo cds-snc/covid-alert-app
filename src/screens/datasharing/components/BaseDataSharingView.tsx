@@ -13,6 +13,8 @@ export const BaseDataSharingView = ({children}: BaseDataSharingViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
+  // Note: we can now make back buttons in this flow!
+  // const back = useCallback(() => navigation.goBack(), [navigation]);
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
