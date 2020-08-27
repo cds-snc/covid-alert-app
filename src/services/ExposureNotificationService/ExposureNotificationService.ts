@@ -10,6 +10,7 @@ import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
+import {DateInfoType} from 'screens/datasharing/components';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -186,7 +187,8 @@ export class ExposureNotificationService {
     });
   }
 
-  async fetchAndSubmitKeys(): Promise<void> {
+  async fetchAndSubmitKeys(dateInfo: DateInfoType): Promise<void> {
+    captureMessage(dateInfo.dateType);
     const submissionKeysStr = await this.secureStorage.get(SUBMISSION_AUTH_KEYS);
     if (!submissionKeysStr) {
       throw new Error('Submission keys: bad certificate');

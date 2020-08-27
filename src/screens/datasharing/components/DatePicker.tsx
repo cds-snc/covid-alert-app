@@ -56,9 +56,13 @@ const DatePickerInternal = ({symptomOnsetDate, setSymptomOnsetDate, dateOptions}
   );
 };
 
-export const DatePicker = () => {
+interface DatePickerProps {
+  symptomOnsetDate: string;
+  setSymptomOnsetDate: any;
+}
+
+export const DatePicker = ({symptomOnsetDate, setSymptomOnsetDate}: DatePickerProps) => {
   const i18n = useI18n();
-  const [symptomOnsetDate, setSymptomOnsetDate] = useState('');
   const today = getCurrentDate();
   const dateOptions = [];
 

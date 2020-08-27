@@ -8,7 +8,10 @@ export const ConsentScreen = () => {
   const i18n = useI18n();
 
   return (
-    <BaseTekUploadView buttonText={i18n.translate('DataUpload.ConsentView.Action')}>
+    <BaseTekUploadView
+      buttonText={i18n.translate('DataUpload.ConsentView.Action')}
+      dateInfo={{dateType: 'noDate', dateString: ''}}
+    >
       <Box paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('DataUpload.ConsentView.Title')}

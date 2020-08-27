@@ -9,12 +9,18 @@ import {xhrError} from 'shared/fetch';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
+export interface DateInfoType {
+  dateType: 'symptomOnsetDate' | 'testDate' | 'noDate';
+  dateString: string;
+}
+
 interface BaseTekUploadViewProps {
   buttonText: string;
+  dateInfo: DateInfoType;
   children?: React.ReactNode;
 }
 
-export const BaseTekUploadView = ({children, buttonText}: BaseTekUploadViewProps) => {
+export const BaseTekUploadView = ({children, dateInfo, buttonText}: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
@@ -49,14 +55,14 @@ export const BaseTekUploadView = ({children, buttonText}: BaseTekUploadViewProps
   const handleUpload = useCallback(async () => {
     setLoading(true);
     try {
-      await fetchAndSubmitKeys();
+      await fetchAndSubmitKeys(dateInfo);
       setLoading(false);
       onSuccess();
     } catch (error) {
       setLoading(false);
       onError(error);
     }
-  }, [fetchAndSubmitKeys, onError, onSuccess]);
+  }, [dateInfo, fetchAndSubmitKeys, onError, onSuccess]);
 
   if (loading) {
     return (

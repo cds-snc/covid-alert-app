@@ -5,6 +5,7 @@ import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotif
 import {AppState, AppStateStatus, Platform} from 'react-native';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
+import {DateInfoType} from 'screens/datasharing/components';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -108,9 +109,12 @@ export function useReportDiagnosis() {
     },
     [exposureNotificationService],
   );
-  const fetchAndSubmitKeys = useCallback(() => {
-    return exposureNotificationService.fetchAndSubmitKeys();
-  }, [exposureNotificationService]);
+  const fetchAndSubmitKeys = useCallback(
+    (dateInfo: DateInfoType) => {
+      return exposureNotificationService.fetchAndSubmitKeys(dateInfo);
+    },
+    [exposureNotificationService],
+  );
   return {
     startSubmission,
     fetchAndSubmitKeys,
