@@ -47,10 +47,9 @@ const App = () => {
   const initialRegionContent: RegionContent = {Active: ['None'], en: '', fr: ''};
 
   const storageService = useStorageService();
-  const backendService = useMemo(
-    () => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region),
-    [],
-  );
+  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region), [
+    storageService,
+  ]);
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
 
   useEffect(() => {

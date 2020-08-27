@@ -1,8 +1,8 @@
 import {TemporaryExposureKey} from 'bridge/ExposureNotification';
 import {BackendInterface, SubmissionKeySet} from 'services/BackendService';
-
 import REGION_CONTENT from 'locale/translations/region.json';
-import {RegionContent} from "../shared/Region";
+
+import {RegionContent} from '../shared/Region';
 
 const DefaultConfiguration = {
   attenuationDurationThresholds: [50, 63],
