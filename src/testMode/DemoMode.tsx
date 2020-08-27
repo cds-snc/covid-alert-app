@@ -147,7 +147,7 @@ const DrawerContent = () => {
             variant="bigFlat"
             onPress={async () => {
               captureMessage('Force upload keys');
-              fetchAndSubmitKeys();
+              fetchAndSubmitKeys({dateType: 'noDate', dateString: ''});
             }}
           />
         </Section>
