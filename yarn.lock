@@ -2739,6 +2739,10 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
+date-time-format-timezone@^1.0.22:
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/date-time-format-timezone/-/date-time-format-timezone-1.0.22.tgz#6bb4713aac3bf36338738b59c374583cfcbe6246"
+
 dayjs@^1.8.15:
   version "1.8.25"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.25.tgz#d09a8696cee7191bc1289e739f96626391b9c73c"
