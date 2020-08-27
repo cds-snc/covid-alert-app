@@ -44,7 +44,7 @@ const appInit = async () => {
 };
 
 const App = () => {
-  const initialRegionContent: RegionContent = {Active: 'None', en: '', fr: ''};
+  const initialRegionContent: RegionContent = {Active: ['None'], en: '', fr: ''};
 
   const storageService = useStorageService();
   const backendService = useMemo(
@@ -75,7 +75,7 @@ const App = () => {
 
   return (
     <I18nProvider>
-      <RegionalProvider regionContent={regionContent.payload}>
+      <RegionalProvider activeRegions={[]} translate={id => id} regionContent={regionContent.payload}>
         <ExposureNotificationServiceProvider backendInterface={backendService}>
           <DevPersistedNavigationContainer persistKey="navigationState">
             <AccessibilityServiceProvider>

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Box, Text, TextMultiline, ButtonSingleLine} from 'components';
-import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {BulletPointOrdered} from 'components/BulletPointOrdered';
@@ -9,7 +8,6 @@ import {captureException} from 'shared/log';
 import {useRegionalI18n} from 'locale/regional';
 
 export const ActiveListView = () => {
-  const i18n = useI18n();
   const regionalI18n = useRegionalI18n();
   const {region} = useStorage();
   const autoFocusRef = useAccessibilityAutoFocus(true);

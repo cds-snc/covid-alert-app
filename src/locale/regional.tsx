@@ -6,9 +6,9 @@ import {resolveObjectPath} from 'shared/resolveObjectPath';
 
 interface RegionalProviderProps {
   regionContent?: any;
-  translate?: (id: string) => string;
+  translate: (id: string) => string;
   children?: React.ReactElement;
-  activeRegions?: Region[];
+  activeRegions: Region[];
 }
 
 export const createRegionalI18n = (locale: string, content: any) => {
