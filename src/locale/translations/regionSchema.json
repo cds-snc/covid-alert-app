@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Covid Alert Region Content Schema",
+  "type": "object",
+  "properties": {
+    "Active": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "en": {
+      "type": "object",
+      "properties": {
+        "RegionContent": {
+          "type": "object",
+          "properties": {
+            "DiagnosedView": { "type": "object" },
+            "NoCode": {"type":  "object"},
+            "ExposureView": { "type": "object" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "fr": {
+      "type": "object",
+      "properties": {
+        "RegionContent": {
+          "type": "object",
+          "properties": {
+            "DiagnosedView": { "type": "object" },
+            "NoCode": {"type":  "object"},
+            "ExposureView": { "type": "object" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "Active",
+    "en",
+    "fr"
+  ]
+}
