@@ -20,4 +20,9 @@ describe('resolveObjectPath', () => {
       'Find out what to do next',
     );
   });
+
+  it('returns empty string if the id does not exist', async () => {
+    const locale = 'en';
+    expect(resolveObjectPath(`${locale}.RegionContent�.ExposureView.Active.NL.CTA`, REGION_CONTENT)).toStrictEqual('');
+  });
 });
