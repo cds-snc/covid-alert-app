@@ -7,7 +7,8 @@
  *
  * @format
  */
-import React, {useMemo, useEffect} from 'react';
+import sha256 from 'crypto-js/sha256';
+import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -19,11 +20,16 @@ import {DemoMode} from 'testMode';
 import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
-import {I18nProvider} from 'locale';
+import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage} from 'shared/log';
+import {captureMessage, captureException} from 'shared/log';
+import AsyncStorage from '@react-native-community/async-storage';
 
+import regionContentDefault from './locale/translations/region.json';
+import {RegionContent} from './shared/Region';
+
+const REGION_CONTENT_KEY = 'regionContentKey';
 // grabs the ip address
 if (__DEV__) {
   const host = NativeModules.SourceCode.scriptURL.split('://')[1].split(':')[0];
@@ -31,38 +37,75 @@ if (__DEV__) {
     .useReactNative()
     .connect();
 }
+interface IFetchData {
+  payload: any;
+}
 
 const appInit = async () => {
   captureMessage('App.appInit()');
-  // only hide splash screen after our init is done
   SplashScreen.hide();
 };
 
 const App = () => {
-  useEffect(() => {
-    appInit();
-  }, []);
-
+  const initialRegionContent: RegionContent = regionContentDefault as RegionContent;
   const storageService = useStorageService();
   const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region), [
     storageService,
   ]);
 
+  const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
+  captureMessage(JSON.stringify(regionContent));
+
+  useEffect(() => {
+    const initData = async () => {
+      const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
+      if (storedRegionContent) {
+        return JSON.parse(storedRegionContent);
+      }
+      return regionContentDefault as RegionContent;
+    };
+
+    const fetchData = async () => {
+      try {
+        const defaultData = await initData();
+        const downloadedContent: RegionContent = await backendService.getRegionContent();
+        const initialRegionContentHash = sha256(JSON.stringify(defaultData));
+        const downloadedRegionContentHash = sha256(JSON.stringify(downloadedContent));
+
+        if (initialRegionContentHash.toString() === downloadedRegionContentHash.toString()) {
+          captureMessage('region content is the same.');
+        } else {
+          captureMessage('region content is not the same.');
+          await AsyncStorage.setItem(REGION_CONTENT_KEY, JSON.stringify(downloadedContent));
+          setRegionContent({payload: downloadedContent});
+        }
+        appInit();
+      } catch (error) {
+        appInit();
+        captureException(error.message, error);
+      }
+    };
+
+    fetchData();
+  }, [backendService, initialRegionContent]);
+
   return (
     <I18nProvider>
-      <ExposureNotificationServiceProvider backendInterface={backendService}>
-        <DevPersistedNavigationContainer persistKey="navigationState">
-          <AccessibilityServiceProvider>
-            {TEST_MODE ? (
-              <DemoMode>
+      <RegionalProvider activeRegions={[]} translate={id => id} regionContent={regionContent.payload}>
+        <ExposureNotificationServiceProvider backendInterface={backendService}>
+          <DevPersistedNavigationContainer persistKey="navigationState">
+            <AccessibilityServiceProvider>
+              {TEST_MODE ? (
+                <DemoMode>
+                  <MainNavigator />
+                </DemoMode>
+              ) : (
                 <MainNavigator />
-              </DemoMode>
-            ) : (
-              <MainNavigator />
-            )}
-          </AccessibilityServiceProvider>
-        </DevPersistedNavigationContainer>
-      </ExposureNotificationServiceProvider>
+              )}
+            </AccessibilityServiceProvider>
+          </DevPersistedNavigationContainer>
+        </ExposureNotificationServiceProvider>
+      </RegionalProvider>
     </I18nProvider>
   );
 };
