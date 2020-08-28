@@ -3,6 +3,7 @@ import {useStorage} from 'services/StorageService';
 import {captureMessage} from 'shared/log';
 import {Region} from 'shared/Region';
 import {resolveObjectPath} from 'shared/resolveObjectPath';
+import {parseRegions} from 'shared/RegionLogic';
 
 interface RegionalProviderProps {
   regionContent?: any;
@@ -19,7 +20,7 @@ export const createRegionalI18n = (locale: string, regionContent: any) => {
   return {
     locale,
     regionContent,
-    activeRegions,
+    activeRegions: parseRegions(activeRegions),
     translate: (id: string): string => {
       const str = resolveObjectPath(`${locale}.${id}`, regionContent);
       if (!str || str === '') {
