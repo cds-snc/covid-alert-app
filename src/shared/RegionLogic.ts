@@ -2,7 +2,7 @@ import {Region, RegionCase} from './Region';
 
 export const parseRegions = (regions: Region[]): Region[] => {
   const arr = regions.map(index => {
-    return <Region>index.toUpperCase().trim();
+    return index.toUpperCase().trim() as Region;
   });
   return arr;
 };
