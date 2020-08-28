@@ -24,6 +24,7 @@ export const createRegionalI18n = (locale: string, regionContent: any) => {
       const str = resolveObjectPath(`${locale}.${id}`, regionContent);
       if (!str || str === '') {
         captureMessage(`String not found ${id}`);
+        return '';
       }
       return str;
     },
