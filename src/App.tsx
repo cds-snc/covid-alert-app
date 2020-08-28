@@ -26,7 +26,7 @@ import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, captureException} from 'shared/log';
 import AsyncStorage from '@react-native-community/async-storage';
 import regionSchema from 'locale/translations/regionSchema.json';
-import JsonSchemaValidator, {JsonSchemaValidationError} from 'shared/JsonSchemaValidator';
+import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent} from './shared/Region';
