@@ -25,6 +25,8 @@ import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, captureException} from 'shared/log';
 import AsyncStorage from '@react-native-community/async-storage';
+import regionSchema from 'locale/translations/regionSchema.json';
+import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent} from './shared/Region';
@@ -54,30 +56,46 @@ const App = () => {
   ]);
 
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
-  captureMessage(JSON.stringify(regionContent));
 
   useEffect(() => {
     const initData = async () => {
       const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
       if (storedRegionContent) {
-        return JSON.parse(storedRegionContent);
+        const storedRegionContentJson = JSON.parse(storedRegionContent);
+        try {
+          new JsonSchemaValidator().validateJson(storedRegionContentJson, regionSchema);
+          captureMessage('Region Content: loaded stored content.');
+          return storedRegionContentJson;
+        } catch (error) {
+          captureException(error.message, error);
+        }
       }
-      return regionContentDefault as RegionContent;
+      captureMessage('Region Content: loaded embedded content.');
+      return regionContentDefault;
     };
 
     const fetchData = async () => {
       try {
-        const defaultData = await initData();
-        const downloadedContent: RegionContent = await backendService.getRegionContent();
-        const initialRegionContentHash = sha256(JSON.stringify(defaultData));
-        const downloadedRegionContentHash = sha256(JSON.stringify(downloadedContent));
+        const initialRegionContent = await initData();
+        const downloadedRegionContent: RegionContent = await backendService.getRegionContent();
+
+        new JsonSchemaValidator().validateJson(downloadedRegionContent, regionSchema);
+        captureMessage('Region Content: Downloaded JSON is valid.');
+
+        const initialRegionContentStr = JSON.stringify(initialRegionContent);
+        const downloadedRegionContentStr = JSON.stringify(downloadedRegionContent);
+
+        const initialRegionContentHash = sha256(initialRegionContentStr);
+        const downloadedRegionContentHash = sha256(downloadedRegionContentStr);
 
         if (initialRegionContentHash.toString() === downloadedRegionContentHash.toString()) {
-          captureMessage('region content is the same.');
+          captureMessage('Region Content: same.');
         } else {
-          captureMessage('region content is not the same.');
-          await AsyncStorage.setItem(REGION_CONTENT_KEY, JSON.stringify(downloadedContent));
-          setRegionContent({payload: downloadedContent});
+          captureMessage('Region Content: not the same.');
+          captureMessage('Region Content: Saving downloaded content.');
+          await AsyncStorage.setItem(REGION_CONTENT_KEY, downloadedRegionContentStr);
+          captureMessage('Region Content: Using downloaded content.');
+          setRegionContent({payload: downloadedRegionContent});
         }
         appInit();
       } catch (error) {
