@@ -26,7 +26,7 @@ import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, captureException} from 'shared/log';
 import AsyncStorage from '@react-native-community/async-storage';
 import regionSchema from 'locale/translations/regionSchema.json';
-import JsonSchemaValidator from 'shared/JsonSchemaValidator';
+import JsonSchemaValidator, {JsonSchemaValidationError} from 'shared/JsonSchemaValidator';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent} from './shared/Region';
@@ -65,6 +65,15 @@ const App = () => {
         try {
           new JsonSchemaValidator().validateJson(storedRegionContentJson, regionSchema);
           captureMessage('Region Content: loaded stored content.');
+          if (
+            sha256(JSON.stringify(storedRegionContentJson)).toString() ===
+            sha256(JSON.stringify(regionContentDefault)).toString()
+          ) {
+            captureMessage('Region Content: Embedded and Stored content is the same.');
+          } else {
+            captureMessage('Region Content: Embedded and Stored content is not the same.');
+            setRegionContent({payload: storedRegionContent});
+          }
           return storedRegionContentJson;
         } catch (error) {
           captureException(error.message, error);
@@ -97,11 +106,10 @@ const App = () => {
           captureMessage('Region Content: Using downloaded content.');
           setRegionContent({payload: downloadedRegionContent});
         }
-        appInit();
       } catch (error) {
-        appInit();
         captureException(error.message, error);
       }
+      appInit();
     };
 
     fetchData();
