@@ -10,11 +10,11 @@ jest.mock('react-native-localize', () => ({
     groupingSeparator: ',',
   }),
 
-  getCalendar: () => 'gregorian', // or "japanese", "buddhist"
-  getCountry: () => 'CA', // the country code you want
-  getCurrencies: () => ['USD', 'EUR'], // can be empty array
-  getTemperatureUnit: () => 'celsius', // or "fahrenheit"
-  getTimeZone: () => 'Europe/Paris', // the timezone you want
+  getCalendar: () => 'gregorian',
+  getCountry: () => 'CA',
+  getCurrencies: () => ['USD', 'EUR'],
+  getTemperatureUnit: () => 'celsius',
+  getTimeZone: () => 'Europe/Paris',
   uses24HourClock: () => true,
   usesMetricSystem: () => true,
 
