@@ -72,7 +72,7 @@ const App = () => {
             captureMessage('Region Content: Embedded and Stored content is the same.');
           } else {
             captureMessage('Region Content: Embedded and Stored content is not the same.');
-            setRegionContent({payload: storedRegionContent});
+            setRegionContent({payload: storedRegionContentJson});
           }
           return storedRegionContentJson;
         } catch (error) {
