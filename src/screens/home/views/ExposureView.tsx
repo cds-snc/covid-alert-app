@@ -37,8 +37,6 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
 
   const regionalGuidanceCTA = getGuidanceCTA();
 
-  console.log('guidace');
-
   const onActionGuidance = useCallback(() => {
     Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
   }, [getGuidanceURL]);
@@ -65,7 +63,9 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         )}
       </Text>
 
-      {regionalGuidanceCTA !== '' ? (
+      {regionalGuidanceCTA === '' ? (
+        <ErrorBox marginTop="m" />
+      ) : (
         <Box alignSelf="stretch" marginTop="l" marginBottom={regionActive ? 'xxl' : 'm'}>
           <ButtonSingleLine
             text={regionalGuidanceCTA}
@@ -74,8 +74,6 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
             onPress={onActionGuidance}
           />
         </Box>
-      ) : (
-        <ErrorBox marginTop="m" />
       )}
 
       {!regionActive && (
