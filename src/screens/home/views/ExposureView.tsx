@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Linking} from 'react-native';
 import {useI18n} from 'locale';
-import {Text, Box, ButtonSingleLine} from 'components';
+import {Text, Box, ButtonSingleLine, ErrorBox} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {captureException} from 'shared/log';
@@ -63,9 +63,16 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         )}
       </Text>
 
-      {regionalGuidanceCTA !== '' && (
+      {regionalGuidanceCTA === '' ? (
+        <ErrorBox marginTop="m" />
+      ) : (
         <Box alignSelf="stretch" marginTop="l" marginBottom={regionActive ? 'xxl' : 'm'}>
-          <ButtonSingleLine text={getGuidanceCTA()} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
+          <ButtonSingleLine
+            text={regionalGuidanceCTA}
+            variant="bigFlatPurple"
+            externalLink
+            onPress={onActionGuidance}
+          />
         </Box>
       )}
 
