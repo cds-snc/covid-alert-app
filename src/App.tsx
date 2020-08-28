@@ -61,16 +61,14 @@ const App = () => {
       const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
       if (storedRegionContent) {
         return JSON.parse(storedRegionContent);
-      } else {
-        return regionContentDefault as RegionContent;
       }
+      return regionContentDefault as RegionContent;
     };
 
     const fetchData = async () => {
-      const defaultData = await initData();
       try {
+        const defaultData = await initData();
         const downloadedContent: RegionContent = await backendService.getRegionContent();
-
         const initialRegionContentHash = sha256(JSON.stringify(defaultData));
         const downloadedRegionContentHash = sha256(JSON.stringify(downloadedContent));
 
