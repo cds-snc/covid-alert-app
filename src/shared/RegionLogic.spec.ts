@@ -41,9 +41,17 @@ describe('isRegionActive', () => {
 describe('getRegionCase', () => {
   it('returns noRegionSet', async () => {
     expect(getRegionCase('', ['ON', 'NL'])).toStrictEqual('noRegionSet');
+    expect(getRegionCase(null, ['ON', 'NL'])).toStrictEqual('noRegionSet');
+    expect(getRegionCase(undefined, ['ON', 'NL'])).toStrictEqual('noRegionSet');
+    expect(getRegionCase('', [])).toStrictEqual('noRegionSet');
   });
 
-  it('regionActive', async () => {
+  it('returns regionActive', async () => {
     expect(getRegionCase('NL', ['ON', 'NL'])).toStrictEqual('regionActive');
+  });
+
+  it('returns regionNotActive', async () => {
+    expect(getRegionCase('ON', [])).toStrictEqual('regionNotActive');
+    expect(getRegionCase('NL', ['ON'])).toStrictEqual('regionNotActive');
   });
 });
