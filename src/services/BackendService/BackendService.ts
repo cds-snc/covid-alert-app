@@ -9,6 +9,7 @@ import {blobFetch} from 'shared/fetch';
 import {MCC_CODE} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {Observable} from '../../shared/Observable';
 import {Region, RegionContent} from '../../shared/Region';
@@ -51,10 +52,29 @@ export class BackendService implements BackendInterface {
   }
 
   async getRegionContent(): Promise<RegionContent> {
+    const headers: any = {};
     const regionPath = 'exposure-configuration/region.json';
     const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
-    captureMessage('getRegionContent', {regionContentUrl});
-    return (await fetch(regionContentUrl, FETCH_HEADERS)).json();
+    captureMessage(regionContentUrl);
+    const storedContent = await AsyncStorage.getItem(regionContentUrl);
+    const eTagForUrl = await AsyncStorage.getItem(`etag-${regionContentUrl}`);
+    if (storedContent && eTagForUrl) {
+      headers['If-None-Match'] = eTagForUrl;
+    }
+
+    const response: Response = await fetch(regionContentUrl, {method: 'GET', headers});
+    if (response.status === 304 && storedContent) {
+      return JSON.parse(storedContent);
+    } else {
+      captureMessage('Saving region content');
+      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(response.json()));
+      const etag = response.headers.get('Etag');
+      captureMessage(response.toString());
+      if (etag) {
+        await AsyncStorage.setItem(`etag-${regionContentUrl}`, etag);
+      }
+      return response.json();
+    }
   }
 
   async getExposureConfiguration(): Promise<ExposureConfiguration> {
