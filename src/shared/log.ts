@@ -52,6 +52,7 @@ export const captureMessage = async (message: string, params: {[key in string]: 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        finalMessage,
         uuid,
         APP_ID,
         APP_VERSION_CODE,
@@ -90,6 +91,7 @@ export const captureException = async (message: string, error: any, params: {[ke
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        finalMessage,
         uuid,
         APP_ID,
         APP_VERSION_CODE,
