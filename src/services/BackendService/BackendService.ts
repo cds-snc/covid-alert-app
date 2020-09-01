@@ -55,24 +55,35 @@ export class BackendService implements BackendInterface {
     const headers: any = {};
     const regionPath = 'exposure-configuration/region.json';
     const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
-    captureMessage(regionContentUrl);
-    const storedContent = await AsyncStorage.getItem(regionContentUrl);
-    const eTagForUrl = await AsyncStorage.getItem(`etag-${regionContentUrl}`);
-    if (storedContent && eTagForUrl) {
-      headers['If-None-Match'] = eTagForUrl;
-    }
+    const eTagStorageKey = `etag-${regionContentUrl}`;
+    captureMessage('getRegionContent', {regionContentUrl});
+    const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
+    const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
 
-    const response: Response = await fetch(regionContentUrl, {method: 'GET', headers});
-    if (response.status === 304 && storedContent) {
-      return JSON.parse(storedContent);
+    captureMessage('Stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
+
+    if (storedRegionContent !== null && storedEtagForUrl !== null) {
+      headers['If-None-Match'] = storedEtagForUrl;
+    }
+    captureMessage('Headers for getRegionContent:', headers);
+    const response = await fetch(regionContentUrl, {method: 'GET', headers});
+    captureMessage('Response status:', {status: response.status});
+    captureMessage('Response: ', await response.json());
+    if (response.status === 304 && storedRegionContent) {
+      captureMessage('Using stored local content.', JSON.parse(storedRegionContent));
+      return JSON.parse(storedRegionContent);
     } else {
-      captureMessage('Saving region content');
-      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(response.json()));
+      captureMessage('Saving regions content');
+      captureMessage('Response headers', {header: response.headers});
       const etag = response.headers.get('Etag');
-      captureMessage(response.toString());
+      captureMessage('==== ETAG ====');
+      captureMessage('etag', {etag});
+      captureMessage('==== END ETAG ====');
       if (etag) {
-        await AsyncStorage.setItem(`etag-${regionContentUrl}`, etag);
+        await AsyncStorage.setItem(eTagStorageKey, etag);
       }
+      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(response));
+      captureMessage('Using downloaded content.', await response.json());
       return response.json();
     }
   }

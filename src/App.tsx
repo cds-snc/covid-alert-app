@@ -59,8 +59,10 @@ const App = () => {
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
+      captureMessage('onAppStateChange', {appState: newState});
       if (newState === 'active') {
-        fetchData();
+        captureMessage('asdfasdfasdfasfadsf', {appState: newState});
+        await fetchData();
       }
     };
 
@@ -91,38 +93,25 @@ const App = () => {
 
     const fetchData = async () => {
       try {
-        const initialRegionContent = await initData();
+        // const initialRegionContent = await initData();
         const downloadedRegionContent: RegionContent = await backendService.getRegionContent();
-
-        new JsonSchemaValidator().validateJson(downloadedRegionContent, regionSchema);
-        captureMessage('Region Content: Downloaded JSON is valid.');
-
-        const initialRegionContentStr = JSON.stringify(initialRegionContent);
-        const downloadedRegionContentStr = JSON.stringify(downloadedRegionContent);
-
-        const initialRegionContentHash = sha256(initialRegionContentStr);
-        const downloadedRegionContentHash = sha256(downloadedRegionContentStr);
-
-        if (initialRegionContentHash.toString() === downloadedRegionContentHash.toString()) {
-          captureMessage('Region Content: same.');
-        } else {
-          captureMessage('Region Content: not the same.');
-          captureMessage('Region Content: Saving downloaded content.');
-          await AsyncStorage.setItem(REGION_CONTENT_KEY, downloadedRegionContentStr);
-          captureMessage('Region Content: Using downloaded content.');
-          setRegionContent({payload: downloadedRegionContent});
-        }
+        setRegionContent({payload: downloadedRegionContent});
       } catch (error) {
         captureException(error.message, error);
       }
-      appInit();
     };
+
+    fetchData()
+      .then(async () => {
+        captureMessage('.......................................');
+        await appInit();
+      })
+      .catch(() => {});
 
     AppState.addEventListener('change', onAppStateChange);
     return () => {
-      AppState.removeEventListener('change', fetchData);
+      AppState.removeEventListener('change', onAppStateChange);
     };
-    fetchData();
   }, [backendService, initialRegionContent]);
 
   return (
