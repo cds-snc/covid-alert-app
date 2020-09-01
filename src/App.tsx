@@ -58,7 +58,7 @@ const App = () => {
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
 
   useEffect(() => {
-    const onAppStateChage = async (newState: AppStateStatus) => {
+    const onAppStateChange = async (newState: AppStateStatus) => {
       if (newState === 'active') {
         fetchData();
       }
@@ -118,7 +118,7 @@ const App = () => {
       appInit();
     };
 
-    AppState.addEventListener('change', onAppStateChage);
+    AppState.addEventListener('change', onAppStateChange);
     return () => {
       AppState.removeEventListener('change', fetchData);
     };
