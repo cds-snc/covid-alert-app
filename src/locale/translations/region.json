@@ -47,9 +47,9 @@
           },
           "NB": {
             "Title": "Help",
-            "Body": "If you test positive for COVID-19, public health gives you one-time key over the phone when you get your positive test result.\n\nYou will only get one key, and it expires in 24 hours or after you submit it.",
+            "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone when you get your positive test result.\n\nYou will only get one key, and it expires in 24 hours or after you submit it.",
             "CTA": "Go to Covid-19 Test Results Website",
-            "Link": "https://www2.gnb.ca/content/gnb/en/corporate/promo/covid-19.html"
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
           }
         }
       },
@@ -180,8 +180,8 @@
           "NB": {
             "Title": "Aide",
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
-            "CTA": "",
-            "Link": ""
+            "CTA": "Aide",
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
           }
         }
       },
