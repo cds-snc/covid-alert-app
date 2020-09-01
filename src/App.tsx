@@ -118,7 +118,7 @@ const App = () => {
       appInit();
     };
 
-    AppState.addEventListener('change', fetchData);
+    AppState.addEventListener('change', onAppStateChage);
     return () => {
       AppState.removeEventListener('change', fetchData);
     };
