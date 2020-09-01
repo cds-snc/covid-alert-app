@@ -14,7 +14,7 @@ import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StorageServiceProvider, useStorageService} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
-import {NativeModules, StatusBar} from 'react-native';
+import {AppState, AppStateStatus, NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {DemoMode} from 'testMode';
 import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
@@ -58,6 +58,12 @@ const App = () => {
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
 
   useEffect(() => {
+    const onAppStateChage = async (newState: AppStateStatus) => {
+      if (newState === 'active') {
+        fetchData();
+      }
+    };
+
     const initData = async () => {
       const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
       if (storedRegionContent) {
@@ -112,6 +118,10 @@ const App = () => {
       appInit();
     };
 
+    AppState.addEventListener('change', fetchData);
+    return () => {
+      AppState.removeEventListener('change', fetchData);
+    };
     fetchData();
   }, [backendService, initialRegionContent]);
 
