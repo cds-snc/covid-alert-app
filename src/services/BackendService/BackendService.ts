@@ -84,14 +84,13 @@ export class BackendService implements BackendInterface {
         await AsyncStorage.setItem(eTagStorageKey, etag);
       }
 
-      captureMessage('getRegionContent() response', {response: response});
-
+      captureMessage('getRegionContent() response', {response});
       const result = await response.json();
       await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
       captureMessage('getRegionContent() using downloaded content.', result);
       return {status: 200, payload: result};
-    } catch (e) {
-      captureMessage(`ERROR: getRegionContent() ${e.message}`);
+    } catch (err) {
+      captureMessage(`ERROR: getRegionContent() ${err.message}`);
       return {status: 400, payload: null};
     }
   }
