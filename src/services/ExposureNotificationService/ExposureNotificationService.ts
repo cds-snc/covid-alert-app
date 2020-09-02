@@ -374,12 +374,6 @@ export class ExposureNotificationService {
       lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
     }
 
-    captureMessage('performExposureStatusUpdate', {
-      keysFileUrls,
-      lastCheckedPeriod,
-      exposureConfiguration,
-    });
-
     try {
       const {minimumExposureDurationMinutes} = exposureConfiguration;
       const summary = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);

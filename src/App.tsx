@@ -7,14 +7,13 @@
  *
  * @format
  */
-import sha256 from 'crypto-js/sha256';
 import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StorageServiceProvider, useStorageService} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
-import {NativeModules, StatusBar} from 'react-native';
+import {AppState, AppStateStatus, NativeModules, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {DemoMode} from 'testMode';
 import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
@@ -29,7 +28,7 @@ import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import regionContentDefault from './locale/translations/region.json';
-import {RegionContent} from './shared/Region';
+import {RegionContent, RegionContentResponse} from './shared/Region';
 
 const REGION_CONTENT_KEY = 'regionContentKey';
 // grabs the ip address
@@ -58,61 +57,53 @@ const App = () => {
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
 
   useEffect(() => {
-    const initData = async () => {
+    const onAppStateChange = async (newState: AppStateStatus) => {
+      captureMessage('onAppStateChange', {appState: newState});
+      if (newState === 'active') {
+        captureMessage('app is active - fetch data', {appState: newState});
+        await fetchData();
+      }
+    };
+
+    const loadStoredRegionContent = async () => {
       const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
       if (storedRegionContent) {
         const storedRegionContentJson = JSON.parse(storedRegionContent);
         try {
           new JsonSchemaValidator().validateJson(storedRegionContentJson, regionSchema);
-          captureMessage('Region Content: loaded stored content.');
-          if (
-            sha256(JSON.stringify(storedRegionContentJson)).toString() ===
-            sha256(JSON.stringify(regionContentDefault)).toString()
-          ) {
-            captureMessage('Region Content: Embedded and Stored content is the same.');
-          } else {
-            captureMessage('Region Content: Embedded and Stored content is not the same.');
-            setRegionContent({payload: storedRegionContentJson});
-          }
-          return storedRegionContentJson;
+          captureMessage('initData() loaded stored content.');
+          setRegionContent({payload: storedRegionContentJson});
         } catch (error) {
           captureException(error.message, error);
         }
+      } else {
+        captureMessage('initData() no stored content.');
       }
-      captureMessage('Region Content: loaded embedded content.');
-      return regionContentDefault;
     };
 
     const fetchData = async () => {
       try {
-        const initialRegionContent = await initData();
-        const downloadedRegionContent: RegionContent = await backendService.getRegionContent();
-
-        new JsonSchemaValidator().validateJson(downloadedRegionContent, regionSchema);
-        captureMessage('Region Content: Downloaded JSON is valid.');
-
-        const initialRegionContentStr = JSON.stringify(initialRegionContent);
-        const downloadedRegionContentStr = JSON.stringify(downloadedRegionContent);
-
-        const initialRegionContentHash = sha256(initialRegionContentStr);
-        const downloadedRegionContentHash = sha256(downloadedRegionContentStr);
-
-        if (initialRegionContentHash.toString() === downloadedRegionContentHash.toString()) {
-          captureMessage('Region Content: same.');
-        } else {
-          captureMessage('Region Content: not the same.');
-          captureMessage('Region Content: Saving downloaded content.');
-          await AsyncStorage.setItem(REGION_CONTENT_KEY, downloadedRegionContentStr);
-          captureMessage('Region Content: Using downloaded content.');
-          setRegionContent({payload: downloadedRegionContent});
+        await loadStoredRegionContent();
+        const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
+        if (downloadedRegionContent.status === 200) {
+          new JsonSchemaValidator().validateJson(downloadedRegionContent.payload, regionSchema);
+          setRegionContent({payload: downloadedRegionContent.payload});
         }
       } catch (error) {
         captureException(error.message, error);
       }
-      appInit();
     };
 
-    fetchData();
+    fetchData()
+      .then(async () => {
+        await appInit();
+      })
+      .catch(() => {});
+
+    AppState.addEventListener('change', onAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', onAppStateChange);
+    };
   }, [backendService, initialRegionContent]);
 
   return (

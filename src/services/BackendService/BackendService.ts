@@ -9,9 +9,10 @@ import {blobFetch} from 'shared/fetch';
 import {MCC_CODE} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {Observable} from '../../shared/Observable';
-import {Region, RegionContent} from '../../shared/Region';
+import {Region, RegionContentResponse} from '../../shared/Region';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -46,15 +47,51 @@ export class BackendService implements BackendInterface {
     const message = `${MCC_CODE}:${periodStr}:${Math.floor(getMillisSinceUTCEpoch() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${periodStr}/${hmac}`;
-    captureMessage('retrieveDiagnosisKeys', {period, url});
+    // captureMessage('retrieveDiagnosisKeys', {period, url});
     return downloadDiagnosisKeysFile(url);
   }
 
-  async getRegionContent(): Promise<RegionContent> {
+  async getRegionContent(): Promise<RegionContentResponse> {
+    const headers: any = {};
     const regionPath = 'exposure-configuration/region.json';
     const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
-    captureMessage('getRegionContent', {regionContentUrl});
-    return (await fetch(regionContentUrl, FETCH_HEADERS)).json();
+    const eTagStorageKey = `etag-${regionContentUrl}`;
+    const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
+    const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
+
+    captureMessage('getRegionContent()', {regionContentUrl});
+    captureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
+
+    if (storedRegionContent !== null && storedEtagForUrl !== null) {
+      headers['If-None-Match'] = storedEtagForUrl;
+    }
+    captureMessage('getRegionContent() headers', headers);
+    const response = await fetch(regionContentUrl, {method: 'GET', headers});
+    captureMessage('getRegionContent() response status', {status: response.status});
+    if (response.status === 304 && storedRegionContent) {
+      captureMessage('getRegionContent() use stored local content.');
+      const payload = JSON.parse(storedRegionContent);
+      return {status: 304, payload};
+    }
+
+    try {
+      captureMessage('getRegionContent() saving regions content');
+      captureMessage('getRegionContent() response headers', {header: response.headers});
+      const etag = response.headers.get('Etag');
+
+      if (etag) {
+        await AsyncStorage.setItem(eTagStorageKey, etag);
+      }
+
+      captureMessage('getRegionContent() response', {response});
+      const result = await response.json();
+      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
+      captureMessage('getRegionContent() using downloaded content.', result);
+      return {status: 200, payload: result};
+    } catch (err) {
+      captureMessage(`ERROR: getRegionContent() ${err.message}`);
+      return {status: 400, payload: null};
+    }
   }
 
   async getExposureConfiguration(): Promise<ExposureConfiguration> {
@@ -131,12 +168,12 @@ export class BackendService implements BackendInterface {
     }
     const encryptedPayload = nacl.box(serializedUpload, nonce, serverPublicKey, clientPrivate);
 
-    captureMessage('Uploading encrypted diagnosis keys');
+    // captureMessage('Uploading encrypted diagnosis keys');
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
   }
 
   private async keyClaim(code: string, keyPair: nacl.BoxKeyPair): Promise<covidshield.KeyClaimResponse> {
-    captureMessage('keyClaim', {code});
+    // captureMessage('keyClaim', {code});
     const uploadPayload = covidshield.KeyClaimRequest.create({
       oneTimeCode: code,
       appPublicKey: keyPair.publicKey,

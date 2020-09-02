@@ -1,6 +1,6 @@
 import {TemporaryExposureKey, ExposureConfiguration} from 'bridge/ExposureNotification';
 
-import {RegionContent} from '../../shared/Region';
+import {RegionContentResponse} from '../../shared/Region';
 
 export interface SubmissionKeySet {
   serverPublicKey: string;
@@ -12,6 +12,6 @@ export interface BackendInterface {
   claimOneTimeCode(code: string): Promise<SubmissionKeySet>;
   reportDiagnosisKeys(submissionKeyPair: SubmissionKeySet, keys: TemporaryExposureKey[]): Promise<void>;
   retrieveDiagnosisKeys(period: number): Promise<string>;
-  getRegionContent(): Promise<RegionContent>;
+  getRegionContent(): Promise<RegionContentResponse>;
   getExposureConfiguration(): Promise<ExposureConfiguration>;
 }
