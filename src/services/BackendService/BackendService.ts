@@ -68,7 +68,6 @@ export class BackendService implements BackendInterface {
     captureMessage('getRegionContent() headers', headers);
     const response = await fetch(regionContentUrl, {method: 'GET', headers});
     captureMessage('getRegionContent() response status', {status: response.status});
-    // captureMessage('Response: ', await response.json());
     if (response.status === 304 && storedRegionContent) {
       captureMessage('getRegionContent() use stored local content.');
       const payload = JSON.parse(storedRegionContent);

@@ -7,7 +7,6 @@
  *
  * @format
  */
-import sha256 from 'crypto-js/sha256';
 import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
@@ -66,39 +65,28 @@ const App = () => {
       }
     };
 
-    const initData = async () => {
+    const loadStoredRegionContent = async () => {
       const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
       if (storedRegionContent) {
         const storedRegionContentJson = JSON.parse(storedRegionContent);
         try {
           new JsonSchemaValidator().validateJson(storedRegionContentJson, regionSchema);
           captureMessage('initData() loaded stored content.');
-          if (
-            sha256(JSON.stringify(storedRegionContentJson)).toString() ===
-            sha256(JSON.stringify(regionContentDefault)).toString()
-          ) {
-            captureMessage('initData() embedded and stored content is the same.');
-          } else {
-            captureMessage('initData() embedded and stored content is not the same.');
-            captureMessage('initData() setRegionContent => storedRegionContentJson');
-            setRegionContent({payload: storedRegionContentJson});
-          }
-          return storedRegionContentJson;
+          setRegionContent({payload: storedRegionContentJson});
         } catch (error) {
           captureException(error.message, error);
         }
       } else {
         captureMessage('initData() no stored content.');
       }
-      captureMessage('initData() fallback to Embedded content.');
-      return regionContentDefault;
     };
 
     const fetchData = async () => {
       try {
-        await initData();
+        await loadStoredRegionContent();
         const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
         if (downloadedRegionContent.status === 200) {
+          new JsonSchemaValidator().validateJson(downloadedRegionContent.payload, regionSchema);
           setRegionContent({payload: downloadedRegionContent.payload});
         }
       } catch (error) {
@@ -108,7 +96,6 @@ const App = () => {
 
     fetchData()
       .then(async () => {
-        captureMessage('.......................................');
         await appInit();
       })
       .catch(() => {});
