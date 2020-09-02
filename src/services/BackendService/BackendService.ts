@@ -68,7 +68,7 @@ export class BackendService implements BackendInterface {
     captureMessage('Headers for getRegionContent:', headers);
     const response = await fetch(regionContentUrl, {method: 'GET', headers});
     captureMessage('Response status:', {status: response.status});
-    captureMessage('Response: ', await response.json());
+    // captureMessage('Response: ', await response.json());
     if (response.status === 304 && storedRegionContent) {
       captureMessage('Using stored local content.', JSON.parse(storedRegionContent));
       return JSON.parse(storedRegionContent);
@@ -83,8 +83,9 @@ export class BackendService implements BackendInterface {
         await AsyncStorage.setItem(eTagStorageKey, etag);
       }
       await AsyncStorage.setItem(regionContentUrl, JSON.stringify(response));
-      captureMessage('Using downloaded content.', await response.json());
-      return response.json();
+      const result = await response.json();
+      captureMessage('Using downloaded content.', result);
+      return result;
     }
   }
 
