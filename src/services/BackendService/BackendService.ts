@@ -12,7 +12,7 @@ import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {Observable} from '../../shared/Observable';
-import {Region, RegionContent, RegionContentResponse} from '../../shared/Region';
+import {Region, RegionContentResponse} from '../../shared/Region';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -70,20 +70,30 @@ export class BackendService implements BackendInterface {
     captureMessage('getRegionContent() response status', {status: response.status});
     // captureMessage('Response: ', await response.json());
     if (response.status === 304 && storedRegionContent) {
-      captureMessage('Using stored local content.', JSON.parse(storedRegionContent));
-      return {status: 304, payload: JSON.parse(storedRegionContent)};
+      captureMessage('getRegionContent() use stored local content.');
+      const payload = JSON.parse(storedRegionContent);
+      return {status: 304, payload};
     }
 
-    captureMessage('getRegionContent() saving regions content');
-    captureMessage('getRegionContent() response headers', {header: response.headers});
-    const etag = response.headers.get('Etag');
-    if (etag) {
-      await AsyncStorage.setItem(eTagStorageKey, etag);
+    try {
+      captureMessage('getRegionContent() saving regions content');
+      captureMessage('getRegionContent() response headers', {header: response.headers});
+      const etag = response.headers.get('Etag');
+
+      if (etag) {
+        await AsyncStorage.setItem(eTagStorageKey, etag);
+      }
+
+      captureMessage('getRegionContent() response', {response: response});
+
+      const result = await response.json();
+      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
+      captureMessage('getRegionContent() using downloaded content.', result);
+      return {status: 200, payload: result};
+    } catch (e) {
+      captureMessage(`ERROR: getRegionContent() ${e.message}`);
+      return {status: 400, payload: null};
     }
-    const result = await response.json();
-    await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
-    captureMessage('getRegionContent() using downloaded content.', result);
-    return {status: 200, payload: result};
   }
 
   async getExposureConfiguration(): Promise<ExposureConfiguration> {

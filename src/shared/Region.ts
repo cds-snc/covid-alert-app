@@ -8,6 +8,6 @@ export interface RegionContent {
 }
 
 export interface RegionContentResponse {
-  status: 304 | 200;
-  payload: Region;
+  status: 400 | 304 | 200;
+  payload: Region | null;
 }
