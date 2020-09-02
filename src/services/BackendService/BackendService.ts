@@ -12,7 +12,7 @@ import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {Observable} from '../../shared/Observable';
-import {Region, RegionContent} from '../../shared/Region';
+import {Region, RegionContent, RegionContentResponse} from '../../shared/Region';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -51,42 +51,39 @@ export class BackendService implements BackendInterface {
     return downloadDiagnosisKeysFile(url);
   }
 
-  async getRegionContent(): Promise<RegionContent> {
+  async getRegionContent(): Promise<RegionContentResponse> {
     const headers: any = {};
     const regionPath = 'exposure-configuration/region.json';
     const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
     const eTagStorageKey = `etag-${regionContentUrl}`;
-    captureMessage('getRegionContent', {regionContentUrl});
     const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
     const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
 
-    captureMessage('Stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
+    captureMessage('getRegionContent()', {regionContentUrl});
+    captureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
 
     if (storedRegionContent !== null && storedEtagForUrl !== null) {
       headers['If-None-Match'] = storedEtagForUrl;
     }
-    captureMessage('Headers for getRegionContent:', headers);
+    captureMessage('getRegionContent() headers', headers);
     const response = await fetch(regionContentUrl, {method: 'GET', headers});
-    captureMessage('Response status:', {status: response.status});
+    captureMessage('getRegionContent() response status', {status: response.status});
     // captureMessage('Response: ', await response.json());
     if (response.status === 304 && storedRegionContent) {
       captureMessage('Using stored local content.', JSON.parse(storedRegionContent));
-      return JSON.parse(storedRegionContent);
-    } else {
-      captureMessage('Saving regions content');
-      captureMessage('Response headers', {header: response.headers});
-      const etag = response.headers.get('Etag');
-      captureMessage('==== ETAG ====');
-      captureMessage('etag', {etag});
-      captureMessage('==== END ETAG ====');
-      if (etag) {
-        await AsyncStorage.setItem(eTagStorageKey, etag);
-      }
-      const result = await response.json();
-      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
-      captureMessage('Using downloaded content.', result);
-      return result;
+      return {status: 304, payload: JSON.parse(storedRegionContent)};
     }
+
+    captureMessage('getRegionContent() saving regions content');
+    captureMessage('getRegionContent() response headers', {header: response.headers});
+    const etag = response.headers.get('Etag');
+    if (etag) {
+      await AsyncStorage.setItem(eTagStorageKey, etag);
+    }
+    const result = await response.json();
+    await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
+    captureMessage('getRegionContent() using downloaded content.', result);
+    return {status: 200, payload: result};
   }
 
   async getExposureConfiguration(): Promise<ExposureConfiguration> {

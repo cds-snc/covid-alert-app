@@ -6,3 +6,8 @@ export interface RegionContent {
   en: any;
   fr: any;
 }
+
+export interface RegionContentResponse {
+  status: 304 | 200;
+  payload: Region;
+}

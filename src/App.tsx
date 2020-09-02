@@ -29,7 +29,7 @@ import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import regionContentDefault from './locale/translations/region.json';
-import {RegionContent} from './shared/Region';
+import {RegionContent, RegionContentResponse} from './shared/Region';
 
 const REGION_CONTENT_KEY = 'regionContentKey';
 // grabs the ip address
@@ -61,7 +61,7 @@ const App = () => {
     const onAppStateChange = async (newState: AppStateStatus) => {
       captureMessage('onAppStateChange', {appState: newState});
       if (newState === 'active') {
-        captureMessage('asdfasdfasdfasfadsf', {appState: newState});
+        captureMessage('app is active - fetch data', {appState: newState});
         await fetchData();
       }
     };
@@ -72,30 +72,35 @@ const App = () => {
         const storedRegionContentJson = JSON.parse(storedRegionContent);
         try {
           new JsonSchemaValidator().validateJson(storedRegionContentJson, regionSchema);
-          captureMessage('Region Content: loaded stored content.');
+          captureMessage('initData() loaded stored content.');
           if (
             sha256(JSON.stringify(storedRegionContentJson)).toString() ===
             sha256(JSON.stringify(regionContentDefault)).toString()
           ) {
-            captureMessage('Region Content: Embedded and Stored content is the same.');
+            captureMessage('initData() embedded and stored content is the same.');
           } else {
-            captureMessage('Region Content: Embedded and Stored content is not the same.');
+            captureMessage('initData() embedded and stored content is not the same.');
+            captureMessage('initData() setRegionContent => storedRegionContentJson');
             setRegionContent({payload: storedRegionContentJson});
           }
           return storedRegionContentJson;
         } catch (error) {
           captureException(error.message, error);
         }
+      } else {
+        captureMessage('initData() no stored content.');
       }
-      captureMessage('Region Content: loaded embedded content.');
+      captureMessage('initData() fallback to Embedded content.');
       return regionContentDefault;
     };
 
     const fetchData = async () => {
       try {
-        // const initialRegionContent = await initData();
-        const downloadedRegionContent: RegionContent = await backendService.getRegionContent();
-        setRegionContent({payload: downloadedRegionContent});
+        await initData();
+        const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
+        if (downloadedRegionContent.status === 200) {
+          setRegionContent({payload: downloadedRegionContent.payload});
+        }
       } catch (error) {
         captureException(error.message, error);
       }
