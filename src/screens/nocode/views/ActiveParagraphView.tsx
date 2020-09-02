@@ -10,6 +10,7 @@ export const ActiveParagraphView = () => {
   const regionalI18n = useRegionalI18n();
   const {region} = useStorage();
   const autoFocusRef = useAccessibilityAutoFocus(true);
+  const buttonCTA = regionalI18n.translate(`RegionContent.NoCode.Active.${region}.CTA`);
   const onClick = () =>
     Linking.openURL(regionalI18n.translate(`RegionContent.NoCode.Active.${region}.Link`)).catch(error =>
       captureException('An error occurred', error),
@@ -26,13 +27,15 @@ export const ActiveParagraphView = () => {
         {regionalI18n.translate(`RegionContent.NoCode.Active.${region}.Title`)}
       </Text>
       <TextMultiline marginBottom="l" text={regionalI18n.translate(`RegionContent.NoCode.Active.${region}.Body`)} />
-      <ButtonSingleLine
-        testID="noCodeCTA"
-        variant="bigFlat"
-        text={regionalI18n.translate(`RegionContent.NoCode.Active.${region}.CTA`)}
-        onPress={onClick}
-        externalLink
-      />
+      {buttonCTA && (
+        <ButtonSingleLine
+          testID="noCodeCTA"
+          variant="bigFlat"
+          text={regionalI18n.translate(`RegionContent.NoCode.Active.${region}.CTA`)}
+          onPress={onClick}
+          externalLink
+        />
+      )}
     </Box>
   );
 };
