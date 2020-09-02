@@ -27,7 +27,7 @@ export const ActiveParagraphView = () => {
         {regionalI18n.translate(`RegionContent.NoCode.Active.${region}.Title`)}
       </Text>
       <TextMultiline marginBottom="l" text={regionalI18n.translate(`RegionContent.NoCode.Active.${region}.Body`)} />
-      {buttonCTA && (
+      {buttonCTA !== '' && (
         <ButtonSingleLine
           testID="noCodeCTA"
           variant="bigFlat"
