@@ -5,6 +5,7 @@
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>app.covidshield.exposure-notification</string>
+    <string>app.covidshield.poll-notifications</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
