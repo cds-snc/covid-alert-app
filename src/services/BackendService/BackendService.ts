@@ -82,8 +82,8 @@ export class BackendService implements BackendInterface {
       if (etag) {
         await AsyncStorage.setItem(eTagStorageKey, etag);
       }
-      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(response));
       const result = await response.json();
+      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
       captureMessage('Using downloaded content.', result);
       return result;
     }
