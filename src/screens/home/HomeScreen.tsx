@@ -14,7 +14,6 @@ import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
-import {PollNotifications} from 'services/PollNotificationService';
 
 import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
 import {RegionCase} from '../../shared/Region';
@@ -175,10 +174,6 @@ export const HomeScreen = () => {
       });
     }
   }, [navigation]);
-
-  useEffect(() => {
-    PollNotifications.checkForNotifications();
-  }, []);
 
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().
