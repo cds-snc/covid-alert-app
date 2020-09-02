@@ -2,6 +2,7 @@ import BackgroundFetch from 'react-native-background-fetch';
 import {Platform} from 'react-native';
 import {TEST_MODE} from 'env';
 import {captureMessage, captureException} from 'shared/log';
+import {PollNotifications} from 'services/PollNotificationService';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
@@ -24,10 +25,22 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     },
     async taskId => {
       captureMessage('runPeriodicTask', {taskId});
-      try {
-        await task();
-      } catch (error) {
-        captureException('runPeriodicTask', error);
+      switch (taskId) {
+        case 'app.covidshield.poll-notifications': {
+          try {
+            PollNotifications.checkForNotifications();
+          } catch (error) {
+            captureException('pollNotificationsTask', error);
+          }
+          break;
+        }
+        default: {
+          try {
+            await task();
+          } catch (error) {
+            captureException('runPeriodicTask', error);
+          }
+        }
       }
       BackgroundFetch.finish(taskId);
     },
@@ -36,6 +49,15 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     () => false,
   );
   captureMessage('registerPeriodicTask', {result});
+
+  // schedule the poll-notifications task
+  const pnResult = await BackgroundFetch.scheduleTask({
+    taskId: 'app.covidshield.poll-notifications',
+    delay: 0,
+    periodic: true,
+  }).catch(() => false);
+
+  captureMessage('registerPollTask', {pnResult});
 };
 
 const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
