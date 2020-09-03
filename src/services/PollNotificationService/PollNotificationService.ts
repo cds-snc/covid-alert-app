@@ -1,11 +1,12 @@
-import {captureException} from 'shared/log';
+import {captureException, captureMessage} from 'shared/log';
 import PushNotification from 'bridge/PushNotification';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
 import semver from 'semver';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
-const FEED_URL = 'https://api.jsonbin.io/b/5f4533fb993a2e110d361e77/10';
+const ETAG_STORAGE_KEY = 'NotificationsEtag';
+const FEED_URL = 'https://abe63f9151c4.ngrok.io/api';
 
 const checkForNotifications = async () => {
   const selectedRegion = (await AsyncStorage.getItem('Region')) || 'CA';
@@ -15,27 +16,29 @@ const checkForNotifications = async () => {
   // Fetch messages from api
   const messages = await fetchNotifications();
 
-  messages.forEach(async (message: any) => {
-    if (!readReceipts.includes(message.id)) {
-      if (
-        checkRegion(message.target_regions, selectedRegion) &&
-        checkVersion(message.target_version, APP_VERSION_NAME) &&
-        checkDate(message.expires_at) &&
-        checkMessage(message, selectedLocale)
-      ) {
-        PushNotification.presentLocalNotification({
-          alertTitle: message.title[selectedLocale],
-          alertBody: message.message[selectedLocale],
-        });
+  if (messages) {
+    messages.forEach(async (message: any) => {
+      if (!readReceipts.includes(message.id)) {
+        if (
+          checkRegion(message.target_regions, selectedRegion) &&
+          checkVersion(message.target_version, APP_VERSION_NAME) &&
+          checkDate(message.expires_at) &&
+          checkMessage(message, selectedLocale)
+        ) {
+          PushNotification.presentLocalNotification({
+            alertTitle: message.title[selectedLocale],
+            alertBody: message.message[selectedLocale],
+          });
 
-        // push message id onto readReceipts
-        readReceipts.push(message.id);
+          // push message id onto readReceipts
+          readReceipts.push(message.id);
+        }
       }
-    }
-  });
+    });
 
-  // Save read receipts back to storage
-  saveReadReceipts(readReceipts);
+    // Save read receipts back to storage
+    saveReadReceipts(readReceipts);
+  }
 };
 
 const getReadReceipts = async () => {
@@ -95,8 +98,34 @@ const checkRegion = (target: string[], selected: string) => {
 
 // Fetch notifications from the endpoint
 const fetchNotifications = async () => {
+  const etag = await AsyncStorage.getItem(ETAG_STORAGE_KEY);
+  const headers: any = {};
+
   try {
-    const response = await fetch(FEED_URL);
+    if (etag) {
+      headers['If-None-Match'] = etag;
+      captureMessage('>>>>> headers', headers);
+      captureMessage('>>>>> Received etag from storage', {etag});
+    }
+
+    const response = await fetch(FEED_URL, {
+      method: 'GET',
+      headers,
+    });
+    captureMessage('fetchNotifications() response status', {status: response.status});
+
+    if (response.status === 304) {
+      captureMessage('>>>>> No feed changes, skipping');
+      return false;
+    }
+    captureMessage('>>>>> Feed updated');
+    const newEtag = response.headers.get('Etag');
+
+    if (newEtag) {
+      captureMessage('>>>>> Storing etag');
+      await AsyncStorage.setItem(ETAG_STORAGE_KEY, newEtag);
+    }
+
     const json = await response.json();
     return json.messages;
   } catch (error) {
