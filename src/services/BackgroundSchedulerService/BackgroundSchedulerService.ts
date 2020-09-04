@@ -25,12 +25,14 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     },
     async taskId => {
       captureMessage('runPeriodicTask', {taskId});
+
+      // All background tasks come through this same callback
       switch (taskId) {
         case 'app.covidshield.poll-notifications': {
           try {
-            PollNotifications.checkForNotifications();
+            await PollNotifications.checkForNotifications();
           } catch (error) {
-            captureException('runPollNotificationsTask', error);
+            captureException('runPollNotificationsTaskError', error);
           }
           break;
         }
@@ -38,7 +40,7 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
           try {
             await task();
           } catch (error) {
-            captureException('runPeriodicTask', error);
+            captureException('runPeriodicTaskError', error);
           }
         }
       }
@@ -56,7 +58,6 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     delay: 0,
     periodic: true,
   }).catch(() => false);
-
   captureMessage('registerPollNotificationTask', {pnResult});
 };
 
