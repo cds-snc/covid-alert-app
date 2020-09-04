@@ -30,7 +30,7 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
           try {
             PollNotifications.checkForNotifications();
           } catch (error) {
-            captureException('pollNotificationsTask', error);
+            captureException('runPollNotificationsTask', error);
           }
           break;
         }
@@ -57,7 +57,7 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     periodic: true,
   }).catch(() => false);
 
-  captureMessage('registerPollTask', {pnResult});
+  captureMessage('registerPollNotificationTask', {pnResult});
 };
 
 const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
