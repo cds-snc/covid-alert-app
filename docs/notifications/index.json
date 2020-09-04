@@ -10,9 +10,11 @@
         "en": "If you live in Newfoundland and Labrador...",
         "fr": "[message in french]"
       },
-      "target_regions": ["NL"],
+      "target_regions": [
+        "CA"
+      ],
       "posted_at": "2020-08-25T13:13:47+00:00",
-      "expires_at": "2020-08-25T13:13:47+00:00",
+      "expires_at": "2020-09-28T13:13:47+00:00",
       "priority": 1
     },
     {
@@ -25,8 +27,44 @@
         "en": "Update today to Covid Alert 1.0.5",
         "fr": "[message in french]"
       },
-      "target_regions": ["CA"],
-      "target_version": "1.0.4",
+      "target_regions": [
+        "CA"
+      ],
+      "target_version": "<=1.0.4",
+      "posted_at": "2020-08-25T13:13:47+00:00",
+      "expires_at": "2020-09-28T13:13:47+00:00",
+      "priority": 2
+    },
+    {
+      "id": "f809f509-2a9d-48f0-9959-a0711c042626",
+      "title": {
+        "en": "This is an alert for Ontario",
+        "fr": "Ontario [title in french]"
+      },
+      "message": {
+        "en": "This is a message for Ontarians",
+        "fr": "[message in french]"
+      },
+      "target_regions": [
+        "ON"
+      ],
+      "posted_at": "2020-08-25T13:13:47+00:00",
+      "expires_at": "2020-09-28T13:13:47+00:00",
+      "priority": 2
+    },
+    {
+      "id": "bd3d025d-1645-4663-a4b3-b876876ddea9",
+      "title": {
+        "en": "This is an expired notification",
+        "fr": "Expired [title in french]"
+      },
+      "message": {
+        "en": "Nobody should see this",
+        "fr": "[message in french]"
+      },
+      "target_regions": [
+        "ON"
+      ],
       "posted_at": "2020-08-25T13:13:47+00:00",
       "expires_at": "2020-08-25T13:13:47+00:00",
       "priority": 2
