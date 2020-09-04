@@ -4,18 +4,17 @@ import {Box, Text, Button, ButtonSingleLine} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
-interface Props {
-  onSuccess: () => void;
-}
+import {BaseDataSharingView} from './components/BaseDataSharingView';
 
-export const Step1 = ({onSuccess}: Props) => {
+export const Step1Screen = () => {
   const i18n = useI18n();
-
   const navigation = useNavigation();
+  const onNext = useCallback(() => navigation.navigate('FormView'), [navigation]);
+
   const onNoCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
 
   return (
-    <>
+    <BaseDataSharingView>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
@@ -40,7 +39,7 @@ export const Step1 = ({onSuccess}: Props) => {
           </Text>
 
           <Box marginTop="m">
-            <Button variant="thinFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onSuccess} />
+            <Button variant="thinFlat" text={i18n.translate('DataUpload.Step1.CTA')} onPress={onNext} />
           </Box>
           <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
             <ButtonSingleLine
@@ -52,7 +51,7 @@ export const Step1 = ({onSuccess}: Props) => {
           </Box>
         </Box>
       </ScrollView>
-    </>
+    </BaseDataSharingView>
   );
 };
 

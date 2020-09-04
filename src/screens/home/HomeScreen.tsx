@@ -14,6 +14,7 @@ import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
+import {useRegionalI18n} from 'locale';
 
 import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
 import {RegionCase} from '../../shared/Region';
@@ -51,7 +52,8 @@ const strToBackgroundColor = (backgroundColor: string): BackgroundColor => {
 
 const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   const {region} = useStorage();
-  const regionCase = getRegionCase(region);
+  const regionalI18n = useRegionalI18n();
+  const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const [exposureStatus] = useExposureStatus();
   const [systemStatus] = useSystemStatus();
   const [, turnNotificationsOn] = useNotificationPermissionStatus();
@@ -66,9 +68,9 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
     switch (_regionCase) {
       case 'noRegionSet':
         return <NoExposureNoRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case 'regionCovered':
+      case 'regionActive':
         return <NoExposureCoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case 'regionNotCovered':
+      case 'regionNotActive':
         return <NoExposureUncoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
     }
   };
