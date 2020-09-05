@@ -73,15 +73,15 @@ Without these security protections in place, spammers could flood the COVID Aler
 - System logs are closely protected. They can only be used for ensuring performance and responding to security threats.
 - If there’s an investigation, we may need to share the relevant system logs, including IP addresses, with law enforcement, as required by law. They could use these logs to identify people who attack the system.
 
-##Links to other websites
+## Links to other websites
 The app contains some links to websites that are managed by provincial and territorial governments. They may ask for or collect information about you. The COVID Alert system has no access to any information you may give to those websites.
 
 ## Questions?
 Contact the COVID-19 information line:
-- Phone: 1-833-784-4397
-- Teletypewriter (TTY): 1-800-465-7735
+- Phone: [1-833-784-4397](tel:1-833-784-4397)
+- Teletypewriter (TTY): [1-800-465-7735](1-800-465-7735)
   (Monday to Friday, 8 a.m. to 8 p.m. Eastern time)
-- Email: hc.AlerteCOVIDAlert.sc@canada.ca
+- Email: [hc.AlerteCOVIDAlert.sc@canada.ca](mailto:hc.AlerteCOVIDAlert.sc@canada.ca)
 `;
 
 export default privacy;
