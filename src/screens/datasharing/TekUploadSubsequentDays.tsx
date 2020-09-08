@@ -4,7 +4,7 @@ import {useI18n} from 'locale';
 
 import {BaseTekUploadView} from './components';
 
-export const ConsentScreen = () => {
+export const TekUploadSubsequentDays = () => {
   const i18n = useI18n();
 
   return (

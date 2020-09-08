@@ -3,7 +3,16 @@ import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
-import {Step1Screen, FormScreen, ConsentScreen, SymptomOnsetDateScreen} from 'screens/datasharing';
+import {
+  FormScreen,
+  Step1Screen,
+  Step2Screen,
+  SymptomOnsetDateScreen,
+  TekUploadNoDate,
+  TekUploadSubsequentDays,
+  TekUploadWithDate,
+  TestDateScreen,
+} from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
@@ -60,9 +69,13 @@ const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const Step1ScreenWithNavBar = withDarkNav(Step1Screen);
+const Step2ScreenWithNavBar = withDarkNav(Step2Screen);
 const FormScreenWithNavBar = withDarkNav(FormScreen);
-const ConsentScreenWithNavBar = withDarkNav(ConsentScreen);
+const TekUploadWithDateWithNavBar = withDarkNav(TekUploadWithDate);
+const TekUploadNoDateWithNavBar = withDarkNav(TekUploadNoDate);
+const TekUploadSubsequentDaysWithNavBar = withDarkNav(TekUploadSubsequentDays);
 const SymptomOnsetDateScreenWithNavBar = withDarkNav(SymptomOnsetDateScreen);
+const TestDateScreenWithNavBar = withDarkNav(TestDateScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
@@ -85,8 +98,12 @@ const DataSharingNavigator = () => {
     <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step1">
       <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
       <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
-      <DataSharingStack.Screen name="ConsentView" component={ConsentScreenWithNavBar} />
+      <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />
       <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />
+      <DataSharingStack.Screen name="TestDate" component={TestDateScreenWithNavBar} />
+      <DataSharingStack.Screen name="TekUploadNoDate" component={TekUploadNoDateWithNavBar} />
+      <DataSharingStack.Screen name="TekUploadWithDate" component={TekUploadWithDateWithNavBar} />
+      <DataSharingStack.Screen name="TekUploadSubsequentDays" component={TekUploadSubsequentDaysWithNavBar} />
     </DataSharingStack.Navigator>
   );
 };

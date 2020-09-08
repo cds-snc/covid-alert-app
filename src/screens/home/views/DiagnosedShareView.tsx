@@ -9,7 +9,9 @@ import {BaseHomeView} from '../components/BaseHomeView';
 export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
   const navigation = useNavigation();
-  const toDataShare = useCallback(() => navigation.navigate('DataSharing', {screen: 'ConsentView'}), [navigation]);
+  const toDataShare = useCallback(() => navigation.navigate('DataSharing', {screen: 'TekUploadSubsequentDays'}), [
+    navigation,
+  ]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   return (

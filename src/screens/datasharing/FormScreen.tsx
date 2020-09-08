@@ -16,7 +16,7 @@ export const FormScreen = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const {startSubmission} = useReportDiagnosis();
-  const onSuccess = useCallback(() => navigation.navigate('ConsentView'), [navigation]);
+  const onSuccess = useCallback(() => navigation.navigate('Step2'), [navigation]);
 
   const getTranslationKey = (error: any) => {
     // OTC = One time code (diagnosis code)

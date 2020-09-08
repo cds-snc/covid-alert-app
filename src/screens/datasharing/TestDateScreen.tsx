@@ -6,10 +6,10 @@ import {useNavigation} from '@react-navigation/native';
 
 import {BaseDataSharingView, DatePicker} from './components';
 
-export const SymptomOnsetDateScreen = () => {
+export const TestDateScreen = () => {
   const i18n = useI18n();
   const [selectedDate, setSelectedDate] = useState('');
-  // todo: get {dateType: 'symptomOnsetDate', dateString: selectedDate} to the backend service
+  // todo: pass {dateType: 'testDate', dateString: selectedDate}
   const navigation = useNavigation();
   const onNext = useCallback(() => navigation.navigate('TekUploadWithDate'), [navigation]);
 
