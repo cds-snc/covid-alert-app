@@ -6,7 +6,7 @@ import {ExposureConfiguration, TemporaryExposureKey} from 'bridge/ExposureNotifi
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
-import {MCC_CODE} from 'env';
+import {MCC_CODE, REGION_JSON_URL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -53,7 +53,13 @@ export class BackendService implements BackendInterface {
 
   async getRegionContent(): Promise<RegionContentResponse> {
     const headers: any = {};
-    const regionContentUrl = `${this.retrieveUrl}/exposure-configuration/region.json`;
+
+    let regionContentUrl = `${this.retrieveUrl}/exposure-configuration/region.json`;
+
+    if (REGION_JSON_URL && REGION_JSON_URL !== '') {
+      regionContentUrl = REGION_JSON_URL;
+    }
+
     const eTagStorageKey = `etag-${regionContentUrl}`;
     const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
     const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
