@@ -81,10 +81,10 @@ L’application contient des liens vers des sites Web gérés par les gouverneme
 
 ## Questions?
 Contactez la ligne d’information sur la COVID-19 :
-- Téléphone : 1-833-784-4397
-- Téléscripteur (ATS) : 1-800-465-7735
+- Téléphone : [1-833-784-4397](tel:1-833-784-4397)
+- Téléscripteur (ATS) : [1-800-465-7735](tel:1-800-465-7735)
   Du lundi au vendredi, de 8 h à 20 h (heure de l’Est)
-- Courriel : hc.AlerteCOVIDAlert.sc@canada.ca
+- Courriel : [hc.AlerteCOVIDAlert.sc@canada.ca](mailto:hc.AlerteCOVIDAlert.sc@canada.ca)
 `;
 
 export default privacy;

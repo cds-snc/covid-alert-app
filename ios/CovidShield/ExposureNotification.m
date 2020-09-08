@@ -68,6 +68,12 @@ RCT_REMAP_METHOD(stop, stopWithResolver:(RCTPromiseResolveBlock)resolve rejecter
 RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
   // TODO: return a more meaningful status for 'ENStatusPaused' when it's known how to pause the EN framework.
+
+  // Checking the authorizationStatus will check the "Share Exposure Information" toggle in 13.7+
+  if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
+    resolve (@"disabled");
+    return;
+  }
   switch (self.enManager.exposureNotificationStatus) {
     case ENStatusActive: resolve(@"active");
       break;

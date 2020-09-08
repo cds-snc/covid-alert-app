@@ -1,7 +1,7 @@
 import {TemporaryExposureKey, ExposureConfiguration} from 'bridge/ExposureNotification';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
 
-import {RegionContent} from '../../shared/Region';
+import {RegionContentResponse} from '../../shared/Region';
 
 export interface SubmissionKeySet {
   serverPublicKey: string;
@@ -17,6 +17,6 @@ export interface BackendInterface {
     contagiousDateInfo: ContagiousDateInfo,
   ): Promise<void>;
   retrieveDiagnosisKeys(period: number): Promise<string>;
-  getRegionContent(): Promise<RegionContent>;
+  getRegionContent(): Promise<RegionContentResponse>;
   getExposureConfiguration(): Promise<ExposureConfiguration>;
 }
