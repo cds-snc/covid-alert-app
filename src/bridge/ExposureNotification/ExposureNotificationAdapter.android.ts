@@ -4,9 +4,6 @@ import {getLastExposureTimestamp} from './utils';
 export default function ExposureNotificationAdapter(exposureNotificationAPI: any): ExposureNotification {
   return {
     ...exposureNotificationAPI,
-    getExposureInformation: summary => {
-      return exposureNotificationAPI.getExposureInformation(summary);
-    },
     detectExposure: async (configuration, diagnosisKeysURLs) => {
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');

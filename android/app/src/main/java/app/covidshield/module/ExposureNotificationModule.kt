@@ -195,21 +195,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         }
     }
 
-    @ReactMethod
-    fun getExposureInformation(summary: ReadableMap, promise: Promise) {
-        promise.launch(this) {
-            if (getStatusInternal() == Status.DISABLED) {
-                throw ApiNotEnabledException()
-            }
-
-            val token = summary.getString(SUMMARY_HIDDEN_KEY)
-                ?: throw SummaryTokenNotFoundException()
-            val exposureInformationList = exposureNotificationClient.getExposureInformation(token).await()
-            val informationList = exposureInformationList.map { it.toInformation() }.toWritableArray()
-            promise.resolve(informationList)
-        }
-    }
-
     private suspend fun startInternal() {
         val activity = currentActivity ?: throw InvalidActivityException()
         startResolutionCompleter?.await()
