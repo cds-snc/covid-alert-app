@@ -532,7 +532,7 @@ SPEC CHECKSUMS:
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
-  Permission-Notifications: 2d332751cadd3f39bf6062333f36a1bc3e0281d2
+  Permission-Notifications: d437cafc026900006d35981d35a2d694f883f44e
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
   RCTSystemSetting: f3123e7de51bf918bc4243167ba2885a72bf09ec
   RCTTypeSafety: 93006131180074cffa227a1075802c89a49dd4ce
@@ -544,8 +544,8 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-config: 313a1306066289211579b9655eb81d9a565462d0
-  react-native-netinfo: 7f3f3ed9e8f0e7ab3e7cac00cbfdc6997e25ecaf
-  react-native-safe-area-context: 1a1fdfdc6f9f5beb55b2f0d10d8cf029efd996f4
+  react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
+  react-native-safe-area-context: 4fb3cdeb4a405ec19f18aca80ef2144381ffc761
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
@@ -557,18 +557,18 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
-  RNBackgroundFetch: 81c690aa5e8e67dbc3f86ecb7f26629c00c6060d
-  RNCAsyncStorage: b16697280b08bab4b5f2f67f752d93d13a52e9ed
-  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
-  RNCPushNotificationIOS: 23c5b5fdae79f105c63236de5ca306a70c00c444
+  RNBackgroundFetch: 8dbb63141792f1473e863a0797ffbd5d987af2fc
+  RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNCPushNotificationIOS: d5fd66aed4e03c6491ca0c6111a03d4f6455ff6c
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
-  RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
-  RNPermissions: 8ca17fd6c822eea589fe84709d9426e05cc39c39
+  RNLocalize: b6df30cc25ae736d37874f9bce13351db2f56796
+  RNPermissions: 3635b407c15f2fe591bd2101c8f20aa0912caba8
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
   RNSecureKeyStore: f1ad870e53806453039f650720d2845c678d89c8
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
-  RNZipArchive: f06fe0dcfb9e2fa7437fc7f6c03d5400952f2d57
+  RNZipArchive: ab51bc004a31657f34010254a9182014c6a81217
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
