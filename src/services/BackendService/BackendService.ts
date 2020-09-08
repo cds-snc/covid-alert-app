@@ -53,8 +53,7 @@ export class BackendService implements BackendInterface {
 
   async getRegionContent(): Promise<RegionContentResponse> {
     const headers: any = {};
-    const regionPath = 'exposure-configuration/region.json';
-    const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
+    const regionContentUrl = `${this.retrieveUrl}/exposure-configuration/region.json`;
     const eTagStorageKey = `etag-${regionContentUrl}`;
     const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
     const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
