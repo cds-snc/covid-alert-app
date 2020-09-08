@@ -13,7 +13,7 @@ import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StorageServiceProvider, useStorageService} from 'services/StorageService';
 import Reactotron from 'reactotron-react-native';
-import {AppState, AppStateStatus, NativeModules, StatusBar} from 'react-native';
+import {AppState, AppStateStatus, NativeModules, Platform, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {DemoMode} from 'testMode';
 import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
@@ -29,6 +29,15 @@ import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
+
+// this allows us to use new Date().toLocaleString() for date formatting on android
+// https://github.com/facebook/react-native/issues/19410#issuecomment-482804142
+if (Platform.OS === 'android') {
+  require('intl');
+  require('intl/locale-data/jsonp/en-CA');
+  require('intl/locale-data/jsonp/fr-CA');
+  require('date-time-format-timezone');
+}
 
 const REGION_CONTENT_KEY = 'regionContentKey';
 // grabs the ip address

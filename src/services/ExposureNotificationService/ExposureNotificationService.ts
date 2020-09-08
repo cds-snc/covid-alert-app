@@ -10,6 +10,7 @@ import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
+import {ContagiousDateInfo} from 'screens/datasharing/components';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -186,7 +187,7 @@ export class ExposureNotificationService {
     });
   }
 
-  async fetchAndSubmitKeys(): Promise<void> {
+  async fetchAndSubmitKeys(contagiousDateInfo: ContagiousDateInfo): Promise<void> {
     const submissionKeysStr = await this.secureStorage.get(SUBMISSION_AUTH_KEYS);
     if (!submissionKeysStr) {
       throw new Error('Submission keys: bad certificate');
@@ -199,7 +200,7 @@ export class ExposureNotificationService {
       throw cannotGetTEKsError;
     }
     if (temporaryExposureKeys.length > 0) {
-      await this.backendInterface.reportDiagnosisKeys(auth, temporaryExposureKeys);
+      await this.backendInterface.reportDiagnosisKeys(auth, temporaryExposureKeys, contagiousDateInfo);
     } else {
       captureMessage('No TEKs available to upload');
     }

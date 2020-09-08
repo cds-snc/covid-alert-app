@@ -3,7 +3,7 @@ import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
-import {Step1Screen, FormScreen, ConsentScreen} from 'screens/datasharing';
+import {Step1Screen, FormScreen, ConsentScreen, SymptomOnsetDateScreen} from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
@@ -62,6 +62,7 @@ const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const Step1ScreenWithNavBar = withDarkNav(Step1Screen);
 const FormScreenWithNavBar = withDarkNav(FormScreen);
 const ConsentScreenWithNavBar = withDarkNav(ConsentScreen);
+const SymptomOnsetDateScreenWithNavBar = withDarkNav(SymptomOnsetDateScreen);
 const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
@@ -85,6 +86,7 @@ const DataSharingNavigator = () => {
       <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
       <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
       <DataSharingStack.Screen name="ConsentView" component={ConsentScreenWithNavBar} />
+      <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />
     </DataSharingStack.Navigator>
   );
 };
