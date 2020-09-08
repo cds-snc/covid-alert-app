@@ -264,6 +264,13 @@
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
     },
+    "Step2": {
+      "Title": "Step 2",
+      "Option1": "Yes, 1 or more symptoms.",
+      "Option2": "No symptoms.",
+      "Option3": "You're not sure.",
+      "Option4": "You prefer not to say."
+    },
     "FormView": {
       "Title": "Enter your one-time key",
       "Body": "Enter the key you got when you were diagnosed.",
@@ -278,12 +285,25 @@
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
       "Action": "Agree"
     },
+    "TekUploadWithDate": {
+      "Title": "Notify people you've been near",
+      "CTA": "Share codes"
+    },
+    "TekUploadNoDate": {
+      "Title": "Notify people you've been near",
+      "CTA": "Share codes",
+      "CTA2": "Go back to Step 2"
+    },
     "SymptomOnsetDate": {
       "Title": "Date you started feeling sick",
       "Body1": "Enter the date you first noticed you were not feeling well.",
       "Body2": "This information will never be shared from your phone.",
       "Body3": "The app will only share exposures from 2 days before this date until today. People will be notified they’ve been exposed.",
-      "CTA": "Share exposures"
+      "CTA": "Next"
+    },
+    "TestDate": {
+      "Title": "Enter the date of your COVID-19 test",
+      "CTA": "Next"
     },
     "NoCode": {
       "NoRegion": {

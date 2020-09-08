@@ -18,14 +18,11 @@ export const TestDateScreen = () => {
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-            {i18n.translate('DataUpload.SymptomOnsetDate.Title')}
+            {i18n.translate('DataUpload.TestDate.Title')}
           </Text>
-          <Text marginBottom="s">{i18n.translate('DataUpload.SymptomOnsetDate.Body1')}</Text>
           <DatePicker daysBack={14} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-          <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body2')}</Text>
-          <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body3')}</Text>
           <Box paddingHorizontal="m" marginBottom="m">
-            <Button variant="thinFlat" text={i18n.translate('DataUpload.SymptomOnsetDate.CTA')} onPress={onNext} />
+            <Button variant="thinFlat" text={i18n.translate('DataUpload.TestDate.CTA')} onPress={onNext} />
           </Box>
         </Box>
       </ScrollView>
