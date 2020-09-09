@@ -32,10 +32,16 @@ export const Step1Screen = () => {
           <Text marginBottom="l">
             <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body3a')}</Text>
             <Text>{i18n.translate('DataUpload.Step1.Body3b')}</Text>
+            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body3c')}</Text>
+            <Text>{i18n.translate('DataUpload.Step1.Body3d')}</Text>
           </Text>
           <Text marginBottom="l">
             <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body4a')}</Text>
             <Text>{i18n.translate('DataUpload.Step1.Body4b')}</Text>
+          </Text>
+          <Text marginBottom="l">
+            <Text fontWeight="bold">{i18n.translate('DataUpload.Step1.Body5a')}</Text>
+            <Text>{i18n.translate('DataUpload.Step1.Body5b')}</Text>
           </Text>
 
           <Box marginTop="m">
