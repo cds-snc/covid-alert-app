@@ -14,7 +14,7 @@ export const Step1Screen = () => {
   const onNoCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
 
   return (
-    <BaseDataSharingView>
+    <BaseDataSharingView showBackButton={false}>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>

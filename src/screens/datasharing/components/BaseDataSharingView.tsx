@@ -2,20 +2,21 @@ import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Box, Toolbar} from 'components';
+import {Box} from 'components';
 import {useI18n} from 'locale';
+
+import {Toolbar} from './Toolbar';
 
 interface BaseDataSharingViewProps {
   children?: React.ReactNode;
-  overlay?: Boolean;
+  overlay?: boolean;
+  showBackButton?: boolean;
 }
 
-export const BaseDataSharingView = ({children, overlay}: BaseDataSharingViewProps) => {
+export const BaseDataSharingView = ({children, overlay, showBackButton = true}: BaseDataSharingViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
-  // Note: we can now make back buttons in this flow!
-  // const back = useCallback(() => navigation.goBack(), [navigation]);
 
   const wrapperStyle = overlay ? styles.overlay : styles.flex;
 
@@ -23,13 +24,7 @@ export const BaseDataSharingView = ({children, overlay}: BaseDataSharingViewProp
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
         <Box style={wrapperStyle}>
-          <Toolbar
-            title=""
-            navIcon="icon-back-arrow"
-            navText={i18n.translate('DataUpload.Cancel')}
-            navLabel={i18n.translate('DataUpload.Cancel')}
-            onIconClicked={close}
-          />
+          <Toolbar navText={i18n.translate('DataUpload.Close')} onIconClicked={close} showBackButton={showBackButton} />
           <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
             {children}
           </ScrollView>
