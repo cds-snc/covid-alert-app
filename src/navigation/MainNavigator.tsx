@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
@@ -22,6 +22,7 @@ import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
+import {FormContext} from '../shared/FormContext';
 
 const MainStack = createStackNavigator();
 
@@ -94,17 +95,24 @@ const OnboardingNavigator = () => {
 };
 const DataSharingStack = createStackNavigator();
 const DataSharingNavigator = () => {
+  const [state, setState] = useState({modalVisible: false});
+  const toggleModal = (val: boolean) => {
+    setState({...state, modalVisible: val});
+  };
+
   return (
-    <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="TestDate">
-      <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
-      <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
-      <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />
-      <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />
-      <DataSharingStack.Screen name="TestDate" component={TestDateScreenWithNavBar} />
-      <DataSharingStack.Screen name="TekUploadNoDate" component={TekUploadNoDateWithNavBar} />
-      <DataSharingStack.Screen name="TekUploadWithDate" component={TekUploadWithDateWithNavBar} />
-      <DataSharingStack.Screen name="TekUploadSubsequentDays" component={TekUploadSubsequentDaysWithNavBar} />
-    </DataSharingStack.Navigator>
+    <FormContext.Provider value={{data: state, toggleModal}}>
+      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="TestDate">
+        <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
+        <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
+        <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />
+        <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />
+        <DataSharingStack.Screen name="TestDate" component={TestDateScreenWithNavBar} />
+        <DataSharingStack.Screen name="TekUploadNoDate" component={TekUploadNoDateWithNavBar} />
+        <DataSharingStack.Screen name="TekUploadWithDate" component={TekUploadWithDateWithNavBar} />
+        <DataSharingStack.Screen name="TekUploadSubsequentDays" component={TekUploadSubsequentDaysWithNavBar} />
+      </DataSharingStack.Navigator>
+    </FormContext.Provider>
   );
 };
 

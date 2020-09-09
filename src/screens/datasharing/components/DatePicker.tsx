@@ -4,7 +4,7 @@ import {Platform, Modal, StyleSheet} from 'react-native';
 import {Box, Button} from 'components';
 import {addDays, getCurrentDate} from 'shared/date-fns';
 import {useI18n} from 'locale';
-import {FormContext} from '../FormContext';
+import {FormContext} from '../../../shared/FormContext';
 
 interface ModalWrapperProps {
   labelDict: any;
@@ -13,10 +13,10 @@ interface ModalWrapperProps {
 }
 
 const ModalWrapper = ({labelDict, selectedDate, children}: ModalWrapperProps) => {
-  const {modalVisible, toggleModal} = useContext(FormContext);
+  const {data, toggleModal} = useContext(FormContext);
   return (
     <>
-      <Modal animationType="slide" transparent visible={modalVisible}>
+      <Modal animationType="slide" transparent visible={data.modalVisible}>
         <Box style={styles.centeredView}>
           <Box style={styles.iosPicker}>
             {children}
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   iosPicker: {
-    borderTopColor: 'black',
+    borderTopColor: 'white',
     backgroundColor: '#fff',
     borderTopWidth: 2,
     marginBottom: 0,

@@ -1,21 +1,23 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
 import {BaseDataSharingView, DatePicker} from './components';
+import {FormContext} from '../../shared/FormContext';
 
 export const TestDateScreen = () => {
   const i18n = useI18n();
   const [selectedDate, setSelectedDate] = useState('');
+  const {data} = useContext(FormContext);
 
   // todo: pass {dateType: 'testDate', dateString: selectedDate}
   const navigation = useNavigation();
   const onNext = useCallback(() => navigation.navigate('TekUploadWithDate'), [navigation]);
 
   return (
-    <BaseDataSharingView overlay={true}>
+    <BaseDataSharingView>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
@@ -23,9 +25,11 @@ export const TestDateScreen = () => {
           </Text>
           <Text marginBottom="m">{i18n.translate('DataUpload.TestDate.Body1')}</Text>
           <DatePicker daysBack={14} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-          <Box paddingHorizontal="m" marginBottom="m">
-            <Button variant="thinFlat" text={i18n.translate('DataUpload.TestDate.CTA')} onPress={onNext} />
-          </Box>
+          {!data.modalVisible && (
+            <Box paddingHorizontal="m" marginBottom="m">
+              <Button variant="thinFlat" text={i18n.translate('DataUpload.TestDate.CTA')} onPress={onNext} />
+            </Box>
+          )}
         </Box>
       </ScrollView>
     </BaseDataSharingView>

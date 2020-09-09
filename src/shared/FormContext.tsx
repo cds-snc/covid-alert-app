@@ -1,8 +1,8 @@
 import React from 'react';
 
 export const FormContext = React.createContext({
-  modalVisible: true,
+  data: {modalVisible: false},
   toggleModal: (val: boolean) => {
-    console.log(val);
+    console.log('default toggleModal', val);
   },
 });

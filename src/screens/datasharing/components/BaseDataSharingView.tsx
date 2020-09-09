@@ -1,48 +1,43 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box, Toolbar} from 'components';
 import {useI18n} from 'locale';
-import {FormContext} from '../FormContext';
+import {FormContext} from '../../../shared/FormContext';
 
 interface BaseDataSharingViewProps {
   children?: React.ReactNode;
-  overlay?: Boolean;
 }
 
-export const BaseDataSharingView = ({children, overlay}: BaseDataSharingViewProps) => {
+export const BaseDataSharingView = ({children}: BaseDataSharingViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = (val: boolean) => {
-    setShowModal(val);
-  };
+  const {data} = useContext(FormContext);
+
   // Note: we can now make back buttons in this flow!
   // const back = useCallback(() => navigation.goBack(), [navigation]);
 
-  const wrapperStyle = showModal ? styles.overlay : styles.flex;
+  const wrapperStyle = data.modalVisible ? styles.overlay : styles.flex;
 
   return (
-    <FormContext.Provider value={{modalVisible: showModal, toggleModal}}>
-      <Box backgroundColor="overlayBackground" flex={1}>
-        <SafeAreaView style={styles.flex}>
-          <Box style={wrapperStyle}>
-            <Toolbar
-              title=""
-              navIcon="icon-back-arrow"
-              navText={i18n.translate('DataUpload.Cancel')}
-              navLabel={i18n.translate('DataUpload.Cancel')}
-              onIconClicked={close}
-            />
-            <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
-              {children}
-            </ScrollView>
-          </Box>
-        </SafeAreaView>
-      </Box>
-    </FormContext.Provider>
+    <Box backgroundColor="overlayBackground" flex={1}>
+      <SafeAreaView style={styles.flex}>
+        <Box style={wrapperStyle}>
+          <Toolbar
+            title=""
+            navIcon="icon-back-arrow"
+            navText={i18n.translate('DataUpload.Cancel')}
+            navLabel={i18n.translate('DataUpload.Cancel')}
+            onIconClicked={close}
+          />
+          <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
+            {children}
+          </ScrollView>
+        </Box>
+      </SafeAreaView>
+    </Box>
   );
 };
 
