@@ -1,9 +1,11 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box} from 'components';
 import {useI18n} from 'locale';
+
+import {FormContext} from '../FormContext';
 
 import {Toolbar} from './Toolbar';
 
@@ -17,20 +19,30 @@ export const BaseDataSharingView = ({children, overlay, showBackButton = true}: 
   const navigation = useNavigation();
   const i18n = useI18n();
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = (val: boolean) => {
+    setShowModal(val);
+  };
 
-  const wrapperStyle = overlay ? styles.overlay : styles.flex;
+  const wrapperStyle = showModal ? styles.overlay : styles.flex;
 
   return (
-    <Box backgroundColor="overlayBackground" flex={1}>
-      <SafeAreaView style={styles.flex}>
-        <Box style={wrapperStyle}>
-          <Toolbar navText={i18n.translate('DataUpload.Close')} onIconClicked={close} showBackButton={showBackButton} />
-          <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
-            {children}
-          </ScrollView>
-        </Box>
-      </SafeAreaView>
-    </Box>
+    <FormContext.Provider value={{modalVisible: showModal, toggleModal}}>
+      <Box backgroundColor="overlayBackground" flex={1}>
+        <SafeAreaView style={styles.flex}>
+          <Box style={wrapperStyle}>
+            <Toolbar
+              navText={i18n.translate('DataUpload.Close')}
+              onIconClicked={close}
+              showBackButton={showBackButton}
+            />
+            <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
+              {children}
+            </ScrollView>
+          </Box>
+        </SafeAreaView>
+      </Box>
+    </FormContext.Provider>
   );
 };
 
@@ -45,6 +57,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    zIndex: 500000,
+    zIndex: 2,
   },
 });

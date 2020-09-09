@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {Picker} from '@react-native-community/picker';
 import {Platform, Modal, StyleSheet} from 'react-native';
 import {Box, Button} from 'components';
 import {addDays, getCurrentDate} from 'shared/date-fns';
 import {useI18n} from 'locale';
+import {FormContext} from '../FormContext';
 
 interface ModalWrapperProps {
   labelDict: any;
@@ -12,7 +13,7 @@ interface ModalWrapperProps {
 }
 
 const ModalWrapper = ({labelDict, selectedDate, children}: ModalWrapperProps) => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const {modalVisible, toggleModal} = useContext(FormContext);
   return (
     <>
       <Modal animationType="slide" transparent visible={modalVisible}>
@@ -22,7 +23,7 @@ const ModalWrapper = ({labelDict, selectedDate, children}: ModalWrapperProps) =>
             <Button
               variant="text"
               onPress={() => {
-                setModalVisible(false);
+                toggleModal(false);
               }}
               text="Close"
             />
@@ -32,7 +33,7 @@ const ModalWrapper = ({labelDict, selectedDate, children}: ModalWrapperProps) =>
       <Button
         variant="text"
         onPress={() => {
-          setModalVisible(true);
+          toggleModal(true);
         }}
         text={`Date: ${labelDict[selectedDate]}`}
       />
