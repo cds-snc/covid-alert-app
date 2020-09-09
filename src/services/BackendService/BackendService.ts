@@ -6,7 +6,7 @@ import {ExposureConfiguration, TemporaryExposureKey} from 'bridge/ExposureNotifi
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
-import {MCC_CODE} from 'env';
+import {MCC_CODE, REGION_JSON_URL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
@@ -54,8 +54,11 @@ export class BackendService implements BackendInterface {
 
   async getRegionContent(): Promise<RegionContentResponse> {
     const headers: any = {};
-    const regionPath = 'exposure-configuration/region.json';
-    const regionContentUrl = `${this.retrieveUrl}/${regionPath}`;
+
+    const regionContentUrl = REGION_JSON_URL
+      ? REGION_JSON_URL
+      : `${this.retrieveUrl}/exposure-configuration/region.json`;
+
     const eTagStorageKey = `etag-${regionContentUrl}`;
     const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
     const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
