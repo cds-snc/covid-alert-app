@@ -283,6 +283,11 @@
       "Action": "Submit",
       "InputLabel": "COVID Alert key"
     },
+    "OtkDiagnosedView": {
+      "Title": "You've already entered the key",
+      "Body": "You do not need to enter it again.",
+      "CTA": "Next"
+    },
     "ConsentView": {
       "Title": "Now you can upload your codes",
       "Body1": "Your phone will ask your permission to upload your random codes or “random IDs” from the past 14 days.",

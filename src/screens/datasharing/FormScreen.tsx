@@ -1,19 +1,21 @@
 import React, {useCallback, useState} from 'react';
 import {Box, CodeInput, Text, Button} from 'components';
 import {useI18n} from 'locale';
-import {useReportDiagnosis} from 'services/ExposureNotificationService';
+import {useReportDiagnosis, ExposureStatusType, useExposureStatus} from 'services/ExposureNotificationService';
 import {Alert} from 'react-native';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import {useNavigation} from '@react-navigation/native';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
+import {FormDiagnosedView} from './views/FormDiagnosedView';
 
 export const FormScreen = () => {
   const i18n = useI18n();
   const [codeValue, setCodeValue] = useState('');
   const handleChange = useCallback(text => setCodeValue(text), []);
   const navigation = useNavigation();
+  const [exposureStatus] = useExposureStatus();
   const [loading, setLoading] = useState(false);
   const {startSubmission} = useReportDiagnosis();
   const onSuccess = useCallback(() => navigation.navigate('Step2'), [navigation]);
@@ -52,6 +54,10 @@ export const FormScreen = () => {
       onError(error);
     }
   }, [startSubmission, codeValue, onSuccess, onError]);
+
+  if (exposureStatus.type === ExposureStatusType.Diagnosed) {
+    return <FormDiagnosedView />;
+  }
 
   return (
     <BaseDataSharingView>
