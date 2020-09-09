@@ -307,6 +307,7 @@
     },
     "TestDate": {
       "Title": "Enter the date of your COVID-19 test",
+      "Body1": "The app uses this information to find dates you were contagious. It only notifies people you were near at that time.",
       "CTA": "Next"
     },
     "NoCode": {

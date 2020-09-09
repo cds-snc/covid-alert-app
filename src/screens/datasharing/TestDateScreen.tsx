@@ -20,6 +20,9 @@ export const TestDateScreen = () => {
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.TestDate.Title')}
           </Text>
+
+          <Text marginBottom="m">{i18n.translate('DataUpload.TestDate.Body1')}</Text>
+
           <DatePicker daysBack={14} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
           <Box paddingHorizontal="m" marginBottom="m">
             <Button variant="thinFlat" text={i18n.translate('DataUpload.TestDate.CTA')} onPress={onNext} />

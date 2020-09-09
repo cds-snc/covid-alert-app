@@ -48,6 +48,27 @@
       "ErrorBody": "Vous n’avez pas donné votre autorisation.",
       "ErrorAction": "OK"
     },
+    "TekUploadWithDate": {
+      "Title": "Notify people you've been near",
+      "CTA": "Share codes"
+    },
+    "TekUploadNoDate": {
+      "Title": "Notify people you've been near",
+      "CTA": "Share codes",
+      "CTA2": "Go back to Step 2"
+    },
+    "SymptomOnsetDate": {
+      "Title": "Date you started feeling sick",
+      "Body1": "Enter the date you first noticed you were not feeling well.",
+      "Body2": "This information will never be shared from your phone.",
+      "Body3": "The app will only share exposures from 2 days before this date until today. People will be notified they’ve been exposed.",
+      "CTA": "Next"
+    },
+    "TestDate": {
+      "Title": "Entrez la date de vos premiers symptômes",
+      "Body1": "L’application utilise la date de vos premiers symptômes pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période.",
+      "CTA": "Next"
+    },
     "NoCode": {
       "NoRegion": {
         "Title": "Vous n’avez pas choisi de province ou de territoire",
