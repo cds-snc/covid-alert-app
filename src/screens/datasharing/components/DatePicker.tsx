@@ -48,7 +48,12 @@ interface DatePickerInternalProps {
 
 const DatePickerInternal = ({selectedDate, setSelectedDate, dateOptions}: DatePickerInternalProps) => {
   return (
-    <Picker selectedValue={selectedDate} onValueChange={value => setSelectedDate(value)} mode="dialog">
+    <Picker
+      style={{height: 200}}
+      selectedValue={selectedDate}
+      onValueChange={value => setSelectedDate(value)}
+      mode="dialog"
+    >
       {dateOptions.map(x => (
         <Picker.Item key={x.value} label={x.label} value={x.value} />
       ))}
@@ -112,7 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   iosPicker: {
-    borderTopColor: 'white',
+    borderTopColor: 'black',
     backgroundColor: '#fff',
     borderTopWidth: 2,
     marginBottom: 0,

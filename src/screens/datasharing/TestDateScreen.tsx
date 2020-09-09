@@ -14,7 +14,7 @@ export const TestDateScreen = () => {
   const onNext = useCallback(() => navigation.navigate('TekUploadWithDate'), [navigation]);
 
   return (
-    <BaseDataSharingView>
+    <BaseDataSharingView overlay={true}>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
