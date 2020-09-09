@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   iosPicker: {
-    borderTopColor: 'black',
-    backgroundColor: '#ededed',
+    borderTopColor: 'white',
+    backgroundColor: '#fff',
     borderTopWidth: 2,
     marginBottom: 0,
   },
