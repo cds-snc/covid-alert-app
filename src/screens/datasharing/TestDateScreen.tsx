@@ -9,6 +9,7 @@ import {BaseDataSharingView, DatePicker} from './components';
 export const TestDateScreen = () => {
   const i18n = useI18n();
   const [selectedDate, setSelectedDate] = useState('');
+
   // todo: pass {dateType: 'testDate', dateString: selectedDate}
   const navigation = useNavigation();
   const onNext = useCallback(() => navigation.navigate('TekUploadWithDate'), [navigation]);
