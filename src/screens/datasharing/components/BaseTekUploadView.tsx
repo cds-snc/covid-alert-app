@@ -18,9 +18,17 @@ interface BaseTekUploadViewProps {
   buttonText: string;
   contagiousDateInfo: ContagiousDateInfo;
   children?: React.ReactNode;
+  secondaryButtonText?: string;
+  secondaryButtonOnPress?(): void;
 }
 
-export const BaseTekUploadView = ({children, contagiousDateInfo, buttonText}: BaseTekUploadViewProps) => {
+export const BaseTekUploadView = ({
+  children,
+  contagiousDateInfo,
+  buttonText,
+  secondaryButtonText,
+  secondaryButtonOnPress,
+}: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
@@ -77,6 +85,11 @@ export const BaseTekUploadView = ({children, contagiousDateInfo, buttonText}: Ba
       <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
         <Button variant="thinFlat" text={buttonText} onPress={handleUpload} />
       </Box>
+      {secondaryButtonText && secondaryButtonOnPress ? (
+        <Box paddingHorizontal="m" marginBottom="m">
+          <Button variant="thinFlatBlue" text={secondaryButtonText} onPress={secondaryButtonOnPress} />
+        </Box>
+      ) : null}
     </BaseDataSharingView>
   );
 };
