@@ -9,11 +9,10 @@ import {FormContext} from '../../../shared/FormContext';
 
 interface ModalWrapperProps {
   labelDict: any;
-  selectedDate: string;
   children: React.ReactNode;
 }
 
-const ModalWrapper = ({labelDict, selectedDate, children}: ModalWrapperProps) => {
+const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
   const {data, toggleModal} = useContext(FormContext);
   return (
     <>
@@ -36,15 +35,13 @@ const ModalWrapper = ({labelDict, selectedDate, children}: ModalWrapperProps) =>
         onPress={() => {
           toggleModal(true);
         }}
-        text={`Date: ${labelDict[selectedDate]}`}
+        text={`Date: ${labelDict[data.selectedDate]}`}
       />
     </>
   );
 };
 
 interface DatePickerInternalProps {
-  selectedDate: string;
-  setSelectedDate: any;
   dateOptions: any[];
 }
 
@@ -73,7 +70,6 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
   const i18n = useI18n();
   const today = getCurrentDate();
   const dateOptions = [];
-  const {data, setDate} = useContext(FormContext);
 
   const getLabel = (step: number, date: Date) => {
     const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';

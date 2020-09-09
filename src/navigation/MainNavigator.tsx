@@ -23,7 +23,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
 
-import {FormContext} from '../shared/FormContext';
+import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
 const MainStack = createStackNavigator();
 
@@ -96,17 +96,17 @@ const OnboardingNavigator = () => {
 };
 const DataSharingStack = createStackNavigator();
 const DataSharingNavigator = () => {
-  const [state, setState] = useState({modalVisible: false, selectedDate: ''});
+  const [state, setState] = useState(FormContextDefaults);
   const toggleModal = (val: boolean) => {
     setState({...state, modalVisible: val});
   };
   const setDate = (val: string) => {
     setState({...state, selectedDate: val});
   };
-
+  console.log(JSON.stringify(state));
   return (
     <FormContext.Provider value={{data: state, toggleModal, setDate}}>
-      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="TestDate">
+      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step2">
         <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
         <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
         <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />
