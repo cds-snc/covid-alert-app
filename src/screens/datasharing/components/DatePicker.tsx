@@ -4,6 +4,7 @@ import {Platform, Modal, StyleSheet} from 'react-native';
 import {Box, Button} from 'components';
 import {addDays, getCurrentDate} from 'shared/date-fns';
 import {useI18n} from 'locale';
+
 import {FormContext} from '../../../shared/FormContext';
 
 interface ModalWrapperProps {
@@ -47,12 +48,14 @@ interface DatePickerInternalProps {
   dateOptions: any[];
 }
 
-const DatePickerInternal = ({selectedDate, setSelectedDate, dateOptions}: DatePickerInternalProps) => {
+const DatePickerInternal = ({dateOptions}: DatePickerInternalProps) => {
+  const {data, setDate} = useContext(FormContext);
+
   return (
     <Picker
       style={{height: 200}}
-      selectedValue={selectedDate}
-      onValueChange={value => setSelectedDate(value)}
+      selectedValue={data.selectedDate}
+      onValueChange={value => setDate(value.toString())}
       mode="dialog"
     >
       {dateOptions.map(x => (
@@ -63,15 +66,14 @@ const DatePickerInternal = ({selectedDate, setSelectedDate, dateOptions}: DatePi
 };
 
 interface DatePickerProps {
-  selectedDate: string;
-  setSelectedDate: any;
   daysBack: number;
 }
 
-export const DatePicker = ({daysBack, selectedDate, setSelectedDate}: DatePickerProps) => {
+export const DatePicker = ({daysBack}: DatePickerProps) => {
   const i18n = useI18n();
   const today = getCurrentDate();
   const dateOptions = [];
+  const {data, setDate} = useContext(FormContext);
 
   const getLabel = (step: number, date: Date) => {
     const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
@@ -104,12 +106,12 @@ export const DatePicker = ({daysBack, selectedDate, setSelectedDate}: DatePicker
 
   if (Platform.OS === 'ios') {
     return (
-      <ModalWrapper labelDict={labelDict} selectedDate={selectedDate}>
-        <DatePickerInternal selectedDate={selectedDate} setSelectedDate={setSelectedDate} dateOptions={dateOptions} />
+      <ModalWrapper labelDict={labelDict}>
+        <DatePickerInternal dateOptions={dateOptions} />
       </ModalWrapper>
     );
   }
-  return <DatePickerInternal selectedDate={selectedDate} setSelectedDate={setSelectedDate} dateOptions={dateOptions} />;
+  return <DatePickerInternal dateOptions={dateOptions} />;
 };
 
 const styles = StyleSheet.create({
