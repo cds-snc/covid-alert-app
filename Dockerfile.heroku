@@ -1,0 +1,25 @@
+###
+# Step 1 - Load base
+###
+FROM gcr.io/cdssnc/covid-alert/server:latest AS base
+
+###
+# Step 2 - Build
+###
+FROM alpine
+
+RUN apk add --no-cache bash
+
+ARG PORT
+
+WORKDIR /usr/local/bin
+
+# Import the user and group files from step 1
+COPY --from=base /etc/passwd /etc/passwd
+COPY --from=base /etc/group /etc/group
+COPY --from=base /etc/aws-certs /etc/aws-certs
+COPY --from=base /usr/local/bin/config.yaml /usr/local/bin/config.yaml
+COPY --from=base /usr/local/bin/server /usr/local/bin/server
+COPY ./scripts/heroku_run.sh /usr/local/bin/heroku_run.sh
+
+ENTRYPOINT ["/usr/local/bin/heroku_run.sh"]
