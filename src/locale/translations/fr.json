@@ -46,10 +46,11 @@
         "symptom8": "Douleur abdominale, diarrhée ou vomissements."
       },
       "Body3": "Votre réponse :",
-      "Option1": "Yes, 1 or more symptoms.",
-      "Option2": "No symptoms.",
-      "Option3": "You're not sure.",
-      "Option4": "You prefer not to say."
+      "Option1": "Oui, un ou plusieurs symptômes.",
+      "Option2": "Non, aucun symptôme.",
+      "Option3": "Vous n’êtes pas certain.",
+      "Option4": "Vous préférez ne pas répondre.",
+      "CTA": "Suivant"
     },
     "FormView": {
       "Title": "Entrez votre clé à usage unique",

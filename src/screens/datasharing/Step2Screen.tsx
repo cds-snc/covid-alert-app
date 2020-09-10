@@ -103,7 +103,7 @@ export const Step2Screen = () => {
           <Box marginTop="m" marginBottom="m">
             <Button
               variant="thinFlat"
-              text={i18n.translate('DataUpload.Step2.Option4')}
+              text={i18n.translate('DataUpload.Step2.CTA')}
               onPress={() => {
                 const routes = ['SymptomOnsetDate', 'TestDate', 'TestDate', 'TekUploadNoDate'];
                 const selected = Number(radio);
