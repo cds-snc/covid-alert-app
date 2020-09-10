@@ -37,7 +37,7 @@ const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
         onPress={() => {
           toggleModal(true);
         }}
-        text={`Date: ${labelDict[data.selectedDate]}`}
+        text={`${labelDict[data.selectedDate]}`}
       />
     </>
   );
@@ -93,7 +93,7 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
     }
   };
   const dateOptions = [{label: '', value: ''}];
-  const labelDict: {[key: string]: string} = {'': 'None selected'};
+  const labelDict: {[key: string]: string} = {'': ''};
   for (let step = 0; step < daysBack; step++) {
     const date = addDays(today, -1 * step);
     const dateAtMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());

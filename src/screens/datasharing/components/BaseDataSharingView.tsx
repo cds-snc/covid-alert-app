@@ -23,17 +23,16 @@ export const BaseDataSharingView = ({children, showBackButton = true}: BaseDataS
   // Note: we can now make back buttons in this flow!
   // const back = useCallback(() => navigation.goBack(), [navigation]);
 
-  const wrapperStyle = data.modalVisible ? styles.overlay : styles.flex;
+  const wrapperStyle = data.modalVisible ? styles.overlay : styles.invisible;
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Box style={wrapperStyle}>
-          <Toolbar navText={i18n.translate('DataUpload.Close')} onIconClicked={close} showBackButton={showBackButton} />
-          <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
-            {children}
-          </ScrollView>
-        </Box>
+        <Box style={wrapperStyle} />
+        <Toolbar navText={i18n.translate('DataUpload.Close')} onIconClicked={close} showBackButton={showBackButton} />
+        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
+          {children}
+        </ScrollView>
       </SafeAreaView>
     </Box>
   );
@@ -43,8 +42,11 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
+  invisible: {
+    display: 'none',
+  },
   overlay: {
-    flex: 1,
+    position: 'absolute',
     top: 0,
     right: 0,
     bottom: 0,

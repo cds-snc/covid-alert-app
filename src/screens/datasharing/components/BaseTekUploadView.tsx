@@ -38,7 +38,6 @@ export const BaseTekUploadView = ({
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys} = useReportDiagnosis();
-  const {data} = useContext(FormContext);
 
   const onSuccess = useCallback(() => {
     AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
@@ -90,18 +89,14 @@ export const BaseTekUploadView = ({
   return (
     <BaseDataSharingView>
       <ScrollView style={styles.flex}>{children}</ScrollView>
-      {data.modalVisible ? null : (
-        <>
-          <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
-            <Button variant="thinFlat" text={buttonText} onPress={handleUpload} disabled={primaryButtonDisabled} />
-          </Box>
-          {secondaryButtonText && secondaryButtonOnPress ? (
-            <Box paddingHorizontal="m" marginBottom="m">
-              <Button variant="thinFlatBlue" text={secondaryButtonText} onPress={secondaryButtonOnPress} />
-            </Box>
-          ) : null}
-        </>
-      )}
+      <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
+        <Button variant="thinFlat" text={buttonText} onPress={handleUpload} disabled={primaryButtonDisabled} />
+      </Box>
+      {secondaryButtonText && secondaryButtonOnPress ? (
+        <Box paddingHorizontal="m" marginBottom="m">
+          <Button variant="thinFlatBlue" text={secondaryButtonText} onPress={secondaryButtonOnPress} />
+        </Box>
+      ) : null}
     </BaseDataSharingView>
   );
 };
