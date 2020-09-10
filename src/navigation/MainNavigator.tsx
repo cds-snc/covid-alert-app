@@ -10,7 +10,6 @@ import {
   SymptomOnsetDateScreen,
   TekUploadNoDate,
   TekUploadSubsequentDays,
-  TekUploadWithDate,
   TestDateScreen,
 } from 'screens/datasharing';
 import {PrivacyScreen} from 'screens/privacy';
@@ -73,7 +72,6 @@ const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const Step0ScreenWithNavBar = withDarkNav(Step0Screen);
 const Step2ScreenWithNavBar = withDarkNav(Step2Screen);
 const FormScreenWithNavBar = withDarkNav(FormScreen);
-const TekUploadWithDateWithNavBar = withDarkNav(TekUploadWithDate);
 const TekUploadNoDateWithNavBar = withDarkNav(TekUploadNoDate);
 const TekUploadSubsequentDaysWithNavBar = withDarkNav(TekUploadSubsequentDays);
 const SymptomOnsetDateScreenWithNavBar = withDarkNav(SymptomOnsetDateScreen);
@@ -113,7 +111,6 @@ const DataSharingNavigator = () => {
         <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />
         <DataSharingStack.Screen name="TestDate" component={TestDateScreenWithNavBar} />
         <DataSharingStack.Screen name="TekUploadNoDate" component={TekUploadNoDateWithNavBar} />
-        <DataSharingStack.Screen name="TekUploadWithDate" component={TekUploadWithDateWithNavBar} />
         <DataSharingStack.Screen name="TekUploadSubsequentDays" component={TekUploadSubsequentDaysWithNavBar} />
       </DataSharingStack.Navigator>
     </FormContext.Provider>

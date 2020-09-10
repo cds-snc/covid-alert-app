@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {ActivityIndicator, ScrollView, StyleSheet, Alert} from 'react-native';
 import {Box, Button} from 'components';
@@ -8,6 +8,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
+import {FormContext} from 'shared/FormContext';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -22,6 +23,7 @@ interface BaseTekUploadViewProps {
   children?: React.ReactNode;
   secondaryButtonText?: string;
   secondaryButtonOnPress?(): void;
+  primaryButtonDisabled?: boolean;
 }
 
 export const BaseTekUploadView = ({
@@ -30,11 +32,14 @@ export const BaseTekUploadView = ({
   buttonText,
   secondaryButtonText,
   secondaryButtonOnPress,
+  primaryButtonDisabled = false,
 }: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys} = useReportDiagnosis();
+  const {data} = useContext(FormContext);
+
   const onSuccess = useCallback(() => {
     AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
     navigation.navigate('Home');
@@ -85,14 +90,18 @@ export const BaseTekUploadView = ({
   return (
     <BaseDataSharingView>
       <ScrollView style={styles.flex}>{children}</ScrollView>
-      <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
-        <Button variant="thinFlat" text={buttonText} onPress={handleUpload} />
-      </Box>
-      {secondaryButtonText && secondaryButtonOnPress ? (
-        <Box paddingHorizontal="m" marginBottom="m">
-          <Button variant="thinFlatBlue" text={secondaryButtonText} onPress={secondaryButtonOnPress} />
-        </Box>
-      ) : null}
+      {data.modalVisible ? null : (
+        <>
+          <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
+            <Button variant="thinFlat" text={buttonText} onPress={handleUpload} disabled={primaryButtonDisabled} />
+          </Box>
+          {secondaryButtonText && secondaryButtonOnPress ? (
+            <Box paddingHorizontal="m" marginBottom="m">
+              <Button variant="thinFlatBlue" text={secondaryButtonText} onPress={secondaryButtonOnPress} />
+            </Box>
+          ) : null}
+        </>
+      )}
     </BaseDataSharingView>
   );
 };

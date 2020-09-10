@@ -1,11 +1,11 @@
 import React, {useCallback, useContext} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Button} from 'components';
+import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {FormContext} from 'shared/FormContext';
 
-import {BaseDataSharingView, DatePicker, StepXofY} from './components';
+import {BaseTekUploadView, DatePicker, StepXofY} from './components';
 
 export const TestDateScreen = () => {
   const i18n = useI18n();
@@ -13,10 +13,16 @@ export const TestDateScreen = () => {
 
   // todo: pass {dateType: 'testDate', dateString: selectedDate}
   const navigation = useNavigation();
-  const onNext = useCallback(() => navigation.navigate('TekUploadWithDate'), [navigation]);
+  const secondaryButtonOnPress = useCallback(() => navigation.navigate('TekUploadNoDate'), [navigation]);
 
   return (
-    <BaseDataSharingView>
+    <BaseTekUploadView
+      buttonText={i18n.translate('DataUpload.TestDate.CTA')}
+      contagiousDateInfo={{dateType: 'testDate', dateString: data.selectedDate}}
+      secondaryButtonText={i18n.translate('DataUpload.TestDate.CTA2')}
+      secondaryButtonOnPress={secondaryButtonOnPress}
+      primaryButtonDisabled={data.selectedDate === ''}
+    >
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <StepXofY currentStep={3} />
@@ -25,19 +31,9 @@ export const TestDateScreen = () => {
           </Text>
           <Text marginBottom="m">{i18n.translate('DataUpload.TestDate.Body1')}</Text>
           <DatePicker daysBack={14} />
-          {!data.modalVisible && (
-            <Box marginBottom="m">
-              <Button
-                disabled={data.selectedDate === ''}
-                variant="thinFlat"
-                text={i18n.translate('DataUpload.TestDate.CTA')}
-                onPress={onNext}
-              />
-            </Box>
-          )}
         </Box>
       </ScrollView>
-    </BaseDataSharingView>
+    </BaseTekUploadView>
   );
 };
 

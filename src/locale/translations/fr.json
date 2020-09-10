@@ -69,10 +69,6 @@
       "ErrorBody": "Vous n’avez pas donné votre autorisation.",
       "ErrorAction": "OK"
     },
-    "TekUploadWithDate": {
-      "Title": "Notify people you've been near",
-      "CTA": "Share codes"
-    },
     "TekUploadNoDate": {
       "Title": "Notify people you've been near",
       "CTA": "Share codes",
@@ -81,11 +77,14 @@
     "SymptomOnsetDate": {
       "Title": "Entrez la date de vos premiers symptômes",
       "Body1": "L’application utilise la date de vos premiers symptômes pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période.",
-      "CTA": "Next"
+      "CTA": "Upload random codes",
+      "CTA2": "Prefer not to say"
     },
     "TestDate": {
       "Title": "Entrez la date de votre test pour la COVID-19",
-      "Body1": "L’application utilise la date de votre test pour la COVID-19 pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période."
+      "Body1": "L’application utilise la date de votre test pour la COVID-19 pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période.",
+      "CTA": "Upload random codes",
+      "CTA2": "Prefer not to say"
     },
     "NoCode": {
       "NoRegion": {

@@ -5,17 +5,23 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {FormContext} from 'shared/FormContext';
 
-import {BaseDataSharingView, DatePicker, StepXofY} from './components';
+import {BaseTekUploadView, DatePicker, StepXofY} from './components';
 
 export const SymptomOnsetDateScreen = () => {
   const i18n = useI18n();
   // todo: get {dateType: 'symptomOnsetDate', dateString: selectedDate} to the backend service
   const navigation = useNavigation();
-  const onNext = useCallback(() => navigation.navigate('TekUploadWithDate'), [navigation]);
+  const secondaryButtonOnPress = useCallback(() => navigation.navigate('TekUploadNoDate'), [navigation]);
   const {data} = useContext(FormContext);
 
   return (
-    <BaseDataSharingView>
+    <BaseTekUploadView
+      buttonText={i18n.translate('DataUpload.SymptomOnsetDate.CTA')}
+      contagiousDateInfo={{dateType: 'symptomOnsetDate', dateString: data.selectedDate}}
+      secondaryButtonText={i18n.translate('DataUpload.SymptomOnsetDate.CTA2')}
+      secondaryButtonOnPress={secondaryButtonOnPress}
+      primaryButtonDisabled={data.selectedDate === ''}
+    >
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <StepXofY currentStep={3} />
@@ -24,19 +30,9 @@ export const SymptomOnsetDateScreen = () => {
           </Text>
           <Text marginBottom="m">{i18n.translate('DataUpload.SymptomOnsetDate.Body1')}</Text>
           <DatePicker daysBack={14} />
-          <Box marginBottom="m">
-            {!data.modalVisible && (
-              <Button
-                disabled={data.selectedDate === ''}
-                variant="thinFlat"
-                text={i18n.translate('DataUpload.SymptomOnsetDate.CTA')}
-                onPress={onNext}
-              />
-            )}
-          </Box>
         </Box>
       </ScrollView>
-    </BaseDataSharingView>
+    </BaseTekUploadView>
   );
 };
 

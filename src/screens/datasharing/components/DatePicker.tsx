@@ -92,10 +92,7 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
         });
     }
   };
-  const dateOptions = [
-    {label: '', value: ''},
-    {label: 'Prefer not to say', value: 'prefer_not_to_say'},
-  ];
+  const dateOptions = [{label: '', value: ''}];
   const labelDict: {[key: string]: string} = {'': 'None selected'};
   for (let step = 0; step < daysBack; step++) {
     const date = addDays(today, -1 * step);
