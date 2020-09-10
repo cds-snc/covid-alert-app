@@ -45,14 +45,15 @@ const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
 
 interface DatePickerInternalProps {
   dateOptions: any[];
+  pickerStyles?: {};
 }
 
-const DatePickerInternal = ({dateOptions}: DatePickerInternalProps) => {
+const DatePickerInternal = ({dateOptions, pickerStyles}: DatePickerInternalProps) => {
   const {data, setDate} = useContext(FormContext);
 
   return (
     <Picker
-      style={{height: 200}}
+      style={{...pickerStyles}}
       selectedValue={data.selectedDate}
       onValueChange={value => setDate(value.toString())}
       mode="dialog"
@@ -105,11 +106,11 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
   if (Platform.OS === 'ios') {
     return (
       <ModalWrapper labelDict={labelDict}>
-        <DatePickerInternal dateOptions={dateOptions} />
+        <DatePickerInternal pickerStyles={{height: 200}} dateOptions={dateOptions} />
       </ModalWrapper>
     );
   }
-  return <DatePickerInternal dateOptions={dateOptions} />;
+  return <DatePickerInternal pickerStyles={{marginBottom: 20}} dateOptions={dateOptions} />;
 };
 
 const styles = StyleSheet.create({
