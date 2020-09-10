@@ -71,7 +71,7 @@ RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolv
 
   // Checking the authorizationStatus will check the "Share Exposure Information" toggle in 13.7+
   if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
-    resolve (@"disabled");
+    resolve (@"unauthorized");
     return;
   }
   switch (self.enManager.exposureNotificationStatus) {

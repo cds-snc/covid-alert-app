@@ -132,6 +132,10 @@
         "Body2": "Vous êtes à risque d’être infecté."
       }
     },
+    "EnUnauthorized": {
+      "Title": "COVID Alert is unauthorized",
+      "Body1": "Sharing exposure information with COVID Alert is turn off in the Exposure Notification settings."
+    },
     "EnDisabled": {
       "Title": "Alerte COVID est désactivée",
       "Body1": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",

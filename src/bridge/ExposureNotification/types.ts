@@ -20,6 +20,8 @@ export enum Status {
   Restricted = 'restricted',
   LocationOff = 'location_off',
   PlayServicesNotAvailable = 'play_services_not_available',
+  Unauthorized = 'unauthorized',
+  Authorized = 'authorized',
 }
 
 export interface TemporaryExposureKey {

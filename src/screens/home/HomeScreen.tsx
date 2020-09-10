@@ -24,6 +24,7 @@ import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
 import {DiagnosedView} from './views/DiagnosedView';
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
+import {ExposureNotificationsUnauthorizedView} from './views/ExposureNotificationsUnauthorizedView';
 import {ExposureView} from './views/ExposureView';
 import {NoExposureUncoveredRegionView} from './views/NoExposureUncoveredRegionView';
 import {NoExposureCoveredRegionView} from './views/NoExposureCoveredRegionView';
@@ -91,6 +92,8 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   switch (systemStatus) {
     case SystemStatus.Undefined:
       return null;
+    case SystemStatus.Unauthorized:
+      return <ExposureNotificationsUnauthorizedView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case SystemStatus.Disabled:
     case SystemStatus.Restricted:
       return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;

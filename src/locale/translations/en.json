@@ -60,6 +60,10 @@
     "BluetoothDisabled": "Bluetooth is off",
     "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "TurnOnBluetooth": "Turn on Bluetooth",
+    "EnUnauthorized": {
+      "Title": "COVID Alert is unauthorized",
+      "Body1": "Sharing exposure information with COVID Alert is turn off in the Exposure Notification settings."
+    },
     "EnDisabled": {
       "Title": "COVID Alert is off",
       "Body1": "You did not enable COVID Alert. The app needs your permission to work.",
