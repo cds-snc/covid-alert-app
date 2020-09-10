@@ -17,6 +17,7 @@ export const TekUploadWithDate = () => {
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('DataUpload.TekUploadWithDate.Title')}
         </Text>
+        <Text marginBottom="l">{i18n.translate('DataUpload.TekUploadWithDate.Body')}</Text>
       </Box>
     </BaseTekUploadView>
   );

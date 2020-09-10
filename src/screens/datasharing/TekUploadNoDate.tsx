@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Box, Text} from 'components';
+import {Box, Text, TextMultiline} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
@@ -21,6 +21,7 @@ export const TekUploadNoDate = () => {
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('DataUpload.TekUploadNoDate.Title')}
         </Text>
+        <TextMultiline marginBottom="l" text={i18n.translate('DataUpload.TekUploadNoDate.Body')} />
       </Box>
     </BaseTekUploadView>
   );
