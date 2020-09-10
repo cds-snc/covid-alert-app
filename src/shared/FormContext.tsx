@@ -4,10 +4,10 @@ export const FormContextDefaults = {modalVisible: false, selectedDate: ''};
 
 export const FormContext = React.createContext({
   data: FormContextDefaults,
-  toggleModal: (val: boolean) => {
-    console.log('default toggleModal', val);
+  toggleModal: (val: boolean): any => {
+    return val;
   },
-  setDate: (val: string) => {
-    console.log('default setDate', val);
+  setDate: (val: string): any => {
+    return val;
   },
 });

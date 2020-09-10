@@ -105,10 +105,11 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
     labelDict[dateString] = label;
     dateOptions.push({label, value: dateString});
   }
-  console.log('dateOptions', dateOptions);
+
   if (Platform.OS === 'ios') {
     return (
       <ModalWrapper labelDict={labelDict}>
+        {/* eslint-disable-next-line react-native/no-inline-styles */}
         <DatePickerInternal pickerStyles={{height: 200}} dateOptions={dateOptions} />
       </ModalWrapper>
     );

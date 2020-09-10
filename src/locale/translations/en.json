@@ -272,11 +272,25 @@
       "NoCode": "Need a one-time key?"
     },
     "Step2": {
-      "Title": "Step 2",
+      "Title": "Help find dates you were contagious",
+      "Body1": "The app uses symptoms to find dates you were contagious. It only notifies people you were near at that time.",
+      "Body2": "Have you had any of these symptoms today or in the last 14 days?",
+      "Symptoms": {
+        "symptom1": "Cough.",
+        "symptom2": "Breathing problems.",
+        "symptom3": "Fever or chills.",
+        "symptom4": "Feeling really tired or weak.",
+        "symptom5": "Body aches.",
+        "symptom6": "New loss of smell or taste.",
+        "symptom7": "Headache.",
+        "symptom8": "Stomach pain, diarrhea, or vomiting."
+      },
+      "Body3": "Your answer:",
       "Option1": "Yes, 1 or more symptoms.",
       "Option2": "No symptoms.",
       "Option3": "You're not sure.",
-      "Option4": "You prefer not to say."
+      "Option4": "You prefer not to say.",
+      "CTA": "Next"
     },
     "FormView": {
       "Title": "Enter your one-time key",
@@ -309,14 +323,12 @@
       "CTA2": "Use contagious dates only"
     },
     "SymptomOnsetDate": {
-      "Title": "Date you started feeling sick",
-      "Body1": "Enter the date you first noticed you were not feeling well.",
-      "Body2": "This information will never be shared from your phone.",
-      "Body3": "The app will only share exposures from 2 days before this date until today. People will be notified they’ve been exposed.",
+      "Title": "Enter the date your symptoms started",
+      "Body1": "The app uses this information to find dates you were contagious. It only notifies people you were near at that time. ",
       "CTA": "Next"
     },
     "TestDate": {
-      "Title": "Enter the date your symptoms started",
+      "Title": "Enter the date of your COVID-19 test",
       "Body1": "The app uses this information to find dates you were contagious. It only notifies people you were near at that time.",
       "CTA": "Next"
     },

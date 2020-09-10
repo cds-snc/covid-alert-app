@@ -334,7 +334,7 @@ const theme = {
       disabled: {},
     },
     buttonSelect: {
-      color: 'transparent',
+      color: 'bodyText',
       height: 52,
       textColor: palette.bodyBlack,
       fontFamily: 'notosans',

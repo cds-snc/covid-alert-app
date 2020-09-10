@@ -20,7 +20,7 @@ export const TestDateScreen = () => {
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <StepXofY currentStep={3} />
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+          <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.TestDate.Title')}
           </Text>
           <Text marginBottom="m">{i18n.translate('DataUpload.TestDate.Body1')}</Text>

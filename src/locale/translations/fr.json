@@ -31,6 +31,27 @@
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de clé à usage unique?"
     },
+    "Step2": {
+      "Title": "Aidez l’application à savoir quand vous étiez contagieux",
+      "Body1": "L’application utilise vos symptômes pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période.",
+      "Body2": "Avez-vous eu l’un des symptômes suivants aujourd’hui ou au cours des 14 derniers jours?",
+      "Symptoms": {
+        "symptom1": "Toux.",
+        "symptom2": "Difficultés respiratoires.",
+        "symptom3": "Fièvre ou frissons.",
+        "symptom4": "Fatigue ou faiblesse intense.",
+        "symptom5": "Courbatures.",
+        "symptom6": "Perte soudaine de l’odorat ou du goût.",
+        "symptom7": "Mal de tête.",
+        "symptom8": "Douleur abdominale, diarrhée ou vomissements."
+      },
+      "Body3": "Votre réponse :",
+      "Option1": "Oui, un ou plusieurs symptômes.",
+      "Option2": "Non, aucun symptôme.",
+      "Option3": "Vous n’êtes pas certain.",
+      "Option4": "Vous préférez ne pas répondre.",
+      "CTA": "Suivant"
+    },
     "FormView": {
       "Title": "Entrez votre clé à usage unique",
       "Body": "Entrez la clé que vous avez reçue lors de votre diagnostic.",
@@ -58,16 +79,13 @@
       "CTA2": "Go back to Step 2"
     },
     "SymptomOnsetDate": {
-      "Title": "Date you started feeling sick",
-      "Body1": "Enter the date you first noticed you were not feeling well.",
-      "Body2": "This information will never be shared from your phone.",
-      "Body3": "The app will only share exposures from 2 days before this date until today. People will be notified they’ve been exposed.",
-      "CTA": "Next"
-    },
-    "TestDate": {
       "Title": "Entrez la date de vos premiers symptômes",
       "Body1": "L’application utilise la date de vos premiers symptômes pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période.",
       "CTA": "Next"
+    },
+    "TestDate": {
+      "Title": "Entrez la date de votre test pour la COVID-19",
+      "Body1": "L’application utilise la date de votre test pour la COVID-19 pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période."
     },
     "NoCode": {
       "NoRegion": {
