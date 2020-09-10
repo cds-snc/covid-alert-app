@@ -309,14 +309,12 @@
       "CTA2": "Use contagious dates only"
     },
     "SymptomOnsetDate": {
-      "Title": "Date you started feeling sick",
-      "Body1": "Enter the date you first noticed you were not feeling well.",
-      "Body2": "This information will never be shared from your phone.",
-      "Body3": "The app will only share exposures from 2 days before this date until today. People will be notified they’ve been exposed.",
+      "Title": "Enter the date your symptoms started",
+      "Body1": "The app uses this information to find dates you were contagious. It only notifies people you were near at that time. ",
       "CTA": "Next"
     },
     "TestDate": {
-      "Title": "Enter the date your symptoms started",
+      "Title": "Enter the date of your COVID-19 test",
       "Body1": "The app uses this information to find dates you were contagious. It only notifies people you were near at that time.",
       "CTA": "Next"
     },
