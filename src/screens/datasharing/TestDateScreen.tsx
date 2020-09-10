@@ -1,15 +1,14 @@
-import React, {useState, useCallback, useContext} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import {FormContext} from 'shared/FormContext';
 
 import {BaseDataSharingView, DatePicker} from './components';
-import {FormContext} from '../../shared/FormContext';
 
 export const TestDateScreen = () => {
   const i18n = useI18n();
-  const [selectedDate, setSelectedDate] = useState('');
   const {data} = useContext(FormContext);
 
   // todo: pass {dateType: 'testDate', dateString: selectedDate}
@@ -24,10 +23,15 @@ export const TestDateScreen = () => {
             {i18n.translate('DataUpload.TestDate.Title')}
           </Text>
           <Text marginBottom="m">{i18n.translate('DataUpload.TestDate.Body1')}</Text>
-          <DatePicker daysBack={14} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+          <DatePicker daysBack={14} />
           {!data.modalVisible && (
             <Box marginBottom="m">
-              <Button variant="thinFlat" text={i18n.translate('DataUpload.TestDate.CTA')} onPress={onNext} />
+              <Button
+                disabled={data.selectedDate === ''}
+                variant="thinFlat"
+                text={i18n.translate('DataUpload.TestDate.CTA')}
+                onPress={onNext}
+              />
             </Box>
           )}
         </Box>

@@ -72,7 +72,6 @@ interface DatePickerProps {
 export const DatePicker = ({daysBack}: DatePickerProps) => {
   const i18n = useI18n();
   const today = getCurrentDate();
-  const dateOptions = [];
 
   const getLabel = (step: number, date: Date) => {
     const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
@@ -93,6 +92,10 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
         });
     }
   };
+  const dateOptions = [
+    {label: '', value: ''},
+    {label: 'Prefer not to say', value: 'prefer_not_to_say'},
+  ];
   const labelDict: {[key: string]: string} = {'': 'None selected'};
   for (let step = 0; step < daysBack; step++) {
     const date = addDays(today, -1 * step);
@@ -102,7 +105,7 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
     labelDict[dateString] = label;
     dateOptions.push({label, value: dateString});
   }
-
+  console.log('dateOptions', dateOptions);
   if (Platform.OS === 'ios') {
     return (
       <ModalWrapper labelDict={labelDict}>

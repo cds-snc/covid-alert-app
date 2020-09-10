@@ -1,17 +1,18 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import {FormContext} from 'shared/FormContext';
 
 import {BaseDataSharingView, DatePicker} from './components';
 
 export const SymptomOnsetDateScreen = () => {
   const i18n = useI18n();
-  const [selectedDate, setSelectedDate] = useState('');
   // todo: get {dateType: 'symptomOnsetDate', dateString: selectedDate} to the backend service
   const navigation = useNavigation();
   const onNext = useCallback(() => navigation.navigate('TekUploadWithDate'), [navigation]);
+  const {data} = useContext(FormContext);
 
   return (
     <BaseDataSharingView>
@@ -21,11 +22,16 @@ export const SymptomOnsetDateScreen = () => {
             {i18n.translate('DataUpload.SymptomOnsetDate.Title')}
           </Text>
           <Text marginBottom="s">{i18n.translate('DataUpload.SymptomOnsetDate.Body1')}</Text>
-          <DatePicker daysBack={14} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+          <DatePicker daysBack={14} />
           <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body2')}</Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body3')}</Text>
           <Box paddingHorizontal="m" marginBottom="m">
-            <Button variant="thinFlat" text={i18n.translate('DataUpload.SymptomOnsetDate.CTA')} onPress={onNext} />
+            <Button
+              disabled={data.selectedDate === ''}
+              variant="thinFlat"
+              text={i18n.translate('DataUpload.SymptomOnsetDate.CTA')}
+              onPress={onNext}
+            />
           </Box>
         </Box>
       </ScrollView>
