@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text} from 'components';
+import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
@@ -98,6 +98,18 @@ export const Step2Screen = () => {
               value="3"
               text={i18n.translate('DataUpload.Step2.Option4')}
               onPress={radioHandler}
+            />
+          </Box>
+
+          <Box marginTop="m" marginBottom="m">
+            <Button
+              variant="thinFlat"
+              text={i18n.translate('DataUpload.Step2.Option4')}
+              onPress={() => {
+                const routes = ['SymptomOnsetDate', 'TestDate', 'TestDate', 'TekUploadNoDate'];
+                const selected = Number(radio);
+                navigation.navigate(routes[selected]);
+              }}
             />
           </Box>
         </Box>
