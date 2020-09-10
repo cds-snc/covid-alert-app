@@ -103,7 +103,7 @@ const DataSharingNavigator = () => {
   const setDate = (val: string) => {
     setState({...state, selectedDate: val});
   };
-  console.log(JSON.stringify(state));
+
   return (
     <FormContext.Provider value={{data: state, toggleModal, setDate}}>
       <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step2">
