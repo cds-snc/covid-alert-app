@@ -5,6 +5,7 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
+import {StepXofY} from './components';
 
 export const Step2Screen = () => {
   const i18n = useI18n();
@@ -18,6 +19,7 @@ export const Step2Screen = () => {
     <BaseDataSharingView>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
+          <StepXofY currentStep={2} />
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.Step2.Title')}
           </Text>

@@ -7,7 +7,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import {useNavigation} from '@react-navigation/native';
 
-import {BaseDataSharingView} from './components/BaseDataSharingView';
+import {BaseDataSharingView, StepXofY} from './components';
 import {FormDiagnosedView} from './views/FormDiagnosedView';
 
 export const FormScreen = () => {
@@ -62,6 +62,7 @@ export const FormScreen = () => {
   return (
     <BaseDataSharingView>
       <Box marginHorizontal="m" marginBottom="l">
+        <StepXofY currentStep={1} />
         <Text
           variant="bodyTitle"
           color="overlayBodyText"

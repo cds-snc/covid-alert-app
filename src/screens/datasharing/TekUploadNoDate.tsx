@@ -3,7 +3,7 @@ import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
-import {BaseTekUploadView} from './components';
+import {BaseTekUploadView, StepXofY} from './components';
 
 export const TekUploadNoDate = () => {
   const i18n = useI18n();
@@ -17,6 +17,7 @@ export const TekUploadNoDate = () => {
       secondaryButtonOnPress={secondaryButtonOnPress}
     >
       <Box paddingHorizontal="m">
+        <StepXofY currentStep={4} />
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('DataUpload.TekUploadNoDate.Title')}
         </Text>
