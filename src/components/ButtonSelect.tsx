@@ -2,10 +2,8 @@ import React from 'react';
 import {useTheme} from '@shopify/restyle';
 import {StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle} from 'react-native';
 import {Theme} from 'shared/theme';
-
 import {Box} from './Box';
 import {Icon, IconName} from './Icon';
-
 export interface ButtonSelectProps {
   text?: string;
   onPress: () => void;
@@ -48,7 +46,7 @@ export const ButtonSelect = ({
       marginBottom="m"
     >
       <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>{text}</Text>
-      <Box style={{...styles.chevronOffset}}>{iconName && <Icon size={25} name={iconName} />}</Box>
+      <Box style={{...styles.iconOffset}}>{iconName && <Icon size={12} name={iconName} />}</Box>
     </Box>
   );
 
@@ -77,11 +75,8 @@ const styles = StyleSheet.create({
   content: {
     textAlign: 'left',
   },
-  chevronOffset: {
+  iconOffset: {
     position: 'absolute',
     right: 15,
-  },
-  backIcon: {
-    marginTop: 1,
   },
 });

@@ -32,7 +32,7 @@ const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
       </Modal>
       <ButtonSelect
         variant="selectBox"
-        iconName="icon-chevron"
+        iconName="icon-down-arrow"
         onPress={() => {
           toggleModal(true);
         }}
