@@ -33,7 +33,7 @@ const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
       <ButtonSelect
         disabled={data.modalVisible}
         variant="buttonSelect"
-        iconName="icon-down-arrow"
+        iconName={data.modalVisible ? 'icon-down-arrow-disabled' : 'icon-down-arrow'}
         onPress={() => {
           toggleModal(true);
         }}
