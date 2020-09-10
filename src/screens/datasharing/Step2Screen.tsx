@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Button} from 'components';
+import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-import {RadioButton} from './components/Radio';
 
+import {BulletPoint} from '../../components/BulletPoint';
+
+import {RadioButton} from './components/Radio';
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 import {StepXofY} from './components';
 
@@ -24,6 +26,53 @@ export const Step2Screen = () => {
           <StepXofY currentStep={2} />
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.Step2.Title')}
+          </Text>
+          <Text marginBottom="l">{i18n.translate('DataUpload.Step2.Body1')}</Text>
+          <Text fontWeight="bold" marginBottom="l">
+            {i18n.translate('DataUpload.Step2.Body2')}
+          </Text>
+          <BulletPoint
+            key={i18n.translate('DataUpload.Step2.Symptoms.symptom1')}
+            listAccessibile="listStart"
+            text={i18n.translate('DataUpload.Step2.Symptoms.symptom1')}
+          />
+          <BulletPoint
+            key={i18n.translate('DataUpload.Step2.Symptoms.symptom2')}
+            listAccessibile="listItem"
+            text={i18n.translate('DataUpload.Step2.Symptoms.symptom2')}
+          />
+          <BulletPoint
+            key={i18n.translate('DataUpload.Step2.Symptoms.symptom3')}
+            listAccessibile="listItem"
+            text={i18n.translate('DataUpload.Step2.Symptoms.symptom3')}
+          />
+          <BulletPoint
+            key={i18n.translate('DataUpload.Step2.Symptoms.symptom4')}
+            listAccessibile="listItem"
+            text={i18n.translate('DataUpload.Step2.Symptoms.symptom4')}
+          />
+          <BulletPoint
+            key={i18n.translate('DataUpload.Step2.Symptoms.symptom5')}
+            listAccessibile="listItem"
+            text={i18n.translate('DataUpload.Step2.Symptoms.symptom5')}
+          />
+          <BulletPoint
+            key={i18n.translate('DataUpload.Step2.Symptoms.symptom6')}
+            listAccessibile="listItem"
+            text={i18n.translate('DataUpload.Step2.Symptoms.symptom6')}
+          />
+          <BulletPoint
+            key={i18n.translate('DataUpload.Step2.Symptoms.symptom7')}
+            listAccessibile="listItem"
+            text={i18n.translate('DataUpload.Step2.Symptoms.symptom7')}
+          />
+          <BulletPoint
+            key={i18n.translate('DataUpload.Step2.Symptoms.symptom8')}
+            listAccessibile="listItem"
+            text={i18n.translate('DataUpload.Step2.Symptoms.symptom8')}
+          />
+          <Text fontWeight="bold" marginTop="l">
+            {i18n.translate('DataUpload.Step2.Body3')}
           </Text>
           <Box marginTop="m">
             <RadioButton
@@ -49,18 +98,6 @@ export const Step2Screen = () => {
               value="3"
               text={i18n.translate('DataUpload.Step2.Option4')}
               onPress={radioHandler}
-            />
-          </Box>
-
-          <Box marginTop="m">
-            <Button
-              variant="thinFlat"
-              text={i18n.translate('DataUpload.Step2.Option4')}
-              onPress={() => {
-                const routes = ['SymptomOnsetDate', 'TestDate', 'TestDate', 'TekUploadNoDate'];
-                const selected = Number(radio);
-                navigation.navigate(routes[selected]);
-              }}
             />
           </Box>
         </Box>
