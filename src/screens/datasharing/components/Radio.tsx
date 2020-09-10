@@ -15,7 +15,7 @@ export const RadioButton = (props: any) => {
           <Box style={{...styles.circle, ...activeStyles}}>
             {props.active === props.value ? <View style={styles.checkedCircle} /> : <View />}
           </Box>
-          <Box style={{marginTop: 0}}>
+          <Box>
             <Text variant="bodyText">{props.text}</Text>
           </Box>
         </Box>
