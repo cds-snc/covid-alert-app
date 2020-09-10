@@ -30,11 +30,13 @@ export const ButtonSelect = ({
   const {fontSize, fontWeight, fontFamily} = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
+  const borderColorName = (themedStyles.borderColor as keyof Theme['colors']) || 'bodyText';
   const onPressHandler = onPress;
   const borderRadius = 5;
+
   const content = (
     <Box
-      borderColor="bodyText"
+      borderColor={borderColorName}
       borderWidth={2}
       borderRadius={borderRadius}
       alignItems="center"

@@ -331,13 +331,16 @@ const theme = {
       borderWidth: undefined,
       disabled: {},
     },
-    selectBox: {
+    buttonSelect: {
       color: 'transparent',
       height: 52,
       textColor: palette.bodyBlack,
       fontFamily: 'notosans',
+      borderColor: 'bodyText',
       fontSize: 18,
-      disabled: {},
+      disabled: {
+        borderColor: 'fadedBackground',
+      },
     },
     subduedText: {
       color: 'transparent',
