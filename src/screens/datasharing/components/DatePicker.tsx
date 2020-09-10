@@ -110,10 +110,18 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
       </ModalWrapper>
     );
   }
-  return <DatePickerInternal pickerStyles={{marginBottom: 20}} dateOptions={dateOptions} />;
+  return (
+    <Box style={{...styles.outline}} marginBottom="m">
+      <DatePickerInternal dateOptions={dateOptions} />
+    </Box>
+  );
 };
 
 const styles = StyleSheet.create({
+  outline: {
+    borderWidth: 1,
+    borderColor: '#000',
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'flex-end',
