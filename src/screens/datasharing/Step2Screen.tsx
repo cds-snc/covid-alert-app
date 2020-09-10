@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
+import {useNavigation} from '@react-navigation/native';
 
 import {BulletPoint} from '../../components/BulletPoint';
 
@@ -12,7 +13,7 @@ import {StepXofY} from './components';
 export const Step2Screen = () => {
   const i18n = useI18n();
   const [radio, setRadio] = useState('');
-
+  const navigation = useNavigation();
   const radioHandler = (val: string) => {
     setRadio(val);
   };
