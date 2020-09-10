@@ -15,9 +15,9 @@ RCT_REMAP_METHOD(getRandomBytes, randomBytesWithSize:(NSUInteger)size withResolv
 {
   int status = errSecSuccess;
   void *buff = malloc(size);
-  
+
   if (buff && ((status = SecRandomCopyBytes(kSecRandomDefault, size, buff)) == errSecSuccess)) {
-    NSString *base64encoded = [[[NSData alloc] initWithBytes:buff length:size] base64EncodedStringWithOptions:0];
+    NSString *base64encoded = [[[[NSData alloc] initWithBytes:buff length:size] base64EncodedStringWithOptions:0] autorelease];
     resolve(base64encoded);
   } else {
     NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
