@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#000',
-    alignItems: 'center', // To center the checked circle…
+    alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 10,
   },

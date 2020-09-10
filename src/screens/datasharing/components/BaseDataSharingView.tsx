@@ -4,7 +4,9 @@ import {StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box} from 'components';
 import {useI18n} from 'locale';
+
 import {FormContext} from '../../../shared/FormContext';
+
 import {Toolbar} from './Toolbar';
 
 interface BaseDataSharingViewProps {

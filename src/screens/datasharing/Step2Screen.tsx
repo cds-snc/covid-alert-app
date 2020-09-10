@@ -3,8 +3,8 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-import {RadioButton} from './components/Radio';
 
+import {RadioButton} from './components/Radio';
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 import {StepXofY} from './components';
 
