@@ -26,13 +26,15 @@ export const SymptomOnsetDateScreen = () => {
           <DatePicker daysBack={14} />
           <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body2')}</Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.SymptomOnsetDate.Body3')}</Text>
-          <Box paddingHorizontal="m" marginBottom="m">
-            <Button
-              disabled={data.selectedDate === ''}
-              variant="thinFlat"
-              text={i18n.translate('DataUpload.SymptomOnsetDate.CTA')}
-              onPress={onNext}
-            />
+          <Box marginBottom="m">
+            {!data.modalVisible && (
+              <Button
+                disabled={data.selectedDate === ''}
+                variant="thinFlat"
+                text={i18n.translate('DataUpload.SymptomOnsetDate.CTA')}
+                onPress={onNext}
+              />
+            )}
           </Box>
         </Box>
       </ScrollView>
