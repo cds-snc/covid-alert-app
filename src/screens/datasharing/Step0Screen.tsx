@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
-export const Step1Screen = () => {
+export const Step0Screen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const onNext = useCallback(() => navigation.navigate('FormView'), [navigation]);

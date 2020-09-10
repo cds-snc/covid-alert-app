@@ -5,7 +5,7 @@ import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {
   FormScreen,
-  Step1Screen,
+  Step0Screen,
   Step2Screen,
   SymptomOnsetDateScreen,
   TekUploadNoDate,
@@ -70,7 +70,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
-const Step1ScreenWithNavBar = withDarkNav(Step1Screen);
+const Step0ScreenWithNavBar = withDarkNav(Step0Screen);
 const Step2ScreenWithNavBar = withDarkNav(Step2Screen);
 const FormScreenWithNavBar = withDarkNav(FormScreen);
 const TekUploadWithDateWithNavBar = withDarkNav(TekUploadWithDate);
@@ -107,7 +107,7 @@ const DataSharingNavigator = () => {
   return (
     <FormContext.Provider value={{data: state, toggleModal, setDate}}>
       <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step2">
-        <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
+        <DataSharingStack.Screen name="Step0" component={Step0ScreenWithNavBar} />
         <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
         <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />
         <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />

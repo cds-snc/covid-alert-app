@@ -3,7 +3,7 @@ import {useI18n} from 'locale';
 import {Box, Button, Text} from 'components';
 import {useNavigation} from '@react-navigation/native';
 
-import {BaseDataSharingView} from '../components';
+import {BaseDataSharingView, StepXofY} from '../components';
 
 export const FormDiagnosedView = () => {
   const i18n = useI18n();
@@ -12,6 +12,7 @@ export const FormDiagnosedView = () => {
   return (
     <BaseDataSharingView>
       <Box marginHorizontal="m">
+        <StepXofY currentStep={1} />
         <Text
           variant="bodyTitle"
           marginBottom="l"

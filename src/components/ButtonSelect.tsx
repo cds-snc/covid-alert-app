@@ -2,8 +2,10 @@ import React from 'react';
 import {useTheme} from '@shopify/restyle';
 import {StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle} from 'react-native';
 import {Theme} from 'shared/theme';
+
 import {Box} from './Box';
 import {Icon, IconName} from './Icon';
+
 export interface ButtonSelectProps {
   text?: string;
   onPress: () => void;
@@ -30,7 +32,7 @@ export const ButtonSelect = ({
   const {fontSize, fontWeight, fontFamily} = (themedStyles as unknown) as TextStyle & ViewStyle;
   const textColor = themedStyles.textColor;
   const buttonColor = buttonColorName && theme.colors[buttonColorName];
-  const borderColorName = (themedStyles.borderColor as keyof Theme['colors']) || 'bodyText';
+  const borderColorName = (themedStyles.color as keyof Theme['colors']) || 'bodyText';
   const onPressHandler = onPress;
   const borderRadius = 5;
 

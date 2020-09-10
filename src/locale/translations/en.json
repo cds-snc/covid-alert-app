@@ -253,6 +253,7 @@
     "Back": "Back",
     "InfoSmall": "Your random codes will not be uploaded unless you give permission in the next step.",
     "ShareToast": "Random codes uploaded successfully",
+    "StepXofY": "Step {x} of {y}",
     "Step1": {
       "Title": "Let people know they may have been exposed to COVID-19",
       "Body1a": "1. ",
@@ -298,12 +299,14 @@
     },
     "TekUploadWithDate": {
       "Title": "Notify people you've been near",
+      "Body": "You can now share your codes from the past 14 days with the app. The app will only notify people who were near you on the days you were contagious.",
       "CTA": "Share codes"
     },
     "TekUploadNoDate": {
       "Title": "Notify people you've been near",
+      "Body": "You can now share your codes to notify all the people you were near in the last 14 days.\n\nTo send notifications only for dates you were contagious, you need to answer questions.",
       "CTA": "Share codes",
-      "CTA2": "Go back to Step 2"
+      "CTA2": "Use contagious dates only"
     },
     "SymptomOnsetDate": {
       "Title": "Date you started feeling sick",

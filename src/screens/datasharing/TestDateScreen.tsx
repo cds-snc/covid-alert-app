@@ -5,7 +5,7 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {FormContext} from 'shared/FormContext';
 
-import {BaseDataSharingView, DatePicker} from './components';
+import {BaseDataSharingView, DatePicker, StepXofY} from './components';
 
 export const TestDateScreen = () => {
   const i18n = useI18n();
@@ -19,6 +19,7 @@ export const TestDateScreen = () => {
     <BaseDataSharingView>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
+          <StepXofY currentStep={3} />
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.TestDate.Title')}
           </Text>
