@@ -106,7 +106,7 @@ const DataSharingNavigator = () => {
   console.log(JSON.stringify(state));
   return (
     <FormContext.Provider value={{data: state, toggleModal, setDate}}>
-      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step2">
+      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="TestDate">
         <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
         <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
         <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />

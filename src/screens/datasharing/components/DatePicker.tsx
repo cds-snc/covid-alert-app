@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Picker} from '@react-native-community/picker';
 import {Platform, Modal, StyleSheet} from 'react-native';
-import {Box, Button} from 'components';
+import {Box, Button, ButtonSelect} from 'components';
 import {addDays, getCurrentDate} from 'shared/date-fns';
 import {useI18n} from 'locale';
 
@@ -30,8 +30,9 @@ const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
           </Box>
         </Box>
       </Modal>
-      <Button
-        variant="text"
+      <ButtonSelect
+        variant="selectBox"
+        iconName="icon-chevron"
         onPress={() => {
           toggleModal(true);
         }}

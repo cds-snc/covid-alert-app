@@ -331,6 +331,14 @@ const theme = {
       borderWidth: undefined,
       disabled: {},
     },
+    selectBox: {
+      color: 'transparent',
+      height: 52,
+      textColor: palette.bodyBlack,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      disabled: {},
+    },
     subduedText: {
       color: 'transparent',
       height: 44,

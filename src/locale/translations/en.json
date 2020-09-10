@@ -313,7 +313,7 @@
       "CTA": "Next"
     },
     "TestDate": {
-      "Title": "Enter the date of your COVID-19 test",
+      "Title": "Enter the date your symptoms started",
       "Body1": "The app uses this information to find dates you were contagious. It only notifies people you were near at that time.",
       "CTA": "Next"
     },

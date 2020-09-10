@@ -26,7 +26,7 @@ export const TestDateScreen = () => {
           <Text marginBottom="m">{i18n.translate('DataUpload.TestDate.Body1')}</Text>
           <DatePicker daysBack={14} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
           {!data.modalVisible && (
-            <Box paddingHorizontal="m" marginBottom="m">
+            <Box marginBottom="m">
               <Button variant="thinFlat" text={i18n.translate('DataUpload.TestDate.CTA')} onPress={onNext} />
             </Box>
           )}
