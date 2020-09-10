@@ -6,6 +6,8 @@ import {useI18n} from 'locale';
 import {useReportDiagnosis, cannotGetTEKsError} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
+import AsyncStorage from '@react-native-community/async-storage';
+import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -34,6 +36,7 @@ export const BaseTekUploadView = ({
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys} = useReportDiagnosis();
   const onSuccess = useCallback(() => {
+    AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
     navigation.navigate('Home');
   }, [navigation]);
   // TEK = Temporary Exposure Key

@@ -6,6 +6,8 @@ import {Alert} from 'react-native';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
 
 import {BaseDataSharingView, StepXofY} from './components';
 import {FormDiagnosedView} from './views/FormDiagnosedView';
@@ -18,7 +20,10 @@ export const FormScreen = () => {
   const [exposureStatus] = useExposureStatus();
   const [loading, setLoading] = useState(false);
   const {startSubmission} = useReportDiagnosis();
-  const onSuccess = useCallback(() => navigation.navigate('Step2'), [navigation]);
+  const onSuccess = useCallback(() => {
+    AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'false');
+    navigation.navigate('Step2');
+  }, [navigation]);
 
   const getTranslationKey = (error: any) => {
     // OTC = One time code (diagnosis code)
