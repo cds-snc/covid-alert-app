@@ -24,6 +24,7 @@ interface BaseTekUploadViewProps {
   secondaryButtonText?: string;
   secondaryButtonOnPress?(): void;
   primaryButtonDisabled?: boolean;
+  showBackButton?: boolean;
 }
 
 export const BaseTekUploadView = ({
@@ -33,6 +34,7 @@ export const BaseTekUploadView = ({
   secondaryButtonText,
   secondaryButtonOnPress,
   primaryButtonDisabled = false,
+  showBackButton = true,
 }: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
@@ -87,7 +89,7 @@ export const BaseTekUploadView = ({
     );
   }
   return (
-    <BaseDataSharingView>
+    <BaseDataSharingView showBackButton={showBackButton}>
       <ScrollView style={styles.flex}>{children}</ScrollView>
       <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
         <Button variant="thinFlat" text={buttonText} onPress={handleUpload} disabled={primaryButtonDisabled} />
