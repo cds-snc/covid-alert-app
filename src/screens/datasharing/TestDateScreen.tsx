@@ -9,19 +9,17 @@ import {BaseTekUploadView, DatePicker, StepXofY} from './components';
 
 export const TestDateScreen = () => {
   const i18n = useI18n();
-  const {data} = useContext(FormContext);
-
-  // todo: pass {dateType: 'testDate', dateString: selectedDate}
+  const {data, setTestDate} = useContext(FormContext);
   const navigation = useNavigation();
   const secondaryButtonOnPress = useCallback(() => navigation.navigate('TekUploadNoDate'), [navigation]);
 
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.TestDate.CTA')}
-      contagiousDateInfo={{dateType: 'testDate', dateString: data.selectedDate}}
+      contagiousDateInfo={{dateType: 'testDate', dateString: data.testDate}}
       secondaryButtonText={i18n.translate('DataUpload.TestDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
-      primaryButtonDisabled={data.selectedDate === ''}
+      primaryButtonDisabled={data.testDate === ''}
     >
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
@@ -30,7 +28,7 @@ export const TestDateScreen = () => {
             {i18n.translate('DataUpload.TestDate.Title1')}
           </Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.TestDate.Body1')}</Text>
-          <DatePicker daysBack={14} />
+          <DatePicker daysBack={14} setDate={setTestDate} selectedDate={data.testDate} />
           <Text variant="bodyTitle" marginVertical="l">
             {i18n.translate('DataUpload.TestDate.Title2')}
           </Text>

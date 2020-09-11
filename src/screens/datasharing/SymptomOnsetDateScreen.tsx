@@ -9,18 +9,17 @@ import {BaseTekUploadView, DatePicker, StepXofY} from './components';
 
 export const SymptomOnsetDateScreen = () => {
   const i18n = useI18n();
-  // todo: get {dateType: 'symptomOnsetDate', dateString: selectedDate} to the backend service
   const navigation = useNavigation();
   const secondaryButtonOnPress = useCallback(() => navigation.navigate('TekUploadNoDate'), [navigation]);
-  const {data} = useContext(FormContext);
+  const {data, setSymptomOnsetDate} = useContext(FormContext);
 
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.SymptomOnsetDate.CTA')}
-      contagiousDateInfo={{dateType: 'symptomOnsetDate', dateString: data.selectedDate}}
+      contagiousDateInfo={{dateType: 'symptomOnsetDate', dateString: data.symptomOnsetDate}}
       secondaryButtonText={i18n.translate('DataUpload.SymptomOnsetDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
-      primaryButtonDisabled={data.selectedDate === ''}
+      primaryButtonDisabled={data.symptomOnsetDate === ''}
     >
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
@@ -28,7 +27,7 @@ export const SymptomOnsetDateScreen = () => {
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.SymptomOnsetDate.Title1')}
           </Text>
-          <DatePicker daysBack={14} />
+          <DatePicker daysBack={14} selectedDate={data.symptomOnsetDate} setDate={setSymptomOnsetDate} />
           <Text variant="bodyTitle" marginVertical="l">
             {i18n.translate('DataUpload.SymptomOnsetDate.Title2')}
           </Text>

@@ -4,8 +4,7 @@ import {Platform, Modal, StyleSheet} from 'react-native';
 import {Box, Button, ButtonSelect} from 'components';
 import {addDays, getCurrentDate} from 'shared/date-fns';
 import {useI18n} from 'locale';
-
-import {FormContext} from '../../../shared/FormContext';
+import {FormContext} from 'shared/FormContext';
 
 const capitalizeFirstLetter = (x: string) => {
   return x[0].toUpperCase() + x.slice(1);
@@ -13,9 +12,10 @@ const capitalizeFirstLetter = (x: string) => {
 interface ModalWrapperProps {
   labelDict: any;
   children: React.ReactNode;
+  selectedDate: string;
 }
 
-const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
+const ModalWrapper = ({labelDict, children, selectedDate}: ModalWrapperProps) => {
   const {data, toggleModal} = useContext(FormContext);
   return (
     <>
@@ -39,7 +39,7 @@ const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
         onPress={() => {
           toggleModal(true);
         }}
-        text={`${labelDict[data.selectedDate]}`}
+        text={`${labelDict[selectedDate]}`}
       />
     </>
   );
@@ -48,15 +48,15 @@ const ModalWrapper = ({labelDict, children}: ModalWrapperProps) => {
 interface DatePickerInternalProps {
   dateOptions: any[];
   pickerStyles?: {};
+  selectedDate: string;
+  setDate: (x: string) => void;
 }
 
-const DatePickerInternal = ({dateOptions, pickerStyles}: DatePickerInternalProps) => {
-  const {data, setDate} = useContext(FormContext);
-
+const DatePickerInternal = ({dateOptions, pickerStyles, selectedDate, setDate}: DatePickerInternalProps) => {
   return (
     <Picker
       style={{...pickerStyles}}
-      selectedValue={data.selectedDate}
+      selectedValue={selectedDate}
       onValueChange={value => setDate(value.toString())}
       mode="dialog"
     >
@@ -69,9 +69,11 @@ const DatePickerInternal = ({dateOptions, pickerStyles}: DatePickerInternalProps
 
 interface DatePickerProps {
   daysBack: number;
+  selectedDate: string;
+  setDate: (x: string) => void;
 }
 
-export const DatePicker = ({daysBack}: DatePickerProps) => {
+export const DatePicker = ({daysBack, selectedDate, setDate}: DatePickerProps) => {
   const i18n = useI18n();
   const today = getCurrentDate();
 
@@ -108,15 +110,20 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
 
   if (Platform.OS === 'ios') {
     return (
-      <ModalWrapper labelDict={labelDict}>
-        {/* eslint-disable-next-line react-native/no-inline-styles */}
-        <DatePickerInternal pickerStyles={{height: 200}} dateOptions={dateOptions} />
+      <ModalWrapper labelDict={labelDict} selectedDate={selectedDate}>
+        <DatePickerInternal
+          // eslint-disable-next-line react-native/no-inline-styles
+          pickerStyles={{height: 200}}
+          dateOptions={dateOptions}
+          selectedDate={selectedDate}
+          setDate={setDate}
+        />
       </ModalWrapper>
     );
   }
   return (
     <Box style={{...styles.outline}} marginBottom="m">
-      <DatePickerInternal dateOptions={dateOptions} />
+      <DatePickerInternal dateOptions={dateOptions} selectedDate={selectedDate} setDate={setDate} />
     </Box>
   );
 };
