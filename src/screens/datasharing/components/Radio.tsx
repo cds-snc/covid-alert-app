@@ -15,7 +15,7 @@ export const RadioButton = (props: any) => {
           <Box style={{...styles.circle, ...activeStyles}}>
             {props.active === props.value ? <View style={styles.checkedCircle} /> : <View />}
           </Box>
-          <Box>
+          <Box style={styles.label}>
             <Text variant="bodyText">{props.text}</Text>
           </Box>
         </Box>
@@ -26,6 +26,7 @@ export const RadioButton = (props: any) => {
 
 const styles = StyleSheet.create({
   circle: {
+    flex: 0,
     height: 30,
     width: 30,
     borderRadius: 20,
@@ -33,7 +34,11 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 10,
+    marginRight: 10,
+  },
+  label: {
+    flex: 1,
+    paddingTop: 2,
   },
   active: {
     borderWidth: 3,

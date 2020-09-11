@@ -21,7 +21,7 @@ export const Step2Screen = () => {
   return (
     <BaseDataSharingView>
       <ScrollView style={styles.flex}>
-        <Box paddingHorizontal="m">
+        <Box marginHorizontal="m">
           <StepXofY currentStep={2} />
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.Step2.Title1')}
