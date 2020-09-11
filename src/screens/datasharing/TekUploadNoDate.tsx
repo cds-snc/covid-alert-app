@@ -12,7 +12,7 @@ export const TekUploadNoDate = () => {
       contagiousDateInfo={{dateType: 'noDate', dateString: ''}}
     >
       <Box paddingHorizontal="m">
-        <StepXofY currentStep={4} />
+        <StepXofY currentStep={3} />
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('DataUpload.TekUploadNoDate.Title')}
         </Text>

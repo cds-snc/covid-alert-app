@@ -7,7 +7,7 @@ export interface StepXofYProps {
   totalSteps?: number;
 }
 
-export const StepXofY = ({currentStep, totalSteps = 4}: StepXofYProps) => {
+export const StepXofY = ({currentStep, totalSteps = 3}: StepXofYProps) => {
   const i18n = useI18n();
   return (
     <Text marginBottom="s" variant="bodyText" color="gray1Text">
