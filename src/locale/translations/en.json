@@ -254,6 +254,9 @@
     "InfoSmall": "Your random codes will not be uploaded unless you give permission in the next step.",
     "ShareToast": "Random codes uploaded successfully",
     "StepXofY": "Step {x} of {y}",
+    "Today": "Today",
+    "Yesterday": "Yesterday",
+    "Earlier": "Even earlier",
     "Step0": {
       "Title": "Notify people they’ve been exposed",
       "List": {

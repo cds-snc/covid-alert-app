@@ -17,6 +17,9 @@
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l’étape suivante.",
     "StepXofY": "Étape {x} de {y}",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
+    "Today": "Aujourd’hui",
+    "Yesterday": "Hier",
+    "Earlier": "Il y a plus longtemps",
     "Step0": {
       "Title": "Aviser les personnes d’une exposition",
       "List": {

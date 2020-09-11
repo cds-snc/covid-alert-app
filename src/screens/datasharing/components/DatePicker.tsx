@@ -7,6 +7,9 @@ import {useI18n} from 'locale';
 
 import {FormContext} from '../../../shared/FormContext';
 
+const capitalizeFirstLetter = (x: string) => {
+  return x[0].toUpperCase() + x.slice(1);
+};
 interface ModalWrapperProps {
   labelDict: any;
   children: React.ReactNode;
@@ -76,19 +79,20 @@ export const DatePicker = ({daysBack}: DatePickerProps) => {
     const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
     switch (step) {
       case 0:
-        // todo: these strings should come from i18n
-        return 'Today';
+        return i18n.translate('DataUpload.Today');
       case 1:
-        return 'Yesterday';
+        return i18n.translate('DataUpload.Yesterday');
       case daysBack - 1:
-        return 'Even earlier';
+        return i18n.translate('DataUpload.Earlier');
       default:
-        return date.toLocaleString(dateLocale, {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        });
+        return capitalizeFirstLetter(
+          date.toLocaleString(dateLocale, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }),
+        );
     }
   };
   const dateOptions = [{label: '', value: ''}];
