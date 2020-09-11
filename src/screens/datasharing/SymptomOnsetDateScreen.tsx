@@ -1,6 +1,6 @@
 import React, {useCallback, useContext} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Button} from 'components';
+import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {FormContext} from 'shared/FormContext';
