@@ -130,7 +130,8 @@ export const DatePicker = ({daysBack, selectedDate, setDate}: DatePickerProps) =
 
 const styles = StyleSheet.create({
   outline: {
-    borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 5,
     borderColor: '#000',
   },
   centeredView: {
