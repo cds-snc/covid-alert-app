@@ -138,6 +138,12 @@ const theme = {
       fontSize: 23,
       lineHeight: 30,
     },
+    bodyTitle2: {
+      fontFamily: 'notosans',
+      fontWeight: 'bold',
+      fontSize: 20,
+      lineHeight: 30,
+    },
     overlayTitle: {
       fontFamily: 'notosans',
       fontSize: 23,

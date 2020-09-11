@@ -29,7 +29,7 @@ export const TestDateScreen = () => {
           </Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.TestDate.Body1')}</Text>
           <DatePicker daysBack={14} setDate={setTestDate} selectedDate={data.testDate} />
-          <Text variant="bodyTitle" marginVertical="l">
+          <Text variant="bodyTitle2" marginVertical="l">
             {i18n.translate('DataUpload.TestDate.Title2')}
           </Text>
           <Text marginBottom="m">{i18n.translate('DataUpload.TestDate.Body2')}</Text>

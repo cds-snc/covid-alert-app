@@ -57,7 +57,7 @@ export const Step2Screen = () => {
             listAccessibile="listItem"
             text={i18n.translate('DataUpload.Step2.Symptoms.6')}
           />
-          <Box marginTop="m">
+          <Box marginTop="xl">
             <RadioButton
               active={radio}
               value="0"
@@ -83,7 +83,7 @@ export const Step2Screen = () => {
               onPress={radioHandler}
             />
           </Box>
-          <Text marginTop="l" marginBottom="l" variant="bodyTitle">
+          <Text marginTop="l" marginBottom="l" variant="bodyTitle2">
             {i18n.translate('DataUpload.Step2.Title2')}
           </Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.Step2.Body2')}</Text>

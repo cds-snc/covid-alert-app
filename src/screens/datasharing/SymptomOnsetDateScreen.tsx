@@ -28,7 +28,7 @@ export const SymptomOnsetDateScreen = () => {
             {i18n.translate('DataUpload.SymptomOnsetDate.Title1')}
           </Text>
           <DatePicker daysBack={14} selectedDate={data.symptomOnsetDate} setDate={setSymptomOnsetDate} />
-          <Text variant="bodyTitle" marginVertical="l">
+          <Text variant="bodyTitle2" marginVertical="l">
             {i18n.translate('DataUpload.SymptomOnsetDate.Title2')}
           </Text>
           <Text marginBottom="m">{i18n.translate('DataUpload.SymptomOnsetDate.Body1')}</Text>
