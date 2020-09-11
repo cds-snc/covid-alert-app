@@ -74,16 +74,19 @@
       "CTA2": "Go back to Step 2"
     },
     "SymptomOnsetDate": {
-      "Title": "Entrez la date de vos premiers symptômes",
-      "Body1": "L’application utilise la date de vos premiers symptômes pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période.",
-      "CTA": "Upload random codes",
-      "CTA2": "Prefer not to say"
+      "Title1": "Entrez la date de vos premiers symptômes",
+      "Title2": "Pourquoi nous posons cette question",
+      "Body1": "La date de vos premiers symptômes permet de déterminer la période où vous pouviez être contagieux. Celle-ci renseigne l’application sur les codes aléatoires à téléverser pour que seules les personnes côtoyées durant ce temps soient avisées.\n\nCette date ne sera jamais échangée ou conservée ailleurs que sur votre téléphone.",
+      "CTA": "Téléverser les codes aléatoires",
+      "CTA2": "Je préfère ne pas répondre"
     },
     "TestDate": {
-      "Title": "Entrez la date de votre test pour la COVID-19",
-      "Body1": "L’application utilise la date de votre test pour la COVID-19 pour déterminer la période où vous étiez contagieux. Cela permet de n’aviser que les personnes côtoyées pendant cette période.",
-      "CTA": "Upload random codes",
-      "CTA2": "Prefer not to say"
+      "Title1": "Date de votre test",
+      "Body1": "Entrez la date de votre test de dépistage pour la COVID-19.",
+      "Title2": "Pourquoi nous posons cette question",
+      "Body2": "Puisque vous n’avez pas eu de symptômes, la date de votre test permet de déterminer la période où vous pouviez être contagieux. L’application sait ainsi quels codes aléatoires téléverser pour n’aviser que les personnes côtoyées pendant cette période.\n\nCette date ne sera jamais échangée ou conservée ailleurs que sur votre téléphone.",
+      "CTA": "Téléverser les codes aléatoires",
+      "CTA2": "Je préfère ne pas répondre"
     },
     "NoCode": {
       "NoRegion": {

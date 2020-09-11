@@ -25,11 +25,14 @@ export const SymptomOnsetDateScreen = () => {
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <StepXofY currentStep={3} />
-          <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
-            {i18n.translate('DataUpload.SymptomOnsetDate.Title')}
+          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+            {i18n.translate('DataUpload.SymptomOnsetDate.Title1')}
+          </Text>
+          <DatePicker daysBack={14} />
+          <Text variant="bodyTitle" marginVertical="l">
+            {i18n.translate('DataUpload.SymptomOnsetDate.Title2')}
           </Text>
           <Text marginBottom="m">{i18n.translate('DataUpload.SymptomOnsetDate.Body1')}</Text>
-          <DatePicker daysBack={14} />
         </Box>
       </ScrollView>
     </BaseTekUploadView>

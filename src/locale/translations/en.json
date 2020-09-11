@@ -314,14 +314,17 @@
       "CTA2": "Use contagious dates only"
     },
     "SymptomOnsetDate": {
-      "Title": "Enter the date your symptoms started",
-      "Body1": "The app uses this information to find dates you were contagious. It only notifies people you were near at that time. ",
+      "Title1": "Date your symptoms started",
+      "Title2": "Why we’re asking",
+      "Body1": "This date helps figure out when you were likely contagious. It tells the app which random codes to upload so only people who were near you then will be notified.\n\nThe date does not get sent or stored anywhere outside your phone.",
       "CTA": "Upload random codes",
       "CTA2": "Prefer not to say"
     },
     "TestDate": {
-      "Title": "Enter the date of your COVID-19 test",
-      "Body1": "The app uses this information to find dates you were contagious. It only notifies people you were near at that time.",
+      "Title1": "Your test date",
+      "Body1": "Enter the date you got your COVID-19 test.",
+      "Title2": "Why we’re asking",
+      "Body2": "Since you have not had any symptoms, your test date helps figure out when you were likely contagious. It tells the app which random codes to upload so only people who were near you then will be notified.\n\nThe date does not get sent or stored anywhere outside your phone.",
       "CTA": "Upload random codes",
       "CTA2": "Prefer not to say"
     },
