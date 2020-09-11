@@ -60,6 +60,11 @@
       "Action": "Soumettre la clé",
       "InputLabel": "code Alerte COVID"
     },
+    "OtkDiagnosedView": {
+      "Title": "Vous avez déjà entré votre clé",
+      "Body": "Il n’est pas nécessaire d’entrer la clé de nouveau.",
+      "CTA": "Suivant"
+    },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
       "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires des 14 derniers jours.",
@@ -72,9 +77,9 @@
       "ErrorAction": "OK"
     },
     "TekUploadNoDate": {
-      "Title": "Notify people you've been near",
-      "CTA": "Share codes",
-      "CTA2": "Go back to Step 2"
+      "Title": "Aviser les personnes côtoyées",
+      "Body": "Vous pouvez maintenant partager vos codes. Ils aviseront toutes les personnes côtoyées au cours des 14 derniers jours, même si vous n’étiez probablement pas contagieux lors de votre contact.",
+      "CTA": "Téléverser les codes aléatoires"
     },
     "SymptomOnsetDate": {
       "Title1": "Entrez la date de vos premiers symptômes",

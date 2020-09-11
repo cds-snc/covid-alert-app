@@ -312,9 +312,8 @@
     },
     "TekUploadNoDate": {
       "Title": "Notify people you've been near",
-      "Body": "You can now share your codes to notify all the people you were near in the last 14 days.\n\nTo send notifications only for dates you were contagious, you need to answer questions.",
-      "CTA": "Share codes",
-      "CTA2": "Use contagious dates only"
+      "Body": "You can now share your codes. They will notify all the people you were near in the last 14 days, even if you were not likely contagious when you were near them.",
+      "CTA": "Upload random codes"
     },
     "SymptomOnsetDate": {
       "Title1": "Date your symptoms started",

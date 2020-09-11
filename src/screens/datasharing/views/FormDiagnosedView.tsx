@@ -25,7 +25,7 @@ export const FormDiagnosedView = () => {
         <Text color="overlayBodyText" marginBottom="l">
           {i18n.translate('DataUpload.OtkDiagnosedView.Body')}
         </Text>
-        <Box flex={1} marginBottom="m">
+        <Box flex={1} marginVertical="m">
           <Button variant="thinFlat" text={i18n.translate('DataUpload.OtkDiagnosedView.CTA')} onPress={onNext} />
         </Box>
       </Box>
