@@ -24,55 +24,39 @@ export const Step2Screen = () => {
         <Box paddingHorizontal="m">
           <StepXofY currentStep={2} />
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-            {i18n.translate('DataUpload.Step2.Title')}
+            {i18n.translate('DataUpload.Step2.Title1')}
           </Text>
-          <Text marginBottom="l">{i18n.translate('DataUpload.Step2.Body1')}</Text>
-          <Text fontWeight="bold" marginBottom="l">
-            {i18n.translate('DataUpload.Step2.Body2')}
-          </Text>
+          <Text marginBottom="s">{i18n.translate('DataUpload.Step2.Body1')}</Text>
           <BulletPoint
-            key={i18n.translate('DataUpload.Step2.Symptoms.symptom1')}
+            key={i18n.translate('DataUpload.Step2.Symptoms.1')}
             listAccessibile="listStart"
-            text={i18n.translate('DataUpload.Step2.Symptoms.symptom1')}
+            text={i18n.translate('DataUpload.Step2.Symptoms.1')}
           />
           <BulletPoint
-            key={i18n.translate('DataUpload.Step2.Symptoms.symptom2')}
+            key={i18n.translate('DataUpload.Step2.Symptoms.2')}
             listAccessibile="listItem"
-            text={i18n.translate('DataUpload.Step2.Symptoms.symptom2')}
+            text={i18n.translate('DataUpload.Step2.Symptoms.2')}
           />
           <BulletPoint
-            key={i18n.translate('DataUpload.Step2.Symptoms.symptom3')}
+            key={i18n.translate('DataUpload.Step2.Symptoms.3')}
             listAccessibile="listItem"
-            text={i18n.translate('DataUpload.Step2.Symptoms.symptom3')}
+            text={i18n.translate('DataUpload.Step2.Symptoms.3')}
           />
           <BulletPoint
-            key={i18n.translate('DataUpload.Step2.Symptoms.symptom4')}
+            key={i18n.translate('DataUpload.Step2.Symptoms.4')}
             listAccessibile="listItem"
-            text={i18n.translate('DataUpload.Step2.Symptoms.symptom4')}
+            text={i18n.translate('DataUpload.Step2.Symptoms.4')}
           />
           <BulletPoint
-            key={i18n.translate('DataUpload.Step2.Symptoms.symptom5')}
+            key={i18n.translate('DataUpload.Step2.Symptoms.5')}
             listAccessibile="listItem"
-            text={i18n.translate('DataUpload.Step2.Symptoms.symptom5')}
+            text={i18n.translate('DataUpload.Step2.Symptoms.5')}
           />
           <BulletPoint
-            key={i18n.translate('DataUpload.Step2.Symptoms.symptom6')}
+            key={i18n.translate('DataUpload.Step2.Symptoms.6')}
             listAccessibile="listItem"
-            text={i18n.translate('DataUpload.Step2.Symptoms.symptom6')}
+            text={i18n.translate('DataUpload.Step2.Symptoms.6')}
           />
-          <BulletPoint
-            key={i18n.translate('DataUpload.Step2.Symptoms.symptom7')}
-            listAccessibile="listItem"
-            text={i18n.translate('DataUpload.Step2.Symptoms.symptom7')}
-          />
-          <BulletPoint
-            key={i18n.translate('DataUpload.Step2.Symptoms.symptom8')}
-            listAccessibile="listItem"
-            text={i18n.translate('DataUpload.Step2.Symptoms.symptom8')}
-          />
-          <Text fontWeight="bold" marginTop="l">
-            {i18n.translate('DataUpload.Step2.Body3')}
-          </Text>
           <Box marginTop="m">
             <RadioButton
               active={radio}
@@ -99,6 +83,10 @@ export const Step2Screen = () => {
               onPress={radioHandler}
             />
           </Box>
+          <Text marginTop="l" marginBottom="l" variant="bodyTitle">
+            {i18n.translate('DataUpload.Step2.Title2')}
+          </Text>
+          <Text marginBottom="l">{i18n.translate('DataUpload.Step2.Body2')}</Text>
 
           <Box marginTop="m" marginBottom="m">
             <Button
