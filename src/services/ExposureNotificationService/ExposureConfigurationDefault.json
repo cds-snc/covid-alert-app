@@ -1,7 +1,7 @@
 {
   "attenuationDurationThresholds": [50, 63],
   "minimumExposureDurationMinutes": 15,
-  "minimumRiskScore": 25,
+  "minimumRiskScore": 1,
   "attenuationLevelValues": [1, 1, 8, 8, 8, 8, 8, 8],
   "attenuationWeight": 1,
   "daysSinceLastExposureLevelValues": [0, 1, 1, 1, 1, 1, 1, 1],
