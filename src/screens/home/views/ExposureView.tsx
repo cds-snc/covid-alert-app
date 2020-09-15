@@ -15,12 +15,9 @@ const ActiveContent = ({text}: {text: string}) => {
   if (text === '') {
     return null;
   }
-  return (
-    <Box marginBottom="m">
-      <Text>{text}</Text>
-    </Box>
-  );
+  return <Text marginBottom="m">{text}</Text>;
 };
+
 export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const {region} = useStorage();
   const i18n = useI18n();
