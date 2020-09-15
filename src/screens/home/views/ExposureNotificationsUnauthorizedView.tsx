@@ -32,7 +32,7 @@ export const ExposureNotificationsUnauthorizedView = ({isBottomSheetExpanded}: {
         {i18n.translate('Home.EnDisabled.Title')}
       </Text>
       <Text variant="bodyText" color="bodyText">
-        {i18n.translate('Home.EnDisabled.Body1')}
+        {i18n.translate('Home.EnUnauthorized.Body1')}
       </Text>
       <Box alignSelf="stretch" marginBottom="m" marginTop="l">
         <ButtonSingleLine
