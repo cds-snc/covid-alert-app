@@ -11,6 +11,16 @@ import {useRegionalI18n} from 'locale/regional';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
+const ActiveContent = ({text}: {text: string}) => {
+  if (text === '') {
+    return null;
+  }
+  return (
+    <Box marginBottom="m">
+      <Text>{text}</Text>
+    </Box>
+  );
+};
 export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const {region} = useStorage();
   const i18n = useI18n();
@@ -42,6 +52,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const activeBodyText = regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`);
 
   return (
     <BaseHomeView iconName="hand-caution" testID="exposure">
@@ -52,21 +63,19 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate(`Home.ExposureDetected.Title2`)}
       </Text>
-      <Text>
-        {regionActive ? (
-          <Text>{regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`)}</Text>
-        ) : (
-          <>
-            <Text>{i18n.translate('Home.ExposureDetected.RegionNotCovered.Body2')}</Text>
-            <Text fontWeight="bold">{i18n.translate('Home.ExposureDetected.RegionNotCovered.Body3')}</Text>
-          </>
-        )}
-      </Text>
+      {regionActive ? (
+        <ActiveContent text={activeBodyText} />
+      ) : (
+        <Text marginBottom="m">
+          <Text>{i18n.translate('Home.ExposureDetected.RegionNotCovered.Body2')}</Text>
+          <Text fontWeight="bold">{i18n.translate('Home.ExposureDetected.RegionNotCovered.Body3')}</Text>
+        </Text>
+      )}
 
       {regionalGuidanceCTA === '' ? (
         <ErrorBox marginTop="m" />
       ) : (
-        <Box alignSelf="stretch" marginTop="l" marginBottom={regionActive ? 'xxl' : 'm'}>
+        <Box alignSelf="stretch" marginTop="s" marginBottom={regionActive ? 'xxl' : 'm'}>
           <ButtonSingleLine
             text={regionalGuidanceCTA}
             variant="bigFlatPurple"
