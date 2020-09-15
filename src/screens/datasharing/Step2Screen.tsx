@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {ScrollView, StyleSheet, Alert} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
@@ -17,7 +17,11 @@ export const Step2Screen = () => {
   const radioHandler = (val: string) => {
     setRadio(val);
   };
-
+  const onError = useCallback(() => {
+    Alert.alert(i18n.translate(`Errors.DataSharingStep2.Title`), i18n.translate(`Errors.DataSharingStep2.Body`), [
+      {text: i18n.translate(`Errors.DataSharingStep2.Action`)},
+    ]);
+  }, [i18n]);
   return (
     <BaseDataSharingView>
       <ScrollView style={styles.flex}>
@@ -91,9 +95,12 @@ export const Step2Screen = () => {
           <Box marginTop="m" marginBottom="m">
             <Button
               variant="thinFlat"
-              disabled={radio === ''}
               text={i18n.translate('DataUpload.Step2.CTA')}
               onPress={() => {
+                if (radio === '') {
+                  onError();
+                  return;
+                }
                 const routes = ['SymptomOnsetDate', 'TestDate', 'TestDate', 'TekUploadNoDate'];
                 const selected = Number(radio);
                 navigation.navigate(routes[selected]);
