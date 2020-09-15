@@ -1,5 +1,5 @@
 {
-  "Active": ["ON", "NL"],
+  "Active": ["ON", "NL", "NB"],
   "en": {
     "RegionContent": {
       "DiagnosedView": {
@@ -47,7 +47,7 @@
           },
           "NB": {
             "Title": "Get a one-time key",
-            "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone when you get your positive test result.\n\nYou will only get one key, and it expires in 24 hours or after you submit it.",
+            "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone when you get your positive test result.\n\nYou will get one key, and it expires in 24 hours or after you submit it.",
             "CTA": "",
             "Link": ""
           }
