@@ -23,7 +23,6 @@ import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, captureException} from 'shared/log';
-import AsyncStorage from '@react-native-community/async-storage';
 import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
@@ -39,7 +38,6 @@ if (Platform.OS === 'android') {
   require('date-time-format-timezone');
 }
 
-const REGION_CONTENT_KEY = 'regionContentKey';
 // grabs the ip address
 if (__DEV__) {
   const host = NativeModules.SourceCode.scriptURL.split('://')[1].split(':')[0];
@@ -74,27 +72,10 @@ const App = () => {
       }
     };
 
-    const loadStoredRegionContent = async () => {
-      const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
-      if (storedRegionContent) {
-        const storedRegionContentJson = JSON.parse(storedRegionContent);
-        try {
-          new JsonSchemaValidator().validateJson(storedRegionContentJson, regionSchema);
-          captureMessage('initData() loaded stored content.');
-          setRegionContent({payload: storedRegionContentJson});
-        } catch (error) {
-          captureException(error.message, error);
-        }
-      } else {
-        captureMessage('initData() no stored content.');
-      }
-    };
-
     const fetchData = async () => {
       try {
-        await loadStoredRegionContent();
         const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
-        if (downloadedRegionContent.status === 200) {
+        if (downloadedRegionContent.status === 200 || downloadedRegionContent.status === 304) {
           new JsonSchemaValidator().validateJson(downloadedRegionContent.payload, regionSchema);
           setRegionContent({payload: downloadedRegionContent.payload});
         }
