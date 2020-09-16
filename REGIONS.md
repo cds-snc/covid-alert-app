@@ -18,4 +18,4 @@ A similar process can be used to test changes to the EN config.
 
 - make changes to `src/services/ExposureNotificationService/ExposureConfigurationDefault.json`
 - commit and push your changes to a branch
-- Add the following to your .env file and do a build: `EN_CONFIG_URL=`
+- Add the following to your .env file and do a build: `EN_CONFIG_URL=https://raw.githubusercontent.com/cds-snc/covid-alert-app/YOUR_BRANCH_NAME/src/services/ExposureNotificationService/ExposureConfigurationDefault.json`

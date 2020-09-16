@@ -6,7 +6,7 @@ import {ExposureConfiguration, TemporaryExposureKey} from 'bridge/ExposureNotifi
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
-import {MCC_CODE, REGION_JSON_URL} from 'env';
+import {MCC_CODE, REGION_JSON_URL, EN_CONFIG_URL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
@@ -102,7 +102,9 @@ export class BackendService implements BackendInterface {
     // purposely setting 'region' to the default value of `CA` regardless of what the user selected.
     // this is only for the purpose of downloading the configuration file.
     const region = 'CA';
-    const exposureConfigurationUrl = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
+    const exposureConfigurationUrl = EN_CONFIG_URL
+      ? EN_CONFIG_URL
+      : `${this.retrieveUrl}/exposure-configuration/${region}.json`;
     captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
     return (await fetch(exposureConfigurationUrl, FETCH_HEADERS)).json();
   }
