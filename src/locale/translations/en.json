@@ -62,7 +62,7 @@
     "TurnOnBluetooth": "Turn on Bluetooth",
     "EnUnauthorized": {
       "Title": "COVID Alert is off",
-      "Body1": "To enable the app, go to your phone's Settings, choose Exposure Notifications, then Health Canada, then turn on \"Share Exposure Information\".",
+      "Body1": "From the button below, choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\".",
       "CTA": "Enable COVID Alert"
     },
     "EnDisabled": {
