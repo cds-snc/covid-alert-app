@@ -134,7 +134,7 @@
     },
     "EnUnauthorized": {
       "Title": "Alerte COVID est désactivée",
-      "Body1": "Pour activer l'application, ouvrez les paramètres de votre téléphone. Sélectionnez Notifications d'exposition, puis Santé Canada. Activez ensuite « Partager les informations sur les expositions ».",
+      "Body1": "Appuyez sur le bouton ci-dessous, puis sélectionnez Notifications d'exposition. Faites défiler l'écran et activez « Partager les informations sur les expositions ».",
       "CTA": "Activer Alerte COVID"
     },
     "EnDisabled": {
