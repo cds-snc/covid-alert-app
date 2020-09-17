@@ -441,6 +441,10 @@
     "ContentNoConnect": {
       "Title": "Cannot connect to information for your province or territory",
       "Body": "Try again later for this information."
+    },
+    "DataSharingStep2": {
+      "Title": "You need to choose an answer before going to the next step.",
+      "Body": ""
     }
   }
 }
