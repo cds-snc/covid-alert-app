@@ -60,9 +60,9 @@
           },
           "SK": {
             "Title": "Get a one-time key",
-            "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone when you get your positive test result.\n\nYou will get one key, and it expires in 24 hours.\n\nIf you’re having trouble with your key, contact the public health authority that gave you your test results.",
-            "CTA": "Saskatchewan public health",
-            "Link": "https://www.saskatchewan.ca/residents/health/public-health/public-health-offices"
+            "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone when you get your positive test result.\n\nYou will get one key, and it expires in 24 hours.",
+            "CTA": "Help",
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
           }
         }
       },
@@ -210,9 +210,9 @@
           },
           "SK": {
             "Title": "Obtenir une clé à usage unique",
-            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.\n\nSi vous avez un problème avec votre clé, contactez l’autorité sanitaire qui vous a donné votre résultat de test.",
-            "CTA": "Santé publique de la Saskatchewan (page en anglais)",
-            "Link": "https://www.saskatchewan.ca/residents/health/public-health/public-health-offices"
+            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+            "CTA": "Aide",
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
           }
         }
       },
