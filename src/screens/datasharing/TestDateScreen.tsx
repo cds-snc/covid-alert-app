@@ -19,7 +19,7 @@ export const TestDateScreen = () => {
       contagiousDateInfo={{dateType: 'testDate', dateString: data.testDate}}
       secondaryButtonText={i18n.translate('DataUpload.TestDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
-      primaryButtonDisabled={data.testDate === ''}
+      dateSelected={data.testDate !== ''}
     >
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">

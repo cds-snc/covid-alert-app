@@ -19,7 +19,7 @@ export const SymptomOnsetDateScreen = () => {
       contagiousDateInfo={{dateType: 'symptomOnsetDate', dateString: data.symptomOnsetDate}}
       secondaryButtonText={i18n.translate('DataUpload.SymptomOnsetDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
-      primaryButtonDisabled={data.symptomOnsetDate === ''}
+      dateSelected={data.symptomOnsetDate !== ''}
     >
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">

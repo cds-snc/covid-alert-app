@@ -22,7 +22,7 @@ interface BaseTekUploadViewProps {
   children?: React.ReactNode;
   secondaryButtonText?: string;
   secondaryButtonOnPress?(): void;
-  primaryButtonDisabled?: boolean;
+  dateSelected?: boolean;
   showBackButton?: boolean;
 }
 
@@ -32,7 +32,7 @@ export const BaseTekUploadView = ({
   buttonText,
   secondaryButtonText,
   secondaryButtonOnPress,
-  primaryButtonDisabled = false,
+  dateSelected = false,
   showBackButton = true,
 }: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
@@ -67,7 +67,15 @@ export const BaseTekUploadView = ({
     },
     [i18n],
   );
-
+  const validateInput = () => {
+    if (!dateSelected) {
+      Alert.alert(i18n.translate(`Errors.TekUploadNoDate.Title`), i18n.translate(`Errors.TekUploadNoDate.Body`), [
+        {text: i18n.translate(`Errors.Action`)},
+      ]);
+      return false;
+    }
+    return true;
+  };
   const handleUpload = useCallback(async () => {
     setLoading(true);
     try {
@@ -91,7 +99,17 @@ export const BaseTekUploadView = ({
     <BaseDataSharingView showBackButton={showBackButton}>
       <ScrollView style={styles.flex}>{children}</ScrollView>
       <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
-        <Button variant="thinFlat" text={buttonText} onPress={handleUpload} disabled={primaryButtonDisabled} />
+        <Button
+          variant="thinFlat"
+          text={buttonText}
+          onPress={() => {
+            const inputValid = validateInput();
+            if (!inputValid) {
+              return;
+            }
+            handleUpload();
+          }}
+        />
       </Box>
       {secondaryButtonText && secondaryButtonOnPress ? (
         <Box paddingHorizontal="m" marginBottom="m">

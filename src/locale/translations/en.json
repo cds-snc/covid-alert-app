@@ -406,6 +406,10 @@
   },
   "Errors": {
     "Action": "OK",
+    "TekUploadNoDate": {
+      "Title": "",
+      "Body": "You need to enter a date before you can share exposures."
+    },
     "TekUploadOffline": {
       "Title": "Lost connection",
       "Body": "Your random codes were not uploaded. Make sure your phone is connected to the Internet, through either data or WiFi."
@@ -419,8 +423,8 @@
       "Body": "You did not give permission."
     },
     "OtcCodeNotEntered": {
-      "Title": "You need to enter your key before you can submit.",
-      "Body": ""
+      "Title": "",
+      "Body": "You need to enter your key before you can submit."
     },
     "OtcUploadInvalidOneTimeCode": {
       "Title": "Incorrect key",
@@ -443,8 +447,8 @@
       "Body": "Try again later for this information."
     },
     "DataSharingStep2": {
-      "Title": "You need to choose an answer before going to the next step.",
-      "Body": ""
+      "Title": "",
+      "Body": "You need to choose an answer before going to the next step."
     }
   }
 }
