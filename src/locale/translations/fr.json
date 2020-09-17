@@ -134,7 +134,7 @@
     },
     "EnUnauthorized": {
       "Title": "Alerte COVID est désactivée",
-      "Body1": "Appuyez sur le bouton ci-dessous, puis sélectionnez Notifications d'exposition. Faites défiler l'écran et activez « Partager les informations sur les expositions ».",
+      "Body1": "Appuyez sur le bouton ci-dessous, puis sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions ».",
       "CTA": "Activer Alerte COVID"
     },
     "EnDisabled": {
@@ -327,7 +327,7 @@
     "NoConnectivityCardAction": "Alerte COVID est hors ligne",
     "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé.",
     "EnUnauthorizedCardAction": "Activer Alerte COVID",
-    "EnUnauthorizedCardBody": "Sélectionnez Notifications d'exposition. Faites défiler l'écran et activez « Partager les informations sur les expositions »."
+    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions »."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"
