@@ -45,6 +45,31 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   );
 };
 
+const SystemStatusUnauthorized = ({i18n}: {i18n: I18n}) => {
+  const startExposureNotificationService = useStartExposureNotificationService();
+  const onPress = () => {
+    if (Platform.OS === 'android') {
+      startExposureNotificationService();
+      return;
+    }
+    return toSettings();
+  };
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
+
+  return (
+    <InfoButton
+      title={i18n.translate('OverlayOpen.EnUnauthorizedCardAction')}
+      text={i18n.translate('OverlayOpen.EnUnauthorizedCardBody')}
+      color="danger25Background"
+      variant="danger50Flat"
+      internalLink
+      onPress={onPress}
+    />
+  );
+};
+
 const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
   return (
     <InfoBlock
@@ -199,6 +224,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
             {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
               <Box marginBottom="m" marginHorizontal="m">
                 <SystemStatusOff i18n={i18n} />
+              </Box>
+            )}
+            {status === SystemStatus.Unauthorized && (
+              <Box marginBottom="m" marginHorizontal="m">
+                <SystemStatusUnauthorized i18n={i18n} />
               </Box>
             )}
             {status === SystemStatus.BluetoothOff && (

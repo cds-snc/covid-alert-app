@@ -130,7 +130,9 @@
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
     "ExposureNotificationCardAction": "Turn on exposure notifications",
     "NoConnectivityCardAction": "COVID Alert is offline",
-    "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures."
+    "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures.",
+    "EnUnauthorizedCardAction": "Enable COVID Alert",
+    "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\"."
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",

@@ -325,7 +325,9 @@
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
     "NoConnectivityCardAction": "Alerte COVID est hors ligne",
-    "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé."
+    "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé.",
+    "EnUnauthorizedCardAction": "Activer Alerte COVID",
+    "EnUnauthorizedCardBody": "Sélectionnez Notifications d'exposition. Faites défiler l'écran et activez « Partager les informations sur les expositions »."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"
