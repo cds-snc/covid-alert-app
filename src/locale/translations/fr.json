@@ -125,6 +125,10 @@
       "Title": "Les codes aléatoires n’ont pas pu être téléversés",
       "Body": "Vous n’avez pas donné votre autorisation."
     },
+    "OtcCodeNotEntered": {
+      "Title": "Vous devez entrer votre clé pour pouvoir la soumettre.",
+      "Body": ""
+    },
     "OtcUploadInvalidOneTimeCode": {
       "Title": "Clé à usage unique non reconnue",
       "Body": "Votre clé n’a pas pu être reconnue. Veuillez essayer à nouveau."

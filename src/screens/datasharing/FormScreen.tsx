@@ -47,7 +47,15 @@ export const FormScreen = () => {
     },
     [i18n],
   );
-
+  const validateInput = () => {
+    if (codeValue.length < 1) {
+      Alert.alert(i18n.translate(`Errors.OtcCodeNotEntered.Title`), i18n.translate(`Errors.OtcCodeNotEntered.Body`), [
+        {text: i18n.translate(`Errors.Action`)},
+      ]);
+      return false;
+    }
+    return true;
+  };
   const onSubmit = useCallback(async () => {
     setLoading(true);
     try {
@@ -91,10 +99,15 @@ export const FormScreen = () => {
       <Box flex={1} marginHorizontal="m" marginBottom="m">
         <Button
           loading={loading}
-          disabled={codeValue.length < 10}
           variant="thinFlat"
           text={i18n.translate('DataUpload.FormView.Action')}
-          onPress={onSubmit}
+          onPress={() => {
+            const inputValid = validateInput();
+            if (!inputValid) {
+              return;
+            }
+            onSubmit();
+          }}
         />
       </Box>
     </BaseDataSharingView>

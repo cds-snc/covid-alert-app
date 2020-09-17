@@ -418,6 +418,10 @@
       "Title": "Random codes could not be uploaded",
       "Body": "You did not give permission."
     },
+    "OtcCodeNotEntered": {
+      "Title": "You need to enter your key before you can submit.",
+      "Body": ""
+    },
     "OtcUploadInvalidOneTimeCode": {
       "Title": "Incorrect key",
       "Body": "Your one-time key could not be recognized. Please try again."
