@@ -211,8 +211,8 @@
           "SK": {
             "Title": "Obtenir une clé à usage unique",
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.\n\nSi vous avez un problème avec votre clé, contactez l’autorité sanitaire qui vous a donné votre résultat de test.",
-            "CTA": "",
-            "Link": ""
+            "CTA": "Santé publique de la Saskatchewan (page en anglais)",
+            "Link": "https://www.saskatchewan.ca/residents/health/public-health/public-health-offices"
           }
         }
       },
