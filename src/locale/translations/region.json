@@ -48,7 +48,7 @@
           },
           "NL": {
             "Title": "Get a one-time key",
-            "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+            "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.\n\nIf you’re having trouble with your key, contact the public health authority that gave you your test results.",
             "CTA": "Help",
             "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
           },
@@ -61,8 +61,8 @@
           "SK": {
             "Title": "Get a one-time key",
             "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone when you get your positive test result.\n\nYou will get one key, and it expires in 24 hours or after you submit it.",
-            "CTA": "",
-            "Link": ""
+            "CTA": "Saskatchewan publich health",
+            "Link": "www.saskatchewan.ca/residents/health/public-health/public-health-offices"
           }
         }
       },
@@ -84,9 +84,9 @@
             "URL": "https://www2.gnb.ca/content/gnb/en/corporate/promo/covid-19/covid_alert.html"
           },
           "SK": {
-            "Body": "",
-            "CTA": "",
-            "URL": ""
+            "Body": "You’re at risk of being infected.",
+            "CTA": "Find out if you need to get tested",
+            "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/testing-information"
           }
         },
         "Inactive": {
@@ -210,7 +210,7 @@
           },
           "SK": {
             "Title": "Obtenir une clé à usage unique",
-            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.\n\nSi vous avez un problème avec votre clé, contactez l’autorité sanitaire qui vous a donné votre résultat de test.",
             "CTA": "",
             "Link": ""
           }
@@ -234,9 +234,9 @@
             "URL": "https://www2.gnb.ca/content/gnb/fr/corporate/promo/covid-19/alerte_covid.html"
           },
           "SK": {
-            "Body": "",
-            "CTA": "",
-            "URL": ""
+            "Body": "Vous êtes à risque d’être infecté.",
+            "CTA": "Découvrez si vous devriez vous faire tester (page en anglais)",
+            "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/testing-information"
           }
         },
         "Inactive": {
