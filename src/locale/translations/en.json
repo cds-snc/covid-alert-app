@@ -31,8 +31,7 @@
       },
       "RegionCovered": {
         "Body2": "You’re at risk of being infected."
-      },
-      "ResetExposureStatus" : "Reset Exposure"
+      }
     },
     "ChooseRegionCTA": "Choose province or territory",
     "How": "Diagnosed with COVID-19?",

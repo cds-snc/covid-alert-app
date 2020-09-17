@@ -5,7 +5,7 @@ import {useI18n} from 'locale';
 import {Text, Box, ButtonSingleLine, ErrorBox} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import {captureException, captureMessage} from 'shared/log';
+import {captureException} from 'shared/log';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 
@@ -41,7 +41,6 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
     Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
-  const onResetStatus = useCallback(() => captureMessage('reset exposure'), []);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   return (
@@ -87,14 +86,6 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
           />
         </Box>
       )}
-      <Box alignSelf="stretch" marginBottom="m" marginTop="l">
-        <ButtonSingleLine
-          text={i18n.translate('Home.ExposureDetected.ResetExposureStatus')}
-          variant="danger50Flat"
-          internalLink
-          onPress={onResetStatus}
-        />
-      </Box>
     </BaseHomeView>
   );
 };
