@@ -86,7 +86,7 @@
           "SK": {
             "Body": "You’re at risk of being infected.",
             "CTA": "Find out if you need to get tested",
-            "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/testing-information"
+            "URL": "https://www.saskatchewan.ca/covid19-apps"
           }
         },
         "Inactive": {
@@ -236,7 +236,7 @@
           "SK": {
             "Body": "Vous êtes à risque d’être infecté.",
             "CTA": "Découvrez si vous devriez vous faire tester (page en anglais)",
-            "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/testing-information"
+            "URL": "https://www.saskatchewan.ca/covid19-apps"
           }
         },
         "Inactive": {
