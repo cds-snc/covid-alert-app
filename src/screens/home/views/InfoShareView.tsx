@@ -14,7 +14,7 @@ interface InfoShareItemProps extends TouchableOpacityProps {
   icon: IconProps['name'];
   lastItem?: boolean;
 }
-export const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoShareItemProps) => (
+const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoShareItemProps) => (
   <>
     <TouchableOpacity activeOpacity={0.6} onPress={onPress} accessibilityRole="button" {...touchableProps}>
       <Box
