@@ -4,9 +4,8 @@ import {Box, Text, Icon, IconProps} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n, useRegionalI18n} from 'locale';
 import {captureException} from 'shared/log';
-import {getExposedHelpURL} from 'components/ExposedHelpButton';
 import {useStorage} from 'services/StorageService';
-import {isRegionActive} from 'shared/RegionLogic';
+import {getExposedHelpURL} from 'shared/RegionLogic';
 
 interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
@@ -46,7 +45,6 @@ export const InfoShareView = () => {
   const i18n = useI18n();
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
-  const regionActive = isRegionActive(region, regionalI18n.activeRegions);
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
   const onGetCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
@@ -57,10 +55,10 @@ export const InfoShareView = () => {
     Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
   const onExposedHelp = useCallback(() => {
-    Linking.openURL(getExposedHelpURL(region, regionActive, regionalI18n)).catch(error =>
+    Linking.openURL(getExposedHelpURL(region, regionalI18n)).catch(error =>
       captureException('An error occurred', error),
     );
-  }, [region, regionActive, regionalI18n]);
+  }, [region, regionalI18n]);
 
   return (
     <>
