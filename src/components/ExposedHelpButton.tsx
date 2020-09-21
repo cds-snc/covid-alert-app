@@ -13,16 +13,21 @@ export const ExposedHelpButton = ({inMenu = false}: {inMenu?: boolean}) => {
   const i18n = useI18n();
 
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
-  const getGuidanceURL = useCallback(() => {
+  const getURL = useCallback(() => {
+    const nationalURL = regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
     if (region !== undefined && region !== 'None') {
-      return regionActive
+      const regionalURL = regionActive
         ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
         : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
+      if (regionalURL === '') {
+        return nationalURL;
+      }
+      return regionalURL;
     }
-    return regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
+    return nationalURL;
   }, [region, regionActive, regionalI18n]);
 
-  const getGuidanceCTA = useCallback(() => {
+  const getCTA = useCallback(() => {
     if (region !== undefined && region !== 'None') {
       return regionActive
         ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.CTA`)
@@ -31,28 +36,28 @@ export const ExposedHelpButton = ({inMenu = false}: {inMenu?: boolean}) => {
     return regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.CTA`);
   }, [region, regionActive, regionalI18n]);
 
-  const regionalGuidanceCTA = getGuidanceCTA();
-  const onActionGuidance = useCallback(() => {
-    Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
-  }, [getGuidanceURL]);
+  const cta = getCTA();
+  const onPress = useCallback(() => {
+    Linking.openURL(getURL()).catch(error => captureException('An error occurred', error));
+  }, [getURL]);
 
-  if (regionalGuidanceCTA === '') {
-    return <ErrorBox marginTop="m" />;
-  }
   if (inMenu) {
     return (
       <InfoShareItem
-        onPress={onActionGuidance}
+        onPress={onPress}
         text={i18n.translate('Home.ExposedHelpCTA')}
         icon="icon-external-arrow"
         accessibilityRole="link"
-        accessibilityHint={`${regionalGuidanceCTA} . ${i18n.translate('Home.ExternalLinkHint')}`}
+        accessibilityHint={`${cta} . ${i18n.translate('Home.ExternalLinkHint')}`}
       />
     );
   }
+  if (cta === '') {
+    return <ErrorBox marginTop="m" />;
+  }
   return (
     <Box alignSelf="stretch" marginTop="s" marginBottom={regionActive ? 'xxl' : 'm'}>
-      <ButtonSingleLine text={regionalGuidanceCTA} variant="bigFlatPurple" externalLink onPress={onActionGuidance} />
+      <ButtonSingleLine text={cta} variant="bigFlatPurple" externalLink onPress={onPress} />
     </Box>
   );
 };
