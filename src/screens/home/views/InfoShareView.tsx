@@ -20,7 +20,7 @@ export const InfoShareView = () => {
 
   return (
     <>
-      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginTop="m" marginBottom="m">
         <InfoShareItem
           testID="getCodeButton"
           onPress={onGetCode}
@@ -34,6 +34,7 @@ export const InfoShareView = () => {
           icon="icon-external-arrow"
           accessibilityRole="link"
           accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+          lastItem
         />
       </Box>
       <Box marginTop="l" marginBottom="m">
