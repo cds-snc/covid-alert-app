@@ -408,7 +408,7 @@ export class ExposureNotificationService {
     }
     const exposureStatus = this.exposureStatus.get();
 
-    if (exposureStatus.type === ExposureStatusType.Diagnosed || !summary || summary.matchedKeyCount <= 0) {
+    if (exposureStatus.type === ExposureStatusType.Diagnosed || summary.matchedKeyCount <= 0) {
       return;
     }
     const today = getCurrentDate();
