@@ -8,6 +8,7 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {captureException} from 'shared/log';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
+import {ExposedHelpButton} from 'components/ExposedHelpButton';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -26,12 +27,14 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
   const getGuidanceURL = useCallback(() => {
     if (region !== undefined && region !== 'None') {
+      console.log('regiona', region);
       return regionActive
         ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
         : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
     }
-    return i18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
-  }, [i18n, region, regionActive, regionalI18n]);
+    console.log('regionb', region);
+    return regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
+  }, [region, regionActive, regionalI18n]);
 
   const getGuidanceCTA = useCallback(() => {
     if (region !== undefined && region !== 'None') {
@@ -45,6 +48,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   const regionalGuidanceCTA = getGuidanceCTA();
 
   const onActionGuidance = useCallback(() => {
+    console.log('getGuidanceURL', getGuidanceURL());
     Linking.openURL(getGuidanceURL()).catch(error => captureException('An error occurred', error));
   }, [getGuidanceURL]);
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
@@ -69,18 +73,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
         </Text>
       )}
 
-      {regionalGuidanceCTA === '' ? (
-        <ErrorBox marginTop="m" />
-      ) : (
-        <Box alignSelf="stretch" marginTop="s" marginBottom={regionActive ? 'xxl' : 'm'}>
-          <ButtonSingleLine
-            text={regionalGuidanceCTA}
-            variant="bigFlatPurple"
-            externalLink
-            onPress={onActionGuidance}
-          />
-        </Box>
-      )}
+      <ExposedHelpButton />
 
       {!regionActive && (
         <Box alignSelf="stretch" marginBottom="m">

@@ -11,6 +11,7 @@ export * from './CodeInput';
 export * from './Header';
 export * from './Icon';
 export * from './InfoBlock';
+export * from './InfoShareItem';
 export * from './ProgressCircles';
 export * from './Ripple';
 export * from './Text';
