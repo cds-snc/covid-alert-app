@@ -83,8 +83,6 @@ export interface SecureStorageOptions {
   accessible?: string;
 }
 
-
-
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: MapObservable<ExposureStatus>;
@@ -123,7 +121,6 @@ export class ExposureNotificationService {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
   }
-
 
   async start(): Promise<void> {
     if (this.starting) {
@@ -316,13 +313,17 @@ export class ExposureNotificationService {
     });
   };
 
-  private processSummary = async (summary: ExposureSummary, configuration: ExposureConfiguration, lastCheckedPeriod: any) => {
+  private processSummary = async (
+    summary: ExposureSummary,
+    configuration: ExposureConfiguration,
+    lastCheckedPeriod: any,
+  ) => {
     // on ios attenuationDurations is in seconds, on android it is in minutes
     const divisor = Platform.OS === 'ios' ? 60 : 1;
     const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
     const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
     const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
-    const { minimumExposureDurationMinutes } = configuration;
+    const {minimumExposureDurationMinutes} = configuration;
     if (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes) {
       return this.finalize(
         {
@@ -332,31 +333,32 @@ export class ExposureNotificationService {
         lastCheckedPeriod,
       );
     }
-  }
+  };
 
   private async selectSummary(summaries: ExposureSummary[]): Promise<ExposureSummary> {
     // TODO: update this
+    // add filters
+    // do the attenuationDurations meet our thresholds?
+    // most recent?
     if (summaries && summaries.length > 0) {
       return summaries[0];
     } else {
       throw new Error('No summaries available.');
-
     }
   }
 
   private async performExposureStatusUpdate(): Promise<void> {
-
     const exposureConfiguration = await this.getExposureConfiguration();
     const today = getCurrentDate();
 
     try {
       // a pending summary is on Android only.
-      const pendingSummaries = await this.exposureNotification.getPendingExposureSummary()
+      const pendingSummaries = await this.exposureNotification.getPendingExposureSummary();
       if (pendingSummaries && pendingSummaries.length > 0) {
         const lastCheckedPeriod = {
           timestamp: today.getTime(),
           period: periodSinceEpoch(today, HOURS_PER_PERIOD),
-        }
+        };
         await this.processSummary(await this.selectSummary(pendingSummaries), exposureConfiguration, lastCheckedPeriod);
         return;
       }
@@ -370,24 +372,23 @@ export class ExposureNotificationService {
           // Let's use device timezone for resetting exposureStatus for now
           // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
           if (daysBetween(today, cycleEndsAt) <= 0) {
-            this.exposureStatus.set({ type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked });
+            this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
             return this.finalize();
           }
-          return this.finalize({ needsSubmission: await this.calculateNeedsSubmission() });
+          return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
         case ExposureStatusType.Exposed:
           const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
           if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
-            this.exposureStatus.set({ type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked });
+            this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
             return this.finalize();
           }
           break;
       }
 
-      const { keys, lastCheckedPeriod } = await this.getKeys(currentStatus.lastChecked);
-
+      const {keys, lastCheckedPeriod} = await this.getKeys(currentStatus.lastChecked);
 
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keys);
-      captureMessage('summary', this.selectSummary(summaries))
+      captureMessage('summary', this.selectSummary(summaries));
       await this.processSummary(await this.selectSummary(summaries), exposureConfiguration, lastCheckedPeriod);
     } catch (error) {
       captureException('performExposureStatusUpdate', error);
@@ -401,14 +402,14 @@ export class ExposureNotificationService {
     const generator = this.keysSinceLastFetch(lastChecked?.period);
     let lastCheckedPeriod = lastChecked?.period;
     while (true) {
-      const { value, done } = await generator.next();
+      const {value, done} = await generator.next();
       if (done) break;
       if (!value) continue;
-      const { keysFileUrl, period } = value;
+      const {keysFileUrl, period} = value;
       keys.push(keysFileUrl);
       lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
     }
-    return { keys: keys, lastCheckedPeriod: lastCheckedPeriod }
+    return {keys: keys, lastCheckedPeriod: lastCheckedPeriod};
   }
 
   private async getExposureConfiguration(): Promise<ExposureConfiguration> {
