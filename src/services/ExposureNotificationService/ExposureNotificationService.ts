@@ -342,6 +342,10 @@ export class ExposureNotificationService {
     // most recent?
     // getLastExposureTimestamp (noting this still checks matched key count)
     // https://github.com/cds-snc/covid-alert-app/issues/803#issue-662195281
+    // daysSinceLastExposure: number;
+    // lastExposureTimestamp: number;
+    // matchedKeyCount: number;
+    // maximumRiskScore: number;
     if (summaries && summaries.length > 0) {
       return summaries[0];
     } else {
