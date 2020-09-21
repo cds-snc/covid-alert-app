@@ -341,6 +341,7 @@ export class ExposureNotificationService {
     // do the attenuationDurations meet our thresholds?
     // most recent?
     // getLastExposureTimestamp (noting this still checks matched key count)
+    // https://github.com/cds-snc/covid-alert-app/issues/803#issue-662195281
     if (summaries && summaries.length > 0) {
       return summaries[0];
     } else {
