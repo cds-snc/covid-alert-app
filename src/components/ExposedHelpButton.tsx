@@ -1,31 +1,31 @@
 import React, {useCallback} from 'react';
-import {Box, ButtonSingleLine, ErrorBox, InfoShareItem} from 'components';
+import {Box, ButtonSingleLine, ErrorBox} from 'components';
 import {isRegionActive} from 'shared/RegionLogic';
-import {useI18n} from 'locale';
 import {useRegionalI18n} from 'locale/regional';
 import {useStorage} from 'services/StorageService';
 import {Linking} from 'react-native';
 import {captureException} from 'shared/log';
+import {Region} from 'shared/Region';
 
-export const ExposedHelpButton = ({inMenu = false}: {inMenu?: boolean}) => {
+export function getExposedHelpURL(region: Region | undefined, regionActive: boolean, regionalI18n: any) {
+  const nationalURL = regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
+  if (region !== undefined && region !== 'None') {
+    const regionalURL = regionActive
+      ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
+      : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
+    if (regionalURL === '') {
+      return nationalURL;
+    }
+    return regionalURL;
+  }
+  return nationalURL;
+}
+
+export const ExposedHelpButton = () => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
-  const i18n = useI18n();
 
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
-  const getURL = useCallback(() => {
-    const nationalURL = regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
-    if (region !== undefined && region !== 'None') {
-      const regionalURL = regionActive
-        ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
-        : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
-      if (regionalURL === '') {
-        return nationalURL;
-      }
-      return regionalURL;
-    }
-    return nationalURL;
-  }, [region, regionActive, regionalI18n]);
 
   const getCTA = useCallback(() => {
     if (region !== undefined && region !== 'None') {
@@ -38,20 +38,11 @@ export const ExposedHelpButton = ({inMenu = false}: {inMenu?: boolean}) => {
 
   const cta = getCTA();
   const onPress = useCallback(() => {
-    Linking.openURL(getURL()).catch(error => captureException('An error occurred', error));
-  }, [getURL]);
-
-  if (inMenu) {
-    return (
-      <InfoShareItem
-        onPress={onPress}
-        text={i18n.translate('Home.ExposedHelpCTA')}
-        icon="icon-external-arrow"
-        accessibilityRole="link"
-        accessibilityHint={`${cta} . ${i18n.translate('Home.ExternalLinkHint')}`}
-      />
+    Linking.openURL(getExposedHelpURL(region, regionActive, regionalI18n)).catch(error =>
+      captureException('An error occurred', error),
     );
-  }
+  }, [region, regionActive, regionalI18n]);
+
   if (cta === '') {
     return <ErrorBox marginTop="m" />;
   }
