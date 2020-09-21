@@ -23,3 +23,18 @@ export const getRegionCase = (region: Region | undefined, activeRegions: Region[
   }
   return regionCase;
 };
+
+export function getExposedHelpURL(region: Region | undefined, regionalI18n: any) {
+  const regionActive = isRegionActive(region, regionalI18n.activeRegions);
+  const nationalURL = regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
+  if (region !== undefined && region !== 'None') {
+    const regionalURL = regionActive
+      ? regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`)
+      : regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`);
+    if (regionalURL === '') {
+      return nationalURL;
+    }
+    return regionalURL;
+  }
+  return nationalURL;
+}
