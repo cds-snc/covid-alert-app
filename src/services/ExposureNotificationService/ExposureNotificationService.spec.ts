@@ -108,8 +108,8 @@ describe('ExposureNotificationService', () => {
       },
     ];
 
-    const result = await service.selectSummaries(15, summaries);
-    expect(result.attenuationDurations[0]).toStrictEqual(1020);
+    const result = service.summariesContainingExposures(15, summaries);
+    expect(result[0].attenuationDurations[0]).toStrictEqual(1020);
   });
 
   it('returns exposed status update', async () => {

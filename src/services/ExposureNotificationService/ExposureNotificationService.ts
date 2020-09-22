@@ -160,6 +160,19 @@ export class ExposureNotificationService {
     }
   }
 
+  public summariesContainingExposures(
+    minimumExposureDurationMinutes: number,
+    summaries: ExposureSummary[],
+  ): ExposureSummary[] {
+    return summaries
+      .filter(summary => {
+        return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
+      })
+      .sort((summary1, summary2) => {
+        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
+      });
+  }
+
   async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
@@ -360,19 +373,6 @@ export class ExposureNotificationService {
     return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
   }
 
-  async summariesContainingExposures(
-    minimumExposureDurationMinutes: Number,
-    summaries: ExposureSummary[],
-  ): ExposureSummary[] {
-    return summaries
-      .filter(summary => {
-        return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
-      })
-      .sort((summary1, summary2) => {
-        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
-      });
-  }
-
   private async performExposureCheck(): Promise<void> {
     const exposureConfiguration = await this.getExposureConfiguration();
     const today = getCurrentDate();
@@ -385,12 +385,12 @@ export class ExposureNotificationService {
           timestamp: today.getTime(),
           period: periodSinceEpoch(today, HOURS_PER_PERIOD),
         };
-        const summaryContaingExposure = await this.summariesContainingExposures(
+        const summariesContaingExposures = this.summariesContainingExposures(
           exposureConfiguration.minimumExposureDurationMinutes,
           pendingSummaries,
         );
-        if (summaryContaingExposure.length > 0) {
-          await this.setToExposed(summaryContaingExposure[0], lastCheckedPeriod);
+        if (summariesContaingExposures.length > 0) {
+          await this.setToExposed(summariesContaingExposures[0], lastCheckedPeriod);
         }
         return;
       }
@@ -402,7 +402,7 @@ export class ExposureNotificationService {
 
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keys);
 
-      const summaryContaingExposure = await this.summariesContainingExposures(
+      const summariesContaingExposures = this.summariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
       );
@@ -411,10 +411,9 @@ export class ExposureNotificationService {
         'summary',
         this.summariesContainingExposures(exposureConfiguration.minimumExposureDurationMinutes, summaries),
       );
-      await this.setToExposed(
-        await this.summariesContainingExposures(exposureConfiguration.minimumExposureDurationMinutes, summaries),
-        lastCheckedPeriod,
-      );
+      if (summariesContaingExposures.length > 0) {
+        await this.setToExposed(summariesContaingExposures[0], lastCheckedPeriod);
+      }
     } catch (error) {
       captureException('performExposureCheck', error);
     }
