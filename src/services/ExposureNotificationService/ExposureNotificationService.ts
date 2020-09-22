@@ -160,6 +160,10 @@ export class ExposureNotificationService {
     }
   }
 
+  /*
+    Filter and sort the summaries.
+    This may change in the future because of EN Framework changes.
+  */
   public summariesContainingExposures(
     minimumExposureDurationMinutes: number,
     summaries: ExposureSummary[],
@@ -377,39 +381,31 @@ export class ExposureNotificationService {
     const exposureConfiguration = await this.getExposureConfiguration();
     const today = getCurrentDate();
 
+    let summaries: ExposureSummary[];
+    let lastCheckedPeriod: any;
+
     try {
       // a pending summary is on Android only.
       const pendingSummaries = await this.exposureNotification.getPendingExposureSummary();
       if (pendingSummaries && pendingSummaries.length > 0) {
-        const lastCheckedPeriod = {
+        lastCheckedPeriod = {
           timestamp: today.getTime(),
           period: periodSinceEpoch(today, HOURS_PER_PERIOD),
         };
-        const summariesContaingExposures = this.summariesContainingExposures(
-          exposureConfiguration.minimumExposureDurationMinutes,
-          pendingSummaries,
-        );
-        if (summariesContaingExposures.length > 0) {
-          await this.setToExposed(summariesContaingExposures[0], lastCheckedPeriod);
-        }
-        return;
+        summaries = pendingSummaries;
+      } else {
+        const currentStatus = this.exposureStatus.get();
+        await this.updateExposure();
+
+        const keysAndLastChecked = await this.getKeys(currentStatus.lastChecked);
+        lastCheckedPeriod = keysAndLastChecked.lastChecked;
+
+        summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysAndLastChecked.keys);
       }
-
-      const currentStatus = this.exposureStatus.get();
-      await this.updateExposure();
-
-      const {keys, lastCheckedPeriod} = await this.getKeys(currentStatus.lastChecked);
-
-      const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keys);
 
       const summariesContaingExposures = this.summariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
-      );
-
-      captureMessage(
-        'summary',
-        this.summariesContainingExposures(exposureConfiguration.minimumExposureDurationMinutes, summaries),
       );
       if (summariesContaingExposures.length > 0) {
         await this.setToExposed(summariesContaingExposures[0], lastCheckedPeriod);
@@ -433,7 +429,7 @@ export class ExposureNotificationService {
       keys.push(keysFileUrl);
       lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
     }
-    return {keys, lastCheckedPeriod};
+    return {keys, lastChecked};
   }
 
   private async getExposureConfiguration(): Promise<ExposureConfiguration> {
