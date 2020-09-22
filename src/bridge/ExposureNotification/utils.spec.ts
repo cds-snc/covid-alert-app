@@ -1,5 +1,6 @@
-import {getLastExposureTimestamp} from './utils';
 import {addDays, getCurrentDate} from '../../shared/date-fns';
+
+import {getLastExposureTimestamp} from './utils';
 
 jest.mock('../../shared/date-fns', () => ({
   ...jest.requireActual('../../shared/date-fns'),
@@ -40,12 +41,12 @@ describe('utils', () => {
     it('returns undefined if summary does not contain a matched key', () => {
       // this requirement if from apple: https://developer.apple.com/documentation/exposurenotification/enexposuredetectionsummary/3583708-dayssincelastexposure
       // it will change in V2
-      expect(getLastExposureTimestamp(noExposureSummary)).toEqual(0);
+      expect(getLastExposureTimestamp(noExposureSummary)).toStrictEqual(0);
     });
     it('returns x for a summary w/ an exposure that happened x days ago', () => {
       const today = getCurrentDate();
-      expect(getLastExposureTimestamp(androidExposureSummary)).toEqual(today.getTime());
-      expect(getLastExposureTimestamp(iosExposureSummary)).toEqual(addDays(today, -2).getTime());
+      expect(getLastExposureTimestamp(androidExposureSummary)).toStrictEqual(today.getTime());
+      expect(getLastExposureTimestamp(iosExposureSummary)).toStrictEqual(addDays(today, -2).getTime());
     });
   });
 });

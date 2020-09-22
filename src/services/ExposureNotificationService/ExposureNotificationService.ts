@@ -391,7 +391,7 @@ export class ExposureNotificationService {
 
     const lastExposureTimestampStr = await AsyncStorage.getItem(LAST_EXPOSURE_TIMESTAMP_KEY);
     if (lastExposureTimestampStr) {
-      captureMessage('getStoredLastExposureTimestamp', {lastExposureTimestampStr: lastExposureTimestampStr});
+      captureMessage('getStoredLastExposureTimestamp', {lastExposureTimestampStr});
       return new Date(parseInt(lastExposureTimestampStr, 10));
     }
 
