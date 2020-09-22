@@ -337,6 +337,8 @@ export class ExposureNotificationService {
   };
 
   private setToExposed = async (summary: ExposureSummary, lastCheckedPeriod: any) => {
+    captureMessage('setToExposed ', {summary});
+
     AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, summary.lastExposureTimestamp.toString());
     return this.finalize(
       {
@@ -348,6 +350,7 @@ export class ExposureNotificationService {
   };
 
   private async setToMonitoring() {
+    captureMessage('setToMonitoring');
     await this.finalize({type: ExposureStatusType.Monitoring});
   }
 
@@ -373,6 +376,7 @@ export class ExposureNotificationService {
           break;
         }
         if (daysBetween(lastExposureTimestamp, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
+          captureMessage('setToMonitoring EXPOSURE_NOTIFICATION_CYCLE');
           await this.setToMonitoring();
         }
         break;
@@ -387,14 +391,21 @@ export class ExposureNotificationService {
 
     const lastExposureTimestampStr = await AsyncStorage.getItem(LAST_EXPOSURE_TIMESTAMP_KEY);
     if (lastExposureTimestampStr) {
+      captureMessage('getStoredLastExposureTimestamp', {lastExposureTimestampStr});
       return new Date(parseInt(lastExposureTimestampStr, 10));
     }
 
     const lastExposureTimestamp = exposureStatus.summary.lastExposureTimestamp;
     if (lastExposureTimestamp) {
+      captureMessage('getStoredLastExposureTimestamp get from summary', {
+        lastExposureTimestampStr: exposureStatus.summary.lastExposureTimestamp,
+      });
       return new Date(lastExposureTimestamp);
     }
     const today = getCurrentDate();
+    captureMessage('getStoredLastExposureTimestamp get from today', {
+      lastExposureTimestampStr: today,
+    });
     await AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, today.getTime().toString());
     return today;
   }
@@ -503,6 +514,7 @@ export class ExposureNotificationService {
   private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
+      captureMessage('selectExposureSummary use next Summary', {nextSummary});
       return nextSummary;
     }
     const currentSummary = exposureStatus.summary;
@@ -511,6 +523,7 @@ export class ExposureNotificationService {
     // if (nextLastExposureTimestamp > currentLastExposureTimestamp) {
     //   return nextSummary;
     // }
+    captureMessage('selectExposureSummary use current Summary', {nextSummary});
     return currentSummary;
   }
 

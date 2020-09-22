@@ -18,7 +18,7 @@ export class MockExposureNotification implements ExposureNotification {
 
   getTemporaryExposureKeyHistory = async () => [];
 
-  detectExposure = async () => this.exposureSummary;
+  detectExposure = async () => [this.exposureSummary];
 
   // mock
   setStatus = (status: Status) => {

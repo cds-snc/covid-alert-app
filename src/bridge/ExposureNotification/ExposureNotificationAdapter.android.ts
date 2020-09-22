@@ -5,13 +5,14 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
   return {
     ...exposureNotificationAPI,
     detectExposure: async (configuration, diagnosisKeysURLs) => {
-
       const summaries: ExposureSummary[] = [];
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }
       for (const diagnosisKeysURL of diagnosisKeysURLs) {
-        const summary: ExposureSummary = await exposureNotificationAPI.detectExposure(configuration, [diagnosisKeysURL]);
+        const summary: ExposureSummary = await exposureNotificationAPI.detectExposure(configuration, [
+          diagnosisKeysURL,
+        ]);
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         // first detected exposure is enough
         if (summary.matchedKeyCount > 0) {
