@@ -391,14 +391,21 @@ export class ExposureNotificationService {
 
     const lastExposureTimestampStr = await AsyncStorage.getItem(LAST_EXPOSURE_TIMESTAMP_KEY);
     if (lastExposureTimestampStr) {
+      captureMessage('getStoredLastExposureTimestamp', {lastExposureTimestampStr: lastExposureTimestampStr});
       return new Date(parseInt(lastExposureTimestampStr, 10));
     }
 
     const lastExposureTimestamp = exposureStatus.summary.lastExposureTimestamp;
     if (lastExposureTimestamp) {
+      captureMessage('getStoredLastExposureTimestamp get from summary', {
+        lastExposureTimestampStr: exposureStatus.summary.lastExposureTimestamp,
+      });
       return new Date(lastExposureTimestamp);
     }
     const today = getCurrentDate();
+    captureMessage('getStoredLastExposureTimestamp get from today', {
+      lastExposureTimestampStr: today,
+    });
     await AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, today.getTime().toString());
     return today;
   }
