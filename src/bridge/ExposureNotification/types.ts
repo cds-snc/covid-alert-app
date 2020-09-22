@@ -41,7 +41,7 @@ export interface ExposureSummary {
 
 export interface ExposureConfiguration {
   metadata?: object;
-  minimumExposureDurationMinutes?: number;
+  minimumExposureDurationMinutes: number;
   attenuationDurationThresholds: number[];
   attenuationLevelValues: number[];
   attenuationWeight: number;
@@ -68,6 +68,6 @@ export interface ExposureNotification {
   resetAllData(): Promise<void>;
   getStatus(): Promise<Status>;
   getTemporaryExposureKeyHistory(): Promise<TemporaryExposureKey[]>;
-  detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary>;
-  getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
+  detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary[]>;
+  getPendingExposureSummary(): Promise<ExposureSummary[] | undefined> /* used only by Android */;
 }
