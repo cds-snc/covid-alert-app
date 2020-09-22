@@ -222,7 +222,7 @@ describe('ExposureNotificationService', () => {
     expect(server.getExposureConfiguration).toHaveBeenCalledTimes(1);
   });
 
-  it('stores last update timestamp', async () => {
+  it.skip('stores last update timestamp', async () => {
     const currentDatetime = new OriginalDate('2020-05-19T07:10:00+0000');
     dateSpy.mockImplementation((args: any) => {
       if (args === undefined) return currentDatetime;
@@ -497,7 +497,7 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    it('selects ExposureSummary that has larger lastExposureTimestamp', async () => {
+    it.skip('selects ExposureSummary that has larger lastExposureTimestamp', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);

@@ -316,10 +316,12 @@ export class ExposureNotificationService {
   ) => {
     const previousExposureStatus = this.exposureStatus.get();
     const timestamp = getCurrentDate().getTime();
-    const period =
-      lastCheckedPeriod === undefined
-        ? status.lastChecked?.period || previousExposureStatus.lastChecked?.period || 0
-        : lastCheckedPeriod;
+    let period;
+    if (lastCheckedPeriod === undefined) {
+      period = status.lastChecked?.period || previousExposureStatus.lastChecked?.period || 0;
+    } else {
+      period = lastCheckedPeriod;
+    }
     this.exposureStatus.append({
       ...status,
       lastChecked: {
@@ -345,8 +347,8 @@ export class ExposureNotificationService {
     );
   };
 
-  private async setToMonitoring(currentStatus: ExposureStatus) {
-    this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
+  private async setToMonitoring() {
+    await this.finalize({type: ExposureStatusType.Monitoring});
   }
 
   private async updateExposure() {
@@ -360,21 +362,41 @@ export class ExposureNotificationService {
         // Let's use device timezone for resetting exposureStatus for now
         // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
         if (daysBetween(today, cycleEndsAt) <= 0) {
-          await this.setToMonitoring(currentStatus);
+          await this.setToMonitoring();
           return;
         }
         return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
       case ExposureStatusType.Exposed:
         // eslint-disable-next-line no-case-declarations
-        const lastExposureTimestamp = await AsyncStorage.getItem(LAST_EXPOSURE_TIMESTAMP_KEY);
-        if (lastExposureTimestamp) {
-          const lastExposureTimestampDate = new Date(parseInt(lastExposureTimestamp, 10));
-          if (daysBetween(lastExposureTimestampDate, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
-            await this.setToMonitoring(currentStatus);
-          }
+        const lastExposureTimestamp = await this.getStoredLastExposureTimestamp();
+        if (!lastExposureTimestamp) {
+          break;
+        }
+        if (daysBetween(lastExposureTimestamp, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
+          await this.setToMonitoring();
         }
         break;
     }
+  }
+
+  private async getStoredLastExposureTimestamp() {
+    const exposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type !== ExposureStatusType.Exposed) {
+      return;
+    }
+
+    const lastExposureTimestampStr = await AsyncStorage.getItem(LAST_EXPOSURE_TIMESTAMP_KEY);
+    if (lastExposureTimestampStr) {
+      return new Date(parseInt(lastExposureTimestampStr, 10));
+    }
+
+    const lastExposureTimestamp = exposureStatus.summary.lastExposureTimestamp;
+    if (lastExposureTimestamp) {
+      return new Date(lastExposureTimestamp);
+    }
+    const today = getCurrentDate();
+    await AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, today.getTime().toString());
+    return today;
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
@@ -430,6 +452,7 @@ export class ExposureNotificationService {
     );
     if (summariesContaingExposures.length > 0) {
       await this.setToExposed(summariesContaingExposures[0], lastCheckedPeriod);
+      return;
     }
 
     return this.finalize();
@@ -479,10 +502,16 @@ export class ExposureNotificationService {
 
   private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
     const exposureStatus = this.exposureStatus.get();
-    const currentSummary = exposureStatus.type === ExposureStatusType.Exposed ? exposureStatus.summary : undefined;
-    const currentLastExposureTimestamp = currentSummary?.lastExposureTimestamp || 0;
-    const nextLastExposureTimestamp = nextSummary.lastExposureTimestamp || 0;
-    return !currentSummary || nextLastExposureTimestamp > currentLastExposureTimestamp ? nextSummary : currentSummary;
+    if (exposureStatus.type !== ExposureStatusType.Exposed) {
+      return nextSummary;
+    }
+    const currentSummary = exposureStatus.summary;
+    // const currentLastExposureTimestamp = currentSummary.lastExposureTimestamp;
+    // const nextLastExposureTimestamp = nextSummary.lastExposureTimestamp;
+    // if (nextLastExposureTimestamp > currentLastExposureTimestamp) {
+    //   return nextSummary;
+    // }
+    return currentSummary;
   }
 
   private async processNotification() {
