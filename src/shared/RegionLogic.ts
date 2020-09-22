@@ -47,4 +47,5 @@ export function getExposedHelpMenuURL(region: Region | undefined, regionalI18n: 
     }
     return regionalURL;
   }
+  return getExposedHelpURL(region, regionalI18n);
 }
