@@ -313,7 +313,7 @@ export class ExposureNotificationService {
     });
   };
 
-  private processSummary = async (summary: ExposureSummary, lastCheckedPeriod: any) => {
+  private setToExposed = async (summary: ExposureSummary, lastCheckedPeriod: any) => {
     return this.finalize(
       {
         type: ExposureStatusType.Exposed,
@@ -333,23 +333,17 @@ export class ExposureNotificationService {
     return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
   }
 
-  async selectSummaries(
+  private summariesContainingExposures(
     minimumExposureDurationMinutes: Number,
     summaries: ExposureSummary[],
-  ): Promise<ExposureSummary> {
-    const matchedSummaries = summaries
+  ): ExposureSummary[] {
+    return summaries
       .filter(summary => {
         return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
       })
       .sort((summary1, summary2) => {
         return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
       });
-
-    if (matchedSummaries && matchedSummaries.length > 0) {
-      return matchedSummaries[0];
-    } else {
-      throw new Error('No summaries available.');
-    }
   }
 
   private async performExposureStatusUpdate(): Promise<void> {
@@ -364,10 +358,13 @@ export class ExposureNotificationService {
           timestamp: today.getTime(),
           period: periodSinceEpoch(today, HOURS_PER_PERIOD),
         };
-        await this.processSummary(
-          await this.selectSummaries(exposureConfiguration.minimumExposureDurationMinutes, pendingSummaries),
-          lastCheckedPeriod,
+        const summaryContaingExposure = await this.summariesContainingExposures(
+          exposureConfiguration.minimumExposureDurationMinutes,
+          pendingSummaries,
         );
+        if (summaryContaingExposure.length > 0) {
+          await this.setToExposed(summaryContaingExposure[0], lastCheckedPeriod);
+        }
         return;
       }
 
@@ -396,8 +393,17 @@ export class ExposureNotificationService {
       const {keys, lastCheckedPeriod} = await this.getKeys(currentStatus.lastChecked);
 
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keys);
-      captureMessage('summary', this.selectSummaries(exposureConfiguration.minimumExposureDurationMinutes, summaries));
-      await this.processSummary(
+
+      const summaryContaingExposure = await this.summariesContainingExposures(
+        exposureConfiguration.minimumExposureDurationMinutes,
+        summaries,
+      );
+
+      captureMessage(
+        'summary',
+        this.findSummaryContainingExposure(exposureConfiguration.minimumExposureDurationMinutes, summaries),
+      );
+      await this.setToExposed(
         await this.selectSummaries(exposureConfiguration.minimumExposureDurationMinutes, summaries),
         lastCheckedPeriod,
       );
