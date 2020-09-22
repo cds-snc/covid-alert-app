@@ -222,6 +222,7 @@ describe('ExposureNotificationService', () => {
     expect(server.getExposureConfiguration).toHaveBeenCalledTimes(1);
   });
 
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('stores last update timestamp', async () => {
     const currentDatetime = new OriginalDate('2020-05-19T07:10:00+0000');
     dateSpy.mockImplementation((args: any) => {
@@ -497,6 +498,7 @@ describe('ExposureNotificationService', () => {
       );
     });
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('selects ExposureSummary that has larger lastExposureTimestamp', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
