@@ -315,39 +315,38 @@ export class ExposureNotificationService {
 
   private processSummary = async (
     summary: ExposureSummary,
-    configuration: ExposureConfiguration,
     lastCheckedPeriod: any,
   ) => {
+    return this.finalize(
+      {
+        type: ExposureStatusType.Exposed,
+        summary: this.selectExposureSummary(summary),
+      },
+      lastCheckedPeriod,
+    );
+  };
+
+  private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: Number) {
     // on ios attenuationDurations is in seconds, on android it is in minutes
     const divisor = Platform.OS === 'ios' ? 60 : 1;
     const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
     const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
     const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
-    const {minimumExposureDurationMinutes} = configuration;
-    if (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes) {
-      return this.finalize(
-        {
-          type: ExposureStatusType.Exposed,
-          summary: this.selectExposureSummary(summary),
-        },
-        lastCheckedPeriod,
-      );
-    }
-  };
 
-  private async selectSummary(summaries: ExposureSummary[]): Promise<ExposureSummary> {
-    // TODO: update this
-    // add filters
-    // do the attenuationDurations meet our thresholds?
-    // most recent?
-    // getLastExposureTimestamp (noting this still checks matched key count)
-    // https://github.com/cds-snc/covid-alert-app/issues/803#issue-662195281
-    // daysSinceLastExposure: number;
-    // lastExposureTimestamp: number;
-    // matchedKeyCount: number;
-    // maximumRiskScore: number;
-    if (summaries && summaries.length > 0) {
-      return summaries[0];
+    return (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes);
+  }
+
+  private async selectSummaries(exposureConfiguration: ExposureConfiguration, summaries: ExposureSummary[]): Promise<ExposureSummary> {
+    const matchedSummaries = summaries
+      .filter((summary) => {
+        return this.summaryExceedsMinimumMinutes(summary, exposureConfiguration.minimumExposureDurationMinutes)
+      })
+      .sort((summary1, summary2) => {
+        return summary1.lastExposureTimestamp - summary2.lastExposureTimestamp;
+      })
+
+    if (matchedSummaries && matchedSummaries.length > 0) {
+      return matchedSummaries[0];
     } else {
       throw new Error('No summaries available.');
     }
@@ -365,7 +364,7 @@ export class ExposureNotificationService {
           timestamp: today.getTime(),
           period: periodSinceEpoch(today, HOURS_PER_PERIOD),
         };
-        await this.processSummary(await this.selectSummary(pendingSummaries), exposureConfiguration, lastCheckedPeriod);
+        await this.processSummary(await this.selectSummaries(exposureConfiguration, pendingSummaries), lastCheckedPeriod);
         return;
       }
 
@@ -394,8 +393,8 @@ export class ExposureNotificationService {
       const {keys, lastCheckedPeriod} = await this.getKeys(currentStatus.lastChecked);
 
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keys);
-      captureMessage('summary', this.selectSummary(summaries));
-      await this.processSummary(await this.selectSummary(summaries), exposureConfiguration, lastCheckedPeriod);
+      captureMessage('summary', this.selectSummaries(exposureConfiguration, summaries));
+      await this.processSummary(await this.selectSummaries(exposureConfiguration, summaries), lastCheckedPeriod);
     } catch (error) {
       captureException('performExposureStatusUpdate', error);
     }
