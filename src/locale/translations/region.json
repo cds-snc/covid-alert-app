@@ -164,7 +164,7 @@
     "RegionContent": {
       "Home": {
         "ON": {
-          "ExposedHelpLink": "covid-19.ontario.ca/fr/expose"
+          "ExposedHelpLink": "https://covid-19.ontario.ca/fr/expose"
         }
       },
       "DiagnosedView": {
