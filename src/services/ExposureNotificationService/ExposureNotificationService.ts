@@ -11,6 +11,7 @@ import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -22,6 +23,8 @@ const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 
 export const EXPOSURE_STATUS = 'exposureStatus';
+
+export const LAST_EXPOSURE_TIMESTAMP_KEY = 'lastExposureTimestamp';
 
 export const HOURS_PER_PERIOD = 24;
 
@@ -332,6 +335,7 @@ export class ExposureNotificationService {
   };
 
   private setToExposed = async (summary: ExposureSummary, lastCheckedPeriod: any) => {
+    AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, summary.lastExposureTimestamp.toString());
     return this.finalize(
       {
         type: ExposureStatusType.Exposed,
@@ -341,30 +345,36 @@ export class ExposureNotificationService {
     );
   };
 
+  private async setToMonitoring(currentStatus: ExposureStatus) {
+    this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
+  }
+
   private async updateExposure() {
     const currentStatus = this.exposureStatus.get();
     const today = getCurrentDate();
     switch (currentStatus.type) {
       case ExposureStatusType.Diagnosed:
+        // eslint-disable-next-line no-case-declarations
         const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
         // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
         // Let's use device timezone for resetting exposureStatus for now
         // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
         if (daysBetween(today, cycleEndsAt) <= 0) {
-          await this.resetExposureStatus(currentStatus);
+          await this.setToMonitoring(currentStatus);
+          return;
         }
         return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
       case ExposureStatusType.Exposed:
-        const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
-        if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
-          await this.resetExposureStatus(currentStatus);
+        // eslint-disable-next-line no-case-declarations
+        const lastExposureTimestamp = await AsyncStorage.getItem(LAST_EXPOSURE_TIMESTAMP_KEY);
+        if (lastExposureTimestamp) {
+          const lastExposureTimestampDate = new Date(parseInt(lastExposureTimestamp, 10));
+          if (daysBetween(lastExposureTimestampDate, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
+            await this.setToMonitoring(currentStatus);
+          }
         }
         break;
     }
-  }
-
-  private async resetExposureStatus(currentStatus: ExposureStatus) {
-    this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
@@ -377,12 +387,12 @@ export class ExposureNotificationService {
     return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
   }
 
-  private async performExposureCheck(): Promise<void> {
-    const exposureConfiguration = await this.getExposureConfiguration();
-    const today = getCurrentDate();
-
+  private async getSummariesFromEnFramework(
+    exposureConfiguration: ExposureConfiguration,
+  ): Promise<{summaries: ExposureSummary[]; lastCheckedPeriod: any}> {
     let summaries: ExposureSummary[];
     let lastCheckedPeriod: any;
+    const today = getCurrentDate();
 
     try {
       // a pending summary is on Android only.
@@ -402,16 +412,24 @@ export class ExposureNotificationService {
 
         summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysAndLastChecked.keys);
       }
-
-      const summariesContaingExposures = this.summariesContainingExposures(
-        exposureConfiguration.minimumExposureDurationMinutes,
-        summaries,
-      );
-      if (summariesContaingExposures.length > 0) {
-        await this.setToExposed(summariesContaingExposures[0], lastCheckedPeriod);
-      }
+      return {summaries, lastCheckedPeriod};
     } catch (error) {
-      captureException('performExposureCheck', error);
+      captureException('getSummaries', error);
+      return {summaries: [], lastCheckedPeriod: null};
+    }
+  }
+
+  private async performExposureCheck(): Promise<void> {
+    const exposureConfiguration = await this.getExposureConfiguration();
+
+    const {summaries, lastCheckedPeriod} = await this.getSummariesFromEnFramework(exposureConfiguration);
+
+    const summariesContaingExposures = this.summariesContainingExposures(
+      exposureConfiguration.minimumExposureDurationMinutes,
+      summaries,
+    );
+    if (summariesContaingExposures.length > 0) {
+      await this.setToExposed(summariesContaingExposures[0], lastCheckedPeriod);
     }
 
     return this.finalize();

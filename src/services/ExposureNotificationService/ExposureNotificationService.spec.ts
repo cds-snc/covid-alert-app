@@ -1,5 +1,6 @@
 /* eslint-disable require-atomic-updates */
 import {when} from 'jest-when';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {periodSinceEpoch} from '../../shared/date-fns';
 
@@ -8,7 +9,10 @@ import {
   ExposureStatusType,
   EXPOSURE_STATUS,
   HOURS_PER_PERIOD,
+  LAST_EXPOSURE_TIMESTAMP_KEY,
 } from './ExposureNotificationService';
+
+const ONE_DAY = 3600 * 24 * 1000;
 
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
@@ -87,7 +91,7 @@ describe('ExposureNotificationService', () => {
     const summaries = [
       {
         daysSinceLastExposure: 5,
-        lastExposureTimestamp: today.getTime() - 5 * 3600 * 24 * 1000,
+        lastExposureTimestamp: today.getTime() - 5 * ONE_DAY,
         matchedKeyCount: 1,
         maximumRiskScore: 1,
         attenuationDurations: [1020, 0, 0],
@@ -397,6 +401,7 @@ describe('ExposureNotificationService', () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((args: any) => (args ? new OriginalDate(args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
         cycleStartsAt: today.getTime() - 14 * 3600 * 24 * 1000,
@@ -424,6 +429,9 @@ describe('ExposureNotificationService', () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+
+      AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, (today.getTime() - 14 * 3600 * 24 * 1000).toString());
+
       service.exposureStatus.set({
         type: ExposureStatusType.Exposed,
         lastChecked: {
@@ -455,6 +463,7 @@ describe('ExposureNotificationService', () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      AsyncStorage.removeItem(LAST_EXPOSURE_TIMESTAMP_KEY);
       service.exposureStatus.set({
         type: ExposureStatusType.Exposed,
         lastChecked: {
