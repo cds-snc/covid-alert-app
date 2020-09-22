@@ -313,10 +313,7 @@ export class ExposureNotificationService {
     });
   };
 
-  private processSummary = async (
-    summary: ExposureSummary,
-    lastCheckedPeriod: any,
-  ) => {
+  private processSummary = async (summary: ExposureSummary, lastCheckedPeriod: any) => {
     return this.finalize(
       {
         type: ExposureStatusType.Exposed,
@@ -333,17 +330,20 @@ export class ExposureNotificationService {
     const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
     const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
 
-    return (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes);
+    return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
   }
 
-  private async selectSummaries(exposureConfiguration: ExposureConfiguration, summaries: ExposureSummary[]): Promise<ExposureSummary> {
+  async selectSummaries(
+    minimumExposureDurationMinutes: Number,
+    summaries: ExposureSummary[],
+  ): Promise<ExposureSummary> {
     const matchedSummaries = summaries
-      .filter((summary) => {
-        return this.summaryExceedsMinimumMinutes(summary, exposureConfiguration.minimumExposureDurationMinutes)
+      .filter(summary => {
+        return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
       })
       .sort((summary1, summary2) => {
-        return summary1.lastExposureTimestamp - summary2.lastExposureTimestamp;
-      })
+        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
+      });
 
     if (matchedSummaries && matchedSummaries.length > 0) {
       return matchedSummaries[0];
@@ -364,7 +364,10 @@ export class ExposureNotificationService {
           timestamp: today.getTime(),
           period: periodSinceEpoch(today, HOURS_PER_PERIOD),
         };
-        await this.processSummary(await this.selectSummaries(exposureConfiguration, pendingSummaries), lastCheckedPeriod);
+        await this.processSummary(
+          await this.selectSummaries(exposureConfiguration.minimumExposureDurationMinutes, pendingSummaries),
+          lastCheckedPeriod,
+        );
         return;
       }
 
@@ -393,8 +396,11 @@ export class ExposureNotificationService {
       const {keys, lastCheckedPeriod} = await this.getKeys(currentStatus.lastChecked);
 
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keys);
-      captureMessage('summary', this.selectSummaries(exposureConfiguration, summaries));
-      await this.processSummary(await this.selectSummaries(exposureConfiguration, summaries), lastCheckedPeriod);
+      captureMessage('summary', this.selectSummaries(exposureConfiguration.minimumExposureDurationMinutes, summaries));
+      await this.processSummary(
+        await this.selectSummaries(exposureConfiguration.minimumExposureDurationMinutes, summaries),
+        lastCheckedPeriod,
+      );
     } catch (error) {
       captureException('performExposureStatusUpdate', error);
     }

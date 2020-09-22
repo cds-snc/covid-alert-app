@@ -82,6 +82,36 @@ describe('ExposureNotificationService', () => {
     dateSpy.mockReset();
   });
 
+  it('filters most recent over minutes threshold', async () => {
+    const today = new OriginalDate('2020-09-22T00:00:00.000Z');
+    const summaries = [
+      {
+        daysSinceLastExposure: 5,
+        lastExposureTimestamp: today.getTime() - 5 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+        attenuationDurations: [1020, 0, 0],
+      },
+      {
+        daysSinceLastExposure: 2,
+        lastExposureTimestamp: today.getTime() - 2 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+        attenuationDurations: [300, 200, 0],
+      },
+      {
+        daysSinceLastExposure: 5,
+        lastExposureTimestamp: today.getTime() - 5 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+        attenuationDurations: [0, 1200, 0],
+      },
+    ];
+
+    const result = await service.selectSummaries(15, summaries);
+    expect(result.attenuationDurations[0]).toStrictEqual(1020);
+  });
+
   it('backfills keys when last timestamp not available', async () => {
     dateSpy
       .mockImplementationOnce(() => new OriginalDate('2020-05-19T07:10:00+0000'))
