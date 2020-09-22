@@ -38,3 +38,13 @@ export function getExposedHelpURL(region: Region | undefined, regionalI18n: any)
   }
   return nationalURL;
 }
+
+export function getExposedHelpMenuURL(region: Region | undefined, regionalI18n: any) {
+  const regionActive = isRegionActive(region, regionalI18n.activeRegions);
+  if (region !== undefined && region !== 'None') {
+    const regionalURL = regionActive ? regionalI18n.translate(`Home.${region}.ExposedHelpLink`) : '';
+    if (regionalURL === '') {
+      return getExposedHelpURL(region, regionalI18n);
+    }
+  }
+}

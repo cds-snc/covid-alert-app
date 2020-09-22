@@ -1,7 +1,17 @@
 {
-  "Active": ["ON", "NL", "NB", "SK"],
+  "Active": [
+    "ON",
+    "NL",
+    "NB",
+    "SK"
+  ],
   "en": {
     "RegionContent": {
+      "Home": {
+        "ON": {
+          "ExposedHelpLink": "https://covid-19.ontario.ca/exposed "
+        }
+      },
       "DiagnosedView": {
         "Active": {
           "ON": {
@@ -152,6 +162,11 @@
   },
   "fr": {
     "RegionContent": {
+      "Home": {
+        "ON": {
+          "ExposedHelpLink": "covid-19.ontario.ca/fr/expose"
+        }
+      },
       "DiagnosedView": {
         "Active": {
           "ON": {
