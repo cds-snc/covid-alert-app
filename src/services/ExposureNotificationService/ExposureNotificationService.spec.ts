@@ -138,6 +138,32 @@ describe('ExposureNotificationService', () => {
     expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Exposed}));
   });
 
+  it('returns monitoring status when under thresholds', async () => {
+    const today = new OriginalDate('2020-05-18T04:10:00+0000');
+    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+    service.exposureStatus.append({
+      type: ExposureStatusType.Monitoring,
+      needsSubmission: false,
+      cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
+      cycleEndsAt: new OriginalDate('2020-05-28T04:10:00+0000').getTime(),
+      submissionLastCompletedAt: null,
+    });
+
+    bridge.detectExposure.mockResolvedValueOnce([
+      {
+        daysSinceLastExposure: 7,
+        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+        matchedKeyCount: 2,
+        maximumRiskScore: 1,
+        attenuationDurations: [200, 400, 0],
+      },
+    ]);
+
+    await service.updateExposureStatus();
+    expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Monitoring}));
+  });
+
   it('backfills keys when last timestamp not available', async () => {
     dateSpy
       .mockImplementationOnce(() => new OriginalDate('2020-05-19T07:10:00+0000'))
