@@ -129,7 +129,7 @@ export class ExposureNotificationService {
 
     this.starting = true;
 
-    await this.init();
+    await this.loadExposureStatus();
 
     try {
       await this.exposureNotification.start();
@@ -149,7 +149,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
-    await this.init();
+    await this.loadExposureStatus();
     try {
       captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
       await this.updateExposureStatus();
@@ -166,7 +166,7 @@ export class ExposureNotificationService {
       this.exposureStatusUpdatePromise = null;
       return input;
     };
-    this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
+    this.exposureStatusUpdatePromise = this.performExposureCheck().then(cleanUpPromise, cleanUpPromise);
     return this.exposureStatusUpdatePromise;
   }
 
@@ -207,7 +207,8 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
-  private async init() {
+  private async loadExposureStatus() {
+    // using a string with the value of 'null'
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
   }
@@ -323,7 +324,33 @@ export class ExposureNotificationService {
     );
   };
 
-  private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: Number) {
+  private async updateExposure() {
+    const currentStatus = this.exposureStatus.get();
+    const today = getCurrentDate();
+    switch (currentStatus.type) {
+      case ExposureStatusType.Diagnosed:
+        const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
+        // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
+        // Let's use device timezone for resetting exposureStatus for now
+        // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
+        if (daysBetween(today, cycleEndsAt) <= 0) {
+          await this.resetExposureStatus(currentStatus);
+        }
+        return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
+      case ExposureStatusType.Exposed:
+        const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
+        if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
+          await this.resetExposureStatus(currentStatus);
+        }
+        break;
+    }
+  }
+
+  private async resetExposureStatus(currentStatus: ExposureStatus) {
+    this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
+  }
+
+  private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
     // on ios attenuationDurations is in seconds, on android it is in minutes
     const divisor = Platform.OS === 'ios' ? 60 : 1;
     const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
@@ -333,7 +360,7 @@ export class ExposureNotificationService {
     return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
   }
 
-  private summariesContainingExposures(
+  async summariesContainingExposures(
     minimumExposureDurationMinutes: Number,
     summaries: ExposureSummary[],
   ): ExposureSummary[] {
@@ -346,7 +373,7 @@ export class ExposureNotificationService {
       });
   }
 
-  private async performExposureStatusUpdate(): Promise<void> {
+  private async performExposureCheck(): Promise<void> {
     const exposureConfiguration = await this.getExposureConfiguration();
     const today = getCurrentDate();
 
@@ -369,26 +396,7 @@ export class ExposureNotificationService {
       }
 
       const currentStatus = this.exposureStatus.get();
-
-      switch (currentStatus.type) {
-        case ExposureStatusType.Diagnosed:
-          const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
-          // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
-          // Let's use device timezone for resetting exposureStatus for now
-          // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
-          if (daysBetween(today, cycleEndsAt) <= 0) {
-            this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-            return this.finalize();
-          }
-          return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
-        case ExposureStatusType.Exposed:
-          const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
-          if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
-            this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-            return this.finalize();
-          }
-          break;
-      }
+      await this.updateExposure();
 
       const {keys, lastCheckedPeriod} = await this.getKeys(currentStatus.lastChecked);
 
@@ -401,14 +409,14 @@ export class ExposureNotificationService {
 
       captureMessage(
         'summary',
-        this.findSummaryContainingExposure(exposureConfiguration.minimumExposureDurationMinutes, summaries),
+        this.summariesContainingExposures(exposureConfiguration.minimumExposureDurationMinutes, summaries),
       );
       await this.setToExposed(
-        await this.selectSummaries(exposureConfiguration.minimumExposureDurationMinutes, summaries),
+        await this.summariesContainingExposures(exposureConfiguration.minimumExposureDurationMinutes, summaries),
         lastCheckedPeriod,
       );
     } catch (error) {
-      captureException('performExposureStatusUpdate', error);
+      captureException('performExposureCheck', error);
     }
 
     return this.finalize();
@@ -426,7 +434,7 @@ export class ExposureNotificationService {
       keys.push(keysFileUrl);
       lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
     }
-    return {keys: keys, lastCheckedPeriod: lastCheckedPeriod};
+    return {keys, lastCheckedPeriod};
   }
 
   private async getExposureConfiguration(): Promise<ExposureConfiguration> {
