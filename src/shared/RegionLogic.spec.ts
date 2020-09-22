@@ -3,7 +3,7 @@
 import {createRegionalI18n} from 'locale/regional';
 import REGION_CONTENT from 'locale/translations/region.json';
 
-import {parseRegions, isRegionActive, getExposedHelpURL, getRegionCase} from './RegionLogic';
+import {parseRegions, isRegionActive, getExposedHelpURL, getRegionCase, getExposedHelpMenuURL} from './RegionLogic';
 
 const regionalI18n = createRegionalI18n('en', REGION_CONTENT);
 
@@ -82,6 +82,19 @@ describe('getExposedHelpURL', () => {
     );
     expect(getExposedHelpURL(undefined, regionalI18n)).toStrictEqual(
       regionalI18n.translate('RegionContent.ExposureView.Inactive.CA.URL'),
+    );
+  });
+});
+
+describe('getExposedHelpMenuURL', () => {
+  it('gives the custom URL if specified', async () => {
+    expect(getExposedHelpMenuURL('ON', regionalI18n)).toStrictEqual(
+      regionalI18n.translate('RegionContent.Home.ON.ExposedHelpLink'),
+    );
+  });
+  it('gives the default provincial url if no custom is defined', async () => {
+    expect(getExposedHelpMenuURL('SK', regionalI18n)).toStrictEqual(
+      regionalI18n.translate('RegionContent.ExposureView.Active.SK.URL'),
     );
   });
 });
