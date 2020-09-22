@@ -334,16 +334,20 @@ export class ExposureNotificationService {
         // Let's use device timezone for resetting exposureStatus for now
         // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
         if (daysBetween(today, cycleEndsAt) <= 0) {
-          this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
+          await this.resetExposureStatus(currentStatus);
         }
         return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
       case ExposureStatusType.Exposed:
         const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
         if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
-          this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
+          await this.resetExposureStatus(currentStatus);
         }
         break;
     }
+  }
+
+  private async resetExposureStatus(currentStatus: ExposureStatus) {
+    this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
