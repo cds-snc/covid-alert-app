@@ -498,73 +498,62 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('selects ExposureSummary that has larger lastExposureTimestamp', async () => {
+    it('selects current exposure summary if user is already exposed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      const currentSummary = {
+        daysSinceLastExposure: 8,
+        lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+        attenuationDurations: [1020, 0, 0],
+      };
+      const nextSummary = {
+        daysSinceLastExposure: 7,
+        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+        attenuationDurations: [1020, 0, 0],
+      };
       service.exposureStatus.set({
         type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
           timestamp: today.getTime(),
         },
-        summary: {
-          daysSinceLastExposure: 8,
-          lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
-          matchedKeyCount: 1,
-          maximumRiskScore: 1,
-          attenuationDurations: [1020, 0, 0],
-        },
+        summary: currentSummary,
       });
-      bridge.detectExposure.mockResolvedValue([
-        {
-          daysSinceLastExposure: 7,
-          lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-          matchedKeyCount: 1,
-          maximumRiskScore: 1,
-          attenuationDurations: [1020, 0, 0],
-        },
-      ]);
+      bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
 
       await service.updateExposureStatus();
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
           type: ExposureStatusType.Exposed,
-          summary: {
-            daysSinceLastExposure: 7,
-            lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-            matchedKeyCount: 1,
-            maximumRiskScore: 1,
-            attenuationDurations: [1020, 0, 0],
-          },
+          summary: currentSummary,
         }),
       );
     });
 
-    it('ignores ExposureSummary that has smaller lastExposureTimestamp', async () => {
+    it('selects next exposure summary if user is not already exposed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      const nextSummary = {
+        daysSinceLastExposure: 7,
+        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+        attenuationDurations: [1200, 0, 0],
+      };
+      bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
       service.exposureStatus.set({
-        type: ExposureStatusType.Exposed,
+        type: ExposureStatusType.Monitoring,
         lastChecked: {
           period,
           timestamp: today.getTime(),
         },
-        summary: {
-          daysSinceLastExposure: 8,
-          lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
-          matchedKeyCount: 1,
-          maximumRiskScore: 1,
-        },
-      });
-      bridge.detectExposure.mockResolvedValue({
-        daysSinceLastExposure: 9,
-        lastExposureTimestamp: today.getTime() - 9 * 3600 * 24 * 1000,
-        matchedKeyCount: 1,
-        maximumRiskScore: 1,
       });
 
       await service.updateExposureStatus();
@@ -572,12 +561,7 @@ describe('ExposureNotificationService', () => {
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
           type: ExposureStatusType.Exposed,
-          summary: {
-            daysSinceLastExposure: 8,
-            lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
-            matchedKeyCount: 1,
-            maximumRiskScore: 1,
-          },
+          summary: nextSummary,
         }),
       );
     });
