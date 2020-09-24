@@ -2,7 +2,7 @@
 import {when} from 'jest-when';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {periodSinceEpoch} from '../../shared/date-fns';
+import {getCurrentDate, periodSinceEpoch} from '../../shared/date-fns';
 
 import {
   ExposureNotificationService,
@@ -41,6 +41,36 @@ const bridge: any = {
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
   getStatus: jest.fn().mockResolvedValue('active'),
   getPendingExposureSummary: jest.fn().mockResolvedValue(undefined),
+};
+
+const getSummary = ({
+  today,
+  exposed,
+  daysSinceLastExposure = 5,
+  attenuationDurations = [0, 0, 0],
+}: {
+  today: Date;
+  exposed: boolean;
+  daysSinceLastExposure: number;
+  attenuationDurations: number[];
+}) => {
+  if (!exposed) {
+    return {
+      daysSinceLastExposure: 1234567,
+      lastExposureTimestamp: 0,
+      matchedKeyCount: 0,
+      maximumRiskScore: 0,
+      attenuationDurations: [0, 0, 0],
+    };
+  }
+  const lastExposureTimestamp = today.getTime() - daysSinceLastExposure * ONE_DAY;
+  return {
+    daysSinceLastExposure,
+    lastExposureTimestamp,
+    matchedKeyCount: 1,
+    maximumRiskScore: 1,
+    attenuationDurations: [60 * attenuationDurations[0], 60 * attenuationDurations[1], 60 * attenuationDurations[2]],
+  };
 };
 
 /**
@@ -97,27 +127,9 @@ describe('ExposureNotificationService', () => {
   it('filters most recent over minutes threshold', async () => {
     const today = new OriginalDate('2020-09-22T00:00:00.000Z');
     const summaries = [
-      {
-        daysSinceLastExposure: 5,
-        lastExposureTimestamp: today.getTime() - 5 * ONE_DAY,
-        matchedKeyCount: 1,
-        maximumRiskScore: 1,
-        attenuationDurations: [1020, 0, 0],
-      },
-      {
-        daysSinceLastExposure: 2,
-        lastExposureTimestamp: today.getTime() - 2 * 3600 * 24 * 1000,
-        matchedKeyCount: 1,
-        maximumRiskScore: 1,
-        attenuationDurations: [300, 200, 0],
-      },
-      {
-        daysSinceLastExposure: 5,
-        lastExposureTimestamp: today.getTime() - 5 * 3600 * 24 * 1000,
-        matchedKeyCount: 1,
-        maximumRiskScore: 1,
-        attenuationDurations: [0, 1200, 0],
-      },
+      getSummary({today, exposed: true, daysSinceLastExposure: 5, attenuationDurations: [17, 0, 0]}),
+      getSummary({today, exposed: true, daysSinceLastExposure: 2, attenuationDurations: [5, 3, 0]}),
+      getSummary({today, exposed: true, daysSinceLastExposure: 5, attenuationDurations: [0, 20, 0]}),
     ];
 
     const result = service.summariesContainingExposures(15, summaries);
