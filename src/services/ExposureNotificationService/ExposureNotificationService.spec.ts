@@ -77,6 +77,14 @@ describe('ExposureNotificationService', () => {
 
   const OriginalDate = global.Date;
   const dateSpy = jest.spyOn(global, 'Date');
+
+  const testUpdateExposure = async (currentStatus, returnValue, expectedResult) => {
+    service.exposureStatus.append(currentStatus);
+    bridge.detectExposure.mockResolvedValueOnce(returnValue);
+    await service.updateExposureStatus();
+    expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining(expectedResult));
+  };
+
   beforeEach(() => {
     service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge);
   });
@@ -117,6 +125,26 @@ describe('ExposureNotificationService', () => {
   });
 
   it('returns exposed status update', async () => {
+    const today = new OriginalDate('2020-05-14T04:10:00+0000');
+    const current = {
+      type: ExposureStatusType.Monitoring,
+      needsSubmission: false,
+      cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
+      cycleEndsAt: new OriginalDate('2020-05-28T04:10:00+0000').getTime(),
+      submissionLastCompletedAt: null,
+    };
+
+    const returnValue = {
+      daysSinceLastExposure: 7,
+      lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+      matchedKeyCount: 2,
+      maximumRiskScore: 1,
+      attenuationDurations: [1200, 0, 0],
+    };
+
+    testUpdateExposure('2020-05-18T04:10:00+0000', current, returnValue, {type: ExposureStatusType.Exposed});
+
+    /*
     const today = new OriginalDate('2020-05-18T04:10:00+0000');
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
@@ -140,6 +168,7 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
     expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Exposed}));
+    */
   });
 
   it('returns monitoring status when under thresholds', async () => {
