@@ -180,7 +180,7 @@ export class ExposureNotificationService {
       });
   }
 
-  public isReminderNeeded(exposureStatus: any) {
+  public isReminderNeeded(exposureStatus: ExposureStatus) {
     if (exposureStatus.type !== ExposureStatusType.Diagnosed) {
       return false;
     }
@@ -194,7 +194,7 @@ export class ExposureNotificationService {
     }
 
     const lastSent = new Date(exposureStatus.uploadReminderLastSentAt);
-    return minutesBetween(lastSent, new Date()) > MINIMUM_REMINDER_INTERVAL_MINUTES;
+    return minutesBetween(lastSent, getCurrentDate()) > MINIMUM_REMINDER_INTERVAL_MINUTES;
   }
 
   async updateExposureStatus(): Promise<void> {

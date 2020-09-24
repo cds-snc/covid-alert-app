@@ -3,7 +3,7 @@ import {when} from 'jest-when';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {periodSinceEpoch} from '../../shared/date-fns';
-
+import PushNotification from '../../bridge/PushNotification';
 import {
   ExposureNotificationService,
   ExposureStatusType,
@@ -18,7 +18,7 @@ jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
 
-jest.mock('bridge/PushNotification', () => ({
+jest.mock('../../bridge/PushNotification', () => ({
   ...jest.requireActual('bridge/PushNotification'),
   presentLocalNotification: jest.fn(),
 }));
@@ -568,13 +568,13 @@ describe('ExposureNotificationService', () => {
       });
 
       await service.updateExposureStatusInBackground();
-      // PushNotification.presentLocalNotification to not be called
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
           type: ExposureStatusType.Monitoring,
         }),
       );
+      expect(PushNotification.presentLocalNotification).not.toBeCalled();
     });
 
     it('isReminderNeeded returns true when missing uploadReminderLastSentAt', async () => {
@@ -632,10 +632,12 @@ describe('ExposureNotificationService', () => {
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
         needsSubmission: true,
-        uploadReminderLastSentAt: lastSent,
+        uploadReminderLastSentAt: lastSent.getTime(),
       });
 
       await service.updateExposureStatusInBackground();
+
+      expect(PushNotification.presentLocalNotification).toBeCalledTimes(1);
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
