@@ -2,10 +2,12 @@
 import {when} from 'jest-when';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {getCurrentDate, periodSinceEpoch} from '../../shared/date-fns';
+import {periodSinceEpoch} from '../../shared/date-fns';
+import {ExposureSummary} from '../../bridge/ExposureNotification';
 
 import {
   ExposureNotificationService,
+  ExposureStatus,
   ExposureStatusType,
   EXPOSURE_STATUS,
   HOURS_PER_PERIOD,
@@ -45,16 +47,16 @@ const bridge: any = {
 
 const getSummary = ({
   today,
-  exposed,
+  hasMatchedKey,
   daysSinceLastExposure = 5,
   attenuationDurations = [0, 0, 0],
 }: {
   today: Date;
-  exposed: boolean;
+  hasMatchedKey: boolean;
   daysSinceLastExposure: number;
   attenuationDurations: number[];
 }) => {
-  if (!exposed) {
+  if (!hasMatchedKey) {
     return {
       daysSinceLastExposure: 1234567,
       lastExposureTimestamp: 0,
@@ -108,11 +110,11 @@ describe('ExposureNotificationService', () => {
   const OriginalDate = global.Date;
   const dateSpy = jest.spyOn(global, 'Date');
 
-  const testUpdateExposure = async (currentStatus, returnValue, expectedResult) => {
+  const testUpdateExposure = async (currentStatus: ExposureStatus, summaries: ExposureSummary[]) => {
     service.exposureStatus.append(currentStatus);
-    bridge.detectExposure.mockResolvedValueOnce(returnValue);
+    bridge.detectExposure.mockResolvedValueOnce(summaries);
     await service.updateExposureStatus();
-    expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining(expectedResult));
+    return service.exposureStatus.get();
   };
 
   beforeEach(() => {
@@ -127,9 +129,9 @@ describe('ExposureNotificationService', () => {
   it('filters most recent over minutes threshold', async () => {
     const today = new OriginalDate('2020-09-22T00:00:00.000Z');
     const summaries = [
-      getSummary({today, exposed: true, daysSinceLastExposure: 5, attenuationDurations: [17, 0, 0]}),
-      getSummary({today, exposed: true, daysSinceLastExposure: 2, attenuationDurations: [5, 3, 0]}),
-      getSummary({today, exposed: true, daysSinceLastExposure: 5, attenuationDurations: [0, 20, 0]}),
+      getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 5, attenuationDurations: [17, 0, 0]}),
+      getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 2, attenuationDurations: [5, 3, 0]}),
+      getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 5, attenuationDurations: [0, 20, 0]}),
     ];
 
     const result = service.summariesContainingExposures(15, summaries);
@@ -137,50 +139,23 @@ describe('ExposureNotificationService', () => {
   });
 
   it('returns exposed status update', async () => {
-    const today = new OriginalDate('2020-05-14T04:10:00+0000');
-    const current = {
-      type: ExposureStatusType.Monitoring,
-      needsSubmission: false,
-      cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
-      cycleEndsAt: new OriginalDate('2020-05-28T04:10:00+0000').getTime(),
-      submissionLastCompletedAt: null,
-    };
-
-    const returnValue = {
-      daysSinceLastExposure: 7,
-      lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-      matchedKeyCount: 2,
-      maximumRiskScore: 1,
-      attenuationDurations: [1200, 0, 0],
-    };
-
-    testUpdateExposure('2020-05-18T04:10:00+0000', current, returnValue, {type: ExposureStatusType.Exposed});
-
-    /*
     const today = new OriginalDate('2020-05-18T04:10:00+0000');
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
-    service.exposureStatus.append({
+    const current: ExposureStatus = {
       type: ExposureStatusType.Monitoring,
-      needsSubmission: false,
-      cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
-      cycleEndsAt: new OriginalDate('2020-05-28T04:10:00+0000').getTime(),
-      submissionLastCompletedAt: null,
+    };
+
+    const exposedSummary = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 7,
+      attenuationDurations: [0, 20, 0],
     });
 
-    bridge.detectExposure.mockResolvedValueOnce([
-      {
-        daysSinceLastExposure: 7,
-        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-        matchedKeyCount: 2,
-        maximumRiskScore: 1,
-        attenuationDurations: [1200, 0, 0],
-      },
-    ]);
+    const newStatus = await testUpdateExposure(current, [exposedSummary]);
 
-    await service.updateExposureStatus();
-    expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Exposed}));
-    */
+    expect(newStatus).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Exposed}));
   });
 
   it('returns monitoring status when under thresholds', async () => {
