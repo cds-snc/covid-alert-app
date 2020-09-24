@@ -562,62 +562,84 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    it('pastMinimumReminderInterval returns true when missing uploadReminderLastSentAt', async () => {
+    it("Doesn't send notification if status is Monitoring", async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+      });
+
+      await service.updateExposureStatusInBackground();
+      // PushNotification.presentLocalNotification to not be called
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          type: ExposureStatusType.Monitoring,
+        }),
+      );
+    });
+
+    it('isReminderNeeded returns true when missing uploadReminderLastSentAt', async () => {
       const status = {
+        type: ExposureStatusType.Diagnosed,
         needsSubmission: false,
+        // uploadReminderLastSentAt: new Date(), don't pass this
       };
 
-      expect(service.pastMinimumReminderInterval(status)).toStrictEqual(true);
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
     });
 
-    it('pastMinimumReminderInterval returns true when needsSubmission is true', async () => {
+    it('isReminderNeeded returns true when needsSubmission is true', async () => {
       const status = {
+        type: ExposureStatusType.Diagnosed,
         needsSubmission: true,
+        uploadReminderLastSentAt: new OriginalDate('2020-05-18T04:10:00+0000'),
       };
 
-      expect(service.pastMinimumReminderInterval(status)).toStrictEqual(true);
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
     });
 
-    it('pastMinimumReminderInterval returns true when uploadReminderLastSentAt is a day old', async () => {
+    it('isReminderNeeded returns true when uploadReminderLastSentAt is a day old', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
       const status = {
+        type: ExposureStatusType.Diagnosed,
         needsSubmission: false,
         uploadReminderLastSentAt: lastSent,
       };
 
-      expect(service.pastMinimumReminderInterval(status)).toStrictEqual(true);
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
     });
 
-    it('pastMinimumReminderInterval returns true when uploadReminderLastSentAt is < 1 day old', async () => {
+    it('isReminderNeeded returns true when uploadReminderLastSentAt is < 1 day old', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const lastSent = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = today;
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
       const status = {
+        type: ExposureStatusType.Diagnosed,
         needsSubmission: false,
         uploadReminderLastSentAt: lastSent,
       };
 
-      expect(service.pastMinimumReminderInterval(status)).toStrictEqual(false);
+      expect(service.isReminderNeeded(status)).toStrictEqual(false);
     });
 
     it('processes the reminder push notification when diagnosed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
-
+      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
         needsSubmission: true,
-        uploadReminderLastSentAt: new OriginalDate('2020-05-17T04:10:00+0000'),
+        uploadReminderLastSentAt: lastSent,
       });
 
       await service.updateExposureStatusInBackground();
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          uploadReminderLastSentAt: today,
+          uploadReminderLastSentAt: today.getTime(),
         }),
       );
     });

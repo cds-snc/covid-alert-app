@@ -180,7 +180,11 @@ export class ExposureNotificationService {
       });
   }
 
-  public pastMinimumReminderInterval(exposureStatus: any) {
+  public isReminderNeeded(exposureStatus: any) {
+    if (exposureStatus.type !== ExposureStatusType.Diagnosed) {
+      return false;
+    }
+
     if (exposureStatus.needsSubmission) {
       return true;
     }
@@ -190,7 +194,6 @@ export class ExposureNotificationService {
     }
 
     const lastSent = new Date(exposureStatus.uploadReminderLastSentAt);
-    console.log('lastSent', lastSent, new Date());
     return minutesBetween(lastSent, new Date()) > MINIMUM_REMINDER_INTERVAL_MINUTES;
   }
 
@@ -554,13 +557,7 @@ export class ExposureNotificationService {
       });
     }
 
-    if (
-      exposureStatus.type === ExposureStatusType.Diagnosed &&
-      exposureStatus.needsSubmission &&
-      this.pastMinimumReminderInterval(exposureStatus)
-    ) {
-      console.log('send reminder ', {time: new Date().getTime()});
-
+    if (this.isReminderNeeded(exposureStatus)) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
         alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
