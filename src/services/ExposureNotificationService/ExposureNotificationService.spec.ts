@@ -562,23 +562,65 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    //
+    it('pastMinimumReminderInterval returns true when missing uploadReminderLastSentAt', async () => {
+      const status = {
+        needsSubmission: false,
+      };
 
-    it('processes the push notification when exposed', async () => {
+      expect(service.pastMinimumReminderInterval(status)).toStrictEqual(true);
+    });
+
+    it('pastMinimumReminderInterval returns true when needsSubmission is true', async () => {
+      const status = {
+        needsSubmission: true,
+      };
+
+      expect(service.pastMinimumReminderInterval(status)).toStrictEqual(true);
+    });
+
+    it('pastMinimumReminderInterval returns true when uploadReminderLastSentAt is a day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const status = {
+        needsSubmission: false,
+        uploadReminderLastSentAt: lastSent,
+      };
+
+      expect(service.pastMinimumReminderInterval(status)).toStrictEqual(true);
+    });
+
+    it('pastMinimumReminderInterval returns true when uploadReminderLastSentAt is < 1 day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const status = {
+        needsSubmission: false,
+        uploadReminderLastSentAt: lastSent,
+      };
+
+      expect(service.pastMinimumReminderInterval(status)).toStrictEqual(false);
+    });
+
+    it('processes the reminder push notification when diagnosed', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+
       service.exposureStatus.set({
-        type: ExposureStatusType.Exposed,
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        uploadReminderLastSentAt: new OriginalDate('2020-05-17T04:10:00+0000'),
       });
 
       await service.updateExposureStatusInBackground();
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          notificationSent: true,
+          uploadReminderLastSentAt: today,
         }),
       );
     });
-
-    //
 
     it('ignores ExposureSummary that has smaller lastExposureTimestamp', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');

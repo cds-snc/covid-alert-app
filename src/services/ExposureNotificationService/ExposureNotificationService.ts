@@ -180,6 +180,20 @@ export class ExposureNotificationService {
       });
   }
 
+  public pastMinimumReminderInterval(exposureStatus: any) {
+    if (exposureStatus.needsSubmission) {
+      return true;
+    }
+
+    if (!exposureStatus.uploadReminderLastSentAt) {
+      return true;
+    }
+
+    const lastSent = new Date(exposureStatus.uploadReminderLastSentAt);
+    console.log('lastSent', lastSent, new Date());
+    return minutesBetween(lastSent, new Date()) > MINIMUM_REMINDER_INTERVAL_MINUTES;
+  }
+
   async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
@@ -529,6 +543,7 @@ export class ExposureNotificationService {
 
   private async processNotification() {
     const exposureStatus = this.exposureStatus.get();
+
     if (exposureStatus.type === ExposureStatusType.Exposed && !exposureStatus.notificationSent) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
@@ -538,17 +553,19 @@ export class ExposureNotificationService {
         notificationSent: true,
       });
     }
+
     if (
       exposureStatus.type === ExposureStatusType.Diagnosed &&
       exposureStatus.needsSubmission &&
-      (!exposureStatus.uploadReminderLastSentAt ||
-        minutesBetween(new Date(exposureStatus.uploadReminderLastSentAt), new Date()) >
-          MINIMUM_REMINDER_INTERVAL_MINUTES)
+      this.pastMinimumReminderInterval(exposureStatus)
     ) {
+      console.log('send reminder ', {time: new Date().getTime()});
+
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
         alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
       });
+
       await this.exposureStatus.append({
         uploadReminderLastSentAt: new Date().getTime(),
       });
