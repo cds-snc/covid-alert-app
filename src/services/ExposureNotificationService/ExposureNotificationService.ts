@@ -514,16 +514,11 @@ export class ExposureNotificationService {
   private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
-      captureMessage('selectExposureSummary use next Summary', {nextSummary});
+      captureMessage('selectExposureSummary use nextSummary', {nextSummary});
       return nextSummary;
     }
     const currentSummary = exposureStatus.summary;
-    // const currentLastExposureTimestamp = currentSummary.lastExposureTimestamp;
-    // const nextLastExposureTimestamp = nextSummary.lastExposureTimestamp;
-    // if (nextLastExposureTimestamp > currentLastExposureTimestamp) {
-    //   return nextSummary;
-    // }
-    captureMessage('selectExposureSummary use current Summary', {nextSummary});
+    captureMessage('selectExposureSummary use currentSummary', {currentSummary});
     return currentSummary;
   }
 
