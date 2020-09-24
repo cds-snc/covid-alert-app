@@ -477,7 +477,7 @@ describe('ExposureNotificationService', () => {
       [10, ExposureStatusType.Exposed],
       [14, ExposureStatusType.Monitoring],
       [20, ExposureStatusType.Monitoring],
-    ])('if exposed %p days ago, state should be %p', async (daysAgo, expectedStatus) => {
+    ])('if exposed %p days ago, state expected to be %p', async (daysAgo, expectedStatus) => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
