@@ -18,6 +18,11 @@ jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
 
+jest.mock('bridge/PushNotification', () => ({
+  ...jest.requireActual('bridge/PushNotification'),
+  presentLocalNotification: jest.fn(),
+}));
+
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),
@@ -542,6 +547,38 @@ describe('ExposureNotificationService', () => {
         }),
       );
     });
+
+    it('processes the push notification when exposed', async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Exposed,
+      });
+
+      await service.updateExposureStatusInBackground();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          notificationSent: true,
+        }),
+      );
+    });
+
+    //
+
+    it('processes the push notification when exposed', async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Exposed,
+      });
+
+      await service.updateExposureStatusInBackground();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          notificationSent: true,
+        }),
+      );
+    });
+
+    //
 
     it('ignores ExposureSummary that has smaller lastExposureTimestamp', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
