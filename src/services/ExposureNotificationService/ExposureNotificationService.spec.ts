@@ -466,12 +466,17 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    it('keeps lastChecked when reset from exposed state to monitoring state', async () => {
+    it.each([
+      [1, ExposureStatusType.Exposed],
+      [10, ExposureStatusType.Exposed],
+      [14, ExposureStatusType.Monitoring],
+      [20, ExposureStatusType.Monitoring],
+    ])('if exposed %p days ago, state should be %p', async (daysAgo, expectedStatus) => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
 
-      AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, (today.getTime() - 14 * 3600 * 24 * 1000).toString());
+      AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, (today.getTime() - daysAgo * 3600 * 24 * 1000).toString());
 
       service.exposureStatus.set({
         type: ExposureStatusType.Exposed,
@@ -479,12 +484,12 @@ describe('ExposureNotificationService', () => {
           period,
           timestamp: today.getTime(),
         },
-        summary: {
-          daysSinceLastExposure: 2,
-          lastExposureTimestamp: today.getTime() - 14 * 3600 * 24 * 1000,
-          matchedKeyCount: 1,
-          maximumRiskScore: 1,
-        },
+        summary: getSummary({
+          today,
+          hasMatchedKey: true,
+          daysSinceLastExposure: daysAgo,
+          attenuationDurations: [20, 0, 0],
+        }),
       });
 
       await service.updateExposureStatus();
@@ -495,7 +500,7 @@ describe('ExposureNotificationService', () => {
             period,
             timestamp: today.getTime(),
           },
-          type: ExposureStatusType.Monitoring,
+          type: expectedStatus,
         }),
       );
     });
