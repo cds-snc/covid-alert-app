@@ -194,7 +194,8 @@ export class ExposureNotificationService {
     }
 
     const lastSent = new Date(exposureStatus.uploadReminderLastSentAt);
-    return minutesBetween(lastSent, getCurrentDate()) > MINIMUM_REMINDER_INTERVAL_MINUTES;
+    const today = getCurrentDate();
+    return minutesBetween(lastSent, today) > MINIMUM_REMINDER_INTERVAL_MINUTES;
   }
 
   async updateExposureStatus(): Promise<void> {

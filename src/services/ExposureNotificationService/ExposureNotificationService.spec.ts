@@ -572,9 +572,12 @@ describe('ExposureNotificationService', () => {
     });
 
     it('isReminderNeeded returns true when missing uploadReminderLastSentAt', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
       const status = {
         type: ExposureStatusType.Diagnosed,
-        needsSubmission: false,
+        needsSubmission: true,
         // uploadReminderLastSentAt: new Date(), don't pass this
       };
 
@@ -582,10 +585,12 @@ describe('ExposureNotificationService', () => {
     });
 
     it('isReminderNeeded returns true when needsSubmission is true', async () => {
+      const lastSent = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : lastSent));
       const status = {
         type: ExposureStatusType.Diagnosed,
         needsSubmission: true,
-        uploadReminderLastSentAt: new OriginalDate('2020-05-18T04:10:00+0000'),
+        uploadReminderLastSentAt: lastSent.getTime(),
       };
 
       expect(service.isReminderNeeded(status)).toStrictEqual(true);
@@ -599,7 +604,7 @@ describe('ExposureNotificationService', () => {
       const status = {
         type: ExposureStatusType.Diagnosed,
         needsSubmission: false,
-        uploadReminderLastSentAt: lastSent,
+        uploadReminderLastSentAt: lastSent.getTime(),
       };
 
       expect(service.isReminderNeeded(status)).toStrictEqual(true);
@@ -613,7 +618,7 @@ describe('ExposureNotificationService', () => {
       const status = {
         type: ExposureStatusType.Diagnosed,
         needsSubmission: false,
-        uploadReminderLastSentAt: lastSent,
+        uploadReminderLastSentAt: lastSent.getTime(),
       };
 
       expect(service.isReminderNeeded(status)).toStrictEqual(false);
