@@ -432,6 +432,7 @@ export class ExposureNotificationService {
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
+    captureMessage('summaryExceedsMinimumMinutes', summary);
     // on ios attenuationDurations is in seconds, on android it is in minutes
     const divisor = Platform.OS === 'ios' ? 60 : 1;
     const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
