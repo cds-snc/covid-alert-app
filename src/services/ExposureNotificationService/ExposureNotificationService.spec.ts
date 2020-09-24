@@ -138,11 +138,17 @@ describe('ExposureNotificationService', () => {
     expect(result[0].attenuationDurations[0]).toStrictEqual(1020);
   });
 
-  it('returns exposed status update', async () => {
+  it.each([
+    [[20, 0, 0], ExposureStatusType.Exposed],
+    [[30, 0, 0], ExposureStatusType.Exposed],
+    [[10, 0, 0], ExposureStatusType.Monitoring],
+    [[0, 10, 0], ExposureStatusType.Monitoring],
+    [[0, 10, 30], ExposureStatusType.Monitoring],
+  ])('given attenuationDurations = %p, returns status %p', async (argAttenuationDurations, expectedStatus) => {
     const today = new OriginalDate('2020-05-18T04:10:00+0000');
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
-    const current: ExposureStatus = {
+    const currentStatus: ExposureStatus = {
       type: ExposureStatusType.Monitoring,
     };
 
@@ -150,39 +156,57 @@ describe('ExposureNotificationService', () => {
       today,
       hasMatchedKey: true,
       daysSinceLastExposure: 7,
-      attenuationDurations: [0, 20, 0],
+      attenuationDurations: argAttenuationDurations,
     });
 
-    const newStatus = await testUpdateExposure(current, [exposedSummary]);
+    const newStatus = await testUpdateExposure(currentStatus, [exposedSummary]);
 
-    expect(newStatus).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Exposed}));
+    expect(newStatus).toStrictEqual(expect.objectContaining({type: expectedStatus}));
   });
 
-  it('returns monitoring status when under thresholds', async () => {
-    const today = new OriginalDate('2020-05-18T04:10:00+0000');
-    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+  it.each([
+    [1, 10, ExposureStatusType.Exposed],
+    [10, 10, ExposureStatusType.Exposed],
+    [20, 10, ExposureStatusType.Exposed],
+    [1, 20, ExposureStatusType.Exposed],
+    [10, 20, ExposureStatusType.Exposed],
+    [20, 20, ExposureStatusType.Exposed],
+  ])(
+    'given daysSinceLastExposure = %p, immediateMinutes = %p, returns status %p',
+    async (argDaysSinceLastExposure, immediateMinutes, expectedStatus) => {
+      // houdini test: if a user was exposed 7 days ago
+      // and then they get a new summary with a matched key
+      // but not enough time to trigger an exposure,
+      // they stay exposed, no matter if the new match is
+      // before or after the old match
 
-    service.exposureStatus.append({
-      type: ExposureStatusType.Monitoring,
-      needsSubmission: false,
-      cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
-      cycleEndsAt: new OriginalDate('2020-05-28T04:10:00+0000').getTime(),
-      submissionLastCompletedAt: null,
-    });
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
-    bridge.detectExposure.mockResolvedValueOnce([
-      {
+      const currentSummary = getSummary({
+        today,
+        hasMatchedKey: true,
         daysSinceLastExposure: 7,
-        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-        matchedKeyCount: 2,
-        maximumRiskScore: 1,
-        attenuationDurations: [200, 400, 0],
-      },
-    ]);
+        attenuationDurations: [20, 0, 0],
+      });
 
-    await service.updateExposureStatus();
-    expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Monitoring}));
-  });
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary: currentSummary,
+      };
+
+      const nextSummary = getSummary({
+        today,
+        hasMatchedKey: true,
+        daysSinceLastExposure: argDaysSinceLastExposure,
+        attenuationDurations: [immediateMinutes, 0, 0],
+      });
+
+      const newStatus = await testUpdateExposure(currentStatus, [nextSummary]);
+
+      expect(newStatus).toStrictEqual(expect.objectContaining({type: expectedStatus}));
+    },
+  );
 
   it('backfills keys when last timestamp not available', async () => {
     dateSpy
