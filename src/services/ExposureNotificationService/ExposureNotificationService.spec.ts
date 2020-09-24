@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {periodSinceEpoch} from '../../shared/date-fns';
 import PushNotification from '../../bridge/PushNotification';
+
 import {
   ExposureNotificationService,
   ExposureStatusType,
@@ -555,7 +556,7 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    it("Doesn't send notification if status is Monitoring", async () => {
+    it("doesn't send notification if status is Monitoring", async () => {
       service.exposureStatus.set({
         type: ExposureStatusType.Monitoring,
       });
@@ -567,7 +568,7 @@ describe('ExposureNotificationService', () => {
           type: ExposureStatusType.Monitoring,
         }),
       );
-      expect(PushNotification.presentLocalNotification).not.toBeCalled();
+      expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
     });
 
     it('isReminderNeeded returns true when missing uploadReminderLastSentAt', async () => {
@@ -630,7 +631,7 @@ describe('ExposureNotificationService', () => {
 
       await service.updateExposureStatusInBackground();
 
-      expect(PushNotification.presentLocalNotification).toBeCalledTimes(1);
+      expect(PushNotification.presentLocalNotification).toHaveBeenCalledTimes(1);
 
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
