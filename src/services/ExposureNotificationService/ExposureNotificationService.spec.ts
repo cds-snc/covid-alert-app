@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {periodSinceEpoch} from '../../shared/date-fns';
 import {ExposureSummary} from '../../bridge/ExposureNotification';
+import PushNotification from '../../bridge/PushNotification';
 
 import {
   ExposureNotificationService,
@@ -18,6 +19,11 @@ const ONE_DAY = 3600 * 24 * 1000;
 
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
+}));
+
+jest.mock('../../bridge/PushNotification', () => ({
+  ...jest.requireActual('bridge/PushNotification'),
+  presentLocalNotification: jest.fn(),
 }));
 
 const server: any = {
@@ -577,6 +583,97 @@ describe('ExposureNotificationService', () => {
         expect.objectContaining({
           type: ExposureStatusType.Exposed,
           summary: currentSummary,
+        }),
+      );
+    });
+
+    it('processes the push notification when exposed', async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Exposed,
+      });
+
+      await service.updateExposureStatusInBackground();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          notificationSent: true,
+        }),
+      );
+    });
+
+    it("doesn't send notification if status is Monitoring", async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+      });
+
+      await service.updateExposureStatusInBackground();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          type: ExposureStatusType.Monitoring,
+        }),
+      );
+      expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
+    });
+
+    it('isReminderNeeded returns true when missing uploadReminderLastSentAt', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        // uploadReminderLastSentAt: new Date(), don't pass this
+      };
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
+    });
+
+    it('isReminderNeeded returns true when uploadReminderLastSentAt is a day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        uploadReminderLastSentAt: lastSent.getTime(),
+      };
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
+    });
+
+    it('isReminderNeeded returns false when uploadReminderLastSentAt is < 1 day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = today;
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        uploadReminderLastSentAt: lastSent.getTime(),
+      };
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(false);
+    });
+
+    it('processes the reminder push notification when diagnosed', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      service.exposureStatus.set({
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        uploadReminderLastSentAt: lastSent.getTime(),
+      });
+
+      await service.updateExposureStatusInBackground();
+
+      expect(PushNotification.presentLocalNotification).toHaveBeenCalledTimes(1);
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          uploadReminderLastSentAt: today.getTime(),
         }),
       );
     });

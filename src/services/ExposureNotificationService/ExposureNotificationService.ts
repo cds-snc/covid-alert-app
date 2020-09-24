@@ -180,6 +180,25 @@ export class ExposureNotificationService {
       });
   }
 
+  public isReminderNeeded(exposureStatus: ExposureStatus) {
+    if (exposureStatus.type !== ExposureStatusType.Diagnosed) {
+      return false;
+    }
+
+    if (!exposureStatus.needsSubmission) {
+      return false;
+    }
+
+    if (!exposureStatus.uploadReminderLastSentAt) {
+      return true;
+    }
+
+    const lastSent = new Date(exposureStatus.uploadReminderLastSentAt);
+    const today = getCurrentDate();
+    const mins = minutesBetween(lastSent, today);
+    return mins > MINIMUM_REMINDER_INTERVAL_MINUTES;
+  }
+
   async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
@@ -216,10 +235,12 @@ export class ExposureNotificationService {
     let temporaryExposureKeys: TemporaryExposureKey[];
     try {
       temporaryExposureKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
-    } catch {
+    } catch (error) {
+      captureException('getTemporaryExposureKeyHistory', error);
       throw cannotGetTEKsError;
     }
     if (temporaryExposureKeys.length > 0) {
+      captureMessage('getTemporaryExposureKeyHistory', temporaryExposureKeys);
       await this.backendInterface.reportDiagnosisKeys(auth, temporaryExposureKeys, contagiousDateInfo);
     } else {
       captureMessage('No TEKs available to upload');
@@ -525,6 +546,7 @@ export class ExposureNotificationService {
 
   private async processNotification() {
     const exposureStatus = this.exposureStatus.get();
+
     if (exposureStatus.type === ExposureStatusType.Exposed && !exposureStatus.notificationSent) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
@@ -534,17 +556,13 @@ export class ExposureNotificationService {
         notificationSent: true,
       });
     }
-    if (
-      exposureStatus.type === ExposureStatusType.Diagnosed &&
-      exposureStatus.needsSubmission &&
-      (!exposureStatus.uploadReminderLastSentAt ||
-        minutesBetween(new Date(exposureStatus.uploadReminderLastSentAt), new Date()) >
-          MINIMUM_REMINDER_INTERVAL_MINUTES)
-    ) {
+
+    if (this.isReminderNeeded(exposureStatus)) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
         alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
       });
+
       await this.exposureStatus.append({
         uploadReminderLastSentAt: new Date().getTime(),
       });
