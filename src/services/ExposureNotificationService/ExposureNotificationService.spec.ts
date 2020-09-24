@@ -584,9 +584,11 @@ describe('ExposureNotificationService', () => {
       expect(service.isReminderNeeded(status)).toStrictEqual(true);
     });
 
-    it('isReminderNeeded returns true when needsSubmission is true', async () => {
-      const lastSent = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : lastSent));
+    it('isReminderNeeded returns true when uploadReminderLastSentAt is a day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
       const status = {
         type: ExposureStatusType.Diagnosed,
         needsSubmission: true,
@@ -596,28 +598,14 @@ describe('ExposureNotificationService', () => {
       expect(service.isReminderNeeded(status)).toStrictEqual(true);
     });
 
-    it('isReminderNeeded returns true when uploadReminderLastSentAt is a day old', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
-      const status = {
-        type: ExposureStatusType.Diagnosed,
-        needsSubmission: false,
-        uploadReminderLastSentAt: lastSent.getTime(),
-      };
-
-      expect(service.isReminderNeeded(status)).toStrictEqual(true);
-    });
-
-    it('isReminderNeeded returns true when uploadReminderLastSentAt is < 1 day old', async () => {
+    it('isReminderNeeded returns false when uploadReminderLastSentAt is < 1 day old', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const lastSent = today;
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
       const status = {
         type: ExposureStatusType.Diagnosed,
-        needsSubmission: false,
+        needsSubmission: true,
         uploadReminderLastSentAt: lastSent.getTime(),
       };
 
