@@ -42,22 +42,21 @@ export enum ExposureStatusType {
   Diagnosed = 'diagnosed',
 }
 
+export interface LastChecked {
+  period: number;
+  timestamp: number;
+}
+
 export type ExposureStatus =
   | {
       type: ExposureStatusType.Monitoring;
-      lastChecked?: {
-        period: number;
-        timestamp: number;
-      };
+      lastChecked?: LastChecked;
     }
   | {
       type: ExposureStatusType.Exposed;
       summary: ExposureSummary;
       notificationSent?: boolean;
-      lastChecked?: {
-        period: number;
-        timestamp: number;
-      };
+      lastChecked?: LastChecked;
     }
   | {
       type: ExposureStatusType.Diagnosed;
@@ -66,10 +65,7 @@ export type ExposureStatus =
       uploadReminderLastSentAt?: number;
       cycleStartsAt: number;
       cycleEndsAt: number;
-      lastChecked?: {
-        period: number;
-        timestamp: number;
-      };
+      lastChecked?: LastChecked;
     };
 
 export interface PersistencyProvider {
@@ -357,7 +353,7 @@ export class ExposureNotificationService {
     });
   };
 
-  private setToExposed = async (summary: ExposureSummary, lastCheckedPeriod: any) => {
+  private setToExposed = async (summary: ExposureSummary, lastCheckedPeriod?: number) => {
     captureMessage('setToExposed ', {summary});
 
     AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, summary.lastExposureTimestamp.toString());
@@ -444,19 +440,16 @@ export class ExposureNotificationService {
 
   private async getSummariesFromEnFramework(
     exposureConfiguration: ExposureConfiguration,
-  ): Promise<{summaries: ExposureSummary[]; lastCheckedPeriod: any}> {
+  ): Promise<{summaries: ExposureSummary[]; lastCheckedPeriod?: number}> {
     let summaries: ExposureSummary[];
-    let lastCheckedPeriod: any;
+    let lastCheckedPeriod: number | undefined;
     const today = getCurrentDate();
 
     try {
       // a pending summary is on Android only.
       const pendingSummaries = await this.exposureNotification.getPendingExposureSummary();
       if (pendingSummaries && pendingSummaries.length > 0) {
-        lastCheckedPeriod = {
-          timestamp: today.getTime(),
-          period: periodSinceEpoch(today, HOURS_PER_PERIOD),
-        };
+        lastCheckedPeriod = periodSinceEpoch(today, HOURS_PER_PERIOD);
         summaries = pendingSummaries;
 
         captureMessage('pendingSummaries', {summary: summaries});
@@ -465,7 +458,7 @@ export class ExposureNotificationService {
         await this.updateExposure();
 
         const keysAndLastChecked = await this.getKeys(currentStatus.lastChecked);
-        lastCheckedPeriod = keysAndLastChecked.lastChecked;
+        lastCheckedPeriod = keysAndLastChecked.lastCheckedPeriod;
 
         summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysAndLastChecked.keys);
 
@@ -474,7 +467,7 @@ export class ExposureNotificationService {
       return {summaries, lastCheckedPeriod};
     } catch (error) {
       captureException('getSummaries', error);
-      return {summaries: [], lastCheckedPeriod: null};
+      return {summaries: [], lastCheckedPeriod: undefined};
     }
   }
 
@@ -495,7 +488,7 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
-  private async getKeys(lastChecked: any) {
+  private async getKeys(lastChecked?: LastChecked) {
     const keys: string[] = [];
     const generator = this.keysSinceLastFetch(lastChecked?.period);
     let lastCheckedPeriod = lastChecked?.period;
@@ -507,7 +500,7 @@ export class ExposureNotificationService {
       keys.push(keysFileUrl);
       lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
     }
-    return {keys, lastChecked};
+    return {keys, lastCheckedPeriod};
   }
 
   private async getExposureConfiguration(): Promise<ExposureConfiguration> {
