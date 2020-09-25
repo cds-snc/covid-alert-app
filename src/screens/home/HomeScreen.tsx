@@ -1,8 +1,9 @@
 import React, {useCallback, useEffect, useState, useRef, useLayoutEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
+import {TEST_MODE} from 'env';
 import {
   ExposureStatusType,
   SystemStatus,
@@ -168,9 +169,9 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 export const HomeScreen = () => {
   const navigation = useNavigation();
   useEffect(() => {
-    if (__DEV__) {
-      DevSettings.addMenuItem('Show Test Menu', () => {
-        navigation.dispatch(DrawerActions.openDrawer());
+    if (__DEV__ && TEST_MODE) {
+      DevSettings.addMenuItem('Show Demo Menu', () => {
+        navigation.navigate('TestScreen');
       });
     }
   }, [navigation]);
