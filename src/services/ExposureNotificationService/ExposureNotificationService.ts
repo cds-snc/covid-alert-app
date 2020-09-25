@@ -458,6 +458,8 @@ export class ExposureNotificationService {
           period: periodSinceEpoch(today, HOURS_PER_PERIOD),
         };
         summaries = pendingSummaries;
+
+        captureMessage('pendingSummaries', {summary: summaries});
       } else {
         const currentStatus = this.exposureStatus.get();
         await this.updateExposure();
@@ -466,6 +468,8 @@ export class ExposureNotificationService {
         lastCheckedPeriod = keysAndLastChecked.lastChecked;
 
         summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysAndLastChecked.keys);
+
+        captureMessage('getSummariesFromEnFramework', {summary: summaries});
       }
       return {summaries, lastCheckedPeriod};
     } catch (error) {
