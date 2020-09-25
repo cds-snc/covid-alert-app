@@ -25,6 +25,9 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
           `${unzippedLocation}/export.bin`,
           `${unzippedLocation}/export.sig`,
         ]);
+
+        captureMessage('ExposureNotificationAdapter.iOS - detectExposure', {summary});
+
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         if (summary.matchedKeyCount > 0) {
           summaries.push(summary);

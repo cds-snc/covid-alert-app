@@ -1,3 +1,5 @@
+import {captureMessage} from 'shared/log';
+
 import {ExposureNotification, ExposureSummary} from './types';
 import {getLastExposureTimestamp} from './utils';
 
@@ -13,6 +15,9 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
         const summary: ExposureSummary = await exposureNotificationAPI.detectExposure(configuration, [
           diagnosisKeysURL,
         ]);
+
+        captureMessage('ExposureNotificationAdapter.Android - detectExposure', {summary});
+
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         // first detected exposure is enough
         if (summary.matchedKeyCount > 0) {
@@ -24,6 +29,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
     getPendingExposureSummary: async () => {
       const summaries: ExposureSummary[] = [];
       const summary = await exposureNotificationAPI.getPendingExposureSummary();
+      captureMessage('ExposureNotificationAdapter.Android - getPendingExposureSummary', {summary});
       if (summary) {
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         summaries.push(summary);
