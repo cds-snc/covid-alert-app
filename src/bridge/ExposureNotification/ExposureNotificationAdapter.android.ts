@@ -1,6 +1,7 @@
+import {captureMessage} from 'shared/log';
+
 import {ExposureNotification, ExposureSummary} from './types';
 import {getLastExposureTimestamp} from './utils';
-import {captureMessage} from 'shared/log';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: any): ExposureNotification {
   return {
