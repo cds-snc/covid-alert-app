@@ -465,7 +465,7 @@ export class ExposureNotificationService {
         await this.updateExposure();
 
         const keysAndLastChecked = await this.getKeys(currentStatus.lastChecked);
-        lastCheckedPeriod = keysAndLastChecked.lastChecked;
+        lastCheckedPeriod = keysAndLastChecked.lastCheckedPeriod;
 
         summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysAndLastChecked.keys);
 
