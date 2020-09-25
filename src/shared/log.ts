@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-const {Platform} = require('react-native');
+import {Platform} from 'react-native';
 
 const PLATFORM = Platform.OS;
 const UUID_KEY = 'UUID_KEY';
