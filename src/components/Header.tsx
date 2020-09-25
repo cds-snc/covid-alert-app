@@ -23,7 +23,7 @@ const BasicHeader = () => {
 export const Header = () => {
   const navigation = useNavigation();
   const onLogoPress = useCallback(() => {
-    navigation.dispatch(DrawerActions.openDrawer());
+    navigation.navigate('TestScreen');
   }, [navigation]);
 
   if (TEST_MODE) {
