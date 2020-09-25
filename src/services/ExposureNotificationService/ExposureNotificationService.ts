@@ -507,7 +507,7 @@ export class ExposureNotificationService {
       keys.push(keysFileUrl);
       lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
     }
-    return {keys, lastChecked};
+    return {keys, lastCheckedPeriod};
   }
 
   private async getExposureConfiguration(): Promise<ExposureConfiguration> {
