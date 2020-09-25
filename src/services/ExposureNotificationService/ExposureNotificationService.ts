@@ -353,7 +353,7 @@ export class ExposureNotificationService {
     });
   };
 
-  private setToExposed = async (summary: ExposureSummary, lastCheckedPeriod: any) => {
+  private setToExposed = async (summary: ExposureSummary, lastCheckedPeriod?: number) => {
     captureMessage('setToExposed ', {summary});
 
     AsyncStorage.setItem(LAST_EXPOSURE_TIMESTAMP_KEY, summary.lastExposureTimestamp.toString());
@@ -440,19 +440,16 @@ export class ExposureNotificationService {
 
   private async getSummariesFromEnFramework(
     exposureConfiguration: ExposureConfiguration,
-  ): Promise<{summaries: ExposureSummary[]; lastCheckedPeriod: any}> {
+  ): Promise<{summaries: ExposureSummary[]; lastCheckedPeriod?: number}> {
     let summaries: ExposureSummary[];
-    let lastCheckedPeriod: any;
+    let lastCheckedPeriod: number | undefined;
     const today = getCurrentDate();
 
     try {
       // a pending summary is on Android only.
       const pendingSummaries = await this.exposureNotification.getPendingExposureSummary();
       if (pendingSummaries && pendingSummaries.length > 0) {
-        lastCheckedPeriod = {
-          timestamp: today.getTime(),
-          period: periodSinceEpoch(today, HOURS_PER_PERIOD),
-        };
+        lastCheckedPeriod = periodSinceEpoch(today, HOURS_PER_PERIOD);
         summaries = pendingSummaries;
 
         captureMessage('pendingSummaries', {summary: summaries});
@@ -470,7 +467,7 @@ export class ExposureNotificationService {
       return {summaries, lastCheckedPeriod};
     } catch (error) {
       captureException('getSummaries', error);
-      return {summaries: [], lastCheckedPeriod: null};
+      return {summaries: [], lastCheckedPeriod: undefined};
     }
   }
 
@@ -491,7 +488,7 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
-  private async getKeys(lastChecked: LastChecked) {
+  private async getKeys(lastChecked?: LastChecked) {
     const keys: string[] = [];
     const generator = this.keysSinceLastFetch(lastChecked?.period);
     let lastCheckedPeriod = lastChecked?.period;
