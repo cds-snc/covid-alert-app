@@ -142,21 +142,29 @@ describe('ExposureNotificationService', () => {
 
   it('filters most recent over minutes threshold', async () => {
     const today = new OriginalDate('2020-09-22T00:00:00.000Z');
-    const exposedSummary = getSummary({
+    const notExposedSummary = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 2,
+      attenuationDurations: [5, 3, 0],
+    });
+    const exposedSummary1 = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 7,
+      attenuationDurations: [17, 0, 0],
+    });
+    const exposedSummary2 = getSummary({
       today,
       hasMatchedKey: true,
       daysSinceLastExposure: 5,
-      attenuationDurations: [17, 0, 0],
+      attenuationDurations: [0, 20, 0],
     });
-    const summaries = [
-      getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 2, attenuationDurations: [5, 3, 0]}),
-      exposedSummary,
-      getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 5, attenuationDurations: [0, 20, 0]}),
-    ];
+    const summaries = [notExposedSummary, exposedSummary1, exposedSummary2];
 
     const result = service.summariesContainingExposures(15, summaries);
     expect(result).toHaveLength(2);
-    expect(result[0].attenuationDurations[0]).toStrictEqual(exposedSummary.attenuationDurations[0]);
+    expect(result[0]).toStrictEqual(exposedSummary2);
   });
 
   it.each([
