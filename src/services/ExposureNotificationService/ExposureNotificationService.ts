@@ -459,7 +459,7 @@ export class ExposureNotificationService {
         };
         summaries = pendingSummaries;
 
-        captureMessage('pendingSummaries', {summaries});
+        captureMessage('pendingSummaries', {summary: summaries});
       } else {
         const currentStatus = this.exposureStatus.get();
         await this.updateExposure();
@@ -469,7 +469,7 @@ export class ExposureNotificationService {
 
         summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysAndLastChecked.keys);
 
-        captureMessage('getSummariesFromEnFramework', {summaries});
+        captureMessage('getSummariesFromEnFramework', {summary: summaries});
       }
       return {summaries, lastCheckedPeriod};
     } catch (error) {
