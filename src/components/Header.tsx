@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {TouchableWithoutFeedback} from 'react-native';
-import {useNavigation, DrawerActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {TEST_MODE} from 'env';
 
