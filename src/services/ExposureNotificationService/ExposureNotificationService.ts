@@ -160,6 +160,23 @@ export class ExposureNotificationService {
     }
   }
 
+  /*
+    Filter and sort the summaries.
+    This may change in the future because of EN Framework changes.
+  */
+  public findSummariesContainingExposures(
+    minimumExposureDurationMinutes: number,
+    summaries: ExposureSummary[],
+  ): ExposureSummary[] {
+    return summaries
+      .filter(summary => {
+        return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
+      })
+      .sort((summary1, summary2) => {
+        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
+      });
+  }
+
   public isReminderNeeded(exposureStatus: ExposureStatus) {
     if (exposureStatus.type !== ExposureStatusType.Diagnosed) {
       return false;
@@ -224,23 +241,6 @@ export class ExposureNotificationService {
       captureMessage('No TEKs available to upload');
     }
     await this.recordKeySubmission();
-  }
-
-  /*
-    Filter and sort the summaries.
-    This may change in the future because of EN Framework changes.
-  */
-  public findSummariesContainingExposures(
-    minimumExposureDurationMinutes: number,
-    summaries: ExposureSummary[],
-  ): ExposureSummary[] {
-    return summaries
-      .filter(summary => {
-        return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
-      })
-      .sort((summary1, summary2) => {
-        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
-      });
   }
 
   private async init() {
