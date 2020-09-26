@@ -361,35 +361,36 @@ export class ExposureNotificationService {
     return exposureConfiguration;
   }
 
+  private finalize = async (
+    status: Partial<ExposureStatus> = {},
+    lastCheckedPeriod: number | undefined = undefined,
+  ) => {
+    const previousExposureStatus = this.exposureStatus.get();
+    const timestamp = getCurrentDate().getTime();
+    const period =
+      lastCheckedPeriod === undefined
+        ? status.lastChecked?.period || previousExposureStatus.lastChecked?.period || 0
+        : lastCheckedPeriod;
+    this.exposureStatus.append({
+      ...status,
+      lastChecked: {
+        timestamp,
+        period,
+      },
+    });
+    const currentExposureStatus = this.exposureStatus.get();
+    captureMessage('finalize', {
+      previousExposureStatus,
+      currentExposureStatus,
+    });
+  };
+
   private async performExposureStatusUpdate(): Promise<void> {
     const exposureConfiguration = await this.getExposureConfiguration();
     const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
     if (hasPendingExposureSummary) {
       return;
     }
-    const finalize = async (
-      status: Partial<ExposureStatus> = {},
-      lastCheckedPeriod: number | undefined = undefined,
-    ) => {
-      const previousExposureStatus = this.exposureStatus.get();
-      const timestamp = getCurrentDate().getTime();
-      const period =
-        lastCheckedPeriod === undefined
-          ? status.lastChecked?.period || previousExposureStatus.lastChecked?.period || 0
-          : lastCheckedPeriod;
-      this.exposureStatus.append({
-        ...status,
-        lastChecked: {
-          timestamp,
-          period,
-        },
-      });
-      const currentExposureStatus = this.exposureStatus.get();
-      captureMessage('finalize', {
-        previousExposureStatus,
-        currentExposureStatus,
-      });
-    };
 
     const currentStatus = this.exposureStatus.get();
 
@@ -401,15 +402,15 @@ export class ExposureNotificationService {
       // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
       if (daysBetween(today, cycleEndsAt) <= 0) {
         this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-        return finalize();
+        return this.finalize();
       }
-      return finalize({needsSubmission: await this.calculateNeedsSubmission()});
+      return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
     } else if (currentStatus.type === ExposureStatusType.Exposed) {
       const today = getCurrentDate();
       const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
       if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
         this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-        return finalize();
+        return this.finalize();
       }
     }
 
@@ -435,7 +436,7 @@ export class ExposureNotificationService {
         summaries,
       );
       if (summariesContainingExposures.length > 0) {
-        return finalize(
+        return this.finalize(
           {
             type: ExposureStatusType.Exposed,
             summary: this.selectExposureSummary(summariesContainingExposures[0]),
@@ -443,12 +444,12 @@ export class ExposureNotificationService {
           lastCheckedPeriod,
         );
       }
-      return finalize({}, lastCheckedPeriod);
+      return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
       captureException('performExposureStatusUpdate', error);
     }
 
-    return finalize();
+    return this.finalize();
   }
 
   private async processPendingExposureSummary(exposureConfiguration: ExposureConfiguration) {
