@@ -129,7 +129,7 @@ export class ExposureNotificationService {
 
     this.starting = true;
 
-    await this.init();
+    await this.loadExposureStatus();
 
     try {
       await this.exposureNotification.start();
@@ -149,7 +149,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
-    await this.init();
+    await this.loadExposureStatus();
     try {
       captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
       await this.updateExposureStatus();
@@ -243,7 +243,7 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
-  private async init() {
+  private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
   }
@@ -385,6 +385,24 @@ export class ExposureNotificationService {
     });
   };
 
+  private async getKeysFileUrls() {
+    const currentStatus = this.exposureStatus.get();
+    const keysFileUrls: string[] = [];
+    const generator = this.keysSinceLastFetch(currentStatus.lastChecked?.period);
+    captureMessage('currentStatus.lastChecked?.period', {period: currentStatus.lastChecked?.period});
+    let lastCheckedPeriod = currentStatus.lastChecked?.period;
+    while (true) {
+      const {value, done} = await generator.next();
+      if (done) break;
+      if (!value) continue;
+      const {keysFileUrl, period} = value;
+      captureMessage('loop period', {period});
+      keysFileUrls.push(keysFileUrl);
+      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+    }
+    return {keysFileUrls, lastCheckedPeriod};
+  }
+
   private async performExposureStatusUpdate(): Promise<void> {
     const exposureConfiguration = await this.getExposureConfiguration();
     const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
@@ -414,19 +432,7 @@ export class ExposureNotificationService {
       }
     }
 
-    const keysFileUrls: string[] = [];
-    const generator = this.keysSinceLastFetch(currentStatus.lastChecked?.period);
-    captureMessage('currentStatus.lastChecked?.period', {abc: currentStatus.lastChecked?.period});
-    let lastCheckedPeriod = currentStatus.lastChecked?.period;
-    while (true) {
-      const {value, done} = await generator.next();
-      if (done) break;
-      if (!value) continue;
-      const {keysFileUrl, period} = value;
-      captureMessage('loop period', {period});
-      keysFileUrls.push(keysFileUrl);
-      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
-    }
+    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
 
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
