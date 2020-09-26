@@ -140,7 +140,7 @@ describe('ExposureNotificationService', () => {
       getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 5, attenuationDurations: [0, 20, 0]}),
     ];
 
-    const result = service.summariesContainingExposures(15, summaries);
+    const result = service.findSummariesContainingExposures(15, summaries);
     expect(result[0].attenuationDurations[0]).toStrictEqual(1020);
   });
 
@@ -220,7 +220,7 @@ describe('ExposureNotificationService', () => {
       .mockImplementation((args: any) => new OriginalDate(args));
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(14);
   });
 
   it('backfills the right amount of keys for current day', async () => {

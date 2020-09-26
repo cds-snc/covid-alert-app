@@ -160,6 +160,25 @@ export class ExposureNotificationService {
     }
   }
 
+  public isReminderNeeded(exposureStatus: ExposureStatus) {
+    if (exposureStatus.type !== ExposureStatusType.Diagnosed) {
+      return false;
+    }
+
+    if (!exposureStatus.needsSubmission) {
+      return false;
+    }
+
+    if (!exposureStatus.uploadReminderLastSentAt) {
+      return true;
+    }
+
+    const lastSent = new Date(exposureStatus.uploadReminderLastSentAt);
+    const today = getCurrentDate();
+    const mins = minutesBetween(lastSent, today);
+    return mins > MINIMUM_REMINDER_INTERVAL_MINUTES;
+  }
+
   async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
@@ -207,6 +226,23 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
+  /*
+    Filter and sort the summaries.
+    This may change in the future because of EN Framework changes.
+  */
+  public findSummariesContainingExposures(
+    minimumExposureDurationMinutes: number,
+    summaries: ExposureSummary[],
+  ): ExposureSummary[] {
+    return summaries
+      .filter(summary => {
+        return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
+      })
+      .sort((summary1, summary2) => {
+        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
+      });
+  }
+
   private async init() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -246,23 +282,6 @@ export class ExposureNotificationService {
     const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
 
     return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
-  }
-
-  /*
-    Filter and sort the summaries.
-    This may change in the future because of EN Framework changes.
-  */
-  private findSummariesContainingExposures(
-    minimumExposureDurationMinutes: number,
-    summaries: ExposureSummary[],
-  ): ExposureSummary[] {
-    return summaries
-      .filter(summary => {
-        return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
-      })
-      .sort((summary1, summary2) => {
-        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
-      });
   }
 
   private async calculateNeedsSubmission(): Promise<boolean> {
@@ -477,13 +496,7 @@ export class ExposureNotificationService {
         notificationSent: true,
       });
     }
-    if (
-      exposureStatus.type === ExposureStatusType.Diagnosed &&
-      exposureStatus.needsSubmission &&
-      (!exposureStatus.uploadReminderLastSentAt ||
-        minutesBetween(new Date(exposureStatus.uploadReminderLastSentAt), new Date()) >
-          MINIMUM_REMINDER_INTERVAL_MINUTES)
-    ) {
+    if (this.isReminderNeeded(exposureStatus)) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
         alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
