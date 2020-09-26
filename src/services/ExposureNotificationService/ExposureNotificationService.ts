@@ -336,31 +336,6 @@ export class ExposureNotificationService {
     }
   }
 
-  private async getExposureConfiguration(): Promise<ExposureConfiguration> {
-    let exposureConfiguration: ExposureConfiguration;
-    try {
-      exposureConfiguration = await this.backendInterface.getExposureConfiguration();
-      new ExposureConfigurationValidator().validateExposureConfiguration(
-        exposureConfiguration,
-        exposureConfigurationSchema,
-      );
-      captureMessage('Using downloaded exposureConfiguration.');
-      const serialized = JSON.stringify(exposureConfiguration);
-      await this.storage.setItem(EXPOSURE_CONFIGURATION, serialized);
-      captureMessage('Saving exposure configuration to secure storage.');
-    } catch (error) {
-      if (error instanceof SyntaxError) {
-        captureException('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
-      } else if (error instanceof ExposureConfigurationValidationError) {
-        captureException('JSON Schema Error: ', error);
-      } else {
-        captureException('Network Error: Unable to download exposureConfiguration.', error);
-      }
-      exposureConfiguration = await this.getAlternateExposureConfiguration();
-    }
-    return exposureConfiguration;
-  }
-
   private finalize = async (
     status: Partial<ExposureStatus> = {},
     lastCheckedPeriod: number | undefined = undefined,
@@ -384,24 +359,6 @@ export class ExposureNotificationService {
       currentExposureStatus,
     });
   };
-
-  private async getKeysFileUrls() {
-    const currentStatus = this.exposureStatus.get();
-    const keysFileUrls: string[] = [];
-    const generator = this.keysSinceLastFetch(currentStatus.lastChecked?.period);
-    captureMessage('currentStatus.lastChecked?.period', {period: currentStatus.lastChecked?.period});
-    let lastCheckedPeriod = currentStatus.lastChecked?.period;
-    while (true) {
-      const {value, done} = await generator.next();
-      if (done) break;
-      if (!value) continue;
-      const {keysFileUrl, period} = value;
-      captureMessage('loop period', {period});
-      keysFileUrls.push(keysFileUrl);
-      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
-    }
-    return {keysFileUrls, lastCheckedPeriod};
-  }
 
   private async performExposureStatusUpdate(): Promise<void> {
     const exposureConfiguration = await this.getExposureConfiguration();
@@ -458,6 +415,24 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
+  private async getKeysFileUrls() {
+    const currentStatus = this.exposureStatus.get();
+    const keysFileUrls: string[] = [];
+    const generator = this.keysSinceLastFetch(currentStatus.lastChecked?.period);
+    captureMessage('currentStatus.lastChecked?.period', {period: currentStatus.lastChecked?.period});
+    let lastCheckedPeriod = currentStatus.lastChecked?.period;
+    while (true) {
+      const {value, done} = await generator.next();
+      if (done) break;
+      if (!value) continue;
+      const {keysFileUrl, period} = value;
+      captureMessage('loop period', {period});
+      keysFileUrls.push(keysFileUrl);
+      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+    }
+    return {keysFileUrls, lastCheckedPeriod};
+  }
+
   private async processPendingExposureSummary(exposureConfiguration: ExposureConfiguration) {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type === ExposureStatusType.Diagnosed) {
@@ -484,6 +459,31 @@ export class ExposureNotificationService {
       },
     });
     return true;
+  }
+
+  private async getExposureConfiguration(): Promise<ExposureConfiguration> {
+    let exposureConfiguration: ExposureConfiguration;
+    try {
+      exposureConfiguration = await this.backendInterface.getExposureConfiguration();
+      new ExposureConfigurationValidator().validateExposureConfiguration(
+        exposureConfiguration,
+        exposureConfigurationSchema,
+      );
+      captureMessage('Using downloaded exposureConfiguration.');
+      const serialized = JSON.stringify(exposureConfiguration);
+      await this.storage.setItem(EXPOSURE_CONFIGURATION, serialized);
+      captureMessage('Saving exposure configuration to secure storage.');
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        captureException('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
+      } else if (error instanceof ExposureConfigurationValidationError) {
+        captureException('JSON Schema Error: ', error);
+      } else {
+        captureException('Network Error: Unable to download exposureConfiguration.', error);
+      }
+      exposureConfiguration = await this.getAlternateExposureConfiguration();
+    }
+    return exposureConfiguration;
   }
 
   private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
