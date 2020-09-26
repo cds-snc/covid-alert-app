@@ -29,8 +29,9 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       captureMessage('ExposureNotificationAdapter.android - getPendingExposureSummary', {summary});
       if (summary) {
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
+        return [summary];
       }
-      return [summary];
+      return [];
     },
   };
 }

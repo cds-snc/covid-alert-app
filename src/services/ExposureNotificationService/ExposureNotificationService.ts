@@ -362,7 +362,7 @@ export class ExposureNotificationService {
     if (hasPendingExposureSummary) {
       return;
     }
-
+    captureMessage('past pending summary check');
     const currentStatus = this.exposureStatus.get();
 
     if (currentStatus.type === ExposureStatusType.Diagnosed) {
@@ -434,8 +434,11 @@ export class ExposureNotificationService {
     if (exposureStatus.type === ExposureStatusType.Diagnosed) {
       return false;
     }
-    const summaries = await this.exposureNotification.getPendingExposureSummary().catch(() => undefined);
+    const summaries = await this.exposureNotification.getPendingExposureSummary().catch(error => {
+      captureException('Error getting pending summary', error);
+    });
     if (!summaries || summaries.length === 0) {
+      captureMessage('returning false from processPendingExposureSummary: !summaries || summaries.length === 0');
       return false;
     }
     const summariesContainingExposures = this.findSummariesContainingExposures(
