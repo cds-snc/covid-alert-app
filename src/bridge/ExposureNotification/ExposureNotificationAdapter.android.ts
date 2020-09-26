@@ -20,11 +20,13 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       }
       captureMessage('configuration', {configuration});
       captureMessage('diagnosisKeysURLs', {diagnosisKeysURLs});
-      captureMessage('summaries', {summaries});
+      captureMessage('ExposureNotificationAdapter.android - detectExposure summaries', {summaries});
       return summaries;
     },
     getPendingExposureSummary: async () => {
       const summary = await exposureNotificationAPI.getPendingExposureSummary();
+
+      captureMessage('ExposureNotificationAdapter.android - getPendingExposureSummary', {summary});
       if (summary) {
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
       }
