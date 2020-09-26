@@ -4,7 +4,9 @@ import {captureMessage} from 'shared/log';
 import {ExposureNotification, ExposureSummary} from './types';
 import {getLastExposureTimestamp} from './utils';
 
-export default function ExposureNotificationAdapter(exposureNotificationAPI: any): ExposureNotification {
+export default function ExposureNotificationAdapter(
+  exposureNotificationAPI: ExposureNotification,
+): ExposureNotification {
   return {
     ...exposureNotificationAPI,
     detectExposure: async (configuration, diagnosisKeysURLs) => {
@@ -20,7 +22,6 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
         components.push('keys-export');
         const targetDir = components.join('/');
         const unzippedLocation = await unzip(keysZipUrl, targetDir);
-
         const summary: ExposureSummary = await exposureNotificationAPI.detectExposure(configuration, [
           `${unzippedLocation}/export.bin`,
           `${unzippedLocation}/export.sig`,
@@ -29,11 +30,12 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: any
         captureMessage('ExposureNotificationAdapter.iOS - detectExposure', {summary});
 
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
-        if (summary.matchedKeyCount > 0) {
-          summaries.push(summary);
-        }
+        summaries.push(summary);
       }
-      return summaries!;
+      captureMessage('configuration', {configuration});
+      captureMessage('diagnosisKeysURLs', {diagnosisKeysURLs});
+      captureMessage('summaries', {summaries});
+      return summaries;
     },
     getPendingExposureSummary: async () => undefined,
   };
