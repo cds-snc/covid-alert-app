@@ -292,16 +292,6 @@ export class ExposureNotificationService {
     const runningDate = getCurrentDate();
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
 
-    // if (!_lastCheckedPeriod) {
-    //   try {
-    //     const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(0);
-    //     yield {keysFileUrl, period: runningPeriod};
-    //   } catch (error) {
-    //     captureException('Error while downloading batch files', error);
-    //   }
-    //   return;
-    // }
-
     captureMessage('_lastCheckedPeriod', {_lastCheckedPeriod});
     captureMessage('initial runningPeriod', {runningPeriod});
     let lastCheckedPeriod: number;
@@ -310,7 +300,7 @@ export class ExposureNotificationService {
     } else {
       lastCheckedPeriod = runningPeriod - EXPOSURE_NOTIFICATION_CYCLE;
     }
-    // const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
+
     captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
     while (runningPeriod > lastCheckedPeriod) {
       try {

@@ -1,12 +1,12 @@
-import {ExposureNotification, ExposureSummary} from './types';
+import {captureMessage} from 'shared/log';
+
+import {ExposureConfiguration, ExposureNotificationAPI, ExposureSummary} from './types';
 import {getLastExposureTimestamp} from './utils';
 
-export default function ExposureNotificationAdapter(
-  exposureNotificationAPI: ExposureNotification,
-): ExposureNotification {
+export default function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotificationAPI) {
   return {
     ...exposureNotificationAPI,
-    detectExposure: async (configuration, diagnosisKeysURLs) => {
+    detectExposure: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
       const summaries: ExposureSummary[] = [];
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');

@@ -69,5 +69,10 @@ export interface ExposureNotification {
   getStatus(): Promise<Status>;
   getTemporaryExposureKeyHistory(): Promise<TemporaryExposureKey[]>;
   detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary[]>;
-  getPendingExposureSummary(): Promise<ExposureSummary[] | undefined> /* used only by Android */;
+  getPendingExposureSummary(): Promise<ExposureSummary[]> /* used only by Android */;
+}
+
+export interface ExposureNotificationAPI {
+  detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary>;
+  getPendingExposureSummary(): Promise<ExposureSummary> | undefined /* used only by Android */;
 }
