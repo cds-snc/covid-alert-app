@@ -336,7 +336,7 @@ export class ExposureNotificationService {
     }
   }
 
-  private async performExposureStatusUpdate(): Promise<void> {
+  private async getExposureConfiguration(): Promise<ExposureConfiguration> {
     let exposureConfiguration: ExposureConfiguration;
     try {
       exposureConfiguration = await this.backendInterface.getExposureConfiguration();
@@ -358,6 +358,11 @@ export class ExposureNotificationService {
       }
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
+    return exposureConfiguration;
+  }
+
+  private async performExposureStatusUpdate(): Promise<void> {
+    const exposureConfiguration = await this.getExposureConfiguration();
     const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
     if (hasPendingExposureSummary) {
       return;
