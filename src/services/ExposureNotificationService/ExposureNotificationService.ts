@@ -39,22 +39,21 @@ export enum ExposureStatusType {
   Diagnosed = 'diagnosed',
 }
 
+export interface LastChecked {
+  period: number;
+  timestamp: number;
+}
+
 export type ExposureStatus =
   | {
       type: ExposureStatusType.Monitoring;
-      lastChecked?: {
-        period: number;
-        timestamp: number;
-      };
+      lastChecked?: LastChecked;
     }
   | {
       type: ExposureStatusType.Exposed;
       summary: ExposureSummary;
       notificationSent?: boolean;
-      lastChecked?: {
-        period: number;
-        timestamp: number;
-      };
+      lastChecked?: LastChecked;
     }
   | {
       type: ExposureStatusType.Diagnosed;
@@ -63,10 +62,7 @@ export type ExposureStatus =
       uploadReminderLastSentAt?: number;
       cycleStartsAt: number;
       cycleEndsAt: number;
-      lastChecked?: {
-        period: number;
-        timestamp: number;
-      };
+      lastChecked?: LastChecked;
     };
 
 export interface PersistencyProvider {
