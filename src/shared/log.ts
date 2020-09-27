@@ -42,6 +42,28 @@ export const priorityCaptureMessage = async (message: string, params: {[key in s
   if (__DEV__ && !isTest()) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
+
+  if (LOGGLY_URL) {
+    fetch(LOGGLY_URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        finalMessage,
+        uuid,
+        APP_ID,
+        APP_VERSION_CODE,
+        APP_VERSION_NAME,
+        SUBMIT_URL,
+        RETRIEVE_URL,
+        payload: finalParams,
+      }),
+    }).catch(error => {
+      console.log(error); // eslint-disable-line no-console
+    });
+  }
 };
 
 export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
