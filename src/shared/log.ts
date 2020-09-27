@@ -1,5 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import {Platform} from 'react-native';
+import {LOGGLY_URL, APP_VERSION_NAME, APP_VERSION_CODE, APP_ID, SUBMIT_URL, RETRIEVE_URL} from 'env';
 
+const PLATFORM = Platform.OS;
 const UUID_KEY = 'UUID_KEY';
 
 const getRandomString = (size: number) => {
@@ -42,18 +45,41 @@ export const priorityCaptureMessage = async (message: string, params: {[key in s
 };
 
 export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
+  //
   const uuid = await getLogUUID();
-  const finalMessage = `[${uuid}] ${message}`.replace(/\n/g, '');
+  const finalMessage = `[${uuid}] - ${PLATFORM} ${message}`.replace(/\n/g, '');
   const finalParams = params;
 
   if (__DEV__ && !isTest()) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
+
+  if (LOGGLY_URL) {
+    fetch(LOGGLY_URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        finalMessage,
+        uuid,
+        APP_ID,
+        APP_VERSION_CODE,
+        APP_VERSION_NAME,
+        SUBMIT_URL,
+        RETRIEVE_URL,
+        payload: finalParams,
+      }),
+    }).catch(error => {
+      console.log(error); // eslint-disable-line no-console
+    });
+  }
 };
 
 export const captureException = async (message: string, error: any, params: {[key in string]: any} = {}) => {
   const uuid = await getLogUUID();
-  const finalMessage = `[${uuid}] Error: ${message}`.replace(/\n/g, '');
+  const finalMessage = `[${uuid}] - ${PLATFORM} Error: ${message}`.replace(/\n/g, '');
 
   const finalParams = {
     ...params,
@@ -65,5 +91,27 @@ export const captureException = async (message: string, error: any, params: {[ke
 
   if (__DEV__ && !isTest()) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
+  }
+
+  if (LOGGLY_URL) {
+    fetch(LOGGLY_URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        finalMessage,
+        uuid,
+        APP_ID,
+        APP_VERSION_CODE,
+        APP_VERSION_NAME,
+        SUBMIT_URL,
+        RETRIEVE_URL,
+        payload: finalParams,
+      }),
+    }).catch(error => {
+      console.log(error); // eslint-disable-line no-console
+    });
   }
 };

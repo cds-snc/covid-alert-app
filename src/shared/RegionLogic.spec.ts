@@ -1,6 +1,11 @@
 // @ts-nocheck
 // turned off so we can pass bad values from tests
-import {parseRegions, isRegionActive, getRegionCase} from './RegionLogic';
+import {createRegionalI18n} from 'locale/regional';
+import REGION_CONTENT from 'locale/translations/region.json';
+
+import {parseRegions, isRegionActive, getExposedHelpURL, getRegionCase, getExposedHelpMenuURL} from './RegionLogic';
+
+const regionalI18n = createRegionalI18n('en', REGION_CONTENT);
 
 describe('can parse region parseRegions([])', () => {
   it('handles and empty array', async () => {
@@ -53,5 +58,43 @@ describe('getRegionCase', () => {
   it('returns regionNotActive', async () => {
     expect(getRegionCase('ON', [])).toStrictEqual('regionNotActive');
     expect(getRegionCase('NL', ['ON'])).toStrictEqual('regionNotActive');
+  });
+});
+
+describe('getExposedHelpURL', () => {
+  it('gives the right URL for active regions', async () => {
+    ['ON', 'NL', 'NB', 'SK'].forEach(region => {
+      expect(getExposedHelpURL(region, regionalI18n)).toStrictEqual(
+        regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`),
+      );
+    });
+  });
+  it('gives the right URL for inactive regions', async () => {
+    ['AB', 'BC', 'MB', 'NT', 'NS', 'NU', 'PE', 'QC', 'YT'].forEach(region => {
+      expect(getExposedHelpURL(region, regionalI18n)).toStrictEqual(
+        regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`),
+      );
+    });
+  });
+  it('gives the right URL if no region is selected', async () => {
+    expect(getExposedHelpURL('', regionalI18n)).toStrictEqual(
+      regionalI18n.translate('RegionContent.ExposureView.Inactive.CA.URL'),
+    );
+    expect(getExposedHelpURL(undefined, regionalI18n)).toStrictEqual(
+      regionalI18n.translate('RegionContent.ExposureView.Inactive.CA.URL'),
+    );
+  });
+});
+
+describe('getExposedHelpMenuURL', () => {
+  it('gives the custom URL if specified', async () => {
+    expect(getExposedHelpMenuURL('ON', regionalI18n)).toStrictEqual(
+      regionalI18n.translate('RegionContent.Home.ON.ExposedHelpLink'),
+    );
+  });
+  it('gives the default provincial url if no custom is defined', async () => {
+    expect(getExposedHelpMenuURL('SK', regionalI18n)).toStrictEqual(
+      regionalI18n.translate('RegionContent.ExposureView.Active.SK.URL'),
+    );
   });
 });
