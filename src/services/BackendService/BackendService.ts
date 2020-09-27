@@ -7,7 +7,7 @@ import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, REGION_JSON_URL} from 'env';
-import {captureMessage, captureException} from 'shared/log';
+import {captureMessage, priorityCaptureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -63,37 +63,37 @@ export class BackendService implements BackendInterface {
     const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
     const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
 
-    captureMessage('getRegionContent()', {regionContentUrl});
-    captureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
+    priorityCaptureMessage('getRegionContent()', {regionContentUrl});
+    priorityCaptureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
 
     if (storedRegionContent !== null && storedEtagForUrl !== null) {
       headers['If-None-Match'] = storedEtagForUrl;
     }
-    captureMessage('getRegionContent() headers', headers);
+    priorityCaptureMessage('getRegionContent() headers', headers);
     const response = await fetch(regionContentUrl, {method: 'GET', headers});
-    captureMessage('getRegionContent() response status', {status: response.status});
+    priorityCaptureMessage('getRegionContent() response status', {status: response.status});
     if (response.status === 304 && storedRegionContent) {
-      captureMessage('getRegionContent() use stored local content.');
+      priorityCaptureMessage('getRegionContent() use stored local content.');
       const payload = JSON.parse(storedRegionContent);
       return {status: 304, payload};
     }
 
     try {
-      captureMessage('getRegionContent() saving regions content');
-      captureMessage('getRegionContent() response headers', {header: response.headers});
+      priorityCaptureMessage('getRegionContent() saving regions content');
+      priorityCaptureMessage('getRegionContent() response headers', {header: response.headers});
       const etag = response.headers.get('Etag');
 
       if (etag) {
         await AsyncStorage.setItem(eTagStorageKey, etag);
       }
 
-      captureMessage('getRegionContent() response', {response});
+      priorityCaptureMessage('getRegionContent() response', {response});
       const result = await response.json();
       await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
-      captureMessage('getRegionContent() using downloaded content.', result);
+      priorityCaptureMessage('getRegionContent() using downloaded content.', result);
       return {status: 200, payload: result};
     } catch (err) {
-      captureMessage(`ERROR: getRegionContent() ${err.message}`);
+      priorityCaptureMessage(`ERROR: getRegionContent() ${err.message}`);
       return {status: 400, payload: null};
     }
   }

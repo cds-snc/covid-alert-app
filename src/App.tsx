@@ -22,7 +22,7 @@ import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage, captureException} from 'shared/log';
+import {captureMessage, priorityCaptureMessage, captureException} from 'shared/log';
 import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
@@ -65,9 +65,9 @@ const App = () => {
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      captureMessage('onAppStateChange', {appState: newState});
+      priorityCaptureMessage('onAppStateChange', {appState: newState});
       if (newState === 'active') {
-        captureMessage('app is active - fetch data', {appState: newState});
+        priorityCaptureMessage('app is active - fetch data', {appState: newState});
         await fetchData();
       }
     };

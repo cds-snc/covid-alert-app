@@ -31,6 +31,16 @@ const isTest = () => {
   return process.env.JEST_WORKER_ID !== undefined;
 };
 
+export const priorityCaptureMessage = async (message: string, params: {[key in string]: any} = {}) => {
+  const uuid = await getLogUUID();
+  const finalMessage = `[${uuid}] ${message}`.replace(/\n/g, '');
+  const finalParams = params;
+
+  if (__DEV__ && !isTest()) {
+    console.log(finalMessage, finalParams); // eslint-disable-line no-console
+  }
+};
+
 export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
   const uuid = await getLogUUID();
   const finalMessage = `[${uuid}] ${message}`.replace(/\n/g, '');

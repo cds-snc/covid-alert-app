@@ -4,6 +4,7 @@ import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {ExposedHelpButton} from '../../../components/ExposedHelpButton';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -16,6 +17,7 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (
       <BaseHomeView iconName="thumbs-up">
+        <ExposedHelpButton />
         <AllSetView
           testID="allSetCoveredRegionView"
           isBottomSheetExpanded={isBottomSheetExpanded}
