@@ -72,6 +72,8 @@ export const captureMessage = async (message: string, params: {[key in string]: 
   const finalMessage = `[${uuid}] - ${PLATFORM} ${message}`.replace(/\n/g, '');
   const finalParams = params;
 
+  return;
+
   if (__DEV__ && !isTest()) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }

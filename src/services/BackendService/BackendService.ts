@@ -59,41 +59,52 @@ export class BackendService implements BackendInterface {
       ? REGION_JSON_URL
       : `${this.retrieveUrl}/exposure-configuration/region.json`;
 
-    const eTagStorageKey = `etag-${regionContentUrl}`;
-    const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
-    const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
+    //const eTagStorageKey = `etag-${regionContentUrl}`;
+
+    // priorityCaptureMessage(`etag-${regionContentUrl}`);
+
+    //const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
 
     priorityCaptureMessage('getRegionContent()', {regionContentUrl});
-    priorityCaptureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
+    // priorityCaptureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
 
-    if (storedRegionContent !== null && storedEtagForUrl !== null) {
-      headers['If-None-Match'] = storedEtagForUrl;
-    }
-    priorityCaptureMessage('getRegionContent() headers', headers);
+    //if (storedRegionContent !== null && storedEtagForUrl !== null) {
+    //headers['If-None-Match'] = storedEtagForUrl;
+    //}
+    // priorityCaptureMessage('getRegionContent() headers', headers);
     const response = await fetch(regionContentUrl, {method: 'GET', headers});
-    priorityCaptureMessage('getRegionContent() response status', {status: response.status});
-    if (response.status === 304 && storedRegionContent) {
-      priorityCaptureMessage('getRegionContent() use stored local content.');
-      const payload = JSON.parse(storedRegionContent);
-      return {status: 304, payload};
-    }
+    // priorityCaptureMessage('getRegionContent() response status', {status: response.status});
+    //if (response.status === 304 || response.status === 200) {
+    // priorityCaptureMessage('use stored local content.');
+    //const payload = JSON.parse(storedRegionContent);
+    //return {status: 304, payload};
+    //}
 
     try {
-      priorityCaptureMessage('getRegionContent() saving regions content');
-      priorityCaptureMessage('getRegionContent() response headers', {header: response.headers});
-      const etag = response.headers.get('Etag');
+      //priorityCaptureMessage('saving regions content');
+      //priorityCaptureMessage('getRegionContent() response headers', {header: response.headers});
+      //const etag = response.headers.get('Etag');
 
-      if (etag) {
-        await AsyncStorage.setItem(eTagStorageKey, etag);
-      }
+      //if (etag) {
+      //priorityCaptureMessage('saving regions content')
+      //await AsyncStorage.setItem(eTagStorageKey, etag);
+      //}
 
-      priorityCaptureMessage('getRegionContent() response', {response});
+      //priorityCaptureMessage('getRegionContent() response', {response});
       const result = await response.json();
-      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
-      priorityCaptureMessage('getRegionContent() using downloaded content.', result);
+
+      let content = JSON.stringify(result);
+      content = content.split('{SERVER}').join('{STORAGE}');
+      priorityCaptureMessage(`STORE NEW: getRegionContent()`, JSON.parse(content));
+      await AsyncStorage.setItem(regionContentUrl, content);
+      //priorityCaptureMessage('getRegionContent() using downloaded content.', result);
       return {status: 200, payload: result};
     } catch (err) {
-      priorityCaptureMessage(`ERROR: getRegionContent() ${err.message}`);
+      const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
+      if (storedRegionContent) {
+        return {status: 200, payload: JSON.parse(storedRegionContent)};
+      }
+      //priorityCaptureMessage(`ERROR: getRegionContent() ${err.message}`);
       return {status: 400, payload: null};
     }
   }

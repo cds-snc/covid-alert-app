@@ -15,7 +15,7 @@ import {StorageServiceProvider, useStorageService} from 'services/StorageService
 import Reactotron from 'reactotron-react-native';
 import {AppState, AppStateStatus, NativeModules, Platform, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
+import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY, REGION_JSON_URL} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
@@ -24,6 +24,7 @@ import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {captureMessage, priorityCaptureMessage, captureException} from 'shared/log';
 import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
@@ -79,6 +80,22 @@ const App = () => {
           setRegionContent({payload: downloadedRegionContent.payload});
         }
       } catch (error) {
+        //
+
+        const regionContentUrl = REGION_JSON_URL
+          ? REGION_JSON_URL
+          : `${RETRIEVE_URL}/exposure-configuration/region.json`;
+
+        // priorityCaptureMessage(`etag-${regionContentUrl}`);
+
+        const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
+
+        priorityCaptureMessage('use stored', storedRegionContent);
+
+        setRegionContent({payload: JSON.parse(storedRegionContent)});
+
+        //
+
         captureException(error.message, error);
       }
     };

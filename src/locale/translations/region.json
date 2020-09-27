@@ -1,10 +1,5 @@
 {
-  "Active": [
-    "ON",
-    "NL",
-    "NB",
-    "SK"
-  ],
+  "Active": ["ON", "NL", "NB", "SK"],
   "en": {
     "RegionContent": {
       "Home": {
@@ -80,7 +75,7 @@
         "Active": {
           "ON": {
             "Body": "You’re at risk of being infected.",
-            "CTA": "Find out what to do next",
+            "CTA": "Baked in - Find out what to do next",
             "URL": "https://ontario.ca/covidalert-exposed"
           },
           "NL": {
@@ -113,7 +108,7 @@
             "URL": "https://bc.thrive.health/covid19/en"
           },
           "MB": {
-            "CTA": "Find out if you need to be tested",
+            "CTA": "Baked in - Find out if you need to be tested",
             "URL": "https://sharedhealthmb.ca/covid19/screening-tool/"
           },
           "NB": {
