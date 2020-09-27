@@ -7,7 +7,7 @@ import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, REGION_JSON_URL, EN_CONFIG_URL} from 'env';
-import {captureMessage, priorityCaptureMessage, captureException} from 'shared/log';
+import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
 import AsyncStorage from '@react-native-community/async-storage';
