@@ -4,8 +4,8 @@ import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import {ExposedHelpButton} from '../../../components/ExposedHelpButton';
 
+import {ExposedHelpButton} from '../../../components/ExposedHelpButton';
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
 

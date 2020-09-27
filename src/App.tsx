@@ -72,31 +72,24 @@ const App = () => {
       }
     };
 
+    const updateRegionContent = (content: RegionContentResponse) => {
+      if (content.status === 200 || content.status === 304) {
+        new JsonSchemaValidator().validateJson(content.payload, regionSchema);
+        setRegionContent({payload: content.payload});
+        return true;
+      }
+
+      return false;
+    };
+
     const fetchData = async () => {
       try {
-        const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
-        if (downloadedRegionContent.status === 200 || downloadedRegionContent.status === 304) {
-          new JsonSchemaValidator().validateJson(downloadedRegionContent.payload, regionSchema);
-          setRegionContent({payload: downloadedRegionContent.payload});
-        }
+        const regionContent: RegionContentResponse = await backendService.getRegionContent();
+        updateRegionContent(regionContent);
       } catch (error) {
-        //
-
-        const regionContentUrl = REGION_JSON_URL
-          ? REGION_JSON_URL
-          : `${RETRIEVE_URL}/exposure-configuration/region.json`;
-
-        // priorityCaptureMessage(`etag-${regionContentUrl}`);
-
-        const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
-
-        priorityCaptureMessage('use stored', storedRegionContent);
-
-        setRegionContent({payload: JSON.parse(storedRegionContent)});
-
-        //
-
-        captureException(error.message, error);
+        const regionContent: RegionContentResponse = await backendService.getStoredRegionContent();
+        const result = updateRegionContent(regionContent);
+        if (!result) captureException(error.message, error);
       }
     };
 

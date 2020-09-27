@@ -52,60 +52,33 @@ export class BackendService implements BackendInterface {
     return downloadDiagnosisKeysFile(url);
   }
 
+  getRegionContentUrl(): string {
+    return REGION_JSON_URL ? REGION_JSON_URL : `${this.retrieveUrl}/exposure-configuration/region.json`;
+  }
+
+  async getStoredRegionContent(): Promise<RegionContentResponse> {
+    const regionContentUrl = this.getRegionContentUrl();
+    const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
+    if (storedRegionContent) {
+      return {status: 200, payload: JSON.parse(storedRegionContent)};
+    }
+    return {status: 400, payload: null};
+  }
+
   async getRegionContent(): Promise<RegionContentResponse> {
     const headers: any = {};
-
-    const regionContentUrl = REGION_JSON_URL
-      ? REGION_JSON_URL
-      : `${this.retrieveUrl}/exposure-configuration/region.json`;
-
-    //const eTagStorageKey = `etag-${regionContentUrl}`;
-
-    // priorityCaptureMessage(`etag-${regionContentUrl}`);
-
-    //const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
-
-    priorityCaptureMessage('getRegionContent()', {regionContentUrl});
-    // priorityCaptureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
-
-    //if (storedRegionContent !== null && storedEtagForUrl !== null) {
-    //headers['If-None-Match'] = storedEtagForUrl;
-    //}
-    // priorityCaptureMessage('getRegionContent() headers', headers);
+    const regionContentUrl = this.getRegionContentUrl();
     const response = await fetch(regionContentUrl, {method: 'GET', headers});
-    // priorityCaptureMessage('getRegionContent() response status', {status: response.status});
-    //if (response.status === 304 || response.status === 200) {
-    // priorityCaptureMessage('use stored local content.');
-    //const payload = JSON.parse(storedRegionContent);
-    //return {status: 304, payload};
-    //}
 
     try {
-      //priorityCaptureMessage('saving regions content');
-      //priorityCaptureMessage('getRegionContent() response headers', {header: response.headers});
-      //const etag = response.headers.get('Etag');
-
-      //if (etag) {
-      //priorityCaptureMessage('saving regions content')
-      //await AsyncStorage.setItem(eTagStorageKey, etag);
-      //}
-
-      //priorityCaptureMessage('getRegionContent() response', {response});
       const result = await response.json();
-
       let content = JSON.stringify(result);
+      // this is for debugging
       content = content.split('{SERVER}').join('{STORAGE}');
-      priorityCaptureMessage(`STORE NEW: getRegionContent()`, JSON.parse(content));
       await AsyncStorage.setItem(regionContentUrl, content);
-      //priorityCaptureMessage('getRegionContent() using downloaded content.', result);
       return {status: 200, payload: result};
     } catch (err) {
-      const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
-      if (storedRegionContent) {
-        return {status: 200, payload: JSON.parse(storedRegionContent)};
-      }
-      //priorityCaptureMessage(`ERROR: getRegionContent() ${err.message}`);
-      return {status: 400, payload: null};
+      return this.getStoredRegionContent();
     }
   }
 
