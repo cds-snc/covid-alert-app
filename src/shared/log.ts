@@ -66,7 +66,7 @@ export const priorityCaptureMessage = async (message: string, params: {[key in s
   }
 };
 
-export const captureMessage = async (message: string, params: {[key in string]: any} = {}, level: number = 1) => {
+export const captureMessage = async (message: string, params: {[key in string]: any} = {}, level = 1) => {
   const uuid = await getLogUUID();
   const finalMessage = `[${uuid}] - ${PLATFORM} ${message}`.replace(/\n/g, '');
   const finalParams = params;

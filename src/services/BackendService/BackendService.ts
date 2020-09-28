@@ -80,7 +80,6 @@ export class BackendService implements BackendInterface {
       const headers: any = {};
       // try fetching server content
       const response = await fetch(this.getRegionContentUrl(), {method: 'GET', headers});
-      //const response = '/{';
       const payload = await response.json();
 
       this.isValidRegionContent({status: response.status, payload});

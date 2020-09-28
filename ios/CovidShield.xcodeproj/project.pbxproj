@@ -548,7 +548,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_IOS)";
+				PRODUCT_BUNDLE_IDENTIFIER = ca.gc.hcsc.canada.covidalert.dev;
 				PRODUCT_NAME = CovidShield;
 				PROVISIONING_PROFILE_SPECIFIER = "COVID Alert AdHoc Profile";
 				SWIFT_VERSION = 5.0;
