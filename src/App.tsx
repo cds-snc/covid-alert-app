@@ -71,24 +71,26 @@ const App = () => {
       }
     };
 
-    const updateRegionContent = (content: RegionContentResponse) => {
+    const isValidRegionContent = (content: RegionContentResponse) => {
       if (content.status === 200 || content.status === 304) {
         new JsonSchemaValidator().validateJson(content.payload, regionSchema);
-        setRegionContent({payload: content.payload});
         return true;
       }
-
       return false;
     };
 
+    const updateRegionContent = (content: RegionContentResponse) => {
+      isValidRegionContent(content);
+      setRegionContent({payload: content.payload});
+      return true;
+    };
+
     const fetchData = async () => {
+      const regionContent: RegionContentResponse = await backendService.getRegionContent();
       try {
-        const regionContent: RegionContentResponse = await backendService.getRegionContent();
         updateRegionContent(regionContent);
       } catch (error) {
-        const regionContent: RegionContentResponse = await backendService.getStoredRegionContent();
-        const result = updateRegionContent(regionContent);
-        if (!result) captureException(error.message, error);
+        captureException('fetchData', error);
       }
     };
 
