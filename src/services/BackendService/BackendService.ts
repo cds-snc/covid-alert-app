@@ -68,6 +68,7 @@ export class BackendService implements BackendInterface {
   };
 
   async getStoredRegionContent(): Promise<RegionContentResponse> {
+    captureMessage('getStoredRegionContent - server not available, loading local');
     const storedRegionContent = await AsyncStorage.getItem(this.getRegionContentUrl());
     if (storedRegionContent) {
       return {status: 200, payload: JSON.parse(storedRegionContent)};
@@ -82,6 +83,7 @@ export class BackendService implements BackendInterface {
       const response = await fetch(this.getRegionContentUrl(), {method: 'GET', headers});
       const payload = await response.json();
       this.isValidRegionContent({status: response.status, payload});
+      captureMessage('getRegionContent - saving stored content', payload);
       await AsyncStorage.setItem(this.getRegionContentUrl(), JSON.stringify(payload));
       return {status: 200, payload};
     } catch (err) {
