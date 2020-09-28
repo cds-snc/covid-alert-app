@@ -73,15 +73,11 @@ const App = () => {
     };
 
     const fetchData = async () => {
-      try {
-        const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
-        if (downloadedRegionContent.status === 200 || downloadedRegionContent.status === 304) {
-          new JsonSchemaValidator().validateJson(downloadedRegionContent.payload, regionSchema);
-          setRegionContent({payload: downloadedRegionContent.payload});
-        }
-      } catch (error) {
-        captureException(error.message, error);
+      const regionContent: RegionContentResponse = await backendService.getRegionContent();
+      if (regionContent.status === 200) {
+        setRegionContent({payload: regionContent.payload});
       }
+      return true;
     };
 
     fetchData()
