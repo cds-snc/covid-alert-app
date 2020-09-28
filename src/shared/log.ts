@@ -66,12 +66,12 @@ export const priorityCaptureMessage = async (message: string, params: {[key in s
   }
 };
 
-export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
+export const captureMessage = async (message: string, params: {[key in string]: any} = {}, level: number = 1) => {
   const uuid = await getLogUUID();
   const finalMessage = `[${uuid}] - ${PLATFORM} ${message}`.replace(/\n/g, '');
   const finalParams = params;
 
-  if (__DEV__ && !isTest()) {
+  if (__DEV__ && !isTest() && level > 1) {
     console.log(finalMessage, finalParams); // eslint-disable-line no-console
   }
 

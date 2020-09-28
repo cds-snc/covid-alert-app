@@ -11,6 +11,8 @@ import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
 import AsyncStorage from '@react-native-community/async-storage';
+import regionSchema from 'locale/translations/regionSchema.json';
+import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import {Observable} from '../../shared/Observable';
 import {Region, RegionContentResponse} from '../../shared/Region';
@@ -56,9 +58,17 @@ export class BackendService implements BackendInterface {
     return REGION_JSON_URL ? REGION_JSON_URL : `${this.retrieveUrl}/exposure-configuration/region.json`;
   }
 
+  isValidRegionContent = (content: RegionContentResponse) => {
+    if (content.status === 200 || content.status === 304) {
+      new JsonSchemaValidator().validateJson(content.payload, regionSchema);
+      return true;
+    }
+
+    throw new Error("Region content didn't validate");
+  };
+
   async getStoredRegionContent(): Promise<RegionContentResponse> {
-    const regionContentUrl = this.getRegionContentUrl();
-    const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
+    const storedRegionContent = await AsyncStorage.getItem(this.getRegionContentUrl());
     if (storedRegionContent) {
       return {status: 200, payload: JSON.parse(storedRegionContent)};
     }
@@ -66,18 +76,26 @@ export class BackendService implements BackendInterface {
   }
 
   async getRegionContent(): Promise<RegionContentResponse> {
-    const headers: any = {};
-    const regionContentUrl = this.getRegionContentUrl();
-    const response = await fetch(regionContentUrl, {method: 'GET', headers});
-
     try {
-      const result = await response.json();
-      let content = JSON.stringify(result);
+      const headers: any = {};
+      // try fetching server content
+      const response = await fetch(this.getRegionContentUrl(), {method: 'GET', headers});
+      //const response = '/{';
+      const payload = await response.json();
+
+      this.isValidRegionContent({status: response.status, payload});
+
       // this is for debugging
+      // update text so we know this was stored content
+      let content = JSON.stringify(payload);
       content = content.split('{SERVER}').join('{STORAGE}');
-      await AsyncStorage.setItem(regionContentUrl, content);
-      return {status: 200, payload: result};
+      captureMessage('getRegionContent - store content', {}, 2);
+      // end
+
+      await AsyncStorage.setItem(this.getRegionContentUrl(), content);
+      return {status: 200, payload};
     } catch (err) {
+      captureMessage('getRegionContent - fetch error', {err: err.message}, 2);
       return this.getStoredRegionContent();
     }
   }
