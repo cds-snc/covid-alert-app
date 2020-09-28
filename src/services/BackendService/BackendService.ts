@@ -77,9 +77,8 @@ export class BackendService implements BackendInterface {
 
   async getRegionContent(): Promise<RegionContentResponse> {
     try {
-      const headers: any = {};
       // try fetching server content
-      const response = await fetch(this.getRegionContentUrl(), {method: 'GET', headers});
+      const response = await fetch(this.getRegionContentUrl(), FETCH_HEADERS);
       const payload = await response.json();
       this.isValidRegionContent({status: response.status, payload});
       await AsyncStorage.setItem(this.getRegionContentUrl(), JSON.stringify(payload));
