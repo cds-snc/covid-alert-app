@@ -85,7 +85,7 @@ export class BackendService implements BackendInterface {
       await AsyncStorage.setItem(this.getRegionContentUrl(), JSON.stringify(payload));
       return {status: 200, payload};
     } catch (err) {
-      captureMessage('getRegionContent - fetch error', {err: err.message}, 2);
+      captureMessage('getRegionContent - fetch error', {err: err.message});
       return this.getStoredRegionContent();
     }
   }
