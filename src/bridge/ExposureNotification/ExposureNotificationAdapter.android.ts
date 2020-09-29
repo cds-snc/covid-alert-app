@@ -11,6 +11,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }
+      let summary: ExposureSummary;
       for (const diagnosisKeysURL of diagnosisKeysURLs) {
         const summary: ExposureSummary = await exposureNotificationAPI.detectExposure(configuration, [
           diagnosisKeysURL,
