@@ -377,7 +377,7 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
-  private async finalize(status: Partial<ExposureStatus> = {}, lastCheckedPeriod: number | undefined = undefined) {
+  private finalize(status: Partial<ExposureStatus> = {}, lastCheckedPeriod: number | undefined = undefined) {
     const previousExposureStatus = this.exposureStatus.get();
     const timestamp = getCurrentDate().getTime();
     const period =
