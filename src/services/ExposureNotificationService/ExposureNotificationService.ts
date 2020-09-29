@@ -317,30 +317,6 @@ export class ExposureNotificationService {
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
 
-    const finalize = async (
-      status: Partial<ExposureStatus> = {},
-      lastCheckedPeriod: number | undefined = undefined,
-    ) => {
-      const previousExposureStatus = this.exposureStatus.get();
-      const timestamp = getCurrentDate().getTime();
-      const period =
-        lastCheckedPeriod === undefined
-          ? status.lastChecked?.period || previousExposureStatus.lastChecked?.period || 0
-          : lastCheckedPeriod;
-      this.exposureStatus.append({
-        ...status,
-        lastChecked: {
-          timestamp,
-          period,
-        },
-      });
-      const currentExposureStatus = this.exposureStatus.get();
-      captureMessage('finalize', {
-        previousExposureStatus,
-        currentExposureStatus,
-      });
-    };
-
     const currentStatus = this.exposureStatus.get();
 
     if (currentStatus.type === ExposureStatusType.Diagnosed) {
@@ -351,15 +327,15 @@ export class ExposureNotificationService {
       // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
       if (daysBetween(today, cycleEndsAt) <= 0) {
         this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-        return finalize();
+        return this.finalize();
       }
-      return finalize({needsSubmission: await this.calculateNeedsSubmission()});
+      return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
     } else if (currentStatus.type === ExposureStatusType.Exposed) {
       const today = getCurrentDate();
       const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
       if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
         this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-        return finalize();
+        return this.finalize();
       }
     }
 
@@ -385,7 +361,7 @@ export class ExposureNotificationService {
       const durationAtNearMinutes = summary.attenuationDurations[1] / divisor;
       const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
       if (minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes) {
-        return finalize(
+        return this.finalize(
           {
             type: ExposureStatusType.Exposed,
             summary: this.selectExposureSummary(summary),
@@ -393,12 +369,33 @@ export class ExposureNotificationService {
           lastCheckedPeriod,
         );
       }
-      return finalize({}, lastCheckedPeriod);
+      return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
       captureException('performExposureStatusUpdate', error);
     }
 
-    return finalize();
+    return this.finalize();
+  }
+
+  private async finalize(status: Partial<ExposureStatus> = {}, lastCheckedPeriod: number | undefined = undefined) {
+    const previousExposureStatus = this.exposureStatus.get();
+    const timestamp = getCurrentDate().getTime();
+    const period =
+      lastCheckedPeriod === undefined
+        ? status.lastChecked?.period || previousExposureStatus.lastChecked?.period || 0
+        : lastCheckedPeriod;
+    this.exposureStatus.append({
+      ...status,
+      lastChecked: {
+        timestamp,
+        period,
+      },
+    });
+    const currentExposureStatus = this.exposureStatus.get();
+    captureMessage('finalize', {
+      previousExposureStatus,
+      currentExposureStatus,
+    });
   }
 
   private async processPendingExposureSummary() {
