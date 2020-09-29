@@ -1,5 +1,6 @@
-import nacl from 'tweetnacl';
 import crypto from 'crypto';
+
+import nacl from 'tweetnacl';
 import * as DateFns from 'shared/date-fns';
 import {blobFetch} from 'shared/fetch';
 
