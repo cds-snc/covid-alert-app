@@ -11,6 +11,8 @@ import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
 import AsyncStorage from '@react-native-community/async-storage';
+import regionSchema from 'locale/translations/regionSchema.json';
+import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import {Observable} from '../../shared/Observable';
 import {Region, RegionContentResponse} from '../../shared/Region';
@@ -52,49 +54,39 @@ export class BackendService implements BackendInterface {
     return downloadDiagnosisKeysFile(url);
   }
 
+  getRegionContentUrl(): string {
+    return REGION_JSON_URL ? REGION_JSON_URL : `${this.retrieveUrl}/exposure-configuration/region.json`;
+  }
+
+  isValidRegionContent = (content: RegionContentResponse) => {
+    if (content.status === 200 || content.status === 304) {
+      new JsonSchemaValidator().validateJson(content.payload, regionSchema);
+      return true;
+    }
+
+    throw new Error("Region content didn't validate");
+  };
+
+  async getStoredRegionContent(): Promise<RegionContentResponse> {
+    const storedRegionContent = await AsyncStorage.getItem(this.getRegionContentUrl());
+    if (storedRegionContent) {
+      return {status: 200, payload: JSON.parse(storedRegionContent)};
+    }
+    return {status: 400, payload: null};
+  }
+
   async getRegionContent(): Promise<RegionContentResponse> {
-    const headers: any = {};
-
-    const regionContentUrl = REGION_JSON_URL
-      ? REGION_JSON_URL
-      : `${this.retrieveUrl}/exposure-configuration/region.json`;
-
-    const eTagStorageKey = `etag-${regionContentUrl}`;
-    const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
-    const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
-
-    captureMessage('getRegionContent()', {regionContentUrl});
-    captureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
-
-    if (storedRegionContent !== null && storedEtagForUrl !== null) {
-      headers['If-None-Match'] = storedEtagForUrl;
-    }
-    captureMessage('getRegionContent() headers', headers);
-    const response = await fetch(regionContentUrl, {method: 'GET', headers});
-    captureMessage('getRegionContent() response status', {status: response.status});
-    if (response.status === 304 && storedRegionContent) {
-      captureMessage('getRegionContent() use stored local content.');
-      const payload = JSON.parse(storedRegionContent);
-      return {status: 304, payload};
-    }
-
     try {
-      captureMessage('getRegionContent() saving regions content');
-      captureMessage('getRegionContent() response headers', {header: response.headers});
-      const etag = response.headers.get('Etag');
-
-      if (etag) {
-        await AsyncStorage.setItem(eTagStorageKey, etag);
-      }
-
-      captureMessage('getRegionContent() response', {response});
-      const result = await response.json();
-      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
-      captureMessage('getRegionContent() using downloaded content.', result);
-      return {status: 200, payload: result};
+      const headers: any = {};
+      // try fetching server content
+      const response = await fetch(this.getRegionContentUrl(), {method: 'GET', headers});
+      const payload = await response.json();
+      this.isValidRegionContent({status: response.status, payload});
+      await AsyncStorage.setItem(this.getRegionContentUrl(), JSON.stringify(payload));
+      return {status: 200, payload};
     } catch (err) {
-      captureMessage(`ERROR: getRegionContent() ${err.message}`);
-      return {status: 400, payload: null};
+      captureMessage('getRegionContent - fetch error', {err: err.message});
+      return this.getStoredRegionContent();
     }
   }
 
