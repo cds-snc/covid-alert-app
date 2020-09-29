@@ -40,7 +40,7 @@ export const captureMessage = async (message: string, params: {[key in string]: 
   const finalParams = params;
 
   if (__DEV__ && !isTest()) {
-    console.log(finalMessage, finalParams); // eslint-disable-line no-console
+    console.log(finalMessage, JSON.stringify(finalParams)); // eslint-disable-line no-console
   }
 };
 
