@@ -280,11 +280,9 @@ export class ExposureNotificationService {
     return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
   }
 
-  private async calculateNeedsSubmission(): Promise<boolean> {
-    const exposureStatus = this.exposureStatus.get();
+  private calculateNeedsSubmission(exposureStatus: ExposureStatus, today: Date): boolean {
     if (exposureStatus.type !== ExposureStatusType.Diagnosed) return false;
 
-    const today = getCurrentDate();
     const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
     // We're done submitting keys
     // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
@@ -296,9 +294,7 @@ export class ExposureNotificationService {
     const lastSubmittedDay = new Date(submissionLastCompletedAt);
 
     // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
-    if (daysBetweenUTC(lastSubmittedDay, today) > 0) return true;
-
-    return false;
+    return daysBetweenUTC(lastSubmittedDay, today) > 0;
   }
 
   private async *keysSinceLastFetch(
@@ -363,26 +359,12 @@ export class ExposureNotificationService {
       return;
     }
     captureMessage('past pending summary check');
-    const currentStatus = this.exposureStatus.get();
 
-    if (currentStatus.type === ExposureStatusType.Diagnosed) {
-      const today = getCurrentDate();
-      const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
-      // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
-      // Let's use device timezone for resetting exposureStatus for now
-      // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
-      if (daysBetween(today, cycleEndsAt) <= 0) {
-        this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-        return this.finalize();
-      }
-      return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
-    } else if (currentStatus.type === ExposureStatusType.Exposed) {
-      const today = getCurrentDate();
-      const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
-      if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
-        this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-        return this.finalize();
-      }
+    const currentExposureStatus = this.exposureStatus.get();
+    const today = getCurrentDate();
+    const updatedExposure = this.updateExposure(currentExposureStatus, today);
+    if (updatedExposure !== currentExposureStatus) {
+      this.exposureStatus.set(updatedExposure);
     }
 
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
@@ -409,6 +391,34 @@ export class ExposureNotificationService {
     }
 
     return this.finalize();
+  }
+
+  private updateExposure(exposureStatus: ExposureStatus, today: Date): ExposureStatus {
+    switch (exposureStatus.type) {
+      case ExposureStatusType.Diagnosed:
+        // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
+        // Let's use device timezone for resetting exposureStatus for now
+        // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
+        if (daysBetween(today, new Date(exposureStatus.cycleEndsAt)) <= 0) {
+          return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
+        } else {
+          return Object.assign(exposureStatus, {
+            needsSubmission: this.calculateNeedsSubmission(exposureStatus, today),
+          });
+        }
+      case ExposureStatusType.Exposed:
+        if (
+          daysBetween(new Date(exposureStatus.summary.lastExposureTimestamp || today.getTime()), today) >=
+          EXPOSURE_NOTIFICATION_CYCLE
+        ) {
+          return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
+        } else {
+          return exposureStatus;
+        }
+      default:
+        // return the unchanged exposureStatus
+        return exposureStatus;
+    }
   }
 
   private async getKeysFileUrls() {
