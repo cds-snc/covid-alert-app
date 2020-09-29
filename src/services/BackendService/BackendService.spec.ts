@@ -1,4 +1,5 @@
 import nacl from 'tweetnacl';
+import crypto from 'crypto';
 import * as DateFns from 'shared/date-fns';
 import {blobFetch} from 'shared/fetch';
 
@@ -86,12 +87,14 @@ expect.extend({
 
 function generateRandomKeys(numberOfKeys: number) {
   const keys: TemporaryExposureKey[] = [];
+  const interval = 1000 * 60 * 60 * 24;
+  const today = (Math.floor(Date.now() / interval) * interval) / 1000;
   for (let i = 0; i < numberOfKeys; i++) {
     keys.push({
-      keyData: '',
-      rollingPeriod: i,
-      rollingStartIntervalNumber: i,
-      transmissionRiskLevel: 0,
+      keyData: crypto.randomBytes(16).toString('hex'),
+      rollingPeriod: 144,
+      rollingStartIntervalNumber: Math.floor((today - i * 60 * 60 * 24) / (60 * 10)),
+      transmissionRiskLevel: 1,
     });
   }
   return keys;
@@ -109,7 +112,6 @@ describe('BackendService', () => {
     it('returns last 14 keys if there is more than 14', async () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
       const keys = generateRandomKeys(20);
-
       await backendService.reportDiagnosisKeys(
         {
           clientPrivateKey: 'mock',
