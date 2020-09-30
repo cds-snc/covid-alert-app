@@ -8,7 +8,7 @@ lane :development_setup do
   # Get Staging Development Profile
   get_provisioning_profile(
     development: true,
-    force: true,
+    readonly: true,
     app_identifier: 'ca.gc.hcsc.canada.covidalert.dev',
     provisioning_name: 'COVID Alert Development',
     template_name: 'Exposure Notification with Logging Support for J7J9Q6KTWJ (Dev) iOS Dev',
@@ -19,7 +19,7 @@ lane :development_setup do
   # Get Production Development Profile
   get_provisioning_profile(
     development: true,
-    force: true,
+    readonly: true,
     app_identifier: 'ca.gc.hcsc.canada.stopcovid',
     provisioning_name: 'Stop COVID Development',
     template_name: 'Exposure Notification with Logging Support for J7J9Q6KTWJ (Dev) iOS Dev',
@@ -52,6 +52,7 @@ lane :staging_profiles do
 
   # Get Staging AppStore Profile
   get_provisioning_profile(
+    readonly: true,
     app_identifier: 'ca.gc.hcsc.canada.covidalert.dev',
     provisioning_name: 'COVID Alert AppStore DEV',
     template_name: 'Exposure Notification for TEAMID (Distribution) iOS Dist',
@@ -74,6 +75,7 @@ lane :production_profiles do
 
   # Get Production AppStore Profile
   get_provisioning_profile(
+    readonly: true,
     app_identifier: 'ca.gc.hcsc.canada.stopcovid',
     provisioning_name: 'Stop COVID App Store Profile',
     template_name: 'Exposure Notification for TEAMID (Distribution) iOS Dist',
