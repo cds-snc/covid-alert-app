@@ -214,7 +214,7 @@ describe('ExposureNotificationService', () => {
 
   it('backfills keys when last timestamp not available', async () => {
     dateSpy.mockImplementation((args: any) => {
-      if (args === undefined) return new OriginalDate('2020-05-19T11:10:00+0000');;
+      if (args === undefined) return new OriginalDate('2020-05-19T11:10:00+0000');
       return new OriginalDate(args);
     });
 
