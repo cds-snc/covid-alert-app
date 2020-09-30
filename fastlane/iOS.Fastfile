@@ -82,8 +82,9 @@ platform :ios do
     end
   end
 
-  private_lane :prepare_local do
-    load_env_file(buildType:'local')
+  private_lane :prepare_local do |options|
+    env = (options[:env] ? options[:env] : "local")
+    load_env_file(buildType:env)
 
     bundle_install
 
@@ -120,8 +121,9 @@ platform :ios do
   end
 
   desc "Adhoc build, upload to Diawi"
-  lane :adhoc do
-    prepare_local
+  lane :adhoc do |options|
+    env = (options[:env] ? options[:env] : "local")
+    prepare_local(env: env)
 
     output_directory = File.expand_path('../build/ios')
 
@@ -130,7 +132,6 @@ platform :ios do
       UI.success("Registering devices!")
       register_devices(
         devices_file: './fastlane/devices.txt',
-        team_id: ENV['TEAM_ID'],
         username: ENV['APPLE_ID']
       )
     end
