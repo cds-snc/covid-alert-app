@@ -20,6 +20,31 @@ or alternatively using `brew install fastlane`
 fastlane ensure_keystore_properties
 ```
 
+### development_setup
+```
+fastlane development_setup
+```
+
+### distribution_setup
+```
+fastlane distribution_setup
+```
+
+### staging_profiles
+```
+fastlane staging_profiles
+```
+
+### production_profiles
+```
+fastlane production_profiles
+```
+
+### setup
+```
+fastlane setup
+```
+
 ### load_env_file
 ```
 fastlane load_env_file
