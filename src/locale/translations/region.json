@@ -1,10 +1,5 @@
 {
-  "Active": [
-    "ON",
-    "NL",
-    "NB",
-    "SK"
-  ],
+  "Active": ["ON", "NL", "NB", "SK"],
   "en": {
     "RegionContent": {
       "Home": {
@@ -36,6 +31,13 @@
             }
           },
           "SK": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "MB": {
             "Tip": {
               "Body": "",
               "CTA": "",
@@ -73,6 +75,12 @@
             "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
             "CTA": "Help",
             "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
+          },
+          "MB": {
+            "Title": "Get a one-time key",
+            "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+            "CTA": "Help",
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
           }
         }
       },
@@ -97,6 +105,11 @@
             "Body": "You’re at risk of being infected.",
             "CTA": "Find out if you need to get tested",
             "URL": "https://www.saskatchewan.ca/covid19-apps"
+          },
+          "MB": {
+            "Body": "You’re at risk of being infected.",
+            "CTA": "Find out if you need to get tested",
+            "URL": "https://sharedhealthmb.ca/covid19/screening-tool/"
           }
         },
         "Inactive": {
@@ -195,6 +208,13 @@
                 "CTA": "",
                 "URL": ""
               }
+            },
+            "MB": {
+              "Tip": {
+                "Body": "",
+                "CTA": "",
+                "URL": ""
+              }
             }
           }
         }
@@ -228,6 +248,12 @@
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
             "CTA": "Aide",
             "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
+          },
+          "MB": {
+            "Title": "Obtenir une clé à usage unique",
+            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+            "CTA": "Aide",
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
           }
         }
       },
@@ -252,6 +278,11 @@
             "Body": "Vous êtes à risque d’être infecté.",
             "CTA": "Découvrez si vous devriez vous faire tester (page en anglais)",
             "URL": "https://www.saskatchewan.ca/covid19-apps"
+          },
+          "MB": {
+            "Body": "Vous êtes à risque d’être infecté.",
+            "CTA": "Découvrez si vous devriez vous faire tester",
+            "URL": "https://covid19.soinscommunsmb.ca/covid19/outil-de-depistage/"
           }
         },
         "Inactive": {
