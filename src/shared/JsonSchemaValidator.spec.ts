@@ -1,6 +1,7 @@
-import JsonSchemaValidator, {JsonSchemaValidationError} from './JsonSchemaValidator';
 import regionSchema from '../locale/translations/regionSchema.json';
 import REGION_CONTENT from '../locale/translations/region.json';
+
+import JsonSchemaValidator, {JsonSchemaValidationError} from './JsonSchemaValidator';
 
 describe('JsonSchemaValidator', () => {
   it('throws an exception when a bad schema is passed', async () => {
@@ -9,7 +10,7 @@ describe('JsonSchemaValidator', () => {
       result = new JsonSchemaValidator().validateJson({payload: ''}, regionSchema);
     } catch (err) {
       expect(err.name).toStrictEqual(new JsonSchemaValidationError('').name);
-      expect(result).toBe(undefined);
+      expect(result).toBeUndefined();
     }
   });
 
