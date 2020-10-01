@@ -143,8 +143,10 @@ platform :ios do
       provisioning_name: ENV["PROFILE_ADHOC"],
       template_name: 'Exposure Notification for TEAMID (Distribution) iOS Dist ADHOC',
       output_path: './fastlane/certs/ios/',
-      filename: "CovidShield_AdHoc.mobileprovision"
+      filename: "CovidAlert_AdHoc.mobileprovision"
     )
+
+    clear_derived_data
 
     build_app(
       scheme: "CovidShield",
