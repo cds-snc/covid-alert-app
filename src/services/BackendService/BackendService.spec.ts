@@ -119,9 +119,9 @@ describe('BackendService', () => {
   });
 
   describe('reportDiagnosisKeys', () => {
-    it('returns last 14 keys if there is more than 14', async () => {
+    it('returns last 28 keys if there is more than 28', async () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
-      const keys = generateRandomKeys(20);
+      const keys = generateRandomKeys(30);
       await backendService.reportDiagnosisKeys(
         {
           clientPrivateKey: 'mock',
@@ -133,12 +133,12 @@ describe('BackendService', () => {
 
       expect(covidshield.Upload.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          keys: expect.toHaveLength(14),
+          keys: expect.toHaveLength(28),
         }),
       );
       keys
         .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
-        .splice(0, 14)
+        .splice(0, 28)
         .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}))
         .forEach(value => {
           expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
