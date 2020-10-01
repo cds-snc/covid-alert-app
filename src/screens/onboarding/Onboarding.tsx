@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {StyleSheet, useWindowDimensions, View} from 'react-native';
-import Carousel, {CarouselStatic, CarouselProps} from 'react-native-snap-carousel';
+import {ListRenderItem, StyleSheet, useWindowDimensions, View} from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -15,7 +15,7 @@ import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingCont
 export const OnboardingScreen = () => {
   const navigation = useNavigation();
   const {width: viewportWidth} = useWindowDimensions();
-  const carouselRef = useRef<CarouselStatic<OnboardingKey>>(null);
+  const carouselRef = useRef<Carousel<OnboardingKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const i18n = useI18n();
   const {setOnboarded, setOnboardedDatetime, setRegion} = useStorage();
@@ -25,7 +25,7 @@ export const OnboardingScreen = () => {
   const {isScreenReaderEnabled} = useAccessibilityService();
   const currentStepForRenderItem = isScreenReaderEnabled ? currentStep : -1;
 
-  const renderItem = useCallback<CarouselProps<OnboardingKey>['renderItem']>(
+  const renderItem: ListRenderItem<OnboardingKey> = useCallback(
     ({item, index}) => {
       return (
         <View style={styles.flex} accessibilityElementsHidden={index !== currentStepForRenderItem}>
@@ -81,7 +81,7 @@ export const OnboardingScreen = () => {
       <SafeAreaView style={styles.flex}>
         <View style={styles.flex}>
           <Carousel
-            ref={carouselRef as any}
+            ref={carouselRef}
             data={onboardingData}
             renderItem={renderItem}
             sliderWidth={viewportWidth}

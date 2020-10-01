@@ -33,6 +33,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'jsx-a11y/no-autofocus': 'off',
+    'jest/no-try-expect': 'off',
   },
   ignorePatterns: [
     '**/node_modules',
