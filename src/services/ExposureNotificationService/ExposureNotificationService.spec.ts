@@ -27,8 +27,6 @@ jest.mock('../../bridge/PushNotification', () => ({
   presentLocalNotification: jest.fn(),
 }));
 
-Platform.OS = 'android';
-
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),
