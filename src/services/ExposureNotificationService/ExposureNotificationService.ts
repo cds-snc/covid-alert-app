@@ -258,6 +258,35 @@ export class ExposureNotificationService {
     return daysBetweenUTC(lastSubmittedDay, today) > 0;
   }
 
+  public updateExposure(exposureStatus: ExposureStatus, today: Date): ExposureStatus {
+    if (exposureStatus.type === ExposureStatusType.Monitoring) return exposureStatus;
+    switch (exposureStatus.type) {
+      case ExposureStatusType.Diagnosed:
+        // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
+        // Let's use device timezone for resetting exposureStatus for now
+        // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
+        if (daysBetween(today, new Date(exposureStatus.cycleEndsAt)) <= 0) {
+          return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
+        } else {
+          return Object.assign(exposureStatus, {
+            needsSubmission: this.calculateNeedsSubmission(exposureStatus, today),
+          });
+        }
+      case ExposureStatusType.Exposed:
+        if (
+          daysBetween(new Date(exposureStatus.summary.lastExposureTimestamp || today.getTime()), today) >=
+          EXPOSURE_NOTIFICATION_CYCLE
+        ) {
+          return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
+        } else {
+          return exposureStatus;
+        }
+      default:
+        // return the unchanged exposureStatus
+        return exposureStatus;
+    }
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -393,34 +422,6 @@ export class ExposureNotificationService {
     }
 
     return this.finalize();
-  }
-
-  private updateExposure(exposureStatus: ExposureStatus, today: Date): ExposureStatus {
-    switch (exposureStatus.type) {
-      case ExposureStatusType.Diagnosed:
-        // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
-        // Let's use device timezone for resetting exposureStatus for now
-        // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
-        if (daysBetween(today, new Date(exposureStatus.cycleEndsAt)) <= 0) {
-          return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
-        } else {
-          return Object.assign(exposureStatus, {
-            needsSubmission: this.calculateNeedsSubmission(exposureStatus, today),
-          });
-        }
-      case ExposureStatusType.Exposed:
-        if (
-          daysBetween(new Date(exposureStatus.summary.lastExposureTimestamp || today.getTime()), today) >=
-          EXPOSURE_NOTIFICATION_CYCLE
-        ) {
-          return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
-        } else {
-          return exposureStatus;
-        }
-      default:
-        // return the unchanged exposureStatus
-        return exposureStatus;
-    }
   }
 
   private async getKeysFileUrls() {

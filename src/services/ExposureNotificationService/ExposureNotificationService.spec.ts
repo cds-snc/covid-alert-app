@@ -704,14 +704,14 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    it('calculateNeedsSubmission when monitoring', async () => {
+    it('calculateNeedsSubmission when monitoring', () => {
       const exposureStatus: ExposureStatus = {
         type: ExposureStatusType.Monitoring,
       };
       expect(service.calculateNeedsSubmission(exposureStatus, new OriginalDate())).toStrictEqual(false);
     });
 
-    it('calculateNeedsSubmission when exposed', async () => {
+    it('calculateNeedsSubmission when exposed', () => {
       const today = new OriginalDate();
       const exposureStatus: ExposureStatus = {
         type: ExposureStatusType.Exposed,
@@ -725,7 +725,7 @@ describe('ExposureNotificationService', () => {
       expect(service.calculateNeedsSubmission(exposureStatus, today)).toStrictEqual(false);
     });
 
-    it('calculateNeedsSubmission when diagnosed false', async () => {
+    it('calculateNeedsSubmission when diagnosed false', () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const exposureStatus: ExposureStatus = {
         type: ExposureStatusType.Diagnosed,
@@ -737,7 +737,7 @@ describe('ExposureNotificationService', () => {
       expect(service.calculateNeedsSubmission(exposureStatus, today)).toStrictEqual(false);
     });
 
-    it('calculateNeedsSubmission when diagnosed true', async () => {
+    it('calculateNeedsSubmission when diagnosed true', () => {
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const exposureStatus: ExposureStatus = {
@@ -747,6 +747,18 @@ describe('ExposureNotificationService', () => {
         needsSubmission: false,
       };
       expect(service.calculateNeedsSubmission(exposureStatus, today)).toStrictEqual(false);
+    });
+
+    it('updateExposure, stay Monitoring', () => {
+      const exposureStatus: ExposureStatus = {
+        type: ExposureStatusType.Monitoring,
+      };
+      const today = new OriginalDate();
+      expect(service.updateExposure(exposureStatus, new OriginalDate())).toStrictEqual(
+        expect.objectContaining({
+          type: ExposureStatusType.Monitoring,
+        }),
+      );
     });
   });
 });
