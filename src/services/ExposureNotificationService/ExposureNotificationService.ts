@@ -370,7 +370,7 @@ export class ExposureNotificationService {
         return this.finalize();
       }
     }
-    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
+    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls(currentStatus);
 
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
@@ -396,8 +396,7 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
-  private async getKeysFileUrls(): Promise<any> {
-    const currentStatus = this.exposureStatus.get();
+  private async getKeysFileUrls(currentStatus: ExposureStatus): Promise<any> {
     const keysFileUrls: string[] = [];
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
     const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);

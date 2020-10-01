@@ -218,7 +218,7 @@ describe('ExposureNotificationService', () => {
       .mockImplementation((args: any) => new OriginalDate(args));
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(14);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
 
   it('backfills the right amount of keys for current day', async () => {
