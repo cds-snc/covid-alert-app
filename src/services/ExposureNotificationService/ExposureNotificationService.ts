@@ -228,13 +228,15 @@ export class ExposureNotificationService {
     let temporaryExposureKeys: TemporaryExposureKey[];
     try {
       temporaryExposureKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
-    } catch {
+    } catch (error) {
+      captureException('getTemporaryExposureKeyHistory', error);
       throw cannotGetTEKsError;
     }
     if (temporaryExposureKeys.length > 0) {
+      captureMessage('getTemporaryExposureKeyHistory', temporaryExposureKeys);
       await this.backendInterface.reportDiagnosisKeys(auth, temporaryExposureKeys, contagiousDateInfo);
     } else {
-      captureMessage('No TEKs available to upload');
+      captureMessage('getTemporaryExposureKeyHistory', {message: 'No TEKs available to upload'});
     }
     await this.recordKeySubmission();
   }
