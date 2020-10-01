@@ -722,5 +722,11 @@ describe('ExposureNotificationService', () => {
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       expect(service.getPeriodsSinceLastFetch(18400)).toEqual([18400]);
     });
+
+    it('returns an array of [runningPeriod, runningPeriod - 1] when current runningPeriod = _lastCheckedPeriod + 1', () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      expect(service.getPeriodsSinceLastFetch(18399)).toEqual([18400, 18399]);
+    });
   });
 });
