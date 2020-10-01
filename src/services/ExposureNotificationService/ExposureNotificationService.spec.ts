@@ -703,5 +703,50 @@ describe('ExposureNotificationService', () => {
         }),
       );
     });
+
+    it('calculateNeedsSubmission when monitoring', async () => {
+      const exposureStatus: ExposureStatus = {
+        type: ExposureStatusType.Monitoring,
+      };
+      expect(service.calculateNeedsSubmission(exposureStatus, new OriginalDate())).toStrictEqual(false);
+    });
+
+    it('calculateNeedsSubmission when exposed', async () => {
+      const today = new OriginalDate();
+      const exposureStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary: getSummary({
+          today,
+          hasMatchedKey: true,
+          daysSinceLastExposure: 7,
+          attenuationDurations: [20, 0, 0],
+        }),
+      };
+      expect(service.calculateNeedsSubmission(exposureStatus, today)).toStrictEqual(false);
+    });
+
+    it('calculateNeedsSubmission when diagnosed false', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const exposureStatus: ExposureStatus = {
+        type: ExposureStatusType.Diagnosed,
+        cycleStartsAt: new OriginalDate('2020-05-18T04:10:00+0000').getDate(),
+        cycleEndsAt: 0,
+        needsSubmission: true,
+      };
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      expect(service.calculateNeedsSubmission(exposureStatus, today)).toStrictEqual(false);
+    });
+
+    it('calculateNeedsSubmission when diagnosed true', async () => {
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const exposureStatus: ExposureStatus = {
+        type: ExposureStatusType.Diagnosed,
+        cycleStartsAt: today.getDate() - 12 * ONE_DAY,
+        cycleEndsAt: today.getDate() + 3 * ONE_DAY,
+        needsSubmission: false,
+      };
+      expect(service.calculateNeedsSubmission(exposureStatus, today)).toStrictEqual(false);
+    });
   });
 });

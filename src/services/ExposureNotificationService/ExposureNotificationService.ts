@@ -239,6 +239,25 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
+  calculateNeedsSubmission(exposureStatus: ExposureStatus, today: Date): boolean {
+    if (exposureStatus.type !== ExposureStatusType.Diagnosed) return false;
+
+    const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
+    // We're done submitting keys
+    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
+    if (daysBetweenUTC(today, cycleEndsAt) <= 0) return false;
+
+    const submissionLastCompletedAt = exposureStatus.submissionLastCompletedAt;
+    if (!submissionLastCompletedAt) {
+      return true;
+    }
+
+    const lastSubmittedDay = new Date(submissionLastCompletedAt);
+
+    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
+    return daysBetweenUTC(lastSubmittedDay, today) > 0;
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -278,23 +297,6 @@ export class ExposureNotificationService {
     const exposureDurationMinutes = durationAtImmediateMinutes + durationAtNearMinutes;
 
     return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
-  }
-
-  private calculateNeedsSubmission(exposureStatus: ExposureStatus, today: Date): boolean {
-    if (exposureStatus.type !== ExposureStatusType.Diagnosed) return false;
-
-    const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
-    // We're done submitting keys
-    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
-    if (daysBetweenUTC(today, cycleEndsAt) <= 0) return false;
-
-    const submissionLastCompletedAt = exposureStatus.submissionLastCompletedAt;
-    if (!submissionLastCompletedAt) return true;
-
-    const lastSubmittedDay = new Date(submissionLastCompletedAt);
-
-    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
-    return daysBetweenUTC(lastSubmittedDay, today) > 0;
   }
 
   private async *keysSinceLastFetch(
