@@ -27,6 +27,7 @@ const ScreenRadioSelector = () => {
     {displayName: 'Not Exposed', value: 'NoExposureView'},
     {displayName: 'Exposed', value: 'ExposureView'},
     {displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView'},
+    {displayName: 'Diagnosed', value: 'DiagnosedView'},
   ];
   return (
     <Box

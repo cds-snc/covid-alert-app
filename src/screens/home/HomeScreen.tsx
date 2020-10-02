@@ -79,15 +79,19 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
 
   // this is for the test menu
   const {forceScreen} = useStorage();
-  switch (forceScreen) {
-    case 'NoExposureView':
-      return getNoExposureView(regionCase);
-    case 'ExposureView':
-      return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case 'DiagnosedShareView':
-      return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    default:
-      break;
+  if (TEST_MODE) {
+    switch (forceScreen) {
+      case 'NoExposureView':
+        return getNoExposureView(regionCase);
+      case 'ExposureView':
+        return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      case 'DiagnosedShareView':
+        return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      case 'DiagnosedView':
+        return <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      default:
+        break;
+    }
   }
 
   switch (systemStatus) {
