@@ -8,6 +8,7 @@ import {useStorage} from 'services/StorageService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
+import {TEST_MODE} from 'env';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {Tip} from '../components/Tip';
@@ -19,9 +20,13 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   const [exposureStatus] = useExposureStatus();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
-  if (exposureStatus.type !== ExposureStatusType.Diagnosed) return null;
-
-  const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
+  let daysLeft: number;
+  if (TEST_MODE) {
+    daysLeft = 7;
+  } else {
+    if (exposureStatus.type !== ExposureStatusType.Diagnosed) return null;
+    daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
+  }
 
   return (
     <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">

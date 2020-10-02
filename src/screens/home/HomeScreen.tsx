@@ -86,6 +86,8 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
       return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case 'DiagnosedShareView':
       return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    case 'DiagnosedView':
+      return <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />;
     default:
       break;
   }
