@@ -1,5 +1,6 @@
 import React, {useCallback, useState, useEffect} from 'react';
-import {TextInput, StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import PushNotification from 'bridge/PushNotification';
@@ -12,7 +13,7 @@ import {
   useReportDiagnosis,
 } from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
-import {setLogUUID, getLogUUID, captureMessage} from 'shared/log';
+import {getLogUUID, captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
 
 import {RadioButton} from './components/RadioButtons';
@@ -104,8 +105,8 @@ const Content = () => {
   const {fetchAndSubmitKeys} = useReportDiagnosis();
 
   const [UUID, setUUID] = useState('');
-  const onApplyUUID = useCallback(() => {
-    setLogUUID(UUID);
+  const onCopyUuid = useCallback(() => {
+    Clipboard.setString(UUID);
   }, [UUID]);
 
   useEffect(() => {
@@ -133,10 +134,12 @@ const Content = () => {
         <SkipAllSetRadioSelector />
       </Section>
       <Section>
-        <Item title="UUID for debugging" />
         <Box flexDirection="row">
-          <TextInput style={styles.uuidTextInput} placeholder="UUID..." value={UUID} onChangeText={setUUID} />
-          <Button variant="thinFlat" text="Apply" onPress={onApplyUUID} />
+          <Text padding="m" style={styles.uuidText}>
+            <Text>Debug UUID: </Text>
+            <Text fontWeight="bold">{UUID}</Text>
+          </Text>
+          <Button variant="bigFlat" text="Copy" onPress={onCopyUuid} />
         </Box>
       </Section>
       <Section>
@@ -196,8 +199,8 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  uuidTextInput: {
+  uuidText: {
     flex: 1,
-    color: '#000000',
+    height: '100%',
   },
 });
