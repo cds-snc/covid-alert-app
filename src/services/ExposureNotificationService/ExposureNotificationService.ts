@@ -257,7 +257,7 @@ export class ExposureNotificationService {
   }
 
   public calculateNeedsSubmission(): boolean {
-    const exposureStatus: ExposureStatus = this.exposureStatus.get()
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
     const today: Date = getCurrentDate();
 
     if (exposureStatus === null || today === null) return false;
@@ -286,7 +286,7 @@ export class ExposureNotificationService {
   }
 
   public updateExposure(): ExposureStatus {
-    const exposureStatus: ExposureStatus = this.exposureStatus.get()
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
     const today: Date = getCurrentDate();
 
     if (exposureStatus.type === ExposureStatusType.Monitoring) return exposureStatus;

@@ -778,7 +778,7 @@ describe('ExposureNotificationService', () => {
       needsSubmission: true,
     });
     dateSpy.mockImplementation((...args: any[]) => {
-      return args.length > 0 ? new OriginalDate(... args) : new OriginalDate('2020-05-18T04:10:00+0000');
+      return args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-18T04:10:00+0000');
     });
     expect(service.calculateNeedsSubmission()).toStrictEqual(false);
   });
