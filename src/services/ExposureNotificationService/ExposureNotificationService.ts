@@ -268,9 +268,10 @@ export class ExposureNotificationService {
         if (daysBetween(today, new Date(exposureStatus.cycleEndsAt)) <= 0) {
           return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
         } else {
-          return Object.assign(exposureStatus, {
+          return {
+            ...exposureStatus,
             needsSubmission: this.calculateNeedsSubmission(exposureStatus, today),
-          });
+          };
         }
       case ExposureStatusType.Exposed:
         if (
