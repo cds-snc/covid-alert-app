@@ -394,6 +394,7 @@ export class ExposureNotificationService {
     const updatedExposure = this.updateExposure();
     if (updatedExposure !== currentExposureStatus) {
       this.exposureStatus.set(updatedExposure);
+      this.finalize();
     }
 
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
