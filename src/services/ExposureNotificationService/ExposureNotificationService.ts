@@ -240,12 +240,17 @@ export class ExposureNotificationService {
   }
 
   calculateNeedsSubmission(exposureStatus: ExposureStatus, today: Date): boolean {
+    if (exposureStatus === null || today === null) return false;
     if (exposureStatus.type !== ExposureStatusType.Diagnosed) return false;
 
+    if (isNaN(today.getTime())) return true;
+
     const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
-    // We're done submitting keys
-    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
-    if (daysBetweenUTC(today, cycleEndsAt) <= 0) return false;
+    if (isNaN(cycleEndsAt.getTime()) === false) {
+      // We're done submitting keys
+      // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
+      if (daysBetweenUTC(today, cycleEndsAt) <= 0) return false;
+    }
 
     const submissionLastCompletedAt = exposureStatus.submissionLastCompletedAt;
     if (!submissionLastCompletedAt) {
@@ -253,6 +258,8 @@ export class ExposureNotificationService {
     }
 
     const lastSubmittedDay = new Date(submissionLastCompletedAt);
+
+    if (isNaN(lastSubmittedDay.getTime())) return true;
 
     // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
     return daysBetweenUTC(lastSubmittedDay, today) > 0;
