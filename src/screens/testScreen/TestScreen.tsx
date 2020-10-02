@@ -135,7 +135,7 @@ const Content = () => {
       </Section>
       <Section>
         <Box flexDirection="row">
-          <Text padding="m" style={styles.uuidText}>
+          <Text padding="m" style={styles.flex}>
             <Text>Debug UUID: </Text>
             <Text fontWeight="bold">{UUID}</Text>
           </Text>
@@ -198,9 +198,5 @@ export const TestScreen = () => {
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
-  },
-  uuidText: {
-    flex: 1,
-    height: '100%',
   },
 });
