@@ -289,7 +289,6 @@ export class ExposureNotificationService {
     const exposureStatus: ExposureStatus = this.exposureStatus.get();
     const today: Date = getCurrentDate();
 
-    if (exposureStatus.type === ExposureStatusType.Monitoring) return exposureStatus;
     switch (exposureStatus.type) {
       case ExposureStatusType.Diagnosed:
         // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
