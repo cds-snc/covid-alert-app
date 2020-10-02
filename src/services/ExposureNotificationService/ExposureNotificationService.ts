@@ -401,11 +401,15 @@ export class ExposureNotificationService {
     const keysFileUrls: string[] = [];
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
     const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
-    for (const period of periodsSinceLastFetch) {
-      const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
-      keysFileUrls.push(keysFileUrl);
-      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
-      captureMessage('loop - keysFileUrl', {keysFileUrl});
+    try {
+      for (const period of periodsSinceLastFetch) {
+        const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
+        keysFileUrls.push(keysFileUrl);
+        lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+        captureMessage('loop - keysFileUrl', {keysFileUrl});
+      }
+    } catch (error) {
+      captureException('Error while downloading key file', error);
     }
     return {keysFileUrls, lastCheckedPeriod};
   }
