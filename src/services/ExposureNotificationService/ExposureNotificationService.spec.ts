@@ -2,7 +2,7 @@
 import {when} from 'jest-when';
 import {Platform} from 'react-native';
 
-import {periodSinceEpoch} from '../../shared/date-fns';
+import {getCurrentDate, periodSinceEpoch} from '../../shared/date-fns';
 import {ExposureSummary} from '../../bridge/ExposureNotification';
 import PushNotification from '../../bridge/PushNotification';
 
@@ -264,7 +264,7 @@ describe('ExposureNotificationService', () => {
       .mockImplementation((args: any) => new OriginalDate(args));
 
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(14);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
 
   it('backfills the right amount of keys for current day', async () => {
@@ -746,6 +746,32 @@ describe('ExposureNotificationService', () => {
           summary: nextSummary,
         }),
       );
+    });
+  });
+
+  describe('getPeriodsSinceLastFetch', () => {
+    it('returns an array of [0, runningPeriod] if _lastCheckedPeriod is undefined', () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      expect(service.getPeriodsSinceLastFetch()).toStrictEqual([0, 18400]);
+    });
+
+    it('returns an array of checkdates between lastCheckedPeriod and runningPeriod', () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      expect(service.getPeriodsSinceLastFetch(18395)).toStrictEqual([18400, 18399, 18398, 18397, 18396, 18395]);
+    });
+
+    it('returns an array of runningPeriod when current runningPeriod == _lastCheckedPeriod', () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      expect(service.getPeriodsSinceLastFetch(18400)).toStrictEqual([18400]);
+    });
+
+    it('returns an array of [runningPeriod, runningPeriod - 1] when current runningPeriod = _lastCheckedPeriod + 1', () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      expect(service.getPeriodsSinceLastFetch(18399)).toStrictEqual([18400, 18399]);
     });
   });
 });
