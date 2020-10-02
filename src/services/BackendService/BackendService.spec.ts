@@ -1,6 +1,12 @@
+import crypto from 'crypto';
+
 import nacl from 'tweetnacl';
+import AsyncStorage from '@react-native-community/async-storage';
 import * as DateFns from 'shared/date-fns';
 import {blobFetch} from 'shared/fetch';
+import {captureMessage} from 'shared/log';
+import JsonSchemaValidator from 'shared/JsonSchemaValidator';
+import * as envs from 'env';
 
 import {getRandomBytes, downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
 import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
@@ -57,6 +63,11 @@ jest.mock('../../shared/fetch', () => ({
   blobFetch: jest.fn(),
 }));
 
+jest.mock('../../shared/log', () => ({
+  captureException: jest.fn(),
+  captureMessage: jest.fn(),
+}));
+
 /**
  * Utils for comparing jsonString
  */
@@ -86,12 +97,14 @@ expect.extend({
 
 function generateRandomKeys(numberOfKeys: number) {
   const keys: TemporaryExposureKey[] = [];
+  const interval = 1000 * 60 * 60 * 24;
+  const today = (Math.floor(Date.now() / interval) * interval) / 1000;
   for (let i = 0; i < numberOfKeys; i++) {
     keys.push({
-      keyData: '',
-      rollingPeriod: i,
-      rollingStartIntervalNumber: i,
-      transmissionRiskLevel: 0,
+      keyData: crypto.randomBytes(16).toString('hex'),
+      rollingPeriod: 144,
+      rollingStartIntervalNumber: Math.floor((today - i * 60 * 60 * 24) / (60 * 10)),
+      transmissionRiskLevel: 1,
     });
   }
   return keys;
@@ -106,10 +119,9 @@ describe('BackendService', () => {
   });
 
   describe('reportDiagnosisKeys', () => {
-    it('returns last 14 keys if there is more than 14', async () => {
+    it('returns last 28 keys if there is more than 28', async () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
-      const keys = generateRandomKeys(20);
-
+      const keys = generateRandomKeys(30);
       await backendService.reportDiagnosisKeys(
         {
           clientPrivateKey: 'mock',
@@ -121,12 +133,12 @@ describe('BackendService', () => {
 
       expect(covidshield.Upload.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          keys: expect.toHaveLength(14),
+          keys: expect.toHaveLength(28),
         }),
       );
       keys
         .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
-        .splice(0, 14)
+        .splice(0, 28)
         .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}))
         .forEach(value => {
           expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
@@ -170,6 +182,29 @@ describe('BackendService', () => {
         ),
       ).rejects.toThrow('314');
     });
+
+    it('throws a code unknown error if decode does not resolve', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const keys = generateRandomKeys(20);
+
+      blobFetch.mockImplementationOnce(() => ({
+        error: true,
+        // decode mock will override this with error
+        buffer: new Uint8Array(0),
+      }));
+      covidshield.EncryptedUploadResponse.decode.mockImplementationOnce(() => false);
+
+      await expect(
+        backendService.reportDiagnosisKeys(
+          {
+            clientPrivateKey: 'mock',
+            clientPublicKey: 'mock',
+            serverPublicKey: 'mock',
+          },
+          keys,
+        ),
+      ).rejects.toThrow('Code Unknown');
+    });
   });
 
   describe('retrieveDiagnosisKeys', () => {
@@ -189,7 +224,7 @@ describe('BackendService', () => {
       await backendService.retrieveDiagnosisKeys(18457);
 
       expect(downloadDiagnosisKeysFile).toHaveBeenCalledWith(
-        'http://localhost/retrieve/302/18457/a8527b47523dca5bfe6beb8acea351c43364d49b435a1525bdb0dc7f982dba7a',
+        `http://localhost/retrieve/${envs.MCC_CODE}/18457/a8527b47523dca5bfe6beb8acea351c43364d49b435a1525bdb0dc7f982dba7a`,
       );
     });
 
@@ -199,7 +234,7 @@ describe('BackendService', () => {
       await backendService.retrieveDiagnosisKeys(0);
 
       expect(downloadDiagnosisKeysFile).toHaveBeenCalledWith(
-        'http://localhost/retrieve/302/00000/2fd9e1da09518cf874d1520fe676b8264ac81e2e90efaefaa3a6a8eca060e742',
+        `http://localhost/retrieve/${envs.MCC_CODE}/00000/2fd9e1da09518cf874d1520fe676b8264ac81e2e90efaefaa3a6a8eca060e742`,
       );
     });
   });
@@ -258,6 +293,136 @@ describe('BackendService', () => {
       await backendService.getExposureConfiguration();
       const anticipatedURL = 'http://localhost/exposure-configuration/CA.json';
       expect(fetch).toHaveBeenCalledWith(anticipatedURL, {headers: {'Cache-Control': 'no-store'}});
+    });
+  });
+
+  describe('getRegionContentUrl', () => {
+    const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+    it('returns REGION_JSON_URL if it is not false or undefined', () => {
+      envs.REGION_JSON_URL = 'foo';
+      expect(backendService.getRegionContentUrl()).toStrictEqual(envs.REGION_JSON_URL);
+    });
+
+    it('returns a composite URL if REGION_JSON_URL is undefined', () => {
+      envs.REGION_JSON_URL = undefined;
+      expect(backendService.getRegionContentUrl()).toStrictEqual(`http://localhost/exposure-configuration/region.json`);
+    });
+
+    it('returns a composite URL if REGION_JSON_URL is false', () => {
+      envs.REGION_JSON_URL = false;
+      expect(backendService.getRegionContentUrl()).toStrictEqual(`http://localhost/exposure-configuration/region.json`);
+    });
+  });
+
+  describe('isValidRegionContent', () => {
+    const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+    it('returns true if content.status is 200 and payload is valid', () => {
+      jest.spyOn(JsonSchemaValidator.prototype, 'validateJson').mockImplementation(() => true);
+      const content = {status: 200, payload: null};
+      const result = backendService.isValidRegionContent(content);
+      expect(result).toStrictEqual(true);
+      expect(JsonSchemaValidator.prototype.validateJson).toHaveBeenCalled();
+    });
+
+    it('returns true if content.status is 304 and payload is valid', () => {
+      jest.spyOn(JsonSchemaValidator.prototype, 'validateJson').mockImplementation(() => true);
+      const content = {status: 304, payload: null};
+      const result = backendService.isValidRegionContent(content);
+      expect(result).toStrictEqual(true);
+      expect(JsonSchemaValidator.prototype.validateJson).toHaveBeenCalled();
+    });
+
+    it('throws error if content.status is not 200 or 304', () => {
+      const content = {status: 400, payload: null};
+      expect(() => {
+        backendService.isValidRegionContent(content);
+      }).toThrow("Region content didn't validate");
+    });
+
+    it('throws error if content.status is valid but they payload is not', () => {
+      jest
+        .spyOn(JsonSchemaValidator.prototype, 'validateJson')
+        .mockImplementation()
+        .mockImplementationOnce(() => {
+          // eslint-disable-next-line no-template-curly-in-string
+          throw new Error('Invalid JSON. ${validatorResult.errors.toString()}');
+        });
+      const content = {status: 200, payload: null};
+      expect(() => {
+        backendService.isValidRegionContent(content);
+        // eslint-disable-next-line no-template-curly-in-string
+      }).toThrow('Invalid JSON. ${validatorResult.errors.toString()}');
+    });
+  });
+
+  describe('getStoredRegionContent', () => {
+    const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+    it('returns {status: 400, payload: null} if there is not storage item', async () => {
+      const result = await backendService.getStoredRegionContent();
+      expect(AsyncStorage.getItem).toHaveBeenCalledWith('http://localhost/exposure-configuration/region.json');
+      expect(result).toStrictEqual({status: 400, payload: null});
+    });
+
+    it('returns {status: 200, payload: content} if there is a storage item', async () => {
+      const key = 'http://localhost/exposure-configuration/region.json';
+      const payload = {foo: 'bar'};
+      AsyncStorage.getItem.mockReturnValue(JSON.stringify(payload));
+      const result = await backendService.getStoredRegionContent();
+      expect(AsyncStorage.getItem).toHaveBeenCalledWith(key);
+      expect(result).toStrictEqual({status: 200, payload});
+    });
+  });
+
+  describe('getRegionContent', () => {
+    const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+    it('returns stored content if fetch throws an error', async () => {
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn().mockImplementation(() => {
+        throw new Error('fetch');
+      });
+
+      const call = jest.spyOn(backendService, 'getStoredRegionContent');
+
+      await backendService.getRegionContent();
+      expect(captureMessage).toHaveBeenCalledWith('getRegionContent - fetch error', {err: 'fetch'});
+      expect(backendService.getStoredRegionContent).toHaveBeenCalled();
+      call.mockReset();
+    });
+
+    it('returns stored content if isValidRegionContent throws an error', async () => {
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve({json: () => ({})}));
+
+      const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => {
+        throw new Error('isValidRegionContent');
+      });
+      const call = jest.spyOn(backendService, 'getStoredRegionContent');
+
+      await backendService.getRegionContent();
+      expect(captureMessage).toHaveBeenCalledWith('getRegionContent - fetch error', {err: 'isValidRegionContent'});
+      expect(backendService.getStoredRegionContent).toHaveBeenCalled();
+
+      spy.mockReset();
+      call.mockReset();
+    });
+
+    it('saves the content to AsyncStorage and returns it as {status: 200, payload}', async () => {
+      const payload = {foo: 'bar'};
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve({json: () => payload}));
+      const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => true);
+
+      expect(await backendService.getRegionContent()).toStrictEqual({status: 200, payload});
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'http://localhost/exposure-configuration/region.json',
+        JSON.stringify(payload),
+      );
+
+      spy.mockReset();
     });
   });
 });

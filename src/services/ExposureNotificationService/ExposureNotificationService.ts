@@ -192,6 +192,23 @@ export class ExposureNotificationService {
     return mins > MINIMUM_REMINDER_INTERVAL_MINUTES;
   }
 
+  public getPeriodsSinceLastFetch = (_lastCheckedPeriod?: number): number[] => {
+    const runningDate = getCurrentDate();
+    let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
+    captureMessage('_lastCheckedPeriod', {_lastCheckedPeriod});
+    if (!_lastCheckedPeriod) {
+      return [0, runningPeriod];
+    }
+    const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
+    captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
+    const periodsToFetch = [];
+    while (runningPeriod > lastCheckedPeriod) {
+      periodsToFetch.push(runningPeriod);
+      runningPeriod -= 1;
+    }
+    return periodsToFetch;
+  };
+
   async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
@@ -405,7 +422,6 @@ export class ExposureNotificationService {
     if (updatedExposure !== currentExposureStatus) {
       this.exposureStatus.set(updatedExposure);
     }
-
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
 
     try {
@@ -432,20 +448,20 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
-  private async getKeysFileUrls() {
+  private async getKeysFileUrls(): Promise<any> {
     const currentStatus = this.exposureStatus.get();
     const keysFileUrls: string[] = [];
-    const generator = this.keysSinceLastFetch(currentStatus.lastChecked?.period);
-    captureMessage('currentStatus.lastChecked?.period', {period: currentStatus.lastChecked?.period});
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
-    while (true) {
-      const {value, done} = await generator.next();
-      if (done) break;
-      if (!value) continue;
-      const {keysFileUrl, period} = value;
-      captureMessage('loop period', {period});
-      keysFileUrls.push(keysFileUrl);
-      lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+    const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
+    try {
+      for (const period of periodsSinceLastFetch) {
+        const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
+        keysFileUrls.push(keysFileUrl);
+        lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
+        captureMessage('loop - keysFileUrl', {keysFileUrl});
+      }
+    } catch (error) {
+      captureException('Error while downloading key file', error);
     }
     return {keysFileUrls, lastCheckedPeriod};
   }

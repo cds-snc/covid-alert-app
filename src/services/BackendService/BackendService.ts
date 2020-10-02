@@ -20,7 +20,7 @@ import {Region, RegionContentResponse} from '../../shared/Region';
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
-const MAX_UPLOAD_KEYS = 14;
+const MAX_UPLOAD_KEYS = 28;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 const TRANSMISSION_RISK_LEVEL = 1;
 
