@@ -1,5 +1,6 @@
 /* eslint-disable require-atomic-updates */
 import {when} from 'jest-when';
+import {Platform} from 'react-native';
 
 import {periodSinceEpoch} from '../../shared/date-fns';
 import {ExposureSummary} from '../../bridge/ExposureNotification';
@@ -54,11 +55,13 @@ const getSummary = ({
   hasMatchedKey,
   daysSinceLastExposure = 5,
   attenuationDurations = [0, 0, 0],
+  os = 'ios',
 }: {
   today: Date;
   hasMatchedKey: boolean;
   daysSinceLastExposure: number;
   attenuationDurations: number[];
+  os?: string;
 }) => {
   if (!hasMatchedKey) {
     return {
@@ -70,12 +73,17 @@ const getSummary = ({
     };
   }
   const lastExposureTimestamp = today.getTime() - daysSinceLastExposure * ONE_DAY;
+  const multiplier = os === 'ios' ? 60 : 1;
   return {
     daysSinceLastExposure,
     lastExposureTimestamp,
     matchedKeyCount: 1,
     maximumRiskScore: 1,
-    attenuationDurations: [60 * attenuationDurations[0], 60 * attenuationDurations[1], 60 * attenuationDurations[2]],
+    attenuationDurations: [
+      multiplier * attenuationDurations[0],
+      multiplier * attenuationDurations[1],
+      multiplier * attenuationDurations[2],
+    ],
   };
 };
 
@@ -123,6 +131,7 @@ describe('ExposureNotificationService', () => {
 
   beforeEach(() => {
     service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge);
+    Platform.OS = 'ios';
   });
 
   afterEach(() => {
@@ -130,60 +139,95 @@ describe('ExposureNotificationService', () => {
     dateSpy.mockReset();
   });
 
-  it('filters most recent over minutes threshold', async () => {
+  it.each(['ios', 'android'])('filters most recent over minutes threshold on %p', async os => {
+    Platform.OS = os;
     const today = new OriginalDate('2020-09-22T00:00:00.000Z');
-    const summaries = [
-      getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 5, attenuationDurations: [17, 0, 0]}),
-      getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 2, attenuationDurations: [5, 3, 0]}),
-      getSummary({today, hasMatchedKey: true, daysSinceLastExposure: 5, attenuationDurations: [0, 20, 0]}),
-    ];
-
-    const result = service.findSummariesContainingExposures(15, summaries);
-    expect(result[0].attenuationDurations[0]).toStrictEqual(1020);
-  });
-
-  it.each([
-    [[20, 0, 0], ExposureStatusType.Exposed],
-    [[30, 0, 0], ExposureStatusType.Exposed],
-    [[10, 0, 0], ExposureStatusType.Monitoring],
-    [[0, 10, 0], ExposureStatusType.Monitoring],
-    [[0, 10, 30], ExposureStatusType.Monitoring],
-  ])('given attenuationDurations = %p, returns status %p', async (argAttenuationDurations, expectedStatus) => {
-    const today = new OriginalDate('2020-05-18T04:10:00+0000');
-    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
-    const currentStatus: ExposureStatus = {
-      type: ExposureStatusType.Monitoring,
-    };
-
-    const exposedSummary = getSummary({
+    const notExposedSummary = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 2,
+      attenuationDurations: [5, 3, 0],
+      os,
+    });
+    const exposedSummary1 = getSummary({
       today,
       hasMatchedKey: true,
       daysSinceLastExposure: 7,
-      attenuationDurations: argAttenuationDurations,
+      attenuationDurations: [17, 0, 0],
+      os,
     });
+    const exposedSummary2 = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 5,
+      attenuationDurations: [0, 20, 0],
+      os,
+    });
+    const summaries = [notExposedSummary, exposedSummary1, exposedSummary2];
 
-    const newStatus = await testUpdateExposure(currentStatus, [exposedSummary]);
-
-    expect(newStatus).toStrictEqual(expect.objectContaining({type: expectedStatus}));
+    const result = service.findSummariesContainingExposures(15, summaries);
+    expect(result).toHaveLength(2);
+    expect(result[0]).toStrictEqual(exposedSummary2);
   });
 
   it.each([
-    [1, 10, ExposureStatusType.Exposed],
-    [10, 10, ExposureStatusType.Exposed],
-    [20, 10, ExposureStatusType.Exposed],
-    [1, 20, ExposureStatusType.Exposed],
-    [10, 20, ExposureStatusType.Exposed],
-    [20, 20, ExposureStatusType.Exposed],
+    [[20, 0, 0], 'ios', ExposureStatusType.Exposed],
+    [[30, 0, 0], 'ios', ExposureStatusType.Exposed],
+    [[10, 0, 0], 'ios', ExposureStatusType.Monitoring],
+    [[0, 10, 0], 'ios', ExposureStatusType.Monitoring],
+    [[0, 10, 30], 'ios', ExposureStatusType.Monitoring],
+    [[20, 0, 0], 'android', ExposureStatusType.Exposed],
+    [[30, 0, 0], 'android', ExposureStatusType.Exposed],
+    [[10, 0, 0], 'android', ExposureStatusType.Monitoring],
+    [[0, 10, 0], 'android', ExposureStatusType.Monitoring],
+    [[0, 10, 30], 'android', ExposureStatusType.Monitoring],
   ])(
-    'given daysSinceLastExposure = %p, immediateMinutes = %p, returns status %p',
-    async (argDaysSinceLastExposure, immediateMinutes, expectedStatus) => {
+    'given attenuationDurations = %p, os = %p, returns status %p',
+    async (argAttenuationDurations, os, expectedStatus) => {
+      Platform.OS = os;
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Monitoring,
+      };
+
+      const exposedSummary = getSummary({
+        today,
+        hasMatchedKey: true,
+        daysSinceLastExposure: 7,
+        attenuationDurations: argAttenuationDurations,
+        os,
+      });
+
+      const newStatus = await testUpdateExposure(currentStatus, [exposedSummary]);
+
+      expect(newStatus).toStrictEqual(expect.objectContaining({type: expectedStatus}));
+    },
+  );
+
+  it.each([
+    [1, 10, 'ios', ExposureStatusType.Exposed],
+    [10, 10, 'ios', ExposureStatusType.Exposed],
+    [20, 10, 'ios', ExposureStatusType.Exposed],
+    [1, 20, 'ios', ExposureStatusType.Exposed],
+    [10, 20, 'ios', ExposureStatusType.Exposed],
+    [20, 20, 'ios', ExposureStatusType.Exposed],
+    [1, 10, 'android', ExposureStatusType.Exposed],
+    [10, 10, 'android', ExposureStatusType.Exposed],
+    [20, 10, 'android', ExposureStatusType.Exposed],
+    [1, 20, 'android', ExposureStatusType.Exposed],
+    [10, 20, 'android', ExposureStatusType.Exposed],
+    [20, 20, 'android', ExposureStatusType.Exposed],
+  ])(
+    'given daysSinceLastExposure = %p, immediateMinutes = %p, os = %p, returns status %p',
+    async (argDaysSinceLastExposure, immediateMinutes, os, expectedStatus) => {
       // houdini test: if a user was exposed 7 days ago
       // and then they get a new summary with a matched key
       // but not enough time to trigger an exposure,
       // they stay exposed, no matter if the new match is
       // before or after the old match
-
+      Platform.OS = os;
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
@@ -192,6 +236,7 @@ describe('ExposureNotificationService', () => {
         hasMatchedKey: true,
         daysSinceLastExposure: 7,
         attenuationDurations: [20, 0, 0],
+        os,
       });
 
       const currentStatus: ExposureStatus = {
@@ -204,6 +249,7 @@ describe('ExposureNotificationService', () => {
         hasMatchedKey: true,
         daysSinceLastExposure: argDaysSinceLastExposure,
         attenuationDurations: [immediateMinutes, 0, 0],
+        os,
       });
 
       const newStatus = await testUpdateExposure(currentStatus, [nextSummary]);
@@ -548,20 +594,19 @@ describe('ExposureNotificationService', () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
-      const currentSummary = {
+      const currentSummary = getSummary({
+        today,
+        hasMatchedKey: true,
         daysSinceLastExposure: 8,
-        lastExposureTimestamp: today.getTime() - 8 * 3600 * 24 * 1000,
-        matchedKeyCount: 1,
-        maximumRiskScore: 1,
-        attenuationDurations: [1020, 0, 0],
-      };
-      const nextSummary = {
+        attenuationDurations: [17, 0, 0],
+      });
+      const nextSummary = getSummary({
+        today,
+        hasMatchedKey: true,
         daysSinceLastExposure: 7,
-        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-        matchedKeyCount: 1,
-        maximumRiskScore: 1,
-        attenuationDurations: [1020, 0, 0],
-      };
+        attenuationDurations: [17, 0, 0],
+      });
+
       service.exposureStatus.set({
         type: ExposureStatusType.Exposed,
         lastChecked: {
