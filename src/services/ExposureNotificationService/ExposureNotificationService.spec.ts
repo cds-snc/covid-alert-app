@@ -774,8 +774,8 @@ describe('ExposureNotificationService', () => {
     const today = new OriginalDate();
     service.exposureStatus.set({
       type: ExposureStatusType.Diagnosed,
-      cycleStartsAt: today.valueOf() - 15 * ONE_DAY,
-      cycleEndsAt: today.valueOf() - ONE_DAY,
+      cycleStartsAt: today.getTime() - 15 * ONE_DAY,
+      cycleEndsAt: today.getTime() - ONE_DAY,
       needsSubmission: true,
     });
     dateSpy.mockImplementation((...args: any[]) => {
@@ -789,8 +789,8 @@ describe('ExposureNotificationService', () => {
     const today = new OriginalDate();
     service.exposureStatus.set({
       type: ExposureStatusType.Diagnosed,
-      cycleStartsAt: today.valueOf() - 12 * ONE_DAY,
-      cycleEndsAt: today.valueOf() + 3 * ONE_DAY,
+      cycleStartsAt: today.getTime() - 12 * ONE_DAY,
+      cycleEndsAt: today.getTime() + 3 * ONE_DAY,
       needsSubmission: false,
     });
     expect(service.calculateNeedsSubmission()).toStrictEqual(true);
@@ -800,9 +800,9 @@ describe('ExposureNotificationService', () => {
     const today = new OriginalDate();
     service.exposureStatus.set({
       type: ExposureStatusType.Diagnosed,
-      cycleStartsAt: today.valueOf() - 10 * ONE_DAY,
-      cycleEndsAt: today.valueOf() + 4 * ONE_DAY,
-      submissionLastCompletedAt: today.valueOf(),
+      cycleStartsAt: today.getTime() - 10 * ONE_DAY,
+      cycleEndsAt: today.getTime() + 4 * ONE_DAY,
+      submissionLastCompletedAt: today.getTime(),
       needsSubmission: true,
     });
     dateSpy.mockImplementation((...args: any[]) => {
