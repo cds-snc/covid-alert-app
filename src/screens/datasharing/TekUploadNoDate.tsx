@@ -1,6 +1,7 @@
 import React from 'react';
 import {Box, Text, TextMultiline} from 'components';
 import {useI18n} from 'locale';
+import {ContagiousDateType} from 'shared/DataSharing';
 
 import {BaseTekUploadView, StepXofY} from './components';
 
@@ -9,7 +10,7 @@ export const TekUploadNoDate = () => {
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.TekUploadNoDate.CTA')}
-      contagiousDateInfo={{dateType: 'noDate', dateString: ''}}
+      contagiousDateInfo={{dateType: ContagiousDateType.None, dateString: ''}}
     >
       <Box paddingHorizontal="m">
         <StepXofY currentStep={3} />

@@ -9,7 +9,7 @@ import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, REGION_JSON_URL, EN_CONFIG_URL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
-import {ContagiousDateInfo} from 'screens/datasharing/components';
+import {ContagiousDateInfo} from 'shared/DataSharing';
 import AsyncStorage from '@react-native-community/async-storage';
 import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';

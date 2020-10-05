@@ -4,6 +4,7 @@ import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {FormContext} from 'shared/FormContext';
+import {ContagiousDateType} from 'shared/DataSharing';
 
 import {BaseTekUploadView, DatePicker, StepXofY} from './components';
 
@@ -16,7 +17,7 @@ export const TestDateScreen = () => {
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.TestDate.CTA')}
-      contagiousDateInfo={{dateType: 'testDate', dateString: data.testDate}}
+      contagiousDateInfo={{dateType: ContagiousDateType.TestDate, dateString: data.testDate}}
       secondaryButtonText={i18n.translate('DataUpload.TestDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
       dateSelected={data.testDate !== ''}

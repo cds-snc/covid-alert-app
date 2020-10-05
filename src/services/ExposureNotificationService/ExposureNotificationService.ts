@@ -10,7 +10,7 @@ import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
-import {ContagiousDateInfo} from 'screens/datasharing/components';
+import {ContagiousDateInfo} from 'shared/DataSharing';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 

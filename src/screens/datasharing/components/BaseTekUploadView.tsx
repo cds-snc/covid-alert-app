@@ -7,14 +7,9 @@ import {useReportDiagnosis, cannotGetTEKsError} from 'services/ExposureNotificat
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
-import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
+import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo} from 'shared/DataSharing';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
-
-export interface ContagiousDateInfo {
-  dateType: 'symptomOnsetDate' | 'testDate' | 'noDate';
-  dateString: string;
-}
 
 interface BaseTekUploadViewProps {
   buttonText: string;

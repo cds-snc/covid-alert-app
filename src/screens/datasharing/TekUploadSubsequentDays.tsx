@@ -1,6 +1,7 @@
 import React from 'react';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
+import {ContagiousDateType} from 'shared/DataSharing';
 
 import {BaseTekUploadView} from './components';
 
@@ -10,7 +11,7 @@ export const TekUploadSubsequentDays = () => {
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.ConsentView.Action')}
-      contagiousDateInfo={{dateType: 'noDate', dateString: ''}}
+      contagiousDateInfo={{dateType: ContagiousDateType.None, dateString: ''}}
       showBackButton={false}
     >
       <Box paddingHorizontal="m">

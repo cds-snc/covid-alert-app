@@ -14,6 +14,7 @@ import {
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 import {setLogUUID, getLogUUID, captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
+import {ContagiousDateType} from 'shared/DataSharing';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -145,7 +146,7 @@ const Content = () => {
           variant="bigFlat"
           onPress={async () => {
             captureMessage('Force upload keys');
-            fetchAndSubmitKeys({dateType: 'noDate', dateString: ''});
+            fetchAndSubmitKeys({dateType: ContagiousDateType.None, dateString: ''});
           }}
         />
       </Section>
