@@ -258,6 +258,67 @@ export class ExposureNotificationService {
     await this.recordKeySubmission();
   }
 
+  public calculateNeedsSubmission(): boolean {
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
+    const today: Date = getCurrentDate();
+
+    if (exposureStatus === null || today === null) return false;
+    if (exposureStatus.type !== ExposureStatusType.Diagnosed) return false;
+
+    if (isNaN(today.getTime())) return true;
+
+    const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
+    if (isNaN(cycleEndsAt.getTime()) === false) {
+      // We're done submitting keys
+      // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
+      if (daysBetweenUTC(today, cycleEndsAt) <= 0) return false;
+    }
+
+    const submissionLastCompletedAt = exposureStatus.submissionLastCompletedAt;
+    if (!submissionLastCompletedAt) {
+      return true;
+    }
+
+    const lastSubmittedDay = new Date(submissionLastCompletedAt);
+
+    if (isNaN(lastSubmittedDay.getTime())) return true;
+
+    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
+    return daysBetweenUTC(lastSubmittedDay, today) > 0;
+  }
+
+  public updateExposure(): ExposureStatus {
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
+    const today: Date = getCurrentDate();
+
+    switch (exposureStatus.type) {
+      case ExposureStatusType.Diagnosed:
+        // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
+        // Let's use device timezone for resetting exposureStatus for now
+        // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
+        if (daysBetween(today, new Date(exposureStatus.cycleEndsAt)) <= 0) {
+          return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
+        } else {
+          return {
+            ...exposureStatus,
+            needsSubmission: this.calculateNeedsSubmission(),
+          };
+        }
+      case ExposureStatusType.Exposed:
+        if (
+          daysBetween(new Date(exposureStatus.summary.lastExposureTimestamp || today.getTime()), today) >=
+          EXPOSURE_NOTIFICATION_CYCLE
+        ) {
+          return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
+        } else {
+          return exposureStatus;
+        }
+      default:
+        // return the unchanged exposureStatus
+        return exposureStatus;
+    }
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -299,27 +360,6 @@ export class ExposureNotificationService {
     return minimumExposureDurationMinutes && Math.round(exposureDurationMinutes) >= minimumExposureDurationMinutes;
   }
 
-  private async calculateNeedsSubmission(): Promise<boolean> {
-    const exposureStatus = this.exposureStatus.get();
-    if (exposureStatus.type !== ExposureStatusType.Diagnosed) return false;
-
-    const today = getCurrentDate();
-    const cycleEndsAt = new Date(exposureStatus.cycleEndsAt);
-    // We're done submitting keys
-    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
-    if (daysBetweenUTC(today, cycleEndsAt) <= 0) return false;
-
-    const submissionLastCompletedAt = exposureStatus.submissionLastCompletedAt;
-    if (!submissionLastCompletedAt) return true;
-
-    const lastSubmittedDay = new Date(submissionLastCompletedAt);
-
-    // This has to be based on UTC timezone https://github.com/cds-snc/covid-shield-mobile/issues/676
-    if (daysBetweenUTC(lastSubmittedDay, today) > 0) return true;
-
-    return false;
-  }
-
   private finalize = async (
     status: Partial<ExposureStatus> = {},
     lastCheckedPeriod: number | undefined = undefined,
@@ -351,27 +391,14 @@ export class ExposureNotificationService {
       return;
     }
     captureMessage('past pending summary check');
-    const currentStatus = this.exposureStatus.get();
 
-    if (currentStatus.type === ExposureStatusType.Diagnosed) {
-      const today = getCurrentDate();
-      const cycleEndsAt = new Date(currentStatus.cycleEndsAt);
-      // There is a case where using UTC and device timezone could mess up user experience. See `date-fn.spec.ts`
-      // Let's use device timezone for resetting exposureStatus for now
-      // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
-      if (daysBetween(today, cycleEndsAt) <= 0) {
-        this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-        return this.finalize();
-      }
-      return this.finalize({needsSubmission: await this.calculateNeedsSubmission()});
-    } else if (currentStatus.type === ExposureStatusType.Exposed) {
-      const today = getCurrentDate();
-      const lastExposureAt = new Date(currentStatus.summary.lastExposureTimestamp || today.getTime());
-      if (daysBetween(lastExposureAt, today) >= EXPOSURE_NOTIFICATION_CYCLE) {
-        this.exposureStatus.set({type: ExposureStatusType.Monitoring, lastChecked: currentStatus.lastChecked});
-        return this.finalize();
-      }
+    const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
+    const updatedExposure = this.updateExposure();
+    if (updatedExposure !== currentExposureStatus) {
+      this.exposureStatus.set(updatedExposure);
+      this.finalize();
     }
+
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
 
     try {
