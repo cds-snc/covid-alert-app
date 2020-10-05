@@ -774,24 +774,39 @@ describe('ExposureNotificationService', () => {
     const today = new OriginalDate();
     service.exposureStatus.set({
       type: ExposureStatusType.Diagnosed,
-      cycleStartsAt: today.getDate() - 15 * ONE_DAY,
-      cycleEndsAt: today.getDate() - ONE_DAY,
+      cycleStartsAt: today.valueOf() - 15 * ONE_DAY,
+      cycleEndsAt: today.valueOf() - ONE_DAY,
       needsSubmission: true,
     });
     dateSpy.mockImplementation((...args: any[]) => {
-      return args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-18T04:10:00+0000');
+      return args.length > 0 ? new OriginalDate(...args) : new OriginalDate();
     });
     expect(service.calculateNeedsSubmission()).toStrictEqual(false);
   });
 
   it('calculateNeedsSubmission when diagnosed true', () => {
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-    const today = new OriginalDate('2020-05-18T04:10:00+0000');
+    const today = new OriginalDate();
     service.exposureStatus.set({
       type: ExposureStatusType.Diagnosed,
-      cycleStartsAt: today.getDate() - 12 * ONE_DAY,
-      cycleEndsAt: today.getDate() + 3 * ONE_DAY,
+      cycleStartsAt: today.valueOf() - 12 * ONE_DAY,
+      cycleEndsAt: today.valueOf() + 3 * ONE_DAY,
       needsSubmission: false,
+    });
+    expect(service.calculateNeedsSubmission()).toStrictEqual(true);
+  });
+
+  it('calculateNeedsSubmission when already submitted for that day false', () => {
+    const today = new OriginalDate();
+    service.exposureStatus.set({
+      type: ExposureStatusType.Diagnosed,
+      cycleStartsAt: today.valueOf() - 10 * ONE_DAY,
+      cycleEndsAt: today.valueOf() + 4 * ONE_DAY,
+      submissionLastCompletedAt: today.valueOf(),
+      needsSubmission: true,
+    });
+    dateSpy.mockImplementation((...args: any[]) => {
+      return args.length > 0 ? new OriginalDate(...args) : today;
     });
     expect(service.calculateNeedsSubmission()).toStrictEqual(false);
   });
