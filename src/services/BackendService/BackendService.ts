@@ -9,7 +9,7 @@ import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, REGION_JSON_URL, EN_CONFIG_URL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch, hoursSinceEpoch} from 'shared/date-fns';
-import {ContagiousDateInfo} from 'shared/DataSharing';
+import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import AsyncStorage from '@react-native-community/async-storage';
 import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
@@ -23,6 +23,7 @@ import {BackendInterface, SubmissionKeySet} from './types';
 const MAX_UPLOAD_KEYS = 28;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 const TRANSMISSION_RISK_LEVEL = 1;
+const TEN_MINUTE_PERIODS_PER_HOUR = 6;
 
 // See https://github.com/cds-snc/covid-shield-server/pull/176
 const LAST_14_DAYS_PERIOD = '00000';
@@ -146,14 +147,14 @@ export class BackendService implements BackendInterface {
       const providedDate = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
       const providedDateHoursSinceEpoch = hoursSinceEpoch(providedDate);
       let contagiousStartHoursSinceEpoch;
-      if (contagiousDateInfo.dateType === 'symptomOnsetDate') {
+      if (contagiousDateInfo.dateType === ContagiousDateType.SymptomOnsetDate) {
         contagiousStartHoursSinceEpoch = providedDateHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET * 24;
       } else {
         contagiousStartHoursSinceEpoch = providedDateHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_TEST_DATE * 24;
       }
 
       const rollingEndIntervalNumber = key.rollingStartIntervalNumber + key.rollingPeriod;
-      const rollingEndIntervalHoursSinceEpoch = rollingEndIntervalNumber / 6;
+      const rollingEndIntervalHoursSinceEpoch = rollingEndIntervalNumber / TEN_MINUTE_PERIODS_PER_HOUR;
       if (rollingEndIntervalHoursSinceEpoch < contagiousStartHoursSinceEpoch) {
         // the TEK is before the contagious period
         return false;
