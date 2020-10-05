@@ -3,6 +3,7 @@ import {Box, Text} from 'components';
 import {TouchableOpacity, View, StyleSheet} from 'react-native';
 
 export const RadioButton = (props: any) => {
+  const selected = props.active === props.value;
   const activeStyles = props.active === props.value ? {...styles.active} : {};
   return (
     <Box marginBottom="m">
@@ -10,10 +11,12 @@ export const RadioButton = (props: any) => {
         onPress={() => {
           props.onPress(props.value);
         }}
+        accessibilityRole="radio"
+        accessibilityState={{selected}}
       >
         <Box flex={1} flexDirection="row">
           <Box style={{...styles.circle, ...activeStyles}}>
-            {props.active === props.value ? <View style={styles.checkedCircle} /> : <View />}
+            {selected ? <View style={styles.checkedCircle} /> : <View />}
           </Box>
           <Box style={styles.label}>
             <Text variant="bodyText">{props.text}</Text>
