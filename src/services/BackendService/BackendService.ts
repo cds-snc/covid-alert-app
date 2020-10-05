@@ -8,7 +8,7 @@ import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, REGION_JSON_URL, EN_CONFIG_URL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
-import {getMillisSinceUTCEpoch} from 'shared/date-fns';
+import {getMillisSinceUTCEpoch, hoursSinceEpoch} from 'shared/date-fns';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import AsyncStorage from '@react-native-community/async-storage';
 import regionSchema from 'locale/translations/regionSchema.json';
@@ -26,6 +26,10 @@ const TRANSMISSION_RISK_LEVEL = 1;
 
 // See https://github.com/cds-snc/covid-shield-server/pull/176
 const LAST_14_DAYS_PERIOD = '00000';
+
+const CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET = 2;
+// todo: fix this - not sure this should be 11 days
+const CONTAGIOUS_DAYS_BEFORE_TEST_DATE = 11;
 
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
@@ -126,15 +130,48 @@ export class BackendService implements BackendInterface {
     };
   }
 
+  filterTEKs = (contagiousDateInfo?: ContagiousDateInfo) => {
+    return (key: TemporaryExposureKey) => {
+      // This function filters out TEKs that were generated before the user was contagious.
+      // rollingStartIntervalNumber = A number describing when a key starts. It is equal to
+      // startTimeOfKeySinceEpochInSecs / (60 * 10).
+      // rollingPeriod = A number describing how long a key is valid. It is expressed in
+      // increments of 10 minutes (e.g. 144 for 24 hours).
+      // source: https://developers.google.com/android/reference/com/google/android/gms/nearby/exposurenotification/TemporaryExposureKey
+      if (!contagiousDateInfo || contagiousDateInfo.dateType === 'noDate' || !contagiousDateInfo.dateString) {
+        return true;
+      }
+      // the following is a bit hacky - maybe we should pass the date as a Date, not a string
+      const dateParts = contagiousDateInfo.dateString.split('-');
+      const providedDate = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
+      const providedDateHoursSinceEpoch = hoursSinceEpoch(providedDate);
+      let contagiousStartHoursSinceEpoch;
+      if (contagiousDateInfo.dateType === 'symptomOnsetDate') {
+        contagiousStartHoursSinceEpoch = providedDateHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET * 24;
+      } else {
+        contagiousStartHoursSinceEpoch = providedDateHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_TEST_DATE * 24;
+      }
+
+      const rollingEndIntervalNumber = key.rollingStartIntervalNumber + key.rollingPeriod;
+      const rollingEndIntervalHoursSinceEpoch = rollingEndIntervalNumber / 6;
+      if (rollingEndIntervalHoursSinceEpoch < contagiousStartHoursSinceEpoch) {
+        // the TEK is before the contagious period
+        return false;
+      }
+      return true;
+    };
+  };
+
   async reportDiagnosisKeys(
     keyPair: SubmissionKeySet,
     _exposureKeys: TemporaryExposureKey[],
     contagiousDateInfo: ContagiousDateInfo,
   ) {
     captureMessage('contagiousDateInfo', contagiousDateInfo);
-    // Ref https://github.com/CovidShield/mobile/issues/192
     const filteredExposureKeys = Object.values(
-      _exposureKeys.sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
+      _exposureKeys
+        .filter(this.filterTEKs(contagiousDateInfo))
+        .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
     captureMessage('reportDiagnosisKeys', {
