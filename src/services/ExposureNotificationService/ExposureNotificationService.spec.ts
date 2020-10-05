@@ -771,10 +771,11 @@ describe('ExposureNotificationService', () => {
   });
 
   it('calculateNeedsSubmission when diagnosed false', () => {
+    const today = new OriginalDate();
     service.exposureStatus.set({
       type: ExposureStatusType.Diagnosed,
-      cycleStartsAt: new OriginalDate('2020-05-18T04:10:00+0000').getDate(),
-      cycleEndsAt: 0,
+      cycleStartsAt: today.getDate() - 15 * ONE_DAY,
+      cycleEndsAt: today.getDate() - 1 * ONE_DAY,
       needsSubmission: true,
     });
     dateSpy.mockImplementation((...args: any[]) => {
