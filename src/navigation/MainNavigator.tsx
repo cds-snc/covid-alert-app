@@ -109,7 +109,7 @@ const DataSharingNavigator = () => {
 
   return (
     <FormContext.Provider value={{data: state, toggleModal, setSymptomOnsetDate, setTestDate}}>
-      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step2">
+      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step0">
         <DataSharingStack.Screen name="Step0" component={Step0ScreenWithNavBar} />
         <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
         <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />
