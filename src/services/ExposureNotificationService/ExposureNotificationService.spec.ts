@@ -775,7 +775,7 @@ describe('ExposureNotificationService', () => {
     service.exposureStatus.set({
       type: ExposureStatusType.Diagnosed,
       cycleStartsAt: today.getDate() - 15 * ONE_DAY,
-      cycleEndsAt: today.getDate() - 1 * ONE_DAY,
+      cycleEndsAt: today.getDate() - ONE_DAY,
       needsSubmission: true,
     });
     dateSpy.mockImplementation((...args: any[]) => {
