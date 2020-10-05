@@ -37,6 +37,7 @@
     "How": "Diagnosed with COVID-19?",
     "CTA": "What to do next",
     "HowUrl": "https://www.canada.ca/",
+    "ExposedHelpCTA": "What to do if you’re exposed",
     "DiagnosedView": {
       "Title": "Thanks for helping fight COVID-19",
       "Body1": {
@@ -60,6 +61,11 @@
     "BluetoothDisabled": "Bluetooth is off",
     "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "TurnOnBluetooth": "Turn on Bluetooth",
+    "EnUnauthorized": {
+      "Title": "COVID Alert is off",
+      "Body1": "From the button below, choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\".",
+      "CTA": "Enable COVID Alert"
+    },
     "EnDisabled": {
       "Title": "COVID Alert is off",
       "Body1": "You did not enable COVID Alert. The app needs your permission to work.",
@@ -125,7 +131,9 @@
     "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
     "ExposureNotificationCardAction": "Turn on exposure notifications",
     "NoConnectivityCardAction": "COVID Alert is offline",
-    "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures."
+    "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures.",
+    "EnUnauthorizedCardAction": "Enable COVID Alert",
+    "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\"."
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",

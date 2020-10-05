@@ -1,6 +1,6 @@
 ---
 name: Feature request | Demande liée aux fonctionnalités
-about: Request a new feature, propose changes to an existing feature, or make a suggestion. | Demander une nouvelle fonctionnalité, proposer des modifications à une fonctionnalité existante ou faire une suggestion.
+about: Request a new feature, propose changes to a feature, or make a suggestion. | Demander une nouvelle fonctionnalité, proposer des modifications à une fonctionnalité ou faire une suggestion.
 title: Request new feature | Demander une nouvelle fonctionnalité
 labels: enhancement, inbox
 assignees: ""

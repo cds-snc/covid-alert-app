@@ -15,17 +15,13 @@ import {StorageServiceProvider, useStorageService} from 'services/StorageService
 import Reactotron from 'reactotron-react-native';
 import {AppState, AppStateStatus, NativeModules, Platform, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import {DemoMode} from 'testMode';
-import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
+import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage, captureException} from 'shared/log';
-import AsyncStorage from '@react-native-community/async-storage';
-import regionSchema from 'locale/translations/regionSchema.json';
-import JsonSchemaValidator from 'shared/JsonSchemaValidator';
+import {captureMessage} from 'shared/log';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
@@ -39,7 +35,6 @@ if (Platform.OS === 'android') {
   require('date-time-format-timezone');
 }
 
-const REGION_CONTENT_KEY = 'regionContentKey';
 // grabs the ip address
 if (__DEV__) {
   const host = NativeModules.SourceCode.scriptURL.split('://')[1].split(':')[0];
@@ -74,33 +69,12 @@ const App = () => {
       }
     };
 
-    const loadStoredRegionContent = async () => {
-      const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
-      if (storedRegionContent) {
-        const storedRegionContentJson = JSON.parse(storedRegionContent);
-        try {
-          new JsonSchemaValidator().validateJson(storedRegionContentJson, regionSchema);
-          captureMessage('initData() loaded stored content.');
-          setRegionContent({payload: storedRegionContentJson});
-        } catch (error) {
-          captureException(error.message, error);
-        }
-      } else {
-        captureMessage('initData() no stored content.');
-      }
-    };
-
     const fetchData = async () => {
-      try {
-        await loadStoredRegionContent();
-        const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
-        if (downloadedRegionContent.status === 200) {
-          new JsonSchemaValidator().validateJson(downloadedRegionContent.payload, regionSchema);
-          setRegionContent({payload: downloadedRegionContent.payload});
-        }
-      } catch (error) {
-        captureException(error.message, error);
+      const regionContent: RegionContentResponse = await backendService.getRegionContent();
+      if (regionContent.status === 200) {
+        setRegionContent({payload: regionContent.payload});
       }
+      return true;
     };
 
     fetchData()
@@ -121,13 +95,7 @@ const App = () => {
         <ExposureNotificationServiceProvider backendInterface={backendService}>
           <DevPersistedNavigationContainer persistKey="navigationState">
             <AccessibilityServiceProvider>
-              {TEST_MODE ? (
-                <DemoMode>
-                  <MainNavigator />
-                </DemoMode>
-              ) : (
-                <MainNavigator />
-              )}
+              <MainNavigator />
             </AccessibilityServiceProvider>
           </DevPersistedNavigationContainer>
         </ExposureNotificationServiceProvider>

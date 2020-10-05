@@ -1,9 +1,11 @@
 import React, {useCallback} from 'react';
-import {TouchableOpacity, TouchableOpacityProps, Linking} from 'react-native';
+import {Linking, TouchableOpacity, TouchableOpacityProps} from 'react-native';
 import {Box, Text, Icon, IconProps} from 'components';
 import {useNavigation} from '@react-navigation/native';
-import {useI18n} from 'locale';
+import {useI18n, useRegionalI18n} from 'locale';
 import {captureException} from 'shared/log';
+import {useStorage} from 'services/StorageService';
+import {getExposedHelpMenuURL} from 'shared/RegionLogic';
 
 interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
@@ -41,6 +43,8 @@ const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoS
 
 export const InfoShareView = () => {
   const i18n = useI18n();
+  const {region} = useStorage();
+  const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
   const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
   const onGetCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
@@ -50,9 +54,37 @@ export const InfoShareView = () => {
   const onHelp = useCallback(() => {
     Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
+  const onExposedHelp = useCallback(() => {
+    Linking.openURL(getExposedHelpMenuURL(region, regionalI18n)).catch(error =>
+      captureException('An error occurred', error),
+    );
+  }, [region, regionalI18n]);
 
   return (
     <>
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginTop="m" marginBottom="m">
+        <InfoShareItem
+          testID="getCodeButton"
+          onPress={onGetCode}
+          text={i18n.translate('Info.GetCode')}
+          icon="icon-chevron"
+        />
+        <InfoShareItem
+          onPress={onExposedHelp}
+          text={i18n.translate('Home.ExposedHelpCTA')}
+          icon="icon-external-arrow"
+          accessibilityRole="link"
+          accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+        />
+        <InfoShareItem
+          onPress={onHelp}
+          text={i18n.translate('Info.Help')}
+          icon="icon-external-arrow"
+          accessibilityRole="link"
+          accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+          lastItem
+        />
+      </Box>
       <Box marginTop="l" marginBottom="m">
         <Text variant="settingTitle" fontWeight="normal">
           {i18n.translate('Info.SettingsTitle')}
@@ -73,22 +105,8 @@ export const InfoShareView = () => {
         </Text>
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
-        <InfoShareItem
-          testID="getCodeButton"
-          onPress={onGetCode}
-          text={i18n.translate('Info.GetCode')}
-          icon="icon-chevron"
-        />
         <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
-        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
-        <InfoShareItem
-          onPress={onHelp}
-          text={i18n.translate('Info.Help')}
-          icon="icon-external-arrow"
-          accessibilityRole="link"
-          accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
-          lastItem
-        />
+        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" lastItem />
       </Box>
     </>
   );

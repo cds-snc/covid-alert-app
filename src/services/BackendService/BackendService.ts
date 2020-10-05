@@ -6,11 +6,13 @@ import {ExposureConfiguration, TemporaryExposureKey} from 'bridge/ExposureNotifi
 import nacl from 'tweetnacl';
 import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
-import {MCC_CODE, REGION_JSON_URL} from 'env';
+import {MCC_CODE, REGION_JSON_URL, EN_CONFIG_URL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
 import {getMillisSinceUTCEpoch} from 'shared/date-fns';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
 import AsyncStorage from '@react-native-community/async-storage';
+import regionSchema from 'locale/translations/regionSchema.json';
+import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import {Observable} from '../../shared/Observable';
 import {Region, RegionContentResponse} from '../../shared/Region';
@@ -18,7 +20,7 @@ import {Region, RegionContentResponse} from '../../shared/Region';
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
 
-const MAX_UPLOAD_KEYS = 14;
+const MAX_UPLOAD_KEYS = 28;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 const TRANSMISSION_RISK_LEVEL = 1;
 
@@ -48,53 +50,42 @@ export class BackendService implements BackendInterface {
     const message = `${MCC_CODE}:${periodStr}:${Math.floor(getMillisSinceUTCEpoch() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${periodStr}/${hmac}`;
-    // captureMessage('retrieveDiagnosisKeys', {period, url});
+    captureMessage('retrieveDiagnosisKeys', {period, url});
     return downloadDiagnosisKeysFile(url);
   }
 
+  getRegionContentUrl(): string {
+    return REGION_JSON_URL ? REGION_JSON_URL : `${this.retrieveUrl}/exposure-configuration/region.json`;
+  }
+
+  isValidRegionContent = (content: RegionContentResponse) => {
+    if (content.status === 200 || content.status === 304) {
+      new JsonSchemaValidator().validateJson(content.payload, regionSchema);
+      return true;
+    }
+
+    throw new Error("Region content didn't validate");
+  };
+
+  async getStoredRegionContent(): Promise<RegionContentResponse> {
+    const storedRegionContent = await AsyncStorage.getItem(this.getRegionContentUrl());
+    if (storedRegionContent) {
+      return {status: 200, payload: JSON.parse(storedRegionContent)};
+    }
+    return {status: 400, payload: null};
+  }
+
   async getRegionContent(): Promise<RegionContentResponse> {
-    const headers: any = {};
-
-    const regionContentUrl = REGION_JSON_URL
-      ? REGION_JSON_URL
-      : `${this.retrieveUrl}/exposure-configuration/region.json`;
-
-    const eTagStorageKey = `etag-${regionContentUrl}`;
-    const storedRegionContent = await AsyncStorage.getItem(regionContentUrl);
-    const storedEtagForUrl = await AsyncStorage.getItem(eTagStorageKey);
-
-    captureMessage('getRegionContent()', {regionContentUrl});
-    captureMessage('getRegionContent() stored etag:', {etag: storedEtagForUrl, url: regionContentUrl});
-
-    if (storedRegionContent !== null && storedEtagForUrl !== null) {
-      headers['If-None-Match'] = storedEtagForUrl;
-    }
-    captureMessage('getRegionContent() headers', headers);
-    const response = await fetch(regionContentUrl, {method: 'GET', headers});
-    captureMessage('getRegionContent() response status', {status: response.status});
-    if (response.status === 304 && storedRegionContent) {
-      captureMessage('getRegionContent() use stored local content.');
-      const payload = JSON.parse(storedRegionContent);
-      return {status: 304, payload};
-    }
-
     try {
-      captureMessage('getRegionContent() saving regions content');
-      captureMessage('getRegionContent() response headers', {header: response.headers});
-      const etag = response.headers.get('Etag');
-
-      if (etag) {
-        await AsyncStorage.setItem(eTagStorageKey, etag);
-      }
-
-      captureMessage('getRegionContent() response', {response});
-      const result = await response.json();
-      await AsyncStorage.setItem(regionContentUrl, JSON.stringify(result));
-      captureMessage('getRegionContent() using downloaded content.', result);
-      return {status: 200, payload: result};
+      // try fetching server content
+      const response = await fetch(this.getRegionContentUrl(), FETCH_HEADERS);
+      const payload = await response.json();
+      this.isValidRegionContent({status: response.status, payload});
+      await AsyncStorage.setItem(this.getRegionContentUrl(), JSON.stringify(payload));
+      return {status: 200, payload};
     } catch (err) {
-      captureMessage(`ERROR: getRegionContent() ${err.message}`);
-      return {status: 400, payload: null};
+      captureMessage('getRegionContent - fetch error', {err: err.message});
+      return this.getStoredRegionContent();
     }
   }
 
@@ -102,7 +93,9 @@ export class BackendService implements BackendInterface {
     // purposely setting 'region' to the default value of `CA` regardless of what the user selected.
     // this is only for the purpose of downloading the configuration file.
     const region = 'CA';
-    const exposureConfigurationUrl = `${this.retrieveUrl}/exposure-configuration/${region}.json`;
+    const exposureConfigurationUrl = EN_CONFIG_URL
+      ? EN_CONFIG_URL
+      : `${this.retrieveUrl}/exposure-configuration/${region}.json`;
     captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
     return (await fetch(exposureConfigurationUrl, FETCH_HEADERS)).json();
   }

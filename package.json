@@ -24,7 +24,8 @@
     "deploy-ios:staging": "bundle exec fastlane ios build_and_deploy type:staging",
     "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production",
     "deploy-ios:diawi": "bundle exec fastlane ios adhoc",
-    "deploy-android:diawi": "bundle exec fastlane android adhoc"
+    "deploy-android:diawi": "bundle exec fastlane android adhoc",
+    "deploy-ios:demo": "bundle exec fastlane ios adhoc env:demo"
   },
   "dependencies": {
     "@react-native-community/async-storage": "1.9.0",
@@ -78,7 +79,7 @@
     "@types/jest": "^24.0.24",
     "@types/jest-when": "^2.7.1",
     "@types/react-native": "^0.62.0",
-    "@types/react-native-snap-carousel": "^3.8.1",
+    "@types/react-native-snap-carousel": "^3.8.2",
     "@types/react-test-renderer": "16.9.2",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",

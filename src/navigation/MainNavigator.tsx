@@ -21,6 +21,7 @@ import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
+import {TestScreen} from 'screens/testScreen';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -81,6 +82,7 @@ const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
+const TestScreenWithNavBar = withDarkNav(TestScreen);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
@@ -148,6 +150,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
       <MainStack.Screen name="HowToIsolate" component={HowToIsolateWithNavBar} />
+      <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };

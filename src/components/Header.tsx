@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {TouchableWithoutFeedback} from 'react-native';
-import {useNavigation, DrawerActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {TEST_MODE} from 'env';
 
@@ -23,7 +23,7 @@ const BasicHeader = () => {
 export const Header = () => {
   const navigation = useNavigation();
   const onLogoPress = useCallback(() => {
-    navigation.dispatch(DrawerActions.openDrawer());
+    navigation.navigate('TestScreen');
   }, [navigation]);
 
   if (TEST_MODE) {

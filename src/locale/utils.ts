@@ -1,6 +1,6 @@
 import * as RNLocalize from 'react-native-localize';
 
-export const getSystemLocale = () => {
+export const getSystemLocale = (): string => {
   const locales = RNLocalize.getLocales();
-  return locales.length > 0 ? locales[0].languageCode : 'en';
+  return locales?.length > 0 ? locales[0].languageCode : 'en';
 };
