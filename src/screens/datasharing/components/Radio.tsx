@@ -4,7 +4,7 @@ import {TouchableOpacity, View, StyleSheet} from 'react-native';
 
 export const RadioButton = (props: any) => {
   const selected = props.active === props.value;
-  const activeStyles = props.active === props.value ? {...styles.active} : {};
+  const activeStyles = selected ? {...styles.active} : {};
   return (
     <Box marginBottom="m">
       <TouchableOpacity
@@ -30,10 +30,10 @@ export const RadioButton = (props: any) => {
 const styles = StyleSheet.create({
   circle: {
     flex: 0,
-    height: 30,
-    width: 30,
-    borderRadius: 20,
-    borderWidth: 1,
+    height: 40,
+    width: 40,
+    borderRadius: 30,
+    borderWidth: 2,
     borderColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
@@ -41,16 +41,16 @@ const styles = StyleSheet.create({
   },
   label: {
     flex: 1,
-    paddingTop: 2,
+    paddingTop: 7,
   },
   active: {
-    borderWidth: 3,
+    borderWidth: 4,
   },
   checkedCircle: {
-    width: 16,
-    height: 16,
-    borderRadius: 30,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     backgroundColor: '#000',
-    borderWidth: 4,
+    borderWidth: 0,
   },
 });
