@@ -183,15 +183,21 @@ export class BackendService implements BackendInterface {
         'If-None-Match': storedEtag == null ? '' : storedEtag,
       },
     };
+
     try {
       const response = await fetch(url, headers);
       const etag = response.headers.get('Etag');
-      if (etag) {
+
+      if (etag && etag !== storedEtag) {
+        captureMessage(`updating etag`, {url, etag});
         await AsyncStorage.setItem(etagKey, etag);
+      } else if (etag === storedEtag) {
+        captureMessage(`using cached copy`, {url, etag});
       }
+
       return response;
     } catch (err) {
-      captureMessage(`fetch error ${url}, ${storedEtag}`, {err: err.message});
+      captureMessage(`fetch error}`, {err: err.message, url, etag: storedEtag});
       throw err;
     }
   }

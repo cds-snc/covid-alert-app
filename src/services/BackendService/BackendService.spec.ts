@@ -468,7 +468,7 @@ describe('BackendService', () => {
       expect(fetch).toHaveBeenCalledWith('fizz', {headers: {'Cache-Control': 'no-store', 'If-None-Match': 'foo'}});
     });
 
-    it('saves a new etag when if fetches', async () => {
+    it('saves a new etag when if fetches if etag is different', async () => {
       const payload = {foo: 'bar'};
       const url = 'fizz';
       const mock = {headers: {get: x => x}, json: () => payload};
@@ -477,6 +477,33 @@ describe('BackendService', () => {
 
       expect(await backendService.fetchCached(url)).toStrictEqual(mock);
       expect(AsyncStorage.setItem).toHaveBeenCalledWith('etag-fizz', 'Etag');
+    });
+
+    it('does not save a new etag if etag is empty', async () => {
+      const payload = {foo: 'bar'};
+      const url = 'fizz';
+      const mock = {headers: {get: () => null}, json: () => payload};
+      AsyncStorage.getItem.mockReturnValue('foo');
+
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve(mock));
+
+      expect(await backendService.fetchCached(url)).toStrictEqual(mock);
+      expect(AsyncStorage.setItem).not.toHaveBeenCalledWith('etag-fizz', null);
+    });
+
+    it('calls captureMessage when a cached version is used;', async () => {
+      const payload = {foo: 'bar'};
+      const url = 'fizz';
+      const mock = {headers: {get: () => 'foo'}, json: () => payload};
+      AsyncStorage.getItem.mockReturnValue('foo');
+
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve(mock));
+
+      expect(await backendService.fetchCached(url)).toStrictEqual(mock);
+      expect(AsyncStorage.setItem).not.toHaveBeenCalledWith('etag-fizz', 'fizz');
+      expect(captureMessage).toHaveBeenCalledWith('using cached copy', {url, etag: 'foo'});
     });
   });
 });
