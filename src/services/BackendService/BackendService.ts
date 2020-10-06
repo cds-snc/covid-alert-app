@@ -77,23 +77,8 @@ export class BackendService implements BackendInterface {
 
   async getRegionContent(): Promise<RegionContentResponse> {
     const url = this.getRegionContentUrl();
-    const etagKey = `etag-${url}`;
-    let storedEtag = await AsyncStorage.getItem(etagKey);
-    let headers = {
-      headers: {
-        'If-None-Match': storedEtag != null ? storedEtag : '',
-      },
-    };
-
     try {
-      // try fetching server content using etag for caching from browser
-      let response = await fetch(url, headers);
-      const etag = response.headers.get('Etag');
-
-      if (etag) {
-        await AsyncStorage.setItem(etagKey, etag);
-      }
-
+      const response = await this.fetchCached(url);
       const payload = await response.json();
       this.isValidRegionContent({status: response.status, payload});
       await AsyncStorage.setItem(url, JSON.stringify(payload));
@@ -187,6 +172,28 @@ export class BackendService implements BackendInterface {
 
     // captureMessage('Uploading encrypted diagnosis keys');
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
+  }
+
+  async fetchCached(url: string): Promise<Response> {
+    const etagKey = `etag-${url}`;
+    const storedEtag = await AsyncStorage.getItem(etagKey);
+    const headers = {
+      headers: {
+        'Cache-Control': 'no-store',
+        'If-None-Match': storedEtag == null ? '' : storedEtag,
+      },
+    };
+    try {
+      const response = await fetch(url, headers);
+      const etag = response.headers.get('Etag');
+      if (etag) {
+        await AsyncStorage.setItem(etagKey, etag);
+      }
+      return response;
+    } catch (err) {
+      captureMessage(`fetch error ${url}, ${storedEtag}`, {err: err.message});
+      throw err;
+    }
   }
 
   private async keyClaim(code: string, keyPair: nacl.BoxKeyPair): Promise<covidshield.KeyClaimResponse> {

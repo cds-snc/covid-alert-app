@@ -431,7 +431,7 @@ describe('BackendService', () => {
 
       await backendService.getRegionContent();
 
-      expect(fetch).toHaveBeenCalledWith('bar', {headers: {'If-None-Match': 'foo'}});
+      expect(fetch).toHaveBeenCalledWith('bar', {headers: {'Cache-Control': 'no-store', 'If-None-Match': 'foo'}});
       spy.mockReset();
     });
 
@@ -447,6 +447,36 @@ describe('BackendService', () => {
 
       urlSpy.mockReset();
       spy.mockReset();
+    });
+  });
+
+  describe('fetchCached', () => {
+    const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+    it('sends a stored etag when it fetches', async () => {
+      const payload = {foo: 'bar'};
+      const url = 'fizz';
+      const mock = {headers: {get: x => x}, json: () => payload};
+      AsyncStorage.getItem.mockReturnValue('foo');
+
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve(mock));
+
+      expect(await backendService.fetchCached(url)).toStrictEqual(mock);
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith('etag-fizz', 'Etag');
+
+      expect(fetch).toHaveBeenCalledWith('fizz', {headers: {'Cache-Control': 'no-store', 'If-None-Match': 'foo'}});
+    });
+
+    it('saves a new etag when if fetches', async () => {
+      const payload = {foo: 'bar'};
+      const url = 'fizz';
+      const mock = {headers: {get: x => x}, json: () => payload};
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve(mock));
+
+      expect(await backendService.fetchCached(url)).toStrictEqual(mock);
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith('etag-fizz', 'Etag');
     });
   });
 });
