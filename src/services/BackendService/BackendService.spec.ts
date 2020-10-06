@@ -395,7 +395,7 @@ describe('BackendService', () => {
 
     it('returns stored content if isValidRegionContent throws an error', async () => {
       // eslint-disable-next-line no-global-assign
-      fetch = jest.fn(() => Promise.resolve({json: () => ({})}));
+      fetch = jest.fn(() => Promise.resolve({headers: {get: x => x}, json: () => ({})}));
 
       const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => {
         throw new Error('isValidRegionContent');
@@ -413,7 +413,7 @@ describe('BackendService', () => {
     it('saves the content to AsyncStorage and returns it as {status: 200, payload}', async () => {
       const payload = {foo: 'bar'};
       // eslint-disable-next-line no-global-assign
-      fetch = jest.fn(() => Promise.resolve({json: () => payload}));
+      fetch = jest.fn(() => Promise.resolve({headers: {get: x => x}, json: () => payload}));
       const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => true);
 
       expect(await backendService.getRegionContent()).toStrictEqual({status: 200, payload});
@@ -422,6 +422,30 @@ describe('BackendService', () => {
         JSON.stringify(payload),
       );
 
+      spy.mockReset();
+    });
+
+    it('sends a stored etag when it fetches', async () => {
+      AsyncStorage.getItem.mockReturnValue('foo');
+      const spy = jest.spyOn(backendService, 'getRegionContentUrl').mockImplementation(() => 'bar');
+
+      await backendService.getRegionContent();
+
+      expect(fetch).toHaveBeenCalledWith('bar', {headers: {'If-None-Match': 'foo'}});
+      spy.mockReset();
+    });
+
+    it('saves a new etag when if fetches', async () => {
+      const payload = {foo: 'bar'};
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve({headers: {get: x => x}, json: () => payload}));
+      const urlSpy = jest.spyOn(backendService, 'getRegionContentUrl').mockImplementation(() => 'url');
+      const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => true);
+
+      expect(await backendService.getRegionContent()).toStrictEqual({status: 200, payload});
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith('etag-url', 'Etag');
+
+      urlSpy.mockReset();
       spy.mockReset();
     });
   });

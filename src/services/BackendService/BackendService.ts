@@ -76,12 +76,27 @@ export class BackendService implements BackendInterface {
   }
 
   async getRegionContent(): Promise<RegionContentResponse> {
+    const url = this.getRegionContentUrl();
+    const etagKey = `etag-${url}`;
+    let storedEtag = await AsyncStorage.getItem(etagKey);
+    let headers = {
+      headers: {
+        'If-None-Match': storedEtag != null ? storedEtag : '',
+      },
+    };
+
     try {
-      // try fetching server content
-      const response = await fetch(this.getRegionContentUrl(), FETCH_HEADERS);
+      // try fetching server content using etag for caching from browser
+      let response = await fetch(url, headers);
+      const etag = response.headers.get('Etag');
+
+      if (etag) {
+        await AsyncStorage.setItem(etagKey, etag);
+      }
+
       const payload = await response.json();
       this.isValidRegionContent({status: response.status, payload});
-      await AsyncStorage.setItem(this.getRegionContentUrl(), JSON.stringify(payload));
+      await AsyncStorage.setItem(url, JSON.stringify(payload));
       return {status: 200, payload};
     } catch (err) {
       captureMessage('getRegionContent - fetch error', {err: err.message});
