@@ -502,7 +502,7 @@ describe('BackendService', () => {
       fetch = jest.fn(() => Promise.resolve(mock));
 
       expect(await backendService.fetchCached(url)).toStrictEqual(mock);
-      expect(AsyncStorage.setItem).not.toHaveBeenCalledWith('etag-fizz', 'fizz');
+      expect(AsyncStorage.setItem).not.toHaveBeenCalledWith('etag-fizz', 'foo');
       expect(captureMessage).toHaveBeenCalledWith('using cached copy', {url, etag: 'foo'});
     });
   });
