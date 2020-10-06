@@ -452,10 +452,10 @@ describe('BackendService', () => {
 
   describe('fetchCached', () => {
     const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+    const payload = {foo: 'bar'};
+    const url = 'fizz';
 
     it('sends a stored etag when it fetches', async () => {
-      const payload = {foo: 'bar'};
-      const url = 'fizz';
       const mock = {headers: {get: x => x}, json: () => payload};
       AsyncStorage.getItem.mockReturnValue('foo');
 
@@ -469,8 +469,6 @@ describe('BackendService', () => {
     });
 
     it('saves a new etag when if fetches if etag is different', async () => {
-      const payload = {foo: 'bar'};
-      const url = 'fizz';
       const mock = {headers: {get: x => x}, json: () => payload};
       // eslint-disable-next-line no-global-assign
       fetch = jest.fn(() => Promise.resolve(mock));
@@ -480,8 +478,6 @@ describe('BackendService', () => {
     });
 
     it('does not save a new etag if etag is empty', async () => {
-      const payload = {foo: 'bar'};
-      const url = 'fizz';
       const mock = {headers: {get: () => null}, json: () => payload};
       AsyncStorage.getItem.mockReturnValue('foo');
 
@@ -492,9 +488,7 @@ describe('BackendService', () => {
       expect(AsyncStorage.setItem).not.toHaveBeenCalledWith('etag-fizz', null);
     });
 
-    it('calls captureMessage when a cached version is used;', async () => {
-      const payload = {foo: 'bar'};
-      const url = 'fizz';
+    it('calls captureMessage when a cached version is used', async () => {
       const mock = {headers: {get: () => 'foo'}, json: () => payload};
       AsyncStorage.getItem.mockReturnValue('foo');
 

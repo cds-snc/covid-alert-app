@@ -97,6 +97,7 @@ export class BackendService implements BackendInterface {
       ? EN_CONFIG_URL
       : `${this.retrieveUrl}/exposure-configuration/${region}.json`;
     captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
+    // Replace fetch with fetchCached when appropriate
     return (await fetch(exposureConfigurationUrl, FETCH_HEADERS)).json();
   }
 
@@ -197,7 +198,7 @@ export class BackendService implements BackendInterface {
 
       return response;
     } catch (err) {
-      captureMessage(`fetch error}`, {err: err.message, url, etag: storedEtag});
+      captureMessage(`fetch error`, {err: err.message, url, etag: storedEtag});
       throw err;
     }
   }
