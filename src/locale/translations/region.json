@@ -90,8 +90,8 @@
             "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
           },
           "QC": {
-            "Title": "Get a one-time key",
-            "Body": "You can only ask for a one-time key if you test positive for COVID-19.\n\nAfter getting your call from Public Health, you can ask for a key at 1-855-228-4253.\n\nYou need to enter the key into the app within 24 hours.",
+            "Title": "Have you tested positive?",
+            "Body": "You can only ask for a one-time key if you test positive for COVID-19.\n\nAfter getting your call from Public Health, you can ask for a key at 1-855-228-4253.\n\nDo not call unless you’ve gotten a call from Public Health about your positive test result.",
             "CTA": "Have you tested positive?\nCall 1-855-228-4253",
             "Link": "tel:1-855-228-4253"
           }
@@ -281,9 +281,9 @@
             "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
           },
           "QC": {
-            "Title": "Obtenir une clé à usage unique",
-            "Body": "Vous pouvez demander une clé à usage unique seulement si vous recevez un diagnostic de COVID-19.\n\nAprès avoir reçu l’appel de la Santé publique, appelez au 1-855-228-4253 pour demander une clé. \n\nVous aurez un délai de 24 heures pour entrer la clé dans l’application.",
-            "CTA": "Votre résultat est positif?\nAppelez au 1-855-228-4253",
+            "Title": "Avez-vous reçu un résultat positif?",
+            "Body": "Vous pouvez demander une clé à usage unique seulement si vous recevez un diagnostic de COVID-19.\n\nAprès avoir reçu l’appel de la Santé publique, appelez au 1-855-228-4253 pour demander une clé.\n\nN’appelez que si vous avez reçu un appel de la Santé publique concernant votre test positif.",
+            "CTA": "Votre résultat est-il positif?\nAppelez au 1-855-228-4253",
             "Link": "tel:1-855-228-4253"
           }
         }
