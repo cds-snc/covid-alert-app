@@ -47,7 +47,7 @@ export const InfoBlock = ({
             focusRef={focusOnTitle ? autoFocusRef : null}
             variant="menuItemTitle"
             accessibilityRole="header"
-            textAlign="center"
+            textAlign="left"
           >
             {title && <Text color={color}>{title}</Text>}
             {titleBolded && (

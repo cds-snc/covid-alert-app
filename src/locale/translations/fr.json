@@ -309,14 +309,14 @@
   "OverlayOpen": {
     "BluetoothCardAction": "Activez Bluetooth",
     "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
+    "EnterCodeCardTitle": "Avez-vous reçu un diagnostic de COVID-19?",
     "EnterCodeCardAction": "Entrer votre clé",
-    "EnterCodeCardBody": "Vous avez besoin d’une clé à usage unique pour aviser les autres personnes d’une exposition.",
+    "EnterCodeCardBody": "Pour aviser les autres personnes d’une exposition, vous avez besoin d’une clé à usage unique.",
     "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de la COVID-19. ",
     "EnterCodeCardDiagnosedCountdown": {
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
     },
-    "EnterCodeCardTitle": "Vous avez la COVID-19?",
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
     "ExposureNotificationCardAction": "Activez les notifications d’exposition",
     "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
