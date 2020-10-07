@@ -115,7 +115,7 @@
     "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
-    "EnterCodeCardBody": "You need a one-time key to let people know they’ve been exposed.",
+    "EnterCodeCardBody": "To let people know they’ve been exposed, you need a one-time key.",
     "EnterCodeCardAction": "Enter your one-time key",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
