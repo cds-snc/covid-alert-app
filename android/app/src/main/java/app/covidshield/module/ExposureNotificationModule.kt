@@ -7,8 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.location.LocationManager
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import androidx.core.location.LocationManagerCompat
 import app.covidshield.extensions.cleanup
 import app.covidshield.extensions.launch
@@ -300,9 +298,11 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     private fun isLocationEnabled(): Boolean {
-        return (!exposureNotificationClient.deviceSupportsLocationlessScanning()
-                && VERSION.SDK_INT >= VERSION_CODES.M
-                && (locationManager?.let { LocationManagerCompat.isLocationEnabled(it) } ?: false));
+        if (exposureNotificationClient.deviceSupportsLocationlessScanning()) {
+            return true
+        } else {
+            return (locationManager?.let { LocationManagerCompat.isLocationEnabled(it) } ?: false)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
