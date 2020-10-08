@@ -202,9 +202,13 @@ export class BackendService implements BackendInterface {
       } else if (response.status === 304) {
         captureMessage(`using cached copy`, {url, etag});
         const cached = await AsyncStorage.getItem(url);
-        return JSON.parse(cached);
+        if (cached === null) {
+          captureMessage(`No valid cached content found`, {url});
+          throw new Error('No valid cached content found');
+        } else {
+          return JSON.parse(cached);
+        }
       }
-      captureMessage(`no valid staus code`, {url, status: response.status});
       throw new Error('No valid status code');
     } catch (err) {
       captureMessage(`fetch error`, {err: err.message, url, etag: storedEtag});

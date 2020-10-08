@@ -482,5 +482,14 @@ describe('BackendService', () => {
       fetch = jest.fn(() => Promise.resolve(mock));
       await expect(backendService.fetchCached(url)).rejects.toStrictEqual(new Error('No valid status code'));
     });
+
+    it('throws an error if no valid cached content was found', async () => {
+      const mock = {headers: {get: () => 'foo'}, json: () => payload, status: 304};
+      AsyncStorage.getItem.mockReturnValueOnce('foo').mockReturnValueOnce(null);
+
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve(mock));
+      await expect(backendService.fetchCached(url)).rejects.toStrictEqual(new Error('No valid cached content found'));
+    });
   });
 });
