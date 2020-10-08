@@ -7,7 +7,7 @@ import {useReportDiagnosis, cannotGetTEKsError} from 'services/ExposureNotificat
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
-import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo} from 'shared/DataSharing';
+import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -17,7 +17,6 @@ interface BaseTekUploadViewProps {
   children?: React.ReactNode;
   secondaryButtonText?: string;
   secondaryButtonOnPress?(): void;
-  dateSelected?: boolean;
   showBackButton?: boolean;
 }
 
@@ -27,7 +26,6 @@ export const BaseTekUploadView = ({
   buttonText,
   secondaryButtonText,
   secondaryButtonOnPress,
-  dateSelected = false,
   showBackButton = true,
 }: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
@@ -63,7 +61,7 @@ export const BaseTekUploadView = ({
     [i18n],
   );
   const validateInput = () => {
-    if (!dateSelected) {
+    if (contagiousDateInfo.dateType !== ContagiousDateType.None && contagiousDateInfo.dateString === '') {
       Alert.alert(i18n.translate(`Errors.TekUploadNoDate.Title`), i18n.translate(`Errors.TekUploadNoDate.Body`), [
         {text: i18n.translate(`Errors.Action`)},
       ]);
