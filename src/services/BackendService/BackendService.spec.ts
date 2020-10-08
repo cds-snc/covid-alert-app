@@ -395,7 +395,7 @@ describe('BackendService', () => {
 
     it('returns stored content if isValidRegionContent throws an error', async () => {
       // eslint-disable-next-line no-global-assign
-      fetch = jest.fn(() => Promise.resolve({headers: {get: x => x}, json: () => ({})}));
+      fetch = jest.fn(() => Promise.resolve({headers: {get: x => x}, json: () => ({}), status: 200}));
 
       const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => {
         throw new Error('isValidRegionContent');
@@ -413,7 +413,7 @@ describe('BackendService', () => {
     it('saves the content to AsyncStorage and returns it as {status: 200, payload}', async () => {
       const payload = {foo: 'bar'};
       // eslint-disable-next-line no-global-assign
-      fetch = jest.fn(() => Promise.resolve({headers: {get: x => x}, json: () => payload}));
+      fetch = jest.fn(() => Promise.resolve({headers: {get: x => x}, json: () => payload, status: 200}));
       const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => true);
 
       expect(await backendService.getRegionContent()).toStrictEqual({status: 200, payload});
@@ -424,30 +424,6 @@ describe('BackendService', () => {
 
       spy.mockReset();
     });
-
-    it('sends a stored etag when it fetches', async () => {
-      AsyncStorage.getItem.mockReturnValue('foo');
-      const spy = jest.spyOn(backendService, 'getRegionContentUrl').mockImplementation(() => 'bar');
-
-      await backendService.getRegionContent();
-
-      expect(fetch).toHaveBeenCalledWith('bar', {headers: {'Cache-Control': 'no-store', 'If-None-Match': 'foo'}});
-      spy.mockReset();
-    });
-
-    it('saves a new etag when if fetches', async () => {
-      const payload = {foo: 'bar'};
-      // eslint-disable-next-line no-global-assign
-      fetch = jest.fn(() => Promise.resolve({headers: {get: x => x}, json: () => payload}));
-      const urlSpy = jest.spyOn(backendService, 'getRegionContentUrl').mockImplementation(() => 'url');
-      const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => true);
-
-      expect(await backendService.getRegionContent()).toStrictEqual({status: 200, payload});
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith('etag-url', 'Etag');
-
-      urlSpy.mockReset();
-      spy.mockReset();
-    });
   });
 
   describe('fetchCached', () => {
@@ -456,48 +432,55 @@ describe('BackendService', () => {
     const url = 'fizz';
 
     it('sends a stored etag when it fetches', async () => {
-      const mock = {headers: {get: x => x}, json: () => payload};
+      const mock = {headers: {get: x => x}, json: () => payload, status: 200};
       AsyncStorage.getItem.mockReturnValue('foo');
 
       // eslint-disable-next-line no-global-assign
       fetch = jest.fn(() => Promise.resolve(mock));
 
-      expect(await backendService.fetchCached(url)).toStrictEqual(mock);
+      expect(await backendService.fetchCached(url)).toStrictEqual(payload);
       expect(AsyncStorage.setItem).toHaveBeenCalledWith('etag-fizz', 'Etag');
 
       expect(fetch).toHaveBeenCalledWith('fizz', {headers: {'Cache-Control': 'no-store', 'If-None-Match': 'foo'}});
     });
 
-    it('saves a new etag when if fetches if etag is different', async () => {
-      const mock = {headers: {get: x => x}, json: () => payload};
+    it('saves a new etag if status code is 200', async () => {
+      const mock = {headers: {get: x => x}, json: () => payload, status: 200};
       // eslint-disable-next-line no-global-assign
       fetch = jest.fn(() => Promise.resolve(mock));
 
-      expect(await backendService.fetchCached(url)).toStrictEqual(mock);
+      expect(await backendService.fetchCached(url)).toStrictEqual(payload);
       expect(AsyncStorage.setItem).toHaveBeenCalledWith('etag-fizz', 'Etag');
     });
 
     it('does not save a new etag if etag is empty', async () => {
-      const mock = {headers: {get: () => null}, json: () => payload};
+      const mock = {headers: {get: () => null}, json: () => payload, status: 200};
       AsyncStorage.getItem.mockReturnValue('foo');
 
       // eslint-disable-next-line no-global-assign
       fetch = jest.fn(() => Promise.resolve(mock));
 
-      expect(await backendService.fetchCached(url)).toStrictEqual(mock);
+      expect(await backendService.fetchCached(url)).toStrictEqual(payload);
       expect(AsyncStorage.setItem).not.toHaveBeenCalledWith('etag-fizz', null);
     });
 
     it('calls captureMessage when a cached version is used', async () => {
-      const mock = {headers: {get: () => 'foo'}, json: () => payload};
-      AsyncStorage.getItem.mockReturnValue('foo');
+      const mock = {headers: {get: () => 'foo'}, json: () => payload, status: 304};
+      AsyncStorage.getItem.mockReturnValueOnce('foo').mockReturnValueOnce(JSON.stringify(payload));
 
       // eslint-disable-next-line no-global-assign
       fetch = jest.fn(() => Promise.resolve(mock));
 
-      expect(await backendService.fetchCached(url)).toStrictEqual(mock);
+      expect(await backendService.fetchCached(url)).toStrictEqual(payload);
       expect(AsyncStorage.setItem).not.toHaveBeenCalledWith('etag-fizz', 'foo');
       expect(captureMessage).toHaveBeenCalledWith('using cached copy', {url, etag: 'foo'});
+    });
+
+    it('throws an error if no valid status code was recieved', async () => {
+      const mock = {headers: {get: () => 'foo'}, json: () => payload, status: 400};
+      // eslint-disable-next-line no-global-assign
+      fetch = jest.fn(() => Promise.resolve(mock));
+      await expect(backendService.fetchCached(url)).rejects.toStrictEqual(new Error('No valid status code'));
     });
   });
 });

@@ -15,7 +15,7 @@ import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import {Observable} from '../../shared/Observable';
-import {Region, RegionContentResponse} from '../../shared/Region';
+import {Region, RegionContent, RegionContentResponse} from '../../shared/Region';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -78,9 +78,8 @@ export class BackendService implements BackendInterface {
   async getRegionContent(): Promise<RegionContentResponse> {
     const url = this.getRegionContentUrl();
     try {
-      const response = await this.fetchCached(url);
-      const payload = await response.json();
-      this.isValidRegionContent({status: response.status, payload});
+      const payload = await this.fetchCached(url);
+      this.isValidRegionContent({status: 200, payload});
       await AsyncStorage.setItem(url, JSON.stringify(payload));
       return {status: 200, payload};
     } catch (err) {
@@ -175,8 +174,9 @@ export class BackendService implements BackendInterface {
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
   }
 
-  async fetchCached(url: string): Promise<Response> {
+  async fetchCached(url: string): Promise<RegionContent> {
     const etagKey = `etag-${url}`;
+    const urlKey = `url-${url}`;
     const storedEtag = await AsyncStorage.getItem(etagKey);
     const headers = {
       headers: {
@@ -189,14 +189,23 @@ export class BackendService implements BackendInterface {
       const response = await fetch(url, headers);
       const etag = response.headers.get('Etag');
 
-      if (etag && etag !== storedEtag) {
-        captureMessage(`updating etag`, {url, etag});
-        await AsyncStorage.setItem(etagKey, etag);
-      } else if (etag === storedEtag) {
-        captureMessage(`using cached copy`, {url, etag});
-      }
+      captureMessage(`status code`, {status: response.status, url});
 
-      return response;
+      if (response.status === 200) {
+        captureMessage(`saving content and etag`, {url, etag});
+        const payload = await response.json();
+        if (etag) {
+          await AsyncStorage.setItem(etagKey, etag);
+        }
+        await AsyncStorage.setItem(urlKey, JSON.stringify(payload));
+        return payload;
+      } else if (response.status === 304) {
+        captureMessage(`using cached copy`, {url, etag});
+        const cached = await AsyncStorage.getItem(url);
+        return JSON.parse(cached);
+      }
+      captureMessage(`no valid staus code`, {url, status: response.status});
+      throw new Error('No valid status code');
     } catch (err) {
       captureMessage(`fetch error`, {err: err.message, url, etag: storedEtag});
       throw err;
