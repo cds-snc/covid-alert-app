@@ -7,5 +7,5 @@ export enum ContagiousDateType {
 }
 export interface ContagiousDateInfo {
   dateType: ContagiousDateType;
-  dateString: string;
+  date: Date | null;
 }

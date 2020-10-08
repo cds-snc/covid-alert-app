@@ -13,11 +13,12 @@ export const TestDateScreen = () => {
   const {data, setTestDate} = useContext(FormContext);
   const navigation = useNavigation();
   const secondaryButtonOnPress = useCallback(() => navigation.navigate('TekUploadNoDate'), [navigation]);
-
+  const dateParts = data.testDate.split('-');
+  const providedDate = new Date(Number(dateParts[0]), Number(dateParts[1]), Number(dateParts[2]));
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.TestDate.CTA')}
-      contagiousDateInfo={{dateType: ContagiousDateType.TestDate, dateString: data.testDate}}
+      contagiousDateInfo={{dateType: ContagiousDateType.TestDate, date: providedDate}}
       secondaryButtonText={i18n.translate('DataUpload.TestDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
     >

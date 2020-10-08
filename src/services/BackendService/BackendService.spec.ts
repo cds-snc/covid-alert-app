@@ -2,12 +2,13 @@ import crypto from 'crypto';
 
 import nacl from 'tweetnacl';
 import AsyncStorage from '@react-native-community/async-storage';
-import * as DateFns from 'shared/date-fns';
-import {blobFetch} from 'shared/fetch';
-import {captureMessage} from 'shared/log';
-import JsonSchemaValidator from 'shared/JsonSchemaValidator';
-import * as envs from 'env';
 
+import * as envs from '../../env';
+import {ContagiousDateInfo, ContagiousDateType} from '../../shared/DataSharing';
+import * as DateFns from '../../shared/date-fns';
+import {blobFetch} from '../../shared/fetch';
+import {captureMessage} from '../../shared/log';
+import JsonSchemaValidator from '../../shared/JsonSchemaValidator';
 import {getRandomBytes, downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
 import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
 
@@ -423,6 +424,43 @@ describe('BackendService', () => {
       );
 
       spy.mockReset();
+    });
+  });
+  describe('filterTEKs', () => {
+    const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+    it('does not filter out TEKs if no date is provided', async () => {
+      const contagiousDateInfo: ContagiousDateInfo = {
+        dateType: ContagiousDateType.None,
+        date: null,
+      };
+      const exposureKeys = generateRandomKeys(10);
+      const filteredKeys = exposureKeys.filter(backendService.filterTEKs(contagiousDateInfo));
+      expect(filteredKeys).toStrictEqual(exposureKeys);
+    });
+
+    it('filters out TEKs generated more than 2 days before symptom onset date', async () => {
+      const today = new Date();
+      const symptomOnsetDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
+      const contagiousDateInfo: ContagiousDateInfo = {
+        dateType: ContagiousDateType.SymptomOnsetDate,
+        date: symptomOnsetDate,
+      };
+      const exposureKeys = generateRandomKeys(10);
+      const filteredKeys = exposureKeys.filter(backendService.filterTEKs(contagiousDateInfo));
+      expect(filteredKeys).toHaveLength(5);
+    });
+
+    it('filters out TEKs generated more than 11 days before test date', async () => {
+      const today = new Date();
+      const testDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+      const contagiousDateInfo: ContagiousDateInfo = {
+        dateType: ContagiousDateType.TestDate,
+        date: testDate,
+      };
+      const exposureKeys = generateRandomKeys(14);
+      const filteredKeys = exposureKeys.filter(backendService.filterTEKs(contagiousDateInfo));
+      expect(filteredKeys).toHaveLength(13);
     });
   });
 });

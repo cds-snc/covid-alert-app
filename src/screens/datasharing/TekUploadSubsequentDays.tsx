@@ -11,7 +11,7 @@ export const TekUploadSubsequentDays = () => {
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.ConsentView.Action')}
-      contagiousDateInfo={{dateType: ContagiousDateType.None, dateString: ''}}
+      contagiousDateInfo={{dateType: ContagiousDateType.None, date: null}}
       showBackButton={false}
     >
       <Box paddingHorizontal="m">

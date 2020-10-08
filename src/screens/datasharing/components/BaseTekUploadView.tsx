@@ -61,7 +61,7 @@ export const BaseTekUploadView = ({
     [i18n],
   );
   const validateInput = () => {
-    if (contagiousDateInfo.dateType !== ContagiousDateType.None && contagiousDateInfo.dateString === '') {
+    if (contagiousDateInfo.dateType !== ContagiousDateType.None && !contagiousDateInfo.date) {
       Alert.alert(i18n.translate(`Errors.TekUploadNoDate.Title`), i18n.translate(`Errors.TekUploadNoDate.Body`), [
         {text: i18n.translate(`Errors.Action`)},
       ]);

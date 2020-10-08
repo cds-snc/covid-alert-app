@@ -139,13 +139,10 @@ export class BackendService implements BackendInterface {
       // rollingPeriod = A number describing how long a key is valid. It is expressed in
       // increments of 10 minutes (e.g. 144 for 24 hours).
       // source: https://developers.google.com/android/reference/com/google/android/gms/nearby/exposurenotification/TemporaryExposureKey
-      if (!contagiousDateInfo || contagiousDateInfo.dateType === 'noDate' || !contagiousDateInfo.dateString) {
+      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
         return true;
       }
-      // the following is a bit hacky - maybe we should pass the date as a Date, not a string
-      const dateParts = contagiousDateInfo.dateString.split('-');
-      const providedDate = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
-      const providedDateHoursSinceEpoch = hoursSinceEpoch(providedDate);
+      const providedDateHoursSinceEpoch = hoursSinceEpoch(contagiousDateInfo.date);
       let contagiousStartHoursSinceEpoch;
       if (contagiousDateInfo.dateType === ContagiousDateType.SymptomOnsetDate) {
         contagiousStartHoursSinceEpoch = providedDateHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET * 24;
