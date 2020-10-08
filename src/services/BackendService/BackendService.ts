@@ -194,14 +194,18 @@ export class BackendService implements BackendInterface {
       if (response.status === 200) {
         captureMessage(`saving content and etag`, {url, etag});
         const payload = await response.json();
+
         if (etag) {
           await AsyncStorage.setItem(etagKey, etag);
         }
+
         await AsyncStorage.setItem(urlKey, JSON.stringify(payload));
+
         return payload;
       } else if (response.status === 304) {
         captureMessage(`using cached copy`, {url, etag});
         const cached = await AsyncStorage.getItem(url);
+
         if (cached === null) {
           captureMessage(`No valid cached content found`, {url});
           throw new Error('No valid cached content found');
@@ -209,6 +213,7 @@ export class BackendService implements BackendInterface {
           return JSON.parse(cached);
         }
       }
+
       throw new Error('No valid status code');
     } catch (err) {
       captureMessage(`fetch error`, {err: err.message, url, etag: storedEtag});
