@@ -146,7 +146,7 @@ const Content = () => {
           variant="bigFlat"
           onPress={async () => {
             captureMessage('Force upload keys');
-            fetchAndSubmitKeys({dateType: ContagiousDateType.None, dateString: ''});
+            fetchAndSubmitKeys({dateType: ContagiousDateType.None, date: null});
           }}
         />
       </Section>
