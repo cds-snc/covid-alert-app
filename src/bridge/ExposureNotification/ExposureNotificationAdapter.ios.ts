@@ -77,7 +77,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         infectiousness: Infectiousness.Standard,
         calibrationConfidence: CalibrationConfidence.Medium,
       };
-      return exposureWindow;
+      return [exposureWindow];
     },
   };
 }

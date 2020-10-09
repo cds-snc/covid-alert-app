@@ -11,6 +11,7 @@ import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
+import {ExposureWindow} from 'bridge/ExposureNotification/types';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -319,6 +320,60 @@ export class ExposureNotificationService {
     }
   }
 
+  public async checkIfExposedV2(
+    exposureWindows: ExposureWindow[],
+    exposureConfiguration: ExposureConfiguration,
+  ): Promise<boolean> {
+    if (exposureWindows.length === 0) {
+      return false;
+    }
+    const nearThreshold = exposureConfiguration.attenuationDurationThresholds[1];
+    for (const window of exposureWindows) {
+      // assuming typicalAttenuation values are in positive DB units
+      const scansOverNearThreshold = window.scanInstances.filter(x => x.typicalAttenuation <= nearThreshold);
+      const secondsOverNearThreshold = scansOverNearThreshold
+        .map(x => x.secondsSinceLastScan)
+        // with initial value to avoid when the array is empty
+        .reduce((partialSum, x) => partialSum + x, 0);
+      if (secondsOverNearThreshold > exposureConfiguration.minimumExposureDurationMinutes * 60) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public async performExposureStatusUpdateV2(): Promise<void> {
+    const exposureConfiguration = await this.getExposureConfiguration();
+    const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
+    const updatedExposure = this.updateExposure();
+    if (updatedExposure !== currentExposureStatus) {
+      this.exposureStatus.set(updatedExposure);
+      this.finalize();
+    }
+    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
+    try {
+      captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
+      await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
+      const exposureWindows = await this.exposureNotification.getExposureWindows();
+      const isExposed = this.checkIfExposedV2(exposureWindows, exposureConfiguration);
+      if (isExposed) {
+        return this.finalize(
+          {
+            type: ExposureStatusType.Exposed,
+            // todo: change this
+            summary: undefined,
+          },
+          lastCheckedPeriod,
+        );
+      }
+      return this.finalize({}, lastCheckedPeriod);
+    } catch (error) {
+      captureException('performExposureStatusUpdateV2', error);
+    }
+
+    return this.finalize();
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -404,40 +459,6 @@ export class ExposureNotificationService {
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-      const summariesContainingExposures = this.findSummariesContainingExposures(
-        exposureConfiguration.minimumExposureDurationMinutes,
-        summaries,
-      );
-      if (summariesContainingExposures.length > 0) {
-        return this.finalize(
-          {
-            type: ExposureStatusType.Exposed,
-            summary: this.selectExposureSummary(summariesContainingExposures[0]),
-          },
-          lastCheckedPeriod,
-        );
-      }
-      return this.finalize({}, lastCheckedPeriod);
-    } catch (error) {
-      captureException('performExposureStatusUpdate', error);
-    }
-
-    return this.finalize();
-  }
-
-  private async performExposureStatusUpdateV2(): Promise<void> {
-    const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
-    const updatedExposure = this.updateExposure();
-    if (updatedExposure !== currentExposureStatus) {
-      this.exposureStatus.set(updatedExposure);
-      this.finalize();
-    }
-
-    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
-
-    try {
-      captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
-      const summaries = await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
