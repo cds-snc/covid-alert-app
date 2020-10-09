@@ -425,6 +425,40 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
+  private async performExposureStatusUpdateV2(): Promise<void> {
+    const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
+    const updatedExposure = this.updateExposure();
+    if (updatedExposure !== currentExposureStatus) {
+      this.exposureStatus.set(updatedExposure);
+      this.finalize();
+    }
+
+    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
+
+    try {
+      captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
+      const summaries = await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
+      const summariesContainingExposures = this.findSummariesContainingExposures(
+        exposureConfiguration.minimumExposureDurationMinutes,
+        summaries,
+      );
+      if (summariesContainingExposures.length > 0) {
+        return this.finalize(
+          {
+            type: ExposureStatusType.Exposed,
+            summary: this.selectExposureSummary(summariesContainingExposures[0]),
+          },
+          lastCheckedPeriod,
+        );
+      }
+      return this.finalize({}, lastCheckedPeriod);
+    } catch (error) {
+      captureException('performExposureStatusUpdate', error);
+    }
+
+    return this.finalize();
+  }
+
   private async getKeysFileUrls(): Promise<any> {
     const currentStatus = this.exposureStatus.get();
     const keysFileUrls: string[] = [];
