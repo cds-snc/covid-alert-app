@@ -1,6 +1,15 @@
 import {captureMessage} from 'shared/log';
 
-import {ExposureConfiguration, ExposureNotificationAPI, ExposureSummary} from './types';
+import {
+  CalibrationConfidence,
+  ExposureConfiguration,
+  ExposureNotificationAPI,
+  ExposureSummary,
+  ExposureWindow,
+  Infectiousness,
+  Report,
+  ScanInstance,
+} from './types';
 import {getLastExposureTimestamp} from './utils';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotificationAPI) {
@@ -42,6 +51,22 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         // todo: replace mock with exposureNotificationAPI.provideDiagnosisKeys
         await mock([diagnosisKeysURL]);
       }
+    },
+    getExposureWindows: async () => {
+      // todo: replace mock with exposureNotificationAPI.getExposureWindows
+      const scanInstance: ScanInstance = {
+        typicalAttenuation: 60,
+        minAttenuation: 80,
+        secondsSinceLastScan: 120,
+      };
+      const exposureWindow: ExposureWindow = {
+        day: 0,
+        scanInstances: [scanInstance, scanInstance],
+        reportType: Report.ConfirmedClinicalDiagnosis,
+        infectiousness: Infectiousness.Standard,
+        calibrationConfidence: CalibrationConfidence.Medium,
+      };
+      return exposureWindow;
     },
   };
 }
