@@ -13,7 +13,7 @@ import {
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from 'locale';
 
-import {Box} from './Box';
+import {Box, BoxProps} from './Box';
 import {Icon} from './Icon';
 import {Ripple} from './Ripple';
 
@@ -60,18 +60,18 @@ export const ButtonMultiline = ({
     : {};
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
   const borderRadius = 10;
+  const boxStyles: BoxProps['style'] = {
+    backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
+    minHeight: height,
+    borderWidth,
+    borderColor: buttonColor,
+  };
   const content = (
     <Box
       borderRadius={borderRadius}
       alignItems="center"
       justifyContent="center"
-      // eslint-disable-next-line react-native/no-inline-styles
-      style={{
-        backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
-        minHeight: height,
-        borderWidth,
-        borderColor: buttonColor,
-      }}
+      style={boxStyles}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
