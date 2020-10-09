@@ -21,9 +21,7 @@ import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage, captureException} from 'shared/log';
-import regionSchema from 'locale/translations/regionSchema.json';
-import JsonSchemaValidator from 'shared/JsonSchemaValidator';
+import {captureMessage} from 'shared/log';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
@@ -72,15 +70,11 @@ const App = () => {
     };
 
     const fetchData = async () => {
-      try {
-        const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
-        if (downloadedRegionContent.status === 200 || downloadedRegionContent.status === 304) {
-          new JsonSchemaValidator().validateJson(downloadedRegionContent.payload, regionSchema);
-          setRegionContent({payload: downloadedRegionContent.payload});
-        }
-      } catch (error) {
-        captureException(error.message, error);
+      const regionContent: RegionContentResponse = await backendService.getRegionContent();
+      if (regionContent.status === 200) {
+        setRegionContent({payload: regionContent.payload});
       }
+      return true;
     };
 
     fetchData()

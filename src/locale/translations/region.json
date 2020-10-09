@@ -1,10 +1,5 @@
 {
-  "Active": [
-    "ON",
-    "NL",
-    "NB",
-    "SK"
-  ],
+  "Active": ["ON", "NL", "NB", "SK", "MB", "QC", "PE"],
   "en": {
     "RegionContent": {
       "Home": {
@@ -36,6 +31,34 @@
             }
           },
           "SK": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "MB": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "QC": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "NS": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "PE": {
             "Tip": {
               "Body": "",
               "CTA": "",
@@ -73,6 +96,30 @@
             "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
             "CTA": "Help",
             "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
+          },
+          "MB": {
+            "Title": "Get a one-time key",
+            "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+            "CTA": "Help",
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
+          },
+          "QC": {
+            "Title": "Have you tested positive?",
+            "Body": "You can only ask for a one-time key if you test positive for COVID-19.\n\nAfter getting your call from Public Health, you can ask for a key at 1-855-228-4253.\n\nDo not call unless you’ve gotten a call from Public Health about your positive test result.",
+            "CTA": "Have you tested positive?\nCall 1-855-228-4253",
+            "Link": "tel:1-855-228-4253"
+          },
+          "NS": {
+            "Title": "",
+            "Body": "",
+            "CTA": "",
+            "Link": ""
+          },
+          "PE": {
+            "Title": "Get a one-time key",
+            "Body": "If you test positive for COVID-19, public health gives you a one-time key.\n\nYou will only get one key, and it expires in 24 hours.",
+            "CTA": "Help",
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
           }
         }
       },
@@ -97,6 +144,26 @@
             "Body": "You’re at risk of being infected.",
             "CTA": "Find out if you need to get tested",
             "URL": "https://www.saskatchewan.ca/covid19-apps"
+          },
+          "MB": {
+            "Body": "You’re at risk of being infected.",
+            "CTA": "Find out if you need to get tested",
+            "URL": "https://sharedhealthmb.ca/covid19/screening-tool/"
+          },
+          "QC": {
+            "Body": "You may have the virus.",
+            "CTA": "Find out what to do next",
+            "URL": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19/"
+          },
+          "NS": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          },
+          "PE": {
+            "Body": "You’re at risk of being infected.",
+            "CTA": "Find out what to do next",
+            "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-alert-app"
           }
         },
         "Inactive": {
@@ -195,6 +262,34 @@
                 "CTA": "",
                 "URL": ""
               }
+            },
+            "MB": {
+              "Tip": {
+                "Body": "",
+                "CTA": "",
+                "URL": ""
+              }
+            },
+            "QC": {
+              "Tip": {
+                "Body": "",
+                "CTA": "",
+                "URL": ""
+              }
+            },
+            "NS": {
+              "Tip": {
+                "Body": "",
+                "CTA": "",
+                "URL": ""
+              }
+            },
+            "PE": {
+              "Tip": {
+                "Body": "",
+                "CTA": "",
+                "URL": ""
+              }
             }
           }
         }
@@ -228,7 +323,30 @@
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
             "CTA": "Aide",
             "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
-          }
+          },
+          "MB": {
+            "Title": "Obtenir une clé à usage unique",
+            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+            "CTA": "Aide",
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
+          },
+          "QC": {
+            "Title": "Avez-vous reçu un résultat positif?",
+            "Body": "Vous pouvez demander une clé à usage unique seulement si vous recevez un diagnostic de COVID-19.\n\nAprès avoir reçu l’appel de la Santé publique, appelez au 1-855-228-4253 pour demander une clé.\n\nN’appelez que si vous avez reçu un appel de la Santé publique concernant votre test positif.",
+            "CTA": "Votre résultat est-il positif?\nAppelez au 1-855-228-4253",
+            "Link": "tel:1-855-228-4253"
+            },
+          "PE": {
+            "Title": "Obtenir une clé à usage unique",
+            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+            "CTA": "Aide",
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+            },
+          "NS": {
+            "Title": "Obtenir une clé à usage unique",
+            "Body": "",
+            "CTA": "",
+            "Link": ""}
         }
       },
       "ExposureView": {
@@ -252,6 +370,26 @@
             "Body": "Vous êtes à risque d’être infecté.",
             "CTA": "Découvrez si vous devriez vous faire tester (page en anglais)",
             "URL": "https://www.saskatchewan.ca/covid19-apps"
+          },
+          "MB": {
+            "Body": "Vous êtes à risque d’être infecté.",
+            "CTA": "Découvrez si vous devriez vous faire tester",
+            "URL": "https://covid19.soinscommunsmb.ca/covid19/outil-de-depistage/"
+          },
+          "QC": {
+            "Body": "Vous pourriez avoir contracté le virus.",
+            "CTA": "Lisez les consignes à suivre",
+            "URL": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/tests-de-depistage/"
+          },
+          "NS": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          },
+          "PE": {
+            "Body": "Vous êtes à risque d’être infecté. ",
+            "CTA": "Lisez les étapes à suivre",
+            "URL": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/application-alerte-covid"
           }
         },
         "Inactive": {
