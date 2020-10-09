@@ -33,5 +33,15 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       }
       return [];
     },
+    provideDiagnosisKeys: async (diagnosisKeysURLs: string[]) => {
+      if (diagnosisKeysURLs.length === 0) {
+        throw new Error('Attempt to call provideDiagnosisKeys with empty list of downloaded files');
+      }
+      const mock = async (keys: any) => keys;
+      for (const diagnosisKeysURL of diagnosisKeysURLs) {
+        // todo: replace mock with exposureNotificationAPI.provideDiagnosisKeys
+        await mock([diagnosisKeysURL]);
+      }
+    },
   };
 }

@@ -36,5 +36,23 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return summaries;
     },
     getPendingExposureSummary: async () => undefined,
+    provideDiagnosisKeys: async (diagnosisKeysURLs: string[]) => {
+      if (diagnosisKeysURLs.length === 0) {
+        throw new Error('Attempt to call provideDiagnosisKeys with empty list of downloaded files');
+      }
+      captureMessage('diagnosisKeysURLs.length', {length: diagnosisKeysURLs.length});
+
+      for (const keysZipUrl of diagnosisKeysURLs) {
+        const components = keysZipUrl.split('/');
+        components.pop();
+        components.push('keys-export');
+        const targetDir = components.join('/');
+        const unzippedLocation = await unzip(keysZipUrl, targetDir);
+        const mock = async (keys: any) => keys;
+        // todo: change mock to exposureNotificationAPI.provideDiagnosisKeys when the native
+        // layer is implemented
+        await mock([`${unzippedLocation}/export.bin`, `${unzippedLocation}/export.sig`]);
+      }
+    },
   };
 }
