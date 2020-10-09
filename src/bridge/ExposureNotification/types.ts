@@ -24,7 +24,7 @@ export enum Status {
   Authorized = 'authorized',
 }
 
-export enum ReportType {
+export enum Report {
   Revoked = 'REVOKED',
   ConfirmedClinicalDiagnosis = 'CONFIRMED_CLINICAL_DIAGNOSIS',
   SelfReport = 'SELF_REPORT',
@@ -32,13 +32,13 @@ export enum ReportType {
   Recursive = 'RECURSIVE',
 }
 
-export enum InfectiousnessType {
+export enum Infectiousness {
   None = 'NONE',
   Standard = 'STANDARD',
   High = 'HIGH',
 }
 
-export enum CalibrationConfidenceType {
+export enum CalibrationConfidence {
   Lowest = 'LOWEST',
   Low = 'LOW',
   Medium = 'MEDIUM',
@@ -75,8 +75,8 @@ export interface ExposureConfiguration {
 }
 
 export interface DailySummariesConfig {
-  reportTypeWeights: Record<ReportType, number>;
-  infectiousnessWeights: Record<InfectiousnessType, number>;
+  reportTypeWeights: Record<Report, number>;
+  infectiousnessWeights: Record<Infectiousness, number>;
   attenuationBucketThresholdDb: number[];
   attenuationBucketWeights: number[];
   daysSinceExposureThreshold: number;
@@ -110,9 +110,9 @@ export interface ExposureNotificationAPI {
 export interface ExposureWindow {
   day: number;
   scanInstances: ScanInstance[];
-  reportType: ReportType;
-  infectiousness: InfectiousnessType;
-  calibrationConfidence: CalibrationConfidenceType;
+  reportType: Report;
+  infectiousness: Infectiousness;
+  calibrationConfidence: CalibrationConfidence;
 }
 
 export interface ScanInstance {
