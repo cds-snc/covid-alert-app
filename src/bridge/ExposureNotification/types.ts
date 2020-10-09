@@ -109,7 +109,7 @@ export interface ExposureNotificationAPI {
 
 export interface ExposureWindow {
   day: number;
-  scanInstances: number[];
+  scanInstances: ScanInstance[];
   reportType: ReportType;
   infectiousness: InfectiousnessType;
   calibrationConfidence: CalibrationConfidenceType;
