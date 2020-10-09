@@ -70,7 +70,7 @@ describe('getExposedHelpURL', () => {
     });
   });
   it('gives the right URL for inactive regions', async () => {
-    ['AB', 'BC', 'MB', 'NT', 'NS', 'NU', 'PE', 'YT'].forEach(region => {
+    ['AB', 'BC', 'MB', 'NT', 'NS', 'NU', 'YT'].forEach(region => {
       expect(getExposedHelpURL(region, regionalI18n)).toStrictEqual(
         regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`),
       );
