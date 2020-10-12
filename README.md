@@ -136,6 +136,9 @@ Please add the following keys to the `info.plist` file. These keys should not be
 
 You can customize the look and feel of the app largely by editing values found in the [Theme File](https://github.com/CovidShield/mobile/blob/master/src/shared/theme.ts).
 
+A version of this codebase that works with APHL server (being used in the US) can be found in the following repository: https://github.com/lirisoft-llc/covid-alert-app
+
+
 ## Localization
 
 The COVID Alert app is available in French and English. Fully localized content can be modified by editing translations files found in the [translations directory](https://github.com/cds-snc/covid-alert-app/tree/master/src/locale/translations). More translations can be added by using the same mechanism as French and English.
