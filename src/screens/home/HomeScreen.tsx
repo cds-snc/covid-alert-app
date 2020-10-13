@@ -40,19 +40,11 @@ import {
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
 
-type BackgroundColor = keyof Theme['colors'];
-
 interface ContentProps {
-  setBackgroundColor: (color: string) => void;
   isBottomSheetExpanded: boolean;
 }
 
-const strToBackgroundColor = (backgroundColor: string): BackgroundColor => {
-  const color: BackgroundColor = backgroundColor as BackgroundColor;
-  return color;
-};
-
-const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
+const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
@@ -64,7 +56,6 @@ const Content = ({setBackgroundColor, isBottomSheetExpanded}: ContentProps) => {
   }, [turnNotificationsOn]);
 
   const network = useNetInfo();
-  setBackgroundColor('mainBackground');
 
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
@@ -192,8 +183,6 @@ export const HomeScreen = () => {
     startExposureNotificationService();
   }, [startExposureNotificationService]);
 
-  const [backgroundColor, setBackgroundColor] = useState<string>('mainBackground');
-
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);
   const currentStatus = useExposureStatus()[0].type;
@@ -220,7 +209,7 @@ export const HomeScreen = () => {
 
   return (
     <NotificationPermissionStatusProvider>
-      <Box flex={1} alignItems="center" backgroundColor={strToBackgroundColor(backgroundColor)}>
+      <Box flex={1} alignItems="center" backgroundColor="mainBackground">
         <Box
           flex={1}
           paddingTop="m"
@@ -230,7 +219,7 @@ export const HomeScreen = () => {
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
         >
           <Animated.View style={{opacity: fadeAnim}}>
-            <Content isBottomSheetExpanded={isBottomSheetExpanded} setBackgroundColor={setBackgroundColor} />
+            <Content isBottomSheetExpanded={isBottomSheetExpanded} />
           </Animated.View>
         </Box>
         <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
