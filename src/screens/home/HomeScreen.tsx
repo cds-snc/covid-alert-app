@@ -11,7 +11,6 @@ import {
   useStartExposureNotificationService,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
-import {Theme} from 'shared/theme';
 import {useStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
