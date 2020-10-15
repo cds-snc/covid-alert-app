@@ -275,7 +275,7 @@ describe('ExposureNotificationService', () => {
       }),
     ]);
 
-    expect(hasMatch.length).toStrictEqual(1);
+    expect(hasMatch.length).toHaveLength(1);
 
     const noMatch = await service.findSummariesContainingExposures(15, [
       getSummary({
@@ -284,7 +284,7 @@ describe('ExposureNotificationService', () => {
       }),
     ]);
 
-    expect(noMatch.length).toStrictEqual(0);
+    expect(noMatch.length).toHaveLength(0);
   });
 
   it('backfills keys when last timestamp not available', async () => {
