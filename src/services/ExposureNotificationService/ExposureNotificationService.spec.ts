@@ -258,7 +258,7 @@ describe('ExposureNotificationService', () => {
     },
   );
 
-  it('filters out summaries with based on matched key count', async () => {
+  it('filters out summaries with 0 matched keys', async () => {
     const today = new OriginalDate('2020-05-18T04:10:00+0000');
 
     const summaryConfig = {
@@ -275,7 +275,7 @@ describe('ExposureNotificationService', () => {
       }),
     ]);
 
-    expect(hasMatch.length).toHaveLength(1);
+    expect(hasMatch).toHaveLength(1);
 
     const noMatch = await service.findSummariesContainingExposures(15, [
       getSummary({
@@ -284,7 +284,7 @@ describe('ExposureNotificationService', () => {
       }),
     ]);
 
-    expect(noMatch.length).toHaveLength(0);
+    expect(noMatch).toHaveLength(0);
   });
 
   it('backfills keys when last timestamp not available', async () => {
