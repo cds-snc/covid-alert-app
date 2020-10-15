@@ -322,6 +322,10 @@ export class ExposureNotificationService {
     }
   }
 
+  async clearExposedStatus() {
+    return this.finalize({type: ExposureStatusType.Monitoring});
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});

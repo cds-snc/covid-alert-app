@@ -7,6 +7,7 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
+import {useClearExposedStatus} from 'services/ExposureNotificationService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -26,6 +27,10 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
   const onHowToIsolate = useCallback(() => navigation.navigate('HowToIsolate'), [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   const activeBodyText = regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`);
+  const [clearExposedStatus] = useClearExposedStatus();
+  const onClearExposedState = useCallback(() => {
+    clearExposedStatus();
+  }, [clearExposedStatus]);
 
   return (
     <BaseHomeView iconName="hand-caution" testID="exposure">
@@ -57,6 +62,8 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
           />
         </Box>
       )}
+
+      <ButtonSingleLine text="Clear exposed state" onPress={onClearExposedState} variant="danger50Flat" />
     </BaseHomeView>
   );
 };
