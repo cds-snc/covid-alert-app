@@ -166,6 +166,9 @@ export class ExposureNotificationService {
   ): ExposureSummary[] {
     return summaries
       .filter(summary => {
+        return summary.matchedKeyCount > 0;
+      })
+      .filter(summary => {
         return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
       })
       .sort((summary1, summary2) => {

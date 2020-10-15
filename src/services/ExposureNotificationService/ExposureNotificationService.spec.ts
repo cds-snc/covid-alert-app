@@ -258,6 +258,35 @@ describe('ExposureNotificationService', () => {
     },
   );
 
+  it('filters out summaries with based on matched key count', async () => {
+    const today = new OriginalDate('2020-05-18T04:10:00+0000');
+
+    const summaryConfig = {
+      today,
+      daysSinceLastExposure: 7,
+      attenuationDurations: [20, 0, 0],
+      os: 'ios',
+    };
+
+    const hasMatch = await service.findSummariesContainingExposures(15, [
+      getSummary({
+        hasMatchedKey: true,
+        ...summaryConfig,
+      }),
+    ]);
+
+    expect(hasMatch.length).toStrictEqual(1);
+
+    const noMatch = await service.findSummariesContainingExposures(15, [
+      getSummary({
+        hasMatchedKey: false,
+        ...summaryConfig,
+      }),
+    ]);
+
+    expect(noMatch.length).toStrictEqual(0);
+  });
+
   it('backfills keys when last timestamp not available', async () => {
     dateSpy.mockImplementation((args: any) => {
       if (args === undefined) return new OriginalDate('2020-05-19T11:10:00+0000');
