@@ -142,7 +142,7 @@
           },
           "SK": {
             "Body": "You’re at risk of being infected.",
-            "CTA": "Find out if you need to get tested",
+            "CTA": "Find out what to do next",
             "URL": "https://www.saskatchewan.ca/covid19-apps"
           },
           "MB": {
@@ -369,7 +369,7 @@
           },
           "SK": {
             "Body": "Vous êtes à risque d’être infecté.",
-            "CTA": "Découvrez si vous devriez vous faire tester (page en anglais)",
+            "CTA": "Lisez les étapes à suivre (page en anglais)",
             "URL": "https://www.saskatchewan.ca/covid19-apps"
           },
           "MB": {
