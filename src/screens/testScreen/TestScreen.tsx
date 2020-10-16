@@ -1,5 +1,5 @@
 import React, {useCallback, useState, useEffect} from 'react';
-import {TextInput, StyleSheet, ScrollView} from 'react-native';
+import {TextInput, StyleSheet, ScrollView, Share} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import PushNotification from 'bridge/PushNotification';
@@ -98,6 +98,19 @@ const Content = () => {
     });
   }, [i18n]);
 
+  const onShare = async () => {
+    const result = await Share.share(
+      {
+        url: 'https://apps.apple.com/ca/app/covid-alert/id1520284227',
+        title: 'Share CovidAlert: https://apps.apple.com/ca/app/covid-alert/id1520284227',
+      },
+      {
+        subject: 'I installed Covid Alert and so should you!',
+        dialogTitle: 'I installed Covid Alert and so should you!',
+      },
+    );
+  };
+
   const exposureNotificationService = useExposureNotificationService();
   const [, updateExposureStatus] = useExposureStatus();
 
@@ -123,6 +136,9 @@ const Content = () => {
       </Section>
       <Section>
         <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
+      </Section>
+      <Section>
+        <Button text="share this app" onPress={onShare} variant="bigFlat" />
       </Section>
       <Section>
         <Item title="Force screen" />
