@@ -29,8 +29,7 @@ const TEN_MINUTE_PERIODS_PER_HOUR = 6;
 const LAST_14_DAYS_PERIOD = '00000';
 
 const CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET = 2;
-// todo: fix this - not sure this should be 11 days
-const CONTAGIOUS_DAYS_BEFORE_TEST_DATE = 11;
+const CONTAGIOUS_DAYS_BEFORE_TEST_DATE = 2;
 
 export class BackendService implements BackendInterface {
   retrieveUrl: string;

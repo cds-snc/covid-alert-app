@@ -87,7 +87,7 @@ export const Step2Screen = () => {
               onPress={radioHandler}
             />
           </Box>
-          <Text marginTop="l" marginBottom="l" variant="bodyTitle2">
+          <Text marginTop="l" marginBottom="s" variant="bodyTitle2">
             {i18n.translate('DataUpload.Step2.Title2')}
           </Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.Step2.Body2')}</Text>

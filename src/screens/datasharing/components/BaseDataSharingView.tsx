@@ -29,7 +29,9 @@ export const BaseDataSharingView = ({children, showBackButton = true}: BaseDataS
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
         <Box style={wrapperStyle} />
-        <Toolbar navText={i18n.translate('DataUpload.Close')} onIconClicked={close} showBackButton={showBackButton} />
+        <Box marginBottom="m">
+          <Toolbar navText={i18n.translate('DataUpload.Close')} onIconClicked={close} showBackButton={showBackButton} />
+        </Box>
         <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
           {children}
         </ScrollView>
