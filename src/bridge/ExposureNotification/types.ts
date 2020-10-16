@@ -24,6 +24,27 @@ export enum Status {
   Authorized = 'authorized',
 }
 
+export enum Report {
+  Revoked = 'REVOKED',
+  ConfirmedClinicalDiagnosis = 'CONFIRMED_CLINICAL_DIAGNOSIS',
+  SelfReport = 'SELF_REPORT',
+  ConfirmedTest = 'CONFIRMED_TEST',
+  Recursive = 'RECURSIVE',
+}
+
+export enum Infectiousness {
+  None = 'NONE',
+  Standard = 'STANDARD',
+  High = 'HIGH',
+}
+
+export enum CalibrationConfidence {
+  Lowest = 'LOWEST',
+  Low = 'LOW',
+  Medium = 'MEDIUM',
+  High = 'HIGH',
+}
+
 export interface TemporaryExposureKey {
   keyData: string;
   rollingStartIntervalNumber: number;
@@ -53,6 +74,15 @@ export interface ExposureConfiguration {
   transmissionRiskWeight: number;
 }
 
+export interface DailySummariesConfig {
+  reportTypeWeights: Record<Report, number>;
+  infectiousnessWeights: Record<Infectiousness, number>;
+  attenuationBucketThresholdDb: number[];
+  attenuationBucketWeights: number[];
+  daysSinceExposureThreshold: number;
+  minimumWindowScore: number;
+}
+
 export interface ExposureInformation {
   dateMillisSinceEpoch: number;
   durationMinutes: number;
@@ -75,4 +105,18 @@ export interface ExposureNotification {
 export interface ExposureNotificationAPI {
   detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary>;
   getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
+}
+
+export interface ExposureWindow {
+  day: number;
+  scanInstances: ScanInstance[];
+  reportType: Report;
+  infectiousness: Infectiousness;
+  calibrationConfidence: CalibrationConfidence;
+}
+
+export interface ScanInstance {
+  typicalAttenuation: number;
+  minAttenuation: number;
+  secondsSinceLastScan: number;
 }

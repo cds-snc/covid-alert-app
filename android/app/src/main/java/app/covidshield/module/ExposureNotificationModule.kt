@@ -298,7 +298,11 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     private fun isLocationEnabled(): Boolean {
-        return locationManager?.let { LocationManagerCompat.isLocationEnabled(it) } ?: false
+        if (exposureNotificationClient.deviceSupportsLocationlessScanning()) {
+            return true
+        } else {
+            return (locationManager?.let { LocationManagerCompat.isLocationEnabled(it) } ?: false)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
