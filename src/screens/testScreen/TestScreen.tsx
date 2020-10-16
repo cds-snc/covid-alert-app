@@ -106,8 +106,7 @@ const Content = () => {
       };
     } else {
       content = {
-        title: 'Check out Covid Alert!',
-        message: 'https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid',
+        message: 'Check out Covid Alert! https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid',
       };
     }
 
