@@ -87,18 +87,22 @@ export function useSystemStatus(): [SystemStatus, () => void] {
   return [state, update];
 }
 
-export function useExposureStatus(): [ExposureStatus, () => void] {
+export function useExposureStatus(): ExposureStatus {
   const exposureNotificationService = useExposureNotificationService();
   const [state, setState] = useState<ExposureStatus>(exposureNotificationService.exposureStatus.get());
-  const update = useCallback(() => {
-    exposureNotificationService.updateExposureStatus();
-  }, [exposureNotificationService]);
-
   useEffect(() => {
     return exposureNotificationService.exposureStatus.observe(setState);
   }, [exposureNotificationService.exposureStatus]);
 
-  return [state, update];
+  return state;
+}
+
+export function useUpdateExposureStatus(): () => void {
+  const exposureNotificationService = useExposureNotificationService();
+  const update = useCallback(() => {
+    exposureNotificationService.updateExposureStatus();
+  }, [exposureNotificationService]);
+  return update;
 }
 
 export function useReportDiagnosis() {

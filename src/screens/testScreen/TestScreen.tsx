@@ -8,8 +8,8 @@ import {useStorage} from 'services/StorageService';
 import {
   ExposureStatusType,
   useExposureNotificationService,
-  useExposureStatus,
   useReportDiagnosis,
+  useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 import {setLogUUID, getLogUUID, captureMessage} from 'shared/log';
@@ -99,7 +99,7 @@ const Content = () => {
   }, [i18n]);
 
   const exposureNotificationService = useExposureNotificationService();
-  const [, updateExposureStatus] = useExposureStatus();
+  const updateExposureStatus = useUpdateExposureStatus();
 
   const {fetchAndSubmitKeys} = useReportDiagnosis();
 

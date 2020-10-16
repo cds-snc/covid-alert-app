@@ -17,7 +17,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   const i18n = useI18n();
   const regionalI18n = useRegionalI18n();
   const {region} = useStorage();
-  const [exposureStatus] = useExposureStatus();
+  const exposureStatus = useExposureStatus();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   let daysLeft: number;

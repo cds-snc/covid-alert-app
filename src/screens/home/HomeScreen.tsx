@@ -47,7 +47,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
-  const [exposureStatus] = useExposureStatus();
+  const exposureStatus = useExposureStatus();
   const [systemStatus] = useSystemStatus();
   const [, turnNotificationsOn] = useNotificationPermissionStatus();
   useEffect(() => {
@@ -184,7 +184,7 @@ export const HomeScreen = () => {
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);
-  const currentStatus = useExposureStatus()[0].type;
+  const currentStatus = useExposureStatus().type;
   const previousStatus = usePrevious(currentStatus);
   useLayoutEffect(() => {
     if (previousStatus === ExposureStatusType.Monitoring && currentStatus === ExposureStatusType.Diagnosed) {

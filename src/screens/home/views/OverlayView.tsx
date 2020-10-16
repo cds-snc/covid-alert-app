@@ -115,7 +115,7 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
 
 const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
   const navigation = useNavigation();
-  const [exposureStatus] = useExposureStatus();
+  const exposureStatus = useExposureStatus();
 
   //
 
