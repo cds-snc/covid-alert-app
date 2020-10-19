@@ -164,18 +164,16 @@ export class BackendService implements BackendInterface {
     _exposureKeys: TemporaryExposureKey[],
     contagiousDateInfo: ContagiousDateInfo,
   ) {
-    captureMessage('contagiousDateInfo', contagiousDateInfo);
+    captureMessage('contagiousDateInfo', {contagiousDateInfo});
     const filteredExposureKeys = Object.values(
       _exposureKeys
         .filter(this.filterTEKs(contagiousDateInfo))
         .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
-    captureMessage('reportDiagnosisKeys', {
-      keyPair,
-      _exposureKeys,
-      exposureKeys,
-    });
+    captureMessage('keyPair', {keyPair});
+    captureMessage('unfiltered exposureKeys', {_exposureKeys});
+    captureMessage('filtered exposureKeys', {exposureKeys});
 
     const upload = covidshield.Upload.create({
       timestamp: {seconds: Math.floor(getMillisSinceUTCEpoch() / 1000)},
