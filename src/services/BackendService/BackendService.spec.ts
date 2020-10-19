@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import crypto from 'crypto';
 
 import nacl from 'tweetnacl';
