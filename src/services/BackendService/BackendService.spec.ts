@@ -451,7 +451,7 @@ describe('BackendService', () => {
       expect(filteredKeys).toHaveLength(5);
     });
 
-    it('filters out TEKs generated more than 11 days before test date', async () => {
+    it('filters out TEKs generated more than 2 days before test date', async () => {
       const today = new Date();
       const testDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
       const contagiousDateInfo: ContagiousDateInfo = {
@@ -460,7 +460,8 @@ describe('BackendService', () => {
       };
       const exposureKeys = generateRandomKeys(14);
       const filteredKeys = exposureKeys.filter(backendService.filterTEKs(contagiousDateInfo));
-      expect(filteredKeys).toHaveLength(13);
+      // today + yesterday + 2 days prior = 4
+      expect(filteredKeys).toHaveLength(4);
     });
   });
 });
