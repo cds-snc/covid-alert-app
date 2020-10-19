@@ -442,7 +442,7 @@ describe('BackendService', () => {
 
     it('filters out TEKs generated more than 2 days before symptom onset date', async () => {
       const today = new Date();
-      const symptomOnsetDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
+      const symptomOnsetDate = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() - 2);
       const contagiousDateInfo: ContagiousDateInfo = {
         dateType: ContagiousDateType.SymptomOnsetDate,
         date: symptomOnsetDate,
@@ -454,7 +454,7 @@ describe('BackendService', () => {
 
     it('filters out TEKs generated more than 2 days before test date', async () => {
       const today = new Date();
-      const testDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+      const testDate = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() - 1);
       const contagiousDateInfo: ContagiousDateInfo = {
         dateType: ContagiousDateType.TestDate,
         date: testDate,
