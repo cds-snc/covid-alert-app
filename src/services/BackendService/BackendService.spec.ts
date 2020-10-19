@@ -15,6 +15,7 @@ import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
 
 import {BackendService} from './BackendService';
 import {covidshield} from './covidshield';
+import { addDays } from '../../shared/date-fns';
 
 jest.mock('tweetnacl', () => ({
   __esModule: true,
@@ -442,7 +443,7 @@ describe('BackendService', () => {
 
     it('filters out TEKs generated more than 2 days before symptom onset date', async () => {
       const today = new Date();
-      const symptomOnsetDate = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() - 2);
+      const symptomOnsetDate = addDays(today, -2);
       const contagiousDateInfo: ContagiousDateInfo = {
         dateType: ContagiousDateType.SymptomOnsetDate,
         date: symptomOnsetDate,
@@ -454,7 +455,7 @@ describe('BackendService', () => {
 
     it('filters out TEKs generated more than 2 days before test date', async () => {
       const today = new Date();
-      const testDate = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() - 1);
+      const testDate = addDays(today, -1);
       const contagiousDateInfo: ContagiousDateInfo = {
         dateType: ContagiousDateType.TestDate,
         date: testDate,
