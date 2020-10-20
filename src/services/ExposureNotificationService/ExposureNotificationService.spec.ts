@@ -428,32 +428,6 @@ describe('ExposureNotificationService', () => {
         cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
       });
     });
-
-    it('for positive', async () => {
-      service.exposureStatus.append({
-        submissionLastCompletedAt: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
-      });
-
-      await service.start();
-      expect(service.exposureStatus.get()).toStrictEqual(
-        expect.objectContaining({
-          needsSubmission: true,
-        }),
-      );
-    });
-
-    it('for negative', async () => {
-      service.exposureStatus.append({
-        submissionLastCompletedAt: new OriginalDate('2020-05-19T04:10:00+0000').getTime(),
-      });
-
-      await service.start();
-      expect(service.exposureStatus.get()).toStrictEqual(
-        expect.objectContaining({
-          needsSubmission: false,
-        }),
-      );
-    });
   });
 
   it('needsSubmission status recalculates daily', async () => {
