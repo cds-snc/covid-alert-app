@@ -22,7 +22,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
 
   let daysLeft: number;
   if (TEST_MODE && exposureStatus.type !== ExposureStatusType.Diagnosed) {
-    daysLeft = 14;
+    daysLeft = 13;
   } else {
     if (exposureStatus.type !== ExposureStatusType.Diagnosed) return null;
     daysLeft = Math.floor(daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt))) - 1;
