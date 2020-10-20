@@ -17,7 +17,7 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
   BackgroundFetch.configure(
     {
       minimumFetchInterval: TEST_MODE ? EXACT_JOB_INTERNVAL_IN_MINUTES : DEFERRED_JOB_INTERNVAL_IN_MINUTES,
-      forceAlarmManager: TEST_MODE,
+      forceAlarmManager: false,
       enableHeadless: true,
       startOnBoot: true,
       stopOnTerminate: false,
