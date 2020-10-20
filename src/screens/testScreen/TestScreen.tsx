@@ -151,12 +151,21 @@ const Content = () => {
       </Section>
       <Section>
         <Button
-          text="Clear exposure history and run check"
+          text="Clear exposure history"
           variant="bigFlat"
           onPress={async () => {
-            captureMessage('Forcing refresh...');
+            captureMessage('Clear exposure history');
             exposureNotificationService.exposureStatusUpdatePromise = null;
             exposureNotificationService.exposureStatus.set({type: ExposureStatusType.Monitoring});
+          }}
+        />
+      </Section>
+      <Section>
+        <Button
+          text="Force exposure check"
+          variant="bigFlat"
+          onPress={async () => {
+            captureMessage('Forcing Exposure Check');
             updateExposureStatus();
           }}
         />
