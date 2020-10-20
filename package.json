@@ -19,7 +19,7 @@
     "pre:test:ios": "detox build --configuration=ios",
     "pre:test:android": "detox build --configuration=android",
     "tsc": "tsc",
-    "get_version": "bundle exec fastlane get_latest_version",
+    "get_latest_version": "bundle exec fastlane get_latest_version",
     "deploy-android:staging": "bundle exec fastlane android build_and_deploy type:staging",
     "deploy-android:production": "bundle exec fastlane android build_and_deploy type:production",
     "deploy-ios:staging": "bundle exec fastlane ios build_and_deploy type:staging",
