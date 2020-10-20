@@ -52,43 +52,25 @@ export const ExposureNotificationServiceProvider = ({
     [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );
 
-  useEffect(() => {
-    backgroundScheduler.registerPeriodicTask(async () => {
-      await exposureNotificationService.updateExposureStatusInBackground();
-    });
-  }, [backgroundScheduler, exposureNotificationService]);
-
   const status = exposureNotificationService.exposureStatus.get();
   const storageService = useStorage();
-  const systemStatus = exposureNotificationService.systemStatus;
+
+  useEffect(() => {
+    backgroundScheduler.registerPeriodicTask(async () => {
+      const today = new Date();
+      if (shouldPerformExposureCheck(today, status, storageService, exposureNotificationService)) {
+        await exposureNotificationService.updateExposureStatusInBackground();
+      }
+    });
+  }, [backgroundScheduler, exposureNotificationService, status, storageService]);
 
   useEffect(() => {
     const startExposureCheck = async () => {
       const today = new Date();
-      const onboardedDatetime = storageService.onboardedDatetime;
-      if (systemStatus.get() !== SystemStatus.Active) {
-        captureMessage(`ExposureNotificationServiceProvider - System Status: ${systemStatus}`);
-        return;
+      if (shouldPerformExposureCheck(today, status, storageService, exposureNotificationService)) {
+        captureMessage('useExposureNotificationSystemStatusAutomaticUpdater - OK ExposureCheck.');
+        await exposureNotificationService.updateExposureStatus();
       }
-      if (!onboardedDatetime) {
-        // Do not perform Exposure Checks if onboarding is not completed.
-        captureMessage('ExposureNotificationServiceProvider - Onboarded: FALSE');
-        return;
-      } else if (daysBetween(onboardedDatetime, today) < 1) {
-        // Do not perform Exposure Checks on Same Day as Onboarding.
-        captureMessage('ExposureNotificationServiceProvider - Onboarded: Same Day');
-        return;
-      }
-      if (status.lastChecked) {
-        captureMessage(`ExposureNotificationServiceProvider - LastChecked Timestamp: ${status.lastChecked.timestamp}`);
-        const lastCheckedDate = new Date(status.lastChecked.timestamp);
-        if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
-          captureMessage('ExposureNotificationServiceProvider - Too soon to check.');
-          return;
-        }
-      }
-      captureMessage('useExposureNotificationSystemStatusAutomaticUpdater - OK ExposureCheck.');
-      await exposureNotificationService.updateExposureStatus();
     };
 
     const onAppStateChange = async (newState: AppStateStatus) => {
@@ -106,7 +88,7 @@ export const ExposureNotificationServiceProvider = ({
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, [exposureNotificationService, status.lastChecked, storageService.onboardedDatetime, systemStatus]);
+  }, [exposureNotificationService, status, storageService]);
 
   return (
     <ExposureNotificationServiceContext.Provider value={exposureNotificationService}>
@@ -206,3 +188,36 @@ export function useExposureNotificationSystemStatusAutomaticUpdater() {
     };
   }, [exposureNotificationService]);
 }
+
+const shouldPerformExposureCheck = (
+  today: Date,
+  status: ExposureStatus,
+  storageService: any,
+  exposureNotificationService: ExposureNotificationService,
+) => {
+  const systemStatus = exposureNotificationService.systemStatus;
+  const onboardedDatetime = storageService.onboardedDatetime;
+  if (systemStatus.get() !== SystemStatus.Active) {
+    captureMessage(`ExposureNotificationServiceProvider - System Status: ${systemStatus}`);
+    return false;
+  }
+  if (!onboardedDatetime) {
+    // Do not perform Exposure Checks if onboarding is not completed.
+    captureMessage('ExposureNotificationServiceProvider - Onboarded: FALSE');
+    return false;
+  } else if (daysBetween(onboardedDatetime, today) < 1) {
+    // Do not perform Exposure Checks on Same Day as Onboarding.
+    captureMessage('ExposureNotificationServiceProvider - Onboarded: Same Day');
+    return false;
+  }
+  if (status.lastChecked) {
+    captureMessage(`ExposureNotificationServiceProvider - LastChecked Timestamp: ${status.lastChecked.timestamp}`);
+    const lastCheckedDate = new Date(status.lastChecked.timestamp);
+    if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
+      captureMessage('ExposureNotificationServiceProvider - Too soon to check.');
+      return false;
+    }
+  }
+  captureMessage('useExposureNotificationSystemStatusAutomaticUpdater - OK ExposureCheck.');
+  return true;
+};
