@@ -2,14 +2,16 @@ fastlane_version '2.154.0'
 import "./Android.Fastfile"
 import "./iOS.Fastfile"
 
-before_all do
-  # Pull all tags
-  git_pull(only_tags: true)
+before_all do |lane|
+  if lane != :get_latest_version
+    # Pull all tags
+    git_pull(only_tags: true)
 
-  # Run yarn install
-  yarn(
-    command: 'install'
-  )
+    # Run yarn install
+    yarn(
+      command: 'install'
+    )
+  end
 end
 
 lane :load_env_file do |options|
@@ -22,6 +24,33 @@ lane :load_env_file do |options|
   # Load the environment
   Dotenv.overload "../#{env_file}"
   ENV["ENVFILE"] = env_file
+end
+
+desc "Get latest version number"
+lane :get_latest_version do
+  primary_play_versions = google_play_track_version_codes(
+    track: 'internal',
+    package_name: 'ca.gc.hcsc.canada.stopcovid'
+  )
+
+  secondary_play_versions = google_play_track_version_codes(
+    track: 'internal',
+    package_name: 'ca.gc.hcsc.canada.covidalert.dev'
+  )
+
+  versions = Array(primary_play_versions) + Array(secondary_play_versions)
+
+  primary_testflight_latest = latest_testflight_build_number(
+    app_identifier: 'ca.gc.hcsc.canada.stopcovid'
+  )
+
+  secondary_testflight_latest = latest_testflight_build_number(
+    app_identifier: 'ca.gc.hcsc.canada.covidalert.dev'
+  )
+
+  versions = versions + Array(primary_testflight_latest) + Array(secondary_testflight_latest)
+
+  UI.success('Last used version code: ' + String(versions.max))
 end
 
 desc "Creates a Github Release"
