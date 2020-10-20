@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL} from 'env';
-import {AppRegistry, YellowBox} from 'react-native';
+import {AppRegistry, LogBox} from 'react-native';
 import {BackendService} from 'services/BackendService';
 import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
 import {ExposureNotificationService} from 'services/ExposureNotificationService';
@@ -35,7 +35,7 @@ BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
 });
 
 if (__DEV__) {
-  YellowBox.ignoreWarnings([
+  LogBox.ignoreLogs([
     // Triggered by a lot of third party modules and not really actionable.
     'Require cycle:',
     // From 'react-native-snap-carousel', see https://github.com/archriss/react-native-snap-carousel/issues/672.

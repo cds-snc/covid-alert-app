@@ -63,14 +63,14 @@ describe('getRegionCase', () => {
 
 describe('getExposedHelpURL', () => {
   it('gives the right URL for active regions', async () => {
-    ['ON', 'NL', 'NB', 'SK'].forEach(region => {
+    ['ON', 'NL', 'NB', 'SK', 'NS', 'PE', 'QC', 'MB'].forEach(region => {
       expect(getExposedHelpURL(region, regionalI18n)).toStrictEqual(
         regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.URL`),
       );
     });
   });
   it('gives the right URL for inactive regions', async () => {
-    ['AB', 'BC', 'MB', 'NT', 'NS', 'NU', 'PE', 'QC', 'YT'].forEach(region => {
+    ['AB', 'BC', 'NT', 'NU', 'YT'].forEach(region => {
       expect(getExposedHelpURL(region, regionalI18n)).toStrictEqual(
         regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`),
       );

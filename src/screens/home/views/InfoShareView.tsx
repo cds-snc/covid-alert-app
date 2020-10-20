@@ -46,7 +46,11 @@ export const InfoShareView = () => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
-  const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
+
+  const onPrivacy = useCallback(() => {
+    Linking.openURL(i18n.translate('Info.PrivacyUrl')).catch(error => captureException('An error occurred', error));
+  }, [i18n]);
+
   const onGetCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
@@ -106,7 +110,14 @@ export const InfoShareView = () => {
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
         <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
-        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" lastItem />
+        <InfoShareItem
+          icon="icon-external-arrow"
+          accessibilityRole="link"
+          onPress={onPrivacy}
+          accessibilityHint={`${i18n.translate('Info.Privacy')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+          text={i18n.translate('Info.Privacy')}
+          lastItem
+        />
       </Box>
     </>
   );
