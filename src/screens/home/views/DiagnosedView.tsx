@@ -21,11 +21,11 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   let daysLeft: number;
-  if (TEST_MODE) {
-    daysLeft = 7;
+  if (TEST_MODE && exposureStatus.type !== ExposureStatusType.Diagnosed) {
+    daysLeft = 14;
   } else {
     if (exposureStatus.type !== ExposureStatusType.Diagnosed) return null;
-    daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
+    daysLeft = Math.floor(daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt))) - 1;
   }
 
   return (

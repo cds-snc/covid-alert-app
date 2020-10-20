@@ -138,7 +138,7 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
   }
 
   if (exposureStatus.type === ExposureStatusType.Diagnosed) {
-    const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
+    const daysLeft = Math.floor(daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt))) - 1;
     let bodyText = i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed');
     if (daysLeft > 0) {
       bodyText += i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {
