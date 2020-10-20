@@ -473,6 +473,7 @@ describe('BackendService', () => {
 
       expect(await backendService.fetchCached(url)).toStrictEqual(payload);
       expect(AsyncStorage.setItem).not.toHaveBeenCalledWith('etag-fizz', 'foo');
+      expect(AsyncStorage.getItem).toHaveBeenCalledWith('url-fizz');
       expect(captureMessage).toHaveBeenCalledWith('using cached copy', {url, etag: 'foo'});
     });
 

@@ -204,7 +204,7 @@ export class BackendService implements BackendInterface {
         return payload;
       } else if (response.status === 304) {
         captureMessage(`using cached copy`, {url, etag});
-        const cached = await AsyncStorage.getItem(url);
+        const cached = await AsyncStorage.getItem(urlKey);
 
         if (cached === null) {
           captureMessage(`No valid cached content found`, {url});
