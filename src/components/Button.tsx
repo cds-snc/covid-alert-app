@@ -13,7 +13,7 @@ import {
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from 'locale';
 
-import {Box} from './Box';
+import {Box, BoxProps} from './Box';
 import {Icon, IconName} from './Icon';
 import {Ripple} from './Ripple';
 
@@ -72,19 +72,19 @@ export const Button = ({
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
 
   const borderRadius = 5;
+  const boxStyles: BoxProps['style'] = {
+    backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
+    minHeight: height,
+    borderBottomWidth,
+    borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
+  };
   const content = (
     <Box
       borderRadius={borderRadius}
       alignItems="center"
       justifyContent="center"
       shadowColor="bodyText"
-      // eslint-disable-next-line react-native/no-inline-styles
-      style={{
-        backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
-        minHeight: height,
-        borderBottomWidth,
-        borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
-      }}
+      style={boxStyles}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
