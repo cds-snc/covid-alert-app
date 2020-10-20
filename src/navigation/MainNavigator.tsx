@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
 import {Step1Screen, FormScreen, ConsentScreen, SymptomOnsetDateScreen} from 'screens/datasharing';
-import {PrivacyScreen} from 'screens/privacy';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerSettingsScreen} from 'screens/regionPicker';
@@ -64,7 +63,6 @@ const Step1ScreenWithNavBar = withDarkNav(Step1Screen);
 const FormScreenWithNavBar = withDarkNav(FormScreen);
 const ConsentScreenWithNavBar = withDarkNav(ConsentScreen);
 const SymptomOnsetDateScreenWithNavBar = withDarkNav(SymptomOnsetDateScreen);
-const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
@@ -116,7 +114,6 @@ const MainNavigator = () => {
       />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
       <MainStack.Screen name="DataSharing" component={DataSharingNavigator} />
-      <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
