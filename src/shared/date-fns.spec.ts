@@ -6,6 +6,8 @@ import {
   hoursFromNow,
   minutesFromNow,
   minutesBetween,
+  getUploadDaysLeft,
+  getCurrentDate,
 } from './date-fns';
 
 /**
@@ -169,6 +171,35 @@ describe('date-fns', () => {
       const d1 = new Date('2020-07-06 00:00:01 GMT+0600');
       const d2 = new Date('2020-07-06 00:00:01 GMT+0500');
       expect(minutesBetween(d1, d2)).toStrictEqual(60);
+    });
+  });
+
+  describe('getUploadDaysLeft', () => {
+    const now = getCurrentDate();
+
+    it.each([addDays(now, 2), addDays(now, 0.5), addDays(now, 10), addDays(now, -3)])(
+      'returns a round number when cycle ends on %p',
+      async testDate => {
+        const cycleEndsAt = testDate.getTime();
+        expect(Math.round(getUploadDaysLeft(cycleEndsAt))).toStrictEqual(getUploadDaysLeft(cycleEndsAt));
+      },
+    );
+
+    it.each([
+      [addDays(now, 5), 4],
+      [addDays(now, 2), 1],
+      [addDays(now, 1), 0],
+      [addDays(now, 0), 0],
+      [addDays(now, -1), 0],
+      [addDays(now, 10.2), 9],
+    ])('when cycle ends on %p, days remaining are %p', async (testDate, daysRemaining) => {
+      const cycleEndsAt = testDate.getTime();
+      expect(getUploadDaysLeft(cycleEndsAt)).toStrictEqual(daysRemaining);
+    });
+
+    it('if cycle ends today, return 0', () => {
+      const cycleEndsAt = getCurrentDate().getTime();
+      expect(getUploadDaysLeft(cycleEndsAt)).toStrictEqual(0);
     });
   });
 

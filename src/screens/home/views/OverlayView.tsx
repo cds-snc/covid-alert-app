@@ -11,7 +11,7 @@ import {
   useStartExposureNotificationService,
 } from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
-import {daysBetween, getCurrentDate} from 'shared/date-fns';
+import {getUploadDaysLeft} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
@@ -138,7 +138,7 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
   }
 
   if (exposureStatus.type === ExposureStatusType.Diagnosed) {
-    const daysLeft = Math.floor(daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt))) - 1;
+    const daysLeft = getUploadDaysLeft(exposureStatus.cycleEndsAt);
     let bodyText = i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed');
     if (daysLeft > 0) {
       bodyText += i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {
