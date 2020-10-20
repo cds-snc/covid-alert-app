@@ -31,6 +31,8 @@
 	<key>ENDeveloperRegion</key>
 	<string>CA</string>
 	<key>LSApplicationQueriesSchemes</key>
+  <key>ITSAppUsesNonExemptEncryption</key>
+  <false/>
 	<array>
 		<string>instagram</string>
 		<string>instagram-stories</string>
