@@ -52,3 +52,12 @@ export function getCurrentDate(): Date {
 export function getMillisSinceUTCEpoch() {
   return getCurrentDate().getTime();
 }
+
+export function getUploadDaysLeft(cycleEndsAt: number) {
+  // cycleEndsAt = cycleEndsAtDate.getTime();
+  const uploadDaysLeft = Math.round(daysBetween(getCurrentDate(), new Date(cycleEndsAt))) - 1;
+  if (uploadDaysLeft < 0) {
+    return 0;
+  }
+  return uploadDaysLeft;
+}
