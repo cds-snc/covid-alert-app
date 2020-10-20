@@ -131,6 +131,7 @@ describe('BackendService', () => {
           serverPublicKey: 'mock',
         },
         keys,
+        {dateType: ContagiousDateType.None, date: null},
       );
 
       expect(covidshield.Upload.create).toHaveBeenCalledWith(
@@ -157,7 +158,9 @@ describe('BackendService', () => {
       };
       getRandomBytes.mockRejectedValueOnce('I cannot randomize');
 
-      await expect(backendService.reportDiagnosisKeys(submissionKeys, keys)).rejects.toThrow('I cannot randomize');
+      await expect(
+        backendService.reportDiagnosisKeys(submissionKeys, keys, {dateType: ContagiousDateType.None, date: null}),
+      ).rejects.toThrow('I cannot randomize');
     });
 
     it('throws if backend returns an error', async () => {
@@ -181,6 +184,7 @@ describe('BackendService', () => {
             serverPublicKey: 'mock',
           },
           keys,
+          {dateType: ContagiousDateType.None, date: null},
         ),
       ).rejects.toThrow('314');
     });
@@ -204,8 +208,36 @@ describe('BackendService', () => {
             serverPublicKey: 'mock',
           },
           keys,
+          {dateType: ContagiousDateType.None, date: null},
         ),
       ).rejects.toThrow('Code Unknown');
+    });
+
+    it('returns last 3 keys if symptom onset is today', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const keys = generateRandomKeys(30);
+      await backendService.reportDiagnosisKeys(
+        {
+          clientPrivateKey: 'mock',
+          clientPublicKey: 'mock',
+          serverPublicKey: 'mock',
+        },
+        keys,
+        {dateType: ContagiousDateType.SymptomOnsetDate, date: new Date()},
+      );
+
+      expect(covidshield.Upload.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          keys: expect.toHaveLength(3),
+        }),
+      );
+      keys
+        .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
+        .splice(0, 3)
+        .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}))
+        .forEach(value => {
+          expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
+        });
     });
   });
 
