@@ -10,7 +10,7 @@ import {ContagiousDateInfo} from 'screens/datasharing/components';
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler, DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 import {useStorage} from '../StorageService';
-import {daysBetween, minutesBetween} from '../../shared/date-fns';
+import {minutesBetween} from '../../shared/date-fns';
 import {captureMessage} from '../../shared/log';
 
 import {
