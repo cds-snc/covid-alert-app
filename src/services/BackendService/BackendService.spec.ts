@@ -459,7 +459,7 @@ describe('BackendService', () => {
       spy.mockReset();
     });
   });
-  describe('filterTEKs', () => {
+  describe('filterNonContagiousTEKs', () => {
     const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
 
     it('does not filter out TEKs if no date is provided', async () => {
@@ -468,7 +468,7 @@ describe('BackendService', () => {
         date: null,
       };
       const exposureKeys = generateRandomKeys(10);
-      const filteredKeys = exposureKeys.filter(backendService.filterTEKs(contagiousDateInfo));
+      const filteredKeys = exposureKeys.filter(backendService.filterNonContagiousTEKs(contagiousDateInfo));
       expect(filteredKeys).toStrictEqual(exposureKeys);
     });
 
@@ -480,7 +480,7 @@ describe('BackendService', () => {
         date: symptomOnsetDate,
       };
       const exposureKeys = generateRandomKeys(10);
-      const filteredKeys = exposureKeys.filter(backendService.filterTEKs(contagiousDateInfo));
+      const filteredKeys = exposureKeys.filter(backendService.filterNonContagiousTEKs(contagiousDateInfo));
       expect(filteredKeys).toHaveLength(5);
     });
 
@@ -492,7 +492,7 @@ describe('BackendService', () => {
         date: testDate,
       };
       const exposureKeys = generateRandomKeys(14);
-      const filteredKeys = exposureKeys.filter(backendService.filterTEKs(contagiousDateInfo));
+      const filteredKeys = exposureKeys.filter(backendService.filterNonContagiousTEKs(contagiousDateInfo));
       // today + yesterday + 2 days prior = 4
       expect(filteredKeys).toHaveLength(4);
     });

@@ -24,6 +24,7 @@ const MAX_UPLOAD_KEYS = 28;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 const TRANSMISSION_RISK_LEVEL = 1;
 const TEN_MINUTE_PERIODS_PER_HOUR = 6;
+export const LAST_UPLOADED_TEK_START_TIME = 'LAST_UPLOADED_TEK_START_TIME';
 
 // See https://github.com/cds-snc/covid-shield-server/pull/176
 const LAST_14_DAYS_PERIOD = '00000';
@@ -130,7 +131,7 @@ export class BackendService implements BackendInterface {
     };
   }
 
-  filterTEKs = (contagiousDateInfo?: ContagiousDateInfo) => {
+  filterNonContagiousTEKs = (contagiousDateInfo?: ContagiousDateInfo) => {
     return (key: TemporaryExposureKey) => {
       // This function filters out TEKs that were generated before the user was contagious.
       // rollingStartIntervalNumber = A number describing when a key starts. It is equal to
@@ -159,6 +160,27 @@ export class BackendService implements BackendInterface {
     };
   };
 
+  saveLastUploadedTekStartTime = async (uploadedTEKs: TemporaryExposureKey[]) => {
+    if (uploadedTEKs.length === 0) {
+      return;
+    }
+    const lastUploadedTekStartTime = uploadedTEKs[0].rollingStartIntervalNumber.toString();
+    await AsyncStorage.setItem(LAST_UPLOADED_TEK_START_TIME, lastUploadedTekStartTime);
+  };
+
+  filterOldTEKs = async () => {
+    const lastUploadedTekStartTime = Number(await AsyncStorage.getItem(LAST_UPLOADED_TEK_START_TIME));
+    return (key: TemporaryExposureKey) => {
+      if (!lastUploadedTekStartTime) {
+        return true;
+      }
+      if (key.rollingStartIntervalNumber > lastUploadedTekStartTime) {
+        return true;
+      }
+      return false;
+    };
+  };
+
   async reportDiagnosisKeys(
     keyPair: SubmissionKeySet,
     _exposureKeys: TemporaryExposureKey[],
@@ -167,7 +189,8 @@ export class BackendService implements BackendInterface {
     captureMessage('contagiousDateInfo', {contagiousDateInfo});
     const filteredExposureKeys = Object.values(
       _exposureKeys
-        .filter(this.filterTEKs(contagiousDateInfo))
+        .filter(this.filterNonContagiousTEKs(contagiousDateInfo))
+        .filter(await this.filterOldTEKs())
         .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
@@ -204,6 +227,7 @@ export class BackendService implements BackendInterface {
 
     // captureMessage('Uploading encrypted diagnosis keys');
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
+    await this.saveLastUploadedTekStartTime(exposureKeys);
   }
 
   private async keyClaim(code: string, keyPair: nacl.BoxKeyPair): Promise<covidshield.KeyClaimResponse> {
