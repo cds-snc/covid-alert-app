@@ -1,16 +1,17 @@
 import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
 import {Box, ButtonSingleLine} from 'components';
-import {useNavigation} from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
-import {StyleSheet} from 'react-native';
+import {Linking, StyleSheet} from 'react-native';
+import {captureException} from 'shared/log';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
 export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
   const i18n = useI18n();
-  const navigation = useNavigation();
-  const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
+  const onPrivacy = useCallback(() => {
+    Linking.openURL(i18n.translate('Info.PrivacyUrl')).catch(error => captureException('An error occurred', error));
+  }, [i18n]);
 
   return (
     <ItemView
@@ -45,7 +46,7 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
               testID="privacyPolicyCTA"
               text={i18n.translate('Onboarding.Permissions.PrivacyButtonCTA')}
               variant="bigFlatNeutralGrey"
-              internalLink
+              externalLink
               onPress={onPrivacy}
             />
           </Box>
