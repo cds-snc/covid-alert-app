@@ -205,10 +205,6 @@ const shouldPerformExposureCheck = (
     // Do not perform Exposure Checks if onboarding is not completed.
     captureMessage('ExposureNotificationServiceProvider - Onboarded: FALSE');
     return false;
-  } else if (daysBetween(onboardedDatetime, today) < 1) {
-    // Do not perform Exposure Checks on Same Day as Onboarding.
-    captureMessage('ExposureNotificationServiceProvider - Onboarded: Same Day');
-    return false;
   }
   if (status.lastChecked) {
     captureMessage(`ExposureNotificationServiceProvider - LastChecked Timestamp: ${status.lastChecked.timestamp}`);
