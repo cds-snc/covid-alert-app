@@ -63,7 +63,7 @@ export const ExposureNotificationServiceProvider = ({
   const systemStatus = exposureNotificationService.systemStatus;
 
   useEffect(() => {
-    const updateExposureStatus = async () => {
+    const startExposureCheck = async () => {
       const today = new Date();
       const onboardedDatetime = storageService.onboardedDatetime;
       if (systemStatus.get() !== SystemStatus.Active) {
@@ -94,10 +94,13 @@ export const ExposureNotificationServiceProvider = ({
     const onAppStateChange = async (newState: AppStateStatus) => {
       captureMessage(`ExposureNotificationServiceProvider onAppStateChange: ${newState}`);
       if (newState !== 'active') return;
-      updateExposureStatus();
+      exposureNotificationService.updateExposure();
+      await startExposureCheck();
     };
 
-    updateExposureStatus();
+    // Note: The next two lines, calling updateExposure() and startExposureCheck() happen on app launch.
+    exposureNotificationService.updateExposure();
+    startExposureCheck();
 
     AppState.addEventListener('change', onAppStateChange);
     return () => {
