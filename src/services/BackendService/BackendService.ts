@@ -195,8 +195,20 @@ export class BackendService implements BackendInterface {
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
     captureMessage('keyPair', {keyPair});
-    captureMessage('unfiltered exposureKeys', {_exposureKeys});
-    captureMessage('filtered exposureKeys', {exposureKeys});
+    captureMessage('unfiltered exposureKeys', {
+      unfilteredExposureKeys: _exposureKeys.map(x => {
+        const y: any = {...x};
+        y.startDate = new Date((x.rollingStartIntervalNumber * 1000 * 3600) / 6);
+        return y;
+      }),
+    });
+    captureMessage('filtered exposureKeys', {
+      filteredExposureKeys: exposureKeys.map(x => {
+        const y: any = {...x};
+        y.startDate = new Date((x.rollingStartIntervalNumber * 1000 * 3600) / 6);
+        return y;
+      }),
+    });
 
     const upload = covidshield.Upload.create({
       timestamp: {seconds: Math.floor(getMillisSinceUTCEpoch() / 1000)},
