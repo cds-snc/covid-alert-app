@@ -217,7 +217,7 @@ export class ExposureNotificationService {
   };
 
   async updateExposureStatus(): Promise<void> {
-    if (this.shouldPerformExposureCheck()) {
+    if (await this.shouldPerformExposureCheck()) {
       if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
       const cleanUpPromise = <T>(input: T): T => {
         this.exposureStatusUpdatePromise = null;
@@ -541,10 +541,10 @@ export class ExposureNotificationService {
     }
   }
 
-  private shouldPerformExposureCheck = () => {
+  private shouldPerformExposureCheck = async () => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
-    const onboardedDatetime = AsyncStorage.getItem(Key.OnboardedDatetime);
+    const onboardedDatetime = await AsyncStorage.getItem(Key.OnboardedDatetime);
     if (this.systemStatus.get() !== SystemStatus.Active) {
       captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
       return false;
@@ -554,6 +554,7 @@ export class ExposureNotificationService {
       captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
       return false;
     }
+    captureMessage(`shouldPerformExposureCheck - Onboarded: ${onboardedDatetime}`);
     const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
     if (lastCheckedTimestamp) {
       captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
