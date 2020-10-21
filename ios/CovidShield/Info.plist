@@ -26,6 +26,12 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(APP_VERSION_CODE)</string>
+	<key>ENAPIVersion</key>
+	<integer>1</integer>
+	<key>ENDeveloperRegion</key>
+	<string>CA</string>
+  <key>ITSAppUsesNonExemptEncryption</key>
+  <false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram</string>
@@ -59,9 +65,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>ENDeveloperRegion</key>
-	<string>CA</string>
-	<key>ENAPIVersion</key>
-	<integer>1</integer>
 </dict>
 </plist>

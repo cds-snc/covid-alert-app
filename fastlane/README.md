@@ -25,6 +25,11 @@ fastlane ensure_keystore_properties
 fastlane load_env_file
 ```
 
+### get_latest_version
+```
+fastlane get_latest_version
+```
+Get latest version number
 ### create_github_release
 ```
 fastlane create_github_release

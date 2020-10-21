@@ -12,7 +12,6 @@ import {
   TekUploadSubsequentDays,
   TestDateScreen,
 } from 'screens/datasharing';
-import {PrivacyScreen} from 'screens/privacy';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerSettingsScreen} from 'screens/regionPicker';
@@ -73,11 +72,10 @@ const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const Step0ScreenWithNavBar = withDarkNav(Step0Screen);
 const Step2ScreenWithNavBar = withDarkNav(Step2Screen);
 const FormScreenWithNavBar = withDarkNav(FormScreen);
+const TestDateScreenWithNavBar = withDarkNav(TestDateScreen);
 const TekUploadNoDateWithNavBar = withDarkNav(TekUploadNoDate);
 const TekUploadSubsequentDaysWithNavBar = withDarkNav(TekUploadSubsequentDays);
 const SymptomOnsetDateScreenWithNavBar = withDarkNav(SymptomOnsetDateScreen);
-const TestDateScreenWithNavBar = withDarkNav(TestDateScreen);
-const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
@@ -145,7 +143,6 @@ const MainNavigator = () => {
       />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
       <MainStack.Screen name="DataSharing" component={DataSharingNavigator} />
-      <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
