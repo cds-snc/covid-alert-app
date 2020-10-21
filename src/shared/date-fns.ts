@@ -14,6 +14,7 @@ export function periodSinceEpoch(date: Date, hoursPerPeriod: number) {
 }
 
 export function daysFromNow(date: Date) {
+  // todo: remove when LastCheckedDisplay is removed
   const currentTime = Date.now();
   const oneDayMs = 1000 * 60 * 60 * 24;
   return Math.round((currentTime - date.getTime()) / oneDayMs);
@@ -49,7 +50,7 @@ export function daysBetweenUTC(date1: Date, date2: Date): number {
 }
 
 export function getCurrentDate(): Date {
-  return new Date();
+  return new Date('2020-10-23');
 }
 
 export function getMillisSinceUTCEpoch() {

@@ -25,13 +25,13 @@
       "List": {
         "1a": "1. Vous entrez la clé à usage unique ",
         "1b": "reçue lors de votre diagnostic.",
-        "2a": "2. Vous fournissez quelques informations ",
-        "2b": "qui aideront l’application à préciser la période où vous pouviez être contagieux. Vous n’êtes pas obligé de le faire.",
+        "2a": "2. Vous fournissez quelques précisions ",
+        "2b": "qui aideront l’application à déterminer la période où vous étiez probablement contagieux. Vous n’êtes pas obligé de le faire.",
         "3a": "3. Vous autorisez votre téléphone ",
         "3b": "à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
       },
-      "Body1": "Personne n’obtiendra d’information sur vous ",
-      "Body2": "ou sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
+      "Body1": "Personne n’obtiendra de renseignements sur vous ",
+      "Body2": "ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de clé à usage unique?"
     },
@@ -46,17 +46,17 @@
         "5": "Perte soudaine de l’odorat ou du goût.",
         "6": "Maux d’estomac."
       },
-      "Option1": "Oui, vous avez ou avez eu au moins 1 symptôme au cours des 14 derniers jours.",
+      "Option1": "Oui, vous avez eu 1 ou plusieurs symptômes aujourd’hui ou au cours des 14 derniers jours.",
       "Option2": "Non, vous n’avez eu aucun symptôme.",
       "Option3": "Vous n’êtes pas certain. ",
       "Option4": "Vous préférez ne pas répondre.",
-      "Title2": "Pourquoi nous posons cette question",
-      "Body2": "Votre réponse aide l’application à déterminer la période où vous pouviez être contagieux, pour ensuite n’aviser que les personnes côtoyées durant ce temps. Cette information ne sera jamais échangée ou conservée ailleurs que sur votre téléphone.",
+      "Title2": "Pourquoi cette question",
+      "Body2": "Votre réponse aide l’application à déterminer la période où vous étiez probablement contagieux, puis à n’aviser que les personnes côtoyées pendant cette période. Votre réponse ne sera jamais échangée ni conservée ailleurs que sur votre téléphone.",
       "CTA": "Suivant"
     },
     "FormView": {
       "Title": "Entrez votre clé à usage unique",
-      "Body": "Entrez la clé à usage unique reçue lors de votre diagnostic. Dans le but de prévenir les fausses notifications, vous ne pouvez recevoir une clé que si vous obtenez un test positif à la COVID-19.",
+      "Body": "Entrez la clé reçue lors de votre diagnostic. Afin de prévenir les fausses notifications, vous ne recevrez une clé que si vous avez obtenu un résultat positif au test de dépistage de la COVID-19.",
       "Action": "Soumettre la clé",
       "InputLabel": "code Alerte COVID"
     },
@@ -78,22 +78,22 @@
     },
     "TekUploadNoDate": {
       "Title": "Aviser les personnes côtoyées",
-      "Body": "Vous pouvez maintenant partager vos codes. Ils aviseront toutes les personnes côtoyées au cours des 14 derniers jours, même si vous n’étiez probablement pas contagieux lors de votre contact.",
-      "CTA": "Téléverser les codes aléatoires"
+      "Body": "Vous n’avez pas fourni de date pour préciser la période où vous étiez probablement contagieux.\n\nVous pouvez maintenant partager les expositions enregistrées par l’application pour aviser toutes les personnes côtoyées au cours des 14 derniers jours.",
+      "CTA": "Partager les expositions"
     },
     "SymptomOnsetDate": {
-      "Title1": "Entrez la date de vos premiers symptômes",
-      "Title2": "Pourquoi nous posons cette question",
-      "Body1": "La date de vos premiers symptômes permet de déterminer la période où vous pouviez être contagieux. Celle-ci renseigne l’application sur les codes aléatoires à téléverser pour que seules les personnes côtoyées durant ce temps soient avisées.\n\nCette date ne sera jamais échangée ou conservée ailleurs que sur votre téléphone.",
-      "CTA": "Téléverser les codes aléatoires",
+      "Title1": "Date de vos premiers symptômes",
+      "Title2": "Pourquoi cette question",
+      "Body1": "La date des premiers symptômes permet de déterminer la période où vous étiez probablement contagieux. L’application sait ainsi quelles expositions il faut partager pour n’aviser que les personnes côtoyées pendant cette période.\n\nCette date ne sera jamais échangée ni conservée ailleurs que sur votre téléphone.",
+      "CTA": "Partager les expositions",
       "CTA2": "Je préfère ne pas répondre"
     },
     "TestDate": {
       "Title1": "Date de votre test",
       "Body1": "Entrez la date de votre test de dépistage pour la COVID-19.",
-      "Title2": "Pourquoi nous posons cette question",
-      "Body2": "Puisque vous n’avez pas eu de symptômes, la date de votre test permet de déterminer la période où vous pouviez être contagieux. L’application sait ainsi quels codes aléatoires téléverser pour n’aviser que les personnes côtoyées pendant cette période.\n\nCette date ne sera jamais échangée ou conservée ailleurs que sur votre téléphone.",
-      "CTA": "Téléverser les codes aléatoires",
+      "Title2": "Pourquoi cette question",
+      "Body2": "La date de votre test permet de déterminer la période où vous étiez probablement contagieux. L’application sait ainsi quelles expositions il faut partager pour n’aviser que les personnes côtoyées pendant cette période.\n\nCette date ne sera jamais échangée ni conservée ailleurs que sur votre téléphone.",
+      "CTA": "Partager les expositions",
       "CTA2": "Je préfère ne pas répondre"
     },
     "NoCode": {
@@ -115,7 +115,7 @@
     "Action": "OK",
     "TekUploadNoDate": {
       "Title": "",
-      "Body": "Vous devez entrer une date pour pouvoir partager les expositions."
+      "Body": "Vous devez sélectionner une date pour pouvoir partager les expositions."
     },
     "TekUploadOffline": {
       "Title": "Problème de connexion",
@@ -184,9 +184,9 @@
     },
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
-      "Title": "Vous avez été exposé au cours des 14\u00A0derniers jours",
+      "Title": "Vous avez été exposé",
       "Title2": "Que faire maintenant?",
-      "Body1": "Vous avez été près d’une personne qui a signalé un diagnostic de COVID-19 avec l’application. Votre proximité a duré 15\u00A0minutes ou plus.",
+      "Body1": "Au cours des 14 derniers jours, vous avez côtoyé une personne qui a signalé un diagnostic de COVID-19.",
       "RegionNotCovered": {
         "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
         "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
@@ -337,8 +337,8 @@
       "Bullet1": "Votre emplacement.",
       "Bullet2": "Votre nom ou votre adresse.",
       "Bullet3": "Les contacts de votre téléphone.",
-      "Bullet4": "Vos informations de santé.",
-      "Bullet5": "Les informations de santé des personnes à proximité."
+      "Bullet4": "Vos renseignements de santé, sauf ceux que vous acceptez de fournir.",
+      "Bullet5": "Les renseignements de santé des personnes à proximité."
     },
     "HowItWorks": {
       "Title": "Fonctionnement",
@@ -376,7 +376,7 @@
     "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "EnterCodeCardTitle": "Avez-vous reçu un diagnostic de COVID-19?",
     "EnterCodeCardAction": "Entrer votre clé",
-    "EnterCodeCardBody": "Pour aviser les autres personnes d’une exposition, vous avez besoin d’une clé à usage unique. Nous vous demanderons aussi des informations pour envoyer les notifications les plus exactes possible.",
+    "EnterCodeCardBody": "Pour aviser les autres personnes d’une exposition, vous avez besoin d’une clé à usage unique. Nous vous demanderons aussi quelques précisions pour déterminer la période où vous étiez probablement contagieux.",
     "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de la COVID-19. ",
     "EnterCodeCardDiagnosedCountdown": {
       "One": "Il vous reste {number}\u00A0jour!",
@@ -451,8 +451,8 @@
     "step-2": "L’application estime la distance entre vous et d’autres personnes grâce à la puissance des signaux Bluetooth.\n\nSi vous êtes à une distance de moins de 2 mètres pendant plus de 15 minutes, l’application enregistre une exposition.",
     "step-2Title": "Qu’est-ce qu’une exposition?",
     "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
-    "step-3": "Si une personne ayant l’application a un diagnostic de COVID-19, elle peut décider de téléverser tous les codes aléatoires émis par son téléphone vers un serveur central.\n\nLe serveur ne reçoit que les codes. Il ne reçoit aucune information personnelle.",
-    "step-3Title": "Quand une personne reçoit un test positif",
+    "step-3": "Si une personne ayant l’application reçoit un diagnostic de COVID-19, elle peut décider de téléverser les codes aléatoires émis par son téléphone.\n\nLa personne peut aussi fournir quelques précisions pour déterminer la période où elle était probablement contagieuse. Cette période indique au téléphone les codes aléatoires qu’il faut téléverser.\n\nLes codes aléatoires sont envoyés vers un serveur central. Celui-ci ne reçoit aucun autre renseignement.",
+    "step-3Title": "En cas de test positif",
     "step-3AltText": "Dessin à la main d’un téléphone mobile téléversant un code chiffré vers un nuage.",
     "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste de codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et vous expliquera quoi faire ensuite.",
     "step-4Title": "Découverte des expositions",
