@@ -213,7 +213,7 @@ describe('BackendService', () => {
       ).rejects.toThrow('Code Unknown');
     });
 
-    it('returns last 3 keys if symptom onset is today', async () => {
+    it('returns last 3 keys if symptom onset is today, saves last  uploaded TEK start time', async () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
       const keys = generateRandomKeys(30);
       await backendService.reportDiagnosisKeys(
@@ -231,13 +231,44 @@ describe('BackendService', () => {
           keys: expect.toHaveLength(3),
         }),
       );
-      keys
+      const sortedKeys = keys
         .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
         .splice(0, 3)
-        .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}))
-        .forEach(value => {
-          expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
-        });
+        .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}));
+      sortedKeys.forEach(value => {
+        expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
+      });
+
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'LAST_UPLOADED_TEK_START_TIME',
+        sortedKeys[0].rollingStartIntervalNumber.toString(),
+      );
+    });
+
+    it('does not upload TEKs with timestamps before the LAST_UPLOADED_TEK_START_TIME, saves new most recent time', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const keys = generateRandomKeys(10);
+      AsyncStorage.getItem.mockReturnValueOnce(keys[1].rollingStartIntervalNumber.toString());
+
+      await backendService.reportDiagnosisKeys(
+        {
+          clientPrivateKey: 'mock',
+          clientPublicKey: 'mock',
+          serverPublicKey: 'mock',
+        },
+        keys,
+        {dateType: ContagiousDateType.None, date: null},
+      );
+      expect(covidshield.Upload.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          keys: expect.toHaveLength(1),
+        }),
+      );
+
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'LAST_UPLOADED_TEK_START_TIME',
+        keys[0].rollingStartIntervalNumber.toString(),
+      );
     });
   });
 
