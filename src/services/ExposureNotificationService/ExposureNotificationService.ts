@@ -11,8 +11,11 @@ import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
+import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
+import {Key} from '../StorageService';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
@@ -144,14 +147,16 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
-    await this.loadExposureStatus();
-    try {
-      captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
-      await this.updateExposureStatus();
-      await this.processNotification();
-      captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
-    } catch (error) {
-      captureException('updateExposureStatusInBackground', error);
+    if (this.shouldPerformExposureCheck()) {
+      await this.loadExposureStatus();
+      try {
+        captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
+        await this.updateExposureStatus();
+        await this.processNotification();
+        captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
+      } catch (error) {
+        captureException('updateExposureStatusInBackground', error);
+      }
     }
   }
 
@@ -212,13 +217,15 @@ export class ExposureNotificationService {
   };
 
   async updateExposureStatus(): Promise<void> {
-    if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
-    const cleanUpPromise = <T>(input: T): T => {
-      this.exposureStatusUpdatePromise = null;
-      return input;
-    };
-    this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
-    return this.exposureStatusUpdatePromise;
+    if (this.shouldPerformExposureCheck()) {
+      if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
+      const cleanUpPromise = <T>(input: T): T => {
+        this.exposureStatusUpdatePromise = null;
+        return input;
+      };
+      this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
+      return this.exposureStatusUpdatePromise;
+    }
   }
 
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
@@ -533,4 +540,30 @@ export class ExposureNotificationService {
       });
     }
   }
+
+  private shouldPerformExposureCheck = () => {
+    const today = getCurrentDate();
+    const exposureStatus = this.exposureStatus.get();
+    const onboardedDatetime = AsyncStorage.getItem(Key.OnboardedDatetime);
+    if (this.systemStatus.get() !== SystemStatus.Active) {
+      captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
+      return false;
+    }
+    if (!onboardedDatetime) {
+      // Do not perform Exposure Checks if onboarding is not completed.
+      captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
+      return false;
+    }
+    const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
+    if (lastCheckedTimestamp) {
+      captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
+      const lastCheckedDate = new Date(lastCheckedTimestamp);
+      if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
+        captureMessage('shouldPerformExposureCheck - Too soon to check.');
+        return false;
+      }
+    }
+    captureMessage('Should perform ExposureCheck.');
+    return true;
+  };
 }

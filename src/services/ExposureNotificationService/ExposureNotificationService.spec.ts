@@ -2,7 +2,7 @@
 import {when} from 'jest-when';
 import {Platform} from 'react-native';
 
-import {getCurrentDate, periodSinceEpoch} from '../../shared/date-fns';
+import {periodSinceEpoch} from '../../shared/date-fns';
 import {ExposureSummary} from '../../bridge/ExposureNotification';
 import PushNotification from '../../bridge/PushNotification';
 

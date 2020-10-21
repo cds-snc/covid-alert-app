@@ -8,6 +8,7 @@ import {
   ExposureStatusType,
   SystemStatus,
   useExposureStatus,
+  useUpdateExposureStatus,
   useStartExposureNotificationService,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
@@ -178,8 +179,10 @@ export const HomeScreen = () => {
   }, [subscribeToStatusUpdates]);
 
   const startExposureNotificationService = useStartExposureNotificationService();
+  const updateExposureStatus = useUpdateExposureStatus();
   useEffect(() => {
     startExposureNotificationService();
+    updateExposureStatus();
   }, [startExposureNotificationService]);
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);

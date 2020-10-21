@@ -8,9 +8,7 @@ import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
 
 import {BackendInterface} from '../BackendService';
-import {BackgroundScheduler, DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
-import {useStorage} from '../StorageService';
-import {minutesBetween} from '../../shared/date-fns';
+import {BackgroundScheduler} from '../BackgroundSchedulerService';
 import {captureMessage} from '../../shared/log';
 
 import {
@@ -52,43 +50,29 @@ export const ExposureNotificationServiceProvider = ({
     [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );
 
-  const status = exposureNotificationService.exposureStatus.get();
-  const storageService = useStorage();
-
   useEffect(() => {
     backgroundScheduler.registerPeriodicTask(async () => {
-      const today = new Date();
-      if (shouldPerformExposureCheck(today, status, storageService, exposureNotificationService)) {
-        await exposureNotificationService.updateExposureStatusInBackground();
-      }
+      await exposureNotificationService.updateExposureStatusInBackground();
     });
-  }, [backgroundScheduler, exposureNotificationService, status, storageService]);
+  }, [backgroundScheduler, exposureNotificationService]);
 
   useEffect(() => {
-    const startExposureCheck = async () => {
-      const today = new Date();
-      if (shouldPerformExposureCheck(today, status, storageService, exposureNotificationService)) {
-        captureMessage('useExposureNotificationSystemStatusAutomaticUpdater - OK ExposureCheck.');
-        await exposureNotificationService.updateExposureStatus();
-      }
-    };
-
     const onAppStateChange = async (newState: AppStateStatus) => {
       captureMessage(`ExposureNotificationServiceProvider onAppStateChange: ${newState}`);
       if (newState !== 'active') return;
       exposureNotificationService.updateExposure();
-      await startExposureCheck();
+      await exposureNotificationService.updateExposureStatus();
     };
 
     // Note: The next two lines, calling updateExposure() and startExposureCheck() happen on app launch.
     exposureNotificationService.updateExposure();
-    startExposureCheck();
+    exposureNotificationService.updateExposureStatus();
 
     AppState.addEventListener('change', onAppStateChange);
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, [exposureNotificationService, status, storageService]);
+  }, [exposureNotificationService]);
 
   return (
     <ExposureNotificationServiceContext.Provider value={exposureNotificationService}>
@@ -164,7 +148,6 @@ export function useExposureNotificationSystemStatusAutomaticUpdater() {
   const exposureNotificationService = useExposureNotificationService();
   return useCallback(() => {
     const updateStatus = async (newState: AppStateStatus) => {
-      captureMessage(`useExposureNotificationSystemStatusAutomaticUpdater onAppStateChange: ${newState}`);
       if (newState !== 'active') return;
       await exposureNotificationService.updateSystemStatus();
     };
@@ -188,32 +171,3 @@ export function useExposureNotificationSystemStatusAutomaticUpdater() {
     };
   }, [exposureNotificationService]);
 }
-
-const shouldPerformExposureCheck = (
-  today: Date,
-  status: ExposureStatus,
-  storageService: any,
-  exposureNotificationService: ExposureNotificationService,
-) => {
-  const systemStatus = exposureNotificationService.systemStatus;
-  const onboardedDatetime = storageService.onboardedDatetime;
-  if (systemStatus.get() !== SystemStatus.Active) {
-    captureMessage(`ExposureNotificationServiceProvider - System Status: ${systemStatus}`);
-    return false;
-  }
-  if (!onboardedDatetime) {
-    // Do not perform Exposure Checks if onboarding is not completed.
-    captureMessage('ExposureNotificationServiceProvider - Onboarded: FALSE');
-    return false;
-  }
-  if (status.lastChecked) {
-    captureMessage(`ExposureNotificationServiceProvider - LastChecked Timestamp: ${status.lastChecked.timestamp}`);
-    const lastCheckedDate = new Date(status.lastChecked.timestamp);
-    if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
-      captureMessage('ExposureNotificationServiceProvider - Too soon to check.');
-      return false;
-    }
-  }
-  captureMessage('useExposureNotificationSystemStatusAutomaticUpdater - OK ExposureCheck.');
-  return true;
-};
