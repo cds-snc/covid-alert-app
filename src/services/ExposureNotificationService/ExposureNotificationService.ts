@@ -11,7 +11,6 @@ import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
 import {ContagiousDateInfo} from 'screens/datasharing/components';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -544,7 +543,7 @@ export class ExposureNotificationService {
   private shouldPerformExposureCheck = async () => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
-    const onboardedDatetime = await AsyncStorage.getItem(Key.OnboardedDatetime);
+    const onboardedDatetime = await this.secureStorage.get(Key.OnboardedDatetime);
     if (this.systemStatus.get() !== SystemStatus.Active) {
       captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
       return false;
