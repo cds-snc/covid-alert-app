@@ -5,20 +5,21 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {FormContext} from 'shared/FormContext';
 import {ContagiousDateType} from 'shared/DataSharing';
+import {parseDateString} from 'shared/date-fns';
 
 import {BaseTekUploadView, DatePicker, StepXofY} from './components';
+
+const DATE_PICKER_DAYS_BACK = 14;
 
 export const SymptomOnsetDateScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const secondaryButtonOnPress = useCallback(() => navigation.navigate('TekUploadNoDate'), [navigation]);
   const {data, setSymptomOnsetDate} = useContext(FormContext);
-  const dateParts = data.symptomOnsetDate.split('-');
-  const providedDate = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.SymptomOnsetDate.CTA')}
-      contagiousDateInfo={{dateType: ContagiousDateType.SymptomOnsetDate, date: providedDate}}
+      contagiousDateInfo={{dateType: ContagiousDateType.SymptomOnsetDate, date: parseDateString(data.symptomOnsetDate)}}
       secondaryButtonText={i18n.translate('DataUpload.SymptomOnsetDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
     >
@@ -28,7 +29,11 @@ export const SymptomOnsetDateScreen = () => {
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.SymptomOnsetDate.Title1')}
           </Text>
-          <DatePicker daysBack={14} selectedDate={data.symptomOnsetDate} setDate={setSymptomOnsetDate} />
+          <DatePicker
+            daysBack={DATE_PICKER_DAYS_BACK}
+            selectedDate={data.symptomOnsetDate}
+            setDate={setSymptomOnsetDate}
+          />
           <Text variant="bodyTitle2" marginTop="l" marginBottom="s">
             {i18n.translate('DataUpload.SymptomOnsetDate.Title2')}
           </Text>

@@ -170,6 +170,7 @@ export class BackendService implements BackendInterface {
 
   filterOldTEKs = async () => {
     const lastUploadedTekStartTime = Number(await AsyncStorage.getItem(LAST_UPLOADED_TEK_START_TIME));
+    captureMessage('lastUploadedTekStartTime', {lastUploadedTekStartTime});
     return (key: TemporaryExposureKey) => {
       if (!lastUploadedTekStartTime) {
         return true;
@@ -177,6 +178,7 @@ export class BackendService implements BackendInterface {
       if (key.rollingStartIntervalNumber > lastUploadedTekStartTime) {
         return true;
       }
+      captureMessage('keyTooOld', {keyTooOld: key});
       return false;
     };
   };

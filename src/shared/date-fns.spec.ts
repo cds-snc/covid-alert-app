@@ -8,6 +8,7 @@ import {
   minutesBetween,
   getUploadDaysLeft,
   getCurrentDate,
+  parseDateString,
 } from './date-fns';
 
 /**
@@ -200,6 +201,18 @@ describe('date-fns', () => {
     it('if cycle ends today, return 0', () => {
       const cycleEndsAt = getCurrentDate().getTime();
       expect(getUploadDaysLeft(cycleEndsAt)).toStrictEqual(0);
+    });
+  });
+
+  describe('parseDateString', () => {
+    it.each([
+      ['2020-10-01', new Date(2020, 9, 1)],
+      ['2020-01-01', new Date(2020, 0, 1)],
+      ['2020-1-1', new Date(2020, 0, 1)],
+      ['2020-1-01', new Date(2020, 0, 1)],
+      ['2020-01-1', new Date(2020, 0, 1)],
+    ])('parses %p as %p', async (input, output) => {
+      expect(parseDateString(input)).toStrictEqual(output);
     });
   });
 

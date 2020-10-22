@@ -5,20 +5,21 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {FormContext} from 'shared/FormContext';
 import {ContagiousDateType} from 'shared/DataSharing';
+import {parseDateString} from 'shared/date-fns';
 
 import {BaseTekUploadView, DatePicker, StepXofY} from './components';
+
+const DATE_PICKER_DAYS_BACK = 14;
 
 export const TestDateScreen = () => {
   const i18n = useI18n();
   const {data, setTestDate} = useContext(FormContext);
   const navigation = useNavigation();
   const secondaryButtonOnPress = useCallback(() => navigation.navigate('TekUploadNoDate'), [navigation]);
-  const dateParts = data.testDate.split('-');
-  const providedDate = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.TestDate.CTA')}
-      contagiousDateInfo={{dateType: ContagiousDateType.TestDate, date: providedDate}}
+      contagiousDateInfo={{dateType: ContagiousDateType.TestDate, date: parseDateString(data.testDate)}}
       secondaryButtonText={i18n.translate('DataUpload.TestDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
     >
@@ -29,7 +30,7 @@ export const TestDateScreen = () => {
             {i18n.translate('DataUpload.TestDate.Title1')}
           </Text>
           <Text marginBottom="l">{i18n.translate('DataUpload.TestDate.Body1')}</Text>
-          <DatePicker daysBack={14} setDate={setTestDate} selectedDate={data.testDate} />
+          <DatePicker daysBack={DATE_PICKER_DAYS_BACK} setDate={setTestDate} selectedDate={data.testDate} />
           <Text variant="bodyTitle2" marginTop="l" marginBottom="s">
             {i18n.translate('DataUpload.TestDate.Title2')}
           </Text>
