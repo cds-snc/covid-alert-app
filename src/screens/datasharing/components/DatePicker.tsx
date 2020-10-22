@@ -13,9 +13,10 @@ interface ModalWrapperProps {
   labelDict: any;
   children: React.ReactNode;
   selectedDate: string;
+  buttonText: string;
 }
 
-const ModalWrapper = ({labelDict, children, selectedDate}: ModalWrapperProps) => {
+const ModalWrapper = ({labelDict, children, selectedDate, buttonText}: ModalWrapperProps) => {
   const {data, toggleModal} = useContext(FormContext);
   return (
     <>
@@ -28,7 +29,7 @@ const ModalWrapper = ({labelDict, children, selectedDate}: ModalWrapperProps) =>
               onPress={() => {
                 toggleModal(false);
               }}
-              text="Close"
+              text={buttonText}
             />
           </Box>
         </Box>
@@ -110,7 +111,7 @@ export const DatePicker = ({daysBack, selectedDate, setDate}: DatePickerProps) =
 
   if (Platform.OS === 'ios') {
     return (
-      <ModalWrapper labelDict={labelDict} selectedDate={selectedDate}>
+      <ModalWrapper labelDict={labelDict} selectedDate={selectedDate} buttonText={i18n.translate('DataUpload.Close')}>
         <DatePickerInternal
           // eslint-disable-next-line react-native/no-inline-styles
           pickerStyles={{height: 200}}

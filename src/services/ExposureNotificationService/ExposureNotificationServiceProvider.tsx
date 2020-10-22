@@ -110,7 +110,7 @@ export function useReportDiagnosis() {
     [exposureNotificationService],
   );
   const fetchAndSubmitKeys = useCallback(
-    (contagiousDateInfo: ContagiousDateInfo) => {
+    async (contagiousDateInfo: ContagiousDateInfo) => {
       return exposureNotificationService.fetchAndSubmitKeys(contagiousDateInfo);
     },
     [exposureNotificationService],

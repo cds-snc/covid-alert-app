@@ -172,7 +172,7 @@
     "step-1": "The app runs in the background and will not interrupt your activities.\n\nWhenever you’re near someone else with COVID Alert, both phones exchange random codes every 5 minutes.\n\nThe random codes change often and cannot be used to identify you. ",
     "step-2Title": "What’s an exposure?",
     "step-2AltText": "A hand-drawn illustration of 2 mobile phones side-by-side with a timer clock connecting both phones.",
-    "step-2": "The app estimates how near people are by the strength of Bluetooth signals.\n\nThe app will record an exposure if the contact:\n\n• Is closer than 2 metres.\n\n• Lasts at least 15 minutes.\n\n• Happens during the time the person was likely most contagious.",
+    "step-2": "The app estimates how near people are by the strength of Bluetooth signals.\n\nThe app will record an exposure if the contact:\n• Is closer than 2 metres.\n• Lasts at least 15 minutes.\n• Happens during the time the person was likely most contagious.",
     "step-3Title": "Getting a positive test",
     "step-3AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
     "step-3": "If a person with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent.\n\nThey can also give details to help narrow down when they were likely most contagious. Those details tell the phone which random codes to upload.\n\nThe random codes go into a central server. No other information is sent to the server.",
