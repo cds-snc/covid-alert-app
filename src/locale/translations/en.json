@@ -115,7 +115,7 @@
     "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
-    "EnterCodeCardBody": "To let people know they’ve been exposed, you need a one-time key. We’ll also ask for details to help narrow down when you were likely contagious.",
+    "EnterCodeCardBody": "To let people know they’ve been exposed, you need a one-time key. We’ll also ask for details to help narrow down when you were likely most contagious.",
     "EnterCodeCardAction": "Enter your one-time key",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
@@ -172,10 +172,10 @@
     "step-1": "The app runs in the background and will not interrupt your activities.\n\nWhenever you’re near someone else with COVID Alert, both phones exchange random codes every 5 minutes.\n\nThe random codes change often and cannot be used to identify you. ",
     "step-2Title": "What’s an exposure?",
     "step-2AltText": "A hand-drawn illustration of 2 mobile phones side-by-side with a timer clock connecting both phones.",
-    "step-2": "The app estimates how near people are by the strength of Bluetooth signals.\n\nIf you’re closer than 2 metres for more than 15 minutes, the app will record an exposure.",
+    "step-2": "The app estimates how near people are by the strength of Bluetooth signals.\n\nThe app will record an exposure if the contact:\n\n• Is closer than 2 metres.\n\n• Lasts at least 15 minutes.\n\n• Happens during the time the person was likely most contagious.",
     "step-3Title": "Getting a positive test",
     "step-3AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
-    "step-3": "If a person with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent.\n\nThey can also give details to help narrow down when they were likely contagious. Those details tell the phone which random codes to upload.\n\nThe random codes go into a central server. No other information is sent to the server.",
+    "step-3": "If a person with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent.\n\nThey can also give details to help narrow down when they were likely most contagious. Those details tell the phone which random codes to upload.\n\nThe random codes go into a central server. No other information is sent to the server.",
     "step-4Title": "Looking for exposures",
     "step-4AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
     "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you’ve been exposed and explains what to do next.",
@@ -272,7 +272,7 @@
         "1a": "1. Enter the one-time key ",
         "1b": "you got when you were diagnosed.",
         "2a": "2. Give the app details ",
-        "2b": "to help narrow down when you were likely contagious. You can choose not to give any details.",
+        "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
         "3a": "3. Allow your phone to share ",
         "3b": "your random codes. These codes notify people you’ve been near."
       },
@@ -297,7 +297,7 @@
       "Option3": "You're not sure.",
       "Option4": "You prefer not to say.",
       "Title2": "Why we’re asking",
-      "Body2": "This information helps figure out when you were likely contagious. It tells the app which exposures to share so only people who were near you during that time will be notified. It will never be sent or stored outside your phone.",
+      "Body2": "This information helps figure out when you were likely most contagious. It tells the app which exposures to share so only people who were near you during that time will be notified. It will never be sent or stored outside your phone.",
       "CTA": "Next"
     },
     "FormView": {
@@ -313,7 +313,7 @@
     },
     "ConsentView": {
       "Title": "Now you can upload your codes",
-      "Body1": "Your phone will ask your permission to upload your random codes or “random IDs” from the past 14 days.",
+      "Body1": "Your phone will ask your permission to upload your most recent random codes or “random IDs”.",
       "Body2a": "Nobody will get any information about you ",
       "Body2b": "or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
@@ -321,13 +321,13 @@
     },
     "TekUploadNoDate": {
       "Title": "Notify people you've been near",
-      "Body": "You did not give a date to help narrow down when you were likely contagious.\n\nShare your exposures now to notify all the people you were near in the last 14 days.",
+      "Body": "You did not give a date to help narrow down when you were likely most contagious.\n\nShare your exposures now to notify the people you were near in the last 14 days.",
       "CTA": "Share exposures"
     },
     "SymptomOnsetDate": {
       "Title1": "Date your symptoms started",
       "Title2": "Why we’re asking",
-      "Body1": "This date helps figure out when you were likely contagious. It tells the app which exposures to share so only people who were near you during that time will be notified.\n\nThe date does not get sent or stored anywhere outside your phone.",
+      "Body1": "This date helps figure out when you were likely most contagious. It tells the app which exposures to share so only people who were near you during that time will be notified.\n\nThe date does not get sent or stored anywhere outside your phone.",
       "CTA": "Share exposures",
       "CTA2": "Prefer not to say"
     },
@@ -335,7 +335,7 @@
       "Title1": "Your test date",
       "Body1": "Enter the date you got your COVID-19 test.",
       "Title2": "Why we’re asking",
-      "Body2": "Your test date helps figure out when you were likely contagious. It tells the app which exposures to share so only people who were near you then will be notified.\n\nThe date does not get sent or stored anywhere outside your phone.",
+      "Body2": "Your test date helps figure out when you were likely most contagious. It tells the app which exposures to share so only people who were near you then will be notified.\n\nThe date does not get sent or stored anywhere outside your phone.",
       "CTA": "Share exposures",
       "CTA2": "Prefer not to say"
     },
