@@ -20,6 +20,13 @@ jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
 
+jest.mock('react-native-background-fetch', () => {
+  return {
+    configure: jest.fn(),
+    scheduleTask: jest.fn(),
+  };
+});
+
 jest.mock('../../bridge/PushNotification', () => ({
   ...jest.requireActual('bridge/PushNotification'),
   presentLocalNotification: jest.fn(),
