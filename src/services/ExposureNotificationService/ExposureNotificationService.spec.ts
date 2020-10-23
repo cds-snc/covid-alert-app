@@ -5,6 +5,8 @@ import {Platform} from 'react-native';
 import {periodSinceEpoch} from '../../shared/date-fns';
 import {ExposureSummary} from '../../bridge/ExposureNotification';
 import PushNotification from '../../bridge/PushNotification';
+import {Key} from '../StorageService';
+import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 
 import {
   ExposureNotificationService,
@@ -12,6 +14,7 @@ import {
   ExposureStatusType,
   EXPOSURE_STATUS,
   HOURS_PER_PERIOD,
+  SystemStatus,
 } from './ExposureNotificationService';
 
 const ONE_DAY = 3600 * 24 * 1000;
@@ -731,6 +734,10 @@ describe('ExposureNotificationService', () => {
     it('selects next exposure summary if user is not already exposed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+      service.systemStatus.set(SystemStatus.Active);
+      when(secureStorage.get)
+        .calledWith(Key.OnboardedDatetime)
+        .mockReturnValueOnce(today.getTime());
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       const nextSummary = {
         daysSinceLastExposure: 7,
@@ -744,7 +751,7 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Monitoring,
         lastChecked: {
           period,
-          timestamp: today.getTime(),
+          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
         },
       });
 
