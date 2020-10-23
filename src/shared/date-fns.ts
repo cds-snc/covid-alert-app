@@ -60,6 +60,9 @@ export function getUploadDaysLeft(cycleEndsAt: number) {
 }
 
 export function parseDateString(dateString: string) {
+  if (!dateString) {
+    return null;
+  }
   const dateParts = dateString.split('-');
   return new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
 }

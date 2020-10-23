@@ -184,6 +184,7 @@ describe('date-fns', () => {
       ['2020-1-1', new Date(2020, 0, 1)],
       ['2020-1-01', new Date(2020, 0, 1)],
       ['2020-01-1', new Date(2020, 0, 1)],
+      ['', null],
     ])('parses %p as %p', async (input, output) => {
       expect(parseDateString(input)).toStrictEqual(output);
     });
