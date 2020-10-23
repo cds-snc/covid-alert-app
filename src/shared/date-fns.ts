@@ -13,13 +13,6 @@ export function periodSinceEpoch(date: Date, hoursPerPeriod: number) {
   return Math.floor(date.getTime() / (1000 * 3600 * hoursPerPeriod));
 }
 
-export function daysFromNow(date: Date) {
-  // todo: remove when LastCheckedDisplay is removed
-  const currentTime = Date.now();
-  const oneDayMs = 1000 * 60 * 60 * 24;
-  return Math.round((currentTime - date.getTime()) / oneDayMs);
-}
-
 export function hoursFromNow(date: Date) {
   const currentTime = Date.now();
   const oneHourMs = 1000 * 60 * 60;
