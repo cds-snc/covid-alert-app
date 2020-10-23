@@ -301,10 +301,15 @@ describe('ExposureNotificationService', () => {
   });
 
   it('backfills keys when last timestamp not available', async () => {
+    const today = new OriginalDate('2020-05-18T04:10:00+0000');
     dateSpy.mockImplementation((args: any) => {
       if (args === undefined) return new OriginalDate('2020-05-19T11:10:00+0000');
       return new OriginalDate(args);
     });
+    service.systemStatus.set(SystemStatus.Active);
+    when(secureStorage.get)
+      .calledWith(Key.OnboardedDatetime)
+      .mockReturnValueOnce(today.getTime());
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
