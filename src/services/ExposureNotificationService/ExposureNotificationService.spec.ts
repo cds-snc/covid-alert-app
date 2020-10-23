@@ -353,6 +353,11 @@ describe('ExposureNotificationService', () => {
   });
 
   it('serializes status update', async () => {
+    const today = new OriginalDate('2020-05-19T04:10:00+0000');
+    service.systemStatus.set(SystemStatus.Active);
+    when(secureStorage.get)
+      .calledWith(Key.OnboardedDatetime)
+      .mockReturnValueOnce(today.getTime());
     const updatePromise = service.updateExposureStatus();
     const anotherUpdatePromise = service.updateExposureStatus();
     await Promise.all([updatePromise, anotherUpdatePromise]);
