@@ -1,5 +1,8 @@
 export function addDays(date: Date, days: number) {
-  return new Date(date.getTime() + days * 3600 * 24 * 1000);
+  // https://stackoverflow.com/questions/563406/add-days-to-javascript-date
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
 }
 
 export function hoursSinceEpoch(date: Date) {
@@ -54,4 +57,12 @@ export function getUploadDaysLeft(cycleEndsAt: number) {
     return 0;
   }
   return uploadDaysLeft;
+}
+
+export function parseDateString(dateString: string) {
+  if (!dateString) {
+    return null;
+  }
+  const dateParts = dateString.split('-');
+  return new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
 }
