@@ -518,14 +518,17 @@ describe('ExposureNotificationService', () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((args: any) => (args ? new OriginalDate(args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
-
+      service.systemStatus.set(SystemStatus.Active);
+      when(secureStorage.get)
+        .calledWith(Key.OnboardedDatetime)
+        .mockReturnValueOnce(today.getTime());
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
         cycleStartsAt: today.getTime() - 14 * 3600 * 24 * 1000,
         cycleEndsAt: today.getTime(),
         lastChecked: {
           period,
-          timestamp: today.getTime(),
+          timestamp: today.getTime() - ONE_DAY,
         },
       });
 
