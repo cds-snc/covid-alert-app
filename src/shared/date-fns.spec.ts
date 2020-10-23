@@ -2,7 +2,6 @@ import {
   daysBetweenUTC,
   addDays,
   hoursSinceEpoch,
-  daysFromNow,
   hoursFromNow,
   minutesFromNow,
   minutesBetween,
@@ -62,32 +61,6 @@ describe('date-fns', () => {
 
     it('returns 25.5 for 1:30 first day after epoch', () => {
       expect(hoursSinceEpoch(new Date('1970-01-02 01:30:00 GMT+0000'))).toStrictEqual(25.5);
-    });
-  });
-
-  describe('daysFromNow', () => {
-    let now;
-
-    beforeEach(() => {
-      now = jest.spyOn(Date, 'now').mockImplementation(() => new Date('2020-07-07 00:01:00 GMT+0200'));
-    });
-
-    afterEach(() => {
-      now.mockReset();
-    });
-
-    it('returns 1 if the date is within 24h in past', () => {
-      const date = new Date('2020-07-06 00:01:01 GMT+0200');
-      expect(daysFromNow(date)).toStrictEqual(1);
-    });
-
-    it('returns -1 if the date is within 24h in future', () => {
-      const date = new Date('2020-07-07 23:59:59 GMT+0200');
-      expect(daysFromNow(date)).toStrictEqual(-1);
-    });
-
-    it('returns 0 if the date is exactly the current time', () => {
-      expect(daysFromNow(now())).toStrictEqual(0);
     });
   });
 
