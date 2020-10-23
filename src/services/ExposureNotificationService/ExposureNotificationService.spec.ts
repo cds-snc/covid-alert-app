@@ -197,7 +197,10 @@ describe('ExposureNotificationService', () => {
       Platform.OS = os;
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
+      service.systemStatus.set(SystemStatus.Active);
+      when(secureStorage.get)
+        .calledWith(Key.OnboardedDatetime)
+        .mockReturnValueOnce(today.getTime());
       const currentStatus: ExposureStatus = {
         type: ExposureStatusType.Monitoring,
       };
