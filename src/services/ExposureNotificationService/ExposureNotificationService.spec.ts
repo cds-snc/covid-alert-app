@@ -518,7 +518,9 @@ describe('ExposureNotificationService', () => {
       });
 
       await service.updateExposureStatus();
-      expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Monitoring}));
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({type: ExposureStatusType.Monitoring}),
+      );
     });
   });
 
