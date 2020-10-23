@@ -345,7 +345,7 @@
       "ImageAltText": "Dessin à la main de 3 téléphones mobiles émettant des codes aléatoires en utilisant Bluetooth.",
       "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
       "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
-      "Body3": "Si vous avez eu un contact étroit avec l’une de ces personnes au cours des 14\u00A0derniers jours, vous recevrez une notification.",
+      "Body3": "Si vous avez côtoyé l’une de ces personnes au cours des 14 derniers jours, vous recevrez une notification.",
       "HowItWorksCTA": "En savoir plus sur le fonctionnement"
     },
     "PartOf": {
