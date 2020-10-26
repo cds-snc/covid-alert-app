@@ -131,6 +131,7 @@ describe('ExposureNotificationService', () => {
 
   const OriginalDate = global.Date;
   const dateSpy = jest.spyOn(global, 'Date');
+  const today = new OriginalDate('2020-05-18T04:10:00+0000');
 
   const testUpdateExposure = async (currentStatus: ExposureStatus, summaries: ExposureSummary[]) => {
     service.exposureStatus.append(currentStatus);
@@ -142,6 +143,16 @@ describe('ExposureNotificationService', () => {
   beforeEach(() => {
     service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge);
     Platform.OS = 'ios';
+    service.systemStatus.set(SystemStatus.Active);
+    when(secureStorage.get)
+      .calledWith(Key.OnboardedDatetime)
+      .mockReturnValueOnce(today.getTime());
+    service.exposureStatus.append({
+      lastChecked: {
+        timestamp: today.getTime() - ONE_DAY,
+      },
+    });
+    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
 
   afterEach(() => {
@@ -197,10 +208,7 @@ describe('ExposureNotificationService', () => {
       Platform.OS = os;
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-      service.systemStatus.set(SystemStatus.Active);
-      when(secureStorage.get)
-        .calledWith(Key.OnboardedDatetime)
-        .mockReturnValueOnce(today.getTime());
+
       const currentStatus: ExposureStatus = {
         type: ExposureStatusType.Monitoring,
       };
@@ -306,10 +314,7 @@ describe('ExposureNotificationService', () => {
       if (args === undefined) return new OriginalDate('2020-05-19T11:10:00+0000');
       return new OriginalDate(args);
     });
-    service.systemStatus.set(SystemStatus.Active);
-    when(secureStorage.get)
-      .calledWith(Key.OnboardedDatetime)
-      .mockReturnValueOnce(today.getTime());
+
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
@@ -353,11 +358,6 @@ describe('ExposureNotificationService', () => {
   });
 
   it('serializes status update', async () => {
-    const today = new OriginalDate('2020-05-19T04:10:00+0000');
-    service.systemStatus.set(SystemStatus.Active);
-    when(secureStorage.get)
-      .calledWith(Key.OnboardedDatetime)
-      .mockReturnValueOnce(today.getTime());
     const updatePromise = service.updateExposureStatus();
     const anotherUpdatePromise = service.updateExposureStatus();
     await Promise.all([updatePromise, anotherUpdatePromise]);
@@ -518,10 +518,6 @@ describe('ExposureNotificationService', () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((args: any) => (args ? new OriginalDate(args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
-      service.systemStatus.set(SystemStatus.Active);
-      when(secureStorage.get)
-        .calledWith(Key.OnboardedDatetime)
-        .mockReturnValueOnce(today.getTime());
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
         cycleStartsAt: today.getTime() - 14 * 3600 * 24 * 1000,
@@ -559,7 +555,7 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
-          timestamp: today.getTime(),
+          timestamp: today.getTime() - ONE_DAY,
         },
         summary: getSummary({
           today,
@@ -729,11 +725,18 @@ describe('ExposureNotificationService', () => {
     it('processes the reminder push notification when diagnosed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
+      when(secureStorage.get)
+        .calledWith(Key.OnboardedDatetime)
+        .mockReturnValueOnce(today.getTime());
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
         needsSubmission: true,
         uploadReminderLastSentAt: lastSent.getTime(),
+        lastChecked: {
+          period: periodSinceEpoch(today, HOURS_PER_PERIOD),
+          timestamp: today.getTime() - 60 * 60 * 1000,
+        },
       });
 
       await service.updateExposureStatusInBackground();
@@ -748,12 +751,6 @@ describe('ExposureNotificationService', () => {
     });
 
     it('selects next exposure summary if user is not already exposed', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-      service.systemStatus.set(SystemStatus.Active);
-      when(secureStorage.get)
-        .calledWith(Key.OnboardedDatetime)
-        .mockReturnValueOnce(today.getTime());
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       const nextSummary = {
         daysSinceLastExposure: 7,
@@ -765,10 +762,10 @@ describe('ExposureNotificationService', () => {
       bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
       service.exposureStatus.set({
         type: ExposureStatusType.Monitoring,
-        lastChecked: {
-          period,
-          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
-        },
+        // lastChecked: {
+        //   period,
+        //   timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+        // },
       });
 
       await service.updateExposureStatus();
