@@ -615,7 +615,36 @@ describe('ExposureNotificationService', () => {
       );
     });
 
+    it('selects next exposure summary if user is not already exposed', async () => {
+      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      const nextSummary = {
+        daysSinceLastExposure: 7,
+        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+        attenuationDurations: [1200, 0, 0],
+      };
+      bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+        lastChecked: {
+          period,
+          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+        },
+      });
+
+      await service.updateExposureStatus();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          type: ExposureStatusType.Exposed,
+          summary: nextSummary,
+        }),
+      );
+    });
+
     it('selects current exposure summary if user is already exposed', async () => {
+      // abc
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
@@ -725,9 +754,6 @@ describe('ExposureNotificationService', () => {
     it('processes the reminder push notification when diagnosed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
-      when(secureStorage.get)
-        .calledWith(Key.OnboardedDatetime)
-        .mockReturnValueOnce(today.getTime());
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
@@ -746,34 +772,6 @@ describe('ExposureNotificationService', () => {
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
           uploadReminderLastSentAt: today.getTime(),
-        }),
-      );
-    });
-
-    it('selects next exposure summary if user is not already exposed', async () => {
-      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
-      const nextSummary = {
-        daysSinceLastExposure: 7,
-        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-        matchedKeyCount: 1,
-        maximumRiskScore: 1,
-        attenuationDurations: [1200, 0, 0],
-      };
-      bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
-      service.exposureStatus.set({
-        type: ExposureStatusType.Monitoring,
-        // lastChecked: {
-        //   period,
-        //   timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
-        // },
-      });
-
-      await service.updateExposureStatus();
-
-      expect(service.exposureStatus.get()).toStrictEqual(
-        expect.objectContaining({
-          type: ExposureStatusType.Exposed,
-          summary: nextSummary,
         }),
       );
     });
