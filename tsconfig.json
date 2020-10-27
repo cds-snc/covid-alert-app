@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "isolatedModules": false,
     "jsx": "react-native",
-    "lib": ["es6", "dom", "dom.iterable"],
+    "lib": ["es6"],
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "moduleResolution": "node",
