@@ -478,7 +478,7 @@ describe('ExposureNotificationService', () => {
     when(secureStorage.get)
       .calledWith('submissionAuthKeys')
       .mockResolvedValueOnce('{}');
-    await service.fetchAndSubmitKeys();
+    await service.fetchAndSubmitKeys({dateType: 'noDate', date: null});
 
     expect(storage.setItem).toHaveBeenCalledWith(
       EXPOSURE_STATUS,

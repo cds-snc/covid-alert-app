@@ -10,7 +10,7 @@ import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
-import {ContagiousDateInfo} from 'screens/datasharing/components';
+import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -215,6 +215,21 @@ export class ExposureNotificationService {
     return periodsToFetch;
   };
 
+  async updateCycleTimes(contagiousDateInfo: ContagiousDateInfo): Promise<void> {
+    if (contagiousDateInfo.dateType === ContagiousDateType.None) {
+      return;
+    }
+    if (contagiousDateInfo.date === null) {
+      return;
+    }
+    const cycleStartsAt = contagiousDateInfo.date;
+    const cycleEndsAt = addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE);
+    this.finalize({
+      cycleStartsAt: cycleStartsAt.getTime(),
+      cycleEndsAt: cycleEndsAt.getTime(),
+    });
+  }
+
   async updateExposureStatus(): Promise<void> {
     if (await this.shouldPerformExposureCheck()) {
       if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
@@ -264,6 +279,7 @@ export class ExposureNotificationService {
       captureMessage('getTemporaryExposureKeyHistory', {message: 'No TEKs available to upload'});
     }
     await this.recordKeySubmission();
+    await this.updateCycleTimes(contagiousDateInfo);
   }
 
   public calculateNeedsSubmission(): boolean {
