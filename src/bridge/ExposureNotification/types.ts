@@ -20,6 +20,7 @@ export enum Status {
   Restricted = 'restricted',
   LocationOff = 'location_off',
   PlayServicesNotAvailable = 'play_services_not_available',
+  ExposureNotificationApiNotAvailable = 'exposure_notification_api_not_available',
   Unauthorized = 'unauthorized',
   Authorized = 'authorized',
 }
