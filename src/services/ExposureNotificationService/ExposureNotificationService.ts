@@ -559,7 +559,7 @@ export class ExposureNotificationService {
   private shouldPerformExposureCheck = async () => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
-    const onboardedDatetime = await this.secureStorage.get(Key.OnboardedDatetime);
+    const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
     if (this.systemStatus.get() !== SystemStatus.Active) {
       captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
       return false;
