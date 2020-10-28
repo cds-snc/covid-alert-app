@@ -144,7 +144,7 @@ describe('ExposureNotificationService', () => {
     service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge);
     Platform.OS = 'ios';
     service.systemStatus.set(SystemStatus.Active);
-    when(secureStorage.get)
+    when(storage.getItem)
       .calledWith(Key.OnboardedDatetime)
       .mockReturnValueOnce(today.getTime());
     service.exposureStatus.append({
