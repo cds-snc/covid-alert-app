@@ -27,7 +27,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(APP_VERSION_CODE)</string>
 	<key>ENAPIVersion</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>ENDeveloperRegion</key>
 	<string>CA</string>
   <key>ITSAppUsesNonExemptEncryption</key>
