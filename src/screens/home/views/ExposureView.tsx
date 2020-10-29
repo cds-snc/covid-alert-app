@@ -18,9 +18,9 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   return (
     <>
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate('Home.ExposureDetected.${textType}.Title')}
+        {i18n.translate(`Home.ExposureDetected.${textType}.Title`)}
       </Text>
-      <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.${textType}.Body1')}</Text>
+      <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.${textType}.Body1`)}</Text>
 
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate(`Home.ExposureDetected.${textType}.Title2`)}
