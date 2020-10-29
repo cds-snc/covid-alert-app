@@ -1,5 +1,5 @@
 {
-  "Active": ["ON", "NL", "NB", "SK", "MB", "QC", "PE"],
+  "Active": ["ON", "NL", "NB", "SK", "MB", "QC", "PE", "NS"],
   "en": {
     "RegionContent": {
       "Home": {
@@ -53,9 +53,9 @@
           },
           "NS": {
             "Tip": {
-              "Body": "",
-              "CTA": "",
-              "URL": ""
+              "Body": "You need to self-isolate.",
+              "CTA": "How to self-isolate",
+              "URL": "https://novascotia.ca/coronavirus/symptoms-and-testing/#self-isolate"
             }
           },
           "PE": {
@@ -110,10 +110,10 @@
             "Link": "tel:1-855-228-4253"
           },
           "NS": {
-            "Title": "",
-            "Body": "",
-            "CTA": "",
-            "Link": ""
+            "Title": "Get a one-time key",
+            "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+            "CTA": "Help",
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
           },
           "PE": {
             "Title": "Get a one-time key",
@@ -142,7 +142,7 @@
           },
           "SK": {
             "Body": "You’re at risk of being infected.",
-            "CTA": "Find out if you need to get tested",
+            "CTA": "Find out what to do next",
             "URL": "https://www.saskatchewan.ca/covid19-apps"
           },
           "MB": {
@@ -157,8 +157,8 @@
           },
           "NS": {
             "Body": "",
-            "CTA": "",
-            "URL": ""
+            "CTA": "Find out what to do next",
+            "URL": "https://novascotia.ca/coronavirus/exposure"
           },
           "PE": {
             "Body": "You’re at risk of being infected.",
@@ -248,48 +248,48 @@
               "Body": "Vous devez vous isoler et suivre les recommandations de santé publique.",
               "CTA": "Comment vous isoler",
               "URL": "https://www.gov.nl.ca/covid-19/comment-proceder-a-lauto-isolement/"
-            },
-            "NB": {
-              "Tip": {
-                "Body": "",
-                "CTA": "",
-                "URL": ""
-              }
-            },
-            "SK": {
-              "Tip": {
-                "Body": "",
-                "CTA": "",
-                "URL": ""
-              }
-            },
-            "MB": {
-              "Tip": {
-                "Body": "",
-                "CTA": "",
-                "URL": ""
-              }
-            },
-            "QC": {
-              "Tip": {
-                "Body": "",
-                "CTA": "",
-                "URL": ""
-              }
-            },
-            "NS": {
-              "Tip": {
-                "Body": "",
-                "CTA": "",
-                "URL": ""
-              }
-            },
-            "PE": {
-              "Tip": {
-                "Body": "",
-                "CTA": "",
-                "URL": ""
-              }
+            }
+          },
+          "NB": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "SK": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "MB": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "QC": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "NS": {
+            "Tip": {
+              "Body": "Vous devez vous isoler.",
+              "CTA": "Comment vous isoler",
+              "URL": "https://novascotia.ca/coronavirus/symptoms-and-testing/fr/#self-isolate"
+            }
+          },
+          "PE": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
             }
           }
         }
@@ -335,18 +335,19 @@
             "Body": "Vous pouvez demander une clé à usage unique seulement si vous recevez un diagnostic de COVID-19.\n\nAprès avoir reçu l’appel de la Santé publique, appelez au 1-855-228-4253 pour demander une clé.\n\nN’appelez que si vous avez reçu un appel de la Santé publique concernant votre test positif.",
             "CTA": "Votre résultat est-il positif?\nAppelez au 1-855-228-4253",
             "Link": "tel:1-855-228-4253"
-            },
+          },
           "PE": {
             "Title": "Obtenir une clé à usage unique",
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
             "CTA": "Aide",
             "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
-            },
+          },
           "NS": {
             "Title": "Obtenir une clé à usage unique",
-            "Body": "",
-            "CTA": "",
-            "Link": ""}
+            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+            "CTA": "Aide",
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+          }
         }
       },
       "ExposureView": {
@@ -368,7 +369,7 @@
           },
           "SK": {
             "Body": "Vous êtes à risque d’être infecté.",
-            "CTA": "Découvrez si vous devriez vous faire tester (page en anglais)",
+            "CTA": "Lisez les étapes à suivre (page en anglais)",
             "URL": "https://www.saskatchewan.ca/covid19-apps"
           },
           "MB": {
@@ -383,8 +384,8 @@
           },
           "NS": {
             "Body": "",
-            "CTA": "",
-            "URL": ""
+            "CTA": "Lisez les étapes à suivre",
+            "URL": "https://novascotia.ca/coronavirus/exposure/fr"
           },
           "PE": {
             "Body": "Vous êtes à risque d’être infecté. ",

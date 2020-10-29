@@ -1,16 +1,18 @@
 import React from 'react';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
+import {ContagiousDateType} from 'shared/DataSharing';
 
 import {BaseTekUploadView} from './components';
 
-export const ConsentScreen = () => {
+export const TekUploadSubsequentDays = () => {
   const i18n = useI18n();
 
   return (
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.ConsentView.Action')}
-      contagiousDateInfo={{dateType: 'noDate', dateString: ''}}
+      contagiousDateInfo={{dateType: ContagiousDateType.None, date: null}}
+      showBackButton={false}
     >
       <Box paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>

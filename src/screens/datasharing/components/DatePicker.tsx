@@ -1,54 +1,66 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {Picker} from '@react-native-community/picker';
 import {Platform, Modal, StyleSheet} from 'react-native';
-import {Box, Button} from 'components';
+import {Box, Button, ButtonSelect} from 'components';
 import {addDays, getCurrentDate} from 'shared/date-fns';
 import {useI18n} from 'locale';
+import {FormContext} from 'shared/FormContext';
 
+const capitalizeFirstLetter = (x: string) => {
+  return x[0].toUpperCase() + x.slice(1);
+};
 interface ModalWrapperProps {
   labelDict: any;
-  selectedDate: string;
   children: React.ReactNode;
+  selectedDate: string;
+  buttonText: string;
 }
 
-const ModalWrapper = ({labelDict, selectedDate, children}: ModalWrapperProps) => {
-  const [modalVisible, setModalVisible] = useState(false);
+const ModalWrapper = ({labelDict, children, selectedDate, buttonText}: ModalWrapperProps) => {
+  const {data, toggleModal} = useContext(FormContext);
   return (
     <>
-      <Modal animationType="slide" transparent visible={modalVisible}>
+      <Modal animationType="slide" transparent visible={data.modalVisible}>
         <Box style={styles.centeredView}>
           <Box style={styles.iosPicker}>
             {children}
             <Button
               variant="text"
               onPress={() => {
-                setModalVisible(false);
+                toggleModal(false);
               }}
-              text="Close"
+              text={buttonText}
             />
           </Box>
         </Box>
       </Modal>
-      <Button
-        variant="text"
+      <ButtonSelect
+        variant="buttonSelect"
+        iconName="icon-down-arrow"
         onPress={() => {
-          setModalVisible(true);
+          toggleModal(true);
         }}
-        text={`Date: ${labelDict[selectedDate]}`}
+        text={`${labelDict[selectedDate]}`}
       />
     </>
   );
 };
 
 interface DatePickerInternalProps {
-  selectedDate: string;
-  setSelectedDate: any;
   dateOptions: any[];
+  pickerStyles?: {};
+  selectedDate: string;
+  setDate: (x: string) => void;
 }
 
-const DatePickerInternal = ({selectedDate, setSelectedDate, dateOptions}: DatePickerInternalProps) => {
+const DatePickerInternal = ({dateOptions, pickerStyles, selectedDate, setDate}: DatePickerInternalProps) => {
   return (
-    <Picker selectedValue={selectedDate} onValueChange={value => setSelectedDate(value)} mode="dialog">
+    <Picker
+      style={{...pickerStyles}}
+      selectedValue={selectedDate}
+      onValueChange={value => setDate(value.toString())}
+      mode="dialog"
+    >
       {dateOptions.map(x => (
         <Picker.Item key={x.value} label={x.label} value={x.value} />
       ))}
@@ -57,36 +69,37 @@ const DatePickerInternal = ({selectedDate, setSelectedDate, dateOptions}: DatePi
 };
 
 interface DatePickerProps {
-  selectedDate: string;
-  setSelectedDate: any;
   daysBack: number;
+  selectedDate: string;
+  setDate: (x: string) => void;
 }
 
-export const DatePicker = ({daysBack, selectedDate, setSelectedDate}: DatePickerProps) => {
+export const DatePicker = ({daysBack, selectedDate, setDate}: DatePickerProps) => {
   const i18n = useI18n();
   const today = getCurrentDate();
-  const dateOptions = [];
 
   const getLabel = (step: number, date: Date) => {
     const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
     switch (step) {
       case 0:
-        // todo: these strings should come from i18n
-        return 'Today';
+        return i18n.translate('DataUpload.Today');
       case 1:
-        return 'Yesterday';
+        return i18n.translate('DataUpload.Yesterday');
       case daysBack - 1:
-        return 'Even earlier';
+        return i18n.translate('DataUpload.Earlier');
       default:
-        return date.toLocaleString(dateLocale, {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        });
+        return capitalizeFirstLetter(
+          date.toLocaleString(dateLocale, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }),
+        );
     }
   };
-  const labelDict: {[key: string]: string} = {'': 'None selected'};
+  const dateOptions = [{label: '', value: ''}];
+  const labelDict: {[key: string]: string} = {'': ''};
   for (let step = 0; step < daysBack; step++) {
     const date = addDays(today, -1 * step);
     const dateAtMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -98,22 +111,37 @@ export const DatePicker = ({daysBack, selectedDate, setSelectedDate}: DatePicker
 
   if (Platform.OS === 'ios') {
     return (
-      <ModalWrapper labelDict={labelDict} selectedDate={selectedDate}>
-        <DatePickerInternal selectedDate={selectedDate} setSelectedDate={setSelectedDate} dateOptions={dateOptions} />
+      <ModalWrapper labelDict={labelDict} selectedDate={selectedDate} buttonText={i18n.translate('DataUpload.Close')}>
+        <DatePickerInternal
+          // eslint-disable-next-line react-native/no-inline-styles
+          pickerStyles={{height: 200}}
+          dateOptions={dateOptions}
+          selectedDate={selectedDate}
+          setDate={setDate}
+        />
       </ModalWrapper>
     );
   }
-  return <DatePickerInternal selectedDate={selectedDate} setSelectedDate={setSelectedDate} dateOptions={dateOptions} />;
+  return (
+    <Box style={{...styles.outline}} marginBottom="m">
+      <DatePickerInternal dateOptions={dateOptions} selectedDate={selectedDate} setDate={setDate} />
+    </Box>
+  );
 };
 
 const styles = StyleSheet.create({
+  outline: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#000',
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'flex-end',
   },
   iosPicker: {
-    borderTopColor: 'black',
-    backgroundColor: '#ededed',
+    borderTopColor: 'white',
+    backgroundColor: '#fff',
     borderTopWidth: 2,
     marginBottom: 0,
   },

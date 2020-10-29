@@ -17,7 +17,7 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
   BackgroundFetch.configure(
     {
       minimumFetchInterval: TEST_MODE ? EXACT_JOB_INTERNVAL_IN_MINUTES : DEFERRED_JOB_INTERNVAL_IN_MINUTES,
-      forceAlarmManager: TEST_MODE,
+      forceAlarmManager: false,
       enableHeadless: true,
       startOnBoot: true,
       stopOnTerminate: false,
@@ -32,10 +32,12 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
       BackgroundFetch.finish(taskId);
     },
   );
-  const result = await BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true}).catch(
-    () => false,
-  );
-  captureMessage('registerPeriodicTask', {result});
+  if (Platform.OS === 'ios') {
+    const result = await BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true}).catch(
+      () => false,
+    );
+    captureMessage('registerPeriodicTask', {result});
+  }
 };
 
 const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {

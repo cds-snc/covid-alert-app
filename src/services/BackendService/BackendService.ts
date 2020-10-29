@@ -8,8 +8,8 @@ import {getRandomBytes, downloadDiagnosisKeysFile} from 'bridge/CovidShield';
 import {blobFetch} from 'shared/fetch';
 import {MCC_CODE, REGION_JSON_URL, EN_CONFIG_URL} from 'env';
 import {captureMessage, captureException} from 'shared/log';
-import {getMillisSinceUTCEpoch} from 'shared/date-fns';
-import {ContagiousDateInfo} from 'screens/datasharing/components';
+import {getMillisSinceUTCEpoch, hoursSinceEpoch} from 'shared/date-fns';
+import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import AsyncStorage from '@react-native-community/async-storage';
 import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
@@ -23,9 +23,14 @@ import {BackendInterface, SubmissionKeySet} from './types';
 const MAX_UPLOAD_KEYS = 28;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
 const TRANSMISSION_RISK_LEVEL = 1;
+const TEN_MINUTE_PERIODS_PER_HOUR = 6;
+export const LAST_UPLOADED_TEK_START_TIME = 'LAST_UPLOADED_TEK_START_TIME';
 
 // See https://github.com/cds-snc/covid-shield-server/pull/176
 const LAST_14_DAYS_PERIOD = '00000';
+
+const CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET = 2;
+const CONTAGIOUS_DAYS_BEFORE_TEST_DATE = 2;
 
 export class BackendService implements BackendInterface {
   retrieveUrl: string;
@@ -126,21 +131,85 @@ export class BackendService implements BackendInterface {
     };
   }
 
+  filterNonContagiousTEKs = (contagiousDateInfo?: ContagiousDateInfo) => {
+    return (key: TemporaryExposureKey) => {
+      // This function filters out TEKs that were generated before the user was contagious.
+      // rollingStartIntervalNumber = A number describing when a key starts. It is equal to
+      // startTimeOfKeySinceEpochInSecs / (60 * 10).
+      // rollingPeriod = A number describing how long a key is valid. It is expressed in
+      // increments of 10 minutes (e.g. 144 for 24 hours).
+      // source: https://developers.google.com/android/reference/com/google/android/gms/nearby/exposurenotification/TemporaryExposureKey
+      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
+        return true;
+      }
+      const providedDateHoursSinceEpoch = hoursSinceEpoch(contagiousDateInfo.date);
+      let contagiousStartHoursSinceEpoch;
+      if (contagiousDateInfo.dateType === ContagiousDateType.SymptomOnsetDate) {
+        contagiousStartHoursSinceEpoch = providedDateHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_SYMPTOM_ONSET * 24;
+      } else {
+        contagiousStartHoursSinceEpoch = providedDateHoursSinceEpoch - CONTAGIOUS_DAYS_BEFORE_TEST_DATE * 24;
+      }
+
+      const rollingEndIntervalNumber = key.rollingStartIntervalNumber + key.rollingPeriod;
+      const rollingEndIntervalHoursSinceEpoch = rollingEndIntervalNumber / TEN_MINUTE_PERIODS_PER_HOUR;
+      if (rollingEndIntervalHoursSinceEpoch < contagiousStartHoursSinceEpoch) {
+        // the TEK is before the contagious period
+        return false;
+      }
+      return true;
+    };
+  };
+
+  saveLastUploadedTekStartTime = async (uploadedTEKs: TemporaryExposureKey[]) => {
+    if (uploadedTEKs.length === 0) {
+      return;
+    }
+    const lastUploadedTekStartTime = uploadedTEKs[0].rollingStartIntervalNumber.toString();
+    await AsyncStorage.setItem(LAST_UPLOADED_TEK_START_TIME, lastUploadedTekStartTime);
+  };
+
+  filterOldTEKs = async () => {
+    const lastUploadedTekStartTime = Number(await AsyncStorage.getItem(LAST_UPLOADED_TEK_START_TIME));
+    captureMessage('lastUploadedTekStartTime', {lastUploadedTekStartTime});
+    return (key: TemporaryExposureKey) => {
+      if (!lastUploadedTekStartTime) {
+        return true;
+      }
+      if (key.rollingStartIntervalNumber > lastUploadedTekStartTime) {
+        return true;
+      }
+      captureMessage('keyTooOld', {keyTooOld: key});
+      return false;
+    };
+  };
+
   async reportDiagnosisKeys(
     keyPair: SubmissionKeySet,
     _exposureKeys: TemporaryExposureKey[],
     contagiousDateInfo: ContagiousDateInfo,
   ) {
-    captureMessage('contagiousDateInfo', contagiousDateInfo);
-    // Ref https://github.com/CovidShield/mobile/issues/192
+    captureMessage('contagiousDateInfo', {contagiousDateInfo});
     const filteredExposureKeys = Object.values(
-      _exposureKeys.sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
+      _exposureKeys
+        .filter(this.filterNonContagiousTEKs(contagiousDateInfo))
+        .filter(await this.filterOldTEKs())
+        .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber),
     );
     const exposureKeys = filteredExposureKeys.slice(0, MAX_UPLOAD_KEYS);
-    captureMessage('reportDiagnosisKeys', {
-      keyPair,
-      _exposureKeys,
-      exposureKeys,
+    captureMessage('keyPair', {keyPair});
+    captureMessage('unfiltered exposureKeys', {
+      unfilteredExposureKeys: _exposureKeys.map(x => {
+        const y: any = {...x};
+        y.startDate = new Date((x.rollingStartIntervalNumber * 1000 * 3600) / 6);
+        return y;
+      }),
+    });
+    captureMessage('filtered exposureKeys', {
+      filteredExposureKeys: exposureKeys.map(x => {
+        const y: any = {...x};
+        y.startDate = new Date((x.rollingStartIntervalNumber * 1000 * 3600) / 6);
+        return y;
+      }),
     });
 
     const upload = covidshield.Upload.create({
@@ -172,6 +241,7 @@ export class BackendService implements BackendInterface {
 
     // captureMessage('Uploading encrypted diagnosis keys');
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
+    await this.saveLastUploadedTekStartTime(exposureKeys);
   }
 
   private async keyClaim(code: string, keyPair: nacl.BoxKeyPair): Promise<covidshield.KeyClaimResponse> {

@@ -10,8 +10,8 @@ import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
-import {ContagiousDateInfo} from 'screens/datasharing/components';
 import {ExposureWindow} from 'bridge/ExposureNotification/types';
+import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 
@@ -167,6 +167,9 @@ export class ExposureNotificationService {
   ): ExposureSummary[] {
     return summaries
       .filter(summary => {
+        return summary.matchedKeyCount > 0;
+      })
+      .filter(summary => {
         return this.summaryExceedsMinimumMinutes(summary, minimumExposureDurationMinutes);
       })
       .sort((summary1, summary2) => {
@@ -209,6 +212,21 @@ export class ExposureNotificationService {
     }
     return periodsToFetch;
   };
+
+  async updateCycleTimes(contagiousDateInfo: ContagiousDateInfo): Promise<void> {
+    if (contagiousDateInfo.dateType === ContagiousDateType.None) {
+      return;
+    }
+    if (contagiousDateInfo.date === null) {
+      return;
+    }
+    const cycleStartsAt = contagiousDateInfo.date;
+    const cycleEndsAt = addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE);
+    this.finalize({
+      cycleStartsAt: cycleStartsAt.getTime(),
+      cycleEndsAt: cycleEndsAt.getTime(),
+    });
+  }
 
   async updateExposureStatus(): Promise<void> {
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
@@ -257,6 +275,7 @@ export class ExposureNotificationService {
       captureMessage('getTemporaryExposureKeyHistory', {message: 'No TEKs available to upload'});
     }
     await this.recordKeySubmission();
+    await this.updateCycleTimes(contagiousDateInfo);
   }
 
   public calculateNeedsSubmission(): boolean {
