@@ -25,8 +25,6 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   const activeBodyText = regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`);
 
-  console.log('regionActive', regionActive);
-
   return (
     <>
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
