@@ -21,15 +21,16 @@
       }
     },
     "ExposureDetected": {
-      "Title": "You’ve been exposed",
-      "Title2": "What now?",
-      "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
-      "RegionNotCovered": {
-        "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
-        "Body3": "consider self-isolating for 14 days.",
-        "HowToIsolateCTA": "How to self-isolate"
-      },
       "RegionCovered": {
+        "Title": "You’ve been exposed",
+        "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
+        "Title2": "What now?",
+        "Body2": "You’re at risk of being infected."
+      },
+      "RegionNotCovered": {
+        "Title": "You’ve been exposed",
+        "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
+        "Title2": "What now?",
         "Body2": "You’re at risk of being infected."
       }
     },
