@@ -6,6 +6,7 @@ import {isRegionActive} from 'shared/RegionLogic';
 import {useStorage} from 'services/StorageService';
 import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
+
 import {BaseHomeView} from '../components/BaseHomeView';
 
 const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
