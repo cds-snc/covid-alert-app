@@ -26,8 +26,7 @@
       "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
       "RegionNotCovered": {
         "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
-        "Body3": "consider self-isolating for 14 days.",
-        "HowToIsolateCTA": "How to self-isolate"
+        "Body3": "consider self-isolating for 14 days."
       },
       "RegionCovered": {
         "Body2": "You’re at risk of being infected."
@@ -398,15 +397,6 @@
     "SK": "Saskatchewan",
     "YT": "Yukon",
     "None": "Prefer not to say"
-  },
-  "HowToIsolate": {
-    "Title": "How to self-isolate",
-    "Intro": "Try your best to:",
-    "Body1": "Stay home unless it’s to get medical care.",
-    "Body2": "Avoid public transportation like buses or taxis.",
-    "Body3": "Ask for help to get groceries and supplies dropped off at your door.",
-    "Body4": "Stay in a separate room and use a separate bathroom from others in your home, if possible.",
-    "Body5": "Wear a mask safely any time you cannot take the above actions."
   },
   "A11yList": {
     "Start": "List start",
