@@ -49,8 +49,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
-import java.lang.Long.parseLong
-import java.lang.NumberFormatException
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -317,9 +315,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         if (!isPlayServicesAvailable()) {
             return Status.PLAY_SERVICES_NOT_AVAILABLE
         }
-        if (!isExposureNotificationApiAvailable()){
-            return Status.EXPOSURE_NOTIFICATION_API_NOT_AVAILABLE
-        }
         val isExposureNotificationEnabled = try {
             exposureNotificationClient.isEnabled.await()
         } catch (_: Exception) {
@@ -337,18 +332,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         val context = reactApplicationContext.applicationContext
         val exposureNotificationSettingsIntent = Intent(ACTION_EXPOSURE_NOTIFICATION_SETTINGS)
         return exposureNotificationSettingsIntent.resolveActivity(context.packageManager) != null
-    }
-
-    private suspend fun isExposureNotificationApiAvailable(): Boolean {
-        try {
-            val version = exposureNotificationClient.version.await()
-            parseLong(version.toString())
-            return true;
-        } catch (exception: NumberFormatException) {
-            return false;
-        } catch (exception: ApiException){
-            return false;
-        }
     }
 
     private fun isBluetoothEnabled(): Boolean {
@@ -390,5 +373,4 @@ private enum class Status(val value: String) {
     BLUETOOTH_OFF("bluetooth_off"),
     LOCATION_OFF("location_off"),
     PLAY_SERVICES_NOT_AVAILABLE("play_services_not_available"),
-    EXPOSURE_NOTIFICATION_API_NOT_AVAILABLE("exposure_notification_api_not_available")
 }
