@@ -3,7 +3,14 @@ import {when} from 'jest-when';
 import {Platform} from 'react-native';
 
 import {getCurrentDate, periodSinceEpoch} from '../../shared/date-fns';
-import {ExposureSummary} from '../../bridge/ExposureNotification';
+import {
+  ExposureSummary,
+  CalibrationConfidence,
+  ExposureWindow,
+  Infectiousness,
+  Report,
+  ScanInstance,
+} from '../../bridge/ExposureNotification';
 import PushNotification from '../../bridge/PushNotification';
 
 import {
@@ -13,7 +20,6 @@ import {
   EXPOSURE_STATUS,
   HOURS_PER_PERIOD,
 } from './ExposureNotificationService';
-import { CalibrationConfidence, ExposureWindow, Infectiousness, Report, ScanInstance } from '../../bridge/ExposureNotification/types';
 
 const ONE_DAY = 3600 * 24 * 1000;
 

@@ -1,5 +1,6 @@
 import ExposureNotification, {
   ExposureSummary,
+  ExposureWindow,
   Status as SystemStatus,
   ExposureConfiguration,
   TemporaryExposureKey,
@@ -10,7 +11,6 @@ import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
-import {ExposureWindow} from 'bridge/ExposureNotification/types';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
