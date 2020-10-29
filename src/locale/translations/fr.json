@@ -188,8 +188,7 @@
       "RegionCovered": {
         "Title": "Vous avez été exposé",
         "Body1": "Au cours des 14 derniers jours, vous avez côtoyé une personne qui a signalé un diagnostic de COVID-19.",
-        "Title2": "Que faire maintenant?",
-        "Body2": "Vous êtes à risque d’être infecté."
+        "Title2": "Que faire maintenant?"
       },
       "RegionNotCovered": {
         "Title": "Vous avez été exposé",

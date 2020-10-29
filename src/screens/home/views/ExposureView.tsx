@@ -9,6 +9,13 @@ import {ExposedHelpButton} from 'components/ExposedHelpButton';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
+const ActiveContent = ({text}: {text: string}) => {
+  if (text === '') {
+    return null;
+  }
+  return <Text marginBottom="m">{text}</Text>;
+};
+
 const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
@@ -16,6 +23,10 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   const textType = regionActive ? 'RegionCovered' : 'RegionNotCovered';
   const i18n = useI18n();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  const activeBodyText = regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`);
+
+  console.log('regionActive', regionActive);
+
   return (
     <>
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
@@ -26,7 +37,12 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate(`Home.ExposureDetected.${textType}.Title2`)}
       </Text>
-      <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.${textType}.Body2`)}</Text>
+
+      {regionActive ? (
+        <ActiveContent text={activeBodyText} />
+      ) : (
+        <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.RegionNotCovered.Body2`)}</Text>
+      )}
     </>
   );
 };
