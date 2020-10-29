@@ -13,6 +13,7 @@ import {
   EXPOSURE_STATUS,
   HOURS_PER_PERIOD,
 } from './ExposureNotificationService';
+import { CalibrationConfidence, ExposureWindow, Infectiousness, Report, ScanInstance } from '../../bridge/ExposureNotification/types';
 
 const ONE_DAY = 3600 * 24 * 1000;
 
@@ -85,6 +86,26 @@ const getSummary = ({
       multiplier * attenuationDurations[2],
     ],
   };
+};
+
+const getScanInstance = (typicalAttenuation = 60, seconds = 120) => {
+  const scanInstance: ScanInstance = {
+    typicalAttenuation,
+    minAttenuation: 80,
+    secondsSinceLastScan: seconds,
+  };
+  return scanInstance;
+};
+
+const getExposureWindow = (scanInstances: ScanInstance[]) => {
+  const exposureWindow: ExposureWindow = {
+    day: 0,
+    scanInstances,
+    reportType: Report.ConfirmedClinicalDiagnosis,
+    infectiousness: Infectiousness.Standard,
+    calibrationConfidence: CalibrationConfidence.Medium,
+  };
+  return exposureWindow;
 };
 
 /**
@@ -874,6 +895,44 @@ describe('ExposureNotificationService', () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       expect(service.getPeriodsSinceLastFetch(18399)).toStrictEqual([18400, 18399]);
+    });
+  });
+
+  describe('checkIfExposedV2', () => {
+    it('triggers an exposure if 20 minutes in immidiate', async () => {
+      const scanInstances = [
+        getScanInstance(40, 300),
+        getScanInstance(40, 300),
+        getScanInstance(40, 300),
+        getScanInstance(40, 300),
+      ];
+      const window = getExposureWindow(scanInstances);
+      expect(await service.checkIfExposedV2([window], [50, 62], 15)).toStrictEqual(true);
+    });
+    it('triggers an exposure if 20 minutes in near', async () => {
+      const scanInstances = [
+        getScanInstance(60, 300),
+        getScanInstance(60, 300),
+        getScanInstance(60, 300),
+        getScanInstance(60, 300),
+      ];
+      const window = getExposureWindow(scanInstances);
+      expect(await service.checkIfExposedV2([window], [50, 62], 15)).toStrictEqual(true);
+    });
+    it('does not trigger an exposure if 20 minutes in far', async () => {
+      const scanInstances = [
+        getScanInstance(70, 300),
+        getScanInstance(70, 300),
+        getScanInstance(70, 300),
+        getScanInstance(70, 300),
+      ];
+      const window = getExposureWindow(scanInstances);
+      expect(await service.checkIfExposedV2([window], [50, 62], 15)).toStrictEqual(false);
+    });
+    it('does not trigger an exposure if 10 minutes in immidiate', async () => {
+      const scanInstances = [getScanInstance(40, 300), getScanInstance(40, 300)];
+      const window = getExposureWindow(scanInstances);
+      expect(await service.checkIfExposedV2([window], [50, 62], 15)).toStrictEqual(false);
     });
   });
 });

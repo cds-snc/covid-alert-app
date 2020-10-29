@@ -341,12 +341,13 @@ export class ExposureNotificationService {
 
   public async checkIfExposedV2(
     exposureWindows: ExposureWindow[],
-    exposureConfiguration: ExposureConfiguration,
+    attenuationDurationThresholds: number[],
+    minimumExposureDurationMinutes: number,
   ): Promise<boolean> {
     if (exposureWindows.length === 0) {
       return false;
     }
-    const nearThreshold = exposureConfiguration.attenuationDurationThresholds[1];
+    const nearThreshold = attenuationDurationThresholds[1];
     for (const window of exposureWindows) {
       // assuming typicalAttenuation values are in positive DB units
       const scansOverNearThreshold = window.scanInstances.filter(x => x.typicalAttenuation <= nearThreshold);
@@ -354,7 +355,7 @@ export class ExposureNotificationService {
         .map(x => x.secondsSinceLastScan)
         // with initial value to avoid when the array is empty
         .reduce((partialSum, x) => partialSum + x, 0);
-      if (secondsOverNearThreshold > exposureConfiguration.minimumExposureDurationMinutes * 60) {
+      if (secondsOverNearThreshold > minimumExposureDurationMinutes * 60) {
         return true;
       }
     }
@@ -374,7 +375,11 @@ export class ExposureNotificationService {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
       await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
       const exposureWindows = await this.exposureNotification.getExposureWindows();
-      const isExposed = this.checkIfExposedV2(exposureWindows, exposureConfiguration);
+      const isExposed = this.checkIfExposedV2(
+        exposureWindows,
+        exposureConfiguration.attenuationDurationThresholds,
+        exposureConfiguration.minimumExposureDurationMinutes,
+      );
       if (isExposed) {
         return this.finalize(
           {
