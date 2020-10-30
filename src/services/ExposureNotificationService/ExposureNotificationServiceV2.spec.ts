@@ -80,7 +80,13 @@ describe('ExposureNotificationService', () => {
         getScanInstance(40, 300),
       ];
       const window = getExposureWindow(scanInstances);
-      expect(await service.checkIfExposedV2([window], [50, 62], 15)).toStrictEqual(true);
+      expect(
+        await service.checkIfExposedV2({
+          exposureWindows: [window],
+          attenuationDurationThresholds: [50, 62],
+          minimumExposureDurationMinutes: 15,
+        }),
+      ).toStrictEqual(true);
     });
     it('triggers an exposure if 20 minutes in near', async () => {
       const scanInstances = [
@@ -90,7 +96,13 @@ describe('ExposureNotificationService', () => {
         getScanInstance(60, 300),
       ];
       const window = getExposureWindow(scanInstances);
-      expect(await service.checkIfExposedV2([window], [50, 62], 15)).toStrictEqual(true);
+      expect(
+        await service.checkIfExposedV2({
+          exposureWindows: [window],
+          attenuationDurationThresholds: [50, 62],
+          minimumExposureDurationMinutes: 15,
+        }),
+      ).toStrictEqual(true);
     });
     it('does not trigger an exposure if 20 minutes in far', async () => {
       const scanInstances = [
@@ -100,12 +112,24 @@ describe('ExposureNotificationService', () => {
         getScanInstance(70, 300),
       ];
       const window = getExposureWindow(scanInstances);
-      expect(await service.checkIfExposedV2([window], [50, 62], 15)).toStrictEqual(false);
+      expect(
+        await service.checkIfExposedV2({
+          exposureWindows: [window],
+          attenuationDurationThresholds: [50, 62],
+          minimumExposureDurationMinutes: 15,
+        }),
+      ).toStrictEqual(false);
     });
     it('does not trigger an exposure if 10 minutes in immidiate', async () => {
       const scanInstances = [getScanInstance(40, 300), getScanInstance(40, 300)];
       const window = getExposureWindow(scanInstances);
-      expect(await service.checkIfExposedV2([window], [50, 62], 15)).toStrictEqual(false);
+      expect(
+        await service.checkIfExposedV2({
+          exposureWindows: [window],
+          attenuationDurationThresholds: [50, 62],
+          minimumExposureDurationMinutes: 15,
+        }),
+      ).toStrictEqual(false);
     });
   });
 });

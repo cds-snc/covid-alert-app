@@ -339,11 +339,15 @@ export class ExposureNotificationService {
     }
   }
 
-  public async checkIfExposedV2(
-    exposureWindows: ExposureWindow[],
-    attenuationDurationThresholds: number[],
-    minimumExposureDurationMinutes: number,
-  ): Promise<boolean> {
+  public async checkIfExposedV2({
+    exposureWindows,
+    attenuationDurationThresholds,
+    minimumExposureDurationMinutes,
+  }: {
+    exposureWindows: ExposureWindow[];
+    attenuationDurationThresholds: number[];
+    minimumExposureDurationMinutes: number;
+  }): Promise<boolean> {
     if (exposureWindows.length === 0) {
       return false;
     }
@@ -375,11 +379,11 @@ export class ExposureNotificationService {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
       await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
       const exposureWindows = await this.exposureNotification.getExposureWindows();
-      const isExposed = this.checkIfExposedV2(
+      const isExposed = this.checkIfExposedV2({
         exposureWindows,
-        exposureConfiguration.attenuationDurationThresholds,
-        exposureConfiguration.minimumExposureDurationMinutes,
-      );
+        attenuationDurationThresholds: exposureConfiguration.attenuationDurationThresholds,
+        minimumExposureDurationMinutes: exposureConfiguration.minimumExposureDurationMinutes,
+      });
       if (isExposed) {
         return this.finalize(
           {
