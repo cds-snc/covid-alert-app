@@ -183,19 +183,11 @@
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
-
     "ExposureDetected": {
-      "RegionCovered": {
-        "Title": "Vous avez été exposé",
-        "Body1": "Au cours des 14 derniers jours, vous avez côtoyé une personne qui a signalé un diagnostic de COVID-19.",
-        "Title2": "Que faire maintenant?"
-      },
-      "RegionNotCovered": {
-        "Title": "Vous avez été exposé",
-        "Body1": "Au cours des 14 derniers jours, vous avez côtoyé une personne qui a signalé un diagnostic de COVID-19.",
-        "Title2": "Que faire maintenant?",
-        "Body2": "Vous pourriez avoir contracté le virus."
-      }
+      "Title": "Vous avez été exposé",
+      "Body1": "Au cours des 14 derniers jours, vous avez côtoyé une personne qui a signalé un diagnostic de COVID-19.",
+      "Title2": "Que faire maintenant?",
+      "Body2": "Vous pourriez avoir contracté le virus."
     },
     "ExposedHelpCTA": "Que faire en cas d’exposition",
     "EnUnauthorized": {

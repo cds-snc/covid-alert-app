@@ -20,7 +20,6 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
-  const textType = regionActive ? 'RegionCovered' : 'RegionNotCovered';
   const i18n = useI18n();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   const activeBodyText = regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`);
@@ -28,18 +27,18 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   return (
     <>
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate(`Home.ExposureDetected.${textType}.Title`)}
+        {i18n.translate(`Home.ExposureDetected.Title`)}
       </Text>
-      <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.${textType}.Body1`)}</Text>
+      <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.Body1`)}</Text>
 
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate(`Home.ExposureDetected.${textType}.Title2`)}
+        {i18n.translate(`Home.ExposureDetected.Title2`)}
       </Text>
 
       {regionActive ? (
-        <ActiveContent text={activeBodyText} />
+        <ActiveContent text={activeBodyText} /> /* pulls from region.json */
       ) : (
-        <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.RegionNotCovered.Body2`)}</Text>
+        <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.Body2`)}</Text>
       )}
     </>
   );

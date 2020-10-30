@@ -21,17 +21,10 @@
       }
     },
     "ExposureDetected": {
-      "RegionCovered": {
-        "Title": "You’ve been exposed",
-        "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
-        "Title2": "What now?"
-      },
-      "RegionNotCovered": {
-        "Title": "You’ve been exposed",
-        "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
-        "Title2": "What now?",
-        "Body2": "You’re at risk of being infected."
-      }
+      "Title": "You’ve been exposed",
+      "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
+      "Title2": "What now?",
+      "Body2": "You’re at risk of being infected."
     },
     "ChooseRegionCTA": "Choose province or territory",
     "How": "Diagnosed with COVID-19?",
