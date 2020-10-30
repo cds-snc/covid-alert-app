@@ -362,8 +362,11 @@ export class ExposureNotificationService {
     if (exposureWindows.length === 0) {
       return false;
     }
+    const exposureWindowsSorted = exposureWindows.sort((window1, window2) => {
+      return window2.day - window1.day;
+    });
     const nearThreshold = attenuationDurationThresholds[1];
-    for (const window of exposureWindows) {
+    for (const window of exposureWindowsSorted) {
       const secondsOfExposure = this.getSecondsOfExposure(window.scanInstances, nearThreshold);
       if (secondsOfExposure > minimumExposureDurationMinutes * 60) {
         return true;
