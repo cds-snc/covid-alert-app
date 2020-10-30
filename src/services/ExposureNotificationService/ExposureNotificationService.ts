@@ -362,13 +362,30 @@ export class ExposureNotificationService {
     if (exposureWindows.length === 0) {
       return false;
     }
-    const exposureWindowsSorted = exposureWindows.sort((window1, window2) => {
-      return window2.day - window1.day;
-    });
     const nearThreshold = attenuationDurationThresholds[1];
-    for (const window of exposureWindowsSorted) {
-      const secondsOfExposure = this.getSecondsOfExposure(window.scanInstances, nearThreshold);
-      if (secondsOfExposure > minimumExposureDurationMinutes * 60) {
+    const dailySecondsOfExposureObj: {[key: string]: number} = {};
+    exposureWindows
+      .map(window => {
+        dailySecondsOfExposureObj[window.day.toString()] = 0;
+        return {
+          day: window.day,
+          secondsOfExposure: this.getSecondsOfExposure(window.scanInstances, nearThreshold),
+        };
+      })
+      .forEach(x => {
+        dailySecondsOfExposureObj[x.day] += x.secondsOfExposure;
+      });
+
+    const dailySecondsOfExposureArray = Object.entries(dailySecondsOfExposureObj)
+      .map(x => {
+        return {day: Number(x[0]), secondsOfExposure: x[1]};
+      })
+      .sort((x1, x2) => {
+        return x1.day - x2.day;
+      });
+
+    for (const x of dailySecondsOfExposureArray) {
+      if (x.secondsOfExposure > minimumExposureDurationMinutes * 60) {
         return true;
       }
     }
