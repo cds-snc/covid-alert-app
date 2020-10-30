@@ -29,16 +29,16 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate(`Home.ExposureDetected.Title`)}
       </Text>
-      <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.Body1`)}</Text>
+      <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
 
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate(`Home.ExposureDetected.Title2`)}
+        {i18n.translate('Home.ExposureDetected.Title2')}
       </Text>
 
       {regionActive ? (
         <ActiveContent text={activeBodyText} /> /* pulls from region.json */
       ) : (
-        <Text marginBottom="m">{i18n.translate(`Home.ExposureDetected.Body2`)}</Text>
+        <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body2')}</Text>
       )}
     </>
   );
