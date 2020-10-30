@@ -4,6 +4,7 @@ import ExposureNotification, {
   Status as SystemStatus,
   ExposureConfiguration,
   TemporaryExposureKey,
+  ScanInstance,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
@@ -339,6 +340,16 @@ export class ExposureNotificationService {
     }
   }
 
+  public getSecondsOfExposure = (scanInstances: ScanInstance[], threshold: number) => {
+    //  typicalAttenuation values are in positive DB units
+    const scansOverThreshold = scanInstances.filter(x => x.typicalAttenuation <= threshold);
+    const secondsOfExposure = scansOverThreshold
+      .map(x => x.secondsSinceLastScan)
+      // with initial value to avoid when the array is empty
+      .reduce((partialSum, x) => partialSum + x, 0);
+    return secondsOfExposure;
+  };
+
   public async checkIfExposedV2({
     exposureWindows,
     attenuationDurationThresholds,
@@ -353,13 +364,8 @@ export class ExposureNotificationService {
     }
     const nearThreshold = attenuationDurationThresholds[1];
     for (const window of exposureWindows) {
-      // assuming typicalAttenuation values are in positive DB units
-      const scansOverNearThreshold = window.scanInstances.filter(x => x.typicalAttenuation <= nearThreshold);
-      const secondsOverNearThreshold = scansOverNearThreshold
-        .map(x => x.secondsSinceLastScan)
-        // with initial value to avoid when the array is empty
-        .reduce((partialSum, x) => partialSum + x, 0);
-      if (secondsOverNearThreshold > minimumExposureDurationMinutes * 60) {
+      const secondsOfExposure = this.getSecondsOfExposure(window.scanInstances, nearThreshold);
+      if (secondsOfExposure > minimumExposureDurationMinutes * 60) {
         return true;
       }
     }
