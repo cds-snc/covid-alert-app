@@ -146,7 +146,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
-    if (!this.shouldPerformExposureCheck()) return;
+    if (!(await this.shouldPerformExposureCheck())) return;
     await this.loadExposureStatus();
     try {
       captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
@@ -230,15 +230,14 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(): Promise<void> {
-    if (await this.shouldPerformExposureCheck()) {
-      if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
-      const cleanUpPromise = <T>(input: T): T => {
-        this.exposureStatusUpdatePromise = null;
-        return input;
-      };
-      this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
-      return this.exposureStatusUpdatePromise;
-    }
+    if (!(await this.shouldPerformExposureCheck())) return;
+    if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
+    const cleanUpPromise = <T>(input: T): T => {
+      this.exposureStatusUpdatePromise = null;
+      return input;
+    };
+    this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
+    return this.exposureStatusUpdatePromise;
   }
 
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
