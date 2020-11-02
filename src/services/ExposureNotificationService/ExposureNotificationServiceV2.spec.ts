@@ -41,9 +41,9 @@ const getScanInstance = (typicalAttenuation = 60, seconds = 120) => {
   return scanInstance;
 };
 
-const getExposureWindow = (scanInstances: ScanInstance[]) => {
+const getExposureWindow = (scanInstances: ScanInstance[], day = 0) => {
   const exposureWindow: ExposureWindow = {
-    day: 0,
+    day,
     scanInstances,
     reportType: Report.ConfirmedClinicalDiagnosis,
     infectiousness: Infectiousness.Standard,
@@ -129,6 +129,31 @@ describe('ExposureNotificationService', () => {
       const window = getExposureWindow(scanInstances);
       const [isExposed, summary] = await service.checkIfExposedV2({
         exposureWindows: [window],
+        attenuationDurationThresholds: [50, 62],
+        minimumExposureDurationMinutes: 15,
+      });
+      expect(isExposed).toStrictEqual(false);
+      expect(summary).toBeUndefined();
+    });
+    it('does trigger an exposure if 2 different 10 minute exposures @ immidiate on same day', async () => {
+      const scanInstances = [getScanInstance(40, 600)];
+      const window1 = getExposureWindow(scanInstances);
+      const window2 = getExposureWindow(scanInstances);
+      const [isExposed, summary] = await service.checkIfExposedV2({
+        exposureWindows: [window1, window2],
+        attenuationDurationThresholds: [50, 62],
+        minimumExposureDurationMinutes: 15,
+      });
+      expect(isExposed).toStrictEqual(true);
+      expect(summary.attenuationDurations).toStrictEqual([2 * 600, 0, 0]);
+      expect(summary.matchedKeyCount).toStrictEqual(2);
+    });
+    it('does not trigger an exposure if 2 different 10 minute exposures @ immidiate on different days', async () => {
+      const scanInstances = [getScanInstance(40, 600)];
+      const window1 = getExposureWindow(scanInstances, 0);
+      const window2 = getExposureWindow(scanInstances, 1);
+      const [isExposed, summary] = await service.checkIfExposedV2({
+        exposureWindows: [window1, window2],
         attenuationDurationThresholds: [50, 62],
         minimumExposureDurationMinutes: 15,
       });
