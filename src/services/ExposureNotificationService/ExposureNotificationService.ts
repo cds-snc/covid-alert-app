@@ -146,16 +146,15 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
-    if (this.shouldPerformExposureCheck()) {
-      await this.loadExposureStatus();
-      try {
-        captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
-        await this.updateExposureStatus();
-        await this.processNotification();
-        captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
-      } catch (error) {
-        captureException('updateExposureStatusInBackground', error);
-      }
+    if (!this.shouldPerformExposureCheck()) return;
+    await this.loadExposureStatus();
+    try {
+      captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
+      await this.updateExposureStatus();
+      await this.processNotification();
+      captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
+    } catch (error) {
+      captureException('updateExposureStatusInBackground', error);
     }
   }
 
