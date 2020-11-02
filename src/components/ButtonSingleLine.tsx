@@ -105,6 +105,7 @@ export const ButtonSingleLine = ({
               style={{
                 ...styles.content,
                 color: textColor || buttonColor,
+                fontWeight: variant === 'bigFlatPurple' ? 'bold' : 'normal',
               }}
             >
               {text}
