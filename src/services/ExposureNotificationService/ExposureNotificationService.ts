@@ -389,11 +389,12 @@ export class ExposureNotificationService {
           attenuationDurations: this.getAttenuationDurations(window.scanInstances, attenuationDurationThresholds),
         };
       })
-      .forEach(x => {
-        dailySummariesObj[x.day].attenuationDurations[0] += x.attenuationDurations[0];
-        dailySummariesObj[x.day].attenuationDurations[1] += x.attenuationDurations[1];
-        dailySummariesObj[x.day].attenuationDurations[2] += x.attenuationDurations[2];
-        dailySummariesObj[x.day].matchedKeyCount += 1;
+      .forEach(windowSummary => {
+        const dayString = windowSummary.day.toString();
+        dailySummariesObj[dayString].attenuationDurations[0] += windowSummary.attenuationDurations[0];
+        dailySummariesObj[dayString].attenuationDurations[1] += windowSummary.attenuationDurations[1];
+        dailySummariesObj[dayString].attenuationDurations[2] += windowSummary.attenuationDurations[2];
+        dailySummariesObj[dayString].matchedKeyCount += 1;
       });
 
     const dailySummaries = Object.entries(dailySummariesObj)
