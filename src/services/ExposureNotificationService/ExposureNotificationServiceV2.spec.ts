@@ -147,6 +147,7 @@ describe('ExposureNotificationService', () => {
       expect(isExposed).toStrictEqual(true);
       expect(summary.attenuationDurations).toStrictEqual([2 * 600, 0, 0]);
       expect(summary.matchedKeyCount).toStrictEqual(2);
+      expect(summary.lastExposureTimestamp).toStrictEqual(0);
     });
     it('does not trigger an exposure if 2 different 10 minute exposures @ immidiate on different days', async () => {
       const scanInstances = [getScanInstance(40, 600)];
@@ -159,6 +160,20 @@ describe('ExposureNotificationService', () => {
       });
       expect(isExposed).toStrictEqual(false);
       expect(summary).toBeUndefined();
+    });
+    it('returns a summary for the most recent exposure if there are more than one occurring on different days', async () => {
+      const scanInstances = [getScanInstance(40, 600), getScanInstance(40, 600)];
+      const window1 = getExposureWindow(scanInstances, 6);
+      const window2 = getExposureWindow(scanInstances, 10);
+      const window3 = getExposureWindow(scanInstances, 1);
+      const [isExposed, summary] = await service.checkIfExposedV2({
+        exposureWindows: [window1, window2, window3],
+        attenuationDurationThresholds: [50, 62],
+        minimumExposureDurationMinutes: 15,
+      });
+      expect(isExposed).toStrictEqual(true);
+      expect(summary.matchedKeyCount).toStrictEqual(1);
+      expect(summary.lastExposureTimestamp).toStrictEqual(10);
     });
   });
 });

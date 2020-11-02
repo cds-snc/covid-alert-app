@@ -408,7 +408,7 @@ export class ExposureNotificationService {
         return dailySummary;
       })
       .sort((x1, x2) => {
-        return x1.lastExposureTimestamp - x2.lastExposureTimestamp;
+        return x2.lastExposureTimestamp - x1.lastExposureTimestamp;
       });
 
     for (const dailySummary of dailySummaries) {
