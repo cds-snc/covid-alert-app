@@ -761,7 +761,7 @@ describe('ExposureNotificationService', () => {
         uploadReminderLastSentAt: lastSent.getTime(),
         lastChecked: {
           period: periodSinceEpoch(today, HOURS_PER_PERIOD),
-          timestamp: today.getTime() - 60 * 60 * 1000,
+          timestamp: today.getTime() - 10 * 60 * 60 * 1000,
         },
       });
 
