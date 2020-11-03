@@ -513,6 +513,51 @@ describe('ExposureNotificationService', () => {
     expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Monitoring}));
   });
 
+  describe('isReminderNeeded', () => {
+    it('returns true when missing uploadReminderLastSentAt', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        // uploadReminderLastSentAt: new Date(), don't pass this
+      };
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
+    });
+
+    it('returns true when uploadReminderLastSentAt is a day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        uploadReminderLastSentAt: lastSent.getTime(),
+      };
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
+    });
+
+    it('returns false when uploadReminderLastSentAt is < 1 day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = today;
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        uploadReminderLastSentAt: lastSent.getTime(),
+      };
+
+      // console.log(storage.getItem('exposureStatus'));
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(false);
+    });
+  });
+
   describe('updateExposureStatus', () => {
     it('keeps lastChecked when reset from diagnosed state to monitoring state', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
@@ -708,47 +753,6 @@ describe('ExposureNotificationService', () => {
         }),
       );
       expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
-    });
-
-    it('isReminderNeeded returns true when missing uploadReminderLastSentAt', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
-      const status = {
-        type: ExposureStatusType.Diagnosed,
-        needsSubmission: true,
-        // uploadReminderLastSentAt: new Date(), don't pass this
-      };
-
-      expect(service.isReminderNeeded(status)).toStrictEqual(true);
-    });
-
-    it('isReminderNeeded returns true when uploadReminderLastSentAt is a day old', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
-      const status = {
-        type: ExposureStatusType.Diagnosed,
-        needsSubmission: true,
-        uploadReminderLastSentAt: lastSent.getTime(),
-      };
-
-      expect(service.isReminderNeeded(status)).toStrictEqual(true);
-    });
-
-    it('isReminderNeeded returns false when uploadReminderLastSentAt is < 1 day old', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const lastSent = today;
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
-      const status = {
-        type: ExposureStatusType.Diagnosed,
-        needsSubmission: true,
-        uploadReminderLastSentAt: lastSent.getTime(),
-      };
-
-      expect(service.isReminderNeeded(status)).toStrictEqual(false);
     });
 
     it('processes the reminder push notification when diagnosed', async () => {
