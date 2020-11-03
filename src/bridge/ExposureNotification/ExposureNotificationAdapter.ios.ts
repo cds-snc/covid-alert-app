@@ -36,5 +36,8 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return summaries;
     },
     getPendingExposureSummary: async () => undefined,
+    getExposureWindowsIos: async (summary: ExposureSummary) => {
+      return exposureNotificationAPI.getExposureWindowsIos(summary);
+    },
   };
 }

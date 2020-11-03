@@ -102,11 +102,19 @@ export interface ExposureNotification {
   getPendingExposureSummary(): Promise<ExposureSummary[] | undefined> /* used only by Android */;
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined>;
   getExposureWindows(): ExposureWindow[];
+  getExposureWindowsIos(summary: ExposureSummary): Promise<ExposureWindow[]>;
+  getExposureWindowsCustom(
+    configuration: ExposureConfiguration,
+    diagnosisKeysURLs: string[],
+  ): Promise<ExposureWindow[]>;
 }
 
 export interface ExposureNotificationAPI {
   detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary>;
   getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
+  provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined> /* used only by Android */;
+  getExposureWindows(): Promise<ExposureWindow[]>;
+  getExposureWindowsIos(summary: ExposureSummary): Promise<ExposureWindow[]>;
 }
 
 export interface ExposureWindow {

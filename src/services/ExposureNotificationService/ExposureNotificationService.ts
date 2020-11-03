@@ -429,10 +429,22 @@ export class ExposureNotificationService {
       this.finalize();
     }
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
+    console.log('keysFileUrls', keysFileUrls);
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
-      await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
-      const exposureWindows = await this.exposureNotification.getExposureWindows();
+
+      // await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
+      // const exposureWindows = await this.exposureNotification.getExposureWindows();
+      console.log('hi');
+      let exposureWindows;
+      if (Platform.OS === 'android') {
+        exposureWindows = await this.exposureNotification.getExposureWindowsCustom(exposureConfiguration, keysFileUrls);
+      } else {
+        const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+        this.exposureNotification.getExposureWindowsIos(summaries);
+      }
+
+      console.log('exposureWindows', exposureWindows);
       const [isExposed, dailySummary] = await this.checkIfExposedV2({
         exposureWindows,
         attenuationDurationThresholds: exposureConfiguration.attenuationDurationThresholds,
