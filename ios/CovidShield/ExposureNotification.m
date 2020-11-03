@@ -115,6 +115,25 @@ RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryW
   }];
 }
 
+RCT_REMAP_METHOD(getExposureWindows, getExposureWindowsFromSummary: (ENExposureDetectionSummary *)summary resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
+    reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
+    return;
+  }
+  if (@available(iOS 13.7, *)) {
+    [self.enManager getExposureWindowsFromSummary:(ENExposureDetectionSummary *)summary completionHandler:^(NSArray<ENExposureWindow *> * _Nullable exposureWindows, NSError * _Nullable error) {
+      if (error) {
+        reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+      } else {
+        resolve(exposureWindows);
+      }
+    }];
+  } else {
+    // Fallback on earlier versions
+    reject(@"API_NOT_AVAILABLE", @"API Not Available. Requires iOS 13.7+", nil);
+  }
+}
+
 NSArray *map(NSArray* array, id (^transform)(id value)) {
   NSMutableArray *acc = [NSMutableArray new];
   for (id value in array) {
