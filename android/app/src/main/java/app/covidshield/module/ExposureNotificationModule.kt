@@ -205,7 +205,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             try{
                 val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
                 val diagnosisKeyFileProvider = DiagnosisKeyFileProvider(files)
-                exposureNotificationClient.provideDiagnosisKeys(diagnosisKeyFileProvider);
+                exposureNotificationClient.provideDiagnosisKeys(diagnosisKeyFileProvider)
             } catch (exception: Exception) {
                 promise.reject(exception)
             }
