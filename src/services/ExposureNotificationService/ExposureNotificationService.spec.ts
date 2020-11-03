@@ -552,8 +552,6 @@ describe('ExposureNotificationService', () => {
         uploadReminderLastSentAt: lastSent.getTime(),
       };
 
-      // console.log(storage.getItem('exposureStatus'));
-
       expect(service.isReminderNeeded(status)).toStrictEqual(false);
     });
   });
@@ -710,7 +708,7 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
-          timestamp: today.getTime(),
+          timestamp: today.getTime() - 10 * 60 * 60 * 1000,
         },
         summary: currentSummary,
       });
