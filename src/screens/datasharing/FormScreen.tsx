@@ -17,7 +17,7 @@ export const FormScreen = () => {
   const [codeValue, setCodeValue] = useState('');
   const handleChange = useCallback(text => setCodeValue(text), []);
   const navigation = useNavigation();
-  const [exposureStatus] = useExposureStatus();
+  const exposureStatus = useExposureStatus();
   const [loading, setLoading] = useState(false);
   const {startSubmission} = useReportDiagnosis();
   const onSuccess = useCallback(() => {

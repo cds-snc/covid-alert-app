@@ -8,8 +8,8 @@ import {useStorage} from 'services/StorageService';
 import {
   ExposureStatusType,
   useExposureNotificationService,
-  useExposureStatus,
   useReportDiagnosis,
+  useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 import {setLogUUID, getLogUUID, captureMessage} from 'shared/log';
@@ -100,7 +100,7 @@ const Content = () => {
   }, [i18n]);
 
   const exposureNotificationService = useExposureNotificationService();
-  const [, updateExposureStatus] = useExposureStatus();
+  const updateExposureStatus = useUpdateExposureStatus();
 
   const {fetchAndSubmitKeys} = useReportDiagnosis();
 
@@ -152,12 +152,21 @@ const Content = () => {
       </Section>
       <Section>
         <Button
-          text="Clear exposure history and run check"
+          text="Clear exposure history"
           variant="bigFlat"
           onPress={async () => {
-            captureMessage('Forcing refresh...');
+            captureMessage('Clear exposure history');
             exposureNotificationService.exposureStatusUpdatePromise = null;
             exposureNotificationService.exposureStatus.set({type: ExposureStatusType.Monitoring});
+          }}
+        />
+      </Section>
+      <Section>
+        <Button
+          text="Force exposure check"
+          variant="bigFlat"
+          onPress={async () => {
+            captureMessage('Forcing Exposure Check');
             updateExposureStatus();
           }}
         />

@@ -16,6 +16,8 @@ import {Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
+import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
+import {Key} from '../StorageService';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
@@ -139,7 +141,6 @@ export class ExposureNotificationService {
     await this.updateSystemStatus();
 
     this.starting = false;
-    await this.updateExposureStatus();
   }
 
   async updateSystemStatus(): Promise<void> {
@@ -148,6 +149,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
+    if (!(await this.shouldPerformExposureCheck())) return;
     await this.loadExposureStatus();
     try {
       captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
@@ -231,6 +233,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(): Promise<void> {
+    if (!(await this.shouldPerformExposureCheck())) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
       this.exposureStatusUpdatePromise = null;
@@ -454,6 +457,33 @@ export class ExposureNotificationService {
 
     return this.finalize();
   }
+
+  public shouldPerformExposureCheck = async () => {
+    const today = getCurrentDate();
+    const exposureStatus = this.exposureStatus.get();
+    const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
+    if (this.systemStatus.get() !== SystemStatus.Active) {
+      captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
+      return false;
+    }
+    if (!onboardedDatetime) {
+      // Do not perform Exposure Checks if onboarding is not completed.
+      captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
+      return false;
+    }
+    captureMessage(`shouldPerformExposureCheck - Onboarded: ${onboardedDatetime}`);
+    const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
+    if (lastCheckedTimestamp) {
+      captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
+      const lastCheckedDate = new Date(lastCheckedTimestamp);
+      if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
+        captureMessage('shouldPerformExposureCheck - Too soon to check.');
+        return false;
+      }
+    }
+    captureMessage('Should perform ExposureCheck.');
+    return true;
+  };
 
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');

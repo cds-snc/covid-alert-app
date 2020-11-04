@@ -185,16 +185,9 @@
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
       "Title": "Vous avez été exposé",
-      "Title2": "Que faire maintenant?",
       "Body1": "Au cours des 14 derniers jours, vous avez côtoyé une personne qui a signalé un diagnostic de COVID-19.",
-      "RegionNotCovered": {
-        "Body2": "Vous êtes à risque d’être infecté. Surveillez attentivement vos symptômes et ",
-        "Body3": "pensez à vous isoler pendant 14\u00A0jours.",
-        "HowToIsolateCTA": "Comment vous isoler"
-      },
-      "RegionCovered": {
-        "Body2": "Vous êtes à risque d’être infecté."
-      }
+      "Title2": "Que faire maintenant?",
+      "Body2": "Vous pourriez avoir contracté le virus."
     },
     "ExposedHelpCTA": "Que faire en cas d’exposition",
     "EnUnauthorized": {
@@ -261,15 +254,6 @@
       "Body": "Il semble que votre téléphone ne puisse pas prendre en charge Alerte COVID.",
       "CTA": "Trouver de l’aide"
     }
-  },
-  "HowToIsolate": {
-    "Title": "Comment vous isoler",
-    "Intro": "Faites votre possible pour :",
-    "Body1": "Rester à la maison, sauf si vous avez besoin de soins médicaux.",
-    "Body2": "Éviter les transports publics comme les autobus et les taxis.",
-    "Body3": "Demander de l’aide pour recevoir votre épicerie et vos provisions à votre porte.",
-    "Body4": "Utiliser une pièce et une salle de bain séparées des autres de votre maison, si possible.",
-    "Body5": "Porter un masque de façon sécuritaire dès que vous ne pouvez pas suivre les mesures ci-dessus."
   },
   "Info": {
     "ChangeLanguage": "Modifier la langue",

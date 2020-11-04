@@ -10,7 +10,7 @@ interface PeriodicTask {
 }
 
 // See https://github.com/cds-snc/covid-shield-mobile/issues/642#issuecomment-657783192
-const DEFERRED_JOB_INTERNVAL_IN_MINUTES = 240;
+export const DEFERRED_JOB_INTERNVAL_IN_MINUTES = 240;
 const EXACT_JOB_INTERNVAL_IN_MINUTES = 90;
 
 const registerPeriodicTask = async (task: PeriodicTask) => {
