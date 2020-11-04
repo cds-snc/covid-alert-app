@@ -28,7 +28,6 @@ import app.covidshield.utils.CovidShieldException.NoResolutionRequiredException
 import app.covidshield.utils.CovidShieldException.PermissionDeniedException
 import app.covidshield.utils.CovidShieldException.PlayServicesNotAvailableException
 import app.covidshield.utils.CovidShieldException.SendIntentException
-import app.covidshield.utils.CovidShieldException.SummaryTokenNotFoundException
 import app.covidshield.utils.CovidShieldException.UnknownException
 import app.covidshield.utils.PendingTokenManager
 import com.facebook.react.bridge.Promise
@@ -39,8 +38,10 @@ import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_NOTIFICATION_SETTINGS
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -119,6 +120,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         }
     }
 
+    @Deprecated("This is an ExposureNotification V1 function.",
+            ReplaceWith("getExposureWindows"),
+            DeprecationLevel.WARNING)
     @ReactMethod
     fun detectExposure(configuration: ReadableMap, diagnosisKeysURLs: ReadableArray, promise: Promise) {
         promise.launch(this) {
@@ -192,6 +196,31 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
             val exposureKeys = getTemporaryExposureKeyHistoryInternal()
             promise.resolve(exposureKeys.toWritableArray())
+        }
+    }
+
+    @ReactMethod
+    fun provideDiagnosisKeys(diagnosisKeysURLs: ReadableArray, promise: Promise) {
+        promise.launch(this) {
+            try{
+                val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
+                val diagnosisKeyFileProvider = DiagnosisKeyFileProvider(files)
+                exposureNotificationClient.provideDiagnosisKeys(diagnosisKeyFileProvider)
+                promise.resolve(null)
+            } catch (exception: Exception) {
+                promise.reject(exception)
+            }
+        }
+    }
+
+    @ReactMethod
+    fun getExposureWindows(promise: Promise) {
+        promise.launch(this) {
+            try{
+                promise.resolve(exposureNotificationClient.exposureWindows.await())
+            } catch (exception: Exception) {
+                promise.reject(exception)
+            }
         }
     }
 
