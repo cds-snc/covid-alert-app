@@ -5,6 +5,9 @@
       "Home": {
         "ON": {
           "ExposedHelpLink": "https://covid-19.ontario.ca/exposed"
+        },
+        "QC": {
+          "ExposedHelpLink": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19/?utm_source=canada.ca_alertecovid&utm_medium=application_if_you_re_exposed&utm_campaign=cqen_alertecovid_2020&utm_content=anglais"
         }
       },
       "DiagnosedView": {
@@ -83,7 +86,7 @@
             "Title": "Get a one-time key",
             "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
             "CTA": "Help",
-            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
           },
           "NB": {
             "Title": "Get a one-time key",
@@ -95,13 +98,13 @@
             "Title": "Get a one-time key",
             "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
             "CTA": "Help",
-            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
           },
           "MB": {
             "Title": "Get a one-time key",
             "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
             "CTA": "Help",
-            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html"
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
           },
           "QC": {
             "Title": "Have you tested positive?",
@@ -153,7 +156,7 @@
           "QC": {
             "Body": "You may have the virus.",
             "CTA": "Find out what to do next",
-            "URL": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19/"
+            "URL": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19/?utm_source=canada.ca_alertecovid&utm_medium=application_what_to_do_next&utm_campaign=cqen_alertecovid_2020&utm_content=anglais"
           },
           "NS": {
             "Body": "",
@@ -232,6 +235,9 @@
       "Home": {
         "ON": {
           "ExposedHelpLink": "https://covid-19.ontario.ca/fr/expose"
+        },
+        "QC": {
+          "ExposedHelpLink": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/tests-de-depistage/?utm_source=canada.ca_alertecovid&utm_medium=application_Que_faire&utm_campaign=cqen_alertecovid_2020&utm_content=francais"
         }
       },
       "DiagnosedView": {
@@ -310,7 +316,7 @@
             "Title": "Obtenir une clé à usage unique",
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
             "CTA": "Aide",
-            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
           },
           "NB": {
             "Title": "Obtenir une clé à usage unique",
@@ -322,13 +328,13 @@
             "Title": "Obtenir une clé à usage unique",
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
             "CTA": "Aide",
-            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
           },
           "MB": {
             "Title": "Obtenir une clé à usage unique",
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
             "CTA": "Aide",
-            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html"
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
           },
           "QC": {
             "Title": "Avez-vous reçu un résultat positif?",
@@ -380,7 +386,7 @@
           "QC": {
             "Body": "Vous pourriez avoir contracté le virus.",
             "CTA": "Lisez les consignes à suivre",
-            "URL": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/tests-de-depistage/"
+            "URL": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/tests-de-depistage/?utm_source=canada.ca_alertecovid&utm_medium=application_consignes_a_suivre&utm_campaign=cqen_alertecovid_2020&utm_content=francais"
           },
           "NS": {
             "Body": "",
