@@ -214,8 +214,14 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     @ReactMethod
-    suspend fun getExposureWindows(): MutableList<ExposureWindow>? {
-        return exposureNotificationClient.exposureWindows.await()
+    fun getExposureWindows(promise: Promise) {
+        promise.launch(this) {
+            try{
+                promise.resolve(exposureNotificationClient.exposureWindows.await())
+            } catch (exception: Exception) {
+                promise.reject(exception)
+            }
+        }
     }
 
     private suspend fun startInternal() {
