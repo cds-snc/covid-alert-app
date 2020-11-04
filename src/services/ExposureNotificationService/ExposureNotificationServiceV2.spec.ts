@@ -14,6 +14,13 @@ jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
 
+jest.mock('react-native-background-fetch', () => {
+  return {
+    configure: jest.fn(),
+    scheduleTask: jest.fn(),
+  };
+});
+
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),
