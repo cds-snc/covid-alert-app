@@ -115,7 +115,7 @@ RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryW
   }];
 }
 
-RCT_REMAP_METHOD(getExposureWindows, getExposureWindowsFromSummary: (ENExposureDetectionSummary *)summary resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_REMAP_METHOD(getExposureWindowsFromSummary, getExposureWindowsFromSummary: (ENExposureDetectionSummary *)summary resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
     reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
     return;
