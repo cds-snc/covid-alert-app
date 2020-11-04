@@ -341,6 +341,33 @@ export class ExposureNotificationService {
     }
   }
 
+  public shouldPerformExposureCheck = async () => {
+    const today = getCurrentDate();
+    const exposureStatus = this.exposureStatus.get();
+    const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
+    if (this.systemStatus.get() !== SystemStatus.Active) {
+      captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
+      return false;
+    }
+    if (!onboardedDatetime) {
+      // Do not perform Exposure Checks if onboarding is not completed.
+      captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
+      return false;
+    }
+    captureMessage(`shouldPerformExposureCheck - Onboarded: ${onboardedDatetime}`);
+    const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
+    if (lastCheckedTimestamp) {
+      captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
+      const lastCheckedDate = new Date(lastCheckedTimestamp);
+      if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
+        captureMessage('shouldPerformExposureCheck - Too soon to check.');
+        return false;
+      }
+    }
+    captureMessage('Should perform ExposureCheck.');
+    return true;
+  };
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -553,31 +580,4 @@ export class ExposureNotificationService {
       });
     }
   }
-
-  private shouldPerformExposureCheck = async () => {
-    const today = getCurrentDate();
-    const exposureStatus = this.exposureStatus.get();
-    const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
-    if (this.systemStatus.get() !== SystemStatus.Active) {
-      captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
-      return false;
-    }
-    if (!onboardedDatetime) {
-      // Do not perform Exposure Checks if onboarding is not completed.
-      captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
-      return false;
-    }
-    captureMessage(`shouldPerformExposureCheck - Onboarded: ${onboardedDatetime}`);
-    const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
-    if (lastCheckedTimestamp) {
-      captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
-      const lastCheckedDate = new Date(lastCheckedTimestamp);
-      if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
-        captureMessage('shouldPerformExposureCheck - Too soon to check.');
-        return false;
-      }
-    }
-    captureMessage('Should perform ExposureCheck.');
-    return true;
-  };
 }
