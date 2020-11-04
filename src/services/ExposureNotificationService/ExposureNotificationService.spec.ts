@@ -877,4 +877,54 @@ describe('ExposureNotificationService', () => {
       expect(service.getPeriodsSinceLastFetch(18399)).toStrictEqual([18400, 18399]);
     });
   });
+
+  describe('shouldPerformExposureCheck', () => {
+    it('returns false if System is not active', async () => {
+      service.systemStatus.set(SystemStatus.Undefined);
+
+      expect(service.systemStatus.get()).toStrictEqual(SystemStatus.Undefined);
+
+      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
+
+      expect(shouldPerformExposureCheck).toStrictEqual(false);
+    });
+
+    it('returns false if not onboarded', async () => {
+      when(storage.getItem)
+        .calledWith(Key.OnboardedDatetime)
+        .mockReturnValueOnce(null);
+
+      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
+
+      expect(shouldPerformExposureCheck).toStrictEqual(false);
+    });
+
+    it('returns false if last check is too recent', async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+        lastChecked: {
+          period: periodSinceEpoch(today, HOURS_PER_PERIOD),
+          timestamp: today.getTime() - 60 * 60 * 1000,
+        },
+      });
+
+      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
+
+      expect(shouldPerformExposureCheck).toStrictEqual(false);
+    });
+
+    it('returns true if last check is outside defined range', async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+        lastChecked: {
+          period: periodSinceEpoch(today, HOURS_PER_PERIOD),
+          timestamp: today.getTime() - 10 * 60 * 60 * 1000,
+        },
+      });
+
+      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
+
+      expect(shouldPerformExposureCheck).toStrictEqual(true);
+    });
+  });
 });
