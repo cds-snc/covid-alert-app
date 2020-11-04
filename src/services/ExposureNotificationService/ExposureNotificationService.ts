@@ -441,7 +441,7 @@ export class ExposureNotificationService {
         exposureWindows = await this.exposureNotification.getExposureWindowsCustom(exposureConfiguration, keysFileUrls);
       } else {
         const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-        this.exposureNotification.getExposureWindowsIos(summaries);
+        exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
       }
 
       console.log('exposureWindows', exposureWindows);

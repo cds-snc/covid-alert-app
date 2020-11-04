@@ -114,7 +114,7 @@ export interface ExposureNotificationAPI {
   getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined> /* used only by Android */;
   getExposureWindows(): Promise<ExposureWindow[]>;
-  getExposureWindowsIos(summary: ExposureSummary): Promise<ExposureWindow[]>;
+  getExposureWindowsFromSummary(summary: ExposureSummary): Promise<ExposureWindow[]>;
 }
 
 export interface ExposureWindow {
