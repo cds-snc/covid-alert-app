@@ -1,5 +1,5 @@
 /* eslint-disable require-atomic-updates */
-import {when} from 'jest-when';
+import {when, resetAllWhenMocks} from 'jest-when';
 import {Platform} from 'react-native';
 
 import {periodSinceEpoch} from '../../shared/date-fns';
@@ -146,7 +146,7 @@ describe('ExposureNotificationService', () => {
     service.systemStatus.set(SystemStatus.Active);
     when(storage.getItem)
       .calledWith(Key.OnboardedDatetime)
-      .mockReturnValueOnce(today.getTime());
+      .mockResolvedValueOnce(today.getTime());
     service.exposureStatus.append({
       lastChecked: {
         timestamp: today.getTime() - ONE_DAY,
@@ -890,9 +890,11 @@ describe('ExposureNotificationService', () => {
     });
 
     it('returns false if not onboarded', async () => {
+      resetAllWhenMocks();
+
       when(storage.getItem)
         .calledWith(Key.OnboardedDatetime)
-        .mockReturnValueOnce(null);
+        .mockResolvedValueOnce(false);
 
       const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
 
