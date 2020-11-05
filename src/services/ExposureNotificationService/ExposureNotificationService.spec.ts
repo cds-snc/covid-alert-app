@@ -146,7 +146,7 @@ describe('ExposureNotificationService', () => {
     service.systemStatus.set(SystemStatus.Active);
     when(storage.getItem)
       .calledWith(Key.OnboardedDatetime)
-      .mockResolvedValueOnce(today.getTime());
+      .mockResolvedValue(today.getTime());
     service.exposureStatus.append({
       lastChecked: {
         timestamp: today.getTime() - ONE_DAY,
@@ -157,6 +157,7 @@ describe('ExposureNotificationService', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    resetAllWhenMocks();
     dateSpy.mockReset();
   });
 
@@ -331,7 +332,9 @@ describe('ExposureNotificationService', () => {
         period: periodSinceEpoch(new OriginalDate('2020-05-19T06:10:00+0000'), HOURS_PER_PERIOD),
       },
     });
+
     await service.updateExposureStatus();
+
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
 
     server.retrieveDiagnosisKeys.mockClear();
@@ -890,8 +893,6 @@ describe('ExposureNotificationService', () => {
     });
 
     it('returns false if not onboarded', async () => {
-      resetAllWhenMocks();
-
       when(storage.getItem)
         .calledWith(Key.OnboardedDatetime)
         .mockResolvedValueOnce(false);
