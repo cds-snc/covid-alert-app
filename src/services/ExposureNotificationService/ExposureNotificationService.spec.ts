@@ -147,11 +147,7 @@ describe('ExposureNotificationService', () => {
     when(storage.getItem)
       .calledWith(Key.OnboardedDatetime)
       .mockResolvedValue(today.getTime());
-    service.exposureStatus.append({
-      lastChecked: {
-        timestamp: today.getTime() - ONE_DAY,
-      },
-    });
+
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
 
