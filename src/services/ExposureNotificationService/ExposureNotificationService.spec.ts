@@ -358,7 +358,10 @@ describe('ExposureNotificationService', () => {
   // eslint-disable-next-line jest/no-disabled-tests
   it.skip('stores last update timestamp', async () => {
     const currentDatetime = new OriginalDate('2020-05-19T07:10:00+0000');
-
+    dateSpy.mockImplementation((args: any) => {
+      if (args === undefined) return currentDatetime;
+      return new OriginalDate(args);
+    });
     service.exposureStatus.append({
       lastChecked: {
         timestamp: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
