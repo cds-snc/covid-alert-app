@@ -16,7 +16,7 @@ buildscript {
 
         facebookFlipperVersion = "0.33.1"
 
-        googlePlayServicesBaseVersion = "17.2.1"
+        googlePlayServicesBaseVersion = "17.5.0"
         googlePlayServicesTasksVersion = "17.0.2"
 
         gsonVersion = "2.8.6"
