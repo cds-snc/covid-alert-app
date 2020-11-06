@@ -420,7 +420,7 @@ export class ExposureNotificationService {
     return [false, undefined];
   }
 
-  public async performExposureStatusUpdateV2(): Promise<void> {
+  public async performExposureStatusUpdateV2(): Promise<any> {
     const exposureConfiguration = await this.getExposureConfiguration();
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
@@ -450,10 +450,8 @@ export class ExposureNotificationService {
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
       captureException('performExposureStatusUpdateV2', error);
-      return;
+      return false;
     }
-
-    return this.finalize();
   }
 
   public shouldPerformExposureCheck = async () => {
