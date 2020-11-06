@@ -85,10 +85,10 @@ export function useExposureNotificationService() {
   return useContext(ExposureNotificationServiceContext)!;
 }
 
-export function useStartExposureNotificationService(): () => Promise<void> {
+export function useStartExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
   return useCallback(async () => {
-    await exposureNotificationService.start();
+    return exposureNotificationService.start();
   }, [exposureNotificationService]);
 }
 
