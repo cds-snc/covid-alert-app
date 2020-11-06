@@ -217,7 +217,8 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     fun getExposureWindows(promise: Promise) {
         promise.launch(this) {
             try{
-                promise.resolve(exposureNotificationClient.exposureWindows.await())
+                val exposureWindows = exposureNotificationClient.exposureWindows.await()
+                promise.resolve(exposureWindows.toWritableArray())
             } catch (exception: Exception) {
                 promise.reject(exception)
             }
