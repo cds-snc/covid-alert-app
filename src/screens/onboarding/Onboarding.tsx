@@ -41,7 +41,10 @@ export const OnboardingScreen = () => {
       // we want the EN permission dialogue to appear on the last step.
       if (index === onboardingData.length - 1) {
         if (!(await startExposureNotificationService())) {
-          navigation.navigate('ErrorScreen');
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'ErrorScreen'}],
+          });
         }
       }
 
