@@ -123,9 +123,9 @@ export class ExposureNotificationService {
     });
   }
 
-  async start(): Promise<void> {
+  async start(): Promise<boolean> {
     if (this.starting) {
-      return;
+      return true;
     }
 
     this.starting = true;
@@ -136,11 +136,13 @@ export class ExposureNotificationService {
       await this.exposureNotification.start();
     } catch (error) {
       captureException('Cannot start EN framework', error);
+      return false;
     }
 
     await this.updateSystemStatus();
 
     this.starting = false;
+    return true;
   }
 
   async updateSystemStatus(): Promise<void> {
