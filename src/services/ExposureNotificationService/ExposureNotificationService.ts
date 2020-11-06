@@ -346,7 +346,7 @@ export class ExposureNotificationService {
 
   public getTotalSeconds = (scanInstances: ScanInstance[]) => {
     const totalSeconds = scanInstances
-      .map(x => x.secondsSinceLastScan)
+      .map(scan => scan.secondsSinceLastScan)
       // with initial value to avoid when the array is empty
       .reduce((partialSum, x) => partialSum + x, 0);
     return totalSeconds;
@@ -354,14 +354,14 @@ export class ExposureNotificationService {
 
   public getAttenuationDurations = (scanInstances: ScanInstance[], attenuationDurationThresholds: number[]) => {
     //  typicalAttenuation values are in positive DB units
-    const immediateScans = scanInstances.filter(x => x.typicalAttenuation <= attenuationDurationThresholds[0]);
-    const nearScans = scanInstances.filter(x => {
+    const immediateScans = scanInstances.filter(scan => scan.typicalAttenuation <= attenuationDurationThresholds[0]);
+    const nearScans = scanInstances.filter(scan => {
       return (
-        x.typicalAttenuation > attenuationDurationThresholds[0] &&
-        x.typicalAttenuation <= attenuationDurationThresholds[1]
+        scan.typicalAttenuation > attenuationDurationThresholds[0] &&
+        scan.typicalAttenuation <= attenuationDurationThresholds[1]
       );
     });
-    const farScans = scanInstances.filter(x => x.typicalAttenuation > attenuationDurationThresholds[1]);
+    const farScans = scanInstances.filter(scan => scan.typicalAttenuation > attenuationDurationThresholds[1]);
     return [this.getTotalSeconds(immediateScans), this.getTotalSeconds(nearScans), this.getTotalSeconds(farScans)];
   };
 
@@ -380,10 +380,7 @@ export class ExposureNotificationService {
     const dailySummariesObj: {[key: string]: {attenuationDurations: number[]; matchedKeyCount: number}} = {};
     exposureWindows
       .filter(window => {
-        if (window.infectiousness === Infectiousness.None) {
-          return false;
-        }
-        return true;
+        return window.infectiousness !== Infectiousness.None;
       })
       .map(window => {
         dailySummariesObj[window.day.toString()] = {attenuationDurations: [0, 0, 0], matchedKeyCount: 0};
@@ -401,17 +398,17 @@ export class ExposureNotificationService {
       });
 
     const dailySummaries = Object.entries(dailySummariesObj)
-      .map(x => {
+      .map(entry => {
         const dailySummary: ExposureSummary = {
-          lastExposureTimestamp: Number(x[0]),
+          lastExposureTimestamp: Number(entry[0]),
           daysSinceLastExposure: -1 /* dummy value */,
           maximumRiskScore: -1 /* dummy value */,
-          ...x[1],
+          ...entry[1],
         };
         return dailySummary;
       })
-      .sort((x1, x2) => {
-        return x2.lastExposureTimestamp - x1.lastExposureTimestamp;
+      .sort((summary1, summary2) => {
+        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
       });
 
     for (const dailySummary of dailySummaries) {
@@ -453,6 +450,7 @@ export class ExposureNotificationService {
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
       captureException('performExposureStatusUpdateV2', error);
+      return;
     }
 
     return this.finalize();
