@@ -116,7 +116,7 @@ export function useExposureStatus(): ExposureStatus {
   return state;
 }
 
-export function useUpdateExposureStatus(): () => void {
+export function useUpdateExposureStatus(): (forceCheck?: boolean) => void {
   const exposureNotificationService = useExposureNotificationService();
   const update = useCallback(
     (forceCheck = false) => {
