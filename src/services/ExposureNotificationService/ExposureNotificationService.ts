@@ -232,8 +232,8 @@ export class ExposureNotificationService {
     });
   }
 
-  async updateExposureStatus(): Promise<void> {
-    if (!(await this.shouldPerformExposureCheck())) return;
+  async updateExposureStatus(forceCheck = false): Promise<void> {
+    if (!forceCheck && !(await this.shouldPerformExposureCheck())) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
       this.exposureStatusUpdatePromise = null;
