@@ -1,8 +1,11 @@
 import ExposureNotification, {
   ExposureSummary,
+  ExposureWindow,
   Status as SystemStatus,
   ExposureConfiguration,
   TemporaryExposureKey,
+  ScanInstance,
+  Infectiousness,
 } from 'bridge/ExposureNotification';
 import PushNotification from 'bridge/PushNotification';
 import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
@@ -338,6 +341,116 @@ export class ExposureNotificationService {
       default:
         // return the unchanged exposureStatus
         return exposureStatus;
+    }
+  }
+
+  public getTotalSeconds = (scanInstances: ScanInstance[]) => {
+    const totalSeconds = scanInstances
+      .map(scan => scan.secondsSinceLastScan)
+      // with initial value to avoid when the array is empty
+      .reduce((partialSum, x) => partialSum + x, 0);
+    return totalSeconds;
+  };
+
+  public getAttenuationDurations = (scanInstances: ScanInstance[], attenuationDurationThresholds: number[]) => {
+    //  typicalAttenuation values are in positive DB units
+    const immediateScans = scanInstances.filter(scan => scan.typicalAttenuation <= attenuationDurationThresholds[0]);
+    const nearScans = scanInstances.filter(scan => {
+      return (
+        scan.typicalAttenuation > attenuationDurationThresholds[0] &&
+        scan.typicalAttenuation <= attenuationDurationThresholds[1]
+      );
+    });
+    const farScans = scanInstances.filter(scan => scan.typicalAttenuation > attenuationDurationThresholds[1]);
+    return [this.getTotalSeconds(immediateScans), this.getTotalSeconds(nearScans), this.getTotalSeconds(farScans)];
+  };
+
+  public async checkIfExposedV2({
+    exposureWindows,
+    attenuationDurationThresholds,
+    minimumExposureDurationMinutes,
+  }: {
+    exposureWindows: ExposureWindow[];
+    attenuationDurationThresholds: number[];
+    minimumExposureDurationMinutes: number;
+  }): Promise<[boolean, ExposureSummary | undefined]> {
+    if (exposureWindows.length === 0) {
+      return [false, undefined];
+    }
+    const dailySummariesObj: {[key: string]: {attenuationDurations: number[]; matchedKeyCount: number}} = {};
+    exposureWindows
+      .filter(window => {
+        return window.infectiousness !== Infectiousness.None;
+      })
+      .map(window => {
+        dailySummariesObj[window.day.toString()] = {attenuationDurations: [0, 0, 0], matchedKeyCount: 0};
+        return {
+          day: window.day,
+          attenuationDurations: this.getAttenuationDurations(window.scanInstances, attenuationDurationThresholds),
+        };
+      })
+      .forEach(windowSummary => {
+        const dayString = windowSummary.day.toString();
+        dailySummariesObj[dayString].attenuationDurations[0] += windowSummary.attenuationDurations[0];
+        dailySummariesObj[dayString].attenuationDurations[1] += windowSummary.attenuationDurations[1];
+        dailySummariesObj[dayString].attenuationDurations[2] += windowSummary.attenuationDurations[2];
+        dailySummariesObj[dayString].matchedKeyCount += 1;
+      });
+
+    const dailySummaries = Object.entries(dailySummariesObj)
+      .map(entry => {
+        const dailySummary: ExposureSummary = {
+          lastExposureTimestamp: Number(entry[0]),
+          daysSinceLastExposure: -1 /* dummy value */,
+          maximumRiskScore: -1 /* dummy value */,
+          ...entry[1],
+        };
+        return dailySummary;
+      })
+      .sort((summary1, summary2) => {
+        return summary2.lastExposureTimestamp - summary1.lastExposureTimestamp;
+      });
+
+    for (const dailySummary of dailySummaries) {
+      const secondsOfExposure = dailySummary.attenuationDurations[0] + dailySummary.attenuationDurations[1];
+      if (secondsOfExposure > minimumExposureDurationMinutes * 60) {
+        return [true, dailySummary];
+      }
+    }
+    return [false, undefined];
+  }
+
+  public async performExposureStatusUpdateV2(): Promise<any> {
+    const exposureConfiguration = await this.getExposureConfiguration();
+    const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
+    const updatedExposure = this.updateExposure();
+    if (updatedExposure !== currentExposureStatus) {
+      this.exposureStatus.set(updatedExposure);
+      this.finalize();
+    }
+    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
+    try {
+      captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
+      await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
+      const exposureWindows = await this.exposureNotification.getExposureWindows();
+      const [isExposed, dailySummary] = await this.checkIfExposedV2({
+        exposureWindows,
+        attenuationDurationThresholds: exposureConfiguration.attenuationDurationThresholds,
+        minimumExposureDurationMinutes: exposureConfiguration.minimumExposureDurationMinutes,
+      });
+      if (isExposed) {
+        return this.finalize(
+          {
+            type: ExposureStatusType.Exposed,
+            summary: dailySummary,
+          },
+          lastCheckedPeriod,
+        );
+      }
+      return this.finalize({}, lastCheckedPeriod);
+    } catch (error) {
+      captureException('performExposureStatusUpdateV2', error);
+      return false;
     }
   }
 
