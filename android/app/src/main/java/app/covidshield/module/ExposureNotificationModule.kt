@@ -14,6 +14,7 @@ import app.covidshield.extensions.log
 import app.covidshield.extensions.parse
 import app.covidshield.extensions.toExposureConfiguration
 import app.covidshield.extensions.toExposureKey
+import app.covidshield.extensions.toExposureWindow
 import app.covidshield.extensions.toInformation
 import app.covidshield.extensions.toSummary
 import app.covidshield.extensions.toWritableArray
@@ -218,6 +219,8 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         promise.launch(this) {
             try{
                 val exposureWindows = exposureNotificationClient.exposureWindows.await()
+
+//                promise.resolve(exposureWindows.first().toExposureWindow())
                 promise.resolve(exposureWindows.toWritableArray())
             } catch (exception: Exception) {
                 promise.reject(exception)
