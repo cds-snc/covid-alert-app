@@ -3,7 +3,7 @@ package app.covidshield.models
 import com.google.gson.annotations.SerializedName
 
 data class Window(
-    @SerializedName("day") val day: Int,
+    @SerializedName("day") val day: Long,
     @SerializedName("scanInstances") val scanInstances: List<Scan>,
     @SerializedName("reportType") val reportType: Int,
     @SerializedName("infectiousness") val infectiousness: Int,

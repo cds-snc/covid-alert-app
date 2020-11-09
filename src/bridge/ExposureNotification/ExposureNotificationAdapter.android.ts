@@ -34,9 +34,8 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return [];
     },
     getExposureWindowsCustom: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
-      console.log('getExposureWindowsCustom')
+      captureMessage('getExposureWindowsCustom');
       await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
-      console.log('position 2')
       const exposureWindows = await exposureNotificationAPI.getExposureWindows();
       return exposureWindows;
     },

@@ -15,7 +15,7 @@ fun ScanInstance.toScanInstance(): Scan {
 
  fun ExposureWindow.toExposureWindow(): Window {
      return Window(
-             day = dateMillisSinceEpoch.toInt(),
+             day = dateMillisSinceEpoch,
              scanInstances = scanInstances.map { scanInstance ->  scanInstance.toScanInstance()},
              reportType = reportType,
              infectiousness = infectiousness,
