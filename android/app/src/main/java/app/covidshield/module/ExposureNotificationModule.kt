@@ -219,9 +219,10 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         promise.launch(this) {
             try{
                 val exposureWindows = exposureNotificationClient.exposureWindows.await()
-
-//                promise.resolve(exposureWindows.first().toExposureWindow())
-                promise.resolve(exposureWindows.toWritableArray())
+                val window = exposureWindows.first().toExposureWindow()
+//                log("window", window.toWritableMap())
+                promise.resolve(window.toWritableMap())
+//                promise.resolve(exposureWindows.toWritableArray())
             } catch (exception: Exception) {
                 promise.reject(exception)
             }
