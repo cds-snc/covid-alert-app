@@ -33,10 +33,14 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       }
       return [];
     },
-    getExposureWindowsCustom: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
-      captureMessage('getExposureWindowsCustom');
+    getExposureWindowsCustom: async (diagnosisKeysURLs: string[]) => {
+      captureMessage('getExposureWindows');
       await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
-      const exposureWindows = await exposureNotificationAPI.getExposureWindows();
+      const _exposureWindows = await exposureNotificationAPI.getExposureWindows();
+      const exposureWindows = _exposureWindows.map(window => {
+        window.day = Number(window.day);
+        return window;
+      });
       return exposureWindows;
     },
   };

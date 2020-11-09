@@ -103,10 +103,7 @@ export interface ExposureNotification {
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined>;
   getExposureWindows(): ExposureWindow[];
   getExposureWindowsIos(summary: ExposureSummary): Promise<ExposureWindow[]>;
-  getExposureWindowsCustom(
-    configuration: ExposureConfiguration,
-    diagnosisKeysURLs: string[],
-  ): Promise<ExposureWindow[]>;
+  getExposureWindowsCustom(diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
 }
 
 export interface ExposureNotificationAPI {

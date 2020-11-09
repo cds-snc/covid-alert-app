@@ -438,7 +438,7 @@ export class ExposureNotificationService {
       // const exposureWindows = await this.exposureNotification.getExposureWindows();
       let exposureWindows;
       if (Platform.OS === 'android') {
-        exposureWindows = await this.exposureNotification.getExposureWindowsCustom(exposureConfiguration, keysFileUrls);
+        exposureWindows = await this.exposureNotification.getExposureWindowsCustom(keysFileUrls);
       } else {
         const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
         exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
