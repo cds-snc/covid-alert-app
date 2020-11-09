@@ -167,7 +167,7 @@ const Content = () => {
           variant="bigFlat"
           onPress={async () => {
             captureMessage('Forcing Exposure Check');
-            updateExposureStatus();
+            updateExposureStatus(true);
           }}
         />
       </Section>

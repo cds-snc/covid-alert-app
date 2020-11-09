@@ -116,11 +116,15 @@ export function useExposureStatus(): ExposureStatus {
   return state;
 }
 
-export function useUpdateExposureStatus(): () => void {
+export function useUpdateExposureStatus(): (forceCheck?: boolean) => void {
   const exposureNotificationService = useExposureNotificationService();
-  const update = useCallback(() => {
-    exposureNotificationService.updateExposureStatus();
-  }, [exposureNotificationService]);
+  const update = useCallback(
+    (forceCheck = false) => {
+      exposureNotificationService.updateExposureStatus(forceCheck);
+    },
+    [exposureNotificationService],
+  );
+
   return update;
 }
 
