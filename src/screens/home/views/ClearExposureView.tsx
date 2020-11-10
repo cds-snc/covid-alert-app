@@ -8,26 +8,21 @@ export const ClearExposureView = () => {
   const i18n = useI18n();
   const [clearExposedStatus] = useClearExposedStatus();
   const onClearExposedState = useCallback(() => {
-    Alert.alert(
-      i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Body'),
-      undefined,
-      [
-        {
-          text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Cancel'),
-          onPress: () => {},
-          style: 'cancel',
+    Alert.alert(i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Body'), undefined, [
+      {
+        text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Cancel'),
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
+        onPress: () => {
+          clearExposedStatus();
         },
-        {
-          text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
-          onPress: () => {
-            clearExposedStatus();
-          },
-          style: 'default',
-        },
-      ],
-      {cancelable: true},
-    );
-  }, [clearExposedStatus]);
+        style: 'default',
+      },
+    ]);
+  }, [clearExposedStatus, i18n.locale]);
   return (
     <>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">

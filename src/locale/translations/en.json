@@ -21,17 +21,10 @@
       }
     },
     "ExposureDetected": {
-      "Title": "You’ve been exposed in the last 14 days",
-      "Title2": "What now?",
-      "Body1": "Someone you’ve been near has reported a COVID-19 diagnosis through the app. You were close to them for 15 minutes or more.",
-      "RegionNotCovered": {
-        "Body2": "You’re at risk of being infected. Watch yourself carefully for symptoms, and ",
-        "Body3": "consider self-isolating for 14 days.",
-        "HowToIsolateCTA": "How to self-isolate"
-      },
-      "RegionCovered": {
-        "Body2": "You’re at risk of being infected."
-      },
+      "Title": "You’ve been exposed",
+      "Body1": "You’ve been near at least one person who reported a COVID-19 diagnosis through the app. You were near them for at least 15 minutes.",
+      "Title2": "What next?",
+      "Body2": "You’re at risk of being infected.",
       "Notification": {
         "Received": "Notification received"
       },
@@ -128,7 +121,7 @@
     "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
-    "EnterCodeCardBody": "To let people know they’ve been exposed, you need a one-time key.",
+    "EnterCodeCardBody": "To let people know they’ve been exposed, you need a one-time key. We’ll also ask for details to help narrow down when you were likely most contagious.",
     "EnterCodeCardAction": "Enter your one-time key",
     "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
     "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
@@ -159,6 +152,7 @@
     "ChangeLanguage": "Change language",
     "ChangeRegion": "Change province or territory",
     "Privacy": "How it protects your privacy",
+    "PrivacyUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/privacy-policy.html",
     "SettingsTitle": "Settings",
     "InformationTitle": "About COVID Alert"
   },
@@ -184,10 +178,10 @@
     "step-1": "The app runs in the background and will not interrupt your activities.\n\nWhenever you’re near someone else with COVID Alert, both phones exchange random codes every 5 minutes.\n\nThe random codes change often and cannot be used to identify you. ",
     "step-2Title": "What’s an exposure?",
     "step-2AltText": "A hand-drawn illustration of 2 mobile phones side-by-side with a timer clock connecting both phones.",
-    "step-2": "The app estimates how near people are by the strength of Bluetooth signals.\n\nIf you’re closer than 2 metres for more than 15 minutes, the app will record an exposure.",
+    "step-2": "The app estimates how near people are by the strength of Bluetooth signals.\n\nThe app will record an exposure if the contact:\n• Is closer than 2 metres.\n• Lasts at least 15 minutes.\n• Happens during the time the person was likely most contagious.",
     "step-3Title": "Getting a positive test",
     "step-3AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
-    "step-3": "If someone with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent. The codes go into a central server.\n\nThe server only gets the codes. It does not get any information about the person.",
+    "step-3": "If a person with the app is diagnosed with COVID-19, they can choose to upload the random codes their phone sent.\n\nThey can also give details to help narrow down when they were likely most contagious. Those details tell the phone which random codes to upload.\n\nThe random codes go into a central server. No other information is sent to the server.",
     "step-4Title": "Looking for exposures",
     "step-4AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
     "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you’ve been exposed and explains what to do next.",
@@ -233,7 +227,7 @@
       "Bullet1": "Your location.",
       "Bullet2": "Your name or address.",
       "Bullet3": "Your phone’s contacts.",
-      "Bullet4": "Your health information.",
+      "Bullet4": "Your health information, except what you decide to share.",
       "Bullet5": "The health information of anyone you’re near."
     },
     "HowItWorks": {
@@ -241,7 +235,7 @@
       "ImageAltText": "A hand-drawn illustration of 3 mobile phones sending out random codes via bluetooth.",
       "Body1": "The app uses Bluetooth to exchange random codes with nearby phones.",
       "Body2": "Every day, it checks a list of random codes from people who tell the app they tested positive.",
-      "Body3": "If you’ve had close contact with one of those people in the past 14 days, you’ll get a notification.",
+      "Body3": "If you’ve been near one of those people within the last 14 days, you’ll get a notification.",
       "HowItWorksCTA": "Learn more about how it works"
     },
     "PartOf": {
@@ -270,41 +264,86 @@
   },
   "DataUpload": {
     "Cancel": "Cancel",
+    "Close": "Close",
+    "Back": "Back",
     "InfoSmall": "Your random codes will not be uploaded unless you give permission in the next step.",
     "ShareToast": "Random codes uploaded successfully",
-    "Step1": {
-      "Title": "Let people know they may have been exposed",
-      "Body1a": "Step 1. ",
-      "Body1b": "Enter the one-time key you got when you were diagnosed.",
-      "Body2a": "Step 2. ",
-      "Body2b": "Agree that COVID Alert can let people know they were exposed.",
-      "Body3a": "Step 3. ",
-      "Body3b": "Allow your phone to share your random codes.",
-      "Body4a": "Nobody will get any information about you ",
-      "Body4b": "or the time you were near them.",
+    "StepXofY": "Step {x} of {y}",
+    "Today": "Today",
+    "Yesterday": "Yesterday",
+    "Earlier": "Even earlier",
+    "Step0": {
+      "Title": "Notify people they’ve been exposed",
+      "List": {
+        "1a": "1. Enter the one-time key ",
+        "1b": "you got when you were diagnosed.",
+        "2a": "2. Give the app details ",
+        "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
+        "3a": "3. Allow your phone to share ",
+        "3b": "your random codes. These codes notify people you’ve been near."
+      },
+      "Body1": "Nobody will get any information about you ",
+      "Body2": "or the time you were near them. They will only get a notification that they were exposed recently.",
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
     },
+    "Step2": {
+      "Title1": "Are you feeling sick?",
+      "Body1": "Symptoms could include:",
+      "Symptoms": {
+        "1": "Cough or breathing problems.",
+        "2": "Fever or chills.",
+        "3": "Feeling really tired or weak.",
+        "4": "Sore muscles or headache.",
+        "5": "New loss of smell or taste.",
+        "6": "Stomach problems."
+      },
+      "Option1": "Yes, you have or had at least 1 symptom within the last 14 days.",
+      "Option2": "No, you’ve not had any symptoms.",
+      "Option3": "You're not sure.",
+      "Option4": "You prefer not to say.",
+      "Title2": "Why we’re asking",
+      "Body2": "This information helps figure out when you were likely most contagious. It tells the app which exposures to share so only people who were near you during that time will be notified. It will never be sent or stored outside your phone.",
+      "CTA": "Next"
+    },
     "FormView": {
       "Title": "Enter your one-time key",
-      "Body": "Enter the key you got when you were diagnosed.",
-      "Action": "Submit",
+      "Body": "Enter the key you got when you were diagnosed. To prevent false notifications, you can only get a key if you test positive for COVID-19.",
+      "Action": "Submit key",
       "InputLabel": "COVID Alert key"
+    },
+    "OtkDiagnosedView": {
+      "Title": "You've already entered the key",
+      "Body": "You do not need to enter it again.",
+      "CTA": "Next"
     },
     "ConsentView": {
       "Title": "Now you can upload your codes",
-      "Body1": "Your phone will ask your permission to upload your random codes or “random IDs” from the past 14 days.",
+      "Body1": "Your phone will ask your permission to upload your most recent random codes or “random IDs”.",
       "Body2a": "Nobody will get any information about you ",
       "Body2b": "or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
       "Action": "Agree"
     },
-    "SymptomOnsetDate": {
-      "Title": "Date you started feeling sick",
-      "Body1": "Enter the date you first noticed you were not feeling well.",
-      "Body2": "This information will never be shared from your phone.",
-      "Body3": "The app will only share exposures from 2 days before this date until today. People will be notified they’ve been exposed.",
+    "TekUploadNoDate": {
+      "Title": "Notify people you've been near",
+      "Body": "You did not give a date to help narrow down when you were likely most contagious.\n\nShare your exposures now to notify the people you were near in the last 14 days.",
       "CTA": "Share exposures"
+    },
+    "SymptomOnsetDate": {
+      "Title1": "Date your symptoms started",
+      "Title2": "Why we’re asking",
+      "Body1": "This date helps figure out when you were likely most contagious. It tells the app which exposures to share so only people who were near you during that time will be notified.\n\nThe date does not get sent or stored anywhere outside your phone.",
+      "CTA": "Share exposures",
+      "CTA2": "Prefer not to say"
+    },
+    "TestDate": {
+      "Title1": "Your test date",
+      "Body1": "Enter the date you got your COVID-19 test.",
+      "Title2": "Why we’re asking",
+      "Body2": "Your test date helps figure out when you were likely most contagious. It tells the app which exposures to share so only people who were near you then will be notified.\n\nThe date does not get sent or stored anywhere outside your phone.",
+      "CTA": "Share exposures",
+      "CTA2": "Prefer not to say"
     },
     "NoCode": {
       "NoRegion": {
@@ -366,15 +405,6 @@
     "YT": "Yukon",
     "None": "Prefer not to say"
   },
-  "HowToIsolate": {
-    "Title": "How to self-isolate",
-    "Intro": "Try your best to:",
-    "Body1": "Stay home unless it’s to get medical care.",
-    "Body2": "Avoid public transportation like buses or taxis.",
-    "Body3": "Ask for help to get groceries and supplies dropped off at your door.",
-    "Body4": "Stay in a separate room and use a separate bathroom from others in your home, if possible.",
-    "Body5": "Wear a mask safely any time you cannot take the above actions."
-  },
   "A11yList": {
     "Start": "List start",
     "End": "List end",
@@ -382,6 +412,10 @@
   },
   "Errors": {
     "Action": "OK",
+    "TekUploadNoDate": {
+      "Title": "",
+      "Body": "You need to choose a date before you can share exposures."
+    },
     "TekUploadOffline": {
       "Title": "Lost connection",
       "Body": "Your random codes were not uploaded. Make sure your phone is connected to the Internet, through either data or WiFi."
@@ -393,6 +427,10 @@
     "TekUploadPermission": {
       "Title": "Random codes could not be uploaded",
       "Body": "You did not give permission."
+    },
+    "OtcCodeNotEntered": {
+      "Title": "",
+      "Body": "You need to enter your key before you can submit."
     },
     "OtcUploadInvalidOneTimeCode": {
       "Title": "Incorrect key",
@@ -413,6 +451,14 @@
     "ContentNoConnect": {
       "Title": "Cannot connect to information for your province or territory",
       "Body": "Try again later for this information."
+    },
+    "DataSharingStep2": {
+      "Title": "",
+      "Body": "You need to choose an answer before going to the next step."
+    },
+    "ApiNotConnected": {
+      "Title": "Something went wrong",
+      "Body": "Unfortunately, it looks like COVID Alert will not work on this phone. \n\nIf you have more than one profile on your phone, try installing the app in the main profile."
     }
   }
 }
