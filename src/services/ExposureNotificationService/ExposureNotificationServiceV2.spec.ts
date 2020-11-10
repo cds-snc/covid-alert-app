@@ -4,7 +4,7 @@ import {
   CalibrationConfidence,
   ExposureWindow,
   Infectiousness,
-  Report,
+  ReportType,
   ScanInstance,
 } from '../../bridge/ExposureNotification';
 
@@ -52,7 +52,7 @@ const getExposureWindow = (scanInstances: ScanInstance[], day = 0) => {
   const exposureWindow: ExposureWindow = {
     day,
     scanInstances,
-    reportType: Report.ConfirmedClinicalDiagnosis,
+    reportType: ReportType.ConfirmedClinicalDiagnosis,
     infectiousness: Infectiousness.Standard,
     calibrationConfidence: CalibrationConfidence.Medium,
   };
