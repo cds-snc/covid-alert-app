@@ -12,7 +12,6 @@ export class MockExposureNotification implements ExposureNotification {
 
   start = async () => {};
   stop = async () => {};
-  resetAllData = async () => {};
 
   getStatus = async () => this.status;
 

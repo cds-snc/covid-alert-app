@@ -108,12 +108,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     @ReactMethod
-    fun resetAllData(promise: Promise) {
-        // This method does not exist in the android nearby SDK.
-        promise.resolve(null)
-    }
-
-    @ReactMethod
     fun getStatus(promise: Promise) {
         promise.launch(this) {
             val status = getStatusInternal()

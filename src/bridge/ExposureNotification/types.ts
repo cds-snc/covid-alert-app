@@ -96,7 +96,6 @@ export interface ExposureInformation {
 export interface ExposureNotification {
   start(): Promise<void>;
   stop(): Promise<void>;
-  resetAllData(): Promise<void>;
   getStatus(): Promise<Status>;
   getTemporaryExposureKeyHistory(): Promise<TemporaryExposureKey[]>;
   detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary[]>;
