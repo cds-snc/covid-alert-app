@@ -58,6 +58,7 @@ export type ExposureStatus =
       type: ExposureStatusType.Exposed;
       summary: ExposureSummary;
       notificationSent?: boolean;
+      exposureDetectedAt?: number;
       lastChecked?: LastChecked;
     }
   | {
@@ -487,12 +488,12 @@ export class ExposureNotificationService {
     return true;
   };
 
-  public getLastExposedTimestamp(): number {
+  public getExposureDetectedAt(): number | undefined {
     const exposureStatus = this.exposureStatus.get();
-    let timeStamp = 0;
+    let timeStamp;
 
-    if (exposureStatus.type === ExposureStatusType.Exposed) {
-      timeStamp = exposureStatus.summary.lastExposureTimestamp;
+    if (exposureStatus.type === ExposureStatusType.Exposed && exposureStatus.exposureDetectedAt) {
+      timeStamp = exposureStatus.exposureDetectedAt;
     }
 
     return timeStamp;
@@ -582,7 +583,18 @@ export class ExposureNotificationService {
 
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
-      const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      //const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+
+      const summaries = [
+        {
+          lastExposureTimestamp: 0,
+          matchedKeyCount: 2,
+          maximumRiskScore: 4,
+          daysSinceLastExposure: 2,
+          attenuationDurations: [1260, 480, 0],
+        },
+      ];
+
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
@@ -592,6 +604,7 @@ export class ExposureNotificationService {
           {
             type: ExposureStatusType.Exposed,
             summary: this.selectExposureSummary(summariesContainingExposures[0]),
+            exposureDetectedAt: getCurrentDate().getTime(),
           },
           lastCheckedPeriod,
         );
