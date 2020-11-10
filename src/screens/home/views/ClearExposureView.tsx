@@ -26,7 +26,7 @@ export const ClearExposureView = () => {
   return (
     <Box>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate(`Home.ExposureDetected.Dismiss.Title`)}
+        {i18n.translate('Home.ExposureDetected.Dismiss.Title')}
       </Text>
 
       <Text marginBottom="m">
