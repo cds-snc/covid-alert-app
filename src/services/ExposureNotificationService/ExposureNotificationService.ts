@@ -506,6 +506,19 @@ export class ExposureNotificationService {
     return exposureConfiguration;
   }
 
+  public getLastExposedDate(): string {
+    const exposureStatus = this.exposureStatus.get();
+    let timeStamp = 1603809908400;
+    if (exposureStatus.type === ExposureStatusType.Exposed) {
+      timeStamp = exposureStatus.summary.lastExposureTimestamp;
+    }
+
+    const date = new Date(timeStamp);
+    const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+    return dateString;
+  }
+
   private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {

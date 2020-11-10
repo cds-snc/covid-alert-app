@@ -10,6 +10,7 @@ import {ExposedHelpButton} from 'components/ExposedHelpButton';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
+import {ExposureDateView} from './ExposureDateView';
 import {ClearExposureView} from './ClearExposureView';
 
 const ActiveContent = ({text}: {text: string}) => {
@@ -34,10 +35,13 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
       <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.ExposureDetected.Title')}
       </Text>
+
       <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
+      <ExposureDateView />
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate(`Home.ExposureDetected.Title2`)}
       </Text>
+
       {regionActive ? (
         <ActiveContent text={activeBodyText} />
       ) : (
