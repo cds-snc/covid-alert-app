@@ -31,6 +31,11 @@
       },
       "RegionCovered": {
         "Body2": "You’re at risk of being infected."
+      },
+      "Dismiss": {
+        "Title": "Negative test result?",
+        "Body": "Dismiss this alert to receive any new exposure notifications. Dismissing it will not delete the exposure information in your phone’s settings.",
+        "CTA": "Dismiss alert"
       }
     },
     "ChooseRegionCTA": "Choose province or territory",

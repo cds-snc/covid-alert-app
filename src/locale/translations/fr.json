@@ -130,6 +130,11 @@
       },
       "RegionCovered": {
         "Body2": "Vous êtes à risque d’être infecté."
+      },
+      "Dismiss": {
+        "Title": "Résultat négatif au test de dépistage?",
+        "Body": "Vous pouvez mettre fin à l’alerte pour continuer à recevoir des notifications d’exposition. Aucune information d’exposition ne sera supprimée des paramètres de votre téléphone.",
+        "CTA": "Mettre fin à l’alerte"
       }
     },
     "ExposedHelpCTA": "Que faire en cas d’exposition",
