@@ -26,6 +26,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(APP_VERSION_CODE)</string>
+	<key>ENAPIVersion</key>
+	<integer>2</integer>
+	<key>ENDeveloperRegion</key>
+	<string>CA</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram</string>
@@ -33,6 +37,13 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NotoSans-Bold.ttf</string>
@@ -59,16 +70,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  <key>ENDeveloperRegion</key>
-	<string>CA</string>
-	<key>ENAPIVersion</key>
-	<integer>1</integer>
-  <key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-	</dict>
 </dict>
 </plist>

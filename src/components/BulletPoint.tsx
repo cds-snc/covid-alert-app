@@ -9,7 +9,7 @@ interface BulletPointProps {
 }
 
 export const BulletPoint = ({text, listAccessibile}: BulletPointProps) => {
-  const bullet = '\u25CF';
+  const bullet = '\u2022';
   const i18n = useI18n();
 
   let bulletLabel;
@@ -31,7 +31,7 @@ export const BulletPoint = ({text, listAccessibile}: BulletPointProps) => {
   }
 
   return (
-    <Box flexDirection="row">
+    <Box flexDirection="row" marginBottom="xs">
       <Box marginRight="xs">
         <Text accessible accessibilityLabel={bulletLabel} variant="bodyText" color="bodyText">
           {bullet}

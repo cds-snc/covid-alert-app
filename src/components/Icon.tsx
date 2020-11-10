@@ -5,6 +5,8 @@ import IconGreenCheck from 'assets/green-check.svg';
 import Ellipsis from 'assets/ellipsis.svg';
 import HeaderLogoRings from 'assets/header-logo-rings.svg';
 import IconBackArrow from 'assets/icon-back-arrow.svg';
+import IconDownArrow from 'assets/icon-down-arrow.svg';
+import IconDownArrowDisabled from 'assets/icon-down-arrow-disabled.svg';
 import IconBluetoothDisabled from 'assets/icon-bluetooth-disabled.svg';
 import IconBluetoothOff from 'assets/icon-bluetooth-off.svg';
 import IconBluetooth from 'assets/icon-bluetooth.svg';
@@ -51,6 +53,8 @@ import PurpleBullet from 'assets/purple-bullet.svg';
 const ICONS = {
   'icon-x': IconX,
   'icon-back-arrow': IconBackArrow,
+  'icon-down-arrow': IconDownArrow,
+  'icon-down-arrow-disabled': IconDownArrowDisabled,
   'icon-bluetooth': IconBluetooth,
   'icon-bluetooth-disabled': IconBluetoothDisabled,
   'icon-bluetooth-off': IconBluetoothOff,

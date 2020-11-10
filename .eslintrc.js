@@ -40,7 +40,5 @@ module.exports = {
     '**/services/BackendService/covidshield/*.d.ts',
     '**/services/BackendService/covidshield/*.js',
     '**/translations/index.js',
-    'privacypolicy.js',
-    'privacypolicy-*.js',
   ],
 };

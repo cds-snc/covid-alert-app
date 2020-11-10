@@ -33,6 +33,7 @@ export const palette = {
   danger50: '#F7635D',
   pink: '#FFC1B3',
   purple: '#573EC5',
+  gray1Text: '#333333',
   gray2: '#585858',
   gray3: '#8A8A8A',
   gray4: '#BCBCBC',
@@ -81,6 +82,7 @@ const theme = {
     divider: palette.fadedWhite,
     lighterBlueBackground: palette.lighterBlue,
     buttonGrey: palette.buttonGrey,
+    gray1Text: palette.gray1Text,
     gray2: palette.gray2,
     gray3: palette.gray3,
     gray4: palette.gray4,
@@ -134,6 +136,12 @@ const theme = {
       fontFamily: 'notosans',
       fontWeight: 'bold',
       fontSize: 23,
+      lineHeight: 30,
+    },
+    bodyTitle2: {
+      fontFamily: 'notosans',
+      fontWeight: 'bold',
+      fontSize: 20,
       lineHeight: 30,
     },
     overlayTitle: {
@@ -238,6 +246,20 @@ const theme = {
         borderBottomColor: palette.gray3,
       },
     },
+    thinFlatBlue: {
+      color: palette.neutralGrey,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'notosans',
+      fontSize: 20,
+      borderBottomWidth: 4,
+      borderBottomColor: palette.darkGrey,
+      disabled: {
+        color: palette.gray4,
+        textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
+      },
+    },
     bigFlatNeutralGrey: {
       color: palette.neutralGrey,
       height: 52,
@@ -316,6 +338,17 @@ const theme = {
       fontSize: 18,
       borderWidth: undefined,
       disabled: {},
+    },
+    buttonSelect: {
+      color: 'bodyText',
+      height: 52,
+      textColor: palette.bodyBlack,
+      fontFamily: 'notosans',
+      borderColor: 'bodyText',
+      fontSize: 18,
+      disabled: {
+        borderColor: 'fadedBackground',
+      },
     },
     subduedText: {
       color: 'transparent',

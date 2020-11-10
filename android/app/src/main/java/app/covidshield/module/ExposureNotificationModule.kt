@@ -22,13 +22,13 @@ import app.covidshield.models.Configuration
 import app.covidshield.models.ExposureKey
 import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
 import app.covidshield.utils.ActivityResultHelper
+import app.covidshield.utils.CovidShieldException.ApiNotConnectedException
 import app.covidshield.utils.CovidShieldException.ApiNotEnabledException
 import app.covidshield.utils.CovidShieldException.InvalidActivityException
 import app.covidshield.utils.CovidShieldException.NoResolutionRequiredException
 import app.covidshield.utils.CovidShieldException.PermissionDeniedException
 import app.covidshield.utils.CovidShieldException.PlayServicesNotAvailableException
 import app.covidshield.utils.CovidShieldException.SendIntentException
-import app.covidshield.utils.CovidShieldException.SummaryTokenNotFoundException
 import app.covidshield.utils.CovidShieldException.UnknownException
 import app.covidshield.utils.PendingTokenManager
 import com.facebook.react.bridge.Promise
@@ -39,8 +39,10 @@ import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_NOTIFICATION_SETTINGS
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -83,15 +85,19 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun start(promise: Promise) {
         promise.launch(this) {
-            if (!isPlayServicesAvailable()) {
-                throw PlayServicesNotAvailableException()
+            try{
+                if (!isPlayServicesAvailable()) {
+                    throw PlayServicesNotAvailableException()
+                }
+                val status = getStatusInternal()
+                if (status != Status.ACTIVE) {
+                    stopInternal()
+                    startInternal()
+                }
+                promise.resolve(null);
+            } catch (exception: java.lang.Exception) {
+                promise.reject(exception)
             }
-            val status = getStatusInternal()
-            if (status != Status.ACTIVE) {
-                stopInternal()
-                startInternal()
-            }
-            promise.resolve(null)
         }
     }
 
@@ -119,6 +125,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         }
     }
 
+    @Deprecated("This is an ExposureNotification V1 function.",
+            ReplaceWith("getExposureWindows"),
+            DeprecationLevel.WARNING)
     @ReactMethod
     fun detectExposure(configuration: ReadableMap, diagnosisKeysURLs: ReadableArray, promise: Promise) {
         promise.launch(this) {
@@ -195,6 +204,31 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         }
     }
 
+    @ReactMethod
+    fun provideDiagnosisKeys(diagnosisKeysURLs: ReadableArray, promise: Promise) {
+        promise.launch(this) {
+            try{
+                val files = diagnosisKeysURLs.parse(String::class.java).map { File(it) }
+                val diagnosisKeyFileProvider = DiagnosisKeyFileProvider(files)
+                exposureNotificationClient.provideDiagnosisKeys(diagnosisKeyFileProvider)
+                promise.resolve(null)
+            } catch (exception: Exception) {
+                promise.reject(exception)
+            }
+        }
+    }
+
+    @ReactMethod
+    fun getExposureWindows(promise: Promise) {
+        promise.launch(this) {
+            try{
+                promise.resolve(exposureNotificationClient.exposureWindows.await())
+            } catch (exception: Exception) {
+                promise.reject(exception)
+            }
+        }
+    }
+
     private suspend fun startInternal() {
         val activity = currentActivity ?: throw InvalidActivityException()
         startResolutionCompleter?.await()
@@ -204,26 +238,33 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             if (exception !is ApiException) {
                 throw UnknownException(exception)
             }
-            if (exception.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
-                startResolutionCompleter = CompletableDeferred()
-                try {
-                    exception.status.startResolutionForResult(
-                        activity,
-                        START_RESOLUTION_FOR_RESULT_REQUEST_CODE
-                    )
-                    startResolutionCompleter?.await()
-                    startResolutionCompleter = null
-                    startInternal()
-                } catch (exception: IntentSender.SendIntentException) {
-                    startResolutionCompleter?.completeExceptionally(SendIntentException(exception))
-                } catch (exception: Exception) {
-                    startResolutionCompleter?.completeExceptionally(PermissionDeniedException(exception))
-                } finally {
-                    startResolutionCompleter = null
+            when(exception.statusCode) {
+                ExposureNotificationStatusCodes.RESOLUTION_REQUIRED -> {
+                    startResolutionCompleter = CompletableDeferred()
+                    try {
+                        exception.status.startResolutionForResult(
+                                activity,
+                                START_RESOLUTION_FOR_RESULT_REQUEST_CODE
+                        )
+                        startResolutionCompleter?.await()
+                        startResolutionCompleter = null
+                        startInternal()
+                    } catch (exception: IntentSender.SendIntentException) {
+                        startResolutionCompleter?.completeExceptionally(SendIntentException(exception))
+                    } catch (exception: Exception) {
+                        startResolutionCompleter?.completeExceptionally(PermissionDeniedException(exception))
+                    } finally {
+                        startResolutionCompleter = null
+                    }
                 }
-            } else {
-                log(exception.message)
-                throw NoResolutionRequiredException(exception)
+                ExposureNotificationStatusCodes.API_NOT_CONNECTED -> {
+                    log(exception.message)
+                    throw ApiNotConnectedException(exception)
+                }
+                else -> {
+                    log(exception.message)
+                    throw NoResolutionRequiredException(exception)
+                }
             }
         }
     }
