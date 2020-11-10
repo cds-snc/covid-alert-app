@@ -23,9 +23,9 @@ export const ExposureDateView = () => {
   const exposureNotificationService = useExposureNotificationService();
 
   const date = useMemo(() => {
-    const timeStamp = exposureNotificationService.getLastExposedDate();
+    const timeStamp = exposureNotificationService.getLastExposedTimestamp();
     return new Date(timeStamp).toLocaleString(dateLocale, dateFormat);
-  }, [exposureNotificationService]);
+  }, [dateFormat, dateLocale, exposureNotificationService]);
 
   return (
     <Text marginBottom="m">

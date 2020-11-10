@@ -487,6 +487,17 @@ export class ExposureNotificationService {
     return true;
   };
 
+  public getLastExposedTimestamp(): number {
+    const exposureStatus = this.exposureStatus.get();
+    let timeStamp = 0;
+
+    if (exposureStatus.type === ExposureStatusType.Exposed) {
+      timeStamp = exposureStatus.summary.lastExposureTimestamp;
+    }
+
+    return timeStamp;
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -665,19 +676,6 @@ export class ExposureNotificationService {
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
     return exposureConfiguration;
-  }
-
-  public getLastExposedDate(): string {
-    const exposureStatus = this.exposureStatus.get();
-    let timeStamp = 1603809908400;
-    if (exposureStatus.type === ExposureStatusType.Exposed) {
-      timeStamp = exposureStatus.summary.lastExposureTimestamp;
-    }
-
-    const date = new Date(timeStamp);
-    const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-
-    return dateString;
   }
 
   private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {

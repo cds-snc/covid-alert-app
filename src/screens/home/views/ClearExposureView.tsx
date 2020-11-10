@@ -22,9 +22,9 @@ export const ClearExposureView = () => {
         style: 'default',
       },
     ]);
-  }, [clearExposedStatus, i18n.locale]);
+  }, [clearExposedStatus, i18n]);
   return (
-    <>
+    <Box>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate(`Home.ExposureDetected.Dismiss.Title`)}
       </Text>
@@ -41,6 +41,6 @@ export const ClearExposureView = () => {
           variant="bigFlatPurple"
         />
       </Box>
-    </>
+    </Box>
   );
 };

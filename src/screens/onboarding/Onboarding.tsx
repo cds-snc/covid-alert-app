@@ -53,7 +53,7 @@ export const OnboardingScreen = () => {
         setRegion(undefined);
       }
     },
-    [setRegion, startExposureNotificationService],
+    [navigation, setRegion, startExposureNotificationService],
   );
 
   const nextItem = useCallback(async () => {
