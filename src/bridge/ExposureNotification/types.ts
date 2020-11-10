@@ -75,15 +75,6 @@ export interface ExposureConfiguration {
   transmissionRiskWeight: number;
 }
 
-export interface DailySummariesConfig {
-  reportTypeWeights: Record<ReportType, number>;
-  infectiousnessWeights: Record<Infectiousness, number>;
-  attenuationBucketThresholdDb: number[];
-  attenuationBucketWeights: number[];
-  daysSinceExposureThreshold: number;
-  minimumWindowScore: number;
-}
-
 export interface ExposureInformation {
   dateMillisSinceEpoch: number;
   durationMinutes: number;

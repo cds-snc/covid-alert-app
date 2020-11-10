@@ -442,12 +442,16 @@ export class ExposureNotificationService {
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
 
-      let exposureWindows;
+      let exposureWindows: ExposureWindow[];
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
         const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-        exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
+        if (summaries.length > 0) {
+          exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
+        } else {
+          exposureWindows = [];
+        }
       }
 
       captureMessage('exposureWindows', exposureWindows);
