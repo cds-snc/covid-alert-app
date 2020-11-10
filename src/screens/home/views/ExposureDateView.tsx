@@ -15,13 +15,13 @@ export const ExposureDateView = () => {
   const exposureNotificationService = useExposureNotificationService();
 
   const date = useMemo(() => {
-    const timeStamp = exposureNotificationService.getLastExposedTimestamp();
-    return new Date(timeStamp).toLocaleString(dateLocale, dateFormat);
+    const timeStamp = exposureNotificationService.getExposureDetectedAt();
+    if (timeStamp) return new Date(timeStamp).toLocaleString(dateLocale, dateFormat);
   }, [dateFormat, dateLocale, exposureNotificationService]);
 
-  return (
+  return date ? (
     <Text marginBottom="m">
       {i18n.translate('Home.ExposureDetected.Notification.Received')}: <Text fontWeight="bold">{date}</Text>
     </Text>
-  );
+  ) : null;
 };
