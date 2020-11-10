@@ -15,7 +15,11 @@ const PushNotificationIOS: PushNotificationInterface = {
   requestPermissions: RNPushNotification.requestPermissions,
   presentLocalNotification: payload => {
     RNPushNotification.removeAllDeliveredNotifications();
-    RNPushNotification.presentLocalNotification(payload);
+    RNPushNotification.addNotificationRequest({
+      id: 'exposureNotification',
+      title: payload.alertTitle,
+      body: payload.alertBody,
+    });
   },
 };
 
