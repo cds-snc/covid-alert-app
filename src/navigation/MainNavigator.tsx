@@ -20,6 +20,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
 import {TestScreen} from 'screens/testScreen';
+import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -79,6 +80,7 @@ const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const TestScreenWithNavBar = withDarkNav(TestScreen);
+const ErrorScreenWithNavBar = withDarkNav(ErrorScreen);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
@@ -145,6 +147,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
+      <MainStack.Screen name="ErrorScreen" component={ErrorScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };

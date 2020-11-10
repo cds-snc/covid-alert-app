@@ -442,6 +442,10 @@
     "DataSharingStep2": {
       "Title": "",
       "Body": "You need to choose an answer before going to the next step."
+    },
+    "ApiNotConnected": {
+      "Title": "Something went wrong",
+      "Body": "Unfortunately, it looks like COVID Alert will not work on this phone. \n\nIf you have more than one profile on your phone, try installing the app in the main profile."
     }
   }
 }

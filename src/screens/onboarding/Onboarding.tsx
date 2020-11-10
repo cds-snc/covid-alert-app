@@ -37,10 +37,15 @@ export const OnboardingScreen = () => {
   );
 
   const onSnapToNewPage = useCallback(
-    (index: number) => {
+    async (index: number) => {
       // we want the EN permission dialogue to appear on the last step.
       if (index === onboardingData.length - 1) {
-        startExposureNotificationService();
+        if (!(await startExposureNotificationService())) {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'ErrorScreen'}],
+          });
+        }
       }
 
       // we want region cleared on the 2nd last step
