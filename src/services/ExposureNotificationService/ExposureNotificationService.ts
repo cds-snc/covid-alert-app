@@ -439,8 +439,6 @@ export class ExposureNotificationService {
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
 
-      // await this.exposureNotification.provideDiagnosisKeys(keysFileUrls);
-      // const exposureWindows = await this.exposureNotification.getExposureWindows();
       let exposureWindows;
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
