@@ -583,17 +583,7 @@ export class ExposureNotificationService {
 
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
-      //const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-
-      const summaries = [
-        {
-          lastExposureTimestamp: 0,
-          matchedKeyCount: 2,
-          maximumRiskScore: 4,
-          daysSinceLastExposure: 2,
-          attenuationDurations: [1260, 480, 0],
-        },
-      ];
+      const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
 
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
