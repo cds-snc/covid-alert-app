@@ -6,19 +6,11 @@ import {useExposureNotificationService} from 'services/ExposureNotificationServi
 export const ExposureDateView = () => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
-
-  const dateFormat =
-    i18n.locale === 'fr'
-      ? {
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric',
-        }
-      : {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-        };
+  const dateFormat = {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  };
 
   const exposureNotificationService = useExposureNotificationService();
 
