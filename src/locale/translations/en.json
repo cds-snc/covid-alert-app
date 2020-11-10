@@ -22,22 +22,9 @@
     },
     "ExposureDetected": {
       "Title": "You’ve been exposed",
-      "Body1": "You’ve been near at least one person who reported a COVID-19 diagnosis through the app. You were near them for at least 15 minutes.",
-      "Title2": "What next?",
-      "Body2": "You’re at risk of being infected.",
-      "Notification": {
-        "Received": "Notification received"
-      },
-      "Dismiss": {
-        "Title": "Negative test result?",
-        "Body": "Dismiss this alert to receive any new exposure notifications. Dismissing it will not delete the exposure information in your phone’s settings.",
-        "CTA": "Dismiss alert",
-        "Confirm": {
-          "Body": "Are you sure you want to dismiss this alert?",
-          "Accept": "Yes, dismiss",
-          "Cancel": "Cancel"
-        }
-      }
+      "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
+      "Title2": "What now?",
+      "Body2": "You’re at risk of being infected."
     },
     "ChooseRegionCTA": "Choose province or territory",
     "How": "Diagnosed with COVID-19?",

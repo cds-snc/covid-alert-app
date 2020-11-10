@@ -57,6 +57,6 @@ export const captureException = async (message: string, error: any, params: {[ke
   };
 
   if (__DEV__ && !isTest()) {
-    console.log(finalMessage, finalParams); // eslint-disable-line no-console
+    console.error(finalMessage, finalParams); // eslint-disable-line no-console
   }
 };

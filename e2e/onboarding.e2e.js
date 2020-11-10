@@ -18,7 +18,6 @@ const NUM_ONBOARDING_SCREENS = 6;
 
 const ctaScreens = {
   howItWorks: {key: 'howItWorks', step: 3, screens: 4},
-  privacyPolicy: {key: 'privacyPolicy', step: 5},
 };
 
 describe('Test onboarding flow', () => {
@@ -75,28 +74,5 @@ describe('Test onboarding flow', () => {
       await device.takeScreenshot(`${howItWorks.key}-step-${j}-bottom`);
       await element(by.id(`${howItWorks.key}NextButton`)).tap();
     }
-  });
-
-  it('has privacy policy screen', async () => {
-    await expect(element(by.id('enButton'))).toBeVisible();
-    await element(by.id('enButton')).tap();
-
-    const privacyPolicy = ctaScreens.privacyPolicy;
-    // Go through onboarding until we hit privacy policy
-    for (let i = 1; i < privacyPolicy.step; i++) {
-      await expect(element(by.id('onboardingNextButton'))).toBeVisible();
-      await element(by.id('onboardingNextButton')).tap();
-    }
-    // Scroll to the bottom to hit the CTA
-    await expect(element(by.id(`step-${privacyPolicy.step}OnboardingScrollView`))).toBeVisible();
-    await element(by.id(`step-${privacyPolicy.step}OnboardingScrollView`)).scrollTo('bottom');
-    await expect(element(by.id(`${privacyPolicy.key}CTA`))).toBeVisible();
-    await element(by.id(`${privacyPolicy.key}CTA`)).tap();
-
-    // Scroll to bottom of scroll view and exit
-    await device.takeScreenshot(`${privacyPolicy.key}-top`);
-    await element(by.id(`${privacyPolicy.key}ScrollView`)).scrollTo('bottom');
-    await device.takeScreenshot(`${privacyPolicy.key}-bottom`);
-    await element(by.id(`toolbarCloseButton`)).tap();
   });
 });

@@ -1,13 +1,15 @@
+/* eslint-disable import/namespace */
 import crypto from 'crypto';
 
 import nacl from 'tweetnacl';
 import AsyncStorage from '@react-native-community/async-storage';
-import * as DateFns from 'shared/date-fns';
-import {blobFetch} from 'shared/fetch';
-import {captureMessage} from 'shared/log';
-import JsonSchemaValidator from 'shared/JsonSchemaValidator';
-import * as envs from 'env';
 
+import * as envs from '../../env';
+import {ContagiousDateInfo, ContagiousDateType} from '../../shared/DataSharing';
+import * as DateFns from '../../shared/date-fns';
+import {blobFetch} from '../../shared/fetch';
+import {captureMessage} from '../../shared/log';
+import JsonSchemaValidator from '../../shared/JsonSchemaValidator';
 import {getRandomBytes, downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
 import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
 
@@ -129,6 +131,7 @@ describe('BackendService', () => {
           serverPublicKey: 'mock',
         },
         keys,
+        {dateType: ContagiousDateType.None, date: null},
       );
 
       expect(covidshield.Upload.create).toHaveBeenCalledWith(
@@ -155,7 +158,9 @@ describe('BackendService', () => {
       };
       getRandomBytes.mockRejectedValueOnce('I cannot randomize');
 
-      await expect(backendService.reportDiagnosisKeys(submissionKeys, keys)).rejects.toThrow('I cannot randomize');
+      await expect(
+        backendService.reportDiagnosisKeys(submissionKeys, keys, {dateType: ContagiousDateType.None, date: null}),
+      ).rejects.toThrow('I cannot randomize');
     });
 
     it('throws if backend returns an error', async () => {
@@ -179,6 +184,7 @@ describe('BackendService', () => {
             serverPublicKey: 'mock',
           },
           keys,
+          {dateType: ContagiousDateType.None, date: null},
         ),
       ).rejects.toThrow('314');
     });
@@ -202,8 +208,67 @@ describe('BackendService', () => {
             serverPublicKey: 'mock',
           },
           keys,
+          {dateType: ContagiousDateType.None, date: null},
         ),
       ).rejects.toThrow('Code Unknown');
+    });
+
+    it('returns last 3 keys if symptom onset is today, saves last  uploaded TEK start time', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const keys = generateRandomKeys(30);
+      await backendService.reportDiagnosisKeys(
+        {
+          clientPrivateKey: 'mock',
+          clientPublicKey: 'mock',
+          serverPublicKey: 'mock',
+        },
+        keys,
+        {dateType: ContagiousDateType.SymptomOnsetDate, date: new Date()},
+      );
+
+      expect(covidshield.Upload.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          keys: expect.toHaveLength(3),
+        }),
+      );
+      const sortedKeys = keys
+        .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
+        .splice(0, 3)
+        .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}));
+      sortedKeys.forEach(value => {
+        expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
+      });
+
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'LAST_UPLOADED_TEK_START_TIME',
+        sortedKeys[0].rollingStartIntervalNumber.toString(),
+      );
+    });
+
+    it('does not upload TEKs with timestamps before the LAST_UPLOADED_TEK_START_TIME, saves new most recent time', async () => {
+      const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', undefined);
+      const keys = generateRandomKeys(10);
+      AsyncStorage.getItem.mockReturnValueOnce(keys[1].rollingStartIntervalNumber.toString());
+
+      await backendService.reportDiagnosisKeys(
+        {
+          clientPrivateKey: 'mock',
+          clientPublicKey: 'mock',
+          serverPublicKey: 'mock',
+        },
+        keys,
+        {dateType: ContagiousDateType.None, date: null},
+      );
+      expect(covidshield.Upload.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          keys: expect.toHaveLength(1),
+        }),
+      );
+
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'LAST_UPLOADED_TEK_START_TIME',
+        keys[0].rollingStartIntervalNumber.toString(),
+      );
     });
   });
 
@@ -423,6 +488,44 @@ describe('BackendService', () => {
       );
 
       spy.mockReset();
+    });
+  });
+  describe('filterNonContagiousTEKs', () => {
+    const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
+
+    it('does not filter out TEKs if no date is provided', async () => {
+      const contagiousDateInfo: ContagiousDateInfo = {
+        dateType: ContagiousDateType.None,
+        date: null,
+      };
+      const exposureKeys = generateRandomKeys(10);
+      const filteredKeys = exposureKeys.filter(backendService.filterNonContagiousTEKs(contagiousDateInfo));
+      expect(filteredKeys).toStrictEqual(exposureKeys);
+    });
+
+    it('filters out TEKs generated more than 2 days before symptom onset date', async () => {
+      const today = new Date();
+      const symptomOnsetDate = DateFns.addDays(today, -2);
+      const contagiousDateInfo: ContagiousDateInfo = {
+        dateType: ContagiousDateType.SymptomOnsetDate,
+        date: symptomOnsetDate,
+      };
+      const exposureKeys = generateRandomKeys(10);
+      const filteredKeys = exposureKeys.filter(backendService.filterNonContagiousTEKs(contagiousDateInfo));
+      expect(filteredKeys).toHaveLength(5);
+    });
+
+    it('filters out TEKs generated more than 2 days before test date', async () => {
+      const today = new Date();
+      const testDate = DateFns.addDays(today, -1);
+      const contagiousDateInfo: ContagiousDateInfo = {
+        dateType: ContagiousDateType.TestDate,
+        date: testDate,
+      };
+      const exposureKeys = generateRandomKeys(14);
+      const filteredKeys = exposureKeys.filter(backendService.filterNonContagiousTEKs(contagiousDateInfo));
+      // today + yesterday + 2 days prior = 4
+      expect(filteredKeys).toHaveLength(4);
     });
   });
 });

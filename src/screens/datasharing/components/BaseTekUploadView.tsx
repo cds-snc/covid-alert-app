@@ -6,26 +6,35 @@ import {useI18n} from 'locale';
 import {useReportDiagnosis, cannotGetTEKsError} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
+import AsyncStorage from '@react-native-community/async-storage';
+import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
-
-export interface ContagiousDateInfo {
-  dateType: 'symptomOnsetDate' | 'testDate' | 'noDate';
-  dateString: string;
-}
 
 interface BaseTekUploadViewProps {
   buttonText: string;
   contagiousDateInfo: ContagiousDateInfo;
   children?: React.ReactNode;
+  secondaryButtonText?: string;
+  secondaryButtonOnPress?(): void;
+  showBackButton?: boolean;
 }
 
-export const BaseTekUploadView = ({children, contagiousDateInfo, buttonText}: BaseTekUploadViewProps) => {
+export const BaseTekUploadView = ({
+  children,
+  contagiousDateInfo,
+  buttonText,
+  secondaryButtonText,
+  secondaryButtonOnPress,
+  showBackButton = true,
+}: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys} = useReportDiagnosis();
+
   const onSuccess = useCallback(() => {
+    AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
     navigation.navigate('Home');
   }, [navigation]);
   // TEK = Temporary Exposure Key
@@ -51,7 +60,15 @@ export const BaseTekUploadView = ({children, contagiousDateInfo, buttonText}: Ba
     },
     [i18n],
   );
-
+  const validateInput = () => {
+    if (contagiousDateInfo.dateType !== ContagiousDateType.None && !contagiousDateInfo.date) {
+      Alert.alert(i18n.translate(`Errors.TekUploadNoDate.Title`), i18n.translate(`Errors.TekUploadNoDate.Body`), [
+        {text: i18n.translate(`Errors.Action`)},
+      ]);
+      return false;
+    }
+    return true;
+  };
   const handleUpload = useCallback(async () => {
     setLoading(true);
     try {
@@ -72,11 +89,26 @@ export const BaseTekUploadView = ({children, contagiousDateInfo, buttonText}: Ba
     );
   }
   return (
-    <BaseDataSharingView>
+    <BaseDataSharingView showBackButton={showBackButton}>
       <ScrollView style={styles.flex}>{children}</ScrollView>
       <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
-        <Button variant="thinFlat" text={buttonText} onPress={handleUpload} />
+        <Button
+          variant="thinFlat"
+          text={buttonText}
+          onPress={() => {
+            const inputValid = validateInput();
+            if (!inputValid) {
+              return;
+            }
+            handleUpload();
+          }}
+        />
       </Box>
+      {secondaryButtonText && secondaryButtonOnPress ? (
+        <Box paddingHorizontal="m" marginBottom="m">
+          <Button variant="thinFlatBlue" text={secondaryButtonText} onPress={secondaryButtonOnPress} />
+        </Box>
+      ) : null}
     </BaseDataSharingView>
   );
 };

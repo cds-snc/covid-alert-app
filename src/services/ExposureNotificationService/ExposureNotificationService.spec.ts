@@ -1,10 +1,12 @@
 /* eslint-disable require-atomic-updates */
-import {when} from 'jest-when';
+import {when, resetAllWhenMocks} from 'jest-when';
 import {Platform} from 'react-native';
 
-import {getCurrentDate, periodSinceEpoch} from '../../shared/date-fns';
+import {periodSinceEpoch} from '../../shared/date-fns';
 import {ExposureSummary} from '../../bridge/ExposureNotification';
 import PushNotification from '../../bridge/PushNotification';
+import {Key} from '../StorageService';
+import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 
 import {
   ExposureNotificationService,
@@ -12,6 +14,7 @@ import {
   ExposureStatusType,
   EXPOSURE_STATUS,
   HOURS_PER_PERIOD,
+  SystemStatus,
 } from './ExposureNotificationService';
 
 const ONE_DAY = 3600 * 24 * 1000;
@@ -19,6 +22,13 @@ const ONE_DAY = 3600 * 24 * 1000;
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
+
+jest.mock('react-native-background-fetch', () => {
+  return {
+    configure: jest.fn(),
+    scheduleTask: jest.fn(),
+  };
+});
 
 jest.mock('../../bridge/PushNotification', () => ({
   ...jest.requireActual('bridge/PushNotification'),
@@ -121,6 +131,7 @@ describe('ExposureNotificationService', () => {
 
   const OriginalDate = global.Date;
   const dateSpy = jest.spyOn(global, 'Date');
+  const today = new OriginalDate('2020-05-18T04:10:00+0000');
 
   const testUpdateExposure = async (currentStatus: ExposureStatus, summaries: ExposureSummary[]) => {
     service.exposureStatus.append(currentStatus);
@@ -132,10 +143,17 @@ describe('ExposureNotificationService', () => {
   beforeEach(() => {
     service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge);
     Platform.OS = 'ios';
+    service.systemStatus.set(SystemStatus.Active);
+    when(storage.getItem)
+      .calledWith(Key.OnboardedDatetime)
+      .mockResolvedValue(today.getTime());
+
+    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+    resetAllWhenMocks();
     dateSpy.mockReset();
   });
 
@@ -186,7 +204,6 @@ describe('ExposureNotificationService', () => {
     async (argAttenuationDurations, os, expectedStatus) => {
       Platform.OS = os;
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
       const currentStatus: ExposureStatus = {
         type: ExposureStatusType.Monitoring,
@@ -229,7 +246,6 @@ describe('ExposureNotificationService', () => {
       // before or after the old match
       Platform.OS = os;
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
 
       const currentSummary = getSummary({
         today,
@@ -288,10 +304,12 @@ describe('ExposureNotificationService', () => {
   });
 
   it('backfills keys when last timestamp not available', async () => {
+    const today = new OriginalDate('2020-05-18T04:10:00+0000');
     dateSpy.mockImplementation((args: any) => {
       if (args === undefined) return new OriginalDate('2020-05-19T11:10:00+0000');
       return new OriginalDate(args);
     });
+
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
@@ -308,7 +326,9 @@ describe('ExposureNotificationService', () => {
         period: periodSinceEpoch(new OriginalDate('2020-05-19T06:10:00+0000'), HOURS_PER_PERIOD),
       },
     });
+
     await service.updateExposureStatus();
+
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
 
     server.retrieveDiagnosisKeys.mockClear();
@@ -348,7 +368,6 @@ describe('ExposureNotificationService', () => {
       if (args === undefined) return currentDatetime;
       return new OriginalDate(args);
     });
-
     service.exposureStatus.append({
       lastChecked: {
         timestamp: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
@@ -375,9 +394,6 @@ describe('ExposureNotificationService', () => {
   });
 
   it('enters Diagnosed flow when start keys submission process', async () => {
-    dateSpy.mockImplementation(() => {
-      return new OriginalDate();
-    });
     when(server.claimOneTimeCode)
       .calledWith('12345678')
       .mockResolvedValue({
@@ -405,9 +421,6 @@ describe('ExposureNotificationService', () => {
           cycleStartsAt: new OriginalDate('2020-05-18T04:10:00+0000').toString(),
         }),
       );
-    dateSpy.mockImplementation((...args) =>
-      args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
-    );
 
     await service.start();
 
@@ -416,44 +429,6 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Diagnosed,
       }),
     );
-  });
-
-  describe('NeedsSubmission status calculated initially', () => {
-    beforeEach(() => {
-      dateSpy.mockImplementation((...args) =>
-        args.length > 0 ? new OriginalDate(...args) : new OriginalDate('2020-05-19T04:10:00+0000'),
-      );
-      service.exposureStatus.append({
-        type: ExposureStatusType.Diagnosed,
-        cycleStartsAt: new OriginalDate('2020-05-14T04:10:00+0000').getTime(),
-      });
-    });
-
-    it('for positive', async () => {
-      service.exposureStatus.append({
-        submissionLastCompletedAt: new OriginalDate('2020-05-18T04:10:00+0000').getTime(),
-      });
-
-      await service.start();
-      expect(service.exposureStatus.get()).toStrictEqual(
-        expect.objectContaining({
-          needsSubmission: true,
-        }),
-      );
-    });
-
-    it('for negative', async () => {
-      service.exposureStatus.append({
-        submissionLastCompletedAt: new OriginalDate('2020-05-19T04:10:00+0000').getTime(),
-      });
-
-      await service.start();
-      expect(service.exposureStatus.get()).toStrictEqual(
-        expect.objectContaining({
-          needsSubmission: false,
-        }),
-      );
-    });
   });
 
   it('needsSubmission status recalculates daily', async () => {
@@ -481,7 +456,7 @@ describe('ExposureNotificationService', () => {
     when(secureStorage.get)
       .calledWith('submissionAuthKeys')
       .mockResolvedValueOnce('{}');
-    await service.fetchAndSubmitKeys();
+    await service.fetchAndSubmitKeys({dateType: 'noDate', date: null});
 
     expect(storage.setItem).toHaveBeenCalledWith(
       EXPOSURE_STATUS,
@@ -516,19 +491,58 @@ describe('ExposureNotificationService', () => {
     expect(service.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Monitoring}));
   });
 
+  describe('isReminderNeeded', () => {
+    it('returns true when missing uploadReminderLastSentAt', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        // uploadReminderLastSentAt: new Date(), don't pass this
+      };
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
+    });
+
+    it('returns true when uploadReminderLastSentAt is a day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        uploadReminderLastSentAt: lastSent.getTime(),
+      };
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(true);
+    });
+
+    it('returns false when uploadReminderLastSentAt is < 1 day old', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const lastSent = today;
+
+      const status = {
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        uploadReminderLastSentAt: lastSent.getTime(),
+      };
+
+      expect(service.isReminderNeeded(status)).toStrictEqual(false);
+    });
+  });
+
   describe('updateExposureStatus', () => {
     it('keeps lastChecked when reset from diagnosed state to monitoring state', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((args: any) => (args ? new OriginalDate(args) : today));
-      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
 
+      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
         cycleStartsAt: today.getTime() - 14 * 3600 * 24 * 1000,
         cycleEndsAt: today.getTime(),
         lastChecked: {
           period,
-          timestamp: today.getTime(),
+          timestamp: today.getTime() - ONE_DAY,
         },
       });
 
@@ -552,14 +566,13 @@ describe('ExposureNotificationService', () => {
       [20, ExposureStatusType.Monitoring],
     ])('if exposed %p days ago, state expected to be %p', async (daysAgo, expectedStatus) => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
 
       service.exposureStatus.set({
         type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
-          timestamp: today.getTime(),
+          timestamp: today.getTime() - ONE_DAY,
         },
         summary: getSummary({
           today,
@@ -584,7 +597,6 @@ describe('ExposureNotificationService', () => {
 
     it('does not reset to monitoring state when lastExposureTimestamp is not available', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       service.exposureStatus.set({
         type: ExposureStatusType.Exposed,
@@ -619,9 +631,37 @@ describe('ExposureNotificationService', () => {
       );
     });
 
+    it('selects next exposure summary if user is not already exposed', async () => {
+      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      const nextSummary = {
+        daysSinceLastExposure: 7,
+        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+        matchedKeyCount: 1,
+        maximumRiskScore: 1,
+        attenuationDurations: [1200, 0, 0],
+      };
+      bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+        lastChecked: {
+          period,
+          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+        },
+      });
+
+      await service.updateExposureStatus();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          type: ExposureStatusType.Exposed,
+          summary: nextSummary,
+        }),
+      );
+    });
+
     it('selects current exposure summary if user is already exposed', async () => {
+      // abc
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       const currentSummary = getSummary({
         today,
@@ -640,7 +680,7 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Exposed,
         lastChecked: {
           period,
-          timestamp: today.getTime(),
+          timestamp: today.getTime() - 10 * 60 * 60 * 1000,
         },
         summary: currentSummary,
       });
@@ -685,55 +725,17 @@ describe('ExposureNotificationService', () => {
       expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
     });
 
-    it('isReminderNeeded returns true when missing uploadReminderLastSentAt', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
-      const status = {
-        type: ExposureStatusType.Diagnosed,
-        needsSubmission: true,
-        // uploadReminderLastSentAt: new Date(), don't pass this
-      };
-
-      expect(service.isReminderNeeded(status)).toStrictEqual(true);
-    });
-
-    it('isReminderNeeded returns true when uploadReminderLastSentAt is a day old', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
-      const status = {
-        type: ExposureStatusType.Diagnosed,
-        needsSubmission: true,
-        uploadReminderLastSentAt: lastSent.getTime(),
-      };
-
-      expect(service.isReminderNeeded(status)).toStrictEqual(true);
-    });
-
-    it('isReminderNeeded returns false when uploadReminderLastSentAt is < 1 day old', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const lastSent = today;
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-
-      const status = {
-        type: ExposureStatusType.Diagnosed,
-        needsSubmission: true,
-        uploadReminderLastSentAt: lastSent.getTime(),
-      };
-
-      expect(service.isReminderNeeded(status)).toStrictEqual(false);
-    });
-
     it('processes the reminder push notification when diagnosed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       service.exposureStatus.set({
         type: ExposureStatusType.Diagnosed,
         needsSubmission: true,
         uploadReminderLastSentAt: lastSent.getTime(),
+        lastChecked: {
+          period: periodSinceEpoch(today, HOURS_PER_PERIOD),
+          timestamp: today.getTime() - 10 * 60 * 60 * 1000,
+        },
       });
 
       await service.updateExposureStatusInBackground();
@@ -743,36 +745,6 @@ describe('ExposureNotificationService', () => {
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
           uploadReminderLastSentAt: today.getTime(),
-        }),
-      );
-    });
-
-    it('selects next exposure summary if user is not already exposed', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
-      const nextSummary = {
-        daysSinceLastExposure: 7,
-        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-        matchedKeyCount: 1,
-        maximumRiskScore: 1,
-        attenuationDurations: [1200, 0, 0],
-      };
-      bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
-      service.exposureStatus.set({
-        type: ExposureStatusType.Monitoring,
-        lastChecked: {
-          period,
-          timestamp: today.getTime(),
-        },
-      });
-
-      await service.updateExposureStatus();
-
-      expect(service.exposureStatus.get()).toStrictEqual(
-        expect.objectContaining({
-          type: ExposureStatusType.Exposed,
-          summary: nextSummary,
         }),
       );
     });
@@ -807,14 +779,11 @@ describe('ExposureNotificationService', () => {
       cycleEndsAt: today.getTime() - ONE_DAY,
       needsSubmission: true,
     });
-    dateSpy.mockImplementation((...args: any[]) => {
-      return args.length > 0 ? new OriginalDate(...args) : new OriginalDate();
-    });
+    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
     expect(service.calculateNeedsSubmission()).toStrictEqual(false);
   });
 
   it('calculateNeedsSubmission when diagnosed true', () => {
-    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
     const today = new OriginalDate();
     service.exposureStatus.set({
       type: ExposureStatusType.Diagnosed,
@@ -834,9 +803,7 @@ describe('ExposureNotificationService', () => {
       submissionLastCompletedAt: today.getTime(),
       needsSubmission: true,
     });
-    dateSpy.mockImplementation((...args: any[]) => {
-      return args.length > 0 ? new OriginalDate(...args) : today;
-    });
+
     expect(service.calculateNeedsSubmission()).toStrictEqual(false);
   });
 
@@ -853,27 +820,69 @@ describe('ExposureNotificationService', () => {
 
   describe('getPeriodsSinceLastFetch', () => {
     it('returns an array of [0, runningPeriod] if _lastCheckedPeriod is undefined', () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       expect(service.getPeriodsSinceLastFetch()).toStrictEqual([0, 18400]);
     });
 
     it('returns an array of checkdates between lastCheckedPeriod and runningPeriod', () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       expect(service.getPeriodsSinceLastFetch(18395)).toStrictEqual([18400, 18399, 18398, 18397, 18396, 18395]);
     });
 
     it('returns an array of runningPeriod when current runningPeriod == _lastCheckedPeriod', () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       expect(service.getPeriodsSinceLastFetch(18400)).toStrictEqual([18400]);
     });
 
     it('returns an array of [runningPeriod, runningPeriod - 1] when current runningPeriod = _lastCheckedPeriod + 1', () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       expect(service.getPeriodsSinceLastFetch(18399)).toStrictEqual([18400, 18399]);
+    });
+  });
+
+  describe('shouldPerformExposureCheck', () => {
+    it('returns false if System is not active', async () => {
+      service.systemStatus.set(SystemStatus.Undefined);
+
+      expect(service.systemStatus.get()).toStrictEqual(SystemStatus.Undefined);
+
+      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
+
+      expect(shouldPerformExposureCheck).toStrictEqual(false);
+    });
+
+    it('returns false if not onboarded', async () => {
+      when(storage.getItem)
+        .calledWith(Key.OnboardedDatetime)
+        .mockResolvedValueOnce(false);
+
+      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
+
+      expect(shouldPerformExposureCheck).toStrictEqual(false);
+    });
+
+    it('returns false if last check is too recent', async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+        lastChecked: {
+          period: periodSinceEpoch(today, HOURS_PER_PERIOD),
+          timestamp: today.getTime() - 60 * 60 * 1000,
+        },
+      });
+
+      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
+
+      expect(shouldPerformExposureCheck).toStrictEqual(false);
+    });
+
+    it('returns true if last check is outside defined range', async () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+        lastChecked: {
+          period: periodSinceEpoch(today, HOURS_PER_PERIOD),
+          timestamp: today.getTime() - 10 * 60 * 60 * 1000,
+        },
+      });
+
+      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
+
+      expect(shouldPerformExposureCheck).toStrictEqual(true);
     });
   });
 });

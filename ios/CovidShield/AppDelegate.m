@@ -11,7 +11,7 @@
 #import <BackgroundTasks/BackgroundTasks.h>
 #import <objc/runtime.h>
 
-#if DEBUG
+#ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
 #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
@@ -71,7 +71,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#if DEBUG
+#ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
 
@@ -93,7 +93,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
+
   if([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground) {
     UIStoryboard *launchScreenStoryboard = [UIStoryboard storyboardWithName:@"Launch Screen" bundle:nil];
     UIViewController *launchScreenController = [launchScreenStoryboard instantiateInitialViewController];
@@ -138,7 +138,7 @@ static BOOL preSubmitTaskHook(id me, SEL selector, BGTaskRequest *req, NSError *
     ((BGProcessingTaskRequest*)req).requiresNetworkConnectivity = YES;
     ((BGProcessingTaskRequest*)req).requiresExternalPower = NO;
   }
-  
+
   return ((BOOL (*)(id, SEL, BGTaskRequest*, NSError**))*_BGTaskScheduler_submitTaskRequest_orig)(me, selector, req, perr);
 }
 

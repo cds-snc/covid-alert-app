@@ -1,19 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
-import {Step1Screen, FormScreen, ConsentScreen, SymptomOnsetDateScreen} from 'screens/datasharing';
-import {PrivacyScreen} from 'screens/privacy';
+import {
+  FormScreen,
+  Step0Screen,
+  Step2Screen,
+  SymptomOnsetDateScreen,
+  TekUploadNoDate,
+  TekUploadSubsequentDays,
+  TestDateScreen,
+} from 'screens/datasharing';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
 import {RegionPickerSettingsScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
-import {HowToIsolate} from 'screens/howToIsolate/HowToIsolate';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
 import {TestScreen} from 'screens/testScreen';
+
+import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
 const MainStack = createStackNavigator();
 
@@ -60,15 +68,16 @@ export interface MainStackParamList extends Record<string, object | undefined> {
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
-const Step1ScreenWithNavBar = withDarkNav(Step1Screen);
+const Step0ScreenWithNavBar = withDarkNav(Step0Screen);
+const Step2ScreenWithNavBar = withDarkNav(Step2Screen);
 const FormScreenWithNavBar = withDarkNav(FormScreen);
-const ConsentScreenWithNavBar = withDarkNav(ConsentScreen);
+const TestDateScreenWithNavBar = withDarkNav(TestDateScreen);
+const TekUploadNoDateWithNavBar = withDarkNav(TekUploadNoDate);
+const TekUploadSubsequentDaysWithNavBar = withDarkNav(TekUploadSubsequentDays);
 const SymptomOnsetDateScreenWithNavBar = withDarkNav(SymptomOnsetDateScreen);
-const PrivacyScreenWithNavBar = withDarkNav(PrivacyScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
-const HowToIsolateWithNavBar = withDarkNav(HowToIsolate);
 const TestScreenWithNavBar = withDarkNav(TestScreen);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
@@ -83,13 +92,29 @@ const OnboardingNavigator = () => {
 };
 const DataSharingStack = createStackNavigator();
 const DataSharingNavigator = () => {
+  const [state, setState] = useState(FormContextDefaults);
+  const toggleModal = (val: boolean) => {
+    setState({...state, modalVisible: val});
+  };
+  const setSymptomOnsetDate = (val: string) => {
+    setState({...state, symptomOnsetDate: val});
+  };
+  const setTestDate = (val: string) => {
+    setState({...state, testDate: val});
+  };
+
   return (
-    <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step1">
-      <DataSharingStack.Screen name="Step1" component={Step1ScreenWithNavBar} />
-      <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
-      <DataSharingStack.Screen name="ConsentView" component={ConsentScreenWithNavBar} />
-      <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />
-    </DataSharingStack.Navigator>
+    <FormContext.Provider value={{data: state, toggleModal, setSymptomOnsetDate, setTestDate}}>
+      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step0">
+        <DataSharingStack.Screen name="Step0" component={Step0ScreenWithNavBar} />
+        <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
+        <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />
+        <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />
+        <DataSharingStack.Screen name="TestDate" component={TestDateScreenWithNavBar} />
+        <DataSharingStack.Screen name="TekUploadNoDate" component={TekUploadNoDateWithNavBar} />
+        <DataSharingStack.Screen name="TekUploadSubsequentDays" component={TekUploadSubsequentDaysWithNavBar} />
+      </DataSharingStack.Navigator>
+    </FormContext.Provider>
   );
 };
 
@@ -116,11 +141,9 @@ const MainNavigator = () => {
       />
       <MainStack.Screen name="Tutorial" component={TutorialScreenWithNavBar} />
       <MainStack.Screen name="DataSharing" component={DataSharingNavigator} />
-      <MainStack.Screen name="Privacy" component={PrivacyScreenWithNavBar} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
-      <MainStack.Screen name="HowToIsolate" component={HowToIsolateWithNavBar} />
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
     </MainStack.Navigator>
   );

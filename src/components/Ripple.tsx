@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, ViewProps} from 'react-native';
+import {OpaqueColorValue, View, ViewProps} from 'react-native';
 import {RectButton} from 'react-native-gesture-handler';
 
 interface RippleProps {
   children: React.ReactNode;
   disabled?: boolean;
-  backgroundColor?: string;
+  backgroundColor?: string | OpaqueColorValue;
   borderRadius?: number;
   onPress: () => void;
 }

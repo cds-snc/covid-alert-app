@@ -37,7 +37,7 @@
     },
     "Step2": {
       "Title1": "Vous sentez-vous malade?",
-      "Body1": "Symptômes possibles :",
+      "Body1": "Symptômes possibles :",
       "Symptoms": {
         "1": "Toux ou difficultés respiratoires.",
         "2": "Fièvre ou frissons.",
@@ -67,7 +67,7 @@
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
-      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires les plus récents.",
+      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires les plus récents.",
       "Body2a": "Personne ne recevra d’information sur vous ",
       "Body2b": "ou sur le moment de votre proximité.",
       "Body3": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
@@ -156,10 +156,6 @@
     "DataSharingStep2": {
       "Title": "",
       "Body": "Vous devez sélectionner une réponse pour passer à l’étape suivante."
-    },
-    "ApiNotConnected": {
-      "Title": "Une erreur s'est produite",
-      "Body": "Malheureusement, il semble qu'Alerte COVID ne fonctionne pas sur votre téléphone. \n\nSi vous avez plusieurs profils utilisateur, essayez d'installer l'application dans le profil de base."
     }
   },
   "Home": {
@@ -346,7 +342,7 @@
       "ImageAltText": "Dessin à la main de 3 téléphones mobiles émettant des codes aléatoires en utilisant Bluetooth.",
       "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
       "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
-      "Body3": "Si vous avez côtoyé l’une de ces personnes au cours des 14 derniers jours, vous recevrez une notification.",
+      "Body3": "Si vous avez côtoyé l’une de ces personnes au cours des 14 derniers jours, vous recevrez une notification.",
       "HowItWorksCTA": "En savoir plus sur le fonctionnement"
     },
     "PartOf": {
@@ -449,7 +445,7 @@
     "step-1": "L’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement d’Alerte COVID",
     "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
-    "step-2": "L’application estime la distance entre deux personnes grâce à la puissance des signaux Bluetooth.\n\nPour que l’application enregistre une exposition, un contact doit :\n• Avoir lieu à moins de 2 mètres.\n• Durer au moins 15 minutes.\n• Avoir lieu quand l’autre personne est probablement le plus contagieuse.",
+    "step-2": "L’application estime la distance entre deux personnes grâce à la puissance des signaux Bluetooth.\n\nPour que l’application enregistre une exposition, un contact doit :\n• Avoir lieu à moins de 2 mètres.\n• Durer au moins 15 minutes.\n• Avoir lieu quand l’autre personne est probablement le plus contagieuse.",
     "step-2Title": "Qu’est-ce qu’une exposition?",
     "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
     "step-3": "Si une personne ayant l’application reçoit un diagnostic de COVID-19, elle peut décider de téléverser les codes aléatoires émis par son téléphone.\n\nLa personne peut aussi fournir quelques précisions pour déterminer la période où elle était probablement le plus contagieuse. Cette période indique au téléphone les codes aléatoires qu’il faut téléverser.\n\nLes codes aléatoires sont envoyés vers un serveur central. Celui-ci ne reçoit aucun autre renseignement.",

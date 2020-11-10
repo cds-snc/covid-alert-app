@@ -5,10 +5,11 @@ import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotif
 import {AppState, AppStateStatus, Platform} from 'react-native';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
-import {ContagiousDateInfo} from 'screens/datasharing/components';
+import {ContagiousDateInfo} from 'shared/DataSharing';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
+import {captureMessage} from '../../shared/log';
 
 import {
   ExposureNotificationService,
@@ -55,6 +56,24 @@ export const ExposureNotificationServiceProvider = ({
     });
   }, [backgroundScheduler, exposureNotificationService]);
 
+  useEffect(() => {
+    const onAppStateChange = async (newState: AppStateStatus) => {
+      captureMessage(`ExposureNotificationServiceProvider onAppStateChange: ${newState}`);
+      if (newState !== 'active') return;
+      exposureNotificationService.updateExposure();
+      await exposureNotificationService.updateExposureStatus();
+    };
+
+    // Note: The next two lines, calling updateExposure() and startExposureCheck() happen on app launch.
+    exposureNotificationService.updateExposure();
+    exposureNotificationService.updateExposureStatus();
+
+    AppState.addEventListener('change', onAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', onAppStateChange);
+    };
+  }, [exposureNotificationService]);
+
   return (
     <ExposureNotificationServiceContext.Provider value={exposureNotificationService}>
       {children}
@@ -87,18 +106,26 @@ export function useSystemStatus(): [SystemStatus, () => void] {
   return [state, update];
 }
 
-export function useExposureStatus(): [ExposureStatus, () => void] {
+export function useExposureStatus(): ExposureStatus {
   const exposureNotificationService = useExposureNotificationService();
   const [state, setState] = useState<ExposureStatus>(exposureNotificationService.exposureStatus.get());
-  const update = useCallback(() => {
-    exposureNotificationService.updateExposureStatus();
-  }, [exposureNotificationService]);
-
   useEffect(() => {
     return exposureNotificationService.exposureStatus.observe(setState);
   }, [exposureNotificationService.exposureStatus]);
 
-  return [state, update];
+  return state;
+}
+
+export function useUpdateExposureStatus(): (forceCheck?: boolean) => void {
+  const exposureNotificationService = useExposureNotificationService();
+  const update = useCallback(
+    (forceCheck = false) => {
+      exposureNotificationService.updateExposureStatus(forceCheck);
+    },
+    [exposureNotificationService],
+  );
+
+  return update;
 }
 
 export function useReportDiagnosis() {
@@ -110,7 +137,7 @@ export function useReportDiagnosis() {
     [exposureNotificationService],
   );
   const fetchAndSubmitKeys = useCallback(
-    (contagiousDateInfo: ContagiousDateInfo) => {
+    async (contagiousDateInfo: ContagiousDateInfo) => {
       return exposureNotificationService.fetchAndSubmitKeys(contagiousDateInfo);
     },
     [exposureNotificationService],
@@ -125,10 +152,8 @@ export function useExposureNotificationSystemStatusAutomaticUpdater() {
   const exposureNotificationService = useExposureNotificationService();
   return useCallback(() => {
     const updateStatus = async (newState: AppStateStatus) => {
-      if (newState === 'active') {
-        await exposureNotificationService.updateSystemStatus();
-        await exposureNotificationService.updateExposureStatus();
-      }
+      if (newState !== 'active') return;
+      await exposureNotificationService.updateSystemStatus();
     };
     AppState.addEventListener('change', updateStatus);
 

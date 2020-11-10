@@ -12,7 +12,7 @@ import {
 import {Theme, palette} from 'shared/theme';
 import {useI18n} from 'locale';
 
-import {Box} from './Box';
+import {Box, BoxProps} from './Box';
 import {Icon, IconName} from './Icon';
 import {Text} from './Text';
 import {Ripple} from './Ripple';
@@ -62,20 +62,20 @@ export const ButtonSingleLine = ({
     : {};
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
   const borderRadius = 10;
+  const boxStyles: BoxProps['style'] = {
+    backgroundColor: Platform.OS === 'ios' || externalLink ? color : 'transparent',
+    minHeight: height,
+    borderWidth,
+    borderColor: buttonColor,
+    borderBottomWidth,
+    borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
+  };
   const content = (
     <Box
       borderRadius={borderRadius}
       alignItems="center"
       justifyContent="center"
-      // eslint-disable-next-line react-native/no-inline-styles
-      style={{
-        backgroundColor: Platform.OS === 'ios' || externalLink ? color : 'transparent',
-        minHeight: height,
-        borderWidth,
-        borderColor: buttonColor,
-        borderBottomWidth,
-        borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
-      }}
+      style={boxStyles}
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
@@ -105,6 +105,7 @@ export const ButtonSingleLine = ({
               style={{
                 ...styles.content,
                 color: textColor || buttonColor,
+                fontWeight: variant === 'bigFlatPurple' ? 'bold' : 'normal',
               }}
             >
               {text}
