@@ -33,7 +33,7 @@
         "Body2": "You’re at risk of being infected."
       },
       "Notification": {
-        "Received": "Date de la notification"
+        "Received": "Notification received"
       },
       "Dismiss": {
         "Title": "Negative test result?",
@@ -41,7 +41,8 @@
         "CTA": "Dismiss alert",
         "Confirm": {
           "Body": "Are you sure you want to dismiss this alert?",
-          "Accept": "Yes, dismiss"
+          "Accept": "Yes, dismiss",
+          "Cancel": "Cancel"
         }
       }
     },

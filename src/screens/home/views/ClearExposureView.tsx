@@ -10,17 +10,16 @@ export const ClearExposureView = () => {
   const onClearExposedState = useCallback(() => {
     Alert.alert(
       i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Body'),
-      '',
+      undefined,
       [
         {
-          text: 'Cancel',
+          text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Cancel'),
           onPress: () => {},
           style: 'cancel',
         },
         {
           text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
           onPress: () => {
-            console.log('Accept Pressed');
             clearExposedStatus();
           },
           style: 'default',

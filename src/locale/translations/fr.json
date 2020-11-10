@@ -132,7 +132,7 @@
         "Body2": "Vous êtes à risque d’être infecté."
       },
       "Notification": {
-        "Received": "Voulez-vous vraiment mettre fin à l’alerte?"
+        "Received": "Date de la notification"
       },
       "Dismiss": {
         "Title": "Résultat négatif au test de dépistage?",
@@ -140,7 +140,8 @@
         "CTA": "Mettre fin à l’alerte",
         "Confirm": {
           "Body": "Voulez-vous vraiment mettre fin à l’alerte?",
-          "Accept": "Oui, mettre fin à l’alerte"
+          "Accept": "Oui, mettre fin à l’alerte",
+          "Cancel": "Annuler"
         }
       }
     },
