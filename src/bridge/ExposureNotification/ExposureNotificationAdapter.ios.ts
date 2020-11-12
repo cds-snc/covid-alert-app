@@ -13,7 +13,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }
       captureMessage('diagnosisKeysURLs.length', {length: diagnosisKeysURLs.length});
-
+      configuration.infectiousnessForDaysSinceOnsetOfSymptoms = {0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1};
       for (const keysZipUrl of diagnosisKeysURLs) {
         const components = keysZipUrl.split('/');
         components.pop();

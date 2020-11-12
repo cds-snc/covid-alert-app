@@ -148,13 +148,28 @@ NSArray *mapIntValues(NSArray *arr) {
   });
 }
 
+NSDictionary *mapIntValuesToDictionary(NSDictionary *dict) {
+  NSMutableDictionary<NSNumber *, NSNumber *> *newDict = [NSMutableDictionary new];
+  for (id _key in dict) {
+    NSString *valueString = [dict objectForKey:_key];
+    NSNumber *value = @([valueString integerValue]);
+    NSNumber *key = @([_key integerValue]);
+   [newDict setObject:value forKey:key];
+    // newDict[key] = value;
+
+    ;
+  }
+  return newDict.copy;
+}
+
+
 RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *)configDict diagnosisKeysURLs:(NSArray*)urls withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
   if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
     reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
     return;
   }
-  
+
   ENExposureConfiguration *configuration = [ENExposureConfiguration new];
 
   if (configDict[@"metadata"]) {
@@ -164,7 +179,7 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
   if (configDict[@"minimumRiskScore"]) {
     configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
   }
-  
+
   if (configDict[@"attenuationDurationThresholds"]) {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 13.6) {
       configuration.attenuationDurationThresholds = mapIntValues(configDict[@"attenuationDurationThresholds"]);
@@ -172,11 +187,11 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
       configuration.metadata = @{@"attenuationDurationThresholds": mapIntValues(configDict[@"attenuationDurationThresholds"])};
     }
   }
-  
+
   if (configDict[@"attenuationLevelValues"]) {
     configuration.attenuationLevelValues = mapIntValues(configDict[@"attenuationLevelValues"]);
   }
-  
+
   if (configDict[@"attenuationWeight"]) {
     configuration.attenuationWeight = [configDict[@"attenuationWeight"] doubleValue];
   }
@@ -198,7 +213,11 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
   if (configDict[@"transmissionRiskWeight"]) {
     configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
   }
-
+  if (configDict[@"infectiousnessForDaysSinceOnsetOfSymptoms"]) {
+    if (@available(iOS 13.7, *)) {
+      configuration.infectiousnessForDaysSinceOnsetOfSymptoms = mapIntValuesToDictionary(configDict[@"infectiousnessForDaysSinceOnsetOfSymptoms"]);
+    }
+  }
 
 
   NSMutableArray *arr = [NSMutableArray new];
@@ -227,4 +246,3 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
 }
 
 @end
-  
