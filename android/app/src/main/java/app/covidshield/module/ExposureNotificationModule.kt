@@ -104,10 +104,15 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun stop(promise: Promise) {
         promise.launch(this) {
-            if (!isPlayServicesAvailable()) {
-                throw PlayServicesNotAvailableException()
+            try{
+                if (!isPlayServicesAvailable()) {
+                    throw PlayServicesNotAvailableException()
+                }
+                stopInternal()
+                promise.resolve(null);
+            } catch (exception: java.lang.Exception) {
+                promise.reject(exception)
             }
-            stopInternal()
         }
     }
 
@@ -305,7 +310,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     private suspend fun stopInternal() {
         try {
+            log("exposureNotificationClient called stop")
             exposureNotificationClient.stop().await()
+            log("stopped with no exceptions")
         } catch (exception: Exception) {
             log(exception.message)
             // Noop
