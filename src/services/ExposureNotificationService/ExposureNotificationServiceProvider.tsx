@@ -92,6 +92,13 @@ export function useStartExposureNotificationService(): () => Promise<boolean> {
   }, [exposureNotificationService]);
 }
 
+export function useStopExposureNotificationService(): () => Promise<boolean> {
+  const exposureNotificationService = useExposureNotificationService();
+  return useCallback(async () => {
+    return exposureNotificationService.stop();
+  }, [exposureNotificationService]);
+}
+
 export function useSystemStatus(): [SystemStatus, () => void] {
   const exposureNotificationService = useExposureNotificationService();
   const [state, setState] = useState<SystemStatus>(exposureNotificationService.systemStatus.get());

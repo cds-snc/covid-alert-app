@@ -306,7 +306,8 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     private suspend fun stopInternal() {
         try {
             exposureNotificationClient.stop().await()
-        } catch (_: Exception) {
+        } catch (exception: Exception) {
+            log(exception.message)
             // Noop
         }
     }

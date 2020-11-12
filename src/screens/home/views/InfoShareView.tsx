@@ -6,6 +6,7 @@ import {useI18n, useRegionalI18n} from 'locale';
 import {captureException} from 'shared/log';
 import {useStorage} from 'services/StorageService';
 import {getExposedHelpMenuURL} from 'shared/RegionLogic';
+import {useStopExposureNotificationService} from 'services/ExposureNotificationService';
 
 interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
@@ -46,6 +47,7 @@ export const InfoShareView = () => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
+  const stopExposureNotificationService = useStopExposureNotificationService();
 
   const onPrivacy = useCallback(() => {
     Linking.openURL(i18n.translate('Info.PrivacyUrl')).catch(error => captureException('An error occurred', error));
@@ -63,6 +65,10 @@ export const InfoShareView = () => {
       captureException('An error occurred', error),
     );
   }, [region, regionalI18n]);
+
+  const onPause = useCallback(() => {
+    stopExposureNotificationService();
+  }, [i18n]);
 
   return (
     <>
@@ -101,7 +107,8 @@ export const InfoShareView = () => {
           icon="icon-chevron"
           testID="changeRegion"
         />
-        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" lastItem />
+        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
+        <InfoShareItem onPress={onPause} text={i18n.translate('Info.PauseCovidAlert')} icon="icon-chevron" lastItem />
       </Box>
       <Box marginTop="l" marginBottom="m">
         <Text variant="settingTitle" fontWeight="normal">

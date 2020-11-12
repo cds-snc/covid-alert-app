@@ -261,6 +261,7 @@
   },
   "Info": {
     "ChangeLanguage": "Modifier la langue",
+    "PauseCovidAlert": "Pause COVID Alert",
     "ChangeRegion": "Modifier la province ou le territoire",
     "CheckSymptoms": "Vérifier vos symptômes",
     "LearnMore": "Fonctionnement",

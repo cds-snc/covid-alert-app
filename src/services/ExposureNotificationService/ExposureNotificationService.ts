@@ -96,6 +96,7 @@ export class ExposureNotificationService {
   exposureStatusUpdatePromise: Promise<void> | null = null;
 
   private starting = false;
+  private stopping = false;
 
   private exposureNotification: typeof ExposureNotification;
   private backendInterface: BackendInterface;
@@ -142,6 +143,28 @@ export class ExposureNotificationService {
     await this.updateSystemStatus();
 
     this.starting = false;
+    return true;
+  }
+
+  async stop(): Promise<boolean> {
+    if (this.stopping) {
+      return true;
+    }
+
+    this.stopping = true;
+
+    try {
+      captureMessage('Called stop EN framework');
+      await this.exposureNotification.stop();
+    } catch (error) {
+      captureException('Cannot stop EN framework', error);
+      return false;
+    }
+
+    captureMessage('Called stop + updateSystem Status EN framework');
+    await this.updateSystemStatus();
+
+    this.stopping = false;
     return true;
   }
 
