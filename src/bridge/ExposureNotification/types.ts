@@ -24,25 +24,26 @@ export enum Status {
   Authorized = 'authorized',
 }
 
-export enum Report {
-  Revoked = 'REVOKED',
-  ConfirmedClinicalDiagnosis = 'CONFIRMED_CLINICAL_DIAGNOSIS',
-  SelfReport = 'SELF_REPORT',
-  ConfirmedTest = 'CONFIRMED_TEST',
-  Recursive = 'RECURSIVE',
+export enum ReportType {
+  Unknown = 0,
+  ConfirmedTest = 1,
+  ConfirmedClinicalDiagnosis = 2,
+  SelfReport = 3,
+  Recursive = 4,
+  Revoked = 5,
 }
 
 export enum Infectiousness {
-  None = 'NONE',
-  Standard = 'STANDARD',
-  High = 'HIGH',
+  None = 0,
+  Standard = 1,
+  High = 2,
 }
 
 export enum CalibrationConfidence {
-  Lowest = 'LOWEST',
-  Low = 'LOW',
-  Medium = 'MEDIUM',
-  High = 'HIGH',
+  Lowest = 0,
+  Low = 1,
+  Medium = 2,
+  High = 3,
 }
 
 export interface TemporaryExposureKey {
@@ -74,15 +75,6 @@ export interface ExposureConfiguration {
   transmissionRiskWeight: number;
 }
 
-export interface DailySummariesConfig {
-  reportTypeWeights: Record<Report, number>;
-  infectiousnessWeights: Record<Infectiousness, number>;
-  attenuationBucketThresholdDb: number[];
-  attenuationBucketWeights: number[];
-  daysSinceExposureThreshold: number;
-  minimumWindowScore: number;
-}
-
 export interface ExposureInformation {
   dateMillisSinceEpoch: number;
   durationMinutes: number;
@@ -102,17 +94,22 @@ export interface ExposureNotification {
   getPendingExposureSummary(): Promise<ExposureSummary[] | undefined> /* used only by Android */;
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined>;
   getExposureWindows(): ExposureWindow[];
+  getExposureWindowsIos(summary: ExposureSummary): Promise<ExposureWindow[]>;
+  getExposureWindowsAndroid(diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
 }
 
 export interface ExposureNotificationAPI {
   detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary>;
   getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
+  provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined> /* used only by Android */;
+  getExposureWindows(): Promise<ExposureWindow[]>;
+  getExposureWindowsFromSummary(summary: ExposureSummary): Promise<ExposureWindow[]>;
 }
 
 export interface ExposureWindow {
   day: number;
   scanInstances: ScanInstance[];
-  reportType: Report;
+  reportType: ReportType;
   infectiousness: Infectiousness;
   calibrationConfidence: CalibrationConfidence;
 }
