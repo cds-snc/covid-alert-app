@@ -1313,9 +1313,10 @@
   version "1.6.6"
   resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.6.6.tgz#827edfbcb6c2e3f6f5c68674f52249fd7d03a0bc"
 
-"@react-native-community/push-notification-ios@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.3.0.tgz#349095f5dda42f59501316c7ef7896adb8c2a1db"
+"@react-native-community/push-notification-ios@^1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.7.3.tgz#7b41add329996df59382820d8a729fe609c2fb75"
+  integrity sha512-SLGQMxSB4WTvATjCXELxansnseLcmqJ6jIC8U4AyjxL30k3m1YmbrO4wGMw/ZF/VSC1toK+a39aD+ozDjon3mw==
   dependencies:
     invariant "^2.2.4"
 
