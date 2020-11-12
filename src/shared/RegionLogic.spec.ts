@@ -93,8 +93,8 @@ describe('getExposedHelpMenuURL', () => {
     );
   });
   it('gives the default provincial url if no custom is defined', async () => {
-    expect(getExposedHelpMenuURL('SK', regionalI18n)).toStrictEqual(
-      regionalI18n.translate('RegionContent.ExposureView.Active.SK.URL'),
+    expect(getExposedHelpMenuURL('NS', regionalI18n)).toStrictEqual(
+      regionalI18n.translate('RegionContent.ExposureView.Active.NS.URL'),
     );
   });
 });

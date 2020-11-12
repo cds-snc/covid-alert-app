@@ -14,6 +14,7 @@ import app.covidshield.extensions.log
 import app.covidshield.extensions.parse
 import app.covidshield.extensions.toExposureConfiguration
 import app.covidshield.extensions.toExposureKey
+import app.covidshield.extensions.toExposureWindow
 import app.covidshield.extensions.toInformation
 import app.covidshield.extensions.toSummary
 import app.covidshield.extensions.toWritableArray
@@ -114,12 +115,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                 promise.reject(exception)
             }
         }
-    }
-
-    @ReactMethod
-    fun resetAllData(promise: Promise) {
-        // This method does not exist in the android nearby SDK.
-        promise.resolve(null)
     }
 
     @ReactMethod
@@ -227,7 +222,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     fun getExposureWindows(promise: Promise) {
         promise.launch(this) {
             try{
-                promise.resolve(exposureNotificationClient.exposureWindows.await())
+                val exposureWindows = exposureNotificationClient.exposureWindows.await()
+                val windows = exposureWindows.map {window -> window.toExposureWindow()}
+                promise.resolve(windows.toWritableArray())
             } catch (exception: Exception) {
                 promise.reject(exception)
             }

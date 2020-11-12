@@ -12,7 +12,6 @@ export class MockExposureNotification implements ExposureNotification {
 
   start = async () => {};
   stop = async () => {};
-  resetAllData = async () => {};
 
   getStatus = async () => this.status;
 
@@ -34,4 +33,8 @@ export class MockExposureNotification implements ExposureNotification {
   provideDiagnosisKeys = async () => undefined;
 
   getExposureWindows = () => [];
+
+  getExposureWindowsAndroid = async () => [];
+
+  getExposureWindowsIos = async () => [];
 }
