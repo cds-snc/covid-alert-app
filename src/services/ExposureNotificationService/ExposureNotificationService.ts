@@ -132,13 +132,7 @@ export class ExposureNotificationService {
     this.starting = true;
 
     await this.loadExposureStatus();
-
-    try {
-      await this.exposureNotification.start();
-    } catch (error) {
-      throw error;
-    }
-
+    await this.exposureNotification.start();
     await this.updateSystemStatus();
 
     this.starting = false;
