@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Linking, TouchableOpacity, TouchableOpacityProps} from 'react-native';
+import {Linking, TouchableOpacity, TouchableOpacityProps, Alert} from 'react-native';
 import {Box, Text, Icon, IconProps} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n, useRegionalI18n} from 'locale';
@@ -10,8 +10,8 @@ import {
   SystemStatus,
   useStopExposureNotificationService,
   useStartExposureNotificationService,
+  useSystemStatus,
 } from 'services/ExposureNotificationService';
-import {useSystemStatus} from 'services/ExposureNotificationService';
 
 interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
@@ -73,12 +73,29 @@ export const InfoShareView = () => {
   }, [region, regionalI18n]);
 
   const onStop = useCallback(() => {
-    stopExposureNotificationService();
-  }, [i18n]);
+    Alert.alert(
+      i18n.translate('Info.ToggleCovidAlert.Confirm.Title'),
+      i18n.translate('Info.ToggleCovidAlert.Confirm.Body'),
+      [
+        {
+          text: i18n.translate('Info.ToggleCovidAlert.Confirm.Cancel'),
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: i18n.translate('Info.ToggleCovidAlert.Confirm.Accept'),
+          onPress: () => {
+            stopExposureNotificationService();
+          },
+          style: 'default',
+        },
+      ],
+    );
+  }, [i18n, stopExposureNotificationService]);
 
   const onStart = useCallback(() => {
     startExposureNotificationService();
-  }, [i18n]);
+  }, [startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
 
@@ -121,9 +138,19 @@ export const InfoShareView = () => {
         />
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
         {systemStatus === SystemStatus.Active ? (
-          <InfoShareItem onPress={onStop} text={i18n.translate('Info.StopCovidAlert')} icon="icon-chevron" lastItem />
+          <InfoShareItem
+            onPress={onStop}
+            text={i18n.translate('Info.ToggleCovidAlert.TurnOff')}
+            icon="icon-chevron"
+            lastItem
+          />
         ) : (
-          <InfoShareItem onPress={onStart} text={i18n.translate('Info.StartCovidAlert')} icon="icon-chevron" lastItem />
+          <InfoShareItem
+            onPress={onStart}
+            text={i18n.translate('Info.ToggleCovidAlert.TurnOn')}
+            icon="icon-chevron"
+            lastItem
+          />
         )}
       </Box>
       <Box marginTop="l" marginBottom="m">

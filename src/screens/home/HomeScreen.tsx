@@ -183,7 +183,7 @@ export const HomeScreen = () => {
   useEffect(() => {
     startExposureNotificationService();
     updateExposureStatus();
-  }, [startExposureNotificationService]);
+  }, [startExposureNotificationService, updateExposureStatus]);
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);

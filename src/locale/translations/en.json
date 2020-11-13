@@ -137,8 +137,16 @@
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get a one-time key",
     "ChangeLanguage": "Change language",
-    "StopCovidAlert": "Turn off COVID Alert",
-    "StartCovidAlert": "Turn on COVID Alert",
+    "ToggleCovidAlert": {
+      "TurnOff": "Turn off COVID Alert",
+      "TurnOn": "Turn on COVID Alert",
+      "Confirm": {
+        "Title": "Turn off COVID Alert?",
+        "Body": "Make sure you’re wearing full medical PPE (personal protective equipment) or you’re only with your household.  The app will not be able to record exposures.",
+        "Cancel": "Keep it on",
+        "Accept": "Turn it off"
+      }
+    },
     "ChangeRegion": "Change province or territory",
     "Privacy": "How it protects your privacy",
     "PrivacyUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/privacy-policy.html",
