@@ -167,6 +167,10 @@
     "BluetoothDisabled": "Bluetooth désactivé",
     "CTA": "Prochaines étapes",
     "ChooseRegionCTA": "Sélectionnez une province ou un territoire",
+    "UserStopped": {
+      "Title": "Vous avez désactivé l’application",
+      "CTA": "Réactiver"
+    },
     "DiagnosedView": {
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",

@@ -49,7 +49,7 @@ const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoS
 
 export const InfoShareView = () => {
   const i18n = useI18n();
-  const {region} = useStorage();
+  const {region, setUserStopped} = useStorage();
   const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -86,12 +86,13 @@ export const InfoShareView = () => {
           text: i18n.translate('Info.ToggleCovidAlert.Confirm.Accept'),
           onPress: () => {
             stopExposureNotificationService();
+            setUserStopped(true);
           },
           style: 'default',
         },
       ],
     );
-  }, [i18n, stopExposureNotificationService]);
+  }, [i18n, setUserStopped, stopExposureNotificationService]);
 
   const onStart = useCallback(() => {
     startExposureNotificationService();

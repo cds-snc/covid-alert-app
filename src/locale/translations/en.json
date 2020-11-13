@@ -1,5 +1,9 @@
 {
   "Home": {
+    "UserStopped": {
+      "Title": "You turned off the app",
+      "CTA": "Turn back on"
+    },
     "NoExposureDetected": {
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
