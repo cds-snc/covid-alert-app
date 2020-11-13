@@ -1,7 +1,6 @@
 import {useI18n} from 'locale';
 import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
-import {Linking, Platform} from 'react-native';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
@@ -11,19 +10,12 @@ export const ExposureNotificationsUserStoppedView = ({isBottomSheetExpanded}: {i
   const i18n = useI18n();
   const startExposureNotificationService = useStartExposureNotificationService();
 
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-
   const startEn = useCallback(() => {
     startExposureNotificationService();
   }, [startExposureNotificationService]);
 
   const onPress = () => {
-    if (Platform.OS === 'android') {
-      return startEn();
-    }
-    return toSettings();
+    return startEn();
   };
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   return (

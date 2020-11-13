@@ -73,7 +73,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
     if (userStopped) {
       return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
     }
-    return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    return <UnknownProblemView isBottomSheetExpanded={isBottomSheetExpanded} />;
   };
 
   // this is for the test menu
@@ -95,12 +95,11 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
 
   switch (systemStatus) {
     case SystemStatus.Undefined:
-      return null;
     case SystemStatus.Unauthorized:
       return <ExposureNotificationsUnauthorizedView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case SystemStatus.Disabled:
     case SystemStatus.Restricted:
-      return getDisabledRestrictedView(userStopped);
+      return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case SystemStatus.PlayServicesNotAvailable:
       return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
@@ -130,7 +129,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
-          return <UnknownProblemView isBottomSheetExpanded={isBottomSheetExpanded} />;
+          return getDisabledRestrictedView(userStopped);
       }
   }
 };
