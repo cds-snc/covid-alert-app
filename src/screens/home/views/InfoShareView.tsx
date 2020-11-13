@@ -6,7 +6,12 @@ import {useI18n, useRegionalI18n} from 'locale';
 import {captureException} from 'shared/log';
 import {useStorage} from 'services/StorageService';
 import {getExposedHelpMenuURL} from 'shared/RegionLogic';
-import {useStopExposureNotificationService} from 'services/ExposureNotificationService';
+import {
+  SystemStatus,
+  useStopExposureNotificationService,
+  useStartExposureNotificationService,
+} from 'services/ExposureNotificationService';
+import {useSystemStatus} from 'services/ExposureNotificationService';
 
 interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
@@ -47,6 +52,7 @@ export const InfoShareView = () => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
+  const startExposureNotificationService = useStartExposureNotificationService();
   const stopExposureNotificationService = useStopExposureNotificationService();
 
   const onPrivacy = useCallback(() => {
@@ -66,9 +72,15 @@ export const InfoShareView = () => {
     );
   }, [region, regionalI18n]);
 
-  const onPause = useCallback(() => {
+  const onStop = useCallback(() => {
     stopExposureNotificationService();
   }, [i18n]);
+
+  const onStart = useCallback(() => {
+    startExposureNotificationService();
+  }, [i18n]);
+
+  const [systemStatus] = useSystemStatus();
 
   return (
     <>
@@ -108,7 +120,11 @@ export const InfoShareView = () => {
           testID="changeRegion"
         />
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
-        <InfoShareItem onPress={onPause} text={i18n.translate('Info.PauseCovidAlert')} icon="icon-chevron" lastItem />
+        {systemStatus === SystemStatus.Active ? (
+          <InfoShareItem onPress={onStop} text={i18n.translate('Info.StopCovidAlert')} icon="icon-chevron" lastItem />
+        ) : (
+          <InfoShareItem onPress={onStart} text={i18n.translate('Info.StartCovidAlert')} icon="icon-chevron" lastItem />
+        )}
       </Box>
       <Box marginTop="l" marginBottom="m">
         <Text variant="settingTitle" fontWeight="normal">
