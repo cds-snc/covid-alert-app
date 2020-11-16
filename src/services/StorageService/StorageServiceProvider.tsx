@@ -35,7 +35,14 @@ export const useStorage = () => {
 
   const [isOnboarding, setIsOnboarding] = useState(storageService.isOnboarding.get());
   const setOnboarded = useMemo(() => storageService.setOnboarded, [storageService.setOnboarded]);
-  const [userStopped, setUserStopped] = useState(storageService.userStopped.get());
+  const [userStopped, setUserStoppedInternal] = useState(storageService.userStopped.get());
+
+  const setUserStopped = useMemo(
+    () => (newVal: boolean) => {
+      storageService.setUserStopped(newVal);
+    },
+    [storageService],
+  );
 
   const [locale, setLocaleInternal] = useState(storageService.locale.get());
   const setLocale = useMemo(
@@ -67,7 +74,7 @@ export const useStorage = () => {
   ]);
   useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
   useEffect(() => storageService.skipAllSet.observe(setSkipAllSetInternal), [storageService.skipAllSet]);
-  useEffect(() => storageService.userStopped.observe(setUserStopped), [storageService.userStopped]);
+  useEffect(() => storageService.userStopped.observe(setUserStoppedInternal), [storageService.userStopped]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
@@ -115,6 +122,7 @@ export const useStorage = () => {
       setSkipAllSet,
       reset,
       userStopped,
+      setUserStopped,
     ],
   );
 };
