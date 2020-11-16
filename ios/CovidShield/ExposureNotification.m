@@ -58,11 +58,13 @@ RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve reject
 
 RCT_REMAP_METHOD(stop, stopWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-  [self.enManager setInvalidationHandler:^{
-    resolve(nil);
+  [self.enManager setExposureNotificationEnabled:NO completionHandler:^(NSError * _Nullable error) {
+    if (error) {
+      reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+    } else {
+      resolve(nil);
+    }
   }];
-  [self.enManager invalidate];
-  self.enManager = nil;
 }
 
 RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
