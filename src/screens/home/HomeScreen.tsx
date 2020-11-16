@@ -56,8 +56,6 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
     return turnNotificationsOn();
   }, [turnNotificationsOn]);
 
-  console.log('userStopped', userStopped);
-
   const network = useNetInfo();
 
   const getNoExposureView = (_regionCase: RegionCase) => {
