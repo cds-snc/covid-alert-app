@@ -85,6 +85,7 @@ export const InfoShareView = () => {
         {
           text: i18n.translate('Info.ToggleCovidAlert.Confirm.Accept'),
           onPress: () => {
+            console.log('on press stop');
             stopExposureNotificationService();
             setUserStopped(true);
           },
@@ -95,8 +96,10 @@ export const InfoShareView = () => {
   }, [i18n, setUserStopped, stopExposureNotificationService]);
 
   const onStart = useCallback(() => {
+    console.log('on press start');
+    setUserStopped(false);
     startExposureNotificationService();
-  }, [startExposureNotificationService]);
+  }, [setUserStopped, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
 

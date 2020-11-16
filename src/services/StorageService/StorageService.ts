@@ -64,6 +64,7 @@ export class StorageService {
 
   setUserStopped = async (value: boolean) => {
     await AsyncStorage.setItem(Key.UserStopped, value ? '1' : '0');
+    console.log('setUserStopped', value);
     this.userStopped.set(value);
   };
 
@@ -88,7 +89,10 @@ export class StorageService {
     const skipAllSet = (await AsyncStorage.getItem(Key.SkipAllSet)) === '1';
     this.skipAllSet.set(skipAllSet);
 
-    const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
+    const userStopped = await AsyncStorage.getItem(Key.UserStopped);
+
+    console.log('init setUserStopped', await AsyncStorage.getItem(Key.UserStopped));
+
     this.userStopped.set(!userStopped);
   };
 }

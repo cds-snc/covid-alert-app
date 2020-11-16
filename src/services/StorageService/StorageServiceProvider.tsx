@@ -115,6 +115,7 @@ export const useStorage = () => {
       setSkipAllSet,
       reset,
       userStopped,
+      setUserStopped,
     ],
   );
 };
