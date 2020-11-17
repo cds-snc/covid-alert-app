@@ -93,7 +93,7 @@ export function useStartExposureNotificationService(): () => Promise<boolean> {
     const start = exposureNotificationService.start();
     setUserStopped(false);
     return start;
-  }, [exposureNotificationService]);
+  }, [exposureNotificationService, setUserStopped]);
 }
 
 export function useStopExposureNotificationService(): () => Promise<boolean> {
