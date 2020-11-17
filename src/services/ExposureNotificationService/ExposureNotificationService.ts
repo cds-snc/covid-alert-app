@@ -624,7 +624,7 @@ export class ExposureNotificationService {
           return this.finalize(
             {
               type: ExposureStatusType.Exposed,
-              summary: summary,
+              summary,
               exposureDetectedAt: getCurrentDate().getTime(),
             },
             lastCheckedPeriod,
