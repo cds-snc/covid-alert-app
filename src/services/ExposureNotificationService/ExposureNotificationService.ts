@@ -510,6 +510,23 @@ export class ExposureNotificationService {
     return timeStamp;
   }
 
+  public isIgnoredSummary(summary: ExposureSummary): boolean {
+    const exposureStatus = this.exposureStatus.get();
+    const summaries = exposureStatus.ignoredSummaries;
+
+    const matches = summaries?.filter((storedSummary: ExposureSummary) => {
+      if (summary.lastExposureTimestamp === storedSummary.lastExposureTimestamp) {
+        return true;
+      }
+    });
+
+    if (matches && matches.length >= 1) {
+      return true;
+    }
+
+    return false;
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -538,23 +555,6 @@ export class ExposureNotificationService {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== ExposureStatusType.Diagnosed) return;
     this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: getCurrentDate().getTime()});
-  }
-
-  private isIgnoredSummary(summary: ExposureSummary): boolean {
-    const exposureStatus = this.exposureStatus.get();
-    const summaries = exposureStatus.ignoredSummaries;
-
-    const match = summaries?.filter((storedSummary: ExposureSummary) => {
-      if (summary.lastExposureTimestamp === storedSummary.lastExposureTimestamp) {
-        return true;
-      }
-    });
-
-    if (match && match.length >= 1) {
-      return true;
-    }
-
-    return false;
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
