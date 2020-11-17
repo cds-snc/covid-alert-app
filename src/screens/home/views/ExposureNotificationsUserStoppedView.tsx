@@ -13,8 +13,8 @@ export const ExposureNotificationsUserStoppedView = ({isBottomSheetExpanded}: {i
   const startExposureNotificationService = useStartExposureNotificationService();
 
   const startEn = useCallback(() => {
-    setUserStopped(false);
     startExposureNotificationService();
+    setUserStopped(false);
   }, [setUserStopped, startExposureNotificationService]);
 
   const onPress = () => {

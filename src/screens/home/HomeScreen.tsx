@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
 import {TEST_MODE} from 'env';
+import {captureMessage} from 'shared/log';
 import {
   ExposureStatusType,
   SystemStatus,
@@ -47,6 +48,9 @@ interface ContentProps {
 
 const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const {region, userStopped} = useStorage();
+
+  captureMessage(`HomeScreen userStopped ${userStopped}`);
+
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const exposureStatus = useExposureStatus();

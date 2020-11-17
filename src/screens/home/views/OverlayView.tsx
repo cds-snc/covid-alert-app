@@ -182,8 +182,8 @@ const TurnAppBackOn = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheet
   const startExposureNotificationService = useStartExposureNotificationService();
   const {setUserStopped} = useStorage();
   const onStart = useCallback(() => {
-    setUserStopped(false);
     startExposureNotificationService();
+    setUserStopped(false);
   }, [setUserStopped, startExposureNotificationService]);
 
   return (
