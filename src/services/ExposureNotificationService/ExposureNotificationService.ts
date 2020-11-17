@@ -53,6 +53,7 @@ export type ExposureStatus =
   | {
       type: ExposureStatusType.Monitoring;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     }
   | {
       type: ExposureStatusType.Exposed;
@@ -60,6 +61,7 @@ export type ExposureStatus =
       notificationSent?: boolean;
       exposureDetectedAt?: number;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     }
   | {
       type: ExposureStatusType.Diagnosed;
@@ -69,6 +71,7 @@ export type ExposureStatus =
       cycleStartsAt: number;
       cycleEndsAt: number;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     };
 
 export interface PersistencyProvider {
@@ -348,7 +351,15 @@ export class ExposureNotificationService {
   }
 
   async clearExposedStatus() {
-    return this.finalize({type: ExposureStatusType.Monitoring});
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type === ExposureStatusType.Exposed) {
+      const summary = exposureStatus.summary;
+      const summaries = exposureStatus.ignoredSummaries ? exposureStatus.ignoredSummaries : [];
+      summaries.push(summary);
+      return this.finalize({type: ExposureStatusType.Monitoring, ignoredSummaries: summaries});
+    }
+
+    return this.finalize();
   }
 
   public getTotalSeconds = (scanInstances: ScanInstance[]) => {
