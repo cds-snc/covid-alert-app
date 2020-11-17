@@ -133,7 +133,14 @@ export class ExposureNotificationService {
     this.starting = true;
 
     await this.loadExposureStatus();
-    await this.exposureNotification.start();
+    try {
+      await this.exposureNotification.activate();
+      await this.exposureNotification.start();
+    } catch (error) {
+      captureException('Failed to start framework', error);
+      throw new Error(error.message);
+    }
+
     await this.updateSystemStatus();
 
     this.starting = false;
