@@ -540,6 +540,23 @@ export class ExposureNotificationService {
     this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: getCurrentDate().getTime()});
   }
 
+  private isIgnoredSummary(summary: ExposureSummary): boolean {
+    const exposureStatus = this.exposureStatus.get();
+    const summaries = exposureStatus.ignoredSummaries;
+
+    const match = summaries?.filter((storedSummary: ExposureSummary) => {
+      if (summary.lastExposureTimestamp === storedSummary.lastExposureTimestamp) {
+        return true;
+      }
+    });
+
+    if (match && match.length >= 1) {
+      return true;
+    }
+
+    return false;
+  }
+
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
     captureMessage('summaryExceedsMinimumMinutes', summary);
     // on ios attenuationDurations is in seconds, on android it is in minutes
@@ -601,14 +618,18 @@ export class ExposureNotificationService {
         summaries,
       );
       if (summariesContainingExposures.length > 0) {
-        return this.finalize(
-          {
-            type: ExposureStatusType.Exposed,
-            summary: this.selectExposureSummary(summariesContainingExposures[0]),
-            exposureDetectedAt: getCurrentDate().getTime(),
-          },
-          lastCheckedPeriod,
-        );
+        const summary = this.selectExposureSummary(summariesContainingExposures[0]);
+
+        if (!this.isIgnoredSummary(summary)) {
+          return this.finalize(
+            {
+              type: ExposureStatusType.Exposed,
+              summary: summary,
+              exposureDetectedAt: getCurrentDate().getTime(),
+            },
+            lastCheckedPeriod,
+          );
+        }
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
