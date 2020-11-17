@@ -372,7 +372,9 @@
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
-    "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes."
+    "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes.",
+    "PausedMessageTitle": "You turned off the app",
+    "PausedMessageBody": "The app is not recording exposures because you turned it off."
   },
   "Partners": {
     "Label": "Developed in partnership with"
