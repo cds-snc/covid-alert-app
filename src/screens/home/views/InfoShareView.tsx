@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Linking, TouchableOpacity, TouchableOpacityProps, Alert, PushNotificationIOS} from 'react-native';
+import {Linking, TouchableOpacity, TouchableOpacityProps, Alert} from 'react-native';
 import {Box, Text, Icon, IconProps} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n, useRegionalI18n} from 'locale';
