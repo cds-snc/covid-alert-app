@@ -120,6 +120,11 @@
       "One": "{number} day left!",
       "Other": "{number} days left!"
     },
+    "TurnAppBackOn": {
+      "Title": "Turn on COVID Alert",
+      "Body": "The app is not recording exposures because you turned it off.",
+      "CTA": "Turn back on"
+    },
     "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",

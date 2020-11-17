@@ -19,6 +19,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
+import {useStorage} from 'services/StorageService';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -177,6 +178,32 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
   );
 };
 
+const TurnAppBackOn = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
+  const startExposureNotificationService = useStartExposureNotificationService();
+  const {setUserStopped} = useStorage();
+  const onStart = useCallback(() => {
+    setUserStopped(false);
+    startExposureNotificationService();
+  }, [setUserStopped, startExposureNotificationService]);
+
+  return (
+    <InfoBlock
+      focusOnTitle={isBottomSheetExpanded}
+      titleBolded={i18n.translate('OverlayOpen.TurnAppBackOn.Title')}
+      text={i18n.translate('OverlayOpen.TurnAppBackOn.Body')}
+      button={{
+        text: i18n.translate('OverlayOpen.TurnAppBackOn.CTA'),
+        action: () => {
+          onStart();
+        },
+      }}
+      backgroundColor="danger25Background"
+      color="bodyText"
+      showButton
+    />
+  );
+};
+
 const AccessibleView = ({children}: {children: React.ReactNode}) => {
   const accessibilityService = useAccessibilityService();
 
@@ -198,6 +225,15 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
+  const {userStopped} = useStorage();
+
+  const showStatus = (status: string, userStopped: boolean) => {
+    if ((status === SystemStatus.Disabled || status === SystemStatus.Restricted) && !userStopped) {
+      return true;
+    }
+
+    return false;
+  };
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
@@ -218,10 +254,18 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
             <Box marginBottom="s">
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
+
+            {userStopped && (
+              <Box marginBottom="m" marginTop="s" marginHorizontal="m">
+                <TurnAppBackOn isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
+              </Box>
+            )}
+
             <Box marginBottom="m" marginTop="s" marginHorizontal="m">
               <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
             </Box>
-            {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
+
+            {showStatus(status, userStopped) && (
               <Box marginBottom="m" marginHorizontal="m">
                 <SystemStatusOff i18n={i18n} />
               </Box>
