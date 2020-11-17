@@ -87,7 +87,7 @@ export const useStorage = () => {
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped]);
 
   return useMemo(
     () => ({
