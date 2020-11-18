@@ -148,19 +148,76 @@ NSArray *mapIntValues(NSArray *arr) {
   });
 }
 
+
+
+
 NSDictionary *mapIntValuesToDictionary(NSDictionary *dict) {
   NSMutableDictionary<NSNumber *, NSNumber *> *newDict = [NSMutableDictionary new];
   for (id _key in dict) {
     NSString *valueString = [dict objectForKey:_key];
     NSNumber *value = @([valueString integerValue]);
-    NSNumber *key = @([_key integerValue]);
-   [newDict setObject:value forKey:key];
-    // newDict[key] = value;
-
-    ;
+    NSNumber *key = @([_key doubleValue]);
+//    NSParameterAssert(value);
+//    NSParameterAssert(key);
+    [newDict setObject:value forKey:key];
   }
   return newDict.copy;
 }
+
+NSDictionary *mapArrayToDictionary(NSArray *array) {
+  NSMutableDictionary<NSNumber *, NSNumber *> *newDict = [NSMutableDictionary new];
+  NSUInteger day = -14;
+  for (id valueString in array) {
+    NSNumber *value = @([valueString integerValue]);
+    NSNumber *key = @(day);
+    [newDict setObject:value forKey:key];
+    day++;
+  }
+  return newDict.copy;
+}
+
+NSDictionary *getInfectiousness() {
+
+  NSDictionary<NSNumber *, NSNumber *> *newDict = @{
+    @-14: @1,
+    @-13: @1,
+    @-12: @1,
+    @-11: @1,
+    @-10: @1,
+    @-9: @1,
+    @-8: @1,
+    @-7: @1,
+    @-6: @1,
+    @-5: @1,
+    @-4: @1,
+    @-3: @1,
+    @-2: @1,
+    @-1: @1,
+    @0: @1,
+    @1: @1,
+    @2: @1,
+    @3: @1,
+    @4: @1,
+    @5: @1,
+    @6: @1,
+    @7: @1,
+    @8: @1,
+    @9: @1,
+    @10: @1,
+    @11: @1,
+    @12: @1,
+    @13: @1,
+    @14: @1,
+  };
+  return newDict.copy;
+}
+//private func convertToMap(_ daysSinceOnsetToInfectiousness: [Int]) -> [NSNumber : NSNumber] {
+//    return zip(-14...14, daysSinceOnsetToInfectiousness)
+//        .reduce(into: [:]) { (dict, tuple) in
+//            let (index, infectiousness) = tuple
+//            dict[NSNumber(value: index)] = NSNumber(value: infectiousness)
+//        }
+//}
 
 
 RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *)configDict diagnosisKeysURLs:(NSArray*)urls withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
@@ -213,12 +270,30 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
   if (configDict[@"transmissionRiskWeight"]) {
     configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
   }
-  if (configDict[@"infectiousnessForDaysSinceOnsetOfSymptoms"]) {
-    if (@available(iOS 13.7, *)) {
-      configuration.infectiousnessForDaysSinceOnsetOfSymptoms = mapIntValuesToDictionary(configDict[@"infectiousnessForDaysSinceOnsetOfSymptoms"]);
-    }
-  }
+//  if (configDict[@"infectiousnessForDaysSinceOnsetOfSymptoms"]) {
+//    if (@available(iOS 13.7, *)) {
+////      configuration.infectiousnessForDaysSinceOnsetOfSymptoms = mapIntValuesToDictionary(configDict[@"infectiousnessForDaysSinceOnsetOfSymptoms"]);
+//
+////      configuration.infectiousnessForDaysSinceOnsetOfSymptoms = mapArrayToDictionary(configDict[@"infectiousnessForDaysSinceOnsetOfSymptoms"]);
+//
+//    }
+//  }
 
+  if (@available(iOS 13.7, *)) {
+    configuration.immediateDurationWeight = 100;
+    configuration.nearDurationWeight = 100;
+    configuration.mediumDurationWeight = 100;
+    configuration.otherDurationWeight = 100;
+    configuration.infectiousnessForDaysSinceOnsetOfSymptoms = getInfectiousness();
+    configuration.infectiousnessStandardWeight = 100;
+    configuration.infectiousnessHighWeight = 100;
+    configuration.reportTypeConfirmedTestWeight = 100;
+    configuration.reportTypeConfirmedClinicalDiagnosisWeight = 100;
+    configuration.reportTypeSelfReportedWeight = 100;
+    configuration.reportTypeRecursiveWeight = 100;
+    configuration.reportTypeNoneMap = 0;
+    configuration.minimumRiskScoreFullRange = 0;
+  }
 
   NSMutableArray *arr = [NSMutableArray new];
   for (NSString *urlStr in urls) {
