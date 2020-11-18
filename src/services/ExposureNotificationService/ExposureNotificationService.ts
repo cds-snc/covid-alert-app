@@ -134,7 +134,9 @@ export class ExposureNotificationService {
 
     await this.loadExposureStatus();
     try {
-      await this.exposureNotification.activate();
+      if (Platform.OS === 'ios') {
+        await this.exposureNotification.activate();
+      }
       await this.exposureNotification.start();
     } catch (error) {
       captureException('Failed to start framework', error);
