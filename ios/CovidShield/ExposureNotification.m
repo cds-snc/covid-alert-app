@@ -166,7 +166,7 @@ NSDictionary *mapIntValuesToDictionary(NSDictionary *dict) {
 
 NSDictionary *mapArrayToDictionary(NSArray *array) {
   NSMutableDictionary<NSNumber *, NSNumber *> *newDict = [NSMutableDictionary new];
-  NSUInteger day = -14;
+  NSInteger day = -14;
   for (id valueString in array) {
     NSNumber *value = @([valueString integerValue]);
     NSNumber *key = @(day);
@@ -309,14 +309,37 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     }
     NSNumber *idx = @(self.reportedSummaries.count);
     [self.reportedSummaries addObject:summary];
-    resolve(@{
-      @"attenuationDurations": summary.attenuationDurations,
-      @"daysSinceLastExposure": @(summary.daysSinceLastExposure),
-      @"matchedKeyCount": @(summary.matchedKeyCount),
-      @"maximumRiskScore": @(summary.maximumRiskScore),
-      @"_summaryIdx": idx
-    });
-
+    NSNumber *enApiVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ENAPIVersion"];
+    
+    if ([enApiVersion intValue] == 2) {
+      if (@available(iOS 13.7, *)) {
+        [self.enManager getExposureWindowsFromSummary:(ENExposureDetectionSummary *)summary completionHandler:^(NSArray<ENExposureWindow *> * _Nullable exposureWindows, NSError * _Nullable error) {
+          if (error) {
+            reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+          } else {
+            resolve(exposureWindows);
+          }
+        }];
+      } else {
+        // Fallback on earlier versions
+        reject(@"API_NOT_AVAILABLE", @"API Not Available. Requires iOS 13.7+", nil);
+      }
+      
+//      resolve(@{
+//        @"daySummaries": summary.daySummaries,
+//        @"daysSinceLastExposure": @(summary.daysSinceLastExposure),
+//        @"matchedKeyCount": @(summary.matchedKeyCount),
+//        @"maximumRiskScore": @(summary.maximumRiskScore)
+//      });
+    } else {
+      resolve(@{
+        @"attenuationDurations": summary.attenuationDurations,
+        @"daysSinceLastExposure": @(summary.daysSinceLastExposure),
+        @"matchedKeyCount": @(summary.matchedKeyCount),
+        @"maximumRiskScore": @(summary.maximumRiskScore),
+        @"_summaryIdx": idx
+      });
+    }
   }];
 }
 

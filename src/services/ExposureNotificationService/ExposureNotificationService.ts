@@ -448,12 +448,12 @@ export class ExposureNotificationService {
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
-        const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-        if (summaries.length > 0) {
-          exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
-        } else {
-          exposureWindows = [];
-        }
+        exposureWindows = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+        // if (summaries.length > 0) {
+        //   exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
+        // } else {
+        //   exposureWindows = [];
+        // }
       }
 
       captureMessage('exposureWindows', exposureWindows);
