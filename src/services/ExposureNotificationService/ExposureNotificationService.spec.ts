@@ -315,6 +315,39 @@ describe('ExposureNotificationService', () => {
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
 
+  it('ignores exposed summaries if they have been dismissed', async () => {
+    const summary1 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 7,
+      attenuationDurations: [20, 0, 0],
+      os: 'ios',
+    });
+
+    const summary2 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 6,
+      attenuationDurations: [20, 0, 0],
+      os: 'ios',
+    });
+
+    const summary3 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 5,
+      attenuationDurations: [20, 0, 0],
+      os: 'ios',
+    });
+
+    const ignoredSummaries = [summary1, summary2];
+
+    service.exposureStatus.append({ignoredSummaries});
+
+    expect(service.isIgnoredSummary(summary2)).toStrictEqual(true);
+    expect(service.isIgnoredSummary(summary3)).toStrictEqual(false);
+  });
+
   it('backfills the right amount of keys for current day', async () => {
     dateSpy.mockImplementation((args: any) => {
       if (args === undefined) return new OriginalDate('2020-05-19T11:10:00+0000');

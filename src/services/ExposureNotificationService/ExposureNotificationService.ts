@@ -54,12 +54,15 @@ export type ExposureStatus =
   | {
       type: ExposureStatusType.Monitoring;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     }
   | {
       type: ExposureStatusType.Exposed;
       summary: ExposureSummary;
       notificationSent?: boolean;
+      exposureDetectedAt?: number;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     }
   | {
       type: ExposureStatusType.Diagnosed;
@@ -69,6 +72,7 @@ export type ExposureStatus =
       cycleStartsAt: number;
       cycleEndsAt: number;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     };
 
 export interface PersistencyProvider {
@@ -378,6 +382,18 @@ export class ExposureNotificationService {
     }
   }
 
+  async clearExposedStatus() {
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type === ExposureStatusType.Exposed) {
+      const summary = exposureStatus.summary;
+      const summaries = exposureStatus.ignoredSummaries ? exposureStatus.ignoredSummaries : [];
+      summaries.push(summary);
+      return this.finalize({type: ExposureStatusType.Monitoring, ignoredSummaries: summaries});
+    }
+
+    return this.finalize();
+  }
+
   public getTotalSeconds = (scanInstances: ScanInstance[]) => {
     const totalSeconds = scanInstances
       .map(scan => scan.secondsSinceLastScan)
@@ -528,6 +544,34 @@ export class ExposureNotificationService {
     return true;
   };
 
+  public getExposureDetectedAt(): number | undefined {
+    const exposureStatus = this.exposureStatus.get();
+    let timeStamp;
+
+    if (exposureStatus.type === ExposureStatusType.Exposed && exposureStatus.exposureDetectedAt) {
+      timeStamp = exposureStatus.exposureDetectedAt;
+    }
+
+    return timeStamp;
+  }
+
+  public isIgnoredSummary(summary: ExposureSummary): boolean {
+    const exposureStatus = this.exposureStatus.get();
+    const summaries = exposureStatus.ignoredSummaries;
+
+    const matches = summaries?.filter((storedSummary: ExposureSummary) => {
+      if (summary.lastExposureTimestamp === storedSummary.lastExposureTimestamp) {
+        return true;
+      }
+    });
+
+    if (matches && matches.length >= 1) {
+      return true;
+    }
+
+    return false;
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -613,18 +657,24 @@ export class ExposureNotificationService {
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
       );
       if (summariesContainingExposures.length > 0) {
-        return this.finalize(
-          {
-            type: ExposureStatusType.Exposed,
-            summary: this.selectExposureSummary(summariesContainingExposures[0]),
-          },
-          lastCheckedPeriod,
-        );
+        const summary = this.selectExposureSummary(summariesContainingExposures[0]);
+
+        if (!this.isIgnoredSummary(summary)) {
+          return this.finalize(
+            {
+              type: ExposureStatusType.Exposed,
+              summary,
+              exposureDetectedAt: getCurrentDate().getTime(),
+            },
+            lastCheckedPeriod,
+          );
+        }
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
