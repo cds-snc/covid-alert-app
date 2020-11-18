@@ -530,14 +530,28 @@ export class ExposureNotificationService {
     const summaries = exposureStatus.ignoredSummaries;
 
     const matches = summaries?.filter((storedSummary: ExposureSummary) => {
+      const daysBetween = daysBetweenUTC(
+        new Date(summary.lastExposureTimestamp),
+        new Date(storedSummary.lastExposureTimestamp),
+      );
+      const durationsMatch =
+        JSON.stringify(summary.attenuationDurations) === JSON.stringify(storedSummary.attenuationDurations);
+
+      captureMessage('isIgnoredSummary daysBetween', {daysBetween});
+      captureMessage('isIgnoredSummary durationsMatch', {durationsMatch});
+      captureMessage('isIgnoredSummary', {storedSummary, summary});
+
       if (
         summary.matchedKeyCount === storedSummary.matchedKeyCount &&
         summary.maximumRiskScore === storedSummary.maximumRiskScore &&
-        JSON.stringify(summary.attenuationDurations) === JSON.stringify(storedSummary.attenuationDurations)
+        durationsMatch &&
+        daysBetween === 0
       ) {
         return true;
       }
     });
+
+    captureMessage('isIgnoredSummary matches', {matches});
 
     if (matches && matches.length >= 1) {
       return true;
