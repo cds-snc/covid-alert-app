@@ -1,6 +1,13 @@
 import {captureMessage} from 'shared/log';
 
-import {ExposureConfiguration, ExposureNotificationAPI, ExposureSummary} from './types';
+import {
+  CalibrationConfidence,
+  ExposureConfiguration,
+  ExposureNotificationAPI,
+  ExposureSummary,
+  Infectiousness,
+  ReportType,
+} from './types';
 import {getLastExposureTimestamp} from './utils';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotificationAPI) {
@@ -32,6 +39,18 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         return [summary];
       }
       return [];
+    },
+    getExposureWindowsAndroid: async (diagnosisKeysURLs: string[]) => {
+      captureMessage('getExposureWindows');
+      await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
+      const exposureWindows = await exposureNotificationAPI.getExposureWindows();
+      return exposureWindows.map(window => {
+        window.day = Number(window.day);
+        window.calibrationConfidence = window.calibrationConfidence as CalibrationConfidence;
+        window.infectiousness = window.infectiousness as Infectiousness;
+        window.reportType = window.reportType as ReportType;
+        return window;
+      });
     },
   };
 }

@@ -19,7 +19,7 @@ export {
   CalibrationConfidence,
   ExposureWindow,
   Infectiousness,
-  Report,
+  ReportType,
   ScanInstance,
 } from './types';
 

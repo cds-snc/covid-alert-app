@@ -8,6 +8,9 @@
         },
         "QC": {
           "ExposedHelpLink": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19/?utm_source=canada.ca_alertecovid&utm_medium=application_if_you_re_exposed&utm_campaign=cqen_alertecovid_2020&utm_content=anglais"
+        },
+        "SK": {
+          "ExposedHelpLink": "https://www.saskatchewan.ca/covid19-apps"
         }
       },
       "DiagnosedView": {
@@ -146,7 +149,7 @@
           "SK": {
             "Body": "You’re at risk of being infected.",
             "CTA": "Find out what to do next",
-            "URL": "https://www.saskatchewan.ca/covid19-apps"
+            "URL": "https://www.saskatchewan.ca/covid19-apps?utm_source=goc&utm_medium=link&utm_campaign=alert"
           },
           "MB": {
             "Body": "You’re at risk of being infected.",
@@ -238,6 +241,9 @@
         },
         "QC": {
           "ExposedHelpLink": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/tests-de-depistage/?utm_source=canada.ca_alertecovid&utm_medium=application_Que_faire&utm_campaign=cqen_alertecovid_2020&utm_content=francais"
+        },
+         "SK": {
+          "ExposedHelpLink": "https://www.saskatchewan.ca/covid19-apps"
         }
       },
       "DiagnosedView": {
@@ -376,7 +382,7 @@
           "SK": {
             "Body": "Vous êtes à risque d’être infecté.",
             "CTA": "Lisez les étapes à suivre (page en anglais)",
-            "URL": "https://www.saskatchewan.ca/covid19-apps"
+            "URL": "https://www.saskatchewan.ca/covid19-apps?utm_source=goc&utm_medium=link&utm_campaign=alert"
           },
           "MB": {
             "Body": "Vous êtes à risque d’être infecté.",

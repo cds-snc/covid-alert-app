@@ -27,6 +27,8 @@ export const REGION_JSON_URL = Config.REGION_JSON_URL;
 
 export const EN_CONFIG_URL = Config.EN_CONFIG_URL;
 
+export const EN_API_VERSION = Config.EN_API_VERSION;
+
 /**
  * Set reachability check url to empty to prevent
  * unnecessary background network activity
