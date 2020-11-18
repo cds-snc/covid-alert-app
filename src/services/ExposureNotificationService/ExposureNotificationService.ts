@@ -530,7 +530,11 @@ export class ExposureNotificationService {
     const summaries = exposureStatus.ignoredSummaries;
 
     const matches = summaries?.filter((storedSummary: ExposureSummary) => {
-      if (summary.lastExposureTimestamp === storedSummary.lastExposureTimestamp) {
+      if (
+        summary.matchedKeyCount === storedSummary.matchedKeyCount &&
+        summary.maximumRiskScore === storedSummary.maximumRiskScore &&
+        JSON.stringify(summary.attenuationDurations) === JSON.stringify(storedSummary.attenuationDurations)
+      ) {
         return true;
       }
     });

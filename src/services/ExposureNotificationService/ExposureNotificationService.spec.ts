@@ -326,7 +326,7 @@ describe('ExposureNotificationService', () => {
     const summary2 = getSummary({
       hasMatchedKey: true,
       today,
-      daysSinceLastExposure: 6,
+      daysSinceLastExposure: 7,
       attenuationDurations: [20, 0, 0],
       os: 'ios',
     });
@@ -335,7 +335,7 @@ describe('ExposureNotificationService', () => {
       hasMatchedKey: true,
       today,
       daysSinceLastExposure: 5,
-      attenuationDurations: [20, 0, 0],
+      attenuationDurations: [22, 0, 0],
       os: 'ios',
     });
 
