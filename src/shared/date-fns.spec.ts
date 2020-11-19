@@ -149,7 +149,7 @@ describe('date-fns', () => {
     });
   });
 
-  //formatExposedDate
+  // formatExposedDate
   describe('formatExposedDate', () => {
     it('returns formatted date for en', () => {
       const dateFormatOptions = {
@@ -157,9 +157,9 @@ describe('date-fns', () => {
         day: 'numeric',
         year: 'numeric',
       };
-      //en-CA
+      // en-CA
       const enStr = new Date(1605814310000).toLocaleString('en-CA', dateFormatOptions);
-      expect(formatExposedDate('en-CA', enStr)).toEqual('Nov.\u00a019,\u00a02020');
+      expect(formatExposedDate('en-CA', enStr)).toStrictEqual('Nov.\u00a019,\u00a02020');
     });
   });
 

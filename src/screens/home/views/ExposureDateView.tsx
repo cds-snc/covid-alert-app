@@ -19,7 +19,7 @@ export const ExposureDateView = () => {
     const timeStamp = exposureNotificationService.getExposureDetectedAt();
     if (timeStamp)
       return formatExposedDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
-  }, [dateFormatOptions, dateLocale]);
+  }, [dateFormatOptions, dateLocale, exposureNotificationService]);
 
   return date ? (
     <Text marginBottom="m">
