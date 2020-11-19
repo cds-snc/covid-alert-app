@@ -99,9 +99,12 @@ export const InfoShareView = () => {
     );
   }, [i18n, setUserStopped, stopExposureNotificationService]);
 
-  const onStart = useCallback(() => {
-    startExposureNotificationService();
-    setUserStopped(false);
+  const onStart = useCallback(async () => {
+    const stopped = await startExposureNotificationService();
+
+    if (stopped) {
+      setUserStopped(false);
+    }
   }, [setUserStopped, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
