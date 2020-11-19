@@ -148,17 +148,12 @@ NSArray *mapIntValues(NSArray *arr) {
   });
 }
 
-
-
-
 NSDictionary *mapIntValuesToDictionary(NSDictionary *dict) {
   NSMutableDictionary<NSNumber *, NSNumber *> *newDict = [NSMutableDictionary new];
   for (id _key in dict) {
     NSString *valueString = [dict objectForKey:_key];
     NSNumber *value = @([valueString integerValue]);
     NSNumber *key = @([_key doubleValue]);
-//    NSParameterAssert(value);
-//    NSParameterAssert(key);
     [newDict setObject:value forKey:key];
   }
   return newDict.copy;
@@ -211,14 +206,6 @@ NSDictionary *getInfectiousness() {
   };
   return newDict.copy;
 }
-//private func convertToMap(_ daysSinceOnsetToInfectiousness: [Int]) -> [NSNumber : NSNumber] {
-//    return zip(-14...14, daysSinceOnsetToInfectiousness)
-//        .reduce(into: [:]) { (dict, tuple) in
-//            let (index, infectiousness) = tuple
-//            dict[NSNumber(value: index)] = NSNumber(value: infectiousness)
-//        }
-//}
-
 
 RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *)configDict diagnosisKeysURLs:(NSArray*)urls withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
