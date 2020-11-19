@@ -8,11 +8,13 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.work.*
 import app.covidshield.MainActivity
 import app.covidshield.R
 import app.covidshield.extensions.launch
 import app.covidshield.extensions.parse
 import app.covidshield.extensions.toJson
+import app.covidshield.receiver.worker.NotificationWorker
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -21,6 +23,7 @@ import com.facebook.react.bridge.ReadableMap
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
 private const val CHANNEL_ID = "COVID Alert"
@@ -30,9 +33,13 @@ private const val CHANNEL_DESC = "COVID Alert"
 /**
  * See https://developer.android.com/training/notify-user/build-notification#kotlin
  */
-class PushNotificationModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
+class PushNotificationModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
 
     private val notificationManager = NotificationManagerCompat.from(context)
+
+    private val workManager: WorkManager by lazy(LazyThreadSafetyMode.NONE) {
+        WorkManager.getInstance(context.applicationContext)
+    }
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -61,8 +68,13 @@ class PushNotificationModule(context: ReactApplicationContext) : ReactContextBas
     fun presentLocalNotification(data: ReadableMap, promise: Promise) {
         promise.launch(this) {
             val config = data.toHashMap().toJson().parse(PushNotificationConfig::class.java)
-            showNotification(config)
-            promise.resolve(null)
+            if (config.repeatInterval > 0){
+                delayNotification(config)
+                promise.resolve(null)
+            } else {
+                showNotification(config)
+                promise.resolve(null)
+            }
         }
     }
 
@@ -82,6 +94,26 @@ class PushNotificationModule(context: ReactApplicationContext) : ReactContextBas
             .setContentIntent(pendingIntent)
         notificationManager.notify(config.uuid.hashCode(), builder.build())
     }
+
+    private fun delayNotification(config: PushNotificationConfig) {
+        val notificationData = Data.Builder()
+                .putString("uuid", config.uuid)
+                .putInt("smallIcon", R.drawable.ic_notification_icon)
+                .putString("title", config.title)
+                .putString("body", config.body)
+                .putInt("priority", config.priority)
+        val notificationWorkerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MINUTES, config.flexTimeInterval, TimeUnit.MINUTES)
+                .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
+                .setInputData(notificationData.build())
+                .setConstraints(Constraints.Builder()
+                        .setRequiresCharging(false)
+                        .setRequiresBatteryNotLow(false)
+                        .build()
+                )
+                .build()
+        workManager.enqueueUniquePeriodicWork("notificationReminder", ExistingPeriodicWorkPolicy.REPLACE, notificationWorkerRequest)
+    }
+
 }
 
 private class PushNotificationConfig(
@@ -89,10 +121,20 @@ private class PushNotificationConfig(
     @SerializedName("alertAction") val action: String?,
     @SerializedName("alertBody") val body: String?,
     @SerializedName("alertTitle") val title: String?,
-    @SerializedName("priority") val _priority: Int?
+    @SerializedName("priority") val _priority: Int?,
+    @SerializedName("repeatInterval") val _repeatInterval: Long?,
+    @SerializedName("flexTimeInterval") val _flexTimeInterval: Long?,
+    @SerializedName("initialDelay") val _initialDelay: Long?
 ) {
 
     val uuid get() = _uuid ?: "app.covidshield.exposure-notification"
 
     val priority get() = _priority ?: NotificationCompat.PRIORITY_MAX
+
+    val repeatInterval get() = _repeatInterval?: 0
+
+    val flexTimeInterval get() = _flexTimeInterval?: 15
+
+    val initialDelay get() = _initialDelay?: 0
+
 }

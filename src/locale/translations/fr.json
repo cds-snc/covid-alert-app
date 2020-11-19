@@ -296,7 +296,9 @@
     "ExposedMessageBody": "Vous avez eu un contact étroit avec une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Informez-vous sur les étapes à suivre.",
     "ExposedMessageTitle": "Vous avez été exposé",
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
-    "OffMessageTitle": "Alerte COVID est désactivée"
+    "OffMessageTitle": "Alerte COVID est désactivée",
+    "ReminderTitle": "Exposure Notificaiton Reminder",
+    "ReminderBody": "A reminder to keep checking the app."
   },
   "Onboarding": {
     "Step": "Étape",

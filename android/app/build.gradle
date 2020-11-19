@@ -137,6 +137,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     defaultConfig {
         applicationId project.env.get("APP_ID_ANDROID")
         minSdkVersion rootProject.ext.minSdkVersion
