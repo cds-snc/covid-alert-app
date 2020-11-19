@@ -107,7 +107,7 @@ export const InfoShareView = () => {
   const [systemStatus] = useSystemStatus();
 
   const TurnOnButton = (systemStatus: SystemStatus, onStart: () => {}, CTA: string) => {
-    if (systemStatus != SystemStatus.Undefined && systemStatus != SystemStatus.Unauthorized) {
+    if (systemStatus !== SystemStatus.Undefined && systemStatus !== SystemStatus.Unauthorized) {
       return <InfoShareItem onPress={onStart} text={CTA} icon="icon-chevron" lastItem />;
     }
     return null;
