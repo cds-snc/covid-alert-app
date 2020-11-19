@@ -181,9 +181,12 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
 const TurnAppBackOn = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const {setUserStopped} = useStorage();
-  const onStart = useCallback(() => {
-    startExposureNotificationService();
-    setUserStopped(false);
+  const onStart = useCallback(async () => {
+    const stopped = await startExposureNotificationService();
+
+    if (stopped) {
+      setUserStopped(false);
+    }
   }, [setUserStopped, startExposureNotificationService]);
 
   return (

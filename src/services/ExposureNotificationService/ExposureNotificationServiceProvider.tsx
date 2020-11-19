@@ -91,7 +91,6 @@ export function useStartExposureNotificationService(): () => Promise<boolean> {
   const {setUserStopped} = useStorage();
   return useCallback(async () => {
     const start = exposureNotificationService.start();
-    setUserStopped(false);
     return start;
   }, [exposureNotificationService, setUserStopped]);
 }

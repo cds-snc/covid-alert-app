@@ -12,9 +12,12 @@ export const ExposureNotificationsUserStoppedView = ({isBottomSheetExpanded}: {i
   const {setUserStopped} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
 
-  const startEn = useCallback(() => {
-    startExposureNotificationService();
-    setUserStopped(false);
+  const startEn = useCallback(async () => {
+    const stopped = await startExposureNotificationService();
+
+    if (stopped) {
+      setUserStopped(false);
+    }
   }, [setUserStopped, startExposureNotificationService]);
 
   const onPress = () => {
