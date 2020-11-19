@@ -6,7 +6,7 @@ import {useExposureNotificationService} from 'services/ExposureNotificationServi
 export const ExposureDateView = () => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
-  const dateFormat = {
+  const dateFormatOptions = {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
@@ -14,10 +14,24 @@ export const ExposureDateView = () => {
 
   const exposureNotificationService = useExposureNotificationService();
 
+  const formatDate = (locale: string, localeString: string) => {
+    console.log(locale, localeString);
+    const parts = localeString.split(' ');
+    // @note \u00a0 is a non breaking space so the date doesn't wrap
+    if (locale === 'en-CA') {
+      return `${parts[0]}.\u00a0${parts[1]}\u00a0${parts[2]}`;
+    } else if (locale === 'fr-CA') {
+      return `${parts[0]}\u00a0${parts[1]}\u00a0${parts[2]}`;
+    }
+
+    return localeString;
+  };
+
   const date = useMemo(() => {
-    const timeStamp = exposureNotificationService.getExposureDetectedAt();
-    if (timeStamp) return new Date(timeStamp).toLocaleString(dateLocale, dateFormat);
-  }, [dateFormat, dateLocale, exposureNotificationService]);
+    // const timeStamp = exposureNotificationService.getExposureDetectedAt();
+    const timeStamp = 1605721270000;
+    if (timeStamp) return formatDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
+  }, [dateFormatOptions, dateLocale, exposureNotificationService]);
 
   return date ? (
     <Text marginBottom="m">
