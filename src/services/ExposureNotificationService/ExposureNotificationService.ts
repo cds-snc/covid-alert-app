@@ -14,7 +14,7 @@ import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
-import {EN_API_VERSION} from 'env';
+// import {EN_API_VERSION} from 'env';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -26,7 +26,7 @@ import {ExposureConfigurationValidator, ExposureConfigurationValidationError} fr
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
-
+const EN_API_VERSION = '2';
 export const EXPOSURE_STATUS = 'exposureStatus';
 
 export const HOURS_PER_PERIOD = 24;
@@ -242,6 +242,7 @@ export class ExposureNotificationService {
       this.exposureStatusUpdatePromise = null;
       return input;
     };
+    console.log("EN_API_VERSION", EN_API_VERSION)
     switch (EN_API_VERSION) {
       case '2':
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdateV2().then(cleanUpPromise, cleanUpPromise);
@@ -448,7 +449,8 @@ export class ExposureNotificationService {
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
-        exposureWindows = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+        const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+        captureMessage("summaries", summaries)
         // if (summaries.length > 0) {
         //   exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
         // } else {
