@@ -175,3 +175,13 @@ export function useExposureNotificationSystemStatusAutomaticUpdater() {
     };
   }, [exposureNotificationService]);
 }
+
+export function useClearExposedStatus(): [() => void] {
+  const exposureNotificationService = useExposureNotificationService();
+
+  const clearExposedStatus = useCallback(() => {
+    exposureNotificationService.clearExposedStatus();
+  }, [exposureNotificationService]);
+
+  return [clearExposedStatus];
+}
