@@ -106,6 +106,13 @@ export const InfoShareView = () => {
 
   const [systemStatus] = useSystemStatus();
 
+  const TurnOnButton = (systemStatus: SystemStatus, onStart: () => {}, CTA: string) => {
+    if (systemStatus != SystemStatus.Undefined && systemStatus != SystemStatus.Unauthorized) {
+      return <InfoShareItem onPress={onStart} text={CTA} icon="icon-chevron" lastItem />;
+    }
+    return null;
+  };
+
   return (
     <>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginTop="m" marginBottom="m">
@@ -152,12 +159,7 @@ export const InfoShareView = () => {
             lastItem
           />
         ) : (
-          <InfoShareItem
-            onPress={onStart}
-            text={i18n.translate('Info.ToggleCovidAlert.TurnOn')}
-            icon="icon-chevron"
-            lastItem
-          />
+          TurnOnButton(systemStatus, onStart, i18n.translate('Info.ToggleCovidAlert.TurnOn'))
         )}
       </Box>
       <Box marginTop="l" marginBottom="m">

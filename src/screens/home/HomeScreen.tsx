@@ -101,6 +101,8 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
     return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
+  captureMessage(`systemStatus ${systemStatus}`);
+
   switch (systemStatus) {
     case SystemStatus.Undefined:
     case SystemStatus.Unauthorized:
