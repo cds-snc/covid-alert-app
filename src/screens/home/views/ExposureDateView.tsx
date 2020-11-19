@@ -27,8 +27,7 @@ export const ExposureDateView = () => {
   };
 
   const date = useMemo(() => {
-    // const timeStamp = exposureNotificationService.getExposureDetectedAt();
-    const timeStamp = 1605721270000;
+    const timeStamp = exposureNotificationService.getExposureDetectedAt();
     if (timeStamp) return formatDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
   }, [dateFormatOptions, dateLocale]);
 
