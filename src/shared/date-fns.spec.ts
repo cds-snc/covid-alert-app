@@ -8,6 +8,7 @@ import {
   getUploadDaysLeft,
   getCurrentDate,
   parseDateString,
+  formatExposedDate,
 } from './date-fns';
 
 /**
@@ -145,6 +146,20 @@ describe('date-fns', () => {
       const d1 = new Date('2020-07-06 00:00:01 GMT+0600');
       const d2 = new Date('2020-07-06 00:00:01 GMT+0500');
       expect(minutesBetween(d1, d2)).toStrictEqual(60);
+    });
+  });
+
+  //formatExposedDate
+  describe('formatExposedDate', () => {
+    it('returns formatted date for en', () => {
+      const dateFormatOptions = {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      };
+      //en-CA
+      const enStr = new Date(1605814310000).toLocaleString('en-CA', dateFormatOptions);
+      expect(formatExposedDate('en-CA', enStr)).toEqual('Nov.\u00a019,\u00a02020');
     });
   });
 

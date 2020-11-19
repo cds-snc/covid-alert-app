@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import {Text} from 'components';
 import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
+import {formatExposedDate} from 'shared/date-fns';
 
 export const ExposureDateView = () => {
   const i18n = useI18n();
@@ -14,21 +15,10 @@ export const ExposureDateView = () => {
 
   const exposureNotificationService = useExposureNotificationService();
 
-  const formatDate = (locale: string, localeString: string) => {
-    const parts = localeString.split(' ');
-    // @note \u00a0 is a non breaking space so the date doesn't wrap
-    if (locale === 'en-CA') {
-      return `${parts[0]}.\u00a0${parts[1]}\u00a0${parts[2]}`;
-    } else if (locale === 'fr-CA') {
-      return `${parts[0]}\u00a0${parts[1]}\u00a0${parts[2]}`;
-    }
-
-    return localeString;
-  };
-
   const date = useMemo(() => {
     const timeStamp = exposureNotificationService.getExposureDetectedAt();
-    if (timeStamp) return formatDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
+    if (timeStamp)
+      return formatExposedDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
   }, [dateFormatOptions, dateLocale]);
 
   return date ? (
