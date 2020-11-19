@@ -15,7 +15,6 @@ export const ExposureDateView = () => {
   const exposureNotificationService = useExposureNotificationService();
 
   const formatDate = (locale: string, localeString: string) => {
-    console.log(locale, localeString);
     const parts = localeString.split(' ');
     // @note \u00a0 is a non breaking space so the date doesn't wrap
     if (locale === 'en-CA') {
@@ -31,7 +30,7 @@ export const ExposureDateView = () => {
     // const timeStamp = exposureNotificationService.getExposureDetectedAt();
     const timeStamp = 1605721270000;
     if (timeStamp) return formatDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
-  }, [dateFormatOptions, dateLocale, exposureNotificationService]);
+  }, [dateFormatOptions, dateLocale]);
 
   return date ? (
     <Text marginBottom="m">
