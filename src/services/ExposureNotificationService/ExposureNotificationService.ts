@@ -491,10 +491,7 @@ export class ExposureNotificationService {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
-    if (this.systemStatus.get() !== SystemStatus.Active) {
-      captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
-      return false;
-    }
+
     if (!onboardedDatetime) {
       // Do not perform Exposure Checks if onboarding is not completed.
       captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');

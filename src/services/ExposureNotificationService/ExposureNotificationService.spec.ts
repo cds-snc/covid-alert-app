@@ -879,16 +879,6 @@ describe('ExposureNotificationService', () => {
   });
 
   describe('shouldPerformExposureCheck', () => {
-    it('returns false if System is not active', async () => {
-      service.systemStatus.set(SystemStatus.Undefined);
-
-      expect(service.systemStatus.get()).toStrictEqual(SystemStatus.Undefined);
-
-      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
-
-      expect(shouldPerformExposureCheck).toStrictEqual(false);
-    });
-
     it('returns false if not onboarded', async () => {
       when(storage.getItem)
         .calledWith(Key.OnboardedDatetime)
