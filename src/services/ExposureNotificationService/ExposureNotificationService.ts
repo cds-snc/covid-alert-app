@@ -490,14 +490,9 @@ export class ExposureNotificationService {
   public shouldPerformExposureCheck = async () => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
-    const systemStatus = this.systemStatus.get();
-    const isOnboarded = await this.storage.getItem(Key.IsOnboarded);
-    captureMessage(`System Status: ${systemStatus}`);
-    if (systemStatus !== SystemStatus.Active && systemStatus !== SystemStatus.Unknown) {
-      captureMessage(`shouldPerformExposureCheck - System Status: ${systemStatus}`);
-      return false;
-    }
-    if (isOnboarded) {
+    const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
+
+    if (!onboardedDatetime) {
       // Do not perform Exposure Checks if onboarding is not completed.
       captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
       return false;
