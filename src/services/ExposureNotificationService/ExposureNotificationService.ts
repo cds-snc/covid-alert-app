@@ -645,16 +645,16 @@ export class ExposureNotificationService {
       if (summariesContainingExposures.length > 0) {
         const summary = this.selectExposureSummary(summariesContainingExposures[0]);
 
-        if (!this.isIgnoredSummary(summary)) {
-          return this.finalize(
-            {
-              type: ExposureStatusType.Exposed,
-              summary,
-              exposureDetectedAt: getCurrentDate().getTime(),
-            },
-            lastCheckedPeriod,
-          );
-        }
+        // if (!this.isIgnoredSummary(summary)) {
+        return this.finalize(
+          {
+            type: ExposureStatusType.Exposed,
+            summary,
+            exposureDetectedAt: getCurrentDate().getTime(),
+          },
+          lastCheckedPeriod,
+        );
+        // }
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
