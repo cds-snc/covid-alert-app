@@ -90,16 +90,28 @@ export function useStartExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
   const {setUserStopped} = useStorage();
   return useCallback(async () => {
-    const start = exposureNotificationService.start();
+    const start = await exposureNotificationService.start();
+    console.log(`useStartExposureNotificationService ${start}`);
+    // note: need to update logic here as start isn't returning the proper value
+    if (start) {
+      setUserStopped(false);
+    }
     return start;
   }, [exposureNotificationService, setUserStopped]);
 }
 
 export function useStopExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
+  const {setUserStopped} = useStorage();
   return useCallback(async () => {
-    return exposureNotificationService.stop();
-  }, [exposureNotificationService]);
+    const stopped = await exposureNotificationService.stop();
+    console.log(`useStopExposureNotificationService ${stopped}`);
+    // note: need to update logic here as start isn't returning the proper value
+    if (stopped) {
+      setUserStopped(false);
+    }
+    return stopped;
+  }, [exposureNotificationService, setUserStopped]);
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {

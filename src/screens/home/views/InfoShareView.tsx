@@ -50,7 +50,7 @@ const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoS
 
 export const InfoShareView = () => {
   const i18n = useI18n();
-  const {region, setUserStopped} = useStorage();
+  const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -87,7 +87,7 @@ export const InfoShareView = () => {
           text: i18n.translate('Info.ToggleCovidAlert.Confirm.Accept'),
           onPress: () => {
             stopExposureNotificationService();
-            setUserStopped(true);
+
             NativePushNotification.presentLocalNotification({
               alertTitle: i18n.translate('Notification.PausedMessageTitle'),
               alertBody: i18n.translate('Notification.PausedMessageBody'),
@@ -97,15 +97,11 @@ export const InfoShareView = () => {
         },
       ],
     );
-  }, [i18n, setUserStopped, stopExposureNotificationService]);
+  }, [i18n, stopExposureNotificationService]);
 
   const onStart = useCallback(async () => {
-    const stopped = await startExposureNotificationService();
-
-    if (stopped) {
-      setUserStopped(false);
-    }
-  }, [setUserStopped, startExposureNotificationService]);
+    await startExposureNotificationService();
+  }, [startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
 
