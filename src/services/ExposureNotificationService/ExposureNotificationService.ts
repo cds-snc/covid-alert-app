@@ -537,8 +537,8 @@ export class ExposureNotificationService {
       captureMessage('isIgnoredSummary daysBetween', {daysBetween});
       captureMessage('isIgnoredSummary', {ignoredSummary, summary});
 
-      // using 0.9 here instead of 1 since a day may not be exactly 24*60*1000 miliseconds
-      if (daysBetween < 0.9) {
+      // ignore summaries that are same day or older than ignored summary
+      if (daysBetween <= 0) {
         return true;
       }
     });
