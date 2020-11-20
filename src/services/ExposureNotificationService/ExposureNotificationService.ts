@@ -645,7 +645,7 @@ export class ExposureNotificationService {
       if (summariesContainingExposures.length > 0) {
         const summary = this.selectExposureSummary(summariesContainingExposures[0]);
 
-        // f (!this.isIgnoredSummary(summary)) {
+        // if (!this.isIgnoredSummary(summary)) {
         return this.finalize(
           {
             type: ExposureStatusType.Exposed,
