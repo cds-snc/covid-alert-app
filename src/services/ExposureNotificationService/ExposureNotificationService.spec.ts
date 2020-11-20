@@ -314,7 +314,7 @@ describe('ExposureNotificationService', () => {
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
   });
 
-  it('ignores exposed summaries if they have been dismissed', async () => {
+  it('ignores exposed summaries if they are not more recent than ignored summary', async () => {
     const summary1 = getSummary({
       hasMatchedKey: true,
       today,
@@ -334,17 +334,26 @@ describe('ExposureNotificationService', () => {
     const summary3 = getSummary({
       hasMatchedKey: true,
       today,
-      daysSinceLastExposure: 7,
+      daysSinceLastExposure: 8,
       attenuationDurations: [22, 0, 0],
       os: 'ios',
     });
 
-    const ignoredSummaries = [summary1, summary2];
+    const summary4 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 6,
+      attenuationDurations: [22, 0, 0],
+      os: 'ios',
+    });
+
+    const ignoredSummaries = [summary1];
 
     service.exposureStatus.append({ignoredSummaries});
 
     expect(service.isIgnoredSummary(summary2)).toStrictEqual(true);
-    expect(service.isIgnoredSummary(summary3)).toStrictEqual(false);
+    expect(service.isIgnoredSummary(summary3)).toStrictEqual(true);
+    expect(service.isIgnoredSummary(summary4)).toStrictEqual(false);
   });
 
   it('backfills the right amount of keys for current day', async () => {
