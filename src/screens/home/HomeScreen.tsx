@@ -191,16 +191,17 @@ export const HomeScreen = () => {
     return subscribeToStatusUpdates();
   }, [subscribeToStatusUpdates]);
 
-  const startAndUpdate = async () => {
+  const startExposureNotificationService = useStartExposureNotificationService();
+  const updateExposureStatus = useUpdateExposureStatus();
+
+  const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
     const success = await startExposureNotificationService();
     if (success) {
       updateExposureStatus();
     }
-  };
+  }, [userStopped, updateExposureStatus, startExposureNotificationService]);
 
-  const startExposureNotificationService = useStartExposureNotificationService();
-  const updateExposureStatus = useUpdateExposureStatus();
   useEffect(() => {
     startAndUpdate();
   }, [startAndUpdate, startExposureNotificationService, updateExposureStatus]);
