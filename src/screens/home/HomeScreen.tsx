@@ -90,7 +90,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
     }
   }
   if (systemStatus === SystemStatus.Active) {
-    setUserStopped(false);
+    //setUserStopped(false);
   }
   if (userStopped && systemStatus !== SystemStatus.Active) {
     return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
