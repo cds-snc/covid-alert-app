@@ -10,7 +10,7 @@ import {useStorage} from 'services/StorageService';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
-import {captureException, captureMessage} from '../../shared/log';
+import {captureMessage} from '../../shared/log';
 
 import {
   ExposureNotificationService,
