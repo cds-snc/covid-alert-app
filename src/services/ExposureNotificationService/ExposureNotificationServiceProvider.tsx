@@ -108,7 +108,7 @@ export function useStopExposureNotificationService(): () => Promise<boolean> {
     console.log(`useStopExposureNotificationService ${stopped}`);
     // note: need to update logic here as start isn't returning the proper value
     if (stopped) {
-      setUserStopped(false);
+      setUserStopped(true);
     }
     return stopped;
   }, [exposureNotificationService, setUserStopped]);
