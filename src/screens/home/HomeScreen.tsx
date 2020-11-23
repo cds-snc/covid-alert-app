@@ -47,7 +47,7 @@ interface ContentProps {
 }
 
 const Content = ({isBottomSheetExpanded}: ContentProps) => {
-  const {region, userStopped} = useStorage();
+  const {region, userStopped, setUserStopped} = useStorage();
 
   captureMessage(`HomeScreen userStopped ${userStopped}`);
 
@@ -73,13 +73,6 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
     }
   };
 
-  const getDisabledRestrictedView = (userStopped: boolean) => {
-    if (userStopped) {
-      return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    }
-    return <UnknownProblemView isBottomSheetExpanded={isBottomSheetExpanded} />;
-  };
-
   // this is for the test menu
   const {forceScreen} = useStorage();
   if (TEST_MODE) {
@@ -96,8 +89,10 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
         break;
     }
   }
-
-  if (userStopped) {
+  if (systemStatus === SystemStatus.Active) {
+    setUserStopped(false);
+  }
+  if (userStopped && systemStatus !== SystemStatus.Active) {
     return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
@@ -139,7 +134,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
-          return getDisabledRestrictedView(userStopped);
+          return <UnknownProblemView isBottomSheetExpanded={isBottomSheetExpanded} />;
       }
   }
 };

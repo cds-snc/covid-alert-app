@@ -93,9 +93,9 @@ export function useStartExposureNotificationService(): () => Promise<boolean> {
     const start = await exposureNotificationService.start();
     console.log(`useStartExposureNotificationService ${start}`);
     // note: need to update logic here as start isn't returning the proper value
-    if (start) {
-      setUserStopped(false);
-    }
+    // if (start) {
+    //   setUserStopped(false);
+    // }
     return start;
   }, [exposureNotificationService, setUserStopped]);
 }
