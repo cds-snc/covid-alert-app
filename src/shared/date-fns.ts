@@ -66,3 +66,15 @@ export function parseDateString(dateString: string) {
   const dateParts = dateString.split('-');
   return new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
 }
+
+export const formatExposedDate = (locale: string, localeString: string) => {
+  const parts = localeString.split(' ');
+  // @note \u00a0 is a non breaking space so the date doesn't wrap
+  if (locale === 'en-CA') {
+    return `${parts[0]}.\u00a0${parts[1]}\u00a0${parts[2]}`;
+  } else if (locale === 'fr-CA') {
+    return `${parts[0]}\u00a0${parts[1]}\u00a0${parts[2]}`;
+  }
+
+  return localeString;
+};
