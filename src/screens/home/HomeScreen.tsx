@@ -180,10 +180,15 @@ export const HomeScreen = () => {
 
   const startExposureNotificationService = useStartExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
+  const [systemStatus] = useSystemStatus();
+  const {setUserStopped} = useStorage();
   useEffect(() => {
+    if (systemStatus === SystemStatus.Active) {
+      setUserStopped(false);
+    }
     startExposureNotificationService();
     updateExposureStatus();
-  }, [startExposureNotificationService, updateExposureStatus]);
+  }, [setUserStopped, startExposureNotificationService, systemStatus, updateExposureStatus]);
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);

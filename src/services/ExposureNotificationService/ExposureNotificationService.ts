@@ -140,6 +140,11 @@ export class ExposureNotificationService {
     await this.updateSystemStatus();
 
     this.starting = false;
+
+    if (this.systemStatus.get() === 'disabled') {
+      return false;
+    }
+
     return true;
   }
 
