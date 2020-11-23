@@ -309,16 +309,9 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     }
 
     private suspend fun getStatusInternal(): Status {
-        if (!isPlayServicesAvailable()) {
-            return Status.PLAY_SERVICES_NOT_AVAILABLE
-        }
-        val isExposureNotificationEnabled = try {
-            exposureNotificationClient.isEnabled.await()
-        } catch (_: Exception) {
-            false
-        }
         return when {
-            !isExposureNotificationEnabled -> Status.DISABLED
+            !isPlayServicesAvailable() -> Status.PLAY_SERVICES_NOT_AVAILABLE
+            !isExposureNotificationEnabled() -> Status.DISABLED
             !isBluetoothEnabled() -> Status.BLUETOOTH_OFF
             !isLocationEnabled() -> Status.LOCATION_OFF
             else -> Status.ACTIVE
@@ -329,6 +322,15 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         val context = reactApplicationContext.applicationContext
         val exposureNotificationSettingsIntent = Intent(ACTION_EXPOSURE_NOTIFICATION_SETTINGS)
         return exposureNotificationSettingsIntent.resolveActivity(context.packageManager) != null
+    }
+
+    private suspend fun isExposureNotificationEnabled(): Boolean {
+        try {
+            exposureNotificationClient.isEnabled.await()
+            return true
+        } catch (_: Exception) {
+            return false
+        }
     }
 
     private fun isBluetoothEnabled(): Boolean {
