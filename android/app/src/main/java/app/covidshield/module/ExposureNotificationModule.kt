@@ -335,8 +335,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     private suspend fun isExposureNotificationEnabled(): Boolean {
         try {
-            exposureNotificationClient.isEnabled.await()
-            return true
+            return exposureNotificationClient.isEnabled.await()
         } catch (_: Exception) {
             return false
         }
