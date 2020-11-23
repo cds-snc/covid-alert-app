@@ -96,7 +96,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     startInternal()
                 }
                 promise.resolve(null);
-            } catch (exception: java.lang.Exception) {
+            } catch (exception: Exception) {
                 promise.reject(exception)
             }
         }
@@ -254,7 +254,8 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     } catch (exception: IntentSender.SendIntentException) {
                         startResolutionCompleter?.completeExceptionally(SendIntentException(exception))
                     } catch (exception: Exception) {
-                        startResolutionCompleter?.completeExceptionally(PermissionDeniedException(exception))
+                        // startResolutionCompleter?.completeExceptionally(PermissionDeniedException(exception))
+                        throw PermissionDeniedException(exception)
                     } finally {
                         startResolutionCompleter = null
                     }

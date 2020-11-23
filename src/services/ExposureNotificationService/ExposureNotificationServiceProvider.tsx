@@ -91,15 +91,17 @@ export function useStartExposureNotificationService(): () => Promise<boolean> {
   const {setUserStopped} = useStorage();
 
   return useCallback(async () => {
-    try {
-      const start = await exposureNotificationService.start();
-      captureMessage(`useStartExposureNotificationService ${start}`);
-    } catch (error) {
-      captureException('useStartExposureNotificationService start failed', error);
-      setUserStopped(false);
+    const start = await exposureNotificationService.start();
+    console.log(`useStartExposureNotificationService ${start}`);
+    // note: need to update logic here as start isn't returning the proper value
+    if (start?.error === 'PERMISSION_DENIED') {
       return false;
     }
-    return true;
+    if (start.success) {
+      setUserStopped(false);
+      return true;
+    }
+    return false;
   }, [exposureNotificationService, setUserStopped]);
 }
 
