@@ -140,6 +140,7 @@ export class ExposureNotificationService {
       await this.exposureNotification.start();
     } catch (error) {
       captureException('Failed to start framework', error);
+      this.starting = false;
       throw new Error(error.message);
     }
 
