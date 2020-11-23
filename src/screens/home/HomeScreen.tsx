@@ -175,6 +175,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
+  const {userStopped} = useStorage();
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {
@@ -190,12 +191,19 @@ export const HomeScreen = () => {
     return subscribeToStatusUpdates();
   }, [subscribeToStatusUpdates]);
 
+  const startAndUpdate = async () => {
+    if (userStopped) return;
+    const success = await startExposureNotificationService();
+    if (success) {
+      updateExposureStatus();
+    }
+  };
+
   const startExposureNotificationService = useStartExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
   useEffect(() => {
-    startExposureNotificationService();
-    updateExposureStatus();
-  }, [startExposureNotificationService, updateExposureStatus]);
+    startAndUpdate();
+  }, [startAndUpdate, startExposureNotificationService, updateExposureStatus]);
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);

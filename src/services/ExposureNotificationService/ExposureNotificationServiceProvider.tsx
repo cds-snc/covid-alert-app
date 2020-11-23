@@ -10,7 +10,7 @@ import {useStorage} from 'services/StorageService';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
-import {captureMessage} from '../../shared/log';
+import {captureException, captureMessage} from '../../shared/log';
 
 import {
   ExposureNotificationService,
@@ -89,14 +89,17 @@ export function useExposureNotificationService() {
 export function useStartExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
   const {setUserStopped} = useStorage();
+
   return useCallback(async () => {
-    const start = await exposureNotificationService.start();
-    console.log(`useStartExposureNotificationService ${start}`);
-    // note: need to update logic here as start isn't returning the proper value
-    // if (start) {
-    //   setUserStopped(false);
-    // }
-    return start;
+    try {
+      const start = await exposureNotificationService.start();
+      console.log(`useStartExposureNotificationService ${start}`);
+    } catch (e) {
+      captureException('useStartExposureNotificationService start failed', e);
+      setUserStopped(false);
+      return false;
+    }
+    return true;
   }, [exposureNotificationService, setUserStopped]);
 }
 
