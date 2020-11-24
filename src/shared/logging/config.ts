@@ -12,10 +12,12 @@ const config = {
   severity: LOG_LEVEL,
   levels: {
     silly: 0,
-    info: 1,
-    warn: 2,
-    error: 3,
-    mad: 4,
+    debug: 1,
+    info: 2,
+    warn: 3,
+    error: 4,
+    fatal: 5,
+    custom: 6,
   },
 };
 const log = logger.createLogger(config);
