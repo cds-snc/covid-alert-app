@@ -136,8 +136,8 @@ export class ExposureNotificationService {
 
     this.starting = true;
 
-    await this.loadExposureStatus();
     try {
+      await this.loadExposureStatus();
       if (Platform.OS === 'ios') {
         await this.exposureNotification.activate();
       }
