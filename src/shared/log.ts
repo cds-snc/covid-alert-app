@@ -13,7 +13,7 @@ export const captureMessage = async (message: string, params: {[key in string]: 
   }
 };
 
-export const captureException = async (message: string, error: any, params: {[key in string]: any} = {}) => {
+export const captureException = async (message: string, error: any) => {
   if (__DEV__ && !isTest()) {
     log.error({
       message,
