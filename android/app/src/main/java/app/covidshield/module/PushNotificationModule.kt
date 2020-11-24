@@ -102,15 +102,30 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
                 .putString("title", config.title)
                 .putString("body", config.body)
                 .putInt("priority", config.priority)
-        val notificationWorkerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MINUTES, config.flexTimeInterval, TimeUnit.MINUTES)
-                .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
-                .setInputData(notificationData.build())
-                .setConstraints(Constraints.Builder()
-                        .setRequiresCharging(false)
-                        .setRequiresBatteryNotLow(false)
-                        .build()
-                )
-                .build()
+
+        val notificationWorkerRequest: PeriodicWorkRequest
+        if (config.flexInterval > 0) {
+            notificationWorkerRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MINUTES, config.flexInterval, TimeUnit.MINUTES)
+                    .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
+                    .setInputData(notificationData.build())
+                    .setConstraints(Constraints.Builder()
+                            .setRequiresCharging(false)
+                            .setRequiresBatteryNotLow(false)
+                            .build()
+                    )
+                    .build()
+        } else {
+            notificationWorkerRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MINUTES)
+                    .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
+                    .setInputData(notificationData.build())
+                    .setConstraints(Constraints.Builder()
+                            .setRequiresCharging(false)
+                            .setRequiresBatteryNotLow(false)
+                            .build()
+                    )
+                    .build()
+        }
+
         workManager.enqueueUniquePeriodicWork("notificationReminder", ExistingPeriodicWorkPolicy.REPLACE, notificationWorkerRequest)
     }
 
@@ -123,7 +138,7 @@ private class PushNotificationConfig(
     @SerializedName("alertTitle") val title: String?,
     @SerializedName("priority") val _priority: Int?,
     @SerializedName("repeatInterval") val _repeatInterval: Long?,
-    @SerializedName("flexTimeInterval") val _flexTimeInterval: Long?,
+    @SerializedName("flexInterval") val _flexInterval: Long?,
     @SerializedName("initialDelay") val _initialDelay: Long?
 ) {
 
@@ -131,9 +146,17 @@ private class PushNotificationConfig(
 
     val priority get() = _priority ?: NotificationCompat.PRIORITY_MAX
 
-    val repeatInterval get() = _repeatInterval?: 0
+    val repeatInterval get() = if (_repeatInterval != null) {
+        if (_repeatInterval > PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS) _repeatInterval else PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
+    } else {
+        0
+    }
 
-    val flexTimeInterval get() = _flexTimeInterval?: 15
+    val flexInterval get() = if (_flexInterval != null) {
+        if (_flexInterval > PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS) _flexInterval else PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
+    } else {
+        0
+    }
 
     val initialDelay get() = _initialDelay?: 0
 

@@ -5,7 +5,7 @@ export interface NotificationPayload {
   alertTitle: string;
   alertBody: string;
   repeatInterval?: number;
-  flexTimeInterval?: number;
+  flexInterval?: number;
   initialDelay?: number;
 }
 

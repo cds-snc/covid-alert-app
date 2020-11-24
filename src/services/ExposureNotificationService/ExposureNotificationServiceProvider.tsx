@@ -67,7 +67,7 @@ export const ExposureNotificationServiceProvider = ({
           alertBody: i18n.translate('Notification.ReminderBody'),
           initialDelay: 60 * 24,
           repeatInterval: 60 * 24,
-          flexTimeInterval: 60,
+          flexInterval: 60,
         };
         PushNotification.presentLocalNotification(notificationPayload);
       }
