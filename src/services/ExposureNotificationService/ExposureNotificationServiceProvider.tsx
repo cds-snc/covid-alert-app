@@ -39,6 +39,7 @@ export const ExposureNotificationServiceProvider = ({
   children,
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
+  const {setUserStopped} = useStorage();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
@@ -63,6 +64,9 @@ export const ExposureNotificationServiceProvider = ({
       if (newState !== 'active') return;
       exposureNotificationService.updateExposure();
       await exposureNotificationService.updateExposureStatus();
+      if (exposureNotificationService.systemStatus.get() === SystemStatus.Active) {
+        setUserStopped(false);
+      }
     };
 
     // Note: The next two lines, calling updateExposure() and startExposureCheck() happen on app launch.
@@ -73,7 +77,7 @@ export const ExposureNotificationServiceProvider = ({
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, [exposureNotificationService]);
+  }, [exposureNotificationService, setUserStopped]);
 
   return (
     <ExposureNotificationServiceContext.Provider value={exposureNotificationService}>
@@ -109,9 +113,9 @@ export function useStopExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
   const {setUserStopped} = useStorage();
   return useCallback(async () => {
+    setUserStopped(true);
     const stopped = await exposureNotificationService.stop();
     captureMessage(`useStopExposureNotificationService ${stopped}`);
-    setUserStopped(true);
     return stopped;
   }, [exposureNotificationService, setUserStopped]);
 }

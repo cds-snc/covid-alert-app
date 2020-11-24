@@ -48,6 +48,13 @@ const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoS
   </>
 );
 
+const TurnOnButton = ({systemStatus, onStart, CTA}: {systemStatus: SystemStatus; onStart: () => void; CTA: string}) => {
+  if (systemStatus !== SystemStatus.Undefined && systemStatus !== SystemStatus.Unauthorized) {
+    return <InfoShareItem onPress={onStart} text={CTA} icon="icon-chevron" lastItem />;
+  }
+  return null;
+};
+
 export const InfoShareView = () => {
   const i18n = useI18n();
   const {region} = useStorage();
@@ -85,8 +92,8 @@ export const InfoShareView = () => {
         },
         {
           text: i18n.translate('Info.ToggleCovidAlert.Confirm.Accept'),
-          onPress: () => {
-            stopExposureNotificationService();
+          onPress: async () => {
+            await stopExposureNotificationService();
 
             NativePushNotification.presentLocalNotification({
               alertTitle: i18n.translate('Notification.PausedMessageTitle'),
@@ -104,13 +111,6 @@ export const InfoShareView = () => {
   }, [startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
-
-  const TurnOnButton = (systemStatus: SystemStatus, onStart: () => void, CTA: string) => {
-    if (systemStatus !== SystemStatus.Undefined && systemStatus !== SystemStatus.Unauthorized) {
-      return <InfoShareItem onPress={onStart} text={CTA} icon="icon-chevron" lastItem />;
-    }
-    return null;
-  };
 
   return (
     <>
@@ -158,7 +158,11 @@ export const InfoShareView = () => {
             lastItem
           />
         ) : (
-          TurnOnButton(systemStatus, onStart, i18n.translate('Info.ToggleCovidAlert.TurnOn'))
+          <TurnOnButton
+            systemStatus={systemStatus}
+            onStart={onStart}
+            CTA={i18n.translate('Info.ToggleCovidAlert.TurnOn')}
+          />
         )}
       </Box>
       <Box marginTop="l" marginBottom="m">

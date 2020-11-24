@@ -253,7 +253,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
 
-            {userStopped && (
+            {userStopped && status !== SystemStatus.Active && (
               <Box marginBottom="m" marginTop="s" marginHorizontal="m">
                 <TurnAppBackOn isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
               </Box>
