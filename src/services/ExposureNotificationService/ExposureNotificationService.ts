@@ -146,6 +146,7 @@ export class ExposureNotificationService {
       this.starting = false;
       return {success: true};
     } catch (error) {
+      this.starting = false;
       captureException('Failed to start framework', error);
       return {success: false, error};
     }
