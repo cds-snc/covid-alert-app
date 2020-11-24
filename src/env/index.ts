@@ -29,6 +29,10 @@ export const EN_CONFIG_URL = Config.EN_CONFIG_URL;
 
 export const EN_API_VERSION = Config.EN_API_VERSION;
 
+export const LOGGLY_URL = Config.LOGGLY_URL || false;
+
+export const LOG_LEVEL = Config.LOG_LEVEL || 'info';
+
 /**
  * Set reachability check url to empty to prevent
  * unnecessary background network activity
