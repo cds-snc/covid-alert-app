@@ -7,6 +7,7 @@ const colourConsoleTransport: transportFunctionType = async (msg, level, _option
     blue: '\u001b[34m',
     orange: '\u001b[33m',
     cyan: '\u001b[36m',
+    green: '\u001b[32m',
     reset: '\u001b[0m',
   };
 
@@ -21,6 +22,9 @@ const colourConsoleTransport: transportFunctionType = async (msg, level, _option
   }
 
   switch (level.text) {
+    case 'silly':
+      console.log(`${colours.green}${message}${colours.reset}`); // eslint-disable-line no-console
+      break;
     case 'info':
       console.info(`${colours.blue}${message}${colours.reset}`); // eslint-disable-line no-console
       break;
