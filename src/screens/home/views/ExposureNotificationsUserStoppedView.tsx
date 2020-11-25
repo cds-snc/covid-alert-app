@@ -3,19 +3,22 @@ import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {useStorage} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const ExposureNotificationsUserStoppedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
+  const {setUserStopped} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
 
   const startEn = useCallback(async () => {
     await startExposureNotificationService();
   }, [startExposureNotificationService]);
 
-  const onPress = () => {
-    return startEn();
+  const onPress = async () => {
+    await startEn();
+    setUserStopped(false);
   };
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   return (

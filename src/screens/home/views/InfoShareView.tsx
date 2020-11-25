@@ -57,7 +57,7 @@ const TurnOnButton = ({systemStatus, onStart, CTA}: {systemStatus: SystemStatus;
 
 export const InfoShareView = () => {
   const i18n = useI18n();
-  const {region} = useStorage();
+  const {region, setUserStopped} = useStorage();
   const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -108,7 +108,8 @@ export const InfoShareView = () => {
 
   const onStart = useCallback(async () => {
     await startExposureNotificationService();
-  }, [startExposureNotificationService]);
+    setUserStopped(false);
+  }, [setUserStopped, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
 
