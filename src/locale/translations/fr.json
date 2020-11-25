@@ -252,7 +252,7 @@
         "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       },
       "RegionCovered": {
-        "Body": "L’application n’a découvert aucune nouvelle exposition.",
+        "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
         "Title": "Aucune exposition détectée",
         "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
