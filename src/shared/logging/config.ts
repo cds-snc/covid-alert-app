@@ -16,10 +16,8 @@ const config = {
     silly: 0,
     debug: 1,
     info: 2,
-    warn: 3,
-    error: 4,
-    fatal: 5,
-    custom: 6,
+    error: 3,
+    custom: 4,
   },
 };
 const log = logger.createLogger(config);
