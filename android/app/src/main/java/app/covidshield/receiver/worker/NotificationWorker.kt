@@ -8,6 +8,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_LEGACY
+import android.text.Spanned
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -34,22 +37,25 @@ class NotificationWorker(private val context: Context, parameters: WorkerParamet
         }
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME)
-        }
-
-        val notification: Notification = NotificationCompat.Builder(context, "1")
+        val notification = NotificationCompat.Builder(context, "1")
                 .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_notification_icon))
                 .setContentTitle(inputData.getString("title"))
                 .setContentText(inputData.getString("body"))
-                .setStyle(NotificationCompat.BigTextStyle().bigText(inputData.getString("body")))
                 .setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_MAX))
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
-                .setChannelId(CHANNEL_ID)
-                .build()
 
-        val foregroundInfo = ForegroundInfo(1, notification)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME)
+            notification.setChannelId(CHANNEL_ID)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val styledText: Spanned = Html.fromHtml(inputData.getString("body"), FROM_HTML_MODE_LEGACY)
+            notification.setStyle(NotificationCompat.BigTextStyle().bigText(styledText))
+        }
+
+        val foregroundInfo = ForegroundInfo(1, notification.build())
         setForeground(foregroundInfo)
 
         // TODO: How long should the notification appear?

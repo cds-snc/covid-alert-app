@@ -355,7 +355,7 @@
     "DailyUploadNotificationTitle": "Upload new random codes",
     "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes.",
     "ReminderTitle": "Exposure Notificaiton Reminder",
-    "ReminderBody": "A reminder to keep checking the app."
+    "ReminderBody": "A <i>reminder</i> to keep checking the <b>app</b>."
   },
   "Partners": {
     "Label": "Developed in partnership with"
