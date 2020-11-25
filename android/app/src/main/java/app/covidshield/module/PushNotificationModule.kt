@@ -97,6 +97,10 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
     }
 
     private fun delayNotification(config: PushNotificationConfig) {
+        Log.d("CovidAlert", "MIN_PERIODIC_INTERVAL_MILLIS: ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS}")
+        Log.d("CovidAlert", "REPEAT INTERVAL: ${config.repeatInterval}")
+        Log.d("CovidAlert", "MIN_PERIODIC_FLEX_MILLIS: ${PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS}")
+
         val notificationData = Data.Builder()
                 .putString("uuid", config.uuid)
                 .putInt("smallIcon", R.drawable.ic_notification_icon)
@@ -104,20 +108,16 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
                 .putString("body", config.body)
                 .putInt("priority", config.priority)
                 .putBoolean("disableSound", config.disableSound)
+                .build()
 
-        val notificationWorkerRequest: PeriodicWorkRequest
-        Log.d("CovidAlert", "MIN_PERIODIC_INTERVAL_MILLIS: ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS}")
-        Log.d("CovidAlert", "REPEAT INTERVAL: ${config.repeatInterval}")
-        Log.d("CovidAlert", "MIN_PERIODIC_FLEX_MILLIS: ${PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS}")
-
-        val notificationConstraints = Constraints.Builder()
+        val notificationConstraints: Constraints = Constraints.Builder()
                 .setRequiresCharging(false)
                 .setRequiresBatteryNotLow(false)
                 .build()
 
-        notificationWorkerRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MILLISECONDS)
+        val notificationWorkerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MILLISECONDS)
                 .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
-                .setInputData(notificationData.build())
+                .setInputData(notificationData)
                 .setConstraints(notificationConstraints)
                 .build()
 
