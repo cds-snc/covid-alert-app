@@ -105,6 +105,7 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
 
         val notificationWorkerRequest: PeriodicWorkRequest
         val notificationWorkerConstraints = Constraints.Builder()
+        val notificationConstraints = Constraints.Builder()
                 .setRequiresCharging(false)
                 .setRequiresBatteryNotLow(false)
                 .build()
@@ -112,13 +113,13 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
             notificationWorkerRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MINUTES, config.flexInterval, TimeUnit.MINUTES)
                     .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
                     .setInputData(notificationData.build())
-                    .setConstraints(notificationWorkerConstraints)
+                    .setConstraints(notificationConstraints)
                     .build()
         } else {
             notificationWorkerRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MINUTES)
                     .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
                     .setInputData(notificationData.build())
-                    .setConstraints(notificationWorkerConstraints)
+                    .setConstraints(notificationConstraints)
                     .build()
         }
 
