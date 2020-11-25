@@ -194,7 +194,6 @@ export const HomeScreen = () => {
 
   const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
-    console.log("ccccccccccccc")
     const success = await startExposureNotificationService();
     if (success) {
       updateExposureStatus();
