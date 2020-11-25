@@ -33,6 +33,9 @@ const colourConsoleTransport: transportFunctionType = async (msg, level, _option
     case 'debug':
       console.debug(`${colours.cyan}${message}${colours.reset}`); // eslint-disable-line no-console
       break;
+    case 'mad':
+      console.log(`${colours.orange}${message}${colours.reset}`); // eslint-disable-line no-console
+      break;
     default:
       console.log(`${colours.black}${message}${colours.reset}`); // eslint-disable-line no-console
   }

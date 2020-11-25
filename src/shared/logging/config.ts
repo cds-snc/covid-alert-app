@@ -18,7 +18,7 @@ const config = {
     debug: 1,
     info: 2,
     error: 3,
-    custom: 4,
+    mad: 4,
   },
 };
 const log = logger.createLogger(config);
