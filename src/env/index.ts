@@ -31,7 +31,7 @@ export const EN_API_VERSION = Config.EN_API_VERSION;
 
 export const LOGGLY_URL = Config.LOGGLY_URL || false;
 
-export const LOG_LEVEL = Config.LOG_LEVEL || 'info';
+export const LOG_LEVEL = Config.LOG_LEVEL || 'debug';
 
 /**
  * Set reachability check url to empty to prevent
