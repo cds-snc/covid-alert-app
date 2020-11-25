@@ -97,7 +97,9 @@ export function useStartExposureNotificationService(): () => Promise<boolean> {
   return useCallback(async () => {
     const start = await exposureNotificationService.start();
     captureMessage(`useStartExposureNotificationService ${start}`);
-
+    if (Platform.OS === 'ios') {
+      setUserStopped(false);
+    }
     if (start?.error === 'PERMISSION_DENIED') {
       return false;
     }
