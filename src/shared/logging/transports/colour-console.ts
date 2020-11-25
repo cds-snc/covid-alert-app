@@ -1,6 +1,6 @@
 import {transportFunctionType} from 'react-native-logs';
 
-const consoleTransport: transportFunctionType = async (msg, level, _options) => {
+const colourConsoleTransport: transportFunctionType = async (msg, level, _options) => {
   const colours = {
     red: '\u001b[31m',
     black: '\u001b[30m',
@@ -38,4 +38,4 @@ const consoleTransport: transportFunctionType = async (msg, level, _options) => 
   }
 };
 
-export {consoleTransport};
+export {colourConsoleTransport};
