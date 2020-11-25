@@ -104,25 +104,21 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
                 .putInt("priority", config.priority)
 
         val notificationWorkerRequest: PeriodicWorkRequest
+        val notificationWorkerConstraints = Constraints.Builder()
+                .setRequiresCharging(false)
+                .setRequiresBatteryNotLow(false)
+                .build()
         if (config.flexInterval > 0) {
             notificationWorkerRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MINUTES, config.flexInterval, TimeUnit.MINUTES)
                     .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
                     .setInputData(notificationData.build())
-                    .setConstraints(Constraints.Builder()
-                            .setRequiresCharging(false)
-                            .setRequiresBatteryNotLow(false)
-                            .build()
-                    )
+                    .setConstraints(notificationWorkerConstraints)
                     .build()
         } else {
             notificationWorkerRequest = PeriodicWorkRequestBuilder<NotificationWorker>(config.repeatInterval, TimeUnit.MINUTES)
                     .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
                     .setInputData(notificationData.build())
-                    .setConstraints(Constraints.Builder()
-                            .setRequiresCharging(false)
-                            .setRequiresBatteryNotLow(false)
-                            .build()
-                    )
+                    .setConstraints(notificationWorkerConstraints)
                     .build()
         }
 
