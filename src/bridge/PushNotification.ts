@@ -7,6 +7,7 @@ export interface NotificationPayload {
   repeatInterval?: number;
   flexInterval?: number;
   initialDelay?: number;
+  disableSound?: boolean;
 }
 
 interface PushNotificationInterface {

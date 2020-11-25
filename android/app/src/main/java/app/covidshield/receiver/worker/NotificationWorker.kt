@@ -46,7 +46,7 @@ class NotificationWorker(private val context: Context, parameters: WorkerParamet
                 .setOngoing(true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME)
+            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, inputData.getBoolean("disableSound", false))
             notification.setChannelId(CHANNEL_ID)
         }
 
@@ -70,11 +70,15 @@ class NotificationWorker(private val context: Context, parameters: WorkerParamet
     @TargetApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(
             channelId: String,
-            name: String
+            name: String,
+            disableSound: Boolean
     ): NotificationChannel {
         return NotificationChannel(
                 channelId, name, NotificationManager.IMPORTANCE_HIGH
         ).also { channel ->
+            if (disableSound) {
+                channel.setSound(null, null)
+            }
             notificationManager.createNotificationChannel(channel)
         }
     }

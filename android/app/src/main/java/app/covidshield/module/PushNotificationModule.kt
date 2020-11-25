@@ -103,6 +103,7 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
                 .putString("title", config.title)
                 .putString("body", config.body)
                 .putInt("priority", config.priority)
+                .putBoolean("disableSound", config.disableSound)
 
         val notificationWorkerRequest: PeriodicWorkRequest
         Log.d("CovidAlert", "MIN_PERIODIC_INTERVAL_MILLIS: ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS}")
@@ -132,7 +133,8 @@ private class PushNotificationConfig(
     @SerializedName("alertTitle") val title: String?,
     @SerializedName("priority") val _priority: Int?,
     @SerializedName("repeatInterval") val _repeatInterval: Long?,
-    @SerializedName("initialDelay") val _initialDelay: Long?
+    @SerializedName("initialDelay") val _initialDelay: Long?,
+    @SerializedName("disableSound") val _disableSound: Boolean?
 ) {
 
     val uuid get() = _uuid ?: "app.covidshield.exposure-notification"
@@ -146,5 +148,7 @@ private class PushNotificationConfig(
     }
 
     val initialDelay get() = _initialDelay?: 0
+
+    val disableSound get() = _disableSound?: false
 
 }
