@@ -47,7 +47,7 @@ interface ContentProps {
 }
 
 const Content = ({isBottomSheetExpanded}: ContentProps) => {
-  const {region, userStopped, setUserStopped} = useStorage();
+  const {region, userStopped} = useStorage();
 
   captureMessage(`HomeScreen userStopped ${userStopped}`);
 
