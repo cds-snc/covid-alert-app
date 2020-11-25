@@ -1,7 +1,6 @@
 package app.covidshield.receiver.worker
 
 import android.annotation.TargetApi
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -12,16 +11,12 @@ import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.text.Spanned
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import app.covidshield.MainActivity
 import app.covidshield.R
-import app.covidshield.extensions.log
 import kotlinx.coroutines.delay
-import java.util.concurrent.TimeUnit
 
 private const val CHANNEL_ID = "1"
 private const val CHANNEL_NAME = "COVID Alert"
