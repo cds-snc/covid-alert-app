@@ -37,8 +37,8 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
         {
           text: i18n.translate('Info.ToggleCovidAlert.Confirm.Accept'),
           onPress: async () => {
-            await stopExposureNotificationService();
             bottomSheetBehavior.collapse();
+            await stopExposureNotificationService();
             NativePushNotification.presentLocalNotification({
               alertTitle: i18n.translate('Notification.PausedMessageTitle'),
               alertBody: i18n.translate('Notification.PausedMessageBody'),
@@ -51,8 +51,9 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
   }, [bottomSheetBehavior, i18n, stopExposureNotificationService]);
 
   const onStart = useCallback(async () => {
+    bottomSheetBehavior.collapse();
     await startExposureNotificationService();
-  }, [startExposureNotificationService]);
+  }, [bottomSheetBehavior, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
 

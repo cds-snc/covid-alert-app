@@ -178,11 +178,20 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
   );
 };
 
-const TurnAppBackOn = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
+const TurnAppBackOn = ({
+  i18n,
+  isBottomSheetExpanded,
+  bottomSheetBehavior,
+}: {
+  i18n: I18n;
+  isBottomSheetExpanded: boolean;
+  bottomSheetBehavior: BottomSheetBehavior;
+}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const onStart = useCallback(async () => {
+    bottomSheetBehavior.collapse();
     await startExposureNotificationService();
-  }, [startExposureNotificationService]);
+  }, [bottomSheetBehavior, startExposureNotificationService]);
 
   return (
     <InfoBlock
@@ -255,7 +264,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
 
             {userStopped && status !== SystemStatus.Active && (
               <Box marginBottom="m" marginTop="s" marginHorizontal="m">
-                <TurnAppBackOn isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
+                <TurnAppBackOn
+                  isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
+                  i18n={i18n}
+                  bottomSheetBehavior={bottomSheetBehavior}
+                />
               </Box>
             )}
 
