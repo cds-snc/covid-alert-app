@@ -234,14 +234,6 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
   const i18n = useI18n();
   const {userStopped} = useStorage();
 
-  const showStatus = (status: string, userStopped: boolean) => {
-    if ((status === SystemStatus.Disabled || status === SystemStatus.Restricted) && !userStopped) {
-      return true;
-    }
-
-    return false;
-  };
-
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
@@ -276,7 +268,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
             </Box>
 
-            {showStatus(status, userStopped) && (
+            {!userStopped && (status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
               <Box marginBottom="m" marginHorizontal="m">
                 <SystemStatusOff i18n={i18n} />
               </Box>

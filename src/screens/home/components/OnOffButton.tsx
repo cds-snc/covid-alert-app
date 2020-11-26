@@ -9,18 +9,13 @@ import {
 import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {BottomSheetBehavior} from 'components';
+import {useStorage} from 'services/StorageService';
 
 import {InfoShareItem} from './InfoShareItem';
 
-const TurnOnButton = ({systemStatus, onStart, CTA}: {systemStatus: SystemStatus; onStart: () => void; CTA: string}) => {
-  if (systemStatus !== SystemStatus.Undefined && systemStatus !== SystemStatus.Unauthorized) {
-    return <InfoShareItem onPress={onStart} text={CTA} icon="icon-chevron" lastItem />;
-  }
-  return null;
-};
-
 export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomSheetBehavior}) => {
   const i18n = useI18n();
+  const {userStopped} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
   const stopExposureNotificationService = useStopExposureNotificationService();
 
@@ -67,7 +62,15 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
       />
     );
   }
+  if (!userStopped) {
+    return null;
+  }
   return (
-    <TurnOnButton systemStatus={systemStatus} onStart={onStart} CTA={i18n.translate('Info.ToggleCovidAlert.TurnOn')} />
+    <InfoShareItem
+      onPress={onStart}
+      text={i18n.translate('Info.ToggleCovidAlert.TurnOn')}
+      icon="icon-chevron"
+      lastItem
+    />
   );
 };
