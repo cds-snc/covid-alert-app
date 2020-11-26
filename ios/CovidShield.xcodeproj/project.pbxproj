@@ -561,7 +561,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ca.gc.hcsc.canada.stopcovid;
 				PRODUCT_NAME = CovidShield;
-				PROVISIONING_PROFILE_SPECIFIER = "Stop COVID Development Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "Stop COVID Development";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
