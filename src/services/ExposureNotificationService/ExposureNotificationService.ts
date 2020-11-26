@@ -147,6 +147,7 @@ export class ExposureNotificationService {
       return {success: true};
     } catch (error) {
       this.starting = false;
+      await this.updateSystemStatus();
       captureException('Failed to start framework', error);
       return {success: false, error};
     }
