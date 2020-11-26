@@ -1,5 +1,5 @@
 {
-  "Active": ["ON", "NL", "NB", "SK", "MB", "QC", "PE", "NS"],
+  "Active": ["ON", "NL", "NB", "SK", "MB", "QC", "PE", "NS", "NT"],
   "en": {
     "RegionContent": {
       "Home": {
@@ -11,6 +11,9 @@
         },
         "SK": {
           "ExposedHelpLink": "https://www.saskatchewan.ca/covid19-apps"
+        },
+        "NT": {
+          "ExposedHelpLink": "https://www.gov.nt.ca/covid-19/en/services/health-and-well-being/isolation"
         }
       },
       "DiagnosedView": {
@@ -65,6 +68,13 @@
             }
           },
           "PE": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "NT": {
             "Tip": {
               "Body": "",
               "CTA": "",
@@ -126,6 +136,12 @@
             "Body": "If you test positive for COVID-19, public health gives you a one-time key.\n\nYou will only get one key, and it expires in 24 hours.",
             "CTA": "Help",
             "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
+          },
+          "NT": {
+            "Title": "Get a one-time key",
+            "Body": "If you test positive for COVID-19, public health will give you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+            "CTA": "Help",
+            "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
           }
         }
       },
@@ -170,6 +186,11 @@
             "Body": "You’re at risk of being infected.",
             "CTA": "Find out what to do next",
             "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-alert-app"
+          },
+          "NT": {
+            "Body": "You need to isolate for 14 days, and contact your local healthcare provider as soon as possible.",
+            "CTA": "How to isolate safely",
+            "URL": "https://www.gov.nt.ca/covid-19/en/services/health-and-well-being/isolation"
           }
         },
         "Inactive": {
@@ -242,8 +263,11 @@
         "QC": {
           "ExposedHelpLink": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/tests-de-depistage/?utm_source=canada.ca_alertecovid&utm_medium=application_Que_faire&utm_campaign=cqen_alertecovid_2020&utm_content=francais"
         },
-         "SK": {
+        "SK": {
           "ExposedHelpLink": "https://www.saskatchewan.ca/covid19-apps"
+        },
+        "NT": {
+          "ExposedHelpLink": "https://www.gov.nt.ca/covid-19/en/services/health-and-well-being/isolation"
         }
       },
       "DiagnosedView": {
@@ -298,6 +322,13 @@
             }
           },
           "PE": {
+            "Tip": {
+              "Body": "",
+              "CTA": "",
+              "URL": ""
+            }
+          },
+          "NT": {
             "Tip": {
               "Body": "",
               "CTA": "",
@@ -359,6 +390,12 @@
             "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
             "CTA": "Aide",
             "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+          },
+          "NT": {
+            "Title": "Obtenir une clé à usage unique",
+            "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+            "CTA": "Aide",
+            "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
           }
         }
       },
@@ -403,6 +440,11 @@
             "Body": "Vous êtes à risque d’être infecté. ",
             "CTA": "Lisez les étapes à suivre",
             "URL": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/application-alerte-covid"
+          },
+          "NT": {
+            "Body": "Vous devez vous isoler pendant 14 jours et contacter votre professionnel de la santé dès que possible.",
+            "CTA": "Comment vous isoler",
+            "URL": "https://www.gov.nt.ca/covid-19/fr/services/sant%C3%A9-et-bien-%C3%AAtre/isolement-obligatoire"
           }
         },
         "Inactive": {
