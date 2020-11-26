@@ -8,6 +8,7 @@ import {
 } from 'services/ExposureNotificationService';
 import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
+import {BottomSheetBehavior} from 'components';
 
 import {InfoShareItem} from './InfoShareItem';
 
@@ -18,7 +19,7 @@ const TurnOnButton = ({systemStatus, onStart, CTA}: {systemStatus: SystemStatus;
   return null;
 };
 
-export const OnOffButton = () => {
+export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomSheetBehavior}) => {
   const i18n = useI18n();
   const startExposureNotificationService = useStartExposureNotificationService();
   const stopExposureNotificationService = useStopExposureNotificationService();
@@ -37,7 +38,7 @@ export const OnOffButton = () => {
           text: i18n.translate('Info.ToggleCovidAlert.Confirm.Accept'),
           onPress: async () => {
             await stopExposureNotificationService();
-
+            bottomSheetBehavior.collapse();
             NativePushNotification.presentLocalNotification({
               alertTitle: i18n.translate('Notification.PausedMessageTitle'),
               alertBody: i18n.translate('Notification.PausedMessageBody'),
@@ -47,7 +48,7 @@ export const OnOffButton = () => {
         },
       ],
     );
-  }, [i18n, stopExposureNotificationService]);
+  }, [bottomSheetBehavior, i18n, stopExposureNotificationService]);
 
   const onStart = useCallback(async () => {
     await startExposureNotificationService();

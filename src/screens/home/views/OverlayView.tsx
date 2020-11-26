@@ -284,7 +284,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               </Box>
             )}
             <Box marginBottom="m" marginHorizontal="m">
-              <InfoShareView />
+              <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
             </Box>
           </Box>
         </SafeAreaView>

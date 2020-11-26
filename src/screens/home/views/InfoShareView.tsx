@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
-import {Box, Text} from 'components';
+import {BottomSheetBehavior, Box, Text} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n, useRegionalI18n} from 'locale';
 import {captureException} from 'shared/log';
@@ -10,7 +10,7 @@ import {getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {OnOffButton} from '../components/OnOffButton';
 import {InfoShareItem} from '../components/InfoShareItem';
 
-export const InfoShareView = () => {
+export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomSheetBehavior}) => {
   const i18n = useI18n();
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
@@ -71,7 +71,7 @@ export const InfoShareView = () => {
           testID="changeRegion"
         />
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
-        <OnOffButton />
+        <OnOffButton bottomSheetBehavior={bottomSheetBehavior} />
       </Box>
       <Box marginTop="l" marginBottom="m">
         <Text variant="settingTitle" fontWeight="normal">
