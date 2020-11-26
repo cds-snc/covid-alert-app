@@ -254,7 +254,6 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     } catch (exception: IntentSender.SendIntentException) {
                         startResolutionCompleter?.completeExceptionally(SendIntentException(exception))
                     } catch (exception: Exception) {
-                        // startResolutionCompleter?.completeExceptionally(PermissionDeniedException(exception))
                         throw PermissionDeniedException(exception)
                     } finally {
                         startResolutionCompleter = null
