@@ -10,9 +10,9 @@ import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {BottomSheetBehavior} from 'components';
 import {useStorage} from 'services/StorageService';
+import {captureMessage} from 'shared/log';
 
 import {InfoShareItem} from './InfoShareItem';
-import {captureMessage} from 'shared/log';
 
 export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomSheetBehavior}) => {
   const i18n = useI18n();
