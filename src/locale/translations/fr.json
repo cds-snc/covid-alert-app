@@ -167,6 +167,10 @@
     "BluetoothDisabled": "Bluetooth désactivé",
     "CTA": "Prochaines étapes",
     "ChooseRegionCTA": "Sélectionnez une province ou un territoire",
+    "UserStopped": {
+      "Title": "Vous avez désactivé l’application",
+      "CTA": "Réactiver"
+    },
     "DiagnosedView": {
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
@@ -274,6 +278,16 @@
   },
   "Info": {
     "ChangeLanguage": "Modifier la langue",
+    "ToggleCovidAlert": {
+      "TurnOff": "Désactiver Alerte COVID",
+      "TurnOn": "Réactiver Alerte COVID",
+      "Confirm": {
+        "Title": "Désactiver Alert COVID?",
+        "Body": "Veillez à porter un équipement de protection individuelle (ÉPI) médical ou à ne côtoyer que les membres de votre ménage. Une fois désactivée, l’application ne pourra plus enregistrer d’expositions.",
+        "Cancel": "Ne pas désactiver",
+        "Accept": "Désactiver"
+      }
+    },
     "ChangeRegion": "Modifier la province ou le territoire",
     "CheckSymptoms": "Vérifier vos symptômes",
     "LearnMore": "Fonctionnement",
@@ -309,7 +323,9 @@
     "ExposedMessageBody": "Vous avez eu un contact étroit avec une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Informez-vous sur les étapes à suivre.",
     "ExposedMessageTitle": "Vous avez été exposé",
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
-    "OffMessageTitle": "Alerte COVID est désactivée"
+    "OffMessageTitle": "Alerte COVID est désactivée",
+    "PausedMessageTitle": "Vous avez désactivé l’application",
+    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée."
   },
   "Onboarding": {
     "Step": "Étape",
@@ -382,6 +398,11 @@
     "EnterCodeCardDiagnosedCountdown": {
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
+    },
+    "TurnAppBackOn": {
+      "Title": "Réactiver Alerte COVID",
+      "Body": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
+      "CTA": "Réactiver"
     },
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
     "ExposureNotificationCardAction": "Activez les notifications d’exposition",

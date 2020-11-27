@@ -1,5 +1,9 @@
 {
   "Home": {
+    "UserStopped": {
+      "Title": "You turned off the app",
+      "CTA": "Turn back on"
+    },
     "NoExposureDetected": {
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
@@ -129,6 +133,11 @@
       "One": "{number} day left!",
       "Other": "{number} days left!"
     },
+    "TurnAppBackOn": {
+      "Title": "Turn on COVID Alert",
+      "Body": "The app is not recording exposures because you turned it off.",
+      "CTA": "Turn back on"
+    },
     "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
@@ -150,6 +159,16 @@
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get a one-time key",
     "ChangeLanguage": "Change language",
+    "ToggleCovidAlert": {
+      "TurnOff": "Turn off COVID Alert",
+      "TurnOn": "Turn on COVID Alert",
+      "Confirm": {
+        "Title": "Turn off COVID Alert?",
+        "Body": "Make sure you’re wearing full medical PPE (personal protective equipment) or you’re only with your household.  The app will not be able to record exposures.",
+        "Cancel": "Keep it on",
+        "Accept": "Turn it off"
+      }
+    },
     "ChangeRegion": "Change province or territory",
     "Privacy": "How it protects your privacy",
     "PrivacyUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/privacy-policy.html",
@@ -366,7 +385,9 @@
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
-    "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes."
+    "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes.",
+    "PausedMessageTitle": "You turned off the app",
+    "PausedMessageBody": "The app is not recording exposures because you turned it off."
   },
   "Partners": {
     "Label": "Developed in partnership with"

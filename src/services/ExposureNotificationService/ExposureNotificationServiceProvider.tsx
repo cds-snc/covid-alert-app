@@ -6,6 +6,7 @@ import {AppState, AppStateStatus, Platform} from 'react-native';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
+import {useStorage} from 'services/StorageService';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -38,6 +39,7 @@ export const ExposureNotificationServiceProvider = ({
   children,
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
+  const {setUserStopped} = useStorage();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
@@ -62,6 +64,9 @@ export const ExposureNotificationServiceProvider = ({
       if (newState !== 'active') return;
       exposureNotificationService.updateExposure();
       await exposureNotificationService.updateExposureStatus();
+      if (exposureNotificationService.systemStatus.get() === SystemStatus.Active) {
+        setUserStopped(false);
+      }
     };
 
     // Note: The next two lines, calling updateExposure() and startExposureCheck() happen on app launch.
@@ -72,7 +77,7 @@ export const ExposureNotificationServiceProvider = ({
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, [exposureNotificationService]);
+  }, [exposureNotificationService, setUserStopped]);
 
   return (
     <ExposureNotificationServiceContext.Provider value={exposureNotificationService}>
@@ -87,9 +92,34 @@ export function useExposureNotificationService() {
 
 export function useStartExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
+  const {setUserStopped} = useStorage();
+
   return useCallback(async () => {
-    return exposureNotificationService.start();
-  }, [exposureNotificationService]);
+    const start = await exposureNotificationService.start();
+    captureMessage(`useStartExposureNotificationService ${start}`);
+    if (Platform.OS === 'ios') {
+      setUserStopped(false);
+    }
+    if (start?.error === 'PERMISSION_DENIED') {
+      return false;
+    }
+    if (start.success) {
+      setUserStopped(false);
+      return true;
+    }
+    return false;
+  }, [exposureNotificationService, setUserStopped]);
+}
+
+export function useStopExposureNotificationService(): () => Promise<boolean> {
+  const exposureNotificationService = useExposureNotificationService();
+  const {setUserStopped} = useStorage();
+  return useCallback(async () => {
+    setUserStopped(true);
+    const stopped = await exposureNotificationService.stop();
+    captureMessage(`useStopExposureNotificationService ${stopped}`);
+    return stopped;
+  }, [exposureNotificationService, setUserStopped]);
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {

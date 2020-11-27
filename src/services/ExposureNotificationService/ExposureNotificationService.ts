@@ -101,6 +101,7 @@ export class ExposureNotificationService {
   exposureStatusUpdatePromise: Promise<void> | null = null;
 
   private starting = false;
+  private stopping = false;
 
   private exposureNotification: typeof ExposureNotification;
   private backendInterface: BackendInterface;
@@ -128,18 +129,49 @@ export class ExposureNotificationService {
     });
   }
 
-  async start(): Promise<boolean> {
+  async start(): Promise<{success: boolean; error?: string}> {
     if (this.starting) {
-      return true;
+      return {success: true};
     }
 
     this.starting = true;
 
-    await this.loadExposureStatus();
-    await this.exposureNotification.start();
+    try {
+      await this.loadExposureStatus();
+      if (Platform.OS === 'ios') {
+        await this.exposureNotification.activate();
+      }
+      await this.exposureNotification.start();
+      await this.updateSystemStatus();
+      this.starting = false;
+      return {success: true};
+    } catch (error) {
+      this.starting = false;
+      await this.updateSystemStatus();
+      captureException('Failed to start framework', error);
+      return {success: false, error};
+    }
+  }
+
+  async stop(): Promise<boolean> {
+    if (this.stopping) {
+      return true;
+    }
+
+    this.stopping = true;
+
+    try {
+      captureMessage('Called stop EN framework');
+      await this.exposureNotification.stop();
+    } catch (error) {
+      captureException('Cannot stop EN framework', error);
+      return false;
+    }
+
+    captureMessage('Called stop + updateSystem Status EN framework');
     await this.updateSystemStatus();
 
-    this.starting = false;
+    this.stopping = false;
     return true;
   }
 
