@@ -20,6 +20,7 @@ import {useStorage} from 'services/StorageService';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
+import {captureMessage} from 'shared/log';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -233,6 +234,9 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
   const {userStopped} = useStorage();
+
+  captureMessage(`=> OverlayView userStopped ${userStopped}`);
+  captureMessage(`=> OverlayView systemStatus ${status}`);
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>

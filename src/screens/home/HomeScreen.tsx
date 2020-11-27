@@ -49,8 +49,6 @@ interface ContentProps {
 const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const {region, userStopped} = useStorage();
 
-  captureMessage(`HomeScreen userStopped ${userStopped}`);
-
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const exposureStatus = useExposureStatus();
@@ -61,6 +59,9 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   }, [turnNotificationsOn]);
 
   const network = useNetInfo();
+
+  captureMessage(`=> Content userStopped ${userStopped}`);
+  captureMessage(`=> Content systemStatus ${systemStatus}`);
 
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
@@ -93,8 +94,6 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   if (userStopped && systemStatus !== SystemStatus.Active) {
     return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
-
-  captureMessage(`systemStatus ${systemStatus}`);
 
   switch (systemStatus) {
     case SystemStatus.Undefined:
@@ -174,6 +173,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 export const HomeScreen = () => {
   const navigation = useNavigation();
   const {userStopped} = useStorage();
+  captureMessage(`=> HomeScreen userStopped ${userStopped}`);
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {

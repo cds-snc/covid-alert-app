@@ -12,6 +12,7 @@ import {BottomSheetBehavior} from 'components';
 import {useStorage} from 'services/StorageService';
 
 import {InfoShareItem} from './InfoShareItem';
+import {captureMessage} from 'shared/log';
 
 export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomSheetBehavior}) => {
   const i18n = useI18n();
@@ -51,6 +52,9 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
   }, [bottomSheetBehavior, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
+
+  captureMessage(`=> OnOffButton userStopped ${userStopped}`);
+  captureMessage(`=> OnOffButton systemStatus ${systemStatus}`);
 
   if (systemStatus === SystemStatus.Active) {
     return (
