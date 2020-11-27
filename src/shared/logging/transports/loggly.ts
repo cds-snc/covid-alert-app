@@ -7,7 +7,7 @@ import {getLogUUID} from '../uuid';
 const logglyTransport: transportFunctionType = async (msg, level, _options) => {
   const uuid = await getLogUUID();
   const platform = Platform.OS;
-
+  // used for staging env - never production
   if (LOGGLY_URL) {
     fetch(LOGGLY_URL, {
       method: 'POST',
