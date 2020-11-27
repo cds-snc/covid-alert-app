@@ -1,5 +1,6 @@
 import {transportFunctionType} from 'react-native-logs';
-import {isTest} from '../../logging/config';
+
+import {isTest} from '../config';
 
 const colourConsoleTransport: transportFunctionType = async (msg, level, _options) => {
   if (__DEV__ && !isTest()) {
