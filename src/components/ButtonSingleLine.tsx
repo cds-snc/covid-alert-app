@@ -70,6 +70,9 @@ export const ButtonSingleLine = ({
     borderBottomWidth,
     borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
   };
+
+  const fontStyle = variant === 'bigFlatPurple' ? styles.strong : styles.normal;
+
   const content = (
     <Box
       borderRadius={borderRadius}
@@ -104,8 +107,8 @@ export const ButtonSingleLine = ({
               variant="menuItemTitle"
               style={{
                 ...styles.content,
+                ...fontStyle,
                 color: textColor || buttonColor,
-                fontWeight: variant === 'bigFlatPurple' ? 'bold' : 'normal',
               }}
             >
               {text}
@@ -176,5 +179,8 @@ const styles = StyleSheet.create({
   content: {},
   strong: {
     fontWeight: 'bold',
+  },
+  normal: {
+    fontWeight: 'normal',
   },
 });
