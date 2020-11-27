@@ -1,5 +1,6 @@
-import {log, isTest} from './logging/config';
 import {LOGGLY_URL} from 'env';
+
+import {log, isTest} from './logging/config';
 
 export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
   if ((LOGGLY_URL || __DEV__) && !isTest()) {
