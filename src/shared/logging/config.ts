@@ -14,13 +14,15 @@ const config = {
   },
   severity: LOG_LEVEL,
   levels: {
-    silly: 0,
+    status: 0,
     debug: 1,
     info: 2,
     error: 3,
-    mad: 4,
   },
 };
-const log = logger.createLogger(config);
 
-export {log};
+export const log = logger.createLogger(config);
+
+export const isTest = () => {
+  return process.env.JEST_WORKER_ID !== undefined;
+};

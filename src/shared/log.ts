@@ -1,8 +1,4 @@
-import {log} from './logging/config';
-
-const isTest = () => {
-  return process.env.JEST_WORKER_ID !== undefined;
-};
+import {log, isTest} from './logging/config';
 
 export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
   if (__DEV__ && !isTest()) {
