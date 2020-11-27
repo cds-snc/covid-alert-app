@@ -277,7 +277,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
                 <SystemStatusOff i18n={i18n} />
               </Box>
             )}
-            {status === SystemStatus.Unauthorized && (
+            {!userStopped && status === SystemStatus.Unauthorized && (
               <Box marginBottom="m" marginHorizontal="m">
                 <SystemStatusUnauthorized i18n={i18n} />
               </Box>
