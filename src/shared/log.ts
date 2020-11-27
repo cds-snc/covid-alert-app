@@ -1,7 +1,9 @@
+import {LOGGLY_URL} from 'env';
+
 import {log, isTest} from './logging/config';
 
 export const captureMessage = async (message: string, params: {[key in string]: any} = {}) => {
-  if (__DEV__ && !isTest()) {
+  if ((LOGGLY_URL || __DEV__) && !isTest()) {
     log.info({
       message,
       payload: params,
@@ -10,7 +12,7 @@ export const captureMessage = async (message: string, params: {[key in string]: 
 };
 
 export const captureException = async (message: string, error: any) => {
-  if (__DEV__ && !isTest()) {
+  if ((LOGGLY_URL || __DEV__) && !isTest()) {
     log.error({
       message,
       error,
