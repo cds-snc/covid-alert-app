@@ -43,9 +43,12 @@ class ExposureCheckWorker (private val context: Context, parameters: WorkerParam
                 .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_notification_icon))
                 .setContentTitle(inputData.getString("title"))
                 .setContentText(inputData.getString("body"))
-                .setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_MAX))
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
+            notification.setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_MAX))
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, false)
