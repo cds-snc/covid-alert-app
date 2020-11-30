@@ -87,7 +87,7 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val builder = NotificationCompat.Builder(reactApplicationContext, CHANNEL_NAME)
-            .setSmallIcon(R.drawable.ic_notification_icon)
+            .setSmallIcon(R.drawable.ic_detect_icon)
             .setContentTitle(config.title)
             .setContentText(config.body)
             .setPriority(config.priority)
@@ -103,7 +103,7 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
 
         val notificationData = Data.Builder()
                 .putString("uuid", config.uuid)
-                .putInt("smallIcon", R.drawable.ic_notification_icon)
+                .putInt("smallIcon", R.drawable.ic_detect_icon)
                 .putString("title", config.title)
                 .putString("body", config.body)
                 .putInt("priority", config.priority)

@@ -12,11 +12,16 @@ interface PeriodicTask {
   (): Promise<void>;
 }
 
+interface Options {
+  alertTitle?: string;
+  alertBody?: string;
+}
+
 // See https://github.com/cds-snc/covid-shield-mobile/issues/642#issuecomment-657783192
 export const DEFERRED_JOB_INTERNVAL_IN_MINUTES = 240;
 const EXACT_JOB_INTERNVAL_IN_MINUTES = 90;
 
-const registerPeriodicTask = async (task: PeriodicTask) => {
+const registerPeriodicTask = async (task: PeriodicTask, options?: Options) => {
   if (Platform.OS === 'ios') {
     BackgroundFetch.configure(
       {
@@ -42,8 +47,8 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     captureMessage('registerPeriodicTask', {result});
   } else {
     const payload: NotificationPayload = {
-      alertTitle: 'Notification.ReminderTitle',
-      alertBody: 'Notification.ReminderBody',
+      alertTitle: options?.alertTitle || '',
+      alertBody: options?.alertBody || '',
       initialDelay: DEFERRED_JOB_INTERNVAL_IN_MINUTES + 5,
       repeatInterval: DEFERRED_JOB_INTERNVAL_IN_MINUTES,
       disableSound: true,
