@@ -44,7 +44,7 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     const payload: NotificationPayload = {
       alertTitle: 'Notification.ReminderTitle',
       alertBody: 'Notification.ReminderBody',
-      initialDelay: DEFERRED_JOB_INTERNVAL_IN_MINUTES,
+      initialDelay: DEFERRED_JOB_INTERNVAL_IN_MINUTES + 5,
       repeatInterval: DEFERRED_JOB_INTERNVAL_IN_MINUTES,
       disableSound: true,
     };
