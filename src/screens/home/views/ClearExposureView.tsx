@@ -72,7 +72,7 @@ export const NegativeTestButton = () => {
 
   return (
     <Box>
-      <Box alignSelf="stretch" marginBottom="m">
+      <Box alignSelf="stretch">
         <ButtonSingleLine
           iconName="icon-chevron"
           text={i18n.translate('Home.ExposureDetected.NegativeTest.CTA')}
