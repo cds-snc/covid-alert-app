@@ -23,6 +23,7 @@ import {TestScreen} from 'screens/testScreen';
 import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
+import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 
 const MainStack = createStackNavigator();
 
@@ -81,6 +82,7 @@ const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScr
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const TestScreenWithNavBar = withDarkNav(TestScreen);
 const ErrorScreenWithNavBar = withDarkNav(ErrorScreen);
+const DismissAlertScreenWithNavBar = withDarkNav(DismissAlertScreen);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
@@ -145,6 +147,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="DataSharing" component={DataSharingNavigator} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
+      <MainStack.Screen name="DismissAlert" component={DismissAlertScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
       <MainStack.Screen name="ErrorScreen" component={ErrorScreenWithNavBar} />

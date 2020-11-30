@@ -9,8 +9,8 @@ import {ExposedHelpButton} from 'components/ExposedHelpButton';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
-// import {ExposureDateView} from './ExposureDateView';
-// import {ClearExposureView} from './ClearExposureView';
+import {ExposureDateView} from './ExposureDateView';
+import {ClearExposureView} from './ClearExposureView';
 
 const ActiveContent = ({text}: {text: string}) => {
   if (text === '') {
@@ -33,7 +33,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
         {i18n.translate('Home.ExposureDetected.Title')}
       </Text>
       <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
-      {/* <ExposureDateView /> */}
+      <ExposureDateView />
 
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.ExposureDetected.Title2')}
@@ -53,7 +53,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
     <BaseHomeView iconName="hand-caution" testID="exposure">
       <ExposureText isBottomSheetExpanded={isBottomSheetExpanded} />
       <ExposedHelpButton />
-      {/* <ClearExposureView /> */}
+      <ClearExposureView />
     </BaseHomeView>
   );
 };
