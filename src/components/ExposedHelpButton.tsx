@@ -32,7 +32,7 @@ export const ExposedHelpButton = () => {
     return <ErrorBox marginTop="m" />;
   }
   return (
-    <Box alignSelf="stretch" marginTop="s" marginBottom={regionActive ? 'xxl' : 'm'}>
+    <Box alignSelf="stretch" marginTop="s" marginBottom={regionActive ? 'm' : 'm'}>
       <ButtonSingleLine text={cta} variant="bigFlatPurple" externalLink onPress={onPress} />
     </Box>
   );

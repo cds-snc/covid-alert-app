@@ -10,7 +10,7 @@ import {ExposedHelpButton} from 'components/ExposedHelpButton';
 import {BaseHomeView} from '../components/BaseHomeView';
 
 import {ExposureDateView} from './ExposureDateView';
-import {ClearExposureView} from './ClearExposureView';
+import {NegativeTestButton} from './ClearExposureView';
 
 const ActiveContent = ({text}: {text: string}) => {
   if (text === '') {
@@ -53,7 +53,7 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
     <BaseHomeView iconName="hand-caution" testID="exposure">
       <ExposureText isBottomSheetExpanded={isBottomSheetExpanded} />
       <ExposedHelpButton />
-      <ClearExposureView />
+      <NegativeTestButton />
     </BaseHomeView>
   );
 };

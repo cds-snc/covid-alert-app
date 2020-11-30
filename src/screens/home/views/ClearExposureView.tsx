@@ -24,6 +24,7 @@ export const DismissAlertScreen = () => {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
         onPress: () => {
           clearExposedStatus();
+          close();
         },
         style: 'default',
       },
@@ -47,6 +48,9 @@ export const DismissAlertScreen = () => {
                 {i18n.translate('Home.ExposureDetected.Dismiss.Title')}
               </Text>
 
+              <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Dismiss.Body')}</Text>
+              <Text marginBottom="l">{i18n.translate('Home.ExposureDetected.Dismiss.Body2')}</Text>
+
               <ButtonSingleLine
                 text={i18n.translate('Home.ExposureDetected.Dismiss.CTA')}
                 onPress={onClearExposedState}
@@ -60,7 +64,7 @@ export const DismissAlertScreen = () => {
   );
 };
 
-export const ClearExposureView = () => {
+export const NegativeTestButton = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
 
@@ -68,20 +72,12 @@ export const ClearExposureView = () => {
 
   return (
     <Box>
-      <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate('Home.ExposureDetected.Dismiss.Title')}
-      </Text>
-
-      <Text marginBottom="m">
-        <Text>{i18n.translate('Home.ExposureDetected.Dismiss.Body')}</Text>
-      </Text>
-
-      <Box alignSelf="stretch" marginTop="s" marginBottom="m">
+      <Box alignSelf="stretch" marginBottom="m">
         <ButtonSingleLine
-          iconName="icon-check-white"
-          text={i18n.translate('Home.ExposureDetected.Dismiss.CTA')}
+          iconName="icon-chevron"
+          text={i18n.translate('Home.ExposureDetected.NegativeTest.CTA')}
           onPress={onDismissAlert}
-          variant="bigFlatPurple"
+          variant="exposure25"
         />
       </Box>
     </Box>
