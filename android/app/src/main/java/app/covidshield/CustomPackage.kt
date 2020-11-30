@@ -3,6 +3,7 @@ package app.covidshield
 import android.content.Intent
 import android.view.View
 import app.covidshield.module.CovidShieldModule
+import app.covidshield.module.ExposureCheckModule
 import app.covidshield.module.ExposureNotificationModule
 import app.covidshield.module.PushNotificationModule
 import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
@@ -21,7 +22,8 @@ class CustomPackage : ReactPackage, ActivityResultHelper, ExposureNotificationBr
         val nativeModules = mutableListOf<NativeModule>(
             ExposureNotificationModule(reactContext),
             PushNotificationModule(reactContext),
-            CovidShieldModule(reactContext)
+            CovidShieldModule(reactContext),
+            ExposureCheckModule(reactContext)
         )
         this.nativeModules = nativeModules
         return nativeModules

@@ -12,7 +12,7 @@ import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUT
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
-import {Platform} from 'react-native';
+import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
 
@@ -122,7 +122,18 @@ export class ExposureNotificationService {
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
+
+    DeviceEventEmitter.addListener('initiateExposureCheck', this.initiateExposureCheck);
   }
+
+  initiateExposureCheck = async () => {
+    captureMessage('initiateExposureCheck event');
+    try {
+      await this.updateExposureStatusInBackground();
+    } catch (error) {
+      captureException('runPeriodicTask', error);
+    }
+  };
 
   async start(): Promise<boolean> {
     if (this.starting) {
@@ -229,6 +240,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(forceCheck = false): Promise<void> {
+    captureMessage('updateExposureStatus');
     if (!forceCheck && !(await this.shouldPerformExposureCheck())) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
@@ -237,9 +249,11 @@ export class ExposureNotificationService {
     };
     switch (EN_API_VERSION) {
       case '2':
+        captureMessage('updateExposureStatus', {message: 'Using API 2'});
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdateV2().then(cleanUpPromise, cleanUpPromise);
         break;
       default:
+        captureMessage('updateExposureStatus', {message: 'Using API 1'});
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
         break;
     }
@@ -475,10 +489,12 @@ export class ExposureNotificationService {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
+    /*
     if (this.systemStatus.get() !== SystemStatus.Active) {
       captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
       return false;
     }
+    */
     if (!onboardedDatetime) {
       // Do not perform Exposure Checks if onboarding is not completed.
       captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');

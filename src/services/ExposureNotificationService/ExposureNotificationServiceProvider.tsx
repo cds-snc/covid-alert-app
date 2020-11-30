@@ -6,7 +6,6 @@ import {AppState, AppStateStatus, Platform} from 'react-native';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
-import PushNotification, {NotificationPayload} from 'bridge/PushNotification';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -61,16 +60,6 @@ export const ExposureNotificationServiceProvider = ({
     const onAppStateChange = async (newState: AppStateStatus) => {
       captureMessage(`ExposureNotificationServiceProvider onAppStateChange: ${newState}`);
       if (newState !== 'active') return;
-      if (Platform.OS === 'android' && Platform.Version >= 28) {
-        const notificationPayload: NotificationPayload = {
-          alertTitle: i18n.translate('Notification.ReminderTitle'),
-          alertBody: i18n.translate('Notification.ReminderBody'),
-          initialDelay: 0,
-          repeatInterval: 240,
-          disableSound: true,
-        };
-        PushNotification.presentLocalNotification(notificationPayload);
-      }
       exposureNotificationService.updateExposure();
       await exposureNotificationService.updateExposureStatus();
     };
