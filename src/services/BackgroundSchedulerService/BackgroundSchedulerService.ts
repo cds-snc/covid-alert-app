@@ -4,7 +4,7 @@ import {TEST_MODE} from 'env';
 import {captureException, captureMessage} from 'shared/log';
 
 import {scheduleExposureCheck} from '../../bridge/ExposureCheck';
-import {NotificationPayload} from "../../bridge/PushNotification";
+import {NotificationPayload} from '../../bridge/PushNotification';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
