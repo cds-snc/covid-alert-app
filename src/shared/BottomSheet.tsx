@@ -1,3 +1,8 @@
+/* tslint:disable */
+
+// Code was modified to add shadow
+// original src: https://github.com/osdnk/react-native-reanimated-bottom-sheet/tree/master/src
+
 import * as React from 'react';
 import {Dimensions, Platform, View, LayoutChangeEvent} from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -728,7 +733,7 @@ export default class BottomSheetBehavior extends React.Component<Props, State> {
                 },
                 shadowOpacity: 0.3,
                 shadowRadius: 10,
-                elevation: 20,
+                elevation: 10,
               }
             }
           >
