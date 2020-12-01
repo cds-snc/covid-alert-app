@@ -1,8 +1,7 @@
 import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, ButtonSingleLine, Toolbar} from 'components';
-import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useClearExposedStatus} from 'services/ExposureNotificationService';
 import {useI18n} from 'locale';
@@ -29,7 +28,7 @@ export const DismissAlertScreen = () => {
         style: 'default',
       },
     ]);
-  }, [clearExposedStatus, i18n]);
+  }, [clearExposedStatus, close, i18n]);
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>

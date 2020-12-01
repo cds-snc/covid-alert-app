@@ -21,9 +21,9 @@ import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
 import {TestScreen} from 'screens/testScreen';
 import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
+import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
-import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 
 const MainStack = createStackNavigator();
 
