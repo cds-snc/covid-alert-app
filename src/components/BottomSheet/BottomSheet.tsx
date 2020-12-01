@@ -2,7 +2,7 @@ import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useMemo,
 import {StyleSheet, useWindowDimensions, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useSafeArea} from 'react-native-safe-area-context';
-import BottomSheetRaw from 'reanimated-bottom-sheet';
+import BottomSheetRaw from 'shared/BottomSheet';
 import {useOrientation} from 'shared/useOrientation';
 
 import {Box} from '../Box';
