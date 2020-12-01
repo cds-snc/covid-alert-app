@@ -12,11 +12,6 @@ interface PeriodicTask {
   (): Promise<void>;
 }
 
-interface Options {
-  alertTitle?: string;
-  alertBody?: string;
-}
-
 // See https://github.com/cds-snc/covid-shield-mobile/issues/642#issuecomment-657783192
 export const DEFERRED_JOB_INTERVAL_IN_MINUTES = 240;
 const EXACT_JOB_INTERVAL_IN_MINUTES = 90;
