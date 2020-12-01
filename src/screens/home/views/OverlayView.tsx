@@ -268,7 +268,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               </Box>
             )}
 
-            <Box marginBottom="m" marginTop="xl" marginHorizontal="m">
+            <Box marginBottom="m" marginTop={userStopped ? 's' : 'xl'} marginHorizontal="m">
               <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
             </Box>
 
