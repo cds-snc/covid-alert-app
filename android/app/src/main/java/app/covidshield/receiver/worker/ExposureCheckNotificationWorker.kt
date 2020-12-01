@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
@@ -22,16 +23,17 @@ import kotlinx.coroutines.delay
 private const val CHANNEL_ID = "COVID Alert Exposure Checks"
 private const val CHANNEL_NAME = "COVID Alert Exposure Checks"
 
-class ExposureCheckWorker (private val context: Context, parameters: WorkerParameters) :
+class ExposureCheckNotificationWorker (private val context: Context, parameters: WorkerParameters) :
         CoroutineWorker(context, parameters) {
 
     private val notificationManager: NotificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     override suspend fun doWork(): Result {
 
-        val reactApplication = applicationContext as? ReactApplication ?: return Result.success()
+        val reactApplication = applicationContext as? ReactApplication
+                ?: return Result.success()
         val reactInstanceManager = reactApplication.reactNativeHost.reactInstanceManager
-        reactInstanceManager.currentReactContext?.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("initiateExposureCheck", "data")
+        reactInstanceManager.currentReactContext?.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
 
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -40,11 +42,12 @@ class ExposureCheckWorker (private val context: Context, parameters: WorkerParam
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
         val notification = NotificationCompat.Builder(context, "1")
                 .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_detect_icon))
+                .setContentTitle(inputData.getString("title"))
                 .setContentText(inputData.getString("body"))
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             notification.setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_MAX))
         }
 

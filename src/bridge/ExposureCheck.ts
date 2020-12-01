@@ -1,9 +1,11 @@
 import {NativeModules} from 'react-native';
 
-import {NotificationPayload} from './PushNotification';
+import {NotificationPayload, PeriodicWorkPayload} from './PushNotification';
 
 const ExposureCheckBridgeBare = NativeModules.ExposureCheck as {
-  scheduleExposureCheck(payload: NotificationPayload): Promise<any>;
+  scheduleExposureCheck(payload: PeriodicWorkPayload): Promise<any>;
+  executeExposureCheck(payload: NotificationPayload): Promise<any>;
 };
 
 export const scheduleExposureCheck = ExposureCheckBridgeBare.scheduleExposureCheck;
+export const executeExposureCheck = ExposureCheckBridgeBare.executeExposureCheck;

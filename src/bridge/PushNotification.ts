@@ -1,13 +1,17 @@
 import {NativeModules, Platform} from 'react-native';
 import RNPushNotification, {PushNotificationPermissions} from '@react-native-community/push-notification-ios';
 
-export interface NotificationPayload {
-  alertTitle: string;
-  alertBody: string;
+export interface PeriodicWorkPayload {
   repeatInterval?: number;
   flexInterval?: number;
   initialDelay?: number;
+}
+
+export interface NotificationPayload {
+  alertTitle: string;
+  alertBody: string;
   disableSound?: boolean;
+  shouldPerformExposureCheck?: boolean;
 }
 
 interface PushNotificationInterface {

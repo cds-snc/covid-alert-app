@@ -4,7 +4,7 @@ import {TEST_MODE} from 'env';
 import {captureException, captureMessage} from 'shared/log';
 
 import {scheduleExposureCheck} from '../../bridge/ExposureCheck';
-import {NotificationPayload} from '../../bridge/PushNotification';
+import {PeriodicWorkPayload} from '../../bridge/PushNotification';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
@@ -46,12 +46,9 @@ const registerPeriodicTask = async (task: PeriodicTask, options?: Options) => {
     );
     captureMessage('registerPeriodicTask', {result});
   } else {
-    const payload: NotificationPayload = {
-      alertTitle: options?.alertTitle || '',
-      alertBody: options?.alertBody || '',
+    const payload: PeriodicWorkPayload = {
       initialDelay: DEFERRED_JOB_INTERNVAL_IN_MINUTES + 5,
       repeatInterval: DEFERRED_JOB_INTERNVAL_IN_MINUTES,
-      disableSound: true,
     };
     await scheduleExposureCheck(payload);
   }

@@ -7,7 +7,7 @@ import ExposureNotification, {
   ScanInstance,
   Infectiousness,
 } from 'bridge/ExposureNotification';
-import PushNotification from 'bridge/PushNotification';
+import PushNotification, {NotificationPayload} from 'bridge/PushNotification';
 import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
@@ -19,6 +19,8 @@ import {EN_API_VERSION} from 'env';
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 import {Key} from '../StorageService';
+import {executeExposureCheck} from '../../bridge/ExposureCheck';
+import {log} from '../../shared/logging/config';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
@@ -128,11 +130,25 @@ export class ExposureNotificationService {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
 
-    DeviceEventEmitter.addListener('initiateExposureCheck', this.initiateExposureCheck);
+    DeviceEventEmitter.addListener('initiateExposureCheckEvent', this.initiateExposureCheckEvent);
+    DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
   }
 
-  initiateExposureCheck = async () => {
-    captureMessage('initiateExposureCheck event');
+  initiateExposureCheckEvent = async () => {
+    log.background('initiateExposureCheck');
+    if (await this.shouldPerformExposureCheck()) {
+      const payload: NotificationPayload = {
+        alertTitle: this.i18n.translate('Notification.ReminderTitle'),
+        alertBody: this.i18n.translate('Notification.ReminderBody'),
+        disableSound: true,
+        shouldPerformExposureCheck: true,
+      };
+      executeExposureCheck(payload);
+    }
+  };
+
+  executeExposureCheckEvent = async () => {
+    captureMessage('executeExposureCheckEvent');
     try {
       await this.updateExposureStatusInBackground();
     } catch (error) {

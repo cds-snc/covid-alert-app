@@ -14,10 +14,11 @@ const config = {
   },
   severity: LOG_LEVEL,
   levels: {
-    status: 0,
-    debug: 1,
-    info: 2,
-    error: 3,
+    status: 5,
+    debug: 10,
+    background: 11,
+    info: 15,
+    error: 20,
   },
 };
 
