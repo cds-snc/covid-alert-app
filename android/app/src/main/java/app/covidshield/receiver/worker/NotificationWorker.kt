@@ -33,7 +33,7 @@ class NotificationWorker(private val context: Context, parameters: WorkerParamet
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val notification = NotificationCompat.Builder(context, "1")
-                .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_detect_icon))
+                .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_notification_icon))
                 .setContentTitle(inputData.getString("title"))
                 .setContentText(inputData.getString("body"))
                 .setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_MAX))
