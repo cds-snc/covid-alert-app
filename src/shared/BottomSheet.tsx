@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 
 // Code was modified to add shadow
 // original src: https://github.com/osdnk/react-native-reanimated-bottom-sheet/tree/master/src
