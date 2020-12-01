@@ -21,7 +21,7 @@ interface Options {
 export const DEFERRED_JOB_INTERVAL_IN_MINUTES = 240;
 const EXACT_JOB_INTERVAL_IN_MINUTES = 90;
 
-const registerPeriodicTask = async (task: PeriodicTask, options?: Options) => {
+const registerPeriodicTask = async (task: PeriodicTask) => {
   if (Platform.OS === 'ios') {
     BackgroundFetch.configure(
       {
