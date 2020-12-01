@@ -711,21 +711,26 @@ export default class BottomSheetBehavior extends React.Component<Props, State> {
               {this.props.renderHeader && this.props.renderHeader()}
             </Animated.View>
           </PanGestureHandler>
+
           <View
-            style={{
-              height: this.state.initSnap - this.state.heightOfHeader,
-              borderTopLeftRadius: borderRadius,
-              borderTopRightRadius: borderRadius,
-              backgroundColor: 'green',
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 5,
-              },
-              shadowOpacity: 0.9,
-              shadowRadius: 10,
-              elevation: 5,
-            }}
+            style={
+              this.props.enabledInnerScrolling && {
+                height: this.state.initSnap - this.state.heightOfHeader,
+                //overflow: this.props.overflow || 'hidden',
+                paddingTop: 25,
+                borderTopLeftRadius: borderRadius,
+                borderTopRightRadius: borderRadius,
+                backgroundColor: 'white',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 5,
+                },
+                shadowOpacity: 0.3,
+                shadowRadius: 10,
+                elevation: 20,
+              }
+            }
           >
             <PanGestureHandler
               enabled={this.props.enabledGestureInteraction && this.props.enabledContentGestureInteraction}
@@ -753,7 +758,17 @@ export default class BottomSheetBehavior extends React.Component<Props, State> {
                     }}
                     onLayout={this.handleLayoutContent}
                   >
-                    {this.props.renderContent && this.props.renderContent()}
+                    <View
+                      style={{
+                        overflow: 'hidden',
+                        marginTop: -25,
+                        borderTopLeftRadius: 50,
+                        borderTopRightRadius: 50,
+                        backgroundColor: 'transparent',
+                      }}
+                    >
+                      {this.props.renderContent && this.props.renderContent()}
+                    </View>
                   </Animated.View>
                 </TapGestureHandler>
               </Animated.View>
