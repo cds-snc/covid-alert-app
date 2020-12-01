@@ -35,6 +35,11 @@ jest.mock('../../bridge/PushNotification', () => ({
   presentLocalNotification: jest.fn(),
 }));
 
+jest.mock('../../bridge/ExposureCheck', () => ({
+  scheduleExposureCheck: jest.fn(),
+  executeExposureCheck: jest.fn(),
+}));
+
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),

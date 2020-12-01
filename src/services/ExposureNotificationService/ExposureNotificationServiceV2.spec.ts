@@ -21,6 +21,11 @@ jest.mock('react-native-background-fetch', () => {
   };
 });
 
+jest.mock('../../bridge/ExposureCheck', () => ({
+  scheduleExposureCheck: jest.fn(),
+  executeExposureCheck: jest.fn(),
+}));
+
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),
