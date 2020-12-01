@@ -17,7 +17,7 @@ import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
-import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
+import {DEFERRED_JOB_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 import {Key} from '../StorageService';
 import {executeExposureCheck} from '../../bridge/ExposureCheck';
 import {log} from '../../shared/logging/config';
@@ -563,7 +563,7 @@ export class ExposureNotificationService {
     if (lastCheckedTimestamp) {
       captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
       const lastCheckedDate = new Date(lastCheckedTimestamp);
-      if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
+      if (minutesBetween(lastCheckedDate, today) < DEFERRED_JOB_INTERVAL_IN_MINUTES) {
         captureMessage('shouldPerformExposureCheck - Too soon to check.');
         return false;
       }

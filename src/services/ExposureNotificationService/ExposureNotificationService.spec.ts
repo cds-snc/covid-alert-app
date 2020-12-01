@@ -6,7 +6,7 @@ import {periodSinceEpoch} from '../../shared/date-fns';
 import {ExposureSummary} from '../../bridge/ExposureNotification';
 import PushNotification from '../../bridge/PushNotification';
 import {Key} from '../StorageService';
-import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
+import {DEFERRED_JOB_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 
 import {
   ExposureNotificationService,
@@ -688,7 +688,7 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Monitoring,
         lastChecked: {
           period,
-          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+          timestamp: today.getTime() - DEFERRED_JOB_INTERVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
         },
       });
 
