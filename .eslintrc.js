@@ -23,6 +23,7 @@ module.exports = {
     camelcase: 'off',
     'no-extend-native': 'off',
     'max-params': 'off',
+    'eslint-comments/no-unlimited-disable': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     'max-len': [
       'error',
