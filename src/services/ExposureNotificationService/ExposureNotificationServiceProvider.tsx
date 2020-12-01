@@ -53,15 +53,9 @@ export const ExposureNotificationServiceProvider = ({
   );
 
   useEffect(() => {
-    backgroundScheduler.registerPeriodicTask(
-      async () => {
-        await exposureNotificationService.updateExposureStatusInBackground();
-      },
-      {
-        alertTitle: i18n.translate('Notification.ReminderTitle'),
-        alertBody: i18n.translate('Notification.ReminderBody'),
-      },
-    );
+    backgroundScheduler.registerPeriodicTask(async () => {
+      await exposureNotificationService.updateExposureStatusInBackground();
+    });
   }, [backgroundScheduler, exposureNotificationService]);
 
   useEffect(() => {
