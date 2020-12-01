@@ -1,5 +1,6 @@
 import React from 'react';
 import IconCheck from 'assets/check.svg';
+import IconCheckWhite from 'assets/check-white.svg';
 import IconGreenCheck from 'assets/green-check.svg';
 import Ellipsis from 'assets/ellipsis.svg';
 import HeaderLogoRings from 'assets/header-logo-rings.svg';
@@ -58,6 +59,7 @@ const ICONS = {
   'icon-bluetooth-disabled': IconBluetoothDisabled,
   'icon-bluetooth-off': IconBluetoothOff,
   'icon-check': IconCheck,
+  'icon-check-white': IconCheckWhite,
   'icon-green-check': IconGreenCheck,
   'icon-chevron': IconChevron,
   'icon-chevron-back': IconChevronBack,

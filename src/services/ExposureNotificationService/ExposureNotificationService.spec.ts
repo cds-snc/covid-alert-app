@@ -54,6 +54,7 @@ const secureStorage: any = {
 };
 const bridge: any = {
   detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
+  activate: jest.fn().mockResolvedValue(undefined),
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
   getStatus: jest.fn().mockResolvedValue('active'),
@@ -312,6 +313,48 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
+  });
+
+  it('ignores exposed summaries if they are not more recent than ignored summary', async () => {
+    const summary1 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 7,
+      attenuationDurations: [20, 0, 0],
+      os: 'ios',
+    });
+
+    const summary2 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 7,
+      attenuationDurations: [20, 0, 0],
+      os: 'ios',
+    });
+
+    const summary3 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 8,
+      attenuationDurations: [22, 0, 0],
+      os: 'ios',
+    });
+
+    const summary4 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 6,
+      attenuationDurations: [22, 0, 0],
+      os: 'ios',
+    });
+
+    const ignoredSummaries = [summary1];
+
+    service.exposureStatus.append({ignoredSummaries});
+
+    expect(service.isIgnoredSummary(summary2)).toStrictEqual(true);
+    expect(service.isIgnoredSummary(summary3)).toStrictEqual(true);
+    expect(service.isIgnoredSummary(summary4)).toStrictEqual(false);
   });
 
   it('backfills the right amount of keys for current day', async () => {
@@ -837,16 +880,6 @@ describe('ExposureNotificationService', () => {
   });
 
   describe('shouldPerformExposureCheck', () => {
-    it('returns false if System is not active', async () => {
-      service.systemStatus.set(SystemStatus.Undefined);
-
-      expect(service.systemStatus.get()).toStrictEqual(SystemStatus.Undefined);
-
-      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
-
-      expect(shouldPerformExposureCheck).toStrictEqual(false);
-    });
-
     it('returns false if not onboarded', async () => {
       when(storage.getItem)
         .calledWith(Key.OnboardedDatetime)

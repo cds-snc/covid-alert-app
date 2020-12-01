@@ -36,33 +36,43 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-  if (self.enManager) return;
+RCT_REMAP_METHOD(activate, activateWithCompletionHandler:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  if (self.enManager) {
+    resolve(nil);
+    return;
+  };
+
   self.enManager = [ENManager new];
 
   [self.enManager activateWithCompletionHandler:^(NSError * _Nullable error) {
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
     } else {
-      [self.enManager setExposureNotificationEnabled:YES completionHandler:^(NSError * _Nullable error) {
-        if (error) {
-          reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
-        } else {
-          resolve(nil);
-        }
-      }];
+      resolve(nil);
+    }
+  }];
+}
+
+RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [self.enManager setExposureNotificationEnabled:YES completionHandler:^(NSError * _Nullable error) {
+    if (error) {
+      reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+    } else {
+      resolve(nil);
     }
   }];
 }
 
 RCT_REMAP_METHOD(stop, stopWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-  [self.enManager setInvalidationHandler:^{
-    resolve(nil);
+  [self.enManager setExposureNotificationEnabled:NO completionHandler:^(NSError * _Nullable error) {
+    if (error) {
+      reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+    } else {
+      resolve(nil);
+    }
   }];
-  [self.enManager invalidate];
-  self.enManager = nil;
 }
 
 RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
@@ -154,7 +164,7 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
     return;
   }
-  
+
   ENExposureConfiguration *configuration = [ENExposureConfiguration new];
 
   if (configDict[@"metadata"]) {
@@ -164,7 +174,7 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
   if (configDict[@"minimumRiskScore"]) {
     configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
   }
-  
+
   if (configDict[@"attenuationDurationThresholds"]) {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 13.6) {
       configuration.attenuationDurationThresholds = mapIntValues(configDict[@"attenuationDurationThresholds"]);
@@ -172,11 +182,11 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
       configuration.metadata = @{@"attenuationDurationThresholds": mapIntValues(configDict[@"attenuationDurationThresholds"])};
     }
   }
-  
+
   if (configDict[@"attenuationLevelValues"]) {
     configuration.attenuationLevelValues = mapIntValues(configDict[@"attenuationLevelValues"]);
   }
-  
+
   if (configDict[@"attenuationWeight"]) {
     configuration.attenuationWeight = [configDict[@"attenuationWeight"] doubleValue];
   }
@@ -227,4 +237,4 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
 }
 
 @end
-  
+

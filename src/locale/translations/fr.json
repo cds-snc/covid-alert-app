@@ -37,7 +37,7 @@
     },
     "Step2": {
       "Title1": "Vous sentez-vous malade?",
-      "Body1": "Symptômes possibles :",
+      "Body1": "Symptômes possibles :",
       "Symptoms": {
         "1": "Toux ou difficultés respiratoires.",
         "2": "Fièvre ou frissons.",
@@ -67,7 +67,7 @@
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
-      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires les plus récents.",
+      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires les plus récents.",
       "Body2a": "Personne ne recevra d’information sur vous ",
       "Body2b": "ou sur le moment de votre proximité.",
       "Body3": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
@@ -104,7 +104,7 @@
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
-        "Body": "Les personnes de votre région ne peuvent pas encore obtenir de clé à usage unique.\n\nVous ne pourrez pas aviser les personnes d’une exposition. Mais vous pouvez tout de même vous isoler pendant 14\u00A0jours, et ainsi :",
+        "Body": "Les personnes de votre région ne peuvent pas encore obtenir de clé à usage unique.\n\nVous ne pourrez pas aviser les personnes d’une exposition. Mais vous pouvez tout de même vous isoler pendant 14\u00A0jours, et ainsi :",
         "Body2": "Assurer la sécurité de votre communauté.",
         "Body3": "Protéger les personnes et les animaux vivant avec vous.",
         "Body4": "Prendre soin de vous."
@@ -167,6 +167,10 @@
     "BluetoothDisabled": "Bluetooth désactivé",
     "CTA": "Prochaines étapes",
     "ChooseRegionCTA": "Sélectionnez une province ou un territoire",
+    "UserStopped": {
+      "Title": "Vous avez désactivé l’application",
+      "CTA": "Réactiver"
+    },
     "DiagnosedView": {
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
@@ -182,16 +186,29 @@
     "DiagnosedShareView": {
       "Title": "Téléverser les codes aléatoires",
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel : ",
+      "Body2": "Rappel : ",
       "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
       "Title": "Vous avez été exposé",
-      "Body1": "Au cours des 14 derniers jours, vous avez côtoyé une personne qui a signalé un diagnostic de COVID-19.",
-      "Title2": "Que faire maintenant?",
-      "Body2": "Vous pourriez avoir contracté le virus."
+      "Body1": "Vous avez côtoyé au moins une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Le contact a duré 15 minutes ou plus.",
+      "Title2": "Et ensuite?",
+      "Body2": "Vous pourriez avoir contracté le virus.",
+      "Notification": {
+        "Received": "Date de la notification"
+      },
+      "Dismiss": {
+        "Title": "Résultat négatif au test de dépistage?",
+        "Body": "Vous pouvez mettre fin à l’alerte pour continuer à recevoir des notifications d’exposition. Aucune information d’exposition ne sera supprimée des paramètres de votre téléphone.",
+        "CTA": "Mettre fin à l’alerte",
+        "Confirm": {
+          "Body": "Voulez-vous vraiment mettre fin à l’alerte?",
+          "Accept": "Oui, mettre fin à l’alerte",
+          "Cancel": "Annuler"
+        }
+      }
     },
     "ExposedHelpCTA": "Que faire en cas d’exposition",
     "EnUnauthorized": {
@@ -261,6 +278,16 @@
   },
   "Info": {
     "ChangeLanguage": "Modifier la langue",
+    "ToggleCovidAlert": {
+      "TurnOff": "Désactiver Alerte COVID",
+      "TurnOn": "Réactiver Alerte COVID",
+      "Confirm": {
+        "Title": "Désactiver Alert COVID?",
+        "Body": "Veillez à porter un équipement de protection individuelle (ÉPI) médical ou à ne côtoyer que les membres de votre ménage. Une fois désactivée, l’application ne pourra plus enregistrer d’expositions.",
+        "Cancel": "Ne pas désactiver",
+        "Accept": "Désactiver"
+      }
+    },
     "ChangeRegion": "Modifier la province ou le territoire",
     "CheckSymptoms": "Vérifier vos symptômes",
     "LearnMore": "Fonctionnement",
@@ -298,7 +325,9 @@
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
     "OffMessageTitle": "Alerte COVID est désactivée",
     "ReminderTitle": "Alerte COVID",
-    "ReminderBody": "Vérification d’exposition en cours"
+    "ReminderBody": "Vérification d’exposition en cours",
+    "PausedMessageTitle": "Vous avez désactivé l’application",
+    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée."
   },
   "Onboarding": {
     "Step": "Étape",
@@ -335,7 +364,7 @@
       "ImageAltText": "Dessin à la main de 3 téléphones mobiles émettant des codes aléatoires en utilisant Bluetooth.",
       "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
       "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
-      "Body3": "Si vous avez côtoyé l’une de ces personnes au cours des 14 derniers jours, vous recevrez une notification.",
+      "Body3": "Si vous avez côtoyé l’une de ces personnes au cours des 14 derniers jours, vous recevrez une notification.",
       "HowItWorksCTA": "En savoir plus sur le fonctionnement"
     },
     "PartOf": {
@@ -371,6 +400,11 @@
     "EnterCodeCardDiagnosedCountdown": {
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
+    },
+    "TurnAppBackOn": {
+      "Title": "Réactiver Alerte COVID",
+      "Body": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
+      "CTA": "Réactiver"
     },
     "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
     "ExposureNotificationCardAction": "Activez les notifications d’exposition",
@@ -438,7 +472,7 @@
     "step-1": "L’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
     "step-1Title": "Fonctionnement d’Alerte COVID",
     "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
-    "step-2": "L’application estime la distance entre deux personnes grâce à la puissance des signaux Bluetooth.\n\nPour que l’application enregistre une exposition, un contact doit :\n• Avoir lieu à moins de 2 mètres.\n• Durer au moins 15 minutes.\n• Avoir lieu quand l’autre personne est probablement le plus contagieuse.",
+    "step-2": "L’application estime la distance entre deux personnes grâce à la puissance des signaux Bluetooth.\n\nPour que l’application enregistre une exposition, un contact doit :\n• Avoir lieu à moins de 2 mètres.\n• Durer au moins 15 minutes.\n• Avoir lieu quand l’autre personne est probablement le plus contagieuse.",
     "step-2Title": "Qu’est-ce qu’une exposition?",
     "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
     "step-3": "Si une personne ayant l’application reçoit un diagnostic de COVID-19, elle peut décider de téléverser les codes aléatoires émis par son téléphone.\n\nLa personne peut aussi fournir quelques précisions pour déterminer la période où elle était probablement le plus contagieuse. Cette période indique au téléphone les codes aléatoires qu’il faut téléverser.\n\nLes codes aléatoires sont envoyés vers un serveur central. Celui-ci ne reçoit aucun autre renseignement.",

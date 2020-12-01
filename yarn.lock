@@ -1331,13 +1331,6 @@
     react-is "^16.13.0"
     use-subscription "^1.4.0"
 
-"@react-navigation/drawer@^5.8.6":
-  version "5.8.6"
-  resolved "https://registry.yarnpkg.com/@react-navigation/drawer/-/drawer-5.8.6.tgz#390f4dc267f833cc4f5f12ce535a916ad295561f"
-  dependencies:
-    color "^3.1.2"
-    react-native-iphone-x-helper "^1.2.1"
-
 "@react-navigation/native@^5.7.1":
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-5.7.1.tgz#5a59be6f7c1bf4cdf5e16625bf59688aeab808f8"
@@ -6937,6 +6930,11 @@ react-native-linear-gradient@^2.5.6:
 react-native-localize@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-1.4.0.tgz#4653596d066d0941c48f5404dc1c0d08b6950443"
+
+react-native-logs@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-logs/-/react-native-logs-2.2.1.tgz#ede856bae603957d6796e805e130a288e11b749d"
+  integrity sha512-yWS2sPy3ZksYBt9C6Ga7YkBWOFT3E/onLluyci42iv29MWcQim0i59vUmZgIFgg2NwC04IQi04xfK5GiSZvyrQ==
 
 react-native-markdown-display@^6.1.0:
   version "6.1.0"

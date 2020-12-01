@@ -54,12 +54,15 @@ export type ExposureStatus =
   | {
       type: ExposureStatusType.Monitoring;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     }
   | {
       type: ExposureStatusType.Exposed;
       summary: ExposureSummary;
       notificationSent?: boolean;
+      exposureDetectedAt?: number;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     }
   | {
       type: ExposureStatusType.Diagnosed;
@@ -69,6 +72,7 @@ export type ExposureStatus =
       cycleStartsAt: number;
       cycleEndsAt: number;
       lastChecked?: LastChecked;
+      ignoredSummaries?: ExposureSummary[];
     };
 
 export interface PersistencyProvider {
@@ -97,6 +101,7 @@ export class ExposureNotificationService {
   exposureStatusUpdatePromise: Promise<void> | null = null;
 
   private starting = false;
+  private stopping = false;
 
   private exposureNotification: typeof ExposureNotification;
   private backendInterface: BackendInterface;
@@ -135,18 +140,49 @@ export class ExposureNotificationService {
     }
   };
 
-  async start(): Promise<boolean> {
+  async start(): Promise<{success: boolean; error?: string}> {
     if (this.starting) {
-      return true;
+      return {success: true};
     }
 
     this.starting = true;
 
-    await this.loadExposureStatus();
-    await this.exposureNotification.start();
+    try {
+      await this.loadExposureStatus();
+      if (Platform.OS === 'ios') {
+        await this.exposureNotification.activate();
+      }
+      await this.exposureNotification.start();
+      await this.updateSystemStatus();
+      this.starting = false;
+      return {success: true};
+    } catch (error) {
+      this.starting = false;
+      await this.updateSystemStatus();
+      captureException('Failed to start framework', error);
+      return {success: false, error};
+    }
+  }
+
+  async stop(): Promise<boolean> {
+    if (this.stopping) {
+      return true;
+    }
+
+    this.stopping = true;
+
+    try {
+      captureMessage('Called stop EN framework');
+      await this.exposureNotification.stop();
+    } catch (error) {
+      captureException('Cannot stop EN framework', error);
+      return false;
+    }
+
+    captureMessage('Called stop + updateSystem Status EN framework');
     await this.updateSystemStatus();
 
-    this.starting = false;
+    this.stopping = false;
     return true;
   }
 
@@ -362,6 +398,18 @@ export class ExposureNotificationService {
     }
   }
 
+  async clearExposedStatus() {
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type === ExposureStatusType.Exposed) {
+      const summary = exposureStatus.summary;
+      const summaries = exposureStatus.ignoredSummaries ? exposureStatus.ignoredSummaries : [];
+      summaries.push(summary);
+      return this.finalize({type: ExposureStatusType.Monitoring, ignoredSummaries: summaries});
+    }
+
+    return this.finalize();
+  }
+
   public getTotalSeconds = (scanInstances: ScanInstance[]) => {
     const totalSeconds = scanInstances
       .map(scan => scan.secondsSinceLastScan)
@@ -489,12 +537,6 @@ export class ExposureNotificationService {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
-    /*
-    if (this.systemStatus.get() !== SystemStatus.Active) {
-      captureMessage(`shouldPerformExposureCheck - System Status: ${this.systemStatus.get()}`);
-      return false;
-    }
-    */
     if (!onboardedDatetime) {
       // Do not perform Exposure Checks if onboarding is not completed.
       captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
@@ -513,6 +555,44 @@ export class ExposureNotificationService {
     captureMessage('Should perform ExposureCheck.');
     return true;
   };
+
+  public getExposureDetectedAt(): number | undefined {
+    const exposureStatus = this.exposureStatus.get();
+    let timeStamp;
+
+    if (exposureStatus.type === ExposureStatusType.Exposed && exposureStatus.exposureDetectedAt) {
+      timeStamp = exposureStatus.exposureDetectedAt;
+    }
+
+    return timeStamp;
+  }
+
+  public isIgnoredSummary(summary: ExposureSummary): boolean {
+    const exposureStatus = this.exposureStatus.get();
+
+    const matches = exposureStatus.ignoredSummaries?.filter((ignoredSummary: ExposureSummary) => {
+      const daysBetween = daysBetweenUTC(
+        new Date(ignoredSummary.lastExposureTimestamp),
+        new Date(summary.lastExposureTimestamp),
+      );
+
+      captureMessage('isIgnoredSummary daysBetween', {daysBetween});
+      captureMessage('isIgnoredSummary', {ignoredSummary, summary});
+
+      // ignore summaries that are same day or older than ignored summary
+      if (daysBetween <= 0) {
+        return true;
+      }
+    });
+
+    captureMessage('isIgnoredSummary matches', {matches});
+
+    if (matches && matches.length >= 1) {
+      return true;
+    }
+
+    return false;
+  }
 
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
@@ -599,18 +679,24 @@ export class ExposureNotificationService {
     try {
       captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
       );
       if (summariesContainingExposures.length > 0) {
+        const summary = this.selectExposureSummary(summariesContainingExposures[0]);
+
+        // if (!this.isIgnoredSummary(summary)) {
         return this.finalize(
           {
             type: ExposureStatusType.Exposed,
-            summary: this.selectExposureSummary(summariesContainingExposures[0]),
+            summary,
+            exposureDetectedAt: getCurrentDate().getTime(),
           },
           lastCheckedPeriod,
         );
+        // }
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
