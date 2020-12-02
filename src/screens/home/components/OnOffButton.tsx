@@ -10,7 +10,6 @@ import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {BottomSheetBehavior} from 'components';
 import {useStorage} from 'services/StorageService';
-import {captureMessage} from 'shared/log';
 
 import {InfoShareItem} from './InfoShareItem';
 

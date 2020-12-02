@@ -4,7 +4,6 @@ import {useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
 import {TEST_MODE} from 'env';
-import {captureMessage} from 'shared/log';
 import {
   ExposureStatusType,
   SystemStatus,
