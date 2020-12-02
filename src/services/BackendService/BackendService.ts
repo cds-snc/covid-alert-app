@@ -19,6 +19,7 @@ import {Region, RegionContentResponse} from '../../shared/Region';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
+import {log} from '../../shared/logging/config';
 
 const MAX_UPLOAD_KEYS = 28;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
@@ -89,7 +90,7 @@ export class BackendService implements BackendInterface {
       await AsyncStorage.setItem(this.getRegionContentUrl(), JSON.stringify(payload));
       return {status: 200, payload};
     } catch (err) {
-      captureMessage('getRegionContent - fetch error', {err: err.message});
+      log.config('getRegionContent - fetch error', {err: err.message});
       return this.getStoredRegionContent();
     }
   }
@@ -101,7 +102,7 @@ export class BackendService implements BackendInterface {
     const exposureConfigurationUrl = EN_CONFIG_URL
       ? EN_CONFIG_URL
       : `${this.retrieveUrl}/exposure-configuration/${region}.json`;
-    captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
+    log.config('getExposureConfiguration', {exposureConfigurationUrl});
     return (await fetch(exposureConfigurationUrl, FETCH_HEADERS)).json();
   }
 
