@@ -13,14 +13,14 @@ interface PeriodicTask {
 }
 
 // See https://github.com/cds-snc/covid-shield-mobile/issues/642#issuecomment-657783192
-export const DEFERRED_JOB_INTERVAL_IN_MINUTES = 240;
-const EXACT_JOB_INTERVAL_IN_MINUTES = 90;
+export const PERIODIC_TASK_INTERVAL_IN_MINUTES = TEST_MODE ? 15 : 240;
+export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 2 : PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
 
 const registerPeriodicTask = async (task: PeriodicTask) => {
   if (Platform.OS === 'ios') {
     BackgroundFetch.configure(
       {
-        minimumFetchInterval: TEST_MODE ? EXACT_JOB_INTERVAL_IN_MINUTES : DEFERRED_JOB_INTERVAL_IN_MINUTES,
+        minimumFetchInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
         forceAlarmManager: false,
         enableHeadless: true,
         startOnBoot: true,
@@ -42,8 +42,8 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     captureMessage('registerPeriodicTask', {result});
   } else {
     const payload: PeriodicWorkPayload = {
-      initialDelay: DEFERRED_JOB_INTERVAL_IN_MINUTES + 5,
-      repeatInterval: DEFERRED_JOB_INTERVAL_IN_MINUTES,
+      initialDelay: PERIODIC_TASK_DELAY_IN_MINUTES,
+      repeatInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
     };
     await scheduleExposureCheck(payload);
   }
