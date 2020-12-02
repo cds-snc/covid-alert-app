@@ -1,3 +1,4 @@
+import {log} from 'shared/logging/config';
 import {captureMessage} from 'shared/log';
 
 import {
@@ -25,7 +26,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         summaries.push(summary);
       }
-      captureMessage('configuration', {configuration});
+      log.config('configuration', {configuration});
       captureMessage('diagnosisKeysURLs', {diagnosisKeysURLs});
       captureMessage('ExposureNotificationAdapter.android - detectExposure summaries', {summaries});
       return summaries;

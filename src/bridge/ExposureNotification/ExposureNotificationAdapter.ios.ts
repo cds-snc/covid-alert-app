@@ -1,3 +1,5 @@
+import {log} from 'react-native-reanimated';
+import {log} from 'shared/logging/config';
 import {unzip} from 'react-native-zip-archive';
 import {captureMessage} from 'shared/log';
 
@@ -30,7 +32,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         summaries.push(summary);
       }
-      captureMessage('configuration', {configuration});
+      log.config('configuration', {configuration});
       captureMessage('diagnosisKeysURLs', {diagnosisKeysURLs});
       captureMessage('summaries', {summaries});
       return summaries;
