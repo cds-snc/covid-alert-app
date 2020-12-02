@@ -600,7 +600,11 @@ export class ExposureNotificationService {
         throw new Error('Unable to use saved exposureConfiguration');
       }
     } catch (error) {
-      log.config('Using default exposureConfiguration', error);
+      log.error({
+        category: 'configuration',
+        message: 'Using default exposureConfiguration',
+        error,
+      });
       return exposureConfigurationDefault;
     }
   }
@@ -750,17 +754,35 @@ export class ExposureNotificationService {
         exposureConfiguration,
         exposureConfigurationSchema,
       );
-      log.config('Using downloaded exposureConfiguration.');
+      log.debug({
+        category: 'configuration',
+        message: 'Using downloaded exposureConfiguration.',
+      });
       const serialized = JSON.stringify(exposureConfiguration);
       await this.storage.setItem(EXPOSURE_CONFIGURATION, serialized);
-      log.config('Saving exposure configuration to secure storage.');
+      log.debug({
+        category: 'configuration',
+        message: 'Saving exposure configuration to secure storage.',
+      });
     } catch (error) {
       if (error instanceof SyntaxError) {
-        log.config('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
+        log.error({
+          category: 'configuration',
+          message: 'JSON Parsing Error: Unable to parse downloaded exposureConfiguration',
+          error,
+        });
       } else if (error instanceof ExposureConfigurationValidationError) {
-        log.config('JSON Schema Error: ', error);
+        log.error({
+          category: 'configuration',
+          message: 'JSON Schema Error',
+          error,
+        });
       } else {
-        log.config('Network Error: Unable to download exposureConfiguration.', error);
+        log.error({
+          category: 'configuration',
+          message: 'Network Error: Unable to download exposureConfiguration.',
+          error,
+        });
       }
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }

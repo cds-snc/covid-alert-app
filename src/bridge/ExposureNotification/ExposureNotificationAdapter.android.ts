@@ -26,7 +26,10 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         summaries.push(summary);
       }
-      log.config('configuration', {configuration});
+      log.debug({
+        category: 'configuration',
+        payload: configuration,
+      });
       captureMessage('diagnosisKeysURLs', {diagnosisKeysURLs});
       captureMessage('ExposureNotificationAdapter.android - detectExposure summaries', {summaries});
       return summaries;

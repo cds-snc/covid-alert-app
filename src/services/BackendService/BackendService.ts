@@ -90,7 +90,10 @@ export class BackendService implements BackendInterface {
       await AsyncStorage.setItem(this.getRegionContentUrl(), JSON.stringify(payload));
       return {status: 200, payload};
     } catch (err) {
-      log.config('getRegionContent - fetch error', {err: err.message});
+      log.error({
+        message: 'getRegionContent - fetch error',
+        error: err,
+      });
       return this.getStoredRegionContent();
     }
   }
@@ -102,7 +105,11 @@ export class BackendService implements BackendInterface {
     const exposureConfigurationUrl = EN_CONFIG_URL
       ? EN_CONFIG_URL
       : `${this.retrieveUrl}/exposure-configuration/${region}.json`;
-    log.config('getExposureConfiguration', {exposureConfigurationUrl});
+    log.debug({
+      category: 'configuration',
+      message: 'getExposureConfiguration',
+      payload: exposureConfigurationUrl,
+    });
     return (await fetch(exposureConfigurationUrl, FETCH_HEADERS)).json();
   }
 
