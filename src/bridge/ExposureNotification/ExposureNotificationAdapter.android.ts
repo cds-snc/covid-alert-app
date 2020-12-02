@@ -26,7 +26,6 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         summaries.push(summary);
       }
       captureMessage('configuration', {configuration});
-      captureMessage('diagnosisKeysURLs', {diagnosisKeysURLs});
       captureMessage('ExposureNotificationAdapter.android - detectExposure summaries', {summaries});
       return summaries;
     },
