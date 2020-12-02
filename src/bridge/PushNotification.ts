@@ -11,7 +11,6 @@ export interface NotificationPayload {
   alertTitle: string;
   alertBody: string;
   disableSound?: boolean;
-  shouldPerformExposureCheck?: boolean;
 }
 
 interface PushNotificationInterface {

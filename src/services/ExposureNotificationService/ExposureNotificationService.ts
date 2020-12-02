@@ -141,7 +141,6 @@ export class ExposureNotificationService {
         alertTitle: this.i18n.translate('Notification.ReminderTitle'),
         alertBody: this.i18n.translate('Notification.ReminderBody'),
         disableSound: true,
-        shouldPerformExposureCheck: true,
       };
       executeExposureCheck(payload);
     }
