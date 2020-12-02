@@ -16,10 +16,10 @@ import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import {Observable} from '../../shared/Observable';
 import {Region, RegionContentResponse} from '../../shared/Region';
+import {log} from '../../shared/logging/config';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
-import {log} from '../../shared/logging/config';
 
 const MAX_UPLOAD_KEYS = 28;
 const FETCH_HEADERS = {headers: {'Cache-Control': 'no-store'}};
