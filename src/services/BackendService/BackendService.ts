@@ -16,6 +16,7 @@ import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import {Observable} from '../../shared/Observable';
 import {Region, RegionContentResponse} from '../../shared/Region';
+import {log} from '../../shared/logging/config';
 
 import {covidshield} from './covidshield';
 import {BackendInterface, SubmissionKeySet} from './types';
@@ -100,7 +101,11 @@ export class BackendService implements BackendInterface {
     const exposureConfigurationUrl = EN_CONFIG_URL
       ? EN_CONFIG_URL
       : `${this.retrieveUrl}/exposure-configuration/${region}.json`;
-    captureMessage('getExposureConfiguration', {exposureConfigurationUrl});
+    log.debug({
+      category: 'configuration',
+      message: 'getExposureConfiguration',
+      payload: exposureConfigurationUrl,
+    });
     return (await fetch(exposureConfigurationUrl, FETCH_HEADERS)).json();
   }
 
