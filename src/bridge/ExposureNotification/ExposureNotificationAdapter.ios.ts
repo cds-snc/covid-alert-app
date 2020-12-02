@@ -1,4 +1,3 @@
-import {log} from 'react-native-reanimated';
 import {log} from 'shared/logging/config';
 import {unzip} from 'react-native-zip-archive';
 import {captureMessage} from 'shared/log';
