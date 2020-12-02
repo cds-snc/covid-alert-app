@@ -135,7 +135,7 @@ export class ExposureNotificationService {
   }
 
   initiateExposureCheckEvent = async () => {
-    log.background('initiateExposureCheck');
+    log.background('initiateExposureCheckEvent');
     if (await this.shouldPerformExposureCheck()) {
       const payload: NotificationPayload = {
         alertTitle: this.i18n.translate('Notification.ReminderTitle'),
