@@ -184,12 +184,12 @@ export class ExposureNotificationService {
     if (!(await this.shouldPerformExposureCheck())) return;
     await this.loadExposureStatus();
     try {
-      captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
+      captureMessage('updateExposureStatusInBackground before', {exposureStatus: this.exposureStatus.get()});
       await this.updateExposureStatus();
       await this.processNotification();
-      captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
+      captureMessage('updatedExposureStatusInBackground after', {exposureStatus: this.exposureStatus.get()});
     } catch (error) {
-      captureException('updateExposureStatusInBackground', error);
+      captureException('updateExposureStatusInBackground error', error);
     }
   }
 
@@ -529,7 +529,7 @@ export class ExposureNotificationService {
       captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
       return false;
     }
-    captureMessage(`shouldPerformExposureCheck - Onboarded: ${onboardedDatetime}`);
+
     const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
     if (lastCheckedTimestamp) {
       captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
@@ -539,7 +539,6 @@ export class ExposureNotificationService {
         return false;
       }
     }
-    captureMessage('Should perform ExposureCheck.');
     return true;
   };
 
