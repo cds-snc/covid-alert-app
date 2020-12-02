@@ -60,9 +60,6 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
 
   const network = useNetInfo();
 
-  captureMessage(`=> Content userStopped ${userStopped}`);
-  captureMessage(`=> Content systemStatus ${systemStatus}`);
-
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
       case 'noRegionSet':
@@ -173,7 +170,6 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 export const HomeScreen = () => {
   const navigation = useNavigation();
   const {userStopped} = useStorage();
-  captureMessage(`=> HomeScreen userStopped ${userStopped}`);
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {

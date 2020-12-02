@@ -31,7 +31,6 @@ export class StorageService {
     this.forceScreen = new Observable<string | undefined>(undefined);
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
-    captureMessage(`StorageService constructor userStopped ${this.userStopped}`);
   }
 
   setOnboarded = async (value: boolean) => {
@@ -93,8 +92,6 @@ export class StorageService {
 
     const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
     this.userStopped.set(userStopped);
-
-    captureMessage(`StorageService init userStopped ${userStopped}`);
   };
 }
 

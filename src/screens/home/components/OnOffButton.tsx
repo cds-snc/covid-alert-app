@@ -53,9 +53,6 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
 
   const [systemStatus] = useSystemStatus();
 
-  captureMessage(`=> OnOffButton userStopped ${userStopped}`);
-  captureMessage(`=> OnOffButton systemStatus ${systemStatus}`);
-
   if (systemStatus === SystemStatus.Active) {
     return (
       <InfoShareItem

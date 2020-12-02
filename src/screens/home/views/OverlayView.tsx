@@ -235,9 +235,6 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
   const i18n = useI18n();
   const {userStopped} = useStorage();
 
-  captureMessage(`=> OverlayView userStopped ${userStopped}`);
-  captureMessage(`=> OverlayView systemStatus ${status}`);
-
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
