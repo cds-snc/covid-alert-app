@@ -4,7 +4,6 @@ import {useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
 import {TEST_MODE} from 'env';
-import {captureMessage} from 'shared/log';
 import {
   ExposureStatusType,
   SystemStatus,
@@ -59,9 +58,6 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   }, [turnNotificationsOn]);
 
   const network = useNetInfo();
-
-  captureMessage(`=> Content userStopped ${userStopped}`);
-  captureMessage(`=> Content systemStatus ${systemStatus}`);
 
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
@@ -173,7 +169,6 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 export const HomeScreen = () => {
   const navigation = useNavigation();
   const {userStopped} = useStorage();
-  captureMessage(`=> HomeScreen userStopped ${userStopped}`);
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {

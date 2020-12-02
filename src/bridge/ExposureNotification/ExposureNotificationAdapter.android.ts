@@ -30,7 +30,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         category: 'configuration',
         payload: configuration,
       });
-      captureMessage('diagnosisKeysURLs', {diagnosisKeysURLs});
+
       captureMessage('ExposureNotificationAdapter.android - detectExposure summaries', {summaries});
       return summaries;
     },
