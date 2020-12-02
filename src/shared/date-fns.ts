@@ -69,11 +69,16 @@ export function parseDateString(dateString: string) {
 
 export const formatExposedDate = (locale: string, localeString: string) => {
   const parts = localeString.split(' ');
+  const day = parts[1];
+  // remove non-alpha chars from month
+  const month = parts[0].replace(/\W/g, '');
+  const year = parts[2];
+
   // @note \u00a0 is a non breaking space so the date doesn't wrap
   if (locale === 'en-CA') {
-    return `${parts[0]}.\u00a0${parts[1]}\u00a0${parts[2]}`;
+    return `${month}.\u00a0${day}\u00a0${year}`;
   } else if (locale === 'fr-CA') {
-    return `${parts[0]}\u00a0${parts[1]}\u00a0${parts[2]}`;
+    return `${month}\u00a0${day}\u00a0${year}`;
   }
 
   return localeString;
