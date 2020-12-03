@@ -567,9 +567,9 @@ export class ExposureNotificationService {
       log.debug({
         category: 'debug',
         periodicTaskIntervalInMinutes: PERIODIC_TASK_INTERVAL_IN_MINUTES,
-        numberOfMinutesSinceLastExposureCheck: minutesBetween(lastCheckedDate, today),
+        numberOfMinutesSinceLastExposureCheck: Math.ceil(minutesBetween(lastCheckedDate, today)),
       });
-      if (minutesBetween(lastCheckedDate, today) < PERIODIC_TASK_INTERVAL_IN_MINUTES) {
+      if (Math.ceil(minutesBetween(lastCheckedDate, today)) < PERIODIC_TASK_INTERVAL_IN_MINUTES) {
         captureMessage('shouldPerformExposureCheck - Too soon to check.');
         return false;
       }
