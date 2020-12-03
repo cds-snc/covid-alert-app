@@ -64,7 +64,6 @@
     "react-native-svg": "^12.1.0",
     "react-native-system-setting": "1.7.4",
     "react-native-zip-archive": "^5.0.2",
-    "reanimated-bottom-sheet": "^1.0.0-alpha.20",
     "rn-faded-scrollview": "^1.0.8",
     "tweetnacl": "^1.0.3",
     "url": "^0.11.0",
@@ -100,7 +99,6 @@
     "protobufjs": "^6.9.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "16.13.1",
-    "reactotron-react-native": "^3.2.1",
     "ts-jest": "25.2.1",
     "typescript": "^3.8.3",
     "wait-for-expect": "^3.0.2"

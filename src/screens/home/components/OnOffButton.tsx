@@ -10,7 +10,6 @@ import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {BottomSheetBehavior} from 'components';
 import {useStorage} from 'services/StorageService';
-import {captureMessage} from 'shared/log';
 
 import {InfoShareItem} from './InfoShareItem';
 
@@ -52,9 +51,6 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
   }, [bottomSheetBehavior, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
-
-  captureMessage(`=> OnOffButton userStopped ${userStopped}`);
-  captureMessage(`=> OnOffButton systemStatus ${systemStatus}`);
 
   if (systemStatus === SystemStatus.Active) {
     return (

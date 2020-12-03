@@ -12,6 +12,7 @@ import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUT
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
+import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
@@ -20,7 +21,6 @@ import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 import {Key} from '../StorageService';
 import {executeExposureCheck} from '../../bridge/ExposureCheck';
-import {log} from '../../shared/logging/config';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
@@ -211,10 +211,10 @@ export class ExposureNotificationService {
     if (!(await this.shouldPerformExposureCheck())) return;
     await this.loadExposureStatus();
     try {
-      captureMessage('updateExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
+      captureMessage('updateExposureStatusInBackground before', {exposureStatus: this.exposureStatus.get()});
       await this.updateExposureStatus();
       await this.processNotification();
-      captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
+      captureMessage('updatedExposureStatusInBackground after', {exposureStatus: this.exposureStatus.get()});
     } catch (error) {
       log.error({category: 'background', payload: 'updateExposureStatusInBackground'}, error);
     }
@@ -553,12 +553,13 @@ export class ExposureNotificationService {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
+
     if (!onboardedDatetime) {
       // Do not perform Exposure Checks if onboarding is not completed.
       captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
       return false;
     }
-    captureMessage(`shouldPerformExposureCheck - Onboarded: ${onboardedDatetime}`);
+
     const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
     if (lastCheckedTimestamp) {
       captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
@@ -573,7 +574,6 @@ export class ExposureNotificationService {
         return false;
       }
     }
-    captureMessage('Should perform ExposureCheck.');
     return true;
   };
 
@@ -626,7 +626,6 @@ export class ExposureNotificationService {
    */
   private async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
     try {
-      captureMessage('Getting exposure configuration from secure storage.');
       const exposureConfigurationStr = await this.storage.getItem(EXPOSURE_CONFIGURATION);
       if (exposureConfigurationStr) {
         return JSON.parse(exposureConfigurationStr);
@@ -634,7 +633,11 @@ export class ExposureNotificationService {
         throw new Error('Unable to use saved exposureConfiguration');
       }
     } catch (error) {
-      captureException('Using default exposureConfiguration', error);
+      log.error({
+        category: 'configuration',
+        message: 'Using default exposureConfiguration',
+        error,
+      });
       return exposureConfigurationDefault;
     }
   }
@@ -784,17 +787,35 @@ export class ExposureNotificationService {
         exposureConfiguration,
         exposureConfigurationSchema,
       );
-      captureMessage('Using downloaded exposureConfiguration.');
+      log.debug({
+        category: 'configuration',
+        message: 'Using downloaded exposureConfiguration.',
+      });
       const serialized = JSON.stringify(exposureConfiguration);
       await this.storage.setItem(EXPOSURE_CONFIGURATION, serialized);
-      captureMessage('Saving exposure configuration to secure storage.');
+      log.debug({
+        category: 'configuration',
+        message: 'Saving exposure configuration to secure storage.',
+      });
     } catch (error) {
       if (error instanceof SyntaxError) {
-        captureException('JSON Parsing Error: Unable to parse downloaded exposureConfiguration', error);
+        log.error({
+          category: 'configuration',
+          message: 'JSON Parsing Error: Unable to parse downloaded exposureConfiguration',
+          error,
+        });
       } else if (error instanceof ExposureConfigurationValidationError) {
-        captureException('JSON Schema Error: ', error);
+        log.error({
+          category: 'configuration',
+          message: 'JSON Schema Error',
+          error,
+        });
       } else {
-        captureException('Network Error: Unable to download exposureConfiguration.', error);
+        log.error({
+          category: 'configuration',
+          message: 'Network Error: Unable to download exposureConfiguration.',
+          error,
+        });
       }
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }

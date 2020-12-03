@@ -17,7 +17,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
-import {captureMessage} from 'shared/log';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -235,9 +234,6 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
   const i18n = useI18n();
   const {userStopped} = useStorage();
 
-  captureMessage(`=> OverlayView userStopped ${userStopped}`);
-  captureMessage(`=> OverlayView systemStatus ${status}`);
-
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
@@ -259,7 +255,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
             </Box>
 
             {userStopped && status !== SystemStatus.Active && (
-              <Box marginBottom="m" marginTop="s" marginHorizontal="m">
+              <Box marginBottom="m" marginTop="xl" marginHorizontal="m">
                 <TurnAppBackOn
                   isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
                   i18n={i18n}
@@ -268,7 +264,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               </Box>
             )}
 
-            <Box marginBottom="m" marginTop="s" marginHorizontal="m">
+            <Box marginBottom="m" marginTop={userStopped ? 's' : 'xl'} marginHorizontal="m">
               <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
             </Box>
 

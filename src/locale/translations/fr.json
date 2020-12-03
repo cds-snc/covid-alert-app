@@ -282,7 +282,7 @@
       "TurnOff": "Désactiver Alerte COVID",
       "TurnOn": "Réactiver Alerte COVID",
       "Confirm": {
-        "Title": "Désactiver Alert COVID?",
+        "Title": "Désactiver Alerte COVID?",
         "Body": "Veillez à porter un équipement de protection individuelle (ÉPI) médical ou à ne côtoyer que les membres de votre ménage. Une fois désactivée, l’application ne pourra plus enregistrer d’expositions.",
         "Cancel": "Ne pas désactiver",
         "Accept": "Désactiver"
