@@ -99,7 +99,6 @@
     "protobufjs": "^6.9.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "16.13.1",
-    "reactotron-react-native": "^3.2.1",
     "ts-jest": "25.2.1",
     "typescript": "^3.8.3",
     "wait-for-expect": "^3.0.2"
