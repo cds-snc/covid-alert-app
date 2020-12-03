@@ -5,6 +5,7 @@ import {captureException, captureMessage} from 'shared/log';
 
 import {scheduleExposureCheck} from '../../bridge/ExposureCheck';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
+import {log} from "../../shared/logging/config";
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
@@ -14,7 +15,7 @@ interface PeriodicTask {
 
 // See https://github.com/cds-snc/covid-shield-mobile/issues/642#issuecomment-657783192
 export const PERIODIC_TASK_INTERVAL_IN_MINUTES = TEST_MODE ? 15 : 240;
-export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 2 : PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
+export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 1 : PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
 
 const registerPeriodicTask = async (task: PeriodicTask) => {
   if (Platform.OS === 'ios') {
@@ -41,6 +42,7 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     );
     captureMessage('registerPeriodicTask', {result});
   } else {
+    log.debug({category: 'background', payload: {message: 'registerPeriodicTask - Android'}});
     const payload: PeriodicWorkPayload = {
       initialDelay: PERIODIC_TASK_DELAY_IN_MINUTES,
       repeatInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,

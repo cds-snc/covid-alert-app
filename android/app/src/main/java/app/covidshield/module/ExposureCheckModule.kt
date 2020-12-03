@@ -3,7 +3,8 @@ package app.covidshield.module
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.*
-import app.covidshield.R
+import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
+import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
 import app.covidshield.extensions.parse
 import app.covidshield.extensions.toJson
 import app.covidshield.receiver.worker.ExposureCheckNotificationWorker
@@ -17,19 +18,15 @@ import kotlin.coroutines.CoroutineContext
 
 class ExposureCheckModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
 
-    init {
-
-    }
-
     override fun getName(): String = "ExposureCheck"
+
+    override val coroutineContext: CoroutineContext get() = Dispatchers.Default
 
     private val workManager: WorkManager by lazy(LazyThreadSafetyMode.NONE) {
         WorkManager.getInstance(context.applicationContext)
     }
 
-    override val coroutineContext: CoroutineContext get() = Dispatchers.Default
-
-    val workerConstraints = Constraints.Builder()
+    private val workerConstraints = Constraints.Builder()
             .setRequiresCharging(false)
             .setRequiresBatteryNotLow(false)
             .build()
@@ -37,14 +34,14 @@ class ExposureCheckModule(private val context: ReactApplicationContext) : ReactC
     @ReactMethod
     fun scheduleExposureCheck(data: ReadableMap, promise: Promise) {
 
+        Log.d("background", "scheduleExposureCheck")
         val config = data.toHashMap().toJson().parse(PeriodicWorkPayload::class.java)
 
-        val workerData = Data.Builder()
-                .build()
-
-        val workerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ExposureCheckSchedulerWorker>(config.repeatInterval, TimeUnit.MINUTES)
+        Log.d("Minimum Repeat Interval", MIN_PERIODIC_INTERVAL_MILLIS.toString())
+        Log.d("Config Repeat Interval", config.repeatInterval.toString())
+        Log.d("Minimum Flex Time", MIN_PERIODIC_FLEX_MILLIS.toString())
+        val workerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ExposureCheckSchedulerWorker>(config.repeatInterval, TimeUnit.MILLISECONDS)
                 .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
-                .setInputData(workerData)
                 .setConstraints(workerConstraints)
                 .build()
 
@@ -53,6 +50,7 @@ class ExposureCheckModule(private val context: ReactApplicationContext) : ReactC
 
     @ReactMethod
     fun executeExposureCheck(data: ReadableMap, promise: Promise) {
+        Log.d("background", "executeExposureCheck")
         val config = data.toHashMap().toJson().parse(NotificationPayload::class.java)
 
         val workerData = Data.Builder()
@@ -61,12 +59,12 @@ class ExposureCheckModule(private val context: ReactApplicationContext) : ReactC
                 .putBoolean("disableSound", config.disableSound)
                 .build()
 
-        val workerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ExposureCheckNotificationWorker>(10000, TimeUnit.MINUTES)
+        val workerRequest: OneTimeWorkRequest = OneTimeWorkRequestBuilder<ExposureCheckNotificationWorker>()
                 .setInputData(workerData)
                 .setConstraints(workerConstraints)
                 .build()
 
-        workManager.enqueueUniquePeriodicWork("exposureCheckNotificationWorker", ExistingPeriodicWorkPolicy.REPLACE, workerRequest)
+        workManager.enqueueUniqueWork("exposureCheckNotificationWorker", ExistingWorkPolicy.REPLACE, workerRequest)
     }
 
 }
@@ -77,7 +75,12 @@ private class PeriodicWorkPayload(
         @SerializedName("initialDelay") val _initialDelay: Long?
 ) {
     val repeatInterval get() = if (_repeatInterval != null) {
-        if (_repeatInterval > PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS) _repeatInterval else PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
+        val repeatIntervalMillis = TimeUnit.MINUTES.toMillis(_repeatInterval)
+        if (repeatIntervalMillis > MIN_PERIODIC_INTERVAL_MILLIS) {
+            repeatIntervalMillis
+        } else {
+            MIN_PERIODIC_INTERVAL_MILLIS
+        }
     } else {
         0
     }

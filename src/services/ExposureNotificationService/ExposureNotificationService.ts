@@ -135,23 +135,24 @@ export class ExposureNotificationService {
   }
 
   initiateExposureCheckEvent = async () => {
-    log.background('initiateExposureCheckEvent');
+    log.debug({category: 'background', payload: 'initiateExposureCheckEvent'});
     if (await this.shouldPerformExposureCheck()) {
       const payload: NotificationPayload = {
         alertTitle: this.i18n.translate('Notification.ReminderTitle'),
         alertBody: this.i18n.translate('Notification.ReminderBody'),
         disableSound: true,
       };
-      executeExposureCheck(payload);
+      await executeExposureCheck(payload);
     }
   };
 
   executeExposureCheckEvent = async () => {
-    log.background('executeExposureCheckEvent');
+    log.debug({category: 'background', payload: 'executeExposureCheckEvent'});
     try {
       await this.updateExposureStatusInBackground();
     } catch (error) {
-      captureException('runPeriodicTask', error);
+      // Noop
+      log.error({category: 'background', payload: 'executeExposureCheckEvent'}, error);
     }
   };
 
@@ -215,7 +216,7 @@ export class ExposureNotificationService {
       await this.processNotification();
       captureMessage('updatedExposureStatusInBackground', {exposureStatus: this.exposureStatus.get()});
     } catch (error) {
-      captureException('updateExposureStatusInBackground', error);
+      log.error({category: 'background', payload: 'updateExposureStatusInBackground'}, error);
     }
   }
 
@@ -562,6 +563,11 @@ export class ExposureNotificationService {
     if (lastCheckedTimestamp) {
       captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
       const lastCheckedDate = new Date(lastCheckedTimestamp);
+      log.debug({
+        category: 'debug',
+        periodicTaskIntervalInMinutes: PERIODIC_TASK_INTERVAL_IN_MINUTES,
+        numberOfMinutesSinceLastExposureCheck: minutesBetween(lastCheckedDate, today),
+      });
       if (minutesBetween(lastCheckedDate, today) < PERIODIC_TASK_INTERVAL_IN_MINUTES) {
         captureMessage('shouldPerformExposureCheck - Too soon to check.');
         return false;

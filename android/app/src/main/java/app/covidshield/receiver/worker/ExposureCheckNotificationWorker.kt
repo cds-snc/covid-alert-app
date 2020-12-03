@@ -20,8 +20,6 @@ import com.facebook.react.ReactApplication
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
 import kotlinx.coroutines.delay
 
-private const val CHANNEL_ID = "COVID Alert Exposure Checks"
-private const val CHANNEL_NAME = "COVID Alert Exposure Checks"
 
 class ExposureCheckNotificationWorker (private val context: Context, parameters: WorkerParameters) :
         CoroutineWorker(context, parameters) {
@@ -29,6 +27,8 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
     private val notificationManager: NotificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     override suspend fun doWork(): Result {
+
+        Log.d("background", "ExposureCheckNotificationWorker - doWork")
 
         val reactApplication = applicationContext as? ReactApplication
                 ?: return Result.success()
@@ -52,7 +52,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, false)
+            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, inputData.getBoolean("disableSound", false))
             notification.setChannelId(CHANNEL_ID)
         }
 
@@ -87,4 +87,10 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
             notificationManager.createNotificationChannel(channel)
         }
     }
+
+    companion object {
+        private const val CHANNEL_ID = "COVID Alert Exposure Checks"
+        private const val CHANNEL_NAME = "COVID Alert Exposure Checks"
+    }
+
 }
