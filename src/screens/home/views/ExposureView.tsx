@@ -10,7 +10,7 @@ import {StyleSheet, Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
-import {ExposureDateView} from './ExposureDateView';
+/* import {ExposureDateView} from './ExposureDateView'; */
 import {NegativeTestButton} from './ClearExposureView';
 
 const ActiveContent = ({text}: {text: string}) => {
