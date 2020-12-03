@@ -24,7 +24,7 @@ export const ExposureDateView = () => {
       return formatExposedDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
     else if (forceScreen)
       return formatExposedDate(dateLocale, new Date().toLocaleString(dateLocale, dateFormatOptions));
-  }, [dateFormatOptions, dateLocale, exposureNotificationService]);
+  }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen]);
 
   return date ? (
     <Text marginBottom="m">

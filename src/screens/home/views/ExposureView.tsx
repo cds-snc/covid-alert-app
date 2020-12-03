@@ -6,8 +6,7 @@ import {isRegionActive} from 'shared/RegionLogic';
 import {useStorage} from 'services/StorageService';
 import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
-import {StyleSheet} from 'react-native';
-import {Platform} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
