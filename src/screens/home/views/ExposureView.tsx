@@ -36,7 +36,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
             {i18n.translate('Home.ExposureDetected.Title')}
           </Text>
           <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
-          <ExposureDateView />
+          {/* <ExposureDateView /> */}
         </Box>
       </Box>
 
