@@ -30,9 +30,9 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
 
   return (
     <>
-      <Box style={styles.roundedBox1}>
+      <Box alignSelf="stretch" style={styles.roundedBox1}>
         <Box paddingHorizontal="m" paddingVertical="m">
-          <Text focusRef={autoFocusRef} variant="bodyTitle" marginTop="m" marginBottom="m" accessibilityRole="header">
+          <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
             {i18n.translate('Home.ExposureDetected.Title')}
           </Text>
           <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
@@ -40,7 +40,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
         </Box>
       </Box>
 
-      <Box marginTop="m" style={styles.roundedBox2}>
+      <Box alignSelf="stretch" marginTop="m" style={styles.roundedBox2}>
         <Box paddingHorizontal="m" paddingVertical="m">
           <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
             {i18n.translate('Home.ExposureDetected.Title2')}
