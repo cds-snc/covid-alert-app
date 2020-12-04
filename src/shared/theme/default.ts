@@ -42,6 +42,7 @@ export const palette = {
   greenCheck: '#33D1A1',
   info100: '#005B99',
   focus: '#44BBEE',
+  exposure25: '#DED8FB',
 };
 
 const theme = {
@@ -295,6 +296,19 @@ const theme = {
       fontWeight: 'bold',
       height: 30,
       textColor: palette.white,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    exposure25: {
+      color: palette.exposure25,
+      fontWeight: 'normal',
+      height: 30,
+      textColor: palette.bodyBlack,
       fontFamily: 'notosans',
       fontSize: 18,
       borderWidth: undefined,
