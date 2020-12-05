@@ -482,7 +482,7 @@ export class ExposureNotificationService {
       this.finalize();
     }
 
-    if (currentExposureStatus.type === ExposureStatusType.Diagnosed) {
+    if (updatedExposure.type === ExposureStatusType.Diagnosed) {
       return;
     }
 
@@ -668,7 +668,7 @@ export class ExposureNotificationService {
       this.finalize();
     }
 
-    if (currentExposureStatus.type === ExposureStatusType.Diagnosed) {
+    if (updatedExposure.type === ExposureStatusType.Diagnosed) {
       return;
     }
 
