@@ -481,6 +481,11 @@ export class ExposureNotificationService {
       this.exposureStatus.set(updatedExposure);
       this.finalize();
     }
+
+    if (currentExposureStatus.type === ExposureStatusType.Diagnosed) {
+      return;
+    }
+
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
     captureMessage('keysFileUrls', keysFileUrls);
     try {
@@ -655,13 +660,16 @@ export class ExposureNotificationService {
     if (hasPendingExposureSummary) {
       return;
     }
-    captureMessage('past pending summary check');
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
     if (updatedExposure !== currentExposureStatus) {
       this.exposureStatus.set(updatedExposure);
       this.finalize();
+    }
+
+    if (currentExposureStatus.type === ExposureStatusType.Diagnosed) {
+      return;
     }
 
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
