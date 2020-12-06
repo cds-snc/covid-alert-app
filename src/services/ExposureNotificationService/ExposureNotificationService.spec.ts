@@ -768,7 +768,7 @@ describe('ExposureNotificationService', () => {
       expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
     });
 
-    it('Stays diagnosed if within countdown period', async () => {
+    it('stays diagnosed if within countdown period', async () => {
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       const nextSummary = {
         daysSinceLastExposure: 7,
