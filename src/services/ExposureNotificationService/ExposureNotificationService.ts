@@ -660,7 +660,6 @@ export class ExposureNotificationService {
     if (hasPendingExposureSummary) {
       return;
     }
-    captureMessage('past pending summary check');
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
