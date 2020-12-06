@@ -888,37 +888,6 @@ describe('ExposureNotificationService', () => {
     );
   });
 
-  //
-
-  it('stays diagnosed -', async () => {
-    const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
-    const nextSummary = {
-      daysSinceLastExposure: 7,
-      lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
-      matchedKeyCount: 4,
-      maximumRiskScore: 25,
-      attenuationDurations: [1200, 1200, 0],
-    };
-    bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
-    service.exposureStatus.set({
-      type: ExposureStatusType.Diagnosed,
-      lastChecked: {
-        period,
-        timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
-      },
-    });
-
-    await service.updateExposureStatus();
-
-    expect(service.exposureStatus.get()).toStrictEqual(
-      expect.objectContaining({
-        type: ExposureStatusType.Diagnosed,
-      }),
-    );
-  });
-
-  //
-
   describe('getPeriodsSinceLastFetch', () => {
     it('returns an array of [0, runningPeriod] if _lastCheckedPeriod is undefined', () => {
       expect(service.getPeriodsSinceLastFetch()).toStrictEqual([0, 18400]);
