@@ -182,7 +182,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
-    // @todo: maybe remove this called in updateExposureStatus
+    // @todo: maybe remove this gets called in updateExposureStatus
     if (!(await this.shouldPerformExposureCheck())) return;
     await this.loadExposureStatus();
     try {
