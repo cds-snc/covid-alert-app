@@ -200,7 +200,7 @@
         "Received": "Date de la notification"
       },
       "NegativeTest": {
-        "CTA": "Negative test?"
+        "CTA": "Résultat de test négatif?"
       },
       "Dismiss": {
         "Title": "Résultat négatif au test de dépistage?",
