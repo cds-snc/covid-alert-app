@@ -17,7 +17,7 @@ export const DismissAlertScreen = () => {
       {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Cancel'),
         onPress: () => {},
-        style: 'cancel',
+        style: 'default',
       },
       {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
@@ -25,7 +25,7 @@ export const DismissAlertScreen = () => {
           clearExposedStatus();
           close();
         },
-        style: 'default',
+        style: 'cancel',
       },
     ]);
   }, [clearExposedStatus, close, i18n]);
