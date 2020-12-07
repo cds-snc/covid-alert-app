@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Box, ButtonSingleLine, Toolbar} from 'components';
+import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useClearExposedStatus} from 'services/ExposureNotificationService';
 import {useI18n} from 'locale';
@@ -50,10 +50,10 @@ export const DismissAlertScreen = () => {
               <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Dismiss.Body')}</Text>
               <Text marginBottom="l">{i18n.translate('Home.ExposureDetected.Dismiss.Body2')}</Text>
 
-              <ButtonSingleLine
+              <Button
                 text={i18n.translate('Home.ExposureDetected.Dismiss.CTA')}
                 onPress={onClearExposedState}
-                variant="bigFlat"
+                variant="thinFlat"
               />
             </Box>
           </Box>
