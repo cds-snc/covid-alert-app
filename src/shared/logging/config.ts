@@ -23,12 +23,12 @@ const config = {
 
 type Category = 'debug' | 'background' | 'configuration';
 
-export type Log = {
-  info: ({}: {category?: Category; message?: string; payload?: string | {}}) => void;
-  warn: ({}: {category?: Category; message?: string; payload?: string | {}}) => void;
-  debug: ({}: {category?: Category; message?: string; payload?: string | {}}) => void;
-  error: ({}: {category?: Category; message?: string; error?: string | {}}) => void;
-};
+interface Log {
+  info: (payload: {category?: Category; message?: string; payload?: string | {}}) => void;
+  warn: (payload: {category?: Category; message?: string; payload?: string | {}}) => void;
+  debug: (payload: {category?: Category; message?: string; payload?: string | {}}) => void;
+  error: (payload: {category?: Category; message?: string; error?: string | {}}) => void;
+}
 
 const reactLogger = logger.createLogger(config);
 
