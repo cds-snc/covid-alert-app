@@ -554,7 +554,7 @@ export class ExposureNotificationService {
         log.debug({
           category: 'exposure-check',
           message: 'shouldPerformExposureCheck',
-          payload: {minutes: minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes'},
+          payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes'},
         });
 
         return false;
