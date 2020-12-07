@@ -21,7 +21,31 @@ const config = {
   },
 };
 
-export const log = logger.createLogger(config);
+type Category = 'debug' | 'background' | 'configuration';
+
+export type Log = {
+  info: ({}: {category?: Category; message?: string; payload?: string | {}}) => void;
+  warn: ({}: {category?: Category; message?: string; payload?: string | {}}) => void;
+  debug: ({}: {category?: Category; message?: string; payload?: string | {}}) => void;
+  error: ({}: {category?: Category; message?: string; error?: string | {}}) => void;
+};
+
+const reactLogger = logger.createLogger(config);
+
+export const log: Log = {
+  debug: payload => {
+    reactLogger.debug(payload);
+  },
+  info: payload => {
+    reactLogger.info(payload);
+  },
+  warn: payload => {
+    reactLogger.warn(payload);
+  },
+  error: payload => {
+    reactLogger.error(payload);
+  },
+};
 
 export const isTest = () => {
   return process.env.JEST_WORKER_ID !== undefined;
