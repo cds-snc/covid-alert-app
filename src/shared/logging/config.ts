@@ -21,7 +21,7 @@ const config = {
   },
 };
 
-type Category = 'debug' | 'background' | 'configuration';
+type Category = 'debug' | 'background' | 'configuration' | 'exposure-check';
 
 interface Log {
   info: (payload: {category?: Category; message?: string; payload?: string | {}}) => void;
