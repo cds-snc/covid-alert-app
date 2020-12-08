@@ -20,15 +20,10 @@ fi
 
 
 ####
-# Secret should be a ".env" with the following contents:
-#
-# LOGGLY_TOKEN="blah-blah-blah-blah-blah"
-#
 # Now read and export the vars from .env into the shell:
-export $(egrep -v '^#' .env | xargs) # v is invert match mode, add s to silence
-## LOAD TOKEN
-LOGGLY_URL="https://logs-01.loggly.com/inputs/$LOGGLY_TOKEN/tag/http/";
-
+## LOAD Loggly URL from global .env
+export $(egrep -v '^#' "$(dirname "$0")/../../.env" | xargs) # v is invert match mode, add s to silence
+LOGGLY_URL="$LOGGLY_URL";
 
 #### ASSOCIATE LOGS WITH DEVICE UUID
 read -p "Enter device  UUID (found in the debug menu of the app): " DEVICE_UUID
