@@ -2,18 +2,34 @@ package app.covidshield;
 
 import android.app.Application;
 import android.content.Context;
+
+import androidx.work.Configuration;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+
+
+public class MainApplication extends Application implements ReactApplication, Configuration.Provider {
 
     public static Application instance;
+
+    @NotNull
+    @Override
+    public Configuration getWorkManagerConfiguration() {
+        return new Configuration.Builder()
+                .setMinimumLoggingLevel(android.util.Log.INFO)
+                .build();
+    }
 
     private final ReactNativeHost mReactNativeHost =
         new ReactNativeHost(this) {

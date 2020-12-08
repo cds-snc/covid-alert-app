@@ -1,5 +1,5 @@
 import BackgroundFetch from 'react-native-background-fetch';
-import {Platform} from 'react-native';
+import {AppRegistry, Platform} from 'react-native';
 import {TEST_MODE} from 'env';
 import {captureException, captureMessage} from 'shared/log';
 
@@ -67,7 +67,24 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
   captureMessage('registerAndroidHeadlessPeriodicTask');
 };
 
+const registerAndroidHeadlessExposureCheckPeriodicTask = (task: PeriodicTask) => {
+  if (Platform.OS !== 'android') return;
+
+  AppRegistry.registerHeadlessTask('EXPOSURE_CHECK_HEADLESS_TASK', () => async () => {
+    captureMessage('EXPOSURE_CHECK_HEADLESS_TASK');
+    try {
+      await task();
+    } catch (error) {
+      captureException('runAndroidHeadlessExposureCheckPeriodicTask', error);
+    } finally {
+      BackgroundFetch.finish('EXPOSURE_CHECK_HEADLESS_TASK');
+    }
+  });
+  captureMessage('registerAndroidHeadlessExposureCheckPeriodicTask');
+};
+
 export const BackgroundScheduler = {
   registerPeriodicTask,
   registerAndroidHeadlessPeriodicTask,
+  registerAndroidHeadlessExposureCheckPeriodicTask,
 };

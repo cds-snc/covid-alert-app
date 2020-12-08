@@ -34,6 +34,22 @@ BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
   await exposureNotificationService.updateExposureStatusInBackground();
 });
 
+BackgroundScheduler.registerAndroidHeadlessExposureCheckPeriodicTask(async () => {
+  const storageService = await createStorageService();
+  const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+  const i18n = await createBackgroundI18n();
+  const exposureNotificationService = new ExposureNotificationService(
+    backendService,
+    i18n,
+    AsyncStorage,
+    RNSecureKeyStore,
+    ExposureNotification,
+  );
+  if (await exposureNotificationService.shouldPerformExposureCheck()) {
+    await exposureNotificationService.initiateExposureCheckHeadless();
+  }
+});
+
 if (__DEV__) {
   LogBox.ignoreLogs([
     // Triggered by a lot of third party modules and not really actionable.

@@ -130,20 +130,27 @@ export class ExposureNotificationService {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
 
-    DeviceEventEmitter.addListener('initiateExposureCheckEvent', this.initiateExposureCheckEvent);
+    // DeviceEventEmitter.addListener('initiateExposureCheck', this.initiateExposureCheckEvent);
     DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
   }
 
   initiateExposureCheckEvent = async () => {
     log.debug({category: 'background', payload: 'initiateExposureCheckEvent'});
-    if (await this.shouldPerformExposureCheck()) {
-      const payload: NotificationPayload = {
-        alertTitle: this.i18n.translate('Notification.ReminderTitle'),
-        alertBody: this.i18n.translate('Notification.ReminderBody'),
-        disableSound: true,
-      };
-      await executeExposureCheck(payload);
-    }
+    await this.initiateExposureCheck();
+  };
+
+  initiateExposureCheckHeadless = async () => {
+    log.debug({category: 'background', payload: 'initiateExposureCheckEvent'});
+    await this.initiateExposureCheck();
+  };
+
+  initiateExposureCheck = async () => {
+    const payload: NotificationPayload = {
+      alertTitle: this.i18n.translate('Notification.ReminderTitle'),
+      alertBody: this.i18n.translate('Notification.ReminderBody'),
+      disableSound: true,
+    };
+    await executeExposureCheck(payload);
   };
 
   executeExposureCheckEvent = async () => {
@@ -556,7 +563,10 @@ export class ExposureNotificationService {
 
     if (!onboardedDatetime) {
       // Do not perform Exposure Checks if onboarding is not completed.
-      captureMessage('shouldPerformExposureCheck - Onboarded: FALSE');
+      log.debug({
+        category: 'exposureCheck',
+        Onboarded: false,
+      });
       return false;
     }
 
