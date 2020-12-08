@@ -1,5 +1,5 @@
 import {Platform} from 'react-native';
-import {LOGGLY_URL} from 'env';
+import {APP_VERSION_CODE, APP_VERSION_NAME, LOGGLY_URL} from 'env';
 import {transportFunctionType} from 'react-native-logs';
 
 import {getLogUUID} from '../uuid';
@@ -7,6 +7,9 @@ import {getLogUUID} from '../uuid';
 const logglyTransport: transportFunctionType = async (msg, level, _options) => {
   const uuid = await getLogUUID();
   const platform = Platform.OS;
+  const versionCode = APP_VERSION_CODE;
+  const versionName = APP_VERSION_NAME;
+
   // used for staging env - never production
   if (LOGGLY_URL) {
     fetch(LOGGLY_URL, {
@@ -20,6 +23,8 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
         platform,
         msg,
         level,
+        versionCode,
+        versionName,
       }),
     }).catch(error => {
       console.log(error); // eslint-disable-line no-console
