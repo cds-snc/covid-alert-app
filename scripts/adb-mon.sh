@@ -2,9 +2,10 @@
 
 ## Filename : adb-mon
 ## Authors: Andréas Kaytar-LeFrançois, 
+## Collaborators: Dave Samojlenko, James Eberhardt
 ## Compatibility: MacOSX 10.15.7+, adb 30+
 ## Description: script to log Power Monitor service info on Android device
-## Inteded audience: devs testing on android
+## Intended audience: devs testing on android
 
 
 # POLL DEVICE
