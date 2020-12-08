@@ -18,6 +18,14 @@ else
   ADBStandByBuckets=$( echo "$ADBStandByBuckets" | grep covid );
 fi
 
+# Dump all scheduled jobs, then filter 
+JobSchedulerLogs=`adb shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 23 ca.gc.hcsc.canada.covidalert`;
+
+# Empty string checking
+if [ -z "$JobSchedulerLogs" ] ; then
+  echo "COVID Alert not installed on device, exiting."
+  exit -1;
+fi
 
 ####
 # Now read and export the vars from .env into the shell:
@@ -28,6 +36,7 @@ LOGGLY_URL="$LOGGLY_URL";
 #### ASSOCIATE LOGS WITH DEVICE UUID
 read -p "Enter device  UUID (found in the debug menu of the app): " DEVICE_UUID
 
+# Empty string checking
 if [ -z "$DEVICE_UUID" ] ; then
   echo "No UUID, exiting."
   exit -1;
@@ -40,8 +49,6 @@ fi
 # echo "Sending logs..."
 #DEVICE_IP=0.0.0.0; #can be set manually
 
-# Dump all scheduled jobs, then filter 
-JobSchedulerLogs=`adb shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 20 ca.gc.hcsc.canada.covidalert`;
 
 
 JSONlogData=$( jq -n \
