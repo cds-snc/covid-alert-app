@@ -5,10 +5,12 @@ import {useRegionalI18n} from 'locale/regional';
 import {useStorage} from 'services/StorageService';
 import {Linking} from 'react-native';
 import {captureException} from 'shared/log';
+import {useNavigation} from '@react-navigation/native';
 
 export const ExposedHelpButton = () => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
+  const navigation = useNavigation();
 
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
 
@@ -23,10 +25,14 @@ export const ExposedHelpButton = () => {
 
   const cta = getCTA();
   const onPress = useCallback(() => {
-    Linking.openURL(getExposedHelpURL(region, regionalI18n)).catch(error =>
-      captureException('An error occurred', error),
-    );
-  }, [region, regionalI18n]);
+    if (region !== undefined && region !== 'None') {
+      Linking.openURL(getExposedHelpURL(region, regionalI18n)).catch(error =>
+        captureException('An error occurred', error),
+      );
+    } else {
+      navigation.navigate('RegionSelectExposedNoPT');
+    }
+  }, [region, regionalI18n, navigation]);
 
   if (cta === '') {
     return <ErrorBox marginTop="m" />;
