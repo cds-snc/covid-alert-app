@@ -44,14 +44,14 @@ export const RegionPickerExposedNoPTScreen = () => {
             accessibilityRole="header"
             accessibilityAutoFocus
           >
-            {i18n.translate('RegionPicker.SettingsTitle')}
+            {i18n.translate('RegionPickerNoPT.Exposed.Title')}
           </Text>
           <TextMultiline
             paddingHorizontal="m"
             marginVertical="s"
             variant="bodyText"
             color="overlayBodyText"
-            text={i18n.translate('RegionPicker.Body')}
+            text={i18n.translate('RegionPickerNoPT.Exposed.Body')}
           />
           <Box flex={1} paddingHorizontal="m" marginBottom="m">
             <Box marginTop="l" paddingHorizontal="m" borderRadius={10} overflow="hidden">

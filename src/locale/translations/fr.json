@@ -451,6 +451,12 @@
     "YT": "Yukon",
     "None": "Ne rien sélectionner"
   },
+  "RegionPickerNoPT": {
+    "Exposed": {
+      "Title": "Trouvez les consignes de votre région",
+      "Body": "Les mesures à prendre après avoir été exposé dépendent de votre province ou de votre territoire. L’application ne mémorisera pas votre choix de région."
+    }
+  },
   "Sharing": {
     "Close": "Fermer",
     "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
