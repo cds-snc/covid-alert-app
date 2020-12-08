@@ -1,7 +1,6 @@
 #!/bin/bash
 
 ## Filename : adb-mon
-## Last Modified: December 7th 2020
 ## Authors: Andréas Kaytar-LeFrançois, 
 ## Compatibility: MacOSX 10.15.7+, adb 30+
 ## Description: script to log Power Monitor service info on Android device
