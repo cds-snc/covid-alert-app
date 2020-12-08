@@ -11,8 +11,8 @@
 ADBStandByBuckets=$( adb shell am get-standby-bucket 2>&1);
 
 if `grep -q 'error' <<< "$ADBStandByBuckets"`; then 
-	echo "Could not connect to adb, exiting..."
-	exit -1;
+  echo "Could not connect to adb, exiting..."
+  exit -1;
 else
   echo "adb connection established..."
   ADBStandByBuckets=$( echo "$ADBStandByBuckets" | grep covid );
@@ -43,6 +43,7 @@ fi
 # Dump all scheduled jobs, then filter 
 JobSchedulerLogs=`adb shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 20 ca.gc.hcsc.canada.covidalert`;
 
+
 JSONlogData=$( jq -n \
   --arg u "$USER" \
   --arg uuid "$DEVICE_UUID" \
@@ -58,11 +59,11 @@ curl -s -w "\n%{http_code}" -H "content-type:application/json" -d "$JSONlogData"
     read http_status
     http_response=`echo $response | jq '.response'`;
 
-	# PARSE the RESPONSE
-    if [ $http_status != "200" ]; then
-	echo "Connection ERROR: $http_status";
-	echo "Server Failure! Answer: $http_response";  
-    exit -1;
+  # PARSE the RESPONSE
+if [ $http_status != "200" ]; then
+  echo "Connection ERROR: $http_status";
+  echo "Server Failure! Answer: $http_response";  
+  exit -1;
 # else
     # echo "Sent to server! Answer: $http_response";  
 fi
