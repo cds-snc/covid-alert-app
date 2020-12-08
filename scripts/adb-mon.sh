@@ -30,7 +30,7 @@ fi
 ####
 # Now read and export the vars from .env into the shell:
 ## LOAD Loggly URL from global .env
-export $(egrep -v '^#' "$(dirname "$0")/../../.env" | xargs) # v is invert match mode, add s to silence
+export $(egrep -v '^#' "$(dirname $(dirname "$0"))/.env" | xargs) # v is invert match mode, add s to silence
 LOGGLY_URL="$LOGGLY_URL";
 
 #### ASSOCIATE LOGS WITH DEVICE UUID
