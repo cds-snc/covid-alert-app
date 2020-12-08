@@ -14,8 +14,7 @@ import {
 } from 'screens/datasharing';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
-import {RegionPickerSettingsScreen} from 'screens/regionPicker';
-import {RegionPickerExposedNoPTScreen} from 'screens/regionPicker';
+import {RegionPickerSettingsScreen, RegionPickerExposedNoPTScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
