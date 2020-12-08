@@ -24,7 +24,15 @@ export const getRegionCase = (region: Region | undefined, activeRegions: Region[
   return regionCase;
 };
 
-export function getExposedHelpURL(region: Region | undefined, regionalI18n: any) {
+export function getExposedHelpURL(
+  region: Region | undefined,
+  regionalI18n: any,
+  params: {drawerMenu?: false} | undefined,
+) {
+  if (params && params.drawerMenu) {
+    console.log('drawerMenu', params.drawerMenu);
+  }
+
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
   const nationalURL = regionalI18n.translate(`RegionContent.ExposureView.Inactive.CA.URL`);
   if (region !== undefined && region !== 'None') {
@@ -46,5 +54,5 @@ export function getExposedHelpMenuURL(region: Region | undefined, regionalI18n: 
       return regionalURL;
     }
   }
-  return getExposedHelpURL(region, regionalI18n);
+  return getExposedHelpURL(region, regionalI18n, undefined);
 }

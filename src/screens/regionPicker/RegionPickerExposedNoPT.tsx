@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Box, Toolbar, Text, TextMultiline} from 'components';
 import {ScrollView, Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -13,12 +13,15 @@ import {regionData, RegionItem, regionStyles} from './RegionPickerExposed';
 export const RegionPickerExposedNoPTScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
+  const route = useRoute();
+
   const regionalI18n = useRegionalI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
 
   const onPress = useCallback(
     region => {
-      Linking.openURL(getExposedHelpURL(region, regionalI18n)).catch(error =>
+      const params = route.params;
+      Linking.openURL(getExposedHelpURL(region, regionalI18n, params)).catch(error =>
         captureException('An error occurred', error),
       );
     },
