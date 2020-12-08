@@ -23,7 +23,7 @@ JobSchedulerLogs=`adb shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 23
 
 # Empty string checking
 if [ -z "$JobSchedulerLogs" ] ; then
-  echo "COVID Alert not installed on device, exiting."
+  echo "COVID Alert uninstalled from device, exiting."
   exit -1;
 fi
 
