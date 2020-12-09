@@ -787,7 +787,7 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Diagnosed,
         lastChecked: {
           period,
-          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+          timestamp: today.getTime() - PERIODIC_TASK_INTERVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
         },
       });
 
