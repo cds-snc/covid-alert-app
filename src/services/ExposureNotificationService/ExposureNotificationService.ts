@@ -159,7 +159,7 @@ export class ExposureNotificationService {
       await this.updateExposureStatusInBackground();
     } catch (error) {
       // Noop
-      log.error({category: 'background', payload: 'executeExposureCheckEvent'}, error);
+      log.error({category: 'background', message: 'executeExposureCheckEvent', error});
     }
   };
 
@@ -586,7 +586,7 @@ export class ExposureNotificationService {
     if (lastCheckedTimestamp) {
       const lastCheckedDate = new Date(lastCheckedTimestamp);
       const minutes = Math.ceil(minutesBetween(lastCheckedDate, today));
-      if (minutes < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
+      if (minutes < PERIODIC_TASK_INTERVAL_IN_MINUTES) {
         log.debug({
           category: 'exposure-check',
           message: 'shouldPerformExposureCheck',
