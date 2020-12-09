@@ -531,7 +531,7 @@ export class ExposureNotificationService {
     }
   }
 
-  public shouldPerformExposureCheck = async (captureLog: boolean = false) => {
+  public shouldPerformExposureCheck = async (captureLog = false) => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
