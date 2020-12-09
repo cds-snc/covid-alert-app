@@ -31,9 +31,9 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
             ReactApplication reactApplication = ((ReactApplication) context.getApplicationContext());
             mReactNativeHost = reactApplication.getReactNativeHost();
         } catch (AssertionError | ClassCastException e) {
-        Log.e(BackgroundFetch.TAG, "Failed to fetch ReactApplication.  Task ignored.");
-        return;  // <-- Do nothing.  Just return
-    }
+            Log.e(BackgroundFetch.TAG, "Failed to fetch ReactApplication.  Task ignored.");
+            return;  // <-- Do nothing.  Just return
+        }
         WritableMap clientEvent = new WritableNativeMap();
         clientEvent.putString("taskId", taskId);
         HeadlessJsTaskConfig config = new HeadlessJsTaskConfig(taskId, clientEvent, 30000);
@@ -45,10 +45,12 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
             mActiveTaskContext.removeTaskEventListener(this);
         }
     }
+
     @Override
     public void onHeadlessJsTaskStart(int taskId) {
-        Log.d(BackgroundFetch.TAG,"onHeadlessJsTaskStart: " + taskId);
+        Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskStart: " + taskId);
     }
+
     @Override
     public void onHeadlessJsTaskFinish(int taskId) {
         Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskFinish: " + taskId);
