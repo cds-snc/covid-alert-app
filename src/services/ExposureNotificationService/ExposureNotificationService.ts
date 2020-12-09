@@ -215,15 +215,21 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
+    // @todo: maybe remove this gets called in updateExposureStatus
     if (!(await this.shouldPerformExposureCheck())) return;
     await this.loadExposureStatus();
     try {
-      captureMessage('updateExposureStatusInBackground before', {exposureStatus: this.exposureStatus.get()});
       await this.updateExposureStatus();
       await this.processNotification();
-      captureMessage('updatedExposureStatusInBackground after', {exposureStatus: this.exposureStatus.get()});
+
+      const exposureStatus = this.exposureStatus.get();
+      log.debug({
+        category: 'exposure-check',
+        message: 'updatedExposureStatusInBackground',
+        payload: {exposureStatus},
+      });
     } catch (error) {
-      log.error({category: 'background', payload: 'updateExposureStatusInBackground'}, error);
+      log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
   }
 
@@ -517,6 +523,11 @@ export class ExposureNotificationService {
       this.exposureStatus.set(updatedExposure);
       this.finalize();
     }
+
+    if (updatedExposure.type === ExposureStatusType.Diagnosed) {
+      return;
+    }
+
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
     captureMessage('keysFileUrls', keysFileUrls);
     try {
@@ -564,23 +575,23 @@ export class ExposureNotificationService {
     if (!onboardedDatetime) {
       // Do not perform Exposure Checks if onboarding is not completed.
       log.debug({
-        category: 'exposureCheck',
-        Onboarded: false,
+        category: 'exposure-check',
+        message: 'shouldPerformExposureCheck',
+        payload: {onboardedDatetime, result: 'no', reason: '!onboardedDatetime'},
       });
       return false;
     }
 
     const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
     if (lastCheckedTimestamp) {
-      captureMessage(`shouldPerformExposureCheck - LastChecked Timestamp: ${lastCheckedTimestamp}`);
       const lastCheckedDate = new Date(lastCheckedTimestamp);
-      log.debug({
-        category: 'debug',
-        periodicTaskIntervalInMinutes: PERIODIC_TASK_INTERVAL_IN_MINUTES,
-        numberOfMinutesSinceLastExposureCheck: Math.ceil(minutesBetween(lastCheckedDate, today)),
-      });
-      if (Math.ceil(minutesBetween(lastCheckedDate, today)) < PERIODIC_TASK_INTERVAL_IN_MINUTES) {
-        captureMessage('shouldPerformExposureCheck - Too soon to check.');
+      const minutes = Math.ceil(minutesBetween(lastCheckedDate, today));
+      if (minutes < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
+        log.debug({
+          category: 'exposure-check',
+          message: 'shouldPerformExposureCheck',
+          payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes'},
+        });
         return false;
       }
     }
@@ -687,19 +698,24 @@ export class ExposureNotificationService {
       },
     });
     const currentExposureStatus = this.exposureStatus.get();
-    captureMessage('finalize', {
-      previousExposureStatus,
-      currentExposureStatus,
+    log.debug({
+      category: 'debug',
+      message: 'finalize',
+      payload: {
+        previousExposureStatus,
+        currentExposureStatus,
+      },
     });
   };
 
   private async performExposureStatusUpdate(): Promise<void> {
+    log.debug({category: 'exposure-check', message: 'performExposureStatusUpdate'});
+
     const exposureConfiguration = await this.getExposureConfiguration();
     const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
     if (hasPendingExposureSummary) {
       return;
     }
-    captureMessage('past pending summary check');
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
@@ -708,12 +724,14 @@ export class ExposureNotificationService {
       this.finalize();
     }
 
+    if (updatedExposure.type === ExposureStatusType.Diagnosed) {
+      return;
+    }
+
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
 
     try {
-      captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
@@ -721,20 +739,20 @@ export class ExposureNotificationService {
       if (summariesContainingExposures.length > 0) {
         const summary = this.selectExposureSummary(summariesContainingExposures[0]);
 
-        // if (!this.isIgnoredSummary(summary)) {
-        return this.finalize(
-          {
-            type: ExposureStatusType.Exposed,
-            summary,
-            exposureDetectedAt: getCurrentDate().getTime(),
-          },
-          lastCheckedPeriod,
-        );
-        // }
+        if (!this.isIgnoredSummary(summary)) {
+          return this.finalize(
+            {
+              type: ExposureStatusType.Exposed,
+              summary,
+              exposureDetectedAt: getCurrentDate().getTime(),
+            },
+            lastCheckedPeriod,
+          );
+        }
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
-      captureException('performExposureStatusUpdate', error);
+      log.error({category: 'exposure-check', message: 'performExposureStatusUpdate', error});
     }
 
     return this.finalize();
@@ -764,10 +782,10 @@ export class ExposureNotificationService {
       return false;
     }
     const summaries = await this.exposureNotification.getPendingExposureSummary().catch(error => {
-      captureException('Error getting pending summary', error);
+      log.error({category: 'exposure-check', message: 'processPendingExposureSummary', error});
     });
     if (!summaries || summaries.length === 0) {
-      captureMessage('returning false from processPendingExposureSummary: !summaries || summaries.length === 0');
+      log.error({category: 'exposure-check', message: 'processPendingExposureSummary', error: 'no summary'});
       return false;
     }
     const summariesContainingExposures = this.findSummariesContainingExposures(

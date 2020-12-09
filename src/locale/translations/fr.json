@@ -199,9 +199,13 @@
       "Notification": {
         "Received": "Date de la notification"
       },
+      "NegativeTest": {
+        "CTA": "Résultat de test négatif?"
+      },
       "Dismiss": {
         "Title": "Résultat négatif au test de dépistage?",
-        "Body": "Vous pouvez mettre fin à l’alerte pour continuer à recevoir des notifications d’exposition. Aucune information d’exposition ne sera supprimée des paramètres de votre téléphone.",
+        "Body": "Vous pouvez mettre fin à l’alerte pour continuer à recevoir des notifications d’exposition. Aucune information d’exposition ne sera supprimée de votre téléphone.",
+        "Body2": "Vous pouvez aussi mettre fin à l’alerte si vous suivez les consignes de votre région.",
         "CTA": "Mettre fin à l’alerte",
         "Confirm": {
           "Body": "Voulez-vous vraiment mettre fin à l’alerte?",

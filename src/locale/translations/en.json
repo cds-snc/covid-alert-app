@@ -32,9 +32,13 @@
       "Notification": {
         "Received": "Notification received"
       },
+      "NegativeTest": {
+        "CTA": "Negative test?"
+      },
       "Dismiss": {
         "Title": "Negative test result?",
-        "Body": "Dismiss this alert to receive any new exposure notifications. Dismissing it will not delete the exposure information in your phone’s settings.",
+        "Body": "Dismiss this alert to receive any new exposure notifications. Dismissing this alert will not delete the exposure logs on your phone.",
+        "Body2": "You can also dismiss the alert if you’re following your area’s guidance.",
         "CTA": "Dismiss alert",
         "Confirm": {
           "Body": "Are you sure you want to dismiss this alert?",
