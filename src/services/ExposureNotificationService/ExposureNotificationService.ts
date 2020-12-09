@@ -135,12 +135,12 @@ export class ExposureNotificationService {
   }
 
   initiateExposureCheckEvent = async () => {
-    log.debug({category: 'background', payload: 'initiateExposureCheckEvent'});
+    log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
     await this.initiateExposureCheck();
   };
 
   initiateExposureCheckHeadless = async () => {
-    log.debug({category: 'background', payload: 'initiateExposureCheckEvent'});
+    log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
     await this.initiateExposureCheck();
   };
 
@@ -154,7 +154,7 @@ export class ExposureNotificationService {
   };
 
   executeExposureCheckEvent = async () => {
-    log.debug({category: 'background', payload: 'executeExposureCheckEvent'});
+    log.debug({category: 'background', message: 'executeExposureCheckEvent'});
     try {
       await this.updateExposureStatusInBackground();
     } catch (error) {

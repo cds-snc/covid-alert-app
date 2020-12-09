@@ -42,7 +42,7 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     );
     captureMessage('registerPeriodicTask', {result});
   } else {
-    log.debug({category: 'background', payload: {message: 'registerPeriodicTask - Android'}});
+    log.debug({category: 'background', message: 'registerPeriodicTask - Android'});
     const payload: PeriodicWorkPayload = {
       initialDelay: PERIODIC_TASK_DELAY_IN_MINUTES,
       repeatInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
