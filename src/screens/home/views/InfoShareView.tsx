@@ -35,7 +35,7 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
     } else {
       navigation.navigate('RegionSelectExposedNoPT', {drawerMenu: true});
     }
-  }, [region, regionalI18n]);
+  }, [navigation, region, regionalI18n]);
 
   return (
     <>

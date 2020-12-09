@@ -4,7 +4,7 @@ import {Box, Toolbar, Text, TextMultiline} from 'components';
 import {ScrollView, Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
-import {getExposedHelpURL} from 'shared/RegionLogic';
+import {getExposedHelpURL, getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {captureException} from 'shared/log';
 
@@ -13,19 +13,25 @@ import {regionData, RegionItem, regionStyles} from './RegionPickerExposed';
 export const RegionPickerExposedNoPTScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
-  const route = useRoute();
-
+  const route: any = useRoute();
   const regionalI18n = useRegionalI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
 
   const onPress = useCallback(
     region => {
-      const params = route.params;
-      Linking.openURL(getExposedHelpURL(region, regionalI18n, params)).catch(error =>
-        captureException('An error occurred', error),
-      );
+      if (route.params?.drawerMenu) {
+        // view loaded from drawer menu
+        Linking.openURL(getExposedHelpMenuURL(region, regionalI18n)).catch(error =>
+          captureException('An error occurred', error),
+        );
+      } else {
+        // view loaded from exposed screen
+        Linking.openURL(getExposedHelpURL(region, regionalI18n)).catch(error =>
+          captureException('An error occurred', error),
+        );
+      }
     },
-    [regionalI18n],
+    [regionalI18n, route.params],
   );
 
   return (
