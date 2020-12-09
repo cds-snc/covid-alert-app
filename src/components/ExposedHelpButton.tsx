@@ -39,7 +39,11 @@ export const ExposedHelpButton = () => {
   }
   return (
     <Box alignSelf="stretch" marginTop="s" marginBottom={regionActive ? 'm' : 'm'}>
-      <ButtonSingleLine text={cta} variant="bigFlatPurple" externalLink onPress={onPress} />
+      {region !== undefined && region !== 'None' ? (
+        <ButtonSingleLine text={cta} variant="bigFlatPurple" externalLink onPress={onPress} />
+      ) : (
+        <ButtonSingleLine text={cta} variant="bigFlatPurple" internalLinkLight onPress={onPress} />
+      )}
     </Box>
   );
 };
