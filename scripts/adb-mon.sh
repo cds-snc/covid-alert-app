@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Filename : adb-mon
-## Authors: Andréas Kaytar-LeFrançois, 
+## Authors: Andréas Kaytar-LeFrançois,
 ## Collaborators: Dave Samojlenko, James Eberhardt
 ## Compatibility: MacOSX 10.15.7+, adb 30+
 ## Description: script to log Power Monitor service info on Android device
@@ -14,7 +14,7 @@ ADBStandByBuckets=$( adb shell am get-standby-bucket 2>&1);
 
 
 
-if `grep -q 'error' <<< "$ADBStandByBuckets"`; then 
+if `grep -q 'error' <<< "$ADBStandByBuckets"`; then
   echo "Could not connect to adb, exiting..."
   exit -1;
 else
@@ -28,7 +28,7 @@ else
   ADBStandByBuckets=$( echo "$ADBStandByBuckets" | grep covid );
 fi
 
-# Dump all scheduled jobs, then filter 
+# Dump all scheduled jobs, then filter
 JobSchedulerLogs=`adb shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 23 ca.gc.hcsc.canada.covidalert`;
 
 # Empty string checking
@@ -44,13 +44,17 @@ export $(egrep -v '^#' "$(dirname $(dirname "$0"))/.env" | xargs) # v is invert 
 LOGGLY_URL="$LOGGLY_URL";
 
 #### ASSOCIATE LOGS WITH DEVICE UUID
-read -p "Enter device  UUID (found in the debug menu of the app): " DEVICE_UUID
+if [ $# -eq 0 ]; then
+  read -p "Enter device  UUID (found in the debug menu of the app): " DEVICE_UUID
+else
+  DEVICE_UUID=$1
+fi
 
 # Empty string checking
 if [ -z "$DEVICE_UUID" ] ; then
   echo "No UUID, exiting."
   exit -1;
-else 
+else
   DEVICE_UUID=`echo "$DEVICE_UUID" | awk '{print toupper($0)}'` # format UUID to all caps
 fi
 
@@ -72,17 +76,17 @@ JSONlogData=$( jq -n \
 # POST THE LOGS
 # curl options are VERY important here
 curl -s -w "\n%{http_code}" -H "content-type:application/json" -d "$JSONlogData" $LOGGLY_URL | {
-    read response 
+    read response
     read http_status
     http_response=`echo $response | jq '.response'`;
 
   # PARSE the RESPONSE
 if [ $http_status != "200" ]; then
   echo "Connection ERROR: $http_status";
-  echo "Server Failure! Answer: $http_response";  
+  echo "Server Failure! Answer: $http_response";
   exit -1;
 # else
-    # echo "Sent to server! Answer: $http_response";  
+    # echo "Sent to server! Answer: $http_response";
 fi
 }
 
