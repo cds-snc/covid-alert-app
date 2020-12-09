@@ -6,16 +6,25 @@
 ## Compatibility: MacOSX 10.15.7+, adb 30+
 ## Description: script to log Power Monitor service info on Android device
 ## Intended audience: devs testing on android
+## Usage: to be called by a scheduler every hour
 
 
 # POLL DEVICE
 ADBStandByBuckets=$( adb shell am get-standby-bucket 2>&1);
+
+
 
 if `grep -q 'error' <<< "$ADBStandByBuckets"`; then 
   echo "Could not connect to adb, exiting..."
   exit -1;
 else
   echo "adb connection established..."
+  # possible bucket values are:
+  # 5: exempt
+  # 10: active
+  # 20: working-set
+  # 30: frequent
+  # 40: rare
   ADBStandByBuckets=$( echo "$ADBStandByBuckets" | grep covid );
 fi
 
