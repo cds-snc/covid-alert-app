@@ -586,7 +586,6 @@ export class ExposureNotificationService {
     const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
     if (lastCheckedTimestamp) {
       const lastCheckedDate = new Date(lastCheckedTimestamp);
-<<<<<<< HEAD
       const minutes = Math.ceil(minutesBetween(lastCheckedDate, today));
       if (minutes < PERIODIC_TASK_INTERVAL_IN_MINUTES) {
         log.debug({
@@ -600,18 +599,6 @@ export class ExposureNotificationService {
             reason: 'minutes',
           },
         });
-=======
-      const minutes = minutesBetween(lastCheckedDate, today);
-      if (minutes < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
-        if (captureLog) {
-          log.debug({
-            category: 'exposure-check',
-            message: 'shouldPerformExposureCheck',
-            payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes'},
-          });
-        }
-
->>>>>>> master
         return false;
       }
     }
