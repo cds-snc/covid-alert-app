@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {Box, Toolbar, Text, TextMultiline} from 'components';
 import {ScrollView, Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -8,12 +8,16 @@ import {getExposedHelpURL, getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {captureException} from 'shared/log';
 
+import {MainStackParamList} from '../../navigation/MainNavigator';
+
 import {regionData, RegionItem, regionStyles} from './RegionPickerExposed';
+
+type RegionPickerExposedNoPTScreenProps = RouteProp<MainStackParamList, 'RegionSelectExposedNoPT'>;
 
 export const RegionPickerExposedNoPTScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
-  const route: any = useRoute();
+  const route = useRoute<RegionPickerExposedNoPTScreenProps>();
   const regionalI18n = useRegionalI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
 

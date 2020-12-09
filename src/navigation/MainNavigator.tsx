@@ -25,7 +25,7 @@ import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
-const MainStack = createStackNavigator();
+const MainStack = createStackNavigator<MainStackParamList>();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
@@ -66,6 +66,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Home: undefined;
   Onboarding: undefined;
   Tutorial: undefined;
+  RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
@@ -148,7 +149,11 @@ const MainNavigator = () => {
       <MainStack.Screen name="DataSharing" component={DataSharingNavigator} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
-      <MainStack.Screen name="RegionSelectExposedNoPT" component={RegionPickerSettingsExposedScreenWithNavBar} />
+      <MainStack.Screen
+        name="RegionSelectExposedNoPT"
+        initialParams={{drawerMenu: false}}
+        component={RegionPickerSettingsExposedScreenWithNavBar}
+      />
       <MainStack.Screen name="DismissAlert" component={DismissAlertScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
