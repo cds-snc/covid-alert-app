@@ -27,27 +27,27 @@ import CanadaLogo from 'assets/canada.svg';
 import PurpleBullet from 'assets/purple-bullet.svg';
 
 const ICONS = {
-  'icon-x': IconX, //bullet
-  'icon-back-arrow': IconBackArrow, //passed to unused prop
+  'icon-x': IconX,
+  'icon-back-arrow': IconBackArrow,
   'icon-down-arrow': IconDownArrow,
   'icon-bluetooth-disabled': IconBluetoothDisabled,
   'icon-check': IconCheck,
-  'icon-check-white': IconCheckWhite, //redundant variant to icon-check
-  'icon-green-check': IconGreenCheck, //bullet
-  'icon-chevron': IconChevron, //ambiguous name
-  'icon-chevron-back': IconChevronBack, //styled
-  'icon-chevron-white': IconChevronWhite, //redundant variant to icon-check
+  'icon-check-white': IconCheckWhite,
+  'icon-green-check': IconGreenCheck,
+  'icon-chevron': IconChevron,
+  'icon-chevron-back': IconChevronBack,
+  'icon-chevron-white': IconChevronWhite,
   'icon-external-arrow': IconExternalArrow,
-  'icon-external-arrow-light': IconExternalArrowLight, //redundant variant to icon-external-arrow
+  'icon-external-arrow-light': IconExternalArrowLight,
   'icon-light-bulb': IconLightBulb,
   'covid-alert-en': CovidAlertEn,
   'covid-alert-fr': CovidAlertFr,
   'progress-circle-filled': ProgressCircleFilled,
-  'progress-circle-empty': ProgressCircleEmpty, //redundant variant to progress-circle-filled
+  'progress-circle-empty': ProgressCircleEmpty,
   'purple-bullet': PurpleBullet,
   'sheet-handle-bar': SheetHandleBar,
   'sheet-handle-bar-close': SheetHandleBarClose,
-  'thumbs-up': ThumbsUp, //review naming
+  'thumbs-up': ThumbsUp,
   'hand-caution': HandCaution,
   'hand-reminder': HandReminder,
   'hand-thank-you-with-love': HandThankYouWithLove,
