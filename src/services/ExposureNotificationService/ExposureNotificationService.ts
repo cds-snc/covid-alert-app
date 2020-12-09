@@ -272,7 +272,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(forceCheck = false): Promise<void> {
-    if (!forceCheck && !(await this.shouldPerformExposureCheck())) return;
+    if (!forceCheck && !(await this.shouldPerformExposureCheck(true))) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
       this.exposureStatusUpdatePromise = null;
@@ -531,18 +531,20 @@ export class ExposureNotificationService {
     }
   }
 
-  public shouldPerformExposureCheck = async () => {
+  public shouldPerformExposureCheck = async (captureLog = false) => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
 
     if (!onboardedDatetime) {
       // Do not perform Exposure Checks if onboarding is not completed.
-      log.debug({
-        category: 'exposure-check',
-        message: 'shouldPerformExposureCheck',
-        payload: {onboardedDatetime, result: 'no', reason: '!onboardedDatetime'},
-      });
+      if (captureLog) {
+        log.debug({
+          category: 'exposure-check',
+          message: 'shouldPerformExposureCheck',
+          payload: {onboardedDatetime, result: 'no', reason: '!onboardedDatetime'},
+        });
+      }
       return false;
     }
 
@@ -551,11 +553,13 @@ export class ExposureNotificationService {
       const lastCheckedDate = new Date(lastCheckedTimestamp);
       const minutes = minutesBetween(lastCheckedDate, today);
       if (minutes < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
-        log.debug({
-          category: 'exposure-check',
-          message: 'shouldPerformExposureCheck',
-          payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes'},
-        });
+        if (captureLog) {
+          log.debug({
+            category: 'exposure-check',
+            message: 'shouldPerformExposureCheck',
+            payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes'},
+          });
+        }
 
         return false;
       }
@@ -696,6 +700,7 @@ export class ExposureNotificationService {
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
 
     try {
+      log.debug({category: 'exposure-check', message: 'detectExposure'});
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
