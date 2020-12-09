@@ -590,7 +590,13 @@ export class ExposureNotificationService {
         log.debug({
           category: 'exposure-check',
           message: 'shouldPerformExposureCheck',
-          payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes'},
+          payload: {
+            minutes,
+            taskInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
+            lastCheckedTimestamp,
+            result: 'no',
+            reason: 'minutes',
+          },
         });
         return false;
       }
