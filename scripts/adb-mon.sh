@@ -35,12 +35,12 @@ elif `grep -q 'more than one' <<< "$ADBStandByBuckets"`; then
     exit -1;
   fi
   MULTI=true
-#### ASSOCIATE LOGS WITH APP-generated UUID
-elif [ $# -eq 0 ]; then
-  read -p "Enter device APP_UUID (found in the debug menu of the app): " APP_UUID
 elif `grep -q 'error' <<< "$ADBStandByBuckets"`; then
   echo "Could not connect to adb, exiting..."
   exit -1;
+#### ASSOCIATE LOGS WITH APP-generated UUID
+elif [ $# -eq 0 ]; then
+  read -p "Enter device APP_UUID (found in the debug menu of the app): " APP_UUID
 fi
 
 DEVICES=$( adb devices );
