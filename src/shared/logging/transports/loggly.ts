@@ -11,8 +11,8 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
   const platform = Platform.OS;
   const versionCode = APP_VERSION_CODE;
   const versionName = APP_VERSION_NAME;
-  let status = '';
-  let minutes = '';
+  let currentStatus = '';
+  let lastCheckedMinutesAgo = '';
 
   // used for staging env - never production
   if (LOGGLY_URL) {
@@ -23,8 +23,8 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
       const exposureStatus = JSON.parse(exposureStatusJson);
       const lastCheckedTimestamp = exposureStatus.lastChecked.timestamp;
       const lastCheckedDate = new Date(lastCheckedTimestamp);
-      minutes = Math.ceil(minutesBetween(lastCheckedDate, today)).toString();
-      status = exposureStatus.type;
+      lastCheckedMinutesAgo = Math.ceil(minutesBetween(lastCheckedDate, today)).toString();
+      currentStatus = exposureStatus.type;
     }
 
     fetch(LOGGLY_URL, {
@@ -40,8 +40,8 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
         level,
         versionCode,
         versionName,
-        currentStatus: status,
-        lastCheckedMinutesAgo: minutes,
+        currentStatus,
+        lastCheckedMinutesAgo,
       }),
     }).catch(error => {
       console.log(error); // eslint-disable-line no-console
