@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Observable} from 'shared/Observable';
 import {Region} from 'shared/Region';
 import {getSystemLocale} from 'locale/utils';
-import {captureMessage} from 'shared/log';
 
 export enum Key {
   IsOnboarded = 'IsOnboarded',
