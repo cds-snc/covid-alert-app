@@ -587,16 +587,17 @@ export class ExposureNotificationService {
         new Date(summary.lastExposureTimestamp),
       );
 
-      captureMessage('isIgnoredSummary daysBetween', {daysBetween});
-      captureMessage('isIgnoredSummary', {ignoredSummary, summary});
+      log.debug({
+        category: 'summary',
+        message: 'isIgnoredSummary',
+        payload: {daysBetween: daysBetween, ignoredSummary: summary, matches},
+      });
 
       // ignore summaries that are same day or older than ignored summary
       if (daysBetween <= 0) {
         return true;
       }
     });
-
-    captureMessage('isIgnoredSummary matches', {matches});
 
     if (matches && matches.length >= 1) {
       return true;
@@ -639,7 +640,6 @@ export class ExposureNotificationService {
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
-    captureMessage('summaryExceedsMinimumMinutes', summary);
     // on ios attenuationDurations is in seconds, on android it is in minutes
     const divisor = Platform.OS === 'ios' ? 60 : 1;
     const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
@@ -823,11 +823,11 @@ export class ExposureNotificationService {
   private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
-      captureMessage('selectExposureSummary use nextSummary', {nextSummary});
+      log.debug({category: 'summary', message: 'selectExposureSummary', payload: {nextSummary}});
       return nextSummary;
     }
     const currentSummary = exposureStatus.summary;
-    captureMessage('selectExposureSummary use currentSummary', {currentSummary});
+    log.debug({category: 'summary', message: 'selectExposureSummary', payload: {currentSummary}});
     return currentSummary;
   }
 
