@@ -28,8 +28,8 @@
     "deploy-android:diawi": "bundle exec fastlane android adhoc",
     "deploy-ios:demo": "bundle exec fastlane ios adhoc env:demo",
     "adb-mon": "./scripts/adb-mon/adb-mon.sh",
-    "adb-mon:register": "./scripts/adb-mon/adb-mon-register.sh",
-    "adb-mon:wifi": "./scripts/adb-mon/adb-wifi.sh"
+    "adb-mon:register": "./scripts/adb-mon/register-cron.sh",
+    "adb-mon:wifi": "./scripts/adb-mon/connect-devices.sh"
   },
   "dependencies": {
     "@react-native-community/async-storage": "1.9.0",
