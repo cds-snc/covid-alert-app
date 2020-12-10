@@ -15,19 +15,19 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
   let status = '';
   let minutes = '';
 
-  const today = getCurrentDate();
-  const exposureStatusJson = await AsyncStorage.getItem(EXPOSURE_STATUS);
-
-  if (exposureStatusJson) {
-    const exposureStatus = JSON.parse(exposureStatusJson);
-    const lastCheckedTimestamp = exposureStatus.lastChecked.timestamp;
-    const lastCheckedDate = new Date(lastCheckedTimestamp);
-    minutes = Math.ceil(minutesBetween(lastCheckedDate, today)).toString();
-    status = exposureStatus.type;
-  }
-
   // used for staging env - never production
   if (LOGGLY_URL) {
+    const today = getCurrentDate();
+    const exposureStatusJson = await AsyncStorage.getItem(EXPOSURE_STATUS);
+
+    if (exposureStatusJson) {
+      const exposureStatus = JSON.parse(exposureStatusJson);
+      const lastCheckedTimestamp = exposureStatus.lastChecked.timestamp;
+      const lastCheckedDate = new Date(lastCheckedTimestamp);
+      minutes = Math.ceil(minutesBetween(lastCheckedDate, today)).toString();
+      status = exposureStatus.type;
+    }
+
     fetch(LOGGLY_URL, {
       method: 'POST',
       headers: {
