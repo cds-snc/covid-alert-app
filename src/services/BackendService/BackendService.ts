@@ -174,7 +174,6 @@ export class BackendService implements BackendInterface {
 
   filterOldTEKs = async () => {
     const lastUploadedTekStartTime = Number(await AsyncStorage.getItem(LAST_UPLOADED_TEK_START_TIME));
-    captureMessage('lastUploadedTekStartTime', {lastUploadedTekStartTime});
     return (key: TemporaryExposureKey) => {
       if (!lastUploadedTekStartTime) {
         return true;
@@ -182,7 +181,6 @@ export class BackendService implements BackendInterface {
       if (key.rollingStartIntervalNumber > lastUploadedTekStartTime) {
         return true;
       }
-      captureMessage('keyTooOld', {keyTooOld: key});
       return false;
     };
   };
@@ -243,13 +241,11 @@ export class BackendService implements BackendInterface {
     }
     const encryptedPayload = nacl.box(serializedUpload, nonce, serverPublicKey, clientPrivate);
 
-    // captureMessage('Uploading encrypted diagnosis keys');
     await this.upload(encryptedPayload, nonce, serverPublicKey, clientPublicKey);
     await this.saveLastUploadedTekStartTime(exposureKeys);
   }
 
   private async keyClaim(code: string, keyPair: nacl.BoxKeyPair): Promise<covidshield.KeyClaimResponse> {
-    // captureMessage('keyClaim', {code});
     const uploadPayload = covidshield.KeyClaimRequest.create({
       oneTimeCode: code,
       appPublicKey: keyPair.publicKey,

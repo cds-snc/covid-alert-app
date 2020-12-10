@@ -20,7 +20,6 @@ import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage} from 'shared/log';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
@@ -38,7 +37,6 @@ interface IFetchData {
 }
 
 const appInit = async () => {
-  captureMessage('App.appInit()');
   SplashScreen.hide();
 };
 
@@ -53,9 +51,7 @@ const App = () => {
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      captureMessage('onAppStateChange', {appState: newState});
       if (newState === 'active') {
-        captureMessage('app is active - fetch data', {appState: newState});
         await fetchData();
       }
     };

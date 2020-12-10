@@ -242,12 +242,10 @@ export class ExposureNotificationService {
   public getPeriodsSinceLastFetch = (_lastCheckedPeriod?: number): number[] => {
     const runningDate = getCurrentDate();
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-    captureMessage('_lastCheckedPeriod', {_lastCheckedPeriod});
     if (!_lastCheckedPeriod) {
       return [0, runningPeriod];
     }
     const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
-    captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
     const periodsToFetch = [];
     while (runningPeriod > lastCheckedPeriod) {
       periodsToFetch.push(runningPeriod);
@@ -495,8 +493,6 @@ export class ExposureNotificationService {
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
     captureMessage('keysFileUrls', keysFileUrls);
     try {
-      captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
-
       let exposureWindows: ExposureWindow[];
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
@@ -509,7 +505,6 @@ export class ExposureNotificationService {
         }
       }
 
-      captureMessage('exposureWindows', exposureWindows);
       const [isExposed, dailySummary] = await this.checkIfExposedV2({
         exposureWindows,
         attenuationDurationThresholds: exposureConfiguration.attenuationDurationThresholds,
@@ -738,7 +733,6 @@ export class ExposureNotificationService {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
         keysFileUrls.push(keysFileUrl);
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
-        captureMessage('loop - keysFileUrl', {keysFileUrl});
       }
     } catch (error) {
       captureException('Error while downloading key file', error);
