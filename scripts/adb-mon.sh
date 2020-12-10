@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH=$PATH:/usr/local/bin/
 
 ## Filename : adb-mon
 ## Authors: Andréas Kaytar-LeFrançois,
