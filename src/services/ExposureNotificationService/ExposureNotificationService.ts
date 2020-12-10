@@ -130,7 +130,7 @@ export class ExposureNotificationService {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
 
-    // DeviceEventEmitter.addListener('initiateExposureCheck', this.initiateExposureCheckEvent);
+    DeviceEventEmitter.addListener('initiateExposureCheck', this.initiateExposureCheckEvent);
     DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
   }
 
