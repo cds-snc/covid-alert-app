@@ -10,45 +10,36 @@ export PATH=$PATH:/usr/local/bin/
 ## Usage: to be called by a scheduler every hour
 ## Parameters: ['APP_UUID'] ['DEVICE_SERIAL']
 
+LOCAL_TIME=$(date +"%_d %b %Y %R %Z")
+printf "\nStart of adb-mon at $LOCAL_TIME...\n"
 
-# POLL DEVICE
+# POLL DEVICES
 # possible bucket values are:
 # 5: exempt
 # 10: active
 # 20: working-set
 # 30: frequent
 # 40: rare
-ADBStandByBuckets=$( adb shell am get-standby-bucket 2>&1);
-
-LOCAL_TIME=$(date +"%_d %b %Y %R %Z")
-echo "Start of adb-mon at $LOCAL_TIME..."
+ADBStandByBuckets=$( adb shell am get-standby-bucket 2>&1 );
+DEVICES=$( adb devices 2>&1 );
 
 ## ERROR CHECKING
-if `grep -q 'no devices' <<< "$ADBStandByBuckets"`; then
+if `grep -q 'command not found' <<< "$DEVICES"`; then
+  echo "Could not find adb executable, exiting..."
+  exit -1;
+elif `grep -q 'no devices' <<< "$ADBStandByBuckets"`; then
   echo "Could not find devices, exiting..."
   exit -1;
 elif `grep -q 'more than one' <<< "$ADBStandByBuckets"`; then
+  ## MULTIPLE DEVICES VALIDATION
   if [ $# -eq 0 ]; then
     echo "Missing parameters to differentiate multiple devices, exiting..."
     exit -1;
+  elif [ $# -lt 2 ]; then
+    echo "Please use format './adb-mon [APP_UUID] [DEVICE_SERIAL]', exiting..."
+    exit -1;
   elif [[ "$2" =~ [^a-zA-Z0-9] ]]; then
     echo "Format of provided serial is not alphanumeric as expected, exiting..."
-    exit -1;
-  fi
-  MULTI=true
-elif `grep -q 'error' <<< "$ADBStandByBuckets"`; then
-  echo "Could not connect to adb, exiting..."
-  exit -1;
-#### ASSOCIATE LOGS WITH APP-generated UUID
-elif [ $# -eq 0 ]; then
-  read -p "Enter device APP_UUID (found in the debug menu of the app): " APP_UUID
-fi
-
-DEVICES=$( adb devices );
-## DEVICE VALIDATION
-if [ "$MULTI" = true ]; then
-  if [ $# -lt 2 ]; then
-    echo "Please use format './adb-mon [APP_UUID] [DEVICE_SERIAL]', exiting..."
     exit -1;
   elif `! grep -q "$2" <<< "$DEVICES"`; then
     echo "Could not match provided serial to local device, exiting..."
@@ -57,19 +48,32 @@ if [ "$MULTI" = true ]; then
     DEVICE_SERIAL="$2"
     SERIAL_STR="-s $DEVICE_SERIAL"
   fi
+elif `grep -q 'error' <<< "$ADBStandByBuckets"` || `grep -q 'error' <<< "$DEVICES"` ; then
+  echo "Could not connect to adb, exiting..."
+  exit -1;
 fi
 
-if (( "${#1}" != 8 )); then
-    echo "Provided APP_UUID is not 8 alphanumeric characters long, exiting..."
-    exit -1;
+#### ASSOCIATE LOGS WITH APP-generated UUID
+if [ $# -eq 0 ]; then
+  read -p "Enter device APP_UUID (found in the debug menu of the app): " APP_UUID
 else
   APP_UUID=$1
+fi
+
+if (( "${#APP_UUID}" != 8 )); then
+    echo "Provided APP_UUID is not 8 alphanumeric characters long, exiting..."
+    exit -1;
 fi
 
 ## POLL DEVICES
 echo "adb connection established..."
 
-ADBStandByBuckets=`adb $SERIAL_STR $shell am get-standby-bucket 2>&1 | grep covid`;
+####
+# CONNECT TO ADB OVER WIFI?
+# echo "Sending logs..."
+#DEVICE_IP=0.0.0.0; #can be set manually
+
+ADBStandByBuckets=`adb $SERIAL_STR shell am get-standby-bucket 2>&1 | grep covid`;
 
 # Dump all scheduled jobs, then filter
 JobSchedulerLogs=`adb $SERIAL_STR shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 23 ca.gc.hcsc.canada.covidalert`;
@@ -93,12 +97,6 @@ if [ -z "$APP_UUID" ]; then
 else
   APP_UUID=`echo "$APP_UUID" | awk '{print toupper($0)}'` # format APP_UUID to all caps
 fi
-
-####
-# CONNECT TO ADB OVER WIFI?
-# echo "Sending logs..."
-#DEVICE_IP=0.0.0.0; #can be set manually
-
 
 JSONlogData=$( jq -n \
   --arg u "$USER" \
