@@ -130,7 +130,7 @@ export class ExposureNotificationService {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
 
-    DeviceEventEmitter.addListener('initiateExposureCheck', this.initiateExposureCheckEvent);
+    DeviceEventEmitter.addListener('initiateExposureCheckEvent', this.initiateExposureCheckEvent);
     DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
   }
 
@@ -568,6 +568,7 @@ export class ExposureNotificationService {
   }
 
   public shouldPerformExposureCheck = async (captureLog = false) => {
+    return true;
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
