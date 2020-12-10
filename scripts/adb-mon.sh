@@ -7,7 +7,7 @@
 ## Description: script to log Power Monitor service info on Android device
 ## Intended audience: devs testing on android
 ## Usage: to be called by a scheduler every hour
-## Parameters: ['UUID'] ['DEVICE_SERIAL']
+## Parameters: ['APP_UUID'] ['DEVICE_SERIAL']
 
 
 # POLL DEVICE
@@ -19,6 +19,8 @@
 # 40: rare
 ADBStandByBuckets=$( adb shell am get-standby-bucket 2>&1);
 
+LOCAL_TIME=$(date +"%_d %b %Y %R %Z")
+echo "Start of adb-mon at $LOCAL_TIME..."
 
 ## ERROR CHECKING
 if `grep -q 'no devices' <<< "$ADBStandByBuckets"`; then
@@ -26,29 +28,26 @@ if `grep -q 'no devices' <<< "$ADBStandByBuckets"`; then
   exit -1;
 elif `grep -q 'more than one' <<< "$ADBStandByBuckets"`; then
   if [ $# -eq 0 ]; then
-    echo "Could not differentiate multiple devices, exiting..."
+    echo "Missing parameters to differentiate multiple devices, exiting..."
+    exit -1;
+  elif [[ "$2" =~ [^a-zA-Z0-9] ]]; then
+    echo "Format of provided serial is not alphanumeric as expected, exiting..."
     exit -1;
   fi
   MULTI=true
-elif (( "${#1}" < 8 )); then
-    echo "Provided UUID is not of the expected length, exiting..."
-    exit -1;
-elif [[ "$2" =~ [^a-zA-Z0-9] ]]; then
-    echo "Format of provided serial is not alphanumeric as expected, exiting..."
-    exit -1;
+#### ASSOCIATE LOGS WITH APP-generated UUID
+elif [ $# -eq 0 ]; then
+  read -p "Enter device APP_UUID (found in the debug menu of the app): " APP_UUID
 elif `grep -q 'error' <<< "$ADBStandByBuckets"`; then
   echo "Could not connect to adb, exiting..."
   exit -1;
-fi 
+fi
 
-## POLL DEVICES
-echo "adb connection established..."
 DEVICES=$( adb devices );
-
 ## DEVICE VALIDATION
 if [ "$MULTI" = true ]; then
   if [ $# -lt 2 ]; then
-    echo "Please use format './adb-mon [UUID] [DEVICE_SERIAL]', exiting..."
+    echo "Please use format './adb-mon [APP_UUID] [DEVICE_SERIAL]', exiting..."
     exit -1;
   elif `! grep -q "$2" <<< "$DEVICES"`; then
     echo "Could not match provided serial to local device, exiting..."
@@ -58,6 +57,16 @@ if [ "$MULTI" = true ]; then
     SERIAL_STR="-s $DEVICE_SERIAL"
   fi
 fi
+
+if (( "${#1}" != 8 )); then
+    echo "Provided APP_UUID is not 8 alphanumeric characters long, exiting..."
+    exit -1;
+else
+  APP_UUID=$1
+fi
+
+## POLL DEVICES
+echo "adb connection established..."
 
 ADBStandByBuckets=`adb $SERIAL_STR $shell am get-standby-bucket 2>&1 | grep covid`;
 
@@ -76,19 +85,12 @@ fi
 export $(egrep -v '^#' "$(dirname $(dirname "$0"))/.env" | xargs) # v is invert match mode, add s to silence
 LOGGLY_URL="$LOGGLY_URL";
 
-#### ASSOCIATE LOGS WITH DEVICE UUID
-if [ $# -eq 0 ]; then
-  read -p "Enter device  UUID (found in the debug menu of the app): " DEVICE_UUID
-else
-  DEVICE_UUID=$1
-fi
-
 # Empty string checking
-if [ -z "$DEVICE_UUID" ]; then
-  echo "No UUID, exiting."
+if [ -z "$APP_UUID" ]; then
+  echo "No APP_UUID, exiting."
   exit -1;
 else
-  DEVICE_UUID=`echo "$DEVICE_UUID" | awk '{print toupper($0)}'` # format UUID to all caps
+  APP_UUID=`echo "$APP_UUID" | awk '{print toupper($0)}'` # format APP_UUID to all caps
 fi
 
 ####
@@ -100,11 +102,11 @@ fi
 JSONlogData=$( jq -n \
   --arg u "$USER" \
   --arg t "$LOCAL_TIME" \
-  --arg uuid "$DEVICE_UUID" \
+  --arg uuid "$APP_UUID" \
   --arg serial "$DEVICE_SERIAL" \
   --arg stbyBkt "$ADBStandByBuckets" \
   --arg schdJbs "$JobSchedulerLogs" \
-  '{user: $u, localTime: $t, UUID: $uuid, serial: $serial, standbyBucket: $stbyBkt, scheduledJobs: $schdJbs}' );
+  '{user: $u, localTime: $t, APP_UUID: $uuid, serial: $serial, standbyBucket: $stbyBkt, scheduledJobs: $schdJbs}' );
 
 
 # POST THE LOGS
@@ -115,12 +117,12 @@ curl -s -w "\n%{http_code}" -H "content-type:application/json" -d "$JSONlogData"
     http_response=`echo $response | jq '.response'`;
 
   # PARSE the RESPONSE
-if [ $http_status != "200" ]; then
-  echo "Connection ERROR: $http_status";
-  echo "Server Failure! Answer: $http_response";
-  exit -1;
-# else
-    # echo "Sent to server! Answer: $http_response";
+  if [ $http_status != "200" ]; then
+    echo "Connection ERROR: $http_status";
+    echo "Server Failure! Answer: $http_response";
+    exit -1;
+  else
+      echo "adb-mon logs sent to server! Answer: $http_response";
 fi
 }
 
