@@ -14,7 +14,7 @@ echo "======= CURRENT CRONTAB ======="
 echo "$(crontab -l)"
 echo "======= CURRENT CRONTAB ======="
 
-CRON="0 * * * * $SCRIPT >> $LOGFILE 2>&1"
+CRON="0 * * * * $SCRIPT $@ >> $LOGFILE 2>&1"
 
 echo $SCRIPT
 echo "$CRON"
