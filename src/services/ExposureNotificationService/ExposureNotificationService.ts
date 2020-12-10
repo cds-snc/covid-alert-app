@@ -270,7 +270,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(forceCheck = false): Promise<void> {
-    if (!forceCheck && !(await this.shouldPerformExposureCheck(true))) return;
+    if (!forceCheck && !(await this.shouldPerformExposureCheck())) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
       this.exposureStatusUpdatePromise = null;
@@ -526,20 +526,12 @@ export class ExposureNotificationService {
     }
   }
 
-  public shouldPerformExposureCheck = async (captureLog = false) => {
+  public shouldPerformExposureCheck = async () => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
 
     if (!onboardedDatetime) {
-      // Do not perform Exposure Checks if onboarding is not completed.
-      if (captureLog) {
-        log.debug({
-          category: 'exposure-check',
-          message: 'shouldPerformExposureCheck',
-          payload: {onboardedDatetime, result: 'no', reason: '!onboardedDatetime'},
-        });
-      }
       return false;
     }
 
@@ -548,13 +540,11 @@ export class ExposureNotificationService {
       const lastCheckedDate = new Date(lastCheckedTimestamp);
       const minutes = minutesBetween(lastCheckedDate, today);
       if (minutes < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
-        if (captureLog) {
-          log.debug({
-            category: 'exposure-check',
-            message: 'shouldPerformExposureCheck',
-            payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes'},
-          });
-        }
+        log.debug({
+          category: 'exposure-check',
+          message: 'shouldPerformExposureCheck',
+          payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes', onboardedDatetime},
+        });
 
         return false;
       }
