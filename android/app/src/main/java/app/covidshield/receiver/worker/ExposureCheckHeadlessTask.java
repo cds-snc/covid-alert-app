@@ -18,7 +18,9 @@ import com.transistorsoft.tsbackgroundfetch.BackgroundFetch;
 import com.facebook.react.common.LifecycleState;
 
 /**
- * Created by chris on 2018-01-17.
+ * Created by chris on 2018-01-17 for https://github.com/cds-snc/react-native-background-fetch
+ *
+ * Copied and modified into COVID Alert to allow a unique taskId passed into HeadlessJsTaskConfig().
  */
 
 public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
