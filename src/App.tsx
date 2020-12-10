@@ -20,7 +20,6 @@ import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage} from 'shared/log';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
