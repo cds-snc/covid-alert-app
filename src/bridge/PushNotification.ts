@@ -8,8 +8,8 @@ export interface PeriodicWorkPayload {
 }
 
 export interface NotificationPayload {
-  title: string;
-  body: string;
+  alertTitle: string;
+  alertBody: string;
   channelName: string;
   disableSound?: boolean;
 }

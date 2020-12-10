@@ -146,8 +146,8 @@ export class ExposureNotificationService {
 
   initiateExposureCheck = async () => {
     const payload: NotificationPayload = {
-      title: this.i18n.translate('Notification.ExposureChecksTitle'),
-      body: this.i18n.translate('Notification.ExposureChecksBody'),
+      alertTitle: this.i18n.translate('Notification.ExposureChecksTitle'),
+      alertBody: this.i18n.translate('Notification.ExposureChecksBody'),
       channelName: this.i18n.translate('Notification.ExposureChecksAndroidChannelName'),
       disableSound: true,
     };

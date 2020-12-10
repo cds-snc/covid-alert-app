@@ -92,9 +92,9 @@ private class PeriodicWorkPayload(
 
 private class NotificationPayload(
         @SerializedName("uuid") private val _uuid: String?,
-        @SerializedName("body") val body: String,
-        @SerializedName("title") val title: String,
-        @SerializedName("channelName") val channelName: String,
+        @SerializedName("alertAction") val action: String?,
+        @SerializedName("alertBody") val body: String?,
+        @SerializedName("alertTitle") val title: String?,
         @SerializedName("priority") val _priority: Int?,
         @SerializedName("disableSound") val _disableSound: Boolean?
 
