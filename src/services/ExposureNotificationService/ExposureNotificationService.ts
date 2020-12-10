@@ -590,7 +590,7 @@ export class ExposureNotificationService {
       log.debug({
         category: 'summary',
         message: 'isIgnoredSummary',
-        payload: {daysBetween: daysBetween, ignoredSummary: summary, matches},
+        payload: {daysBetween, ignoredSummary: summary, matches},
       });
 
       // ignore summaries that are same day or older than ignored summary
