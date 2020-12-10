@@ -38,7 +38,6 @@ interface IFetchData {
 }
 
 const appInit = async () => {
-  captureMessage('App.appInit()');
   SplashScreen.hide();
 };
 
@@ -53,9 +52,7 @@ const App = () => {
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      captureMessage('onAppStateChange', {appState: newState});
       if (newState === 'active') {
-        captureMessage('app is active - fetch data', {appState: newState});
         await fetchData();
       }
     };

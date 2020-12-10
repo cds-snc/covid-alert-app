@@ -66,7 +66,6 @@ export class StorageService {
   setUserStopped = async (value: boolean) => {
     await AsyncStorage.setItem(Key.UserStopped, value ? '1' : '0');
     this.userStopped.set(value);
-    captureMessage(`StorageService setUserStopped userStopped ${value}`);
   };
 
   init = async () => {
