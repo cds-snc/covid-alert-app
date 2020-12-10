@@ -52,7 +52,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, inputData.getBoolean("disableSound", false))
+            createNotificationChannel(CHANNEL_ID, inputData.getString("channelName")?: "COVID Alert Exposure Checks", inputData.getBoolean("disableSound", false))
             notification.setChannelId(CHANNEL_ID)
         }
 
@@ -90,7 +90,6 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
 
     companion object {
         private const val CHANNEL_ID = "COVID Alert Exposure Checks"
-        private const val CHANNEL_NAME = "COVID Alert Exposure Checks"
     }
 
 }

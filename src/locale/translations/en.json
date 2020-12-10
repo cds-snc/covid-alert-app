@@ -390,8 +390,9 @@
     "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
     "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes.",
-    "ReminderTitle": "COVID Alert",
-    "ReminderBody": "Checking for exposures",
+    "ExposureChecksTitle": "COVID Alert",
+    "ExposureChecksBody": "Checking for exposures",
+    "ExposureChecksAndroidChannelName": "COVID Alert Exposure Checks",
     "PausedMessageTitle": "You turned off the app",
     "PausedMessageBody": "The app is not recording exposures because you turned it off."
   },
