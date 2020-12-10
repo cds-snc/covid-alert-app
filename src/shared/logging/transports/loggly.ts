@@ -13,7 +13,7 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
   const versionCode = APP_VERSION_CODE;
   const versionName = APP_VERSION_NAME;
   let status = '';
-  let minutes = 'n/a';
+  let minutes = '';
 
   const today = getCurrentDate();
   const exposureStatusJson = await AsyncStorage.getItem(EXPOSURE_STATUS);
