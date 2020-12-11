@@ -10,7 +10,7 @@ export interface PeriodicWorkPayload {
 export interface NotificationPayload {
   alertTitle: string;
   alertBody: string;
-  channelName: string;
+  channelName?: string;
   disableSound?: boolean;
 }
 
