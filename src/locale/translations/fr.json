@@ -451,9 +451,9 @@
     "YT": "Yukon",
     "None": "Ne rien sélectionner",
     "ExposedHelpLinkNote": {
-      "AB": "(page en anglais)",
-      "BC": "\n(page en anglais)",
-      "SK": "\n(page en anglais)"
+      "AB": "(page\u00a0en\u00a0anglais)",
+      "BC": "(page\u00a0en\u00a0anglais)",
+      "SK": "(page\u00a0en\u00a0anglais)"
     }
   },
   "RegionPickerNoPT": {

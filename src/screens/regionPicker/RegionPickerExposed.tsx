@@ -40,10 +40,12 @@ const RegionItem_ = ({code, onPress, name, lastItem, testID}: RegionItemProps) =
         backgroundColor="infoBlockNeutralBackground"
         borderRadius={5}
       >
-        <Text variant="bodyText" color="overlayBodyText" marginHorizontal="s">
-          {name}
-        </Text>
-        <Box alignSelf="center">
+        <Box maxWidth={'90%'}>
+          <Text variant="bodyText" color="overlayBodyText" marginHorizontal="s">
+            {name}
+          </Text>
+        </Box>
+        <Box alignSelf="center" width={15}>
           <Icon size={25} name="icon-external-arrow" />
         </Box>
       </Box>
