@@ -70,16 +70,12 @@ fi
 ## POLL DEVICES
 echo "adb connection established..."
 
-####
-# CONNECT TO ADB OVER WIFI?
-# echo "Sending logs..."
-#DEVICE_IP=0.0.0.0; #can be set manually
-
 ADBStandByBuckets=`adb $SERIAL_STR shell am get-standby-bucket 2>&1 | grep covidalert | awk '{print $2}'`;
 
 # Dump all scheduled jobs, then filter
 JobSchedulerLogs=`adb $SERIAL_STR shell dumpsys jobscheduler | grep -A 22 "JOB" | grep -A 22 ca.gc.hcsc.canada.covidalert`;
 RunTime=`echo "$JobSchedulerLogs" | grep 'Run time' | awk '{print $3 $4 $5 $6}'`
+## Enqueue time ex. Enqueue time: -3m36s233ms"
 EnqueueTime=` echo "$JobSchedulerLogs" | grep 'Enqueue time' | awk '{print $3}'`
 
 # Empty string checking
