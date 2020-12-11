@@ -108,7 +108,7 @@ JSONlogData=$( jq -n \
   --arg serial "$DEVICE_SERIAL" \
   --arg stbyBkt "$ADBStandByBuckets" \
   --arg schdJbs "$JobSchedulerLogs" \
-  '{user: $u, localTime: $t, APP_UUID: $uuid, serial: $serial, standbyBucket: $stbyBkt, scheduledJobs: $schdJbs}' );
+  '{user: $u, localTime: $t, uuid: $uuid, serial: $serial, standbyBucket: $stbyBkt, scheduledJobs: $schdJbs}' );
 
 
 # POST THE LOGS
