@@ -78,7 +78,7 @@ echo "adb connection established..."
 ADBStandByBuckets=`adb $SERIAL_STR shell am get-standby-bucket 2>&1 | grep covidalert | awk '{print $2}'`;
 
 # Dump all scheduled jobs, then filter
-JobSchedulerLogs=`adb $SERIAL_STR shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 23 ca.gc.hcsc.canada.covidalert`;
+JobSchedulerLogs=`adb $SERIAL_STR shell dumpsys jobscheduler | grep -A 22 "JOB" | grep -A 22 ca.gc.hcsc.canada.covidalert`;
 RunTime=`echo "$JobSchedulerLogs" | grep 'Run time' | awk '{print $3 $4 $5 $6}'`
 EnqueueTime=` echo "$JobSchedulerLogs" | grep 'Enqueue time' | awk '{print $3}'`
 
@@ -103,24 +103,23 @@ else
   APP_UUID=`echo "$APP_UUID" | awk '{print toupper($0)}'` # format APP_UUID to all caps
 fi
 
-JSONlogData=$( jq -n \
-  --arg u "$USER" \
-  --arg t "$LOCAL_TIME" \
-  --arg uuid "$APP_UUID" \
-  --arg serial "$DEVICE_SERIAL" \
-  --arg stbyBkt "$ADBStandByBuckets" \
-  --arg enqTime "$EnqueueTime" \
-  --arg rTime "$RunTime" \
-  --arg schdJbs "$JobSchedulerLogs" \
-  '{user: $u, localTime: $t, uuid: $uuid, serial: $serial, standbyBucket: $stbyBkt, scheduledJobs: $schdJbs, runTime: $rTime, enqueueTime: $enqTime}' );
-
-
 # POST THE LOGS
 # curl options are VERY important here
-curl -s -w "\n%{http_code}" -H "content-type:application/json" -d "$JSONlogData" $LOGGLY_URL | {
+curl -s -w "\n%{http_code}" -H "content-type:application/json" -d "$(cat <<EOF
+{
+  "user": "$USER",
+  "localTime": "$LOCAL_TIME",
+  "uuid": "$APP_UUID",
+  "serial": "$DEVICE_SERIAL",
+  "standbyBucket": "$ADBStandByBuckets",
+  "scheduledJobs": "$JobSchedulerLogs",
+  "runTime": "$RunTime",
+  "enqueueTime": "$EnqueueTime"}
+EOF
+)" $LOGGLY_URL | {
     read response
     read http_status
-    http_response=`echo $response | jq '.response'`;
+    http_response=$response;
 
   # PARSE the RESPONSE
   if [ $http_status != "200" ]; then
