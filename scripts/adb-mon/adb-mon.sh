@@ -1,5 +1,5 @@
 #!/bin/bash
-export PATH=$PATH:/usr/local/bin/:/Users/samojled/Library/Android/sdk/platform-tools
+export PATH=$PATH:/usr/local/bin/:/$HOME/Library/Android/sdk/platform-tools
 
 ## Filename : adb-mon
 ## Authors: Andréas Kaytar-LeFrançois,
