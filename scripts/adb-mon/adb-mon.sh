@@ -70,11 +70,6 @@ fi
 ## POLL DEVICES
 echo "adb connection established..."
 
-####
-# CONNECT TO ADB OVER WIFI?
-# echo "Sending logs..."
-#DEVICE_IP=0.0.0.0; #can be set manually
-
 ADBStandByBuckets=`adb $SERIAL_STR shell am get-standby-bucket 2>&1 | grep covidalert | awk '{print $2}'`;
 
 # Dump all scheduled jobs, then filter
