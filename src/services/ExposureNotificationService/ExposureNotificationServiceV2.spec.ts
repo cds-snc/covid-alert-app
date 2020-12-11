@@ -21,7 +21,7 @@ jest.mock('react-native-background-fetch', () => {
   };
 });
 
-jest.mock('../../bridge/ExposureCheck', () => ({
+jest.mock('../../bridge/ExposureCheckScheduler', () => ({
   scheduleExposureCheck: jest.fn(),
   executeExposureCheck: jest.fn(),
 }));

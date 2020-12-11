@@ -35,7 +35,7 @@ jest.mock('../../bridge/PushNotification', () => ({
   presentLocalNotification: jest.fn(),
 }));
 
-jest.mock('../../bridge/ExposureCheck', () => ({
+jest.mock('../../bridge/ExposureCheckScheduler', () => ({
   scheduleExposureCheck: jest.fn(),
   executeExposureCheck: jest.fn(),
 }));
