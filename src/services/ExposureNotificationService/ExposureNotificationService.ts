@@ -276,12 +276,10 @@ export class ExposureNotificationService {
   public getPeriodsSinceLastFetch = (_lastCheckedPeriod?: number): number[] => {
     const runningDate = getCurrentDate();
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-    captureMessage('_lastCheckedPeriod', {_lastCheckedPeriod});
     if (!_lastCheckedPeriod) {
       return [0, runningPeriod];
     }
     const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
-    captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
     const periodsToFetch = [];
     while (runningPeriod > lastCheckedPeriod) {
       periodsToFetch.push(runningPeriod);
@@ -306,7 +304,7 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(forceCheck = false): Promise<void> {
-    if (!forceCheck && !(await this.shouldPerformExposureCheck(true))) return;
+    if (!forceCheck && !(await this.shouldPerformExposureCheck())) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
       this.exposureStatusUpdatePromise = null;
@@ -531,8 +529,6 @@ export class ExposureNotificationService {
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
     captureMessage('keysFileUrls', keysFileUrls);
     try {
-      captureMessage('lastCheckedPeriod', {lastCheckedPeriod});
-
       let exposureWindows: ExposureWindow[];
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
@@ -545,7 +541,6 @@ export class ExposureNotificationService {
         }
       }
 
-      captureMessage('exposureWindows', exposureWindows);
       const [isExposed, dailySummary] = await this.checkIfExposedV2({
         exposureWindows,
         attenuationDurationThresholds: exposureConfiguration.attenuationDurationThresholds,
@@ -567,20 +562,12 @@ export class ExposureNotificationService {
     }
   }
 
-  public shouldPerformExposureCheck = async (captureLog = false) => {
+  public shouldPerformExposureCheck = async () => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
 
     if (!onboardedDatetime) {
-      // Do not perform Exposure Checks if onboarding is not completed.
-      if (captureLog) {
-        log.debug({
-          category: 'exposure-check',
-          message: 'shouldPerformExposureCheck',
-          payload: {onboardedDatetime, result: 'no', reason: '!onboardedDatetime'},
-        });
-      }
       return false;
     }
 
@@ -598,6 +585,7 @@ export class ExposureNotificationService {
             lastCheckedTimestamp,
             result: 'no',
             reason: 'minutes',
+            onboardedDatetime,
           },
         });
         return false;
@@ -626,16 +614,17 @@ export class ExposureNotificationService {
         new Date(summary.lastExposureTimestamp),
       );
 
-      captureMessage('isIgnoredSummary daysBetween', {daysBetween});
-      captureMessage('isIgnoredSummary', {ignoredSummary, summary});
+      log.debug({
+        category: 'summary',
+        message: 'isIgnoredSummary',
+        payload: {daysBetween, ignoredSummary: summary, matches},
+      });
 
       // ignore summaries that are same day or older than ignored summary
       if (daysBetween <= 0) {
         return true;
       }
     });
-
-    captureMessage('isIgnoredSummary matches', {matches});
 
     if (matches && matches.length >= 1) {
       return true;
@@ -678,7 +667,6 @@ export class ExposureNotificationService {
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
-    captureMessage('summaryExceedsMinimumMinutes', summary);
     // on ios attenuationDurations is in seconds, on android it is in minutes
     const divisor = Platform.OS === 'ios' ? 60 : 1;
     const durationAtImmediateMinutes = summary.attenuationDurations[0] / divisor;
@@ -777,7 +765,6 @@ export class ExposureNotificationService {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
         keysFileUrls.push(keysFileUrl);
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
-        captureMessage('loop - keysFileUrl', {keysFileUrl});
       }
     } catch (error) {
       captureException('Error while downloading key file', error);
@@ -862,11 +849,11 @@ export class ExposureNotificationService {
   private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
-      captureMessage('selectExposureSummary use nextSummary', {nextSummary});
+      log.debug({category: 'summary', message: 'selectExposureSummary', payload: {nextSummary}});
       return nextSummary;
     }
     const currentSummary = exposureStatus.summary;
-    captureMessage('selectExposureSummary use currentSummary', {currentSummary});
+    log.debug({category: 'summary', message: 'selectExposureSummary', payload: {currentSummary}});
     return currentSummary;
   }
 
