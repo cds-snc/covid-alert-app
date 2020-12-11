@@ -75,7 +75,7 @@ echo "adb connection established..."
 # echo "Sending logs..."
 #DEVICE_IP=0.0.0.0; #can be set manually
 
-ADBStandByBuckets=`adb $SERIAL_STR shell am get-standby-bucket 2>&1 | grep covid`;
+ADBStandByBuckets=`adb $SERIAL_STR shell am get-standby-bucket 2>&1 | grep covidalert`;
 
 # Dump all scheduled jobs, then filter
 JobSchedulerLogs=`adb $SERIAL_STR shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 23 ca.gc.hcsc.canada.covidalert`;
