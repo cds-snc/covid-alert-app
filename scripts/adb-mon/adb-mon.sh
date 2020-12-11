@@ -1,5 +1,5 @@
 #!/bin/bash
-export PATH=$PATH:/usr/local/bin/
+export PATH=$PATH:/usr/local/bin/:/Users/samojled/Library/Android/sdk/platform-tools
 
 ## Filename : adb-mon
 ## Authors: Andréas Kaytar-LeFrançois,
@@ -30,40 +30,42 @@ if `grep -q 'command not found' <<< "$DEVICES"`; then
 elif `grep -q 'no devices' <<< "$ADBStandByBuckets"`; then
   echo "Could not find devices, exiting..."
   exit -1;
-elif `grep -q 'more than one' <<< "$ADBStandByBuckets"`; then
+fi
+#elif `grep -q 'more than one' <<< "$ADBStandByBuckets"`; then
   ## MULTIPLE DEVICES VALIDATION
-  if [ $# -eq 0 ]; then
-    echo "Missing parameters to differentiate multiple devices, exiting..."
-    exit -1;
-  elif [ $# -lt 2 ]; then
-    echo "Please use format './adb-mon [APP_UUID] [DEVICE_SERIAL]', exiting..."
-    exit -1;
-  elif [[ "$2" =~ [^a-zA-Z0-9] ]]; then
-    echo "Format of provided serial is not alphanumeric as expected, exiting..."
-    exit -1;
-  elif `! grep -q "$2" <<< "$DEVICES"`; then
-    echo "Could not match provided serial to local device, exiting..."
-    exit -1;
-  else
+#  if [ $# -eq 0 ]; then
+#    echo "Missing parameters to differentiate multiple devices, exiting..."
+#    exit -1;
+#  elif [ $# -lt 2 ]; then
+#    echo "Please use format './adb-mon [APP_UUID] [DEVICE_SERIAL]', exiting..."
+#    exit -1;
+#  elif [[ "$2" =~ [^a-zA-Z0-9] ]]; then
+#    echo "Format of provided serial is not alphanumeric as expected, exiting..."
+#    exit -1;
+#  elif `! grep -q "$2" <<< "$DEVICES"`; then
+#    echo "Could not match provided serial to local device, exiting..."
+#    exit -1;
+#  else
     DEVICE_SERIAL="$2"
     SERIAL_STR="-s $DEVICE_SERIAL"
-  fi
-elif `grep -q 'error' <<< "$ADBStandByBuckets"` || `grep -q 'error' <<< "$DEVICES"` ; then
-  echo "Could not connect to adb, exiting..."
-  exit -1;
-fi
+ # fi
+
+#if `grep -q 'error' <<< "$ADBStandByBuckets"` || `grep -q 'error' <<< "$DEVICES"` ; then
+#  echo "Could not connect to adb, exiting..."
+#  exit -1;
+#fi
 
 #### ASSOCIATE LOGS WITH APP-generated UUID
-if [ $# -eq 0 ]; then
-  read -p "Enter device APP_UUID (found in the debug menu of the app): " APP_UUID
-else
+#if [ $# -eq 0 ]; then
+#  read -p "Enter device APP_UUID (found in the debug menu of the app): " APP_UUID
+#else
   APP_UUID=$1
-fi
+#fi
 
-if (( "${#APP_UUID}" != 8 )); then
-    echo "Provided APP_UUID is not 8 alphanumeric characters long, exiting..."
-    exit -1;
-fi
+#if (( "${#APP_UUID}" != 8 )); then
+#    echo "Provided APP_UUID is not 8 alphanumeric characters long, exiting..."
+#    exit -1;
+#fi
 
 ## POLL DEVICES
 echo "adb connection established..."
@@ -87,7 +89,8 @@ fi
 ####
 # Now read and export the vars from .env into the shell:
 ## LOAD Loggly URL from global .env
-export $(egrep -v '^#' "$(dirname $(dirname "$0"))/.env" | xargs) # v is invert match mode, add s to silence
+BASE_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+export $(egrep -v '^#' "$BASE_DIR/../../.env" | xargs) # v is invert match mode, add s to silence
 LOGGLY_URL="$LOGGLY_URL";
 
 # Empty string checking
