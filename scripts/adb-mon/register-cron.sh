@@ -1,12 +1,8 @@
-if [ $# -le 1 ]
-  then
-    echo "Not enough arguments. Please provide [APP_UUID] and [DEVICE_SERIAL]"
-    exit -1
-fi
-
-echo "UUID: $1"
-echo "SERIAL: $2"
-
+#if [ $# -le 1 ]
+#  then
+#    echo "Not enough arguments. Please provide [APP_UUID] and [DEVICE_SERIAL]"
+#    exit -1
+#fi
 BASE_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 SCRIPT=$BASE_DIR/adb-mon.sh
@@ -23,13 +19,19 @@ echo "$(crontab -l)"
 echo "======= CURRENT CRONTAB ======="
 echo
 
-CRON="0 * * * * $SCRIPT $@ >> $LOGFILE 2>&1"
+declare -a deviceArray=(`adb devices -l | grep -v emulator | grep -v vbox | grep " device " | awk '{print $1}'`)
 
-echo
-echo "Registering cron: $CRON"
-echo
+echo "found ${#deviceArray[@]} device(s)"
 
-(crontab -l ; echo "$CRON")| crontab -
+for index in ${!deviceArray[*]}; do
+  DEVICE_ID=${deviceArray[index]}
+  read -p "Enter device APP_UUID for device $DEVICE_ID: " APP_UUID
+  CRON="0 * * * * $SCRIPT $APP_UUID $DEVICE_ID >> $LOGFILE 2>&1"
+  echo
+  echo "Registering cron: $CRON"
+  echo
+  (crontab -l ; echo "$CRON")| crontab -
+done
 
 echo "======= NEW CRONTAB ======="
 echo "$(crontab -l)"
