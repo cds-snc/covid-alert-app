@@ -449,7 +449,18 @@
     "Skip": "Ignorer",
     "Title": "Où habitez-vous? (facultatif)",
     "YT": "Yukon",
-    "None": "Ne rien sélectionner"
+    "None": "Ne rien sélectionner",
+    "ExposedHelpLinkNote": {
+      "AB": "(page\u00a0en\u00a0anglais)",
+      "BC": "(page\u00a0en\u00a0anglais)",
+      "SK": "(page\u00a0en\u00a0anglais)"
+    }
+  },
+  "RegionPickerNoPT": {
+    "Exposed": {
+      "Title": "Trouvez les consignes de votre région",
+      "Body": "Les mesures à prendre après avoir été exposé dépendent de votre province ou de votre territoire. L’application ne mémorisera pas votre choix de région."
+    }
   },
   "Sharing": {
     "Close": "Fermer",

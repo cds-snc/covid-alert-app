@@ -428,7 +428,18 @@
     "QC": "Quebec",
     "SK": "Saskatchewan",
     "YT": "Yukon",
-    "None": "Prefer not to say"
+    "None": "Prefer not to say",
+    "ExposedHelpLinkNote": {
+      "AB": "",
+      "BC": "",
+      "SK": ""
+    }
+  },
+  "RegionPickerNoPT": {
+    "Exposed": {
+      "Title": "Find your area’s advice",
+      "Body": "The steps you need to take when you’re exposed depend on the province or territory you live in. The app will not remember your choice."
+    }
   },
   "A11yList": {
     "Start": "List start",
