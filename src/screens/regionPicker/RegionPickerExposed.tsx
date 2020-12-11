@@ -40,7 +40,7 @@ const RegionItem_ = ({code, onPress, name, lastItem, testID}: RegionItemProps) =
         backgroundColor="infoBlockNeutralBackground"
         borderRadius={5}
       >
-        <Box maxWidth={'90%'}>
+        <Box maxWidth="90%">
           <Text variant="bodyText" color="overlayBodyText" marginHorizontal="s">
             {name}
           </Text>
