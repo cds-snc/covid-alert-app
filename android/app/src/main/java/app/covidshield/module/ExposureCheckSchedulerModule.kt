@@ -16,9 +16,9 @@ import kotlinx.coroutines.Dispatchers
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
-class ExposureCheckModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
+class ExposureCheckSchedulerModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
 
-    override fun getName(): String = "ExposureCheck"
+    override fun getName(): String = "ExposureCheckScheduler"
 
     override val coroutineContext: CoroutineContext get() = Dispatchers.Default
 

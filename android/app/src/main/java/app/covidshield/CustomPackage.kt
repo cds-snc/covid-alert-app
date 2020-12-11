@@ -2,10 +2,7 @@ package app.covidshield
 
 import android.content.Intent
 import android.view.View
-import app.covidshield.module.CovidShieldModule
-import app.covidshield.module.ExposureCheckModule
-import app.covidshield.module.ExposureNotificationModule
-import app.covidshield.module.PushNotificationModule
+import app.covidshield.module.*
 import app.covidshield.receiver.ExposureNotificationBroadcastReceiver
 import app.covidshield.utils.ActivityResultHelper
 import com.facebook.react.ReactPackage
@@ -23,7 +20,7 @@ class CustomPackage : ReactPackage, ActivityResultHelper, ExposureNotificationBr
             ExposureNotificationModule(reactContext),
             PushNotificationModule(reactContext),
             CovidShieldModule(reactContext),
-            ExposureCheckModule(reactContext)
+            ExposureCheckSchedulerModule(reactContext)
         )
         this.nativeModules = nativeModules
         return nativeModules

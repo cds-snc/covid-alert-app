@@ -20,7 +20,7 @@ import {EN_API_VERSION} from 'env';
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 import {Key} from '../StorageService';
-import {executeExposureCheck} from '../../bridge/ExposureCheck';
+import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
@@ -130,31 +130,37 @@ export class ExposureNotificationService {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
 
-    DeviceEventEmitter.addListener('initiateExposureCheckEvent', this.initiateExposureCheckEvent);
-    DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
+    if (Platform.OS === 'android') {
+      DeviceEventEmitter.addListener('initiateExposureCheckEvent', this.initiateExposureCheckEvent);
+      DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
+    }
   }
 
   initiateExposureCheckEvent = async () => {
+    if (Platform.OS !== 'android') return;
     log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
     await this.initiateExposureCheck();
   };
 
   initiateExposureCheckHeadless = async () => {
+    if (Platform.OS !== 'android') return;
     log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
     await this.initiateExposureCheck();
   };
 
   initiateExposureCheck = async () => {
+    if (Platform.OS !== 'android') return;
     const payload: NotificationPayload = {
       alertTitle: this.i18n.translate('Notification.ExposureChecksTitle'),
       alertBody: this.i18n.translate('Notification.ExposureChecksBody'),
       channelName: this.i18n.translate('Notification.ExposureChecksAndroidChannelName'),
       disableSound: true,
     };
-    await executeExposureCheck(payload);
+    await ExposureCheckScheduler.executeExposureCheck(payload);
   };
 
   executeExposureCheckEvent = async () => {
+    if (Platform.OS !== 'android') return;
     log.debug({category: 'background', message: 'executeExposureCheckEvent'});
     try {
       await this.updateExposureStatusInBackground();

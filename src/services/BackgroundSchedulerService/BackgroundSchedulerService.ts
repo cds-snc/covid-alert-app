@@ -3,7 +3,7 @@ import {AppRegistry, Platform} from 'react-native';
 import {TEST_MODE} from 'env';
 import {captureException, captureMessage} from 'shared/log';
 
-import {scheduleExposureCheck} from '../../bridge/ExposureCheck';
+import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
 import {log} from '../../shared/logging/config';
 
@@ -19,6 +19,7 @@ export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 1 : PERIODIC_TASK_INTE
 
 const registerPeriodicTask = async (task: PeriodicTask) => {
   if (Platform.OS === 'ios') {
+    // iOS only
     BackgroundFetch.configure(
       {
         minimumFetchInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
@@ -42,12 +43,13 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     );
     captureMessage('registerPeriodicTask', {result});
   } else {
+    // Android only
     log.debug({category: 'background', message: 'registerPeriodicTask - Android'});
     const payload: PeriodicWorkPayload = {
       initialDelay: PERIODIC_TASK_DELAY_IN_MINUTES,
       repeatInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
     };
-    await scheduleExposureCheck(payload);
+    await ExposureCheckScheduler.scheduleExposureCheck(payload);
   }
 };
 
