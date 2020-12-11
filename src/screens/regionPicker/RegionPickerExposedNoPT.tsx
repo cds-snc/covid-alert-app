@@ -69,6 +69,16 @@ export const RegionPickerExposedNoPTScreen = () => {
           <Box flex={1} paddingHorizontal="m" marginBottom="m">
             <Box marginTop="l" paddingHorizontal="m" borderRadius={10} overflow="hidden">
               {regionData.map(item => {
+                const name = i18n.translate(`RegionPicker.${item.code}`);
+
+                let note = '';
+                try {
+                  // add (page en anglais) if needed
+                  note = i18n.translate(`RegionPicker.ExposedHelpLinkNote.${item.code}`);
+                } catch (err) {
+                  // noop
+                }
+
                 return (
                   <RegionItem
                     testID={`RegionPickerSettings-${item.code}`}
@@ -76,7 +86,7 @@ export const RegionPickerExposedNoPTScreen = () => {
                     onPress={() => {
                       onPress(item.code);
                     }}
-                    name={i18n.translate(`RegionPicker.${item.code}`)}
+                    name={`${name} ${note}`}
                     {...item}
                   />
                 );

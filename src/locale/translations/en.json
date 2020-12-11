@@ -428,7 +428,12 @@
     "QC": "Quebec",
     "SK": "Saskatchewan",
     "YT": "Yukon",
-    "None": "Prefer not to say"
+    "None": "Prefer not to say",
+    "ExposedHelpLinkNote": {
+      "AB": "",
+      "BC": "",
+      "SK": ""
+    }
   },
   "RegionPickerNoPT": {
     "Exposed": {

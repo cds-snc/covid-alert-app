@@ -449,7 +449,12 @@
     "Skip": "Ignorer",
     "Title": "Où habitez-vous? (facultatif)",
     "YT": "Yukon",
-    "None": "Ne rien sélectionner"
+    "None": "Ne rien sélectionner",
+    "ExposedHelpLinkNote": {
+      "AB": "(page en anglais)",
+      "BC": "\n(page en anglais)",
+      "SK": "\n(page en anglais)"
+    }
   },
   "RegionPickerNoPT": {
     "Exposed": {
