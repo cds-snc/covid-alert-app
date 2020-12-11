@@ -74,7 +74,9 @@ ADBStandByBuckets=`adb $SERIAL_STR shell am get-standby-bucket 2>&1 | grep covid
 
 # Dump all scheduled jobs, then filter
 JobSchedulerLogs=`adb $SERIAL_STR shell dumpsys jobscheduler | grep -A 20 "JOB" | grep -A 23 ca.gc.hcsc.canada.covidalert`;
+## Run time ex. "Run time: earliest=+11m23s737ms, latest=none, original latest=none"
 RunTime=`echo "$JobSchedulerLogs" | grep 'Run time' | awk '{print $3 $4 $5 $6}'`
+## Enqueue time ex. Enqueue time: -3m36s233ms"
 EnqueueTime=` echo "$JobSchedulerLogs" | grep 'Enqueue time' | awk '{print $3}'`
 
 # Empty string checking
