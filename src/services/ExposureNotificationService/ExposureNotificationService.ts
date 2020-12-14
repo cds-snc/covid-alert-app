@@ -310,6 +310,10 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(forceCheck = false): Promise<void> {
+    log.debug({
+      category: 'exposure-check',
+      message: 'updateExposureStatus',
+    });
     if (!forceCheck && !(await this.shouldPerformExposureCheck())) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
@@ -574,6 +578,14 @@ export class ExposureNotificationService {
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
 
     if (!onboardedDatetime) {
+      log.debug({
+        category: 'exposure-check',
+        message: 'shouldPerformExposureCheck',
+        payload: {
+          result: 'no',
+          reason: 'onboardedDateTime',
+        },
+      });
       return false;
     }
 
@@ -586,7 +598,7 @@ export class ExposureNotificationService {
           category: 'exposure-check',
           message: 'shouldPerformExposureCheck',
           payload: {
-            minutes,
+            minutesSinceLastCheck: minutes,
             taskInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
             lastCheckedTimestamp,
             result: 'no',
@@ -595,8 +607,32 @@ export class ExposureNotificationService {
           },
         });
         return false;
+      } else {
+        log.debug({
+          category: 'exposure-check',
+          message: 'shouldPerformExposureCheck',
+          payload: {
+            minutesSinceLastCheck: minutes,
+            taskInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
+            lastCheckedTimestamp,
+            result: 'yes',
+            reason: 'minutes',
+            onboardedDatetime,
+          },
+        });
+        return true;
       }
     }
+    log.debug({
+      category: 'exposure-check',
+      message: 'shouldPerformExposureCheck',
+      payload: {
+        taskInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
+        result: 'yes',
+        reason: 'lastCheckedTimestamp - null',
+        onboardedDatetime,
+      },
+    });
     return true;
   };
 
