@@ -6,6 +6,8 @@ import {captureException, captureMessage} from 'shared/log';
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
 import {log} from '../../shared/logging/config';
+import {ExposureNotificationService} from "../ExposureNotificationService";
+import {getCurrentDate, minutesBetween} from "../../shared/date-fns";
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
@@ -16,7 +18,7 @@ interface PeriodicTask {
 export const PERIODIC_TASK_INTERVAL_IN_MINUTES = TEST_MODE ? 15 : 240;
 export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 1 : PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
 
-const registerPeriodicTask = async (task: PeriodicTask) => {
+const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationService?: ExposureNotificationService) => {
   if (Platform.OS === 'ios') {
     // iOS only
     BackgroundFetch.configure(
@@ -43,11 +45,31 @@ const registerPeriodicTask = async (task: PeriodicTask) => {
     captureMessage('registerPeriodicTask', {result});
   } else {
     // Android only
-    log.debug({category: 'background', message: 'registerPeriodicTask - Android'});
+    let delay = PERIODIC_TASK_DELAY_IN_MINUTES;
+    if (exposureNotificationService) {
+      const today = getCurrentDate();
+      const exposureStatus = exposureNotificationService.exposureStatus.get();
+      const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
+      if (lastCheckedTimestamp) {
+        const lastCheckedDate = new Date(lastCheckedTimestamp);
+        const minutesSinceLastCheck = Math.ceil(minutesBetween(lastCheckedDate, today));
+        if (minutesSinceLastCheck < delay) {
+          delay -= minutesSinceLastCheck;
+        }
+      }
+    }
     const payload: PeriodicWorkPayload = {
-      initialDelay: PERIODIC_TASK_DELAY_IN_MINUTES,
+      initialDelay: delay,
       repeatInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
     };
+    log.debug({
+      category: 'background',
+      message: 'registerPeriodicTask - Android',
+      payload: {
+        ...payload,
+        exposureNotificationService,
+      },
+    });
     await ExposureCheckScheduler.scheduleExposureCheck(payload);
   }
 };
