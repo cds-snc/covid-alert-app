@@ -131,7 +131,9 @@ export class ExposureNotificationService {
     });
 
     if (Platform.OS === 'android') {
+      DeviceEventEmitter.removeAllListeners('initiateExposureCheckEvent');
       DeviceEventEmitter.addListener('initiateExposureCheckEvent', this.initiateExposureCheckEvent);
+      DeviceEventEmitter.removeAllListeners('executeExposureCheckEvent');
       DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
     }
   }
