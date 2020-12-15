@@ -45,7 +45,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return [];
     },
     getExposureWindowsAndroid: async (diagnosisKeysURLs: string[]) => {
-      captureMessage('getExposureWindows');
+      log.debug({category: 'exposure-check', message: 'getExposureWindows'});
       await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
       const _exposureWindows = await exposureNotificationAPI.getExposureWindows();
       const exposureWindows = _exposureWindows.map(window => {
@@ -55,7 +55,11 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         window.reportType = window.reportType as ReportType;
         return window;
       });
-      captureMessage('exposureWindows', exposureWindows);
+      log.debug({
+        category: 'exposure-check',
+        message: 'exposureWindows',
+        payload: exposureWindows,
+      });
       return exposureWindows;
     },
   };
