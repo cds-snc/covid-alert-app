@@ -158,29 +158,6 @@ NSArray *mapIntValues(NSArray *arr) {
   });
 }
 
-NSDictionary *mapIntValuesToDictionary(NSDictionary *dict) {
-  NSMutableDictionary<NSNumber *, NSNumber *> *newDict = [NSMutableDictionary new];
-  for (id _key in dict) {
-    NSString *valueString = [dict objectForKey:_key];
-    NSNumber *value = @([valueString integerValue]);
-    NSNumber *key = @([_key doubleValue]);
-    [newDict setObject:value forKey:key];
-  }
-  return newDict.copy;
-}
-
-NSDictionary *mapArrayToDictionary(NSArray *array) {
-  NSMutableDictionary<NSNumber *, NSNumber *> *newDict = [NSMutableDictionary new];
-  NSInteger day = -14;
-  for (id valueString in array) {
-    NSNumber *value = @([valueString integerValue]);
-    NSNumber *key = @(day);
-    [newDict setObject:value forKey:key];
-    day++;
-  }
-  return newDict.copy;
-}
-
 NSDictionary *getInfectiousness() {
 
   NSDictionary<NSNumber *, NSNumber *> *newDict = @{

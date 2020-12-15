@@ -276,7 +276,6 @@ export class ExposureNotificationService {
       this.exposureStatusUpdatePromise = null;
       return input;
     };
-
     switch (EN_API_VERSION) {
       case '2':
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdateV2().then(cleanUpPromise, cleanUpPromise);
