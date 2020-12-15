@@ -26,6 +26,7 @@ export interface ButtonSingleLineProps {
   loading?: boolean;
   externalLink?: boolean;
   internalLink?: boolean;
+  internalLinkLight?: boolean;
   iconName?: IconName;
   testID?: string;
 }
@@ -39,6 +40,7 @@ export const ButtonSingleLine = ({
   loading,
   externalLink,
   internalLink,
+  internalLinkLight,
   iconName,
   testID,
 }: ButtonSingleLineProps) => {
@@ -70,6 +72,9 @@ export const ButtonSingleLine = ({
     borderBottomWidth,
     borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
   };
+
+  const fontStyle = variant === 'bigFlatPurple' ? styles.strong : styles.normal;
+
   const content = (
     <Box
       borderRadius={borderRadius}
@@ -94,6 +99,11 @@ export const ButtonSingleLine = ({
               <Icon size={25} name="icon-chevron" />
             </Box>
           )}
+          {internalLinkLight && (
+            <Box flex={0} style={{...styles.iconOffsetChevron}}>
+              <Icon size={25} name="icon-chevron-white" />
+            </Box>
+          )}
           {iconName && (
             <Box flex={0} style={{...styles.iconOffsetChevron}}>
               <Icon size={25} name={iconName} />
@@ -104,8 +114,8 @@ export const ButtonSingleLine = ({
               variant="menuItemTitle"
               style={{
                 ...styles.content,
+                ...fontStyle,
                 color: textColor || buttonColor,
-                fontWeight: variant === 'bigFlatPurple' ? 'bold' : 'normal',
               }}
             >
               {text}
@@ -176,5 +186,8 @@ const styles = StyleSheet.create({
   content: {},
   strong: {
     fontWeight: 'bold',
+  },
+  normal: {
+    fontWeight: 'normal',
   },
 });

@@ -16,6 +16,7 @@ import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useStorage} from 'services/StorageService';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -177,6 +178,39 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
   );
 };
 
+const TurnAppBackOn = ({
+  i18n,
+  isBottomSheetExpanded,
+  bottomSheetBehavior,
+}: {
+  i18n: I18n;
+  isBottomSheetExpanded: boolean;
+  bottomSheetBehavior: BottomSheetBehavior;
+}) => {
+  const startExposureNotificationService = useStartExposureNotificationService();
+  const onStart = useCallback(async () => {
+    bottomSheetBehavior.collapse();
+    await startExposureNotificationService();
+  }, [bottomSheetBehavior, startExposureNotificationService]);
+
+  return (
+    <InfoBlock
+      focusOnTitle={isBottomSheetExpanded}
+      titleBolded={i18n.translate('OverlayOpen.TurnAppBackOn.Title')}
+      text={i18n.translate('OverlayOpen.TurnAppBackOn.Body')}
+      button={{
+        text: i18n.translate('OverlayOpen.TurnAppBackOn.CTA'),
+        action: () => {
+          onStart();
+        },
+      }}
+      backgroundColor="danger25Background"
+      color="bodyText"
+      showButton
+    />
+  );
+};
+
 const AccessibleView = ({children}: {children: React.ReactNode}) => {
   const accessibilityService = useAccessibilityService();
 
@@ -198,6 +232,7 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
+  const {userStopped} = useStorage();
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
@@ -218,15 +253,27 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
             <Box marginBottom="s">
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
-            <Box marginBottom="m" marginTop="s" marginHorizontal="m">
+
+            {userStopped && status !== SystemStatus.Active && (
+              <Box marginBottom="m" marginTop="xl" marginHorizontal="m">
+                <TurnAppBackOn
+                  isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
+                  i18n={i18n}
+                  bottomSheetBehavior={bottomSheetBehavior}
+                />
+              </Box>
+            )}
+
+            <Box marginBottom="m" marginTop={userStopped ? 's' : 'xl'} marginHorizontal="m">
               <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
             </Box>
-            {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
+
+            {!userStopped && (status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
               <Box marginBottom="m" marginHorizontal="m">
                 <SystemStatusOff i18n={i18n} />
               </Box>
             )}
-            {status === SystemStatus.Unauthorized && (
+            {!userStopped && status === SystemStatus.Unauthorized && (
               <Box marginBottom="m" marginHorizontal="m">
                 <SystemStatusUnauthorized i18n={i18n} />
               </Box>
@@ -242,7 +289,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               </Box>
             )}
             <Box marginBottom="m" marginHorizontal="m">
-              <InfoShareView />
+              <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
             </Box>
           </Box>
         </SafeAreaView>

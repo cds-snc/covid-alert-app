@@ -40,11 +40,15 @@ export const OnboardingScreen = () => {
     async (index: number) => {
       // we want the EN permission dialogue to appear on the last step.
       if (index === onboardingData.length - 1) {
-        if (!(await startExposureNotificationService())) {
-          navigation.reset({
-            index: 0,
-            routes: [{name: 'ErrorScreen'}],
-          });
+        try {
+          await startExposureNotificationService();
+        } catch (error) {
+          if (error.message === 'API_NOT_CONNECTED') {
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'ErrorScreen'}],
+            });
+          }
         }
       }
 
@@ -53,7 +57,7 @@ export const OnboardingScreen = () => {
         setRegion(undefined);
       }
     },
-    [setRegion, startExposureNotificationService],
+    [navigation, setRegion, startExposureNotificationService],
   );
 
   const nextItem = useCallback(async () => {

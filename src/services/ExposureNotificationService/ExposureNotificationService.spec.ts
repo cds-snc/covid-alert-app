@@ -54,6 +54,7 @@ const secureStorage: any = {
 };
 const bridge: any = {
   detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
+  activate: jest.fn().mockResolvedValue(undefined),
   start: jest.fn().mockResolvedValue(undefined),
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
   getStatus: jest.fn().mockResolvedValue('active'),
@@ -312,6 +313,48 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
     expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
+  });
+
+  it('ignores exposed summaries if they are not more recent than ignored summary', async () => {
+    const summary1 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 7,
+      attenuationDurations: [20, 0, 0],
+      os: 'ios',
+    });
+
+    const summary2 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 7,
+      attenuationDurations: [20, 0, 0],
+      os: 'ios',
+    });
+
+    const summary3 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 8,
+      attenuationDurations: [22, 0, 0],
+      os: 'ios',
+    });
+
+    const summary4 = getSummary({
+      hasMatchedKey: true,
+      today,
+      daysSinceLastExposure: 6,
+      attenuationDurations: [22, 0, 0],
+      os: 'ios',
+    });
+
+    const ignoredSummaries = [summary1];
+
+    service.exposureStatus.append({ignoredSummaries});
+
+    expect(service.isIgnoredSummary(summary2)).toStrictEqual(true);
+    expect(service.isIgnoredSummary(summary3)).toStrictEqual(true);
+    expect(service.isIgnoredSummary(summary4)).toStrictEqual(false);
   });
 
   it('backfills the right amount of keys for current day', async () => {
@@ -725,6 +768,33 @@ describe('ExposureNotificationService', () => {
       expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
     });
 
+    it('stays diagnosed if within countdown period', async () => {
+      const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+      const nextSummary = {
+        daysSinceLastExposure: 7,
+        lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+        matchedKeyCount: 4,
+        maximumRiskScore: 25,
+        attenuationDurations: [1200, 1200, 0],
+      };
+      bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
+      service.exposureStatus.set({
+        type: ExposureStatusType.Diagnosed,
+        lastChecked: {
+          period,
+          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+        },
+      });
+
+      await service.updateExposureStatus();
+
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          type: ExposureStatusType.Diagnosed,
+        }),
+      );
+    });
+
     it('processes the reminder push notification when diagnosed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
@@ -837,16 +907,6 @@ describe('ExposureNotificationService', () => {
   });
 
   describe('shouldPerformExposureCheck', () => {
-    it('returns false if System is not active', async () => {
-      service.systemStatus.set(SystemStatus.Undefined);
-
-      expect(service.systemStatus.get()).toStrictEqual(SystemStatus.Undefined);
-
-      const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
-
-      expect(shouldPerformExposureCheck).toStrictEqual(false);
-    });
-
     it('returns false if not onboarded', async () => {
       when(storage.getItem)
         .calledWith(Key.OnboardedDatetime)

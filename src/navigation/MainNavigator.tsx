@@ -14,17 +14,18 @@ import {
 } from 'screens/datasharing';
 import {LanguageScreen} from 'screens/language';
 import {useStorage} from 'services/StorageService';
-import {RegionPickerSettingsScreen} from 'screens/regionPicker';
+import {RegionPickerSettingsScreen, RegionPickerExposedNoPTScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
 import {TestScreen} from 'screens/testScreen';
 import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
+import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
-const MainStack = createStackNavigator();
+const MainStack = createStackNavigator<MainStackParamList>();
 
 const withDarkNav = (Component: React.ElementType) => {
   const ComponentWithDarkNav = (props: any) => {
@@ -65,6 +66,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Home: undefined;
   Onboarding: undefined;
   Tutorial: undefined;
+  RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
@@ -78,9 +80,11 @@ const TekUploadSubsequentDaysWithNavBar = withDarkNav(TekUploadSubsequentDays);
 const SymptomOnsetDateScreenWithNavBar = withDarkNav(SymptomOnsetDateScreen);
 const LanguageScreenWithNavBar = withDarkNav(LanguageScreen);
 const RegionPickerSettingsScreenWithNavBar = withDarkNav(RegionPickerSettingsScreen);
+const RegionPickerSettingsExposedScreenWithNavBar = withDarkNav(RegionPickerExposedNoPTScreen);
 const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const TestScreenWithNavBar = withDarkNav(TestScreen);
 const ErrorScreenWithNavBar = withDarkNav(ErrorScreen);
+const DismissAlertScreenWithNavBar = withDarkNav(DismissAlertScreen);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
@@ -145,6 +149,12 @@ const MainNavigator = () => {
       <MainStack.Screen name="DataSharing" component={DataSharingNavigator} />
       <MainStack.Screen name="LanguageSelect" component={LanguageScreenWithNavBar} />
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
+      <MainStack.Screen
+        name="RegionSelectExposedNoPT"
+        initialParams={{drawerMenu: false}}
+        component={RegionPickerSettingsExposedScreenWithNavBar}
+      />
+      <MainStack.Screen name="DismissAlert" component={DismissAlertScreenWithNavBar} />
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
       <MainStack.Screen name="ErrorScreen" component={ErrorScreenWithNavBar} />

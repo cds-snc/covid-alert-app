@@ -33,6 +33,7 @@ import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
 import {OverlayView} from './views/OverlayView';
 import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
+import {ExposureNotificationsUserStoppedView} from './views/ExposureNotificationsUserStoppedView';
 import {UnknownProblemView} from './views/UnknownProblemView';
 import {
   useNotificationPermissionStatus,
@@ -45,7 +46,8 @@ interface ContentProps {
 }
 
 const Content = ({isBottomSheetExpanded}: ContentProps) => {
-  const {region} = useStorage();
+  const {region, userStopped} = useStorage();
+
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const exposureStatus = useExposureStatus();
@@ -85,9 +87,12 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
     }
   }
 
+  if (userStopped && systemStatus !== SystemStatus.Active) {
+    return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
+  }
+
   switch (systemStatus) {
     case SystemStatus.Undefined:
-      return null;
     case SystemStatus.Unauthorized:
       return <ExposureNotificationsUnauthorizedView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case SystemStatus.Disabled:
@@ -163,6 +168,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
+  const {userStopped} = useStorage();
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {
@@ -180,10 +186,18 @@ export const HomeScreen = () => {
 
   const startExposureNotificationService = useStartExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
+
+  const startAndUpdate = useCallback(async () => {
+    if (userStopped) return;
+    const success = await startExposureNotificationService();
+    if (success) {
+      updateExposureStatus();
+    }
+  }, [userStopped, updateExposureStatus, startExposureNotificationService]);
+
   useEffect(() => {
-    startExposureNotificationService();
-    updateExposureStatus();
-  }, [startExposureNotificationService]);
+    startAndUpdate();
+  }, [startAndUpdate, startExposureNotificationService, updateExposureStatus]);
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);

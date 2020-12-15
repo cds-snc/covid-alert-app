@@ -35,6 +35,14 @@ export const useStorage = () => {
 
   const [isOnboarding, setIsOnboarding] = useState(storageService.isOnboarding.get());
   const setOnboarded = useMemo(() => storageService.setOnboarded, [storageService.setOnboarded]);
+  const [userStopped, setUserStoppedInternal] = useState(storageService.userStopped.get());
+
+  const setUserStopped = useMemo(
+    () => (newVal: boolean) => {
+      storageService.setUserStopped(newVal);
+    },
+    [storageService],
+  );
 
   const [locale, setLocaleInternal] = useState(storageService.locale.get());
   const setLocale = useMemo(
@@ -66,6 +74,7 @@ export const useStorage = () => {
   ]);
   useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
   useEffect(() => storageService.skipAllSet.observe(setSkipAllSetInternal), [storageService.skipAllSet]);
+  useEffect(() => storageService.userStopped.observe(setUserStoppedInternal), [storageService.userStopped]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
@@ -73,11 +82,12 @@ export const useStorage = () => {
     setRegion(undefined);
     setOnboardedDatetime(undefined);
     setSkipAllSet(false);
+    setUserStopped(false);
     await AsyncStorage.clear();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped]);
 
   return useMemo(
     () => ({
@@ -94,21 +104,25 @@ export const useStorage = () => {
       skipAllSet,
       setSkipAllSet,
       reset,
+      userStopped,
+      setUserStopped,
     }),
     [
-      forceScreen,
       isOnboarding,
-      locale,
-      onboardedDatetime,
-      region,
-      skipAllSet,
-      reset,
-      setForceScreen,
-      setLocale,
       setOnboarded,
-      setOnboardedDatetime,
+      locale,
+      setLocale,
+      region,
       setRegion,
+      onboardedDatetime,
+      setOnboardedDatetime,
+      forceScreen,
+      setForceScreen,
+      skipAllSet,
       setSkipAllSet,
+      reset,
+      userStopped,
+      setUserStopped,
     ],
   );
 };

@@ -12,8 +12,7 @@ import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationCo
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StorageServiceProvider, useStorageService} from 'services/StorageService';
-import Reactotron from 'reactotron-react-native';
-import {AppState, AppStateStatus, NativeModules, Platform, StatusBar} from 'react-native';
+import {AppState, AppStateStatus, Platform, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
@@ -21,7 +20,6 @@ import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage} from 'shared/log';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
@@ -34,20 +32,11 @@ if (Platform.OS === 'android') {
   require('intl/locale-data/jsonp/fr-CA');
   require('date-time-format-timezone');
 }
-
-// grabs the ip address
-if (__DEV__) {
-  const host = NativeModules.SourceCode.scriptURL.split('://')[1].split(':')[0];
-  Reactotron.configure({host})
-    .useReactNative()
-    .connect();
-}
 interface IFetchData {
   payload: any;
 }
 
 const appInit = async () => {
-  captureMessage('App.appInit()');
   SplashScreen.hide();
 };
 
@@ -62,9 +51,7 @@ const App = () => {
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      captureMessage('onAppStateChange', {appState: newState});
       if (newState === 'active') {
-        captureMessage('app is active - fetch data', {appState: newState});
         await fetchData();
       }
     };

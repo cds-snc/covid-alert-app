@@ -85,6 +85,7 @@ export interface ExposureInformation {
 }
 
 export interface ExposureNotification {
+  activate(): Promise<void>;
   start(): Promise<void>;
   stop(): Promise<void>;
   getStatus(): Promise<Status>;

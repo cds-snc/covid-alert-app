@@ -10,6 +10,7 @@ export enum Key {
   OnboardedDatetime = 'OnboardedDatetime',
   ForceScreen = 'ForceScreen',
   SkipAllSet = 'SkipAllSet',
+  UserStopped = 'UserStopped',
 }
 
 export class StorageService {
@@ -19,6 +20,7 @@ export class StorageService {
   onboardedDatetime: Observable<Date | undefined>;
   forceScreen: Observable<string | undefined>;
   skipAllSet: Observable<boolean>;
+  userStopped: Observable<boolean>;
 
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
@@ -27,6 +29,7 @@ export class StorageService {
     this.onboardedDatetime = new Observable<Date | undefined>(undefined);
     this.forceScreen = new Observable<string | undefined>(undefined);
     this.skipAllSet = new Observable<boolean>(false);
+    this.userStopped = new Observable<boolean>(false);
   }
 
   setOnboarded = async (value: boolean) => {
@@ -59,6 +62,11 @@ export class StorageService {
     this.skipAllSet.set(value);
   };
 
+  setUserStopped = async (value: boolean) => {
+    await AsyncStorage.setItem(Key.UserStopped, value ? '1' : '0');
+    this.userStopped.set(value);
+  };
+
   init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
@@ -79,6 +87,9 @@ export class StorageService {
 
     const skipAllSet = (await AsyncStorage.getItem(Key.SkipAllSet)) === '1';
     this.skipAllSet.set(skipAllSet);
+
+    const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
+    this.userStopped.set(userStopped);
   };
 }
 

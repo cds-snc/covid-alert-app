@@ -70,7 +70,7 @@ describe('getExposedHelpURL', () => {
     });
   });
   it('gives the right URL for inactive regions', async () => {
-    ['AB', 'BC', 'NT', 'NU', 'YT'].forEach(region => {
+    ['AB', 'BC', 'NU', 'YT'].forEach(region => {
       expect(getExposedHelpURL(region, regionalI18n)).toStrictEqual(
         regionalI18n.translate(`RegionContent.ExposureView.Inactive.${region}.URL`),
       );
@@ -93,8 +93,8 @@ describe('getExposedHelpMenuURL', () => {
     );
   });
   it('gives the default provincial url if no custom is defined', async () => {
-    expect(getExposedHelpMenuURL('SK', regionalI18n)).toStrictEqual(
-      regionalI18n.translate('RegionContent.ExposureView.Active.SK.URL'),
+    expect(getExposedHelpMenuURL('NS', regionalI18n)).toStrictEqual(
+      regionalI18n.translate('RegionContent.ExposureView.Active.NS.URL'),
     );
   });
 });

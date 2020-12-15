@@ -36,33 +36,43 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-  if (self.enManager) return;
+RCT_REMAP_METHOD(activate, activateWithCompletionHandler:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  if (self.enManager) {
+    resolve(nil);
+    return;
+  };
+
   self.enManager = [ENManager new];
 
   [self.enManager activateWithCompletionHandler:^(NSError * _Nullable error) {
     if (error) {
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
     } else {
-      [self.enManager setExposureNotificationEnabled:YES completionHandler:^(NSError * _Nullable error) {
-        if (error) {
-          reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
-        } else {
-          resolve(nil);
-        }
-      }];
+      resolve(nil);
+    }
+  }];
+}
+
+RCT_REMAP_METHOD(start, startWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [self.enManager setExposureNotificationEnabled:YES completionHandler:^(NSError * _Nullable error) {
+    if (error) {
+      reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+    } else {
+      resolve(nil);
     }
   }];
 }
 
 RCT_REMAP_METHOD(stop, stopWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-  [self.enManager setInvalidationHandler:^{
-    resolve(nil);
+  [self.enManager setExposureNotificationEnabled:NO completionHandler:^(NSError * _Nullable error) {
+    if (error) {
+      reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+    } else {
+      resolve(nil);
+    }
   }];
-  [self.enManager invalidate];
-  self.enManager = nil;
 }
 
 RCT_REMAP_METHOD(getStatus, getStatusWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
@@ -281,7 +291,7 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     NSNumber *idx = @(self.reportedSummaries.count);
     [self.reportedSummaries addObject:summary];
 //    NSNumber *enApiVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ENAPIVersion"];
-    
+
     if (@available(iOS 13.7, *)) {
       resolve(@{
         @"daysSinceLastExposure": @(summary.daysSinceLastExposure),

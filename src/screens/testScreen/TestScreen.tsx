@@ -12,9 +12,10 @@ import {
   useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
-import {setLogUUID, getLogUUID, captureMessage} from 'shared/log';
+import {captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
+import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';

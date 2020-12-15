@@ -1,5 +1,9 @@
 {
   "Home": {
+    "UserStopped": {
+      "Title": "You turned off the app",
+      "CTA": "Turn back on"
+    },
     "NoExposureDetected": {
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
@@ -22,9 +26,26 @@
     },
     "ExposureDetected": {
       "Title": "You’ve been exposed",
-      "Body1": "In the last 14 days, you’ve been near someone who reported a COVID-19 diagnosis.",
-      "Title2": "What now?",
-      "Body2": "You’re at risk of being infected."
+      "Body1": "You’ve been near at least one person who reported a COVID-19 diagnosis through the app. You were near them for at least 15 minutes.",
+      "Title2": "What next?",
+      "Body2": "You’re at risk of being infected.",
+      "Notification": {
+        "Received": "Notification received"
+      },
+      "NegativeTest": {
+        "CTA": "Negative test?"
+      },
+      "Dismiss": {
+        "Title": "Negative test result?",
+        "Body": "Dismiss this alert to receive any new exposure notifications. Dismissing this alert will not delete the exposure logs on your phone.",
+        "Body2": "You can also dismiss the alert if you’re following your area’s guidance.",
+        "CTA": "Dismiss alert",
+        "Confirm": {
+          "Body": "Are you sure you want to dismiss this alert?",
+          "Accept": "Yes, dismiss",
+          "Cancel": "Cancel"
+        }
+      }
     },
     "ChooseRegionCTA": "Choose province or territory",
     "How": "Diagnosed with COVID-19?",
@@ -116,6 +137,11 @@
       "One": "{number} day left!",
       "Other": "{number} days left!"
     },
+    "TurnAppBackOn": {
+      "Title": "Turn on COVID Alert",
+      "Body": "The app is not recording exposures because you turned it off.",
+      "CTA": "Turn back on"
+    },
     "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
@@ -137,6 +163,16 @@
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get a one-time key",
     "ChangeLanguage": "Change language",
+    "ToggleCovidAlert": {
+      "TurnOff": "Turn off COVID Alert",
+      "TurnOn": "Turn on COVID Alert",
+      "Confirm": {
+        "Title": "Turn off COVID Alert?",
+        "Body": "Make sure you’re wearing full medical PPE (personal protective equipment) or you’re only with your household.  The app will not be able to record exposures.",
+        "Cancel": "Keep it on",
+        "Accept": "Turn it off"
+      }
+    },
     "ChangeRegion": "Change province or territory",
     "Privacy": "How it protects your privacy",
     "PrivacyUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/privacy-policy.html",
@@ -353,7 +389,9 @@
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
-    "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes."
+    "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes.",
+    "PausedMessageTitle": "You turned off the app",
+    "PausedMessageBody": "The app is not recording exposures because you turned it off."
   },
   "Partners": {
     "Label": "Developed in partnership with"
@@ -390,7 +428,18 @@
     "QC": "Quebec",
     "SK": "Saskatchewan",
     "YT": "Yukon",
-    "None": "Prefer not to say"
+    "None": "Prefer not to say",
+    "ExposedHelpLinkNote": {
+      "AB": "",
+      "BC": "",
+      "SK": ""
+    }
+  },
+  "RegionPickerNoPT": {
+    "Exposed": {
+      "Title": "Find your area’s advice",
+      "Body": "The steps you need to take when you’re exposed depend on the province or territory you live in. The app will not remember your choice."
+    }
   },
   "A11yList": {
     "Start": "List start",

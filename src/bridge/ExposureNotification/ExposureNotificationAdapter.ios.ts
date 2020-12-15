@@ -1,3 +1,4 @@
+import {log} from 'shared/logging/config';
 import {unzip} from 'react-native-zip-archive';
 import {captureMessage} from 'shared/log';
 
@@ -12,7 +13,6 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }
-      captureMessage('diagnosisKeysURLs.length', {length: diagnosisKeysURLs.length});
       for (const keysZipUrl of diagnosisKeysURLs) {
         const components = keysZipUrl.split('/');
         components.pop();
@@ -29,8 +29,11 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         summaries.push(summary);
       }
-      captureMessage('configuration', {configuration});
-      captureMessage('diagnosisKeysURLs', {diagnosisKeysURLs});
+      log.debug({
+        category: 'configuration',
+        payload: configuration,
+      });
+
       captureMessage('summaries', {summaries});
       return summaries;
     },

@@ -96,7 +96,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     startInternal()
                 }
                 promise.resolve(null);
-            } catch (exception: java.lang.Exception) {
+            } catch (exception: Exception) {
                 promise.reject(exception)
             }
         }
@@ -105,10 +105,15 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     @ReactMethod
     fun stop(promise: Promise) {
         promise.launch(this) {
-            if (!isPlayServicesAvailable()) {
-                throw PlayServicesNotAvailableException()
+            try{
+                if (!isPlayServicesAvailable()) {
+                    throw PlayServicesNotAvailableException()
+                }
+                stopInternal()
+                promise.resolve(null);
+            } catch (exception: java.lang.Exception) {
+                promise.reject(exception)
             }
-            stopInternal()
         }
     }
 
@@ -249,7 +254,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                     } catch (exception: IntentSender.SendIntentException) {
                         startResolutionCompleter?.completeExceptionally(SendIntentException(exception))
                     } catch (exception: Exception) {
-                        startResolutionCompleter?.completeExceptionally(PermissionDeniedException(exception))
+                        throw PermissionDeniedException(exception)
                     } finally {
                         startResolutionCompleter = null
                     }
@@ -302,23 +307,19 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
 
     private suspend fun stopInternal() {
         try {
+            log("exposureNotificationClient called stop")
             exposureNotificationClient.stop().await()
-        } catch (_: Exception) {
+            log("stopped with no exceptions")
+        } catch (exception: Exception) {
+            log(exception.message)
             // Noop
         }
     }
 
     private suspend fun getStatusInternal(): Status {
-        if (!isPlayServicesAvailable()) {
-            return Status.PLAY_SERVICES_NOT_AVAILABLE
-        }
-        val isExposureNotificationEnabled = try {
-            exposureNotificationClient.isEnabled.await()
-        } catch (_: Exception) {
-            false
-        }
         return when {
-            !isExposureNotificationEnabled -> Status.DISABLED
+            !isPlayServicesAvailable() -> Status.PLAY_SERVICES_NOT_AVAILABLE
+            !isExposureNotificationEnabled() -> Status.DISABLED
             !isBluetoothEnabled() -> Status.BLUETOOTH_OFF
             !isLocationEnabled() -> Status.LOCATION_OFF
             else -> Status.ACTIVE
@@ -329,6 +330,14 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
         val context = reactApplicationContext.applicationContext
         val exposureNotificationSettingsIntent = Intent(ACTION_EXPOSURE_NOTIFICATION_SETTINGS)
         return exposureNotificationSettingsIntent.resolveActivity(context.packageManager) != null
+    }
+
+    private suspend fun isExposureNotificationEnabled(): Boolean {
+        try {
+            return exposureNotificationClient.isEnabled.await()
+        } catch (_: Exception) {
+            return false
+        }
     }
 
     private fun isBluetoothEnabled(): Boolean {
