@@ -253,6 +253,11 @@
     "NoConnectivity": "Alerte COVID est hors ligne",
     "NoConnectivityDetailed": "Alerte COVID vérifie s’il y a des expositions seulement quand votre téléphone est connecté à Internet.",
     "NoExposureDetected": {
+      "WhatsNew": {
+        "Title": "Nouvelles notifications durant les vérifications d’exposition",
+        "Body1": "Si vous avez reçu une notification qui a vite disparu, c’est normal.",
+        "Body2": "L’application affiche maintenant des notifications durant les vérifications d’exposition."
+      },
       "AllSetTitle": "Vous voilà prêt!",
       "NoRegion": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",

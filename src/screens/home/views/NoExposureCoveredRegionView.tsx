@@ -50,6 +50,34 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
           />
         </Box>
       </Box>
+
+      <Box alignSelf="stretch" marginTop="m" style={styles.roundedBox2}>
+        <Box paddingHorizontal="m" paddingVertical="m">
+          <Text
+            variant="bodySubTitle"
+            color="bodyText"
+            marginBottom="m"
+            accessibilityRole="header"
+            accessibilityAutoFocus
+          >
+            {i18n.translate('Home.NoExposureDetected.WhatsNew.Title')}
+          </Text>
+
+          <TextMultiline
+            variant="bodyText"
+            color="bodyText"
+            marginBottom="m"
+            text={i18n.translate('Home.NoExposureDetected.WhatsNew.Body1')}
+          />
+
+          <TextMultiline
+            variant="bodyText"
+            color="bodyText"
+            marginBottom="m"
+            text={i18n.translate('Home.NoExposureDetected.WhatsNew.Body2')}
+          />
+        </Box>
+      </Box>
     </BaseHomeView>
   );
 };
