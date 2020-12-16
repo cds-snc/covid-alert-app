@@ -6,7 +6,11 @@
 //
 
 #import "ExposureNotification.h"
+
+#import "ENActivityHandling.h"
+
 #import <React/RCTConvert.h>
+#import <TSBackgroundFetch/TSBackgroundFetch.h>
 
 @interface ExposureNotification ()
 @property (nonatomic) NSMutableArray *reportedSummaries;
@@ -51,6 +55,14 @@ RCT_REMAP_METHOD(activate, activateWithCompletionHandler:(RCTPromiseResolveBlock
   };
 
   self.enManager = [ENManager new];
+  
+  if ([ExposureNotification exposureNotificationSupportType] == ENSupportTypeVersion12dot5) {
+    [self.enManager setLaunchActivityHandler:^() {
+      TSBackgroundFetch *fetchManager = [TSBackgroundFetch sharedInstance];
+      [fetchManager performFetchWithCompletionHandler:^void(UIBackgroundFetchResult r) {}
+                                     applicationState:UIApplicationStateBackground];
+    }];
+  }
 
   [self.enManager activateWithCompletionHandler:^(NSError * _Nullable error) {
     if (error) {
