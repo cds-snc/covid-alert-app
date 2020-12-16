@@ -1,13 +1,19 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {AppRegistry, Platform} from 'react-native';
-import {TEST_MODE} from 'env';
+import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
 import {captureException, captureMessage} from 'shared/log';
+import AsyncStorage from '@react-native-community/async-storage';
+import RNSecureKeyStore from 'react-native-secure-key-store';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
 import {log} from '../../shared/logging/config';
-import {ExposureNotificationService} from "../ExposureNotificationService";
-import {getCurrentDate, minutesBetween} from "../../shared/date-fns";
+import {ExposureNotificationService} from '../ExposureNotificationService';
+import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
+import {createStorageService} from '../StorageService';
+import {BackendService} from '../BackendService';
+import {createBackgroundI18n} from '../../locale';
+import ExposureNotification from '../../bridge/ExposureNotification';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
@@ -74,18 +80,43 @@ const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationServ
   }
 };
 
+/**
+ * @deprecated Replaced by `registerAndroidHeadlessExposureCheckPeriodicTask`
+ *             - transitioning from using BackgroundFetch to WorkManager
+ *             - this function will still be called when upgrading from v.1.1.3 or below
+ *             - `task` is passed in as a legacy parameter, but is no longer used within the function
+ */
+// @ts-ignore
 const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
   if (Platform.OS !== 'android') {
     return;
   }
+  // BackgroundFetch is still used, only to register the headless task.
+  // Scheduling the periodic task itself handled by ExposureCheckScheduler
   BackgroundFetch.registerHeadlessTask(async ({taskId}) => {
     captureMessage('runAndroidHeadlessPeriodicTask', {taskId});
     try {
-      await task();
+      captureMessage('registerHeadlessTask: WorkManager');
+      // Stop and remove legacy periodic tasks that were scheduled using react-native-background-fetch
+      await BackgroundFetch.stop('react-native-background-fetch');
+
+      // Setup new periodic task to use WorkManager
+      const storageService = await createStorageService();
+      const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+      const i18n = await createBackgroundI18n();
+      const exposureNotificationService = new ExposureNotificationService(
+        backendService,
+        i18n,
+        AsyncStorage,
+        RNSecureKeyStore,
+        ExposureNotification,
+      );
+      registerPeriodicTask(async () => {
+        await exposureNotificationService.updateExposureStatusInBackground();
+      }, exposureNotificationService);
     } catch (error) {
       captureException('runAndroidHeadlessPeriodicTask', error);
     }
-    BackgroundFetch.finish(taskId);
   });
   captureMessage('registerAndroidHeadlessPeriodicTask');
 };
