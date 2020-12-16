@@ -1,7 +1,6 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {AppRegistry, Platform} from 'react-native';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
-import {captureException, captureMessage} from 'shared/log';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 
@@ -36,11 +35,18 @@ const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationServ
         stopOnTerminate: false,
       },
       async taskId => {
-        captureMessage('runPeriodicTask', {taskId});
+        log.debug({
+          category: 'background',
+          message: `runPeriodicTask: ${taskId}`,
+        });
         try {
           await task();
         } catch (error) {
-          captureException('runPeriodicTask', error);
+          log.error({
+            category: 'background',
+            message: 'runPeriodicTask',
+            error,
+          });
         }
         BackgroundFetch.finish(taskId);
       },
@@ -48,7 +54,10 @@ const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationServ
     const result = await BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true}).catch(
       () => false,
     );
-    captureMessage('registerPeriodicTask', {result});
+    log.debug({
+      category: 'background',
+      message: `registerPeriodicTask: ${result}`,
+    });
   } else {
     // Android only
     let delay = PERIODIC_TASK_DELAY_IN_MINUTES;
@@ -94,9 +103,15 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
   // BackgroundFetch is still used, only to register the headless task.
   // Scheduling the periodic task itself handled by ExposureCheckScheduler
   BackgroundFetch.registerHeadlessTask(async ({taskId}) => {
-    captureMessage('runAndroidHeadlessPeriodicTask', {taskId});
+    log.debug({
+      category: 'background',
+      message: `runAndroidHeadlessPeriodicTask: ${taskId}`,
+    });
     try {
-      captureMessage('registerHeadlessTask: WorkManager');
+      log.debug({
+        category: 'background',
+        message: 'registerHeadlessTask: WorkManager',
+      });
       // Stop and remove legacy periodic tasks that were scheduled using react-native-background-fetch
       await BackgroundFetch.stop('react-native-background-fetch');
 
@@ -115,26 +130,43 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
         await exposureNotificationService.updateExposureStatusInBackground();
       }, exposureNotificationService);
     } catch (error) {
-      captureException('runAndroidHeadlessPeriodicTask', error);
+      log.error({
+        category: 'background',
+        message: 'runAndroidHeadlessPeriodicTask',
+        error,
+      });
     }
   });
-  captureMessage('registerAndroidHeadlessPeriodicTask');
+  log.debug({
+    category: 'background',
+    message: 'registerAndroidHeadlessPeriodicTask',
+  });
 };
 
 const registerAndroidHeadlessExposureCheckPeriodicTask = (task: PeriodicTask) => {
   if (Platform.OS !== 'android') return;
 
   AppRegistry.registerHeadlessTask('EXPOSURE_CHECK_HEADLESS_TASK', () => async () => {
-    captureMessage('EXPOSURE_CHECK_HEADLESS_TASK');
+    log.debug({
+      category: 'background',
+      message: 'EXPOSURE_CHECK_HEADLESS_TASK',
+    });
     try {
       await task();
     } catch (error) {
-      captureException('runAndroidHeadlessExposureCheckPeriodicTask', error);
+      log.error({
+        category: 'background',
+        message: 'runAndroidHeadlessExposureCheckPeriodicTask',
+        error,
+      });
     } finally {
       BackgroundFetch.finish('EXPOSURE_CHECK_HEADLESS_TASK');
     }
   });
-  captureMessage('registerAndroidHeadlessExposureCheckPeriodicTask');
+  log.debug({
+    category: 'background',
+    message: 'registerAndroidHeadlessExposureCheckPeriodicTask',
+  });
 };
 
 export const BackgroundScheduler = {
