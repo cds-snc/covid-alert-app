@@ -45,16 +45,21 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return [];
     },
     getExposureWindowsAndroid: async (diagnosisKeysURLs: string[]) => {
-      captureMessage('getExposureWindows');
       await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
-      const exposureWindows = await exposureNotificationAPI.getExposureWindows();
-      return exposureWindows.map(window => {
+      const _exposureWindows = await exposureNotificationAPI.getExposureWindows();
+      const exposureWindows = _exposureWindows.map(window => {
         window.day = Number(window.day);
         window.calibrationConfidence = window.calibrationConfidence as CalibrationConfidence;
         window.infectiousness = window.infectiousness as Infectiousness;
         window.reportType = window.reportType as ReportType;
         return window;
       });
+      log.debug({
+        category: 'exposure-check',
+        message: 'exposureWindows',
+        payload: exposureWindows,
+      });
+      return exposureWindows;
     },
   };
 }
