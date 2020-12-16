@@ -29,6 +29,7 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
     private val workerConstraints = Constraints.Builder()
             .setRequiresCharging(false)
             .setRequiresBatteryNotLow(false)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
     @ReactMethod
