@@ -19,17 +19,9 @@ import java.util.List;
 
 
 
-public class MainApplication extends Application implements ReactApplication, Configuration.Provider {
+public class MainApplication extends Application implements ReactApplication {
 
     public static Application instance;
-
-    @NotNull
-    @Override
-    public Configuration getWorkManagerConfiguration() {
-        return new Configuration.Builder()
-                .setMinimumLoggingLevel(android.util.Log.INFO)
-                .build();
-    }
 
     private final ReactNativeHost mReactNativeHost =
         new ReactNativeHost(this) {
