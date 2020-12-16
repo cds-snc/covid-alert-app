@@ -51,6 +51,7 @@ export interface TemporaryExposureKey {
   rollingStartIntervalNumber: number;
   rollingPeriod: number;
   transmissionRiskLevel: RiskLevel;
+  daysSinceOnsetOfSymptoms?: number;
 }
 
 export interface ExposureSummary {

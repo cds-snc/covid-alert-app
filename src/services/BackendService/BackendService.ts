@@ -222,6 +222,7 @@ export class BackendService implements BackendInterface {
           transmissionRiskLevel: TRANSMISSION_RISK_LEVEL,
           rollingStartIntervalNumber: key.rollingStartIntervalNumber,
           rollingPeriod: key.rollingPeriod,
+          daysSinceOnsetOfSymptoms: 0,
         }),
       ),
     });

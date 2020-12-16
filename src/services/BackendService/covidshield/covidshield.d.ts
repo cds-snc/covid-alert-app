@@ -776,6 +776,9 @@ export namespace covidshield {
 
         /** TemporaryExposureKey rollingPeriod */
         rollingPeriod?: (number|null);
+
+        /** TemporaryExposureKey daysSinceOnsetOfSymptoms */
+        daysSinceOnsetOfSymptoms?: (number|null);
     }
 
     /** Represents a TemporaryExposureKey. */
@@ -798,6 +801,9 @@ export namespace covidshield {
 
         /** TemporaryExposureKey rollingPeriod. */
         public rollingPeriod: number;
+
+        /** TemporaryExposureKey daysSinceOnsetOfSymptoms */
+        public daysSinceOnsetOfSymptoms: number;
 
         /**
          * Creates a new TemporaryExposureKey instance using the specified properties.
