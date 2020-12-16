@@ -8,8 +8,6 @@
 #import "ExposureNotification.h"
 #import <React/RCTConvert.h>
 
-
-
 @interface ExposureNotification ()
 @property (nonatomic) NSMutableArray *reportedSummaries;
 @end
@@ -32,6 +30,16 @@
 {
   [self.enManager invalidate];
   self.enManager = nil;
+}
+
++ (ExposureNotificationSupportType) exposureNotificationSupportType {
+  if (@available(iOS 13.5, *)) {
+    return ENSupportTypeVersion13dot5AndLater;
+  } else if (NSClassFromString(@"ENManager") != nil) { // This check is specific to iOS 12.5
+    return ENSupportTypeVersion12dot5;
+  } else {
+    return ENSupportTypeUnsupported;
+  }
 }
 
 RCT_EXPORT_MODULE();
