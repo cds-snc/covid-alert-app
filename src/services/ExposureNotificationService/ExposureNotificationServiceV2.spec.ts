@@ -28,6 +28,11 @@ jest.mock('react-native-background-fetch', () => {
   };
 });
 
+jest.mock('../../bridge/CovidShield', () => ({
+  getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
+  downloadDiagnosisKeysFile: jest.fn(),
+}));
+
 jest.mock('../../bridge/ExposureCheckScheduler', () => ({
   scheduleExposureCheck: jest.fn(),
   executeExposureCheck: jest.fn(),
