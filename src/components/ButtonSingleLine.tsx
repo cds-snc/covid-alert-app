@@ -26,6 +26,7 @@ export interface ButtonSingleLineProps {
   loading?: boolean;
   externalLink?: boolean;
   internalLink?: boolean;
+  internalLinkLight?: boolean;
   iconName?: IconName;
   testID?: string;
 }
@@ -39,6 +40,7 @@ export const ButtonSingleLine = ({
   loading,
   externalLink,
   internalLink,
+  internalLinkLight,
   iconName,
   testID,
 }: ButtonSingleLineProps) => {
@@ -95,6 +97,11 @@ export const ButtonSingleLine = ({
           {internalLink && (
             <Box flex={0} style={{...styles.iconOffsetChevron}}>
               <Icon size={25} name="icon-chevron" />
+            </Box>
+          )}
+          {internalLinkLight && (
+            <Box flex={0} style={{...styles.iconOffsetChevron}}>
+              <Icon size={25} name="icon-chevron-white" />
             </Box>
           )}
           {iconName && (

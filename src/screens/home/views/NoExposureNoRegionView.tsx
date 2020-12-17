@@ -1,12 +1,14 @@
 import React from 'react';
-import {Text, TextMultiline} from 'components';
+import {Box, Text, TextMultiline} from 'components';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {StyleSheet, Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {AllSetView} from '../components/AllSetView';
+import {WhatsNew} from '../components/WhatsNewView';
 
 export const NoExposureNoRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
@@ -30,23 +32,41 @@ export const NoExposureNoRegionView = ({isBottomSheetExpanded}: {isBottomSheetEx
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
-      <Text
-        testID="noRegionHeader"
-        focusRef={autoFocusRef}
-        variant="bodyTitle"
-        color="bodyText"
-        marginBottom="m"
-        accessibilityRole="header"
-      >
-        {i18n.translate('Home.NoExposureDetected.NoRegion.Title')}
-      </Text>
+      <Box alignSelf="stretch" style={styles.roundedBox1}>
+        <Box paddingHorizontal="m" paddingVertical="m">
+          <Text
+            testID="noRegionHeader"
+            focusRef={autoFocusRef}
+            variant="bodyTitle"
+            color="bodyText"
+            marginBottom="m"
+            accessibilityRole="header"
+          >
+            {i18n.translate('Home.NoExposureDetected.NoRegion.Title')}
+          </Text>
 
-      <TextMultiline
-        variant="bodyText"
-        color="bodyText"
-        marginBottom="m"
-        text={i18n.translate('Home.NoExposureDetected.NoRegion.Body')}
-      />
+          <TextMultiline
+            variant="bodyText"
+            color="bodyText"
+            marginBottom="m"
+            text={i18n.translate('Home.NoExposureDetected.NoRegion.Body')}
+          />
+        </Box>
+      </Box>
+      <WhatsNew />
     </BaseHomeView>
   );
 };
+
+const styles = StyleSheet.create({
+  roundedBox1: {
+    marginTop: Platform.OS === 'ios' ? 5 : -20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    zIndex: -1,
+  },
+  roundedBox2: {
+    borderRadius: 10,
+    backgroundColor: 'white',
+  },
+});

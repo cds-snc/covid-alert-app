@@ -21,7 +21,7 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
 
     if (exposureStatusJson) {
       const exposureStatus = JSON.parse(exposureStatusJson);
-      const lastCheckedTimestamp = exposureStatus.lastChecked.timestamp;
+      const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
       const lastCheckedDate = new Date(lastCheckedTimestamp);
       lastCheckedMinutesAgo = Math.ceil(minutesBetween(lastCheckedDate, today)).toString();
       currentStatus = exposureStatus.type;

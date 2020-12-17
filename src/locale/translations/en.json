@@ -5,6 +5,11 @@
       "CTA": "Turn back on"
     },
     "NoExposureDetected": {
+      "WhatsNew": {
+        "Title": "New notifications show app is working",
+        "Body1": "If you got a notification that popped up and went away, it’s ok.",
+        "Body2": "The app now shows notifications while checking for exposures."
+      },
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
@@ -431,7 +436,18 @@
     "QC": "Quebec",
     "SK": "Saskatchewan",
     "YT": "Yukon",
-    "None": "Prefer not to say"
+    "None": "Prefer not to say",
+    "ExposedHelpLinkNote": {
+      "AB": "",
+      "BC": "",
+      "SK": ""
+    }
+  },
+  "RegionPickerNoPT": {
+    "Exposed": {
+      "Title": "Find your area’s advice",
+      "Body": "The steps you need to take when you’re exposed depend on the province or territory you live in. The app will not remember your choice."
+    }
   },
   "A11yList": {
     "Start": "List start",

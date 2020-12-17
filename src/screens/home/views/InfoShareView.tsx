@@ -28,10 +28,14 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
     Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
   const onExposedHelp = useCallback(() => {
-    Linking.openURL(getExposedHelpMenuURL(region, regionalI18n)).catch(error =>
-      captureException('An error occurred', error),
-    );
-  }, [region, regionalI18n]);
+    if (region !== undefined && region !== 'None') {
+      Linking.openURL(getExposedHelpMenuURL(region, regionalI18n)).catch(error =>
+        captureException('An error occurred', error),
+      );
+    } else {
+      navigation.navigate('RegionSelectExposedNoPT', {drawerMenu: true});
+    }
+  }, [navigation, region, regionalI18n]);
 
   return (
     <>
