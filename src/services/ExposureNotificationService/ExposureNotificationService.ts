@@ -498,7 +498,7 @@ export class ExposureNotificationService {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
         const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-        captureMessage("summaries", summaries)
+        captureMessage('summaries', summaries);
         // if (summaries.length > 0) {
         //   exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
         // } else {
