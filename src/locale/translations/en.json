@@ -5,6 +5,11 @@
       "CTA": "Turn back on"
     },
     "NoExposureDetected": {
+      "WhatsNew": {
+        "Title": "New notifications show app is working",
+        "Body1": "If you got a notification that popped up and went away, it’s ok.",
+        "Body2": "The app now shows notifications while checking for exposures."
+      },
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
