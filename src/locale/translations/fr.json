@@ -333,6 +333,9 @@
     "ExposedMessageTitle": "Vous avez été exposé",
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
     "OffMessageTitle": "Alerte COVID est désactivée",
+    "ExposureChecksTitle": "Alerte COVID",
+    "ExposureChecksBody": "Vérification d’exposition en cours",
+    "ExposureChecksAndroidChannelName": "Vérifications d’exposition",
     "PausedMessageTitle": "Vous avez désactivé l’application",
     "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée."
   },

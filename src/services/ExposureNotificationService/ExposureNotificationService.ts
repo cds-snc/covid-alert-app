@@ -7,19 +7,20 @@ import ExposureNotification, {
   ScanInstance,
   Infectiousness,
 } from 'bridge/ExposureNotification';
-import PushNotification from 'bridge/PushNotification';
+import PushNotification, {NotificationPayload} from 'bridge/PushNotification';
 import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {log} from 'shared/logging/config';
-import {Platform} from 'react-native';
+import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
-import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
+import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 import {Key} from '../StorageService';
+import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
@@ -128,7 +129,48 @@ export class ExposureNotificationService {
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
+
+    if (Platform.OS === 'android') {
+      DeviceEventEmitter.removeAllListeners('initiateExposureCheckEvent');
+      DeviceEventEmitter.addListener('initiateExposureCheckEvent', this.initiateExposureCheckEvent);
+      DeviceEventEmitter.removeAllListeners('executeExposureCheckEvent');
+      DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
+    }
   }
+
+  initiateExposureCheckEvent = async () => {
+    if (Platform.OS !== 'android') return;
+    log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
+    await this.initiateExposureCheck();
+  };
+
+  initiateExposureCheckHeadless = async () => {
+    if (Platform.OS !== 'android') return;
+    log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
+    await this.initiateExposureCheck();
+  };
+
+  initiateExposureCheck = async () => {
+    if (Platform.OS !== 'android') return;
+    const payload: NotificationPayload = {
+      alertTitle: this.i18n.translate('Notification.ExposureChecksTitle'),
+      alertBody: this.i18n.translate('Notification.ExposureChecksBody'),
+      channelName: this.i18n.translate('Notification.ExposureChecksAndroidChannelName'),
+      disableSound: true,
+    };
+    await ExposureCheckScheduler.executeExposureCheck(payload);
+  };
+
+  executeExposureCheckEvent = async () => {
+    if (Platform.OS !== 'android') return;
+    log.debug({category: 'background', message: 'executeExposureCheckEvent'});
+    try {
+      await this.updateExposureStatusInBackground();
+    } catch (error) {
+      // Noop
+      log.error({category: 'background', message: 'executeExposureCheckEvent', error});
+    }
+  };
 
   async start(): Promise<{success: boolean; error?: string}> {
     if (this.starting) {
@@ -270,6 +312,10 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatus(forceCheck = false): Promise<void> {
+    log.debug({
+      category: 'exposure-check',
+      message: 'updateExposureStatus',
+    });
     if (!forceCheck && !(await this.shouldPerformExposureCheck())) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
     const cleanUpPromise = <T>(input: T): T => {
@@ -278,9 +324,11 @@ export class ExposureNotificationService {
     };
     switch (EN_API_VERSION) {
       case '2':
+        captureMessage('updateExposureStatus', {message: 'Using API 2'});
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdateV2().then(cleanUpPromise, cleanUpPromise);
         break;
       default:
+        captureMessage('updateExposureStatus', {message: 'Using API 1'});
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
         break;
     }
@@ -532,23 +580,61 @@ export class ExposureNotificationService {
     const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
 
     if (!onboardedDatetime) {
+      log.debug({
+        category: 'exposure-check',
+        message: 'shouldPerformExposureCheck',
+        payload: {
+          result: 'no',
+          reason: 'onboardedDateTime',
+        },
+      });
       return false;
     }
 
     const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
     if (lastCheckedTimestamp) {
       const lastCheckedDate = new Date(lastCheckedTimestamp);
-      const minutes = minutesBetween(lastCheckedDate, today);
-      if (minutes < DEFERRED_JOB_INTERNVAL_IN_MINUTES) {
+      const minutes = Math.ceil(minutesBetween(lastCheckedDate, today));
+      if (minutes < PERIODIC_TASK_INTERVAL_IN_MINUTES) {
         log.debug({
           category: 'exposure-check',
           message: 'shouldPerformExposureCheck',
-          payload: {minutes, lastCheckedTimestamp, result: 'no', reason: 'minutes', onboardedDatetime},
+          payload: {
+            minutesSinceLastCheck: minutes,
+            taskInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
+            lastCheckedTimestamp,
+            result: 'no',
+            reason: 'minutes',
+            onboardedDatetime,
+          },
         });
-
         return false;
+      } else {
+        log.debug({
+          category: 'exposure-check',
+          message: 'shouldPerformExposureCheck',
+          payload: {
+            minutesSinceLastCheck: minutes,
+            taskInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
+            lastCheckedTimestamp,
+            result: 'yes',
+            reason: 'minutes',
+            onboardedDatetime,
+          },
+        });
+        return true;
       }
     }
+    log.debug({
+      category: 'exposure-check',
+      message: 'shouldPerformExposureCheck',
+      payload: {
+        taskInterval: PERIODIC_TASK_INTERVAL_IN_MINUTES,
+        result: 'yes',
+        reason: 'lastCheckedTimestamp - null',
+        onboardedDatetime,
+      },
+    });
     return true;
   };
 
