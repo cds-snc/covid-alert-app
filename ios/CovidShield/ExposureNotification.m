@@ -271,9 +271,6 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
 
     if (@available(iOS 13.7, *)) {
       resolve(@{
-        @"daysSinceLastExposure": @(summary.daysSinceLastExposure),
-        @"matchedKeyCount": @(summary.matchedKeyCount),
-        @"maximumRiskScore": @(summary.maximumRiskScore),
         @"daySummaries": summary.daySummaries
       });
     } else {
