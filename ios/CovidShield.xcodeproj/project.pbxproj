@@ -588,7 +588,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_IOS)";
 				PRODUCT_NAME = CovidShield;
-				PROVISIONING_PROFILE_SPECIFIER = "COVID Alert AdHoc Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "Stop COVID App Store Profile";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
