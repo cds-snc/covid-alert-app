@@ -825,7 +825,7 @@ export class ExposureNotificationService {
       log.error({category: 'exposure-check', message: 'processPendingExposureSummary', error});
     });
     if (!summaries || summaries.length === 0) {
-      log.error({category: 'exposure-check', message: 'processPendingExposureSummary', error: 'no summary'});
+      log.info({category: 'exposure-check', message: 'processPendingExposureSummary - no summary'});
       return false;
     }
     const summariesContainingExposures = this.findSummariesContainingExposures(
