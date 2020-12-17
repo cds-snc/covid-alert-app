@@ -248,8 +248,14 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
   if (@available(iOS 13.7, *)) {
     configuration.immediateDurationWeight = 100;
     configuration.nearDurationWeight = 100;
-    configuration.mediumDurationWeight = 0;
-    configuration.otherDurationWeight = 0;
+    configuration.mediumDurationWeight = 100;
+    configuration.otherDurationWeight = 100;
+    configuration.infectiousnessStandardWeight = 100;
+    configuration.infectiousnessHighWeight = 100;
+    configuration.reportTypeConfirmedTestWeight = 100;
+    configuration.reportTypeConfirmedClinicalDiagnosisWeight = 100;
+    configuration.reportTypeSelfReportedWeight = 100;
+    configuration.reportTypeRecursiveWeight = 100;
     configuration.infectiousnessForDaysSinceOnsetOfSymptoms = getInfectiousness();
   }
 
