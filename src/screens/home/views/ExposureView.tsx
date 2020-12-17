@@ -10,7 +10,7 @@ import {StyleSheet, Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
-/* import {ExposureDateView} from './ExposureDateView'; */
+import {ExposureDateView} from './ExposureDateView';
 import {NegativeTestButton} from './ClearExposureView';
 
 const ActiveContent = ({text}: {text: string}) => {
@@ -36,7 +36,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
             {i18n.translate('Home.ExposureDetected.Title')}
           </Text>
           <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
-          {/* <ExposureDateView /> */}
+          <ExposureDateView />
         </Box>
       </Box>
 
