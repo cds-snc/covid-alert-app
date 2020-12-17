@@ -10,6 +10,13 @@ import {
 
 import {ExposureNotificationService} from './ExposureNotificationService';
 
+jest.mock('react-native-system-setting', () => {
+  return {
+    addBluetoothListener: jest.fn(),
+    addLocationListener: jest.fn(),
+  };
+});
+
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));

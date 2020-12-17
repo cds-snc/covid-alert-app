@@ -35,6 +35,13 @@ jest.mock('../../bridge/PushNotification', () => ({
   presentLocalNotification: jest.fn(),
 }));
 
+jest.mock('react-native-system-setting', () => {
+  return {
+    addBluetoothListener: jest.fn(),
+    addLocationListener: jest.fn(),
+  };
+});
+
 jest.mock('../../bridge/ExposureCheckScheduler', () => ({
   scheduleExposureCheck: jest.fn(),
   executeExposureCheck: jest.fn(),
