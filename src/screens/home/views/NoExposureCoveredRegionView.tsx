@@ -10,10 +10,35 @@ import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
 import {WhatsNew} from '../components/WhatsNewView';
 
+const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+  const i18n = useI18n();
+  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+  return (
+    <>
+      <Text
+        testID="coveredRegionHeader"
+        focusRef={autoFocusRef}
+        variant="bodyTitle"
+        color="bodyText"
+        marginBottom="m"
+        accessibilityRole="header"
+        accessibilityAutoFocus
+      >
+        {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
+      </Text>
+      <TextMultiline
+        variant="bodyText"
+        color="bodyText"
+        marginBottom="m"
+        text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
+      />
+    </>
+  );
+};
+
 export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
   const {onboardedDatetime, skipAllSet} = useStorage();
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (
@@ -30,27 +55,15 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
-      <Box alignSelf="stretch" style={styles.roundedBox1}>
-        <Box paddingHorizontal="m" paddingVertical="m">
-          <Text
-            testID="coveredRegionHeader"
-            focusRef={autoFocusRef}
-            variant="bodyTitle"
-            color="bodyText"
-            marginBottom="m"
-            accessibilityRole="header"
-            accessibilityAutoFocus
-          >
-            {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
-          </Text>
-          <TextMultiline
-            variant="bodyText"
-            color="bodyText"
-            marginBottom="m"
-            text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
-          />
+      {Platform.OS === 'ios' ? (
+        <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+      ) : (
+        <Box alignSelf="stretch" style={styles.roundedBox1}>
+          <Box paddingHorizontal="m" paddingVertical="m">
+            <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+          </Box>
         </Box>
-      </Box>
+      )}
       <WhatsNew />
     </BaseHomeView>
   );
