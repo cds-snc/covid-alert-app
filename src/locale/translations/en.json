@@ -397,7 +397,7 @@
     "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes.",
     "ExposureChecksTitle": "COVID Alert",
     "ExposureChecksBody": "Checking for exposures",
-    "ExposureChecksAndroidChannelName": "COVID Alert Exposure Checks",
+    "ExposureChecksAndroidChannelName": "Checking for exposures",
     "PausedMessageTitle": "You turned off the app",
     "PausedMessageBody": "The app is not recording exposures because you turned it off."
   },
