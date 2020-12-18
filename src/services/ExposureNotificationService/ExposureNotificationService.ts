@@ -677,6 +677,57 @@ export class ExposureNotificationService {
     return false;
   }
 
+  public async performExposureStatusUpdate(): Promise<void> {
+    log.debug({category: 'exposure-check', message: 'performExposureStatusUpdate'});
+
+    const exposureConfiguration = await this.getExposureConfiguration();
+    const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
+    if (hasPendingExposureSummary) {
+      return;
+    }
+
+    const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
+    const updatedExposure = this.updateExposure();
+    if (updatedExposure !== currentExposureStatus) {
+      this.exposureStatus.set(updatedExposure);
+      this.finalize();
+    }
+
+    if (updatedExposure.type === ExposureStatusType.Diagnosed) {
+      return;
+    }
+
+    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
+
+    try {
+      log.debug({category: 'exposure-check', message: 'detectExposure'});
+      const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      const summariesContainingExposures = this.findSummariesContainingExposures(
+        exposureConfiguration.minimumExposureDurationMinutes,
+        summaries,
+      );
+      if (summariesContainingExposures.length > 0) {
+        const summary = this.selectExposureSummary(summariesContainingExposures[0]);
+
+        if (updatedExposure.type === ExposureStatusType.Monitoring && !this.isIgnoredSummary(summary)) {
+          return this.finalize(
+            {
+              type: ExposureStatusType.Exposed,
+              summary,
+              exposureDetectedAt: getCurrentDate().getTime(),
+            },
+            lastCheckedPeriod,
+          );
+        }
+      }
+      return this.finalize({}, lastCheckedPeriod);
+    } catch (error) {
+      log.error({category: 'exposure-check', message: 'performExposureStatusUpdate', error});
+    }
+
+    return this.finalize();
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -747,57 +798,6 @@ export class ExposureNotificationService {
       },
     });
   };
-
-  private async performExposureStatusUpdate(): Promise<void> {
-    log.debug({category: 'exposure-check', message: 'performExposureStatusUpdate'});
-
-    const exposureConfiguration = await this.getExposureConfiguration();
-    const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
-    if (hasPendingExposureSummary) {
-      return;
-    }
-
-    const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
-    const updatedExposure = this.updateExposure();
-    if (updatedExposure !== currentExposureStatus) {
-      this.exposureStatus.set(updatedExposure);
-      this.finalize();
-    }
-
-    if (updatedExposure.type === ExposureStatusType.Diagnosed) {
-      return;
-    }
-
-    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
-
-    try {
-      log.debug({category: 'exposure-check', message: 'detectExposure'});
-      const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-      const summariesContainingExposures = this.findSummariesContainingExposures(
-        exposureConfiguration.minimumExposureDurationMinutes,
-        summaries,
-      );
-      if (summariesContainingExposures.length > 0) {
-        const summary = this.selectExposureSummary(summariesContainingExposures[0]);
-
-        if (!this.isIgnoredSummary(summary)) {
-          return this.finalize(
-            {
-              type: ExposureStatusType.Exposed,
-              summary,
-              exposureDetectedAt: getCurrentDate().getTime(),
-            },
-            lastCheckedPeriod,
-          );
-        }
-      }
-      return this.finalize({}, lastCheckedPeriod);
-    } catch (error) {
-      log.error({category: 'exposure-check', message: 'performExposureStatusUpdate', error});
-    }
-
-    return this.finalize();
-  }
 
   private async getKeysFileUrls(): Promise<any> {
     const currentStatus = this.exposureStatus.get();
