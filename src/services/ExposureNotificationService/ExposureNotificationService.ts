@@ -29,6 +29,8 @@ import {ExposureConfigurationValidator, ExposureConfigurationValidationError} fr
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 
+export const EXPOSURE_DETECTED_AT_TIMESTAMPS = 'exposureDetectedAtTimestamps';
+
 export const EXPOSURE_STATUS = 'exposureStatus';
 
 export const HOURS_PER_PERIOD = 24;
@@ -61,8 +63,8 @@ export type ExposureStatus =
   | {
       type: ExposureStatusType.Exposed;
       summary: ExposureSummary;
+      exposureDetectedAt: number;
       notificationSent?: boolean;
-      exposureDetectedAt?: number;
       lastChecked?: LastChecked;
       ignoredSummaries?: ExposureSummary[];
     }
@@ -707,18 +709,7 @@ export class ExposureNotificationService {
         summaries,
       );
       if (summariesContainingExposures.length > 0) {
-        const summary = this.selectExposureSummary(summariesContainingExposures[0]);
-
-        if (updatedExposure.type === ExposureStatusType.Monitoring && !this.isIgnoredSummary(summary)) {
-          return this.finalize(
-            {
-              type: ExposureStatusType.Exposed,
-              summary,
-              exposureDetectedAt: getCurrentDate().getTime(),
-            },
-            lastCheckedPeriod,
-          );
-        }
+        this.maybeSetExposed(summariesContainingExposures[0], lastCheckedPeriod);
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
@@ -726,6 +717,44 @@ export class ExposureNotificationService {
     }
 
     return this.finalize();
+  }
+
+  public async maybeSetExposed(nextSummary, lastCheckedPeriod) {
+    const {summary, isNew} = this.selectExposureSummary(nextSummary);
+    if (this.isIgnoredSummary(summary)) {
+      return this.finalize({}, lastCheckedPeriod);
+    }
+    if (updatedExposure.type === ExposureStatusType.Monitoring) {
+      return this.setExposed(summary, lastCheckedPeriod);
+    }
+    if (updatedExposure.type === ExposureStatusType.Exposed && isNew) {
+      return this.setExposed(summary, lastCheckedPeriod);
+    }
+  }
+
+  public async setExposed(summary: ExposureSummary, lastCheckedPeriod: number) {
+    const exposureDetectedAt = getCurrentDate().getTime();
+    this.finalize(
+      {
+        type: ExposureStatusType.Exposed,
+        summary,
+        exposureDetectedAt,
+      },
+      lastCheckedPeriod,
+    );
+    this.storeExposureDetectionTime(exposureDetectedAt);
+  }
+
+  public async storeExposureDetectionTime(time: number) {
+    // '', '12345', '12345,23456'
+    const _exposureDetectedAtTimestamps = await this.secureStorage.get(EXPOSURE_DETECTED_AT_TIMESTAMPS);
+    if (!_exposureDetectedAtTimestamps) {
+      this.secureStorage.set(EXPOSURE_DETECTED_AT_TIMESTAMPS, time.toString(), {});
+      return;
+    }
+    const exposureDetectedAtTimestamps = _exposureDetectedAtTimestamps.split(',');
+    exposureDetectedAtTimestamps.push(time.toString());
+    this.secureStorage.set(EXPOSURE_DETECTED_AT_TIMESTAMPS, exposureDetectedAtTimestamps.join(','), {});
   }
 
   private async loadExposureStatus() {
@@ -836,9 +865,10 @@ export class ExposureNotificationService {
       return false;
     }
     const today = getCurrentDate();
+    const {summary, isNew} = this.selectExposureSummary(summariesContainingExposures[0]);
     this.exposureStatus.append({
       type: ExposureStatusType.Exposed,
-      summary: this.selectExposureSummary(summariesContainingExposures[0]),
+      summary,
       lastChecked: {
         timestamp: today.getTime(),
         period: periodSinceEpoch(today, HOURS_PER_PERIOD),
@@ -890,15 +920,21 @@ export class ExposureNotificationService {
     return exposureConfiguration;
   }
 
-  private selectExposureSummary(nextSummary: ExposureSummary): ExposureSummary {
+  private selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNew: boolean} {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
       log.debug({category: 'summary', message: 'selectExposureSummary', payload: {nextSummary}});
-      return nextSummary;
+      return {summary: nextSummary, isNew: true};
     }
     const currentSummary = exposureStatus.summary;
+    const currentSummaryDate = new Date(currentSummary.lastExposureTimestamp);
+    const nextSummaryDate = new Date(nextSummary.lastExposureTimestamp);
+    if (daysBetween(currentSummaryDate, nextSummaryDate) > 0) {
+      return {summary: nextSummary, isNew: true};
+    }
+
     log.debug({category: 'summary', message: 'selectExposureSummary', payload: {currentSummary}});
-    return currentSummary;
+    return {summary: currentSummary, isNew: false};
   }
 
   private async processNotification() {
