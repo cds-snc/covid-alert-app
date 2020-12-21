@@ -729,14 +729,14 @@ export class ExposureNotificationService {
       return this.finalize({}, lastCheckedPeriod);
     }
     if (updatedExposureStatus.type === ExposureStatusType.Monitoring) {
-      return this.setExposed2(summary, lastCheckedPeriod);
+      return this.setExposureDetectedAt(summary, lastCheckedPeriod);
     }
     if (updatedExposureStatus.type === ExposureStatusType.Exposed && isNext) {
-      return this.setExposed2(summary, lastCheckedPeriod);
+      return this.setExposureDetectedAt(summary, lastCheckedPeriod);
     }
   }
 
-  public async setExposed2(summary: ExposureSummary, lastCheckedPeriod: number) {
+  public async setExposureDetectedAt(summary: ExposureSummary, lastCheckedPeriod: number) {
     const exposureDetectedAt = getCurrentDate().getTime();
     this.finalize(
       {
@@ -869,7 +869,7 @@ export class ExposureNotificationService {
       return false;
     }
     // const today = getCurrentDate();
-    this.setExposed(summariesContainingExposures[0], exposureStatus, lastUpdatedPeriod)
+    this.setExposed(summariesContainingExposures[0], exposureStatus, lastUpdatedPeriod);
     // this.exposureStatus.append({
     //   type: ExposureStatusType.Exposed,
     //   summary,
