@@ -719,7 +719,7 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    it('selects current exposure summary if user is already exposed', async () => {
+    it('selects next exposure summary if user is already exposed', async () => {
       // abc
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
@@ -751,7 +751,7 @@ describe('ExposureNotificationService', () => {
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
           type: ExposureStatusType.Exposed,
-          summary: currentSummary,
+          summary: nextSummary,
         }),
       );
     });
