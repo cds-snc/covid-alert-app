@@ -18,7 +18,10 @@ import app.covidshield.MainActivity
 import app.covidshield.R
 import com.facebook.react.ReactApplication
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
+import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatus
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.tasks.await
 
 
 class ExposureCheckNotificationWorker (private val context: Context, parameters: WorkerParameters) :
@@ -26,9 +29,19 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
 
     private val notificationManager: NotificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+    private val exposureNotificationClient by lazy {
+        Nearby.getExposureNotificationClient(context)
+    }
+
     override suspend fun doWork(): Result {
 
         Log.d("background", "ExposureCheckNotificationWorker - doWork")
+
+        val enStatus = exposureNotificationClient.status.await()
+        if (!enStatus.contains(ExposureNotificationStatus.ACTIVATED)){
+            Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification Status: not activated")
+            return Result.success()
+        }
 
         val reactApplication = applicationContext as? ReactApplication
                 ?: return Result.success()

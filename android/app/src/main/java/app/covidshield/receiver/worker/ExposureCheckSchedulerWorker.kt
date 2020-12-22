@@ -8,7 +8,10 @@ import app.covidshield.extensions.log
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
+import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatus
 import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 private const val HEADLESS_JS_TASK_NAME = "EXPOSURE_CHECK_HEADLESS_TASK"
 private const val HEADLESS_JS_TASK_TIMEOUT_MS = 60000L
@@ -16,9 +19,18 @@ private const val HEADLESS_JS_TASK_TIMEOUT_MS = 60000L
 class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerParameters) :
         CoroutineWorker(context, parameters) {
 
+    private val exposureNotificationClient by lazy {
+        Nearby.getExposureNotificationClient(context)
+    }
+
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
         try {
+            val enStatus = exposureNotificationClient.status.await()
+            if (!enStatus.contains(ExposureNotificationStatus.ACTIVATED)){
+                Log.d("background", "ExposureCheckSchedulerWorker - ExposureNotification Status: not activated")
+                return Result.success()
+            }
             val currentReactContext = getCurrentReactContext(context)
             if (currentReactContext != null) {
                 currentReactContext.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("initiateExposureCheckEvent", "data")
