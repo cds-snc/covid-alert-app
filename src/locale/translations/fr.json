@@ -1,22 +1,302 @@
 {
-  "BottomSheet": {
-    "Collapse": "Fermer",
-    "OffStatus": "Alerte COVID est DÉSACTIVÉE, Appuyez pour voir le menu",
-    "OnStatus": "Alerte COVID est ACTIVÉE, Appuyez pour voir le menu"
+  "Home": {
+    "AppName": "Alerte COVID",
+    "UserStopped": {
+      "Title": "Vous avez désactivé l’application",
+      "CTA": "Réactiver"
+    },
+    "NoExposureDetected": {
+      "WhatsNew": {
+        "Title": "Nouvelles notifications durant les vérifications d’exposition",
+        "Body1": "Si vous avez reçu une notification qui a vite disparu, c’est normal.",
+        "Body2": "L’application affiche maintenant des notifications durant les vérifications d’exposition."
+      },
+      "AllSetTitle": "Vous voilà prêt!",
+      "RegionCovered": {
+        "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
+        "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
+        "Title": "Aucune exposition détectée",
+        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
+      },
+      "NoRegion": {
+        "Title": "Aucune exposition détectée",
+        "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
+        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+      },
+      "RegionNotCovered": {
+        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
+        "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
+        "Title": "Pas encore de signalement dans votre région",
+        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+      }
+    },
+    "ExposureDetected": {
+      "Title": "Vous avez été exposé",
+      "Body1": "Vous avez côtoyé au moins une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Le contact a duré 15 minutes ou plus.",
+      "Title2": "Et ensuite?",
+      "Body2": "Vous pourriez avoir contracté le virus.",
+      "Notification": {
+        "Received": "Date de la notification"
+      },
+      "NegativeTest": {
+        "CTA": "Résultat de test négatif?"
+      },
+      "Dismiss": {
+        "Title": "Résultat négatif au test de dépistage?",
+        "Body": "Vous pouvez mettre fin à l’alerte pour continuer à recevoir des notifications d’exposition. Aucune information d’exposition ne sera supprimée de votre téléphone.",
+        "Body2": "Vous pouvez aussi mettre fin à l’alerte si vous suivez les consignes de votre région.",
+        "CTA": "Mettre fin à l’alerte",
+        "Confirm": {
+          "Body": "Voulez-vous vraiment mettre fin à l’alerte?",
+          "Accept": "Oui, mettre fin à l’alerte",
+          "Cancel": "Annuler"
+        }
+      }
+    },
+    "ChooseRegionCTA": "Sélectionnez une province ou un territoire",
+    "How": "Diagnosed with COVID-19?",
+    "CTA": "Prochaines étapes",
+    "HowUrl": "https://www.canada.ca/",
+    "ExposedHelpCTA": "Que faire en cas d’exposition",
+    "DiagnosedView": {
+      "Title": "Merci d’aider à lutter contre la COVID",
+      "Body1": {
+        "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
+        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
+      },
+      "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
+      "Body3": "Si vos symptômes vous inquiètent, vous pouvez consulter un professionnel de la santé. Prenez soin de vous et de votre famille pendant ce temps.",
+      "Tip": {
+        "Title": "CONSEIL : "
+      }
+    },
+    "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
+    "DiagnosedShareView": {
+      "Title": "Téléverser les codes aléatoires",
+      "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
+      "Body2": "Rappel : ",
+      "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
+      "ButtonCTA": "Téléverser vos codes aléatoires"
+    },
+    "BluetoothDisabled": "Bluetooth désactivé",
+    "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
+    "TurnOnBluetooth": "Activez Bluetooth",
+    "EnUnauthorized": {
+      "Title": "Alerte COVID est désactivée",
+      "Body1": "Appuyez sur le bouton ci-dessous, puis sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions ».",
+      "CTA": "Activer Alerte COVID"
+    },
+    "EnDisabled": {
+      "Title": "Alerte COVID est désactivée",
+      "Body1": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
+      "CTA": "Activer Alerte COVID",
+      "AndroidTitle2": "Vous hésitez à activer la localisation?",
+      "AndroidBody1": "Il faut activer la localisation pour qu’Alerte COVID fonctionne. Avec Android, la recherche Bluetooth n’est possible que si la localisation est activée pour toutes les applications.",
+      "AndroidBody2a": "Malgré cela, Alerte COVID ",
+      "AndroidBody2b": "ne peut pas savoir où vous êtes. ",
+      "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
+    },
+    "FrameworkUnavailable": {
+      "Title": "Une erreur s’est produite",
+      "Body": "Alerte COVID n’est pas prise en charge par le système d’exploitation de votre téléphone.\n\nVérifiez que votre système d’exploitation est à jour.\n\nSi vous avez un téléphone Android, pensez à mettre les services Google Play à jour.",
+      "CTA": "Trouver de l’aide"
+    },
+    "UnknownProblem": {
+      "Title": "Une erreur s’est produite",
+      "Body": "Il semble que votre téléphone ne puisse pas prendre en charge Alerte COVID.",
+      "CTA": "Trouver de l’aide"
+    },
+    "NoConnectivity": "Alerte COVID est hors ligne",
+    "NoConnectivityDetailed": "Alerte COVID vérifie s’il y a des expositions seulement quand votre téléphone est connecté à Internet.",
+    "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
+    "LastCheckedMinutes": {
+      "One": "Dernière vérification il y a {number} minute",
+      "Other": "Dernière vérification il y a {number} minutes"
+    },
+    "LastCheckedHours": {
+      "One": "Dernière vérification il y a {number} heure",
+      "Other": "Dernière vérification il y a {number} heures"
+    },
+    "LastCheckedDays": {
+      "One": "Dernière vérification il y a {number} jour",
+      "Other": "Dernière vérification il y a {number} jours"
+    }
   },
-  "RegionLanding": {
-    "Title": "Sélectionnez votre province ou territoire",
-    "Body1": "Les gouvernements provinciaux et territoriaux s’efforcent de rendre Alerte COVID utilisable partout au Canada.",
-    "Body2": "Dans certains endroits, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
-    "RegionSelectBtn": "Sélectionnez une province ou un territoire"
+  "OverlayClosed": {
+    "SystemStatus": "Alerte COVID est ",
+    "SystemStatusOn": "activée",
+    "SystemStatusOff": "désactivée",
+    "NotificationStatus": "Notifications ",
+    "NotificationStatusOff": "désactivées",
+    "TapPrompt": "Appuyez pour voir le menu"
+  },
+  "OverlayOpen": {
+    "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
+    "BluetoothCardAction": "Activez Bluetooth",
+    "EnterCodeCardTitle": "Avez-vous reçu un diagnostic de COVID-19?",
+    "EnterCodeCardBody": "Vous devez avoir une clé à usage unique pour aviser les personnes exposées. Nous vous demanderons aussi quelques précisions pour déterminer la période où vous étiez probablement le plus contagieux.",
+    "EnterCodeCardAction": "Entrer votre clé",
+    "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
+    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de la COVID-19. ",
+    "EnterCodeCardDiagnosedCountdown": {
+      "One": "Il vous reste {number}\u00A0jour!",
+      "Other": "Il vous reste {number}\u00A0jours!"
+    },
+    "TurnAppBackOn": {
+      "Title": "Réactiver Alerte COVID",
+      "Body": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
+      "CTA": "Réactiver"
+    },
+    "NotificationCardStatus": "Les notifications sont désactivées",
+    "NotificationCardStatusOff": "DÉSACTIVÉES",
+    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
+    "NotificationCardAction": "Activer les notifications",
+    "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
+    "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
+    "ExposureNotificationCardAction": "Activez les notifications d’exposition",
+    "NoConnectivityCardAction": "Alerte COVID est hors ligne",
+    "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé.",
+    "EnUnauthorizedCardAction": "Activer Alerte COVID",
+    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions »."
+  },
+  "Info": {
+    "CheckSymptoms": "Vérifier vos symptômes",
+    "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
+    "TellAFriend": "Partager l’application",
+    "LearnMore": "Fonctionnement",
+    "Help": "Aide",
+    "HelpUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html",
+    "GetCode": "Obtenir une clé à usage unique",
+    "ChangeLanguage": "Modifier la langue",
+    "ToggleCovidAlert": {
+      "TurnOff": "Désactiver Alerte COVID",
+      "TurnOn": "Réactiver Alerte COVID",
+      "Confirm": {
+        "Title": "Désactiver Alerte COVID?",
+        "Body": "Veillez à porter un équipement de protection individuelle (ÉPI) médical ou à ne côtoyer que les membres de votre ménage. Une fois désactivée, l’application ne pourra plus enregistrer d’expositions.",
+        "Cancel": "Ne pas désactiver",
+        "Accept": "Désactiver"
+      }
+    },
+    "ChangeRegion": "Modifier la province ou le territoire",
+    "Privacy": "Protection de votre vie privée",
+    "PrivacyUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/politique-confidentialite.html",
+    "SettingsTitle": "Paramètres",
+    "InformationTitle": "À propos d’Alerte COVID"
+  },
+  "Landing": {
+    "En": "English",
+    "Fr": "Français",
+    "AltText": "Illustration de 8 personnes profitant de l’espace public. Il y a une personne avec une canne blanche, une autre en fauteuil roulant, une autre avec un hijab, plusieurs personnes de couleur, et une représentation de la diversité de genre.",
+    "CanadaAltText": "Symbole du gouvernement du Canada"
+  },
+  "LanguageSelect": {
+    "Title": "Langue",
+    "En": "English (Canada)",
+    "Fr": "Français (Canada)",
+    "PtBR": "Portugais (Brésil)",
+    "EnShort": "English",
+    "FrShort": "Français",
+    "PtBRShort": "Portugais (Brésil)",
+    "Close": "Fermer"
+  },
+  "Tutorial": {
+    "step-1Title": "Fonctionnement d’Alerte COVID",
+    "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
+    "step-1": "L’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
+    "step-2Title": "Qu’est-ce qu’une exposition?",
+    "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
+    "step-2": "L’application estime la distance entre deux personnes grâce à la puissance des signaux Bluetooth.\n\nPour que l’application enregistre une exposition, un contact doit :\n• Avoir lieu à moins de 2 mètres.\n• Durer au moins 15 minutes.\n• Avoir lieu quand l’autre personne est probablement le plus contagieuse.",
+    "step-3Title": "En cas de test positif",
+    "step-3AltText": "Dessin à la main d’un téléphone mobile téléversant un code chiffré vers un nuage.",
+    "step-3": "Si une personne ayant l’application reçoit un diagnostic de COVID-19, elle peut décider de téléverser les codes aléatoires émis par son téléphone.\n\nLa personne peut aussi fournir quelques précisions pour déterminer la période où elle était probablement le plus contagieuse. Cette période indique au téléphone les codes aléatoires qu’il faut téléverser.\n\nLes codes aléatoires sont envoyés vers un serveur central. Celui-ci ne reçoit aucun autre renseignement.",
+    "step-4Title": "Découverte des expositions",
+    "step-4AltText": "Dessin à la main d’un téléphone mobile émettant une liste de codes chiffrés. L’icône de la loupe de recherche met en évidence l’un des codes de la liste.",
+    "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste de codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et vous expliquera quoi faire ensuite.",
+    "ActionBack": "Précédent",
+    "ActionNext": "Suivant",
+    "ActionEnd": "Terminé",
+    "Close": "Fermer"
+  },
+  "Sharing": {
+    "Title": "Partager l’application",
+    "SubTitle": "Chaque personne utilisant Alerte COVID aide à ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
+    "Platform-messages": "Partager avec Messages",
+    "Platform-instagram": "Partager avec Instagram",
+    "More": "Plus d’applications",
+    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l’application Alerte COVID : https://covidshield.app",
+    "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
+    "Close": "Fermer"
+  },
+  "Onboarding": {
+    "Step": "Étape",
+    "Of": "de",
+    "ActionNext": "Suivant",
+    "ActionEndSkip": "Ignorer",
+    "ActionEnd": "Terminé",
+    "ActionBack": "Précédent",
+    "Start": {
+      "Title": "Unissons-nous pour freiner la propagation de la COVID-19",
+      "ImageAltText": "Dessin à la main avec plusieurs personnes différentes dedans. Leurs chemins en lignes pointillées se croisent et mènent à un téléphone intelligent plus bas.",
+      "Body1": "Alerte COVID nous aide à briser le cycle d’infection. L’application permet d’aviser les personnes en cas d’exposition potentielle avant même que des symptômes apparaissent. ",
+      "Body2": "Nous pouvons ainsi prendre soin de nous et protéger nos communautés."
+    },
+    "WhatItsNot": {
+      "Title": "Ce qu’Alerte COVID ne fait pas",
+      "ImageAltText": "Dessin à la main d’une rue sinueuse avec plusieurs maisons et un immeuble en hauteur. De petites infobulles apparaissent au-dessus de chaque bâtiment.",
+      "Body1": "L’application ne vous dira pas sur-le-champ que vous êtes près d’une personne ayant eu un diagnostic.",
+      "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre collectivité."
+    },
+    "Anonymous": {
+      "Title": "Votre vie privée est protégée",
+      "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
+      "Body1": "Alerte COVID **n’utilise pas le GPS** et ne suit pas votre emplacement.",
+      "Body2": "L’application **n’a aucun moyen** de connaître\u00A0:",
+      "Bullet1": "Votre emplacement.",
+      "Bullet2": "Votre nom ou votre adresse.",
+      "Bullet3": "Les contacts de votre téléphone.",
+      "Bullet4": "Vos renseignements de santé, sauf ceux que vous acceptez de fournir.",
+      "Bullet5": "Les renseignements de santé des personnes à proximité."
+    },
+    "HowItWorks": {
+      "Title": "Fonctionnement",
+      "ImageAltText": "Dessin à la main de 3 téléphones mobiles émettant des codes aléatoires en utilisant Bluetooth.",
+      "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
+      "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
+      "Body3": "Si vous avez côtoyé l’une de ces personnes au cours des 14 derniers jours, vous recevrez une notification.",
+      "HowItWorksCTA": "En savoir plus sur le fonctionnement"
+    },
+    "PartOf": {
+      "Title": "L’un des efforts de santé publique",
+      "ImageAltText": "Dessin à la main de divers moyens de lutter contre la COVID-19, dont un désinfectant pour les mains, un couvre-visage, des mains avec du savon et l’application Alerte COIVID.",
+      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de la COVID-19.",
+      "Body2": "Continuez à suivre les recommandations de santé publique de votre région.",
+      "Body3": "Alerte COVID ne remplace pas un avis médical. Si vous tombez malade, contactez votre médecin ou un professionnel de la santé."
+    },
+    "Permissions": {
+      "Title": "L’application demandera votre autorisation",
+      "ImageAltText": "Dessin à la main d’un téléphone mobile dont l’écran affiche une fenêtre de dialogue avec un X rouge et un crochet vert.",
+      "Body1": "**Permettez à l’application** de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
+      "Body2": "Vous devrez aussi **lui permettre de vous envoyer des notifications**.",
+      "PrivacyButtonCTA": "En savoir plus sur la confidentialité"
+    }
+  },
+  "Privacy": {
+    "Title": "Politique de confidentialité",
+    "Close": "Fermer"
+  },
+  "ThankYou": {
+    "Title": "Merci d’aider",
+    "Body": "Les notifications d’exposition sont activées. Si Alerte COVID détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
+    "Dismiss": "OK"
   },
   "DataUpload": {
     "Cancel": "Annuler",
     "Close": "Fermer",
     "Back": "Précédent",
     "InfoSmall": "Vos identifiants aléatoires ne seront pas partagés, à moins que vous donniez votre permission à l’étape suivante.",
-    "StepXofY": "Étape {x} de {y}",
     "ShareToast": "Identifiants aléatoires partagés avec succès",
+    "StepXofY": "Étape {x} de {y}",
     "Today": "Aujourd’hui",
     "Yesterday": "Hier",
     "Earlier": "Il y a plus longtemps",
@@ -111,6 +391,72 @@
       }
     }
   },
+  "Notification": {
+    "ExposedMessageTitle": "Vous avez été exposé",
+    "ExposedMessageBody": "Vous avez eu un contact étroit avec une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Informez-vous sur les étapes à suivre.",
+    "OffMessageTitle": "Alerte COVID est désactivée",
+    "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
+    "DailyUploadNotificationTitle": "Téléversez vos nouveaux codes aléatoires",
+    "DailyUploadNotificationBody": "Aidez à ralentir la propagation de la COVID-19 en téléversant vos nouveaux codes aléatoires.",
+    "ExposureChecksTitle": "Alerte COVID",
+    "ExposureChecksBody": "Vérification d’exposition en cours",
+    "ExposureChecksAndroidChannelName": "Vérifications d’exposition",
+    "PausedMessageTitle": "Vous avez désactivé l’application",
+    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée."
+  },
+  "Partners": {
+    "Label": "Conçu en partenariat avec"
+  },
+  "BottomSheet": {
+    "Collapse": "Fermer",
+    "OnStatus": "Alerte COVID est ACTIVÉE, Appuyez pour voir le menu",
+    "OffStatus": "Alerte COVID est DÉSACTIVÉE, Appuyez pour voir le menu"
+  },
+  "RegionLanding": {
+    "Title": "Sélectionnez votre province ou territoire",
+    "Body1": "Les gouvernements provinciaux et territoriaux s’efforcent de rendre Alerte COVID utilisable partout au Canada.",
+    "Body2": "Dans certains endroits, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
+    "RegionSelectBtn": "Sélectionnez une province ou un territoire"
+  },
+  "RegionPicker": {
+    "Title": "Où habitez-vous? (facultatif)",
+    "SettingsTitle": "Province ou territoire",
+    "Close": "Fermer",
+    "Body": "Sélectionnez votre région pour savoir si vous pouvez signaler un diagnostic à l’aide de l’application.\n\nLa région où vous habitez ne sera jamais transmise à personne.",
+    "Skip": "Ignorer",
+    "GetStarted": "Commencer",
+    "Optional": "* Facultatif",
+    "AB": "Alberta",
+    "BC": "Colombie-Britannique",
+    "MB": "Manitoba",
+    "NB": "Nouveau-Brunswick",
+    "NL": "Terre-Neuve-et-Labrador",
+    "NT": "Territoires du Nord-Ouest",
+    "NS": "Nouvelle-Écosse",
+    "NU": "Nunavut",
+    "ON": "Ontario",
+    "PE": "Île-du-Prince-Édouard",
+    "QC": "Québec",
+    "SK": "Saskatchewan",
+    "YT": "Yukon",
+    "None": "Ne rien sélectionner",
+    "ExposedHelpLinkNote": {
+      "AB": "(page\u00a0en\u00a0anglais)",
+      "BC": "(page\u00a0en\u00a0anglais)",
+      "SK": "(page\u00a0en\u00a0anglais)"
+    }
+  },
+  "RegionPickerNoPT": {
+    "Exposed": {
+      "Title": "Trouvez les consignes de votre région",
+      "Body": "Les mesures à prendre après avoir été exposé dépendent de votre province ou de votre territoire. L’application ne mémorisera pas votre choix de région."
+    }
+  },
+  "A11yList": {
+    "Start": "Début de liste",
+    "End": "Fin de liste",
+    "Bullet": "Puce"
+  },
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {
@@ -162,347 +508,6 @@
       "Body": "Malheureusement, il semble qu'Alerte COVID ne fonctionne pas sur votre téléphone. \n\nSi vous avez plusieurs profils utilisateur, essayez d'installer l'application dans le profil de base."
     }
   },
-  "Home": {
-    "AppName": "Alerte COVID",
-    "BluetoothDisabled": "Bluetooth désactivé",
-    "CTA": "Prochaines étapes",
-    "ChooseRegionCTA": "Sélectionnez une province ou un territoire",
-    "UserStopped": {
-      "Title": "Vous avez désactivé l’application",
-      "CTA": "Réactiver"
-    },
-    "DiagnosedView": {
-      "Body1": {
-        "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
-        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
-      },
-      "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
-      "Body3": "Si vos symptômes vous inquiètent, vous pouvez consulter un professionnel de la santé. Prenez soin de vous et de votre famille pendant ce temps.",
-      "Title": "Merci d’aider à lutter contre la COVID",
-      "Tip": {
-        "Title": "CONSEIL : "
-      }
-    },
-    "DiagnosedShareView": {
-      "Title": "Téléverser les codes aléatoires",
-      "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel : ",
-      "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
-      "ButtonCTA": "Téléverser vos codes aléatoires"
-    },
-    "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
-    "ExposureDetected": {
-      "Title": "Vous avez été exposé",
-      "Body1": "Vous avez côtoyé au moins une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Le contact a duré 15 minutes ou plus.",
-      "Title2": "Et ensuite?",
-      "Body2": "Vous pourriez avoir contracté le virus.",
-      "Notification": {
-        "Received": "Date de la notification"
-      },
-      "NegativeTest": {
-        "CTA": "Résultat de test négatif?"
-      },
-      "Dismiss": {
-        "Title": "Résultat négatif au test de dépistage?",
-        "Body": "Vous pouvez mettre fin à l’alerte pour continuer à recevoir des notifications d’exposition. Aucune information d’exposition ne sera supprimée de votre téléphone.",
-        "Body2": "Vous pouvez aussi mettre fin à l’alerte si vous suivez les consignes de votre région.",
-        "CTA": "Mettre fin à l’alerte",
-        "Confirm": {
-          "Body": "Voulez-vous vraiment mettre fin à l’alerte?",
-          "Accept": "Oui, mettre fin à l’alerte",
-          "Cancel": "Annuler"
-        }
-      }
-    },
-    "ExposedHelpCTA": "Que faire en cas d’exposition",
-    "EnUnauthorized": {
-      "Title": "Alerte COVID est désactivée",
-      "Body1": "Appuyez sur le bouton ci-dessous, puis sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions ».",
-      "CTA": "Activer Alerte COVID"
-    },
-    "EnDisabled": {
-      "Title": "Alerte COVID est désactivée",
-      "Body1": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
-      "CTA": "Activer Alerte COVID",
-      "AndroidTitle2": "Vous hésitez à activer la localisation?",
-      "AndroidBody1": "Il faut activer la localisation pour qu’Alerte COVID fonctionne. Avec Android, la recherche Bluetooth n’est possible que si la localisation est activée pour toutes les applications.",
-      "AndroidBody2a": "Malgré cela, Alerte COVID ",
-      "AndroidBody2b": "ne peut pas savoir où vous êtes. ",
-      "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
-    },
-    "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
-    "FrameworkUnavailable": {
-      "Title": "Une erreur s’est produite",
-      "Body": "Alerte COVID n’est pas prise en charge par le système d’exploitation de votre téléphone.\n\nVérifiez que votre système d’exploitation est à jour.\n\nSi vous avez un téléphone Android, pensez à mettre les services Google Play à jour.",
-      "CTA": "Trouver de l’aide"
-    },
-    "How": "Diagnosed with COVID-19?",
-    "HowUrl": "https://www.canada.ca/",
-    "LastCheckedDays": {
-      "One": "Dernière vérification il y a {number} jour",
-      "Other": "Dernière vérification il y a {number} jours"
-    },
-    "LastCheckedHours": {
-      "One": "Dernière vérification il y a {number} heure",
-      "Other": "Dernière vérification il y a {number} heures"
-    },
-    "LastCheckedMinutes": {
-      "One": "Dernière vérification il y a {number} minute",
-      "Other": "Dernière vérification il y a {number} minutes"
-    },
-    "NoConnectivity": "Alerte COVID est hors ligne",
-    "NoConnectivityDetailed": "Alerte COVID vérifie s’il y a des expositions seulement quand votre téléphone est connecté à Internet.",
-    "NoExposureDetected": {
-      "WhatsNew": {
-        "Title": "Nouvelles notifications durant les vérifications d’exposition",
-        "Body1": "Si vous avez reçu une notification qui a vite disparu, c’est normal.",
-        "Body2": "L’application affiche maintenant des notifications durant les vérifications d’exposition."
-      },
-      "AllSetTitle": "Vous voilà prêt!",
-      "NoRegion": {
-        "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
-        "Title": "Aucune exposition détectée",
-        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
-      },
-      "RegionCovered": {
-        "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
-        "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-        "Title": "Aucune exposition détectée",
-        "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
-      },
-      "RegionNotCovered": {
-        "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
-        "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-        "Title": "Pas encore de signalement dans votre région",
-        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
-      }
-    },
-    "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
-    "TurnOnBluetooth": "Activez Bluetooth",
-    "UnknownProblem": {
-      "Title": "Une erreur s’est produite",
-      "Body": "Il semble que votre téléphone ne puisse pas prendre en charge Alerte COVID.",
-      "CTA": "Trouver de l’aide"
-    }
-  },
-  "Info": {
-    "ChangeLanguage": "Modifier la langue",
-    "ToggleCovidAlert": {
-      "TurnOff": "Désactiver Alerte COVID",
-      "TurnOn": "Réactiver Alerte COVID",
-      "Confirm": {
-        "Title": "Désactiver Alerte COVID?",
-        "Body": "Veillez à porter un équipement de protection individuelle (ÉPI) médical ou à ne côtoyer que les membres de votre ménage. Une fois désactivée, l’application ne pourra plus enregistrer d’expositions.",
-        "Cancel": "Ne pas désactiver",
-        "Accept": "Désactiver"
-      }
-    },
-    "ChangeRegion": "Modifier la province ou le territoire",
-    "CheckSymptoms": "Vérifier vos symptômes",
-    "LearnMore": "Fonctionnement",
-    "Help": "Aide",
-    "HelpUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html",
-    "GetCode": "Obtenir une clé à usage unique",
-    "Privacy": "Protection de votre vie privée",
-    "PrivacyUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/politique-confidentialite.html",
-    "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
-    "TellAFriend": "Partager l’application",
-    "SettingsTitle": "Paramètres",
-    "InformationTitle": "À propos d’Alerte COVID"
-  },
-  "Landing": {
-    "En": "English",
-    "Fr": "Français",
-    "AltText": "Illustration de 8 personnes profitant de l’espace public. Il y a une personne avec une canne blanche, une autre en fauteuil roulant, une autre avec un hijab, plusieurs personnes de couleur, et une représentation de la diversité de genre.",
-    "CanadaAltText": "Symbole du gouvernement du Canada"
-  },
-  "LanguageSelect": {
-    "Close": "Fermer",
-    "En": "English (Canada)",
-    "EnShort": "English",
-    "Fr": "Français (Canada)",
-    "FrShort": "Français",
-    "PtBR": "Portugais (Brésil)",
-    "PtBRShort": "Portugais (Brésil)",
-    "Title": "Langue"
-  },
-  "Notification": {
-    "DailyUploadNotificationBody": "Aidez à ralentir la propagation de la COVID-19 en téléversant vos nouveaux codes aléatoires.",
-    "DailyUploadNotificationTitle": "Téléversez vos nouveaux codes aléatoires",
-    "ExposedMessageBody": "Vous avez eu un contact étroit avec une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Informez-vous sur les étapes à suivre.",
-    "ExposedMessageTitle": "Vous avez été exposé",
-    "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
-    "OffMessageTitle": "Alerte COVID est désactivée",
-    "ExposureChecksTitle": "Alerte COVID",
-    "ExposureChecksBody": "Vérification d’exposition en cours",
-    "ExposureChecksAndroidChannelName": "Vérifications d’exposition",
-    "PausedMessageTitle": "Vous avez désactivé l’application",
-    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée."
-  },
-  "Onboarding": {
-    "Step": "Étape",
-    "Of": "de",
-    "ActionBack": "Précédent",
-    "ActionEnd": "Terminé",
-    "ActionNext": "Suivant",
-    "ActionEndSkip": "Ignorer",
-    "Start": {
-      "Title": "Unissons-nous pour freiner la propagation de la COVID-19",
-      "ImageAltText": "Dessin à la main avec plusieurs personnes différentes dedans. Leurs chemins en lignes pointillées se croisent et mènent à un téléphone intelligent plus bas.",
-      "Body1": "Alerte COVID nous aide à briser le cycle d’infection. L’application permet d’aviser les personnes en cas d’exposition potentielle avant même que des symptômes apparaissent. ",
-      "Body2": "Nous pouvons ainsi prendre soin de nous et protéger nos communautés."
-    },
-    "WhatItsNot": {
-      "Title": "Ce qu’Alerte COVID ne fait pas",
-      "ImageAltText": "Dessin à la main d’une rue sinueuse avec plusieurs maisons et un immeuble en hauteur. De petites infobulles apparaissent au-dessus de chaque bâtiment.",
-      "Body1": "L’application ne vous dira pas sur-le-champ que vous êtes près d’une personne ayant eu un diagnostic.",
-      "Body2": "Elle ne vous renseignera pas sur les éclosions de COVID-19 dans votre collectivité."
-    },
-    "Anonymous": {
-      "Title": "Votre vie privée est protégée",
-      "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
-      "Body1": "Alerte COVID **n’utilise pas le GPS** et ne suit pas votre emplacement.",
-      "Body2": "L’application **n’a aucun moyen** de connaître\u00A0:",
-      "Bullet1": "Votre emplacement.",
-      "Bullet2": "Votre nom ou votre adresse.",
-      "Bullet3": "Les contacts de votre téléphone.",
-      "Bullet4": "Vos renseignements de santé, sauf ceux que vous acceptez de fournir.",
-      "Bullet5": "Les renseignements de santé des personnes à proximité."
-    },
-    "HowItWorks": {
-      "Title": "Fonctionnement",
-      "ImageAltText": "Dessin à la main de 3 téléphones mobiles émettant des codes aléatoires en utilisant Bluetooth.",
-      "Body1": "L’application utilise Bluetooth pour échanger des codes aléatoires avec les téléphones à proximité.",
-      "Body2": "Chaque jour, elle vérifie une liste de codes aléatoires provenant des personnes ayant signalé un test positif à l’application.",
-      "Body3": "Si vous avez côtoyé l’une de ces personnes au cours des 14 derniers jours, vous recevrez une notification.",
-      "HowItWorksCTA": "En savoir plus sur le fonctionnement"
-    },
-    "PartOf": {
-      "Title": "L’un des efforts de santé publique",
-      "ImageAltText": "Dessin à la main de divers moyens de lutter contre la COVID-19, dont un désinfectant pour les mains, un couvre-visage, des mains avec du savon et l’application Alerte COIVID.",
-      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de la COVID-19.",
-      "Body2": "Continuez à suivre les recommandations de santé publique de votre région.",
-      "Body3": "Alerte COVID ne remplace pas un avis médical. Si vous tombez malade, contactez votre médecin ou un professionnel de la santé."
-    },
-    "Permissions": {
-      "Title": "L’application demandera votre autorisation",
-      "ImageAltText": "Dessin à la main d’un téléphone mobile dont l’écran affiche une fenêtre de dialogue avec un X rouge et un crochet vert.",
-      "Body1": "**Permettez à l’application** de collecter des codes aléatoires quand vous êtes près d’autres téléphones. L’application connaîtra la date, la durée et la puissance de signal associées à ces codes, mais ces données resteront sur votre téléphone. ",
-      "Body2": "Vous devrez aussi **lui permettre de vous envoyer des notifications**.",
-      "PrivacyButtonCTA": "En savoir plus sur la confidentialité"
-    }
-  },
-  "OverlayClosed": {
-    "NotificationStatus": "Notifications ",
-    "NotificationStatusOff": "désactivées",
-    "SystemStatus": "Alerte COVID est ",
-    "SystemStatusOff": "désactivée",
-    "SystemStatusOn": "activée",
-    "TapPrompt": "Appuyez pour voir le menu"
-  },
-  "OverlayOpen": {
-    "BluetoothCardAction": "Activez Bluetooth",
-    "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
-    "EnterCodeCardTitle": "Avez-vous reçu un diagnostic de COVID-19?",
-    "EnterCodeCardAction": "Entrer votre clé",
-    "EnterCodeCardBody": "Vous devez avoir une clé à usage unique pour aviser les personnes exposées. Nous vous demanderons aussi quelques précisions pour déterminer la période où vous étiez probablement le plus contagieux.",
-    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de la COVID-19. ",
-    "EnterCodeCardDiagnosedCountdown": {
-      "One": "Il vous reste {number}\u00A0jour!",
-      "Other": "Il vous reste {number}\u00A0jours!"
-    },
-    "TurnAppBackOn": {
-      "Title": "Réactiver Alerte COVID",
-      "Body": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
-      "CTA": "Réactiver"
-    },
-    "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
-    "ExposureNotificationCardAction": "Activez les notifications d’exposition",
-    "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
-    "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
-    "NotificationCardAction": "Activer les notifications",
-    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
-    "NotificationCardStatus": "Les notifications sont désactivées",
-    "NotificationCardStatusOff": "DÉSACTIVÉES",
-    "NoConnectivityCardAction": "Alerte COVID est hors ligne",
-    "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé.",
-    "EnUnauthorizedCardAction": "Activer Alerte COVID",
-    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions »."
-  },
-  "Partners": {
-    "Label": "Conçu en partenariat avec"
-  },
-  "Privacy": {
-    "Close": "Fermer",
-    "Title": "Politique de confidentialité"
-  },
-  "RegionPicker": {
-    "AB": "Alberta",
-    "BC": "Colombie-Britannique",
-    "Body": "Sélectionnez votre région pour savoir si vous pouvez signaler un diagnostic à l’aide de l’application.\n\nLa région où vous habitez ne sera jamais transmise à personne.",
-    "Close": "Fermer",
-    "GetStarted": "Commencer",
-    "MB": "Manitoba",
-    "NB": "Nouveau-Brunswick",
-    "NL": "Terre-Neuve-et-Labrador",
-    "NS": "Nouvelle-Écosse",
-    "NT": "Territoires du Nord-Ouest",
-    "NU": "Nunavut",
-    "ON": "Ontario",
-    "Optional": "* Facultatif",
-    "PE": "Île-du-Prince-Édouard",
-    "QC": "Québec",
-    "SK": "Saskatchewan",
-    "SettingsTitle": "Province ou territoire",
-    "Skip": "Ignorer",
-    "Title": "Où habitez-vous? (facultatif)",
-    "YT": "Yukon",
-    "None": "Ne rien sélectionner",
-    "ExposedHelpLinkNote": {
-      "AB": "(page\u00a0en\u00a0anglais)",
-      "BC": "(page\u00a0en\u00a0anglais)",
-      "SK": "(page\u00a0en\u00a0anglais)"
-    }
-  },
-  "RegionPickerNoPT": {
-    "Exposed": {
-      "Title": "Trouvez les consignes de votre région",
-      "Body": "Les mesures à prendre après avoir été exposé dépendent de votre province ou de votre territoire. L’application ne mémorisera pas votre choix de région."
-    }
-  },
-  "Sharing": {
-    "Close": "Fermer",
-    "InstagramImageUrl": "https://user-images.githubusercontent.com/5274722/84658989-b9ba6b00-aee4-11ea-84d4-d840527467b4.png",
-    "Message": "Joignez-vous à moi pour aider à ralentir la transmission de la COVID-19. Téléchargez l’application Alerte COVID : https://covidshield.app",
-    "More": "Plus d’applications",
-    "Platform-instagram": "Partager avec Instagram",
-    "Platform-messages": "Partager avec Messages",
-    "SubTitle": "Chaque personne utilisant Alerte COVID aide à ralentir la transmission de la COVID-19. Partager cette application ne partage aucune donnée privée.",
-    "Title": "Partager l’application"
-  },
-  "ThankYou": {
-    "Body": "Les notifications d’exposition sont activées. Si Alerte COVID détecte que vous avez possiblement été exposé(e) à la COVID-19, vous recevrez une notification.",
-    "Dismiss": "OK",
-    "Title": "Merci d’aider"
-  },
-  "Tutorial": {
-    "ActionBack": "Précédent",
-    "ActionEnd": "Terminé",
-    "ActionNext": "Suivant",
-    "Close": "Fermer",
-    "step-1": "L’application s’exécute en arrière-plan sans interrompre vos activités.\n\nQuand vous serez près d’une personne ayant Alerte COVID, vos téléphones s’échangeront des codes aléatoires toutes les 5\u00A0minutes.\n\nCes codes changent souvent et ne peuvent pas servir à vous identifier.",
-    "step-1Title": "Fonctionnement d’Alerte COVID",
-    "step-1AltText": "Dessin à la main d’un téléphone mobile dans une poche, qui envoie et reçoit des signaux.",
-    "step-2": "L’application estime la distance entre deux personnes grâce à la puissance des signaux Bluetooth.\n\nPour que l’application enregistre une exposition, un contact doit :\n• Avoir lieu à moins de 2 mètres.\n• Durer au moins 15 minutes.\n• Avoir lieu quand l’autre personne est probablement le plus contagieuse.",
-    "step-2Title": "Qu’est-ce qu’une exposition?",
-    "step-2AltText": "Dessin à la main de 2 téléphones mobiles côte à côte avec un chronomètre qui relie les deux téléphones.",
-    "step-3": "Si une personne ayant l’application reçoit un diagnostic de COVID-19, elle peut décider de téléverser les codes aléatoires émis par son téléphone.\n\nLa personne peut aussi fournir quelques précisions pour déterminer la période où elle était probablement le plus contagieuse. Cette période indique au téléphone les codes aléatoires qu’il faut téléverser.\n\nLes codes aléatoires sont envoyés vers un serveur central. Celui-ci ne reçoit aucun autre renseignement.",
-    "step-3Title": "En cas de test positif",
-    "step-3AltText": "Dessin à la main d’un téléphone mobile téléversant un code chiffré vers un nuage.",
-    "step-4": "Chaque jour, quand votre téléphone a une connexion Internet, il obtient une liste de codes aléatoires émis par les personnes qui ont signalé un diagnostic.\n\nSi l’application reconnaît des codes dans cette liste, elle vous dira que vous avez été exposé et vous expliquera quoi faire ensuite.",
-    "step-4Title": "Découverte des expositions",
-    "step-4AltText": "Dessin à la main d’un téléphone mobile émettant une liste de codes chiffrés. L’icône de la loupe de recherche met en évidence l’un des codes de la liste."
-  },
   "YourData": {
     "Body1": "votre identité",
     "Body2": "vos contacts",
@@ -511,10 +516,5 @@
     "Body5": "",
     "Intro": "Alerte COVID n’a aucun moyen de connaître :",
     "Title": "Complètement anonyme"
-  },
-  "A11yList": {
-    "Start": "Début de liste",
-    "End": "Fin de liste",
-    "Bullet": "Puce"
   }
 }

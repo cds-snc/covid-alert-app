@@ -1,5 +1,6 @@
 {
   "Home": {
+    "AppName": "COVID Alert",
     "UserStopped": {
       "Title": "You turned off the app",
       "CTA": "Turn back on"
@@ -107,7 +108,6 @@
     },
     "NoConnectivity": "COVID Alert is offline",
     "NoConnectivityDetailed": "COVID Alert only checks for exposure if your phone is connected to the Internet.",
-    "AppName": "COVID Alert",
     "ExternalLinkHint": "Opens in a new window",
     "LastCheckedMinutes": {
       "One": "Last checked {number} minute ago",
