@@ -529,6 +529,9 @@ export class ExposureNotificationService {
     const exposureConfiguration = await this.getExposureConfiguration();
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
+
+    log.debug({category: 'exposure-check', message: 'performExposureStatusUpdateV2', payload: {updatedExposure}});
+
     if (updatedExposure !== currentExposureStatus) {
       this.exposureStatus.set(updatedExposure);
       this.finalize();
@@ -539,14 +542,16 @@ export class ExposureNotificationService {
     }
 
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
-    captureMessage('keysFileUrls', keysFileUrls);
+
     try {
       let exposureWindows: ExposureWindow[];
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
         const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-        captureMessage('summaries', summaries);
+
+        log.debug({category: 'exposure-check', message: 'detectExposure', payload: {summaries, keysFileUrls}});
+
         // if (summaries.length > 0) {
         //   exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
         // } else {
@@ -572,7 +577,7 @@ export class ExposureNotificationService {
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
-      captureException('performExposureStatusUpdateV2', error);
+      log.error({category: 'exposure-check', error});
       return false;
     }
   }
