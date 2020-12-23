@@ -60,7 +60,6 @@ export const ExposureNotificationServiceProvider = ({
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      captureMessage(`ExposureNotificationServiceProvider onAppStateChange: ${newState}`);
       if (newState !== 'active') return;
       exposureNotificationService.updateExposure();
       await exposureNotificationService.updateExposureStatus();

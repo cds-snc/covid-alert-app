@@ -1,6 +1,5 @@
 import {log} from 'shared/logging/config';
 import {unzip} from 'react-native-zip-archive';
-import {captureMessage} from 'shared/log';
 
 import {ExposureConfiguration, ExposureNotificationAPI, ExposureSummary} from './types';
 import {getLastExposureTimestamp} from './utils';
@@ -28,17 +27,21 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
           `${unzippedLocation}/export.sig`,
         ]);
 
-        captureMessage('ExposureNotificationAdapter.iOS - detectExposure', {summary});
+        log.debug({
+          category: 'exposure-check',
+          message: 'exposureNotificationAPI.detectExposure',
+          payload: {summary},
+        });
 
         summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         summaries.push(summary);
       }
+
       log.debug({
         category: 'configuration',
         payload: configuration,
       });
 
-      captureMessage('summaries', {summaries});
       return summaries;
     },
     getPendingExposureSummary: async () => undefined,

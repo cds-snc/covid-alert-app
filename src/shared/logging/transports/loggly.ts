@@ -43,7 +43,7 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
         versionName,
         currentStatus,
         lastCheckedMinutesAgo,
-        enApiVerion,
+        EN_API_VERSION: enApiVerion,
       }),
     }).catch(error => {
       console.log(error); // eslint-disable-line no-console
