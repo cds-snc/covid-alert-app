@@ -10,6 +10,13 @@ import {
 
 import {ExposureNotificationService} from './ExposureNotificationService';
 
+jest.mock('react-native-system-setting', () => {
+  return {
+    addBluetoothListener: jest.fn(),
+    addLocationListener: jest.fn(),
+  };
+});
+
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
@@ -20,6 +27,16 @@ jest.mock('react-native-background-fetch', () => {
     scheduleTask: jest.fn(),
   };
 });
+
+jest.mock('../../bridge/CovidShield', () => ({
+  getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
+  downloadDiagnosisKeysFile: jest.fn(),
+}));
+
+jest.mock('../../bridge/ExposureCheckScheduler', () => ({
+  scheduleExposureCheck: jest.fn(),
+  executeExposureCheck: jest.fn(),
+}));
 
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),

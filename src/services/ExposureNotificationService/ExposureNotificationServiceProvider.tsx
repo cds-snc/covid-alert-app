@@ -55,7 +55,7 @@ export const ExposureNotificationServiceProvider = ({
   useEffect(() => {
     backgroundScheduler.registerPeriodicTask(async () => {
       await exposureNotificationService.updateExposureStatusInBackground();
-    });
+    }, exposureNotificationService);
   }, [backgroundScheduler, exposureNotificationService]);
 
   useEffect(() => {
@@ -67,6 +67,10 @@ export const ExposureNotificationServiceProvider = ({
       if (exposureNotificationService.systemStatus.get() === SystemStatus.Active) {
         setUserStopped(false);
       }
+      // re-register the background tasks upon app launch
+      backgroundScheduler.registerPeriodicTask(async () => {
+        await exposureNotificationService.updateExposureStatusInBackground();
+      }, exposureNotificationService);
     };
 
     // Note: The next two lines, calling updateExposure() and startExposureCheck() happen on app launch.

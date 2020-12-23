@@ -6,7 +6,7 @@ import {periodSinceEpoch} from '../../shared/date-fns';
 import {ExposureSummary} from '../../bridge/ExposureNotification';
 import PushNotification from '../../bridge/PushNotification';
 import {Key} from '../StorageService';
-import {DEFERRED_JOB_INTERNVAL_IN_MINUTES} from '../BackgroundSchedulerService';
+import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 
 import {
   ExposureNotificationService,
@@ -23,6 +23,11 @@ jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
 
+jest.mock('../../bridge/CovidShield', () => ({
+  getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
+  downloadDiagnosisKeysFile: jest.fn(),
+}));
+
 jest.mock('react-native-background-fetch', () => {
   return {
     configure: jest.fn(),
@@ -33,6 +38,18 @@ jest.mock('react-native-background-fetch', () => {
 jest.mock('../../bridge/PushNotification', () => ({
   ...jest.requireActual('bridge/PushNotification'),
   presentLocalNotification: jest.fn(),
+}));
+
+jest.mock('react-native-system-setting', () => {
+  return {
+    addBluetoothListener: jest.fn(),
+    addLocationListener: jest.fn(),
+  };
+});
+
+jest.mock('../../bridge/ExposureCheckScheduler', () => ({
+  scheduleExposureCheck: jest.fn(),
+  executeExposureCheck: jest.fn(),
 }));
 
 const server: any = {
@@ -688,7 +705,7 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Monitoring,
         lastChecked: {
           period,
-          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+          timestamp: today.getTime() - PERIODIC_TASK_INTERVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
         },
       });
 
@@ -782,7 +799,7 @@ describe('ExposureNotificationService', () => {
         type: ExposureStatusType.Diagnosed,
         lastChecked: {
           period,
-          timestamp: today.getTime() - DEFERRED_JOB_INTERNVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+          timestamp: today.getTime() - PERIODIC_TASK_INTERVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
         },
       });
 
@@ -943,6 +960,44 @@ describe('ExposureNotificationService', () => {
       const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
 
       expect(shouldPerformExposureCheck).toStrictEqual(true);
+    });
+  });
+
+  describe('performExposureStatusUpdate', () => {
+    it('does not update exposureDetectedAt when an old exposure is returned', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const tomorrow = new OriginalDate('2020-05-19T04:10:00+0000');
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+      });
+      // mock returning an exposure
+      const summary = getSummary({
+        today,
+        hasMatchedKey: true,
+        daysSinceLastExposure: 1,
+        attenuationDurations: [20, 0, 0],
+      });
+      bridge.detectExposure.mockResolvedValue([summary]);
+
+      // check that we are exposed and the detected at date is today
+      await service.performExposureStatusUpdate();
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          exposureDetectedAt: today.getTime(),
+          type: ExposureStatusType.Exposed,
+        }),
+      );
+      // mock changing the current date
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : tomorrow));
+
+      // check that we are exposed and the detected at date is still the same
+      await service.performExposureStatusUpdate();
+      expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          exposureDetectedAt: today.getTime(),
+          type: ExposureStatusType.Exposed,
+        }),
+      );
     });
   });
 });

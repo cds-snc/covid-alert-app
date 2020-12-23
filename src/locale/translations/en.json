@@ -5,6 +5,11 @@
       "CTA": "Turn back on"
     },
     "NoExposureDetected": {
+      "WhatsNew": {
+        "Title": "New notifications show app is working",
+        "Body1": "If you got a notification that popped up and went away, it’s ok.",
+        "Body2": "The app now shows notifications while checking for exposures."
+      },
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
@@ -390,6 +395,9 @@
     "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
     "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes.",
+    "ExposureChecksTitle": "COVID Alert",
+    "ExposureChecksBody": "Checking for exposures",
+    "ExposureChecksAndroidChannelName": "Checking for exposures",
     "PausedMessageTitle": "You turned off the app",
     "PausedMessageBody": "The app is not recording exposures because you turned it off."
   },
