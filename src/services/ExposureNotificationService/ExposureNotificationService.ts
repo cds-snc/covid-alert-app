@@ -324,11 +324,11 @@ export class ExposureNotificationService {
     };
     switch (EN_API_VERSION) {
       case '2':
-        captureMessage('updateExposureStatus', {message: 'Using API 2'});
+        log.debug({category: 'exposure-check', message: 'updateExposureStatus', payload: {EN_API_VERSION}});
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdateV2().then(cleanUpPromise, cleanUpPromise);
         break;
       default:
-        captureMessage('updateExposureStatus', {message: 'Using API 1'});
+        log.debug({category: 'exposure-check', message: 'updateExposureStatus', payload: {EN_API_VERSION}});
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
         break;
     }
