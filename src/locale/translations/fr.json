@@ -351,10 +351,7 @@
       "Body2a": "Personne ne recevra d’information sur vous ",
       "Body2b": "ou sur le moment de votre proximité.",
       "Body3": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
-      "Action": "Accepter",
-      "ErrorTitle": "Les codes aléatoires n’ont pas pu être téléversés",
-      "ErrorBody": "Vous n’avez pas donné votre autorisation.",
-      "ErrorAction": "OK"
+      "Action": "Accepter"
     },
     "TekUploadNoDate": {
       "Title": "Aviser les personnes côtoyées",
@@ -507,14 +504,5 @@
       "Title": "Une erreur s'est produite",
       "Body": "Malheureusement, il semble qu'Alerte COVID ne fonctionne pas sur votre téléphone. \n\nSi vous avez plusieurs profils utilisateur, essayez d'installer l'application dans le profil de base."
     }
-  },
-  "YourData": {
-    "Body1": "votre identité",
-    "Body2": "vos contacts",
-    "Body3": "toute précision sur vous ou sur les personnes à proximité",
-    "Body4": "vos informations de santé",
-    "Body5": "",
-    "Intro": "Alerte COVID n’a aucun moyen de connaître :",
-    "Title": "Complètement anonyme"
   }
 }
