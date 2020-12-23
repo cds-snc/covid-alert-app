@@ -315,6 +315,7 @@ export class ExposureNotificationService {
     log.debug({
       category: 'exposure-check',
       message: 'updateExposureStatus',
+      payload: {EN_API_VERSION, forceCheck},
     });
     if (!forceCheck && !(await this.shouldPerformExposureCheck())) return;
     if (this.exposureStatusUpdatePromise) return this.exposureStatusUpdatePromise;
@@ -324,11 +325,15 @@ export class ExposureNotificationService {
     };
     switch (EN_API_VERSION) {
       case '2':
-        log.debug({category: 'exposure-check', message: 'updateExposureStatus', payload: {EN_API_VERSION}});
+        log.debug({
+          category: 'exposure-check',
+          message: 'updateExposureStatus',
+          payload: {API_VERSION: EN_API_VERSION, forceCheck},
+        });
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdateV2().then(cleanUpPromise, cleanUpPromise);
         break;
       default:
-        log.debug({category: 'exposure-check', message: 'updateExposureStatus', payload: {EN_API_VERSION}});
+        log.debug({category: 'exposure-check', message: 'updateExposureStatus', payload: {EN_API_VERSION, forceCheck}});
         this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
         break;
     }
