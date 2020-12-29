@@ -26,9 +26,10 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
         try {
+            val enIsEnabled = exposureNotificationClient.isEnabled.await()
             val enStatus = exposureNotificationClient.status.await()
-            if (!enStatus.contains(ExposureNotificationStatus.ACTIVATED)){
-                Log.d("background", "ExposureCheckSchedulerWorker - ExposureNotification Status: not activated")
+            if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)){
+                Log.d("background", "ExposureCheckSchedulerWorker - ExposureNotification: Not enabled or not activated")
                 return Result.success()
             }
             val currentReactContext = getCurrentReactContext(context)
