@@ -37,9 +37,10 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
 
         Log.d("background", "ExposureCheckNotificationWorker - doWork")
 
+        val enIsEnabled = exposureNotificationClient.isEnabled.await()
         val enStatus = exposureNotificationClient.status.await()
-        if (!enStatus.contains(ExposureNotificationStatus.ACTIVATED)){
-            Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification Status: not activated")
+        if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)){
+            Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
             return Result.success()
         }
 
