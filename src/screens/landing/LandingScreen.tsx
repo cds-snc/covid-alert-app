@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {Image, StyleSheet, NativeModules, Platform} from 'react-native';
 import {useStorage} from 'services/StorageService';
 import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
@@ -10,12 +10,35 @@ export const LandingScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const {setLocale} = useStorage();
+
+  const isENFrameworkSupported = async () => {
+    if (Platform.OS === 'ios') {
+      try {
+        await NativeModules.ExposureNotification.isExposureNotificationsFrameworkSupported();
+        return true;
+      } catch (error) {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  };
+
   const toggle = useCallback(
-    (newLocale: 'en' | 'fr') => () => {
+    (newLocale: 'en' | 'fr') => async () => {
       setLocale(newLocale);
+
+      let nextRoute = 'OnboardingNavigator';
+
+      const isSupported = await isENFrameworkSupported();
+
+      if (isSupported === false) {
+        nextRoute = 'FrameworkUnavailableScreen';
+      }
+
       navigation.reset({
         index: -1,
-        routes: [{name: 'OnboardingNavigator'}],
+        routes: [{name: nextRoute}],
       });
     },
     [navigation, setLocale],

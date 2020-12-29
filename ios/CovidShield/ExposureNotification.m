@@ -48,6 +48,15 @@
 
 RCT_EXPORT_MODULE();
 
+RCT_REMAP_METHOD(isExposureNotificationsFrameworkSupported, isExposureNotificationsFrameworkSupportedWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+  if ([ExposureNotification exposureNotificationSupportType] == ENSupportTypeUnsupported) {
+    reject(@"API_NOT_AVAILABLE", @"Exposure Notifications Framework is not supported", nil);
+  } else {
+    resolve(nil);
+  }
+}
+
 RCT_REMAP_METHOD(activate, activateWithCompletionHandler:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   if (self.enManager) {
     resolve(nil);
