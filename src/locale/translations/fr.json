@@ -190,6 +190,11 @@
       "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Téléverser vos codes aléatoires"
     },
+    "DiagnosedShareUploadView": {
+      "Title": "Presque terminé",
+      "Body1": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées.",
+      "ButtonCTA":"Terminer le partage d’expositions"
+    },
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "ExposureDetected": {
       "Title": "Vous avez été exposé",
