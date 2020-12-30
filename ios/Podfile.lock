@@ -4,6 +4,9 @@ PODS:
     - React
   - CocoaAsyncSocket (7.6.4)
   - CocoaLibEvent (1.0.0)
+  - CocoaLumberjack (3.7.0):
+    - CocoaLumberjack/Core (= 3.7.0)
+  - CocoaLumberjack/Core (3.7.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.63.2)
   - FBReactNativeSpec (0.63.2):
@@ -69,6 +72,14 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - LogglyLogger-CocoaLumberjack (3.0.0):
+    - CocoaLumberjack (~> 3.0)
+    - LogglyLogger-CocoaLumberjack/Formatter (= 3.0.0)
+    - LogglyLogger-CocoaLumberjack/Logger (= 3.0.0)
+  - LogglyLogger-CocoaLumberjack/Formatter (3.0.0):
+    - CocoaLumberjack (~> 3.0)
+  - LogglyLogger-CocoaLumberjack/Logger (3.0.0):
+    - CocoaLumberjack (~> 3.0)
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
@@ -372,6 +383,7 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.41.1)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - LogglyLogger-CocoaLumberjack (= 3.0.0)
   - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTSystemSetting (from `../node_modules/react-native-system-setting`)
@@ -420,6 +432,7 @@ SPEC REPOS:
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
+    - CocoaLumberjack
     - Flipper
     - Flipper-DoubleConversion
     - Flipper-Folly
@@ -427,6 +440,7 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
+    - LogglyLogger-CocoaLumberjack
     - OpenSSL-Universal
     - SSZipArchive
     - YogaKit
@@ -530,6 +544,7 @@ SPEC CHECKSUMS:
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
+  CocoaLumberjack: e8955b9d337ac307103b0a34fd141c32f27e53c5
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 3ef4a7f62e7db01092f9d517d2ebc0d0677c4a37
   FBReactNativeSpec: dc7fa9088f0f2a998503a352b0554d69a4391c5a
@@ -542,6 +557,7 @@ SPEC CHECKSUMS:
   FlipperKit: bc68102cd4952a258a23c9c1b316c7bec1fecf83
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  LogglyLogger-CocoaLumberjack: 16afad0a63fb70179fda1db85e03aeb3ded7fb02
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
   Permission-Notifications: d437cafc026900006d35981d35a2d694f883f44e
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
@@ -586,6 +602,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b372a1d5b09b067026af32ef4dd94faf6397b6bd
+PODFILE CHECKSUM: e7d9b25d58fa23cf6f79555794ca0b238e6648ea
 
 COCOAPODS: 1.7.5

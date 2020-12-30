@@ -10,6 +10,7 @@ target 'CovidShield' do
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
+  pod "LogglyLogger-CocoaLumberjack", "3.0.0"
 
   target 'CovidShieldTests' do
     inherit! :complete
