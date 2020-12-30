@@ -2,6 +2,9 @@
 
 #import "ExposureNotification.h"
 
+#import "LogglyLogger.h"
+#import "LogglyFormatter.h"
+
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -32,7 +35,16 @@ static void InitializeFlipper(UIApplication *application) {
 }
 #endif
 
+#define loginfo(frmt, ...) DDLogInfo(frmt, ##__VA_ARGS__)
+static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
+
 static void patchBGTaskSubmission(void);
+
+@interface AppDelegate ()
+
+@property (nonatomic, strong, readwrite) LogglyLogger *logglyLogger;
+
+@end
 
 @implementation AppDelegate
 
@@ -76,6 +88,14 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
+  
+  // Initializing logging module only when in development mode as we do not want to have logs in production
+#ifdef PM_LOGGLY_API_KEY
+  self.logglyLogger = [[LogglyLogger alloc] init];
+  [self.logglyLogger setLogFormatter:[[LogglyFormatter alloc] init]];
+  self.logglyLogger.logglyKey = PM_LOGGLY_API_KEY;
+  [DDLog addLogger:self.logglyLogger];
+#endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
@@ -113,6 +133,8 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
+  
+  loginfo(@"{\"application-lifecycle\":\"Initialized\"}");
 
   return YES;
 }

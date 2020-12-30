@@ -560,6 +560,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
+					"PM_LOGGLY_API_KEY=@\\\"$(LOGGLY_API_KEY)\\\"",
 				);
 				INFOPLIST_FILE = "CovidShield/Info-debug.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
