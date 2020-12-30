@@ -349,7 +349,7 @@ export class ExposureNotificationService {
     this.exposureStatus.append({
       type: ExposureStatusType.Diagnosed,
       needsSubmission: true,
-      hasShared: true,
+      hasShared: false,
       cycleStartsAt: cycleStartsAt.getTime(),
       cycleEndsAt: addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
     });
