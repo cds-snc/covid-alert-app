@@ -54,7 +54,7 @@ const ICONS = {
   'hand-thank-you-with-love': HandThankYouWithLove,
   'hand-no-province-yet': HandNoProvinceYet,
   'canada-logo': CanadaLogo,
-  'hand-reminder-red': HandReminderRed
+  'hand-reminder-red': HandReminderRed,
 };
 
 export type IconName = keyof typeof ICONS;

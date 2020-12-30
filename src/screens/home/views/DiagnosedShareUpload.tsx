@@ -1,8 +1,9 @@
 import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
 import {Text, ButtonSingleLine, Box} from 'components';
-import {BaseHomeView} from '../components/BaseHomeView';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+
+import {BaseHomeView} from '../components/BaseHomeView';
 
 export const DiagnosedShareUploadView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
