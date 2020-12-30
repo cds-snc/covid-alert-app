@@ -110,6 +110,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
       if (!network.isConnected) {
         return <NetworkDisabledView />;
       }
+      //temp const used so only DiagnosedShareView is displayed
       const tempHasShared = true;
       return exposureStatus.needsSubmission ? (
         tempHasShared ? (
