@@ -24,7 +24,7 @@ import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
 import {DiagnosedView} from './views/DiagnosedView';
-import {DiagnosedShareUploadView} from './views/DiagnosedShareUpload';
+import {DiagnosedShareUploadView} from './views/DiagnosedShareUploadView';
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {ExposureNotificationsUnauthorizedView} from './views/ExposureNotificationsUnauthorizedView';
 import {ExposureView} from './views/ExposureView';
@@ -36,7 +36,6 @@ import {OverlayView} from './views/OverlayView';
 import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
 import {ExposureNotificationsUserStoppedView} from './views/ExposureNotificationsUserStoppedView';
 import {UnknownProblemView} from './views/UnknownProblemView';
-import {DiagnosedShareUploadView} from './views/DiagnosedShareUploadView';
 import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
@@ -46,6 +45,20 @@ import {LocationOffView} from './views/LocationOffView';
 interface ContentProps {
   isBottomSheetExpanded: boolean;
 }
+
+const UploadShareView = ({
+  hasShared = true,
+  isBottomSheetExpanded,
+}: {
+  hasShared?: boolean;
+  isBottomSheetExpanded: boolean;
+}) => {
+  return hasShared ? (
+    <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
+  ) : (
+    <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />
+  );
+};
 
 const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const {region, userStopped} = useStorage();
@@ -113,14 +126,9 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
       if (!network.isConnected) {
         return <NetworkDisabledView />;
       }
-      //temp const used so only DiagnosedShareView is displayed
-      const tempHasShared = true;
+
       return exposureStatus.needsSubmission ? (
-        tempHasShared ? (
-          <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
-        ) : (
-          <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />
-        )
+        <UploadShareView isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
         <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
       );
