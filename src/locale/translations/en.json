@@ -78,6 +78,11 @@
       "Body3": "To help keep people safe, you need to upload your random codes every day, especially if you have to leave your home.",
       "ButtonCTA": "Upload your random codes"
     },
+    "DiagnosedShareUploadView": {
+      "Title": "Not quite done",
+      "Body1": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet.",
+      "ButtonCTA": "Finish sharing exposures"
+    },
     "BluetoothDisabled": "Bluetooth is off",
     "EnableBluetoothCTA": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "TurnOnBluetooth": "Turn on Bluetooth",

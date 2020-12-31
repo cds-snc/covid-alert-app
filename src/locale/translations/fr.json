@@ -30,6 +30,11 @@
         "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       }
     },
+    "DiagnosedShareUploadView": {
+      "Title": "Presque terminé",
+      "Body1": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées.",
+      "ButtonCTA":"Terminer le partage d’expositions"
+    },
     "ExposureDetected": {
       "Title": "Vous avez été exposé",
       "Body1": "Vous avez côtoyé au moins une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Le contact a duré 15 minutes ou plus.",
