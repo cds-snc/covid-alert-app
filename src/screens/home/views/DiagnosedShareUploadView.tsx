@@ -1,13 +1,23 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
+import {useNavigation} from '@react-navigation/native';
 import {Text, ButtonSingleLine, Box} from 'components';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {StyleSheet, Platform} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
 export const DiagnosedShareUploadView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
+  const navigation = useNavigation();
+  const toDataShare = useCallback(async () => {
+    const initialTekUploadComplete = await AsyncStorage.getItem(INITIAL_TEK_UPLOAD_COMPLETE);
+    // @todo replace Step1 with new Intermediate instructions screen
+    const screen = initialTekUploadComplete === 'false' ? 'Step1' : 'TekUploadSubsequentDays';
+    return navigation.navigate('DataSharing', {screen});
+  }, [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   return (
@@ -29,7 +39,7 @@ export const DiagnosedShareUploadView = ({isBottomSheetExpanded}: {isBottomSheet
           <ButtonSingleLine
             text={i18n.translate('Home.DiagnosedShareUploadView.ButtonCTA')}
             variant="dangerWhiteText"
-            onPress={() => {}}
+            onPress={toDataShare}
             iconName="icon-chevron-white"
           />
         </Box>
