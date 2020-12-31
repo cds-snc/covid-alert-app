@@ -99,6 +99,8 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
         return <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />;
       case 'DiagnosedShareUploadView':
         return <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      case 'FrameworkUnavailableView':
+        return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
       default:
         break;
     }
