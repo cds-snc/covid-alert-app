@@ -24,6 +24,7 @@ import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
 import {DiagnosedView} from './views/DiagnosedView';
+import {DiagnosedShareUploadView} from './views/DiagnosedShareUpload';
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {ExposureNotificationsUnauthorizedView} from './views/ExposureNotificationsUnauthorizedView';
 import {ExposureView} from './views/ExposureView';
@@ -112,8 +113,14 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
       if (!network.isConnected) {
         return <NetworkDisabledView />;
       }
+      //temp const used so only DiagnosedShareView is displayed
+      const tempHasShared = true;
       return exposureStatus.needsSubmission ? (
-        <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
+        tempHasShared ? (
+          <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
+        ) : (
+          <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />
+        )
       ) : (
         <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
       );

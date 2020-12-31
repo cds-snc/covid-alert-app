@@ -81,7 +81,7 @@ export const ExposureNotificationServiceProvider = ({
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, [exposureNotificationService, setUserStopped]);
+  }, [backgroundScheduler, exposureNotificationService, setUserStopped]);
 
   return (
     <ExposureNotificationServiceContext.Provider value={exposureNotificationService}>

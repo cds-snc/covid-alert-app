@@ -18,7 +18,10 @@ import app.covidshield.MainActivity
 import app.covidshield.R
 import com.facebook.react.ReactApplication
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
+import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatus
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.tasks.await
 
 
 class ExposureCheckNotificationWorker (private val context: Context, parameters: WorkerParameters) :
@@ -26,9 +29,20 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
 
     private val notificationManager: NotificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+    private val exposureNotificationClient by lazy {
+        Nearby.getExposureNotificationClient(context)
+    }
+
     override suspend fun doWork(): Result {
 
         Log.d("background", "ExposureCheckNotificationWorker - doWork")
+
+        val enIsEnabled = exposureNotificationClient.isEnabled.await()
+        val enStatus = exposureNotificationClient.status.await()
+        if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)){
+            Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
+            return Result.success()
+        }
 
         val reactApplication = applicationContext as? ReactApplication
                 ?: return Result.success()
@@ -48,7 +62,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
                 .setOngoing(true)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            notification.setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_MAX))
+            notification.setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_DEFAULT))
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -79,7 +93,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
             disableSound: Boolean
     ): NotificationChannel {
         return NotificationChannel(
-                channelId, name, NotificationManager.IMPORTANCE_HIGH
+                channelId, name, NotificationManager.IMPORTANCE_DEFAULT
         ).also { channel ->
             if (disableSound) {
                 channel.setSound(null, null)
@@ -89,7 +103,10 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
     }
 
     companion object {
-        private const val CHANNEL_ID = "COVID Alert Exposure Checks"
+        // A randomly generated constant.
+        // If either the channel importance / priority or the sound are changed,
+        // then CHANNEL_ID also needs to be changed.
+        private const val CHANNEL_ID = "NVYJYRQYOM"
     }
 
 }
