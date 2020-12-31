@@ -35,6 +35,7 @@ import {OverlayView} from './views/OverlayView';
 import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
 import {ExposureNotificationsUserStoppedView} from './views/ExposureNotificationsUserStoppedView';
 import {UnknownProblemView} from './views/UnknownProblemView';
+import {DiagnosedShareUploadView} from './views/DiagnosedShareUploadView';
 import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
@@ -82,6 +83,8 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
         return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
       case 'DiagnosedView':
         return <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      case 'DiagnosedShareUploadView':
+        return <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />;
       default:
         break;
     }
