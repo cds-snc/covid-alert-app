@@ -127,9 +127,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
         return <NetworkDisabledView />;
       }
 
-      {
-        /* @todo UploadShareView pass hasShared from ExposureStatus */
-      }
+      /* @todo UploadShareView pass hasShared from ExposureStatus */
       return exposureStatus.needsSubmission ? (
         <UploadShareView isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
