@@ -30,6 +30,7 @@ const ScreenRadioSelector = () => {
     {displayName: 'Exposed', value: 'ExposureView'},
     {displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView'},
     {displayName: 'Diagnosed', value: 'DiagnosedView'},
+    {displayName: 'Unsupported Framework', value: 'FrameworkUnavailableView'},
   ];
   return (
     <Box
