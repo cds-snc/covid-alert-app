@@ -67,7 +67,7 @@
       "Title": "Merci d’aider à lutter contre la COVID",
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
-        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
+        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de partager toute nouvelle exposition enregistrée par votre téléphone."
       },
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
       "Body3": "Si vos symptômes vous inquiètent, vous pouvez consulter un professionnel de la santé. Prenez soin de vous et de votre famille pendant ce temps.",
@@ -77,11 +77,11 @@
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
-      "Title": "Téléverser les codes aléatoires",
+      "Title": "Partager les nouvelles expositions",
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
       "Body2": "Rappel : ",
-      "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
-      "ButtonCTA": "Téléverser vos codes aléatoires"
+      "Body3": "Pour contribuer à la sécurité des autres, vous devez partager vos nouvelles expositions tous les jours, surtout si vous avez à sortir de la maison.",
+      "ButtonCTA": "Partager les nouvelles expositions"
     },
     "BluetoothDisabled": "Bluetooth désactivé",
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",

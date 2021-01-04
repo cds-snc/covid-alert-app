@@ -62,7 +62,7 @@
       "Title": "Thanks for helping fight COVID-19",
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
-        "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
+        "Other": "For the next {number} days, you’ll get a daily notification asking permission to share any new exposures your phone recorded."
       },
       "Body2": "You do not have to agree, even if you agreed the day before.",
       "Body3": "If you’re worried about your symptoms, get medical care as soon as you can. Take care of yourself and your family during this time.",
@@ -72,11 +72,11 @@
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
-      "Title": "Upload random codes",
+      "Title": "Share new exposures",
       "Body1": "Thanks for helping slow the spread!",
       "Body2": "Reminder: ",
-      "Body3": "To help keep people safe, you need to upload your random codes every day, especially if you have to leave your home.",
-      "ButtonCTA": "Upload your random codes"
+      "Body3": "To help keep people safe, share your new exposures every day, especially if you have to leave your home.",
+      "ButtonCTA": "Share new exposures"
     },
     "DiagnosedShareUploadView": {
       "Title": "Not quite done",

@@ -33,7 +33,7 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
       <Box alignSelf="stretch" marginTop="l" marginBottom="m">
         <ButtonSingleLine
           text={i18n.translate('Home.DiagnosedShareView.ButtonCTA')}
-          variant="bigFlat"
+          variant="bigFlatBlue"
           onPress={toDataShare}
           iconName="icon-chevron-white"
         />
