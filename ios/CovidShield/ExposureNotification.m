@@ -6,9 +6,11 @@
 //
 
 #import "ExposureNotification.h"
+
+#import "ENActivityHandling.h"
+
 #import <React/RCTConvert.h>
-
-
+#import <TSBackgroundFetch/TSBackgroundFetch.h>
 
 @interface ExposureNotification ()
 @property (nonatomic) NSMutableArray *reportedSummaries;
@@ -34,7 +36,26 @@
   self.enManager = nil;
 }
 
++ (ExposureNotificationSupportType) exposureNotificationSupportType {
+  if (@available(iOS 13.5, *)) {
+    return ENSupportTypeVersion13dot5AndLater;
+  } else if (NSClassFromString(@"ENManager") != nil) { // This check is specific to iOS 12.5
+    return ENSupportTypeVersion12dot5;
+  } else {
+    return ENSupportTypeUnsupported;
+  }
+}
+
 RCT_EXPORT_MODULE();
+
+RCT_REMAP_METHOD(isExposureNotificationsFrameworkSupported, isExposureNotificationsFrameworkSupportedWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+  if ([ExposureNotification exposureNotificationSupportType] == ENSupportTypeUnsupported) {
+    reject(@"API_NOT_AVAILABLE", @"Exposure Notifications Framework is not supported", nil);
+  } else {
+    resolve(nil);
+  }
+}
 
 RCT_REMAP_METHOD(activate, activateWithCompletionHandler:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   if (self.enManager) {
@@ -43,6 +64,14 @@ RCT_REMAP_METHOD(activate, activateWithCompletionHandler:(RCTPromiseResolveBlock
   };
 
   self.enManager = [ENManager new];
+  
+  if ([ExposureNotification exposureNotificationSupportType] == ENSupportTypeVersion12dot5) {
+    [self.enManager setLaunchActivityHandler:^() {
+      TSBackgroundFetch *fetchManager = [TSBackgroundFetch sharedInstance];
+      [fetchManager performFetchWithCompletionHandler:^void(UIBackgroundFetchResult r) {}
+                                     applicationState:UIApplicationStateBackground];
+    }];
+  }
 
   [self.enManager activateWithCompletionHandler:^(NSError * _Nullable error) {
     if (error) {

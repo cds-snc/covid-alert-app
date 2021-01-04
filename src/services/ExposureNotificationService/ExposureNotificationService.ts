@@ -71,6 +71,7 @@ export type ExposureStatus =
   | {
       type: ExposureStatusType.Diagnosed;
       needsSubmission: boolean;
+      hasShared: boolean;
       submissionLastCompletedAt?: number;
       uploadReminderLastSentAt?: number;
       cycleStartsAt: number;
@@ -148,12 +149,14 @@ export class ExposureNotificationService {
 
   initiateExposureCheckHeadless = async () => {
     if (Platform.OS !== 'android') return;
-    log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
+    log.debug({category: 'background', message: 'initiateExposureCheckHeadless'});
     await this.initiateExposureCheck();
   };
 
   initiateExposureCheck = async () => {
     if (Platform.OS !== 'android') return;
+    if (!(await this.shouldPerformExposureCheck())) return;
+
     const payload: NotificationPayload = {
       alertTitle: this.i18n.translate('Notification.ExposureChecksTitle'),
       alertBody: this.i18n.translate('Notification.ExposureChecksBody'),
@@ -350,6 +353,7 @@ export class ExposureNotificationService {
     this.exposureStatus.append({
       type: ExposureStatusType.Diagnosed,
       needsSubmission: true,
+      hasShared: false,
       cycleStartsAt: cycleStartsAt.getTime(),
       cycleEndsAt: addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
     });
@@ -791,7 +795,11 @@ export class ExposureNotificationService {
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== ExposureStatusType.Diagnosed) return;
-    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: getCurrentDate().getTime()});
+    this.exposureStatus.append({
+      needsSubmission: false,
+      hasShared: true,
+      submissionLastCompletedAt: getCurrentDate().getTime(),
+    });
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {
