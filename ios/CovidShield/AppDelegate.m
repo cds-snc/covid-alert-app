@@ -1,5 +1,7 @@
 #import "AppDelegate.h"
 
+#import "ExposureNotification.h"
+
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -101,10 +103,12 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     launchScreenView.frame = self.window.bounds;
     rootView.loadingView = launchScreenView;
   }
-
-  // [REQUIRED] Register BackgroundFetch
-  patchBGTaskSubmission();
-  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
+  
+  if ([ExposureNotification exposureNotificationSupportType] == ENSupportTypeVersion13dot5AndLater) {
+    // [REQUIRED] Register BackgroundFetch
+    patchBGTaskSubmission();
+    [[TSBackgroundFetch sharedInstance] didFinishLaunching];
+  }
 
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];

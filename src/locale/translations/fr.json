@@ -103,8 +103,7 @@
     },
     "FrameworkUnavailable": {
       "Title": "Une erreur s’est produite",
-      "Body": "Alerte COVID n’est pas prise en charge par le système d’exploitation de votre téléphone.\n\nVérifiez que votre système d’exploitation est à jour.\n\nSi vous avez un téléphone Android, pensez à mettre les services Google Play à jour.",
-      "CTA": "Trouver de l’aide"
+      "Body": "Pour utiliser Alerte COVID, veuillez mettre à jour votre système d’exploitation."
     },
     "UnknownProblem": {
       "Title": "Une erreur s’est produite",

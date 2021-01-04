@@ -103,8 +103,7 @@
     },
     "FrameworkUnavailable": {
       "Title": "Something went wrong",
-      "Body": "COVID Alert is not supported by your phone’s operating system.\n\nMake sure your operating system is up to date.\n\nIf you have an Android phone, try updating your Google Play Services.",
-      "CTA": "Get Help"
+      "Body": "To use COVID Alert, please update your operating system."
     },
     "UnknownProblem": {
       "Title": "Something went wrong",
