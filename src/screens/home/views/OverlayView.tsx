@@ -126,8 +126,6 @@ const ShareDiagnosisCode = ({
   const navigation = useNavigation();
   const exposureStatus = useExposureStatus();
 
-  //
-
   const network = useNetInfo();
 
   if (!network.isConnected && exposureStatus.type !== ExposureStatusType.Diagnosed) {
