@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Text} from 'components';
+import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
 import {formatExposedDate} from 'shared/date-fns';
@@ -17,18 +17,30 @@ export const ExposureDateView = () => {
 
   const exposureNotificationService = useExposureNotificationService();
 
-  const date = useMemo(() => {
-    const timeStamp = exposureNotificationService.getExposureDetectedAt();
+  const dates = useMemo(() => {
+    const timeStamps = exposureNotificationService.getExposureDetectedAt();
 
-    if (timeStamp)
-      return formatExposedDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
+    if (timeStamps) {
+      return timeStamps.map(ts => {
+        return formatExposedDate(dateLocale, new Date(ts).toLocaleString(dateLocale, dateFormatOptions));
+      })
+    }
     else if (forceScreen)
-      return formatExposedDate(dateLocale, new Date().toLocaleString(dateLocale, dateFormatOptions));
+      return [formatExposedDate(dateLocale, new Date().toLocaleString(dateLocale, dateFormatOptions))];
   }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen]);
 
-  return date ? (
-    <Text marginBottom="m">
-      {i18n.translate('Home.ExposureDetected.Notification.Received')}: <Text fontWeight="bold">{date}</Text>
-    </Text>
+  return dates ? (
+    <Box marginBottom="m">
+      <Text>
+        {i18n.translate('Home.ExposureDetected.Notification.Received')}:
+      </Text>
+      <>
+        {dates.map((date, n) =>
+          <Text fontWeight={n === 0 ? "bold" : "normal"} key={n}>
+            {date}
+          </Text>
+        )}
+      </>
+    </Box>
   ) : null;
 };

@@ -644,15 +644,14 @@ export class ExposureNotificationService {
     return true;
   };
 
-  public getExposureDetectedAt(): number | undefined {
+  public getExposureDetectedAt(): number[] {
     const exposureStatus = this.exposureStatus.get();
-    let timeStamp;
 
     if (exposureStatus.type === ExposureStatusType.Exposed && exposureStatus.exposureDetectedAt) {
-      timeStamp = exposureStatus.exposureDetectedAt;
+      return [exposureStatus.exposureDetectedAt];
     }
 
-    return timeStamp;
+    return [];
   }
 
   public isIgnoredSummary(summary: ExposureSummary): boolean {
