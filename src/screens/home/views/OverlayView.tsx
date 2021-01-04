@@ -114,7 +114,15 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   */
 };
 
-const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
+const ShareDiagnosisCode = ({
+  i18n,
+  isBottomSheetExpanded,
+  bottomSheetBehavior,
+}: {
+  i18n: I18n;
+  isBottomSheetExpanded: boolean;
+  bottomSheetBehavior: BottomSheetBehavior;
+}) => {
   const navigation = useNavigation();
   const exposureStatus = useExposureStatus();
 
@@ -146,8 +154,16 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
         number: daysLeft,
       });
     }
+    // const onStart = useCallback(async () => {
+    //   bottomSheetBehavior.collapse();
+    //   await startExposureNotificationService();
+    // }, [bottomSheetBehavior, startExposureNotificationService]);
+    const onNext = useCallback(() => {
+      bottomSheetBehavior.collapse();
+      navigation.navigate('DataSharing', {screen: 'IntermediateScreen'});
+    }, [bottomSheetBehavior, navigation]);
 
-    return (
+    return exposureStatus.hasShared ? (
       <InfoBlock
         focusOnTitle={isBottomSheetExpanded}
         titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
@@ -159,6 +175,23 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
         backgroundColor="infoBlockNeutralBackground"
         color="bodyText"
         showButton={false}
+      />
+    ) : (
+      <InfoBlock
+        focusOnTitle={isBottomSheetExpanded}
+        titleBolded={i18n.translate('OverlayOpen.CodeNotShared.Title')}
+        text={i18n.translate('OverlayOpen.CodeNotShared.Body')}
+        button={{
+          text: i18n.translate('OverlayOpen.CodeNotShared.CTA'),
+          action: () => {
+            // bottomSheetBehavior.collapse();
+            onNext();
+            // navigation.navigate('DataSharing', {screen: 'Step2'});
+          },
+        }}
+        backgroundColor="danger25Background"
+        color="bodyText"
+        showButton={true}
       />
     );
   }
@@ -265,7 +298,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
             )}
 
             <Box marginBottom="m" marginTop={userStopped ? 's' : 'xl'} marginHorizontal="m">
-              <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
+              <ShareDiagnosisCode
+                isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
+                i18n={i18n}
+                bottomSheetBehavior={bottomSheetBehavior}
+              />
             </Box>
 
             {!userStopped && (status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
