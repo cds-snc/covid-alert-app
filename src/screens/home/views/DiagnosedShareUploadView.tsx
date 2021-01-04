@@ -16,7 +16,6 @@ export const DiagnosedShareUploadView = ({isBottomSheetExpanded}: {isBottomSheet
     const initialTekUploadComplete = await AsyncStorage.getItem(INITIAL_TEK_UPLOAD_COMPLETE);
     // @todo replace Step1 with new Intermediate instructions screen
     const screen = initialTekUploadComplete === 'false' ? 'IntermediateScreen' : 'TekUploadSubsequentDays';
-    console.log('InitialTek', initialTekUploadComplete);
     return navigation.navigate('DataSharing', {screen});
   }, [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);

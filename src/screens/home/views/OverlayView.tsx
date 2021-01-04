@@ -154,14 +154,6 @@ const ShareDiagnosisCode = ({
         number: daysLeft,
       });
     }
-    // const onStart = useCallback(async () => {
-    //   bottomSheetBehavior.collapse();
-    //   await startExposureNotificationService();
-    // }, [bottomSheetBehavior, startExposureNotificationService]);
-    const onNext = useCallback(() => {
-      bottomSheetBehavior.collapse();
-      navigation.navigate('DataSharing', {screen: 'IntermediateScreen'});
-    }, [bottomSheetBehavior, navigation]);
 
     return exposureStatus.hasShared ? (
       <InfoBlock
@@ -184,14 +176,13 @@ const ShareDiagnosisCode = ({
         button={{
           text: i18n.translate('OverlayOpen.CodeNotShared.CTA'),
           action: () => {
-            // bottomSheetBehavior.collapse();
-            onNext();
-            // navigation.navigate('DataSharing', {screen: 'Step2'});
+            bottomSheetBehavior.collapse();
+            navigation.navigate('DataSharing', {screen: 'IntermediateScreen'});
           },
         }}
         backgroundColor="danger25Background"
         color="bodyText"
-        showButton={true}
+        showButton
       />
     );
   }
