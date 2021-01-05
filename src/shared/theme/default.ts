@@ -320,10 +320,10 @@ const theme = {
     bigFlatBlue: {
       color: palette.brandBlue,
       fontWeight: 'bold',
-      // height: 30,
+      height: 30,
       textColor: palette.white,
       fontFamily: 'notosans',
-      // fontSize: 18,
+      fontSize: 18,
       borderWidth: undefined,
       disabled: {
         color: palette.darkGrey,
