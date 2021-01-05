@@ -29,7 +29,7 @@ import {ExposureConfigurationValidator, ExposureConfigurationValidationError} fr
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 
-export const EXPOSURE_DETECTED_AT_TIMESTAMPS = 'exposureDetectedAtTimestamps';
+export const EXPOSURE_HISTORY = 'exposureHistory';
 
 export const EXPOSURE_STATUS = 'exposureStatus';
 
@@ -97,6 +97,7 @@ export interface SecureStorageOptions {
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: MapObservable<ExposureStatus>;
+  exposureHistory: Observable<number[]>;
 
   /**
    * Visible for testing only
@@ -126,11 +127,15 @@ export class ExposureNotificationService {
     this.exposureNotification = exposureNotification;
     this.systemStatus = new Observable<SystemStatus>(SystemStatus.Undefined);
     this.exposureStatus = new MapObservable<ExposureStatus>({type: ExposureStatusType.Monitoring});
+    this.exposureHistory = new Observable<number[]>([]);
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
+    });
+    this.exposureHistory.observe(history => {
+      this.secureStorage.set(EXPOSURE_HISTORY, history.join(','), {});
     });
 
     if (Platform.OS === 'android') {
@@ -186,6 +191,7 @@ export class ExposureNotificationService {
 
     try {
       await this.loadExposureStatus();
+      await this.loadExposureHistory();
       if (Platform.OS === 'ios') {
         await this.exposureNotification.activate();
       }
@@ -232,6 +238,7 @@ export class ExposureNotificationService {
     // @todo: maybe remove this gets called in updateExposureStatus
     if (!(await this.shouldPerformExposureCheck())) return;
     await this.loadExposureStatus();
+    await this.loadExposureHistory();
     try {
       await this.updateExposureStatus();
       await this.processNotification();
@@ -646,9 +653,9 @@ export class ExposureNotificationService {
 
   public getExposureDetectedAt(): number[] {
     const exposureStatus = this.exposureStatus.get();
-
-    if (exposureStatus.type === ExposureStatusType.Exposed && exposureStatus.exposureDetectedAt) {
-      return [exposureStatus.exposureDetectedAt];
+    const exposureHistory = this.exposureHistory.get();
+    if (exposureStatus.type === ExposureStatusType.Exposed && exposureHistory) {
+      return exposureHistory;
     }
 
     return [];
@@ -749,24 +756,20 @@ export class ExposureNotificationService {
       },
       lastCheckedPeriod,
     );
-    this.storeExposureDetectionTime(exposureDetectedAt);
-  }
-
-  public async storeExposureDetectionTime(time: number) {
-    // '', '12345', '12345,23456'
-    const _exposureDetectedAtTimestamps = await this.secureStorage.get(EXPOSURE_DETECTED_AT_TIMESTAMPS);
-    if (!_exposureDetectedAtTimestamps) {
-      this.secureStorage.set(EXPOSURE_DETECTED_AT_TIMESTAMPS, time.toString(), {});
-      return;
-    }
-    const exposureDetectedAtTimestamps = _exposureDetectedAtTimestamps.split(',');
-    exposureDetectedAtTimestamps.push(time.toString());
-    this.secureStorage.set(EXPOSURE_DETECTED_AT_TIMESTAMPS, exposureDetectedAtTimestamps.join(','), {});
+    const exposureHistory = this.exposureHistory.get();
+    exposureHistory.push(exposureDetectedAt);
+    this.exposureHistory.set(exposureHistory);
   }
 
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
+  }
+
+  private async loadExposureHistory() {
+    const _exposureHistory = (await this.secureStorage.get(EXPOSURE_HISTORY)) || 'null';
+    const exposureHistory = _exposureHistory.split(',').map(x => Number(x));
+    this.exposureHistory.set(exposureHistory);
   }
 
   /**

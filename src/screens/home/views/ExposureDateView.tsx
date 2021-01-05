@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
@@ -18,16 +18,14 @@ export const ExposureDateView = () => {
   const exposureNotificationService = useExposureNotificationService();
 
   const dates = useMemo(() => {
-    const timeStamps = exposureNotificationService.getExposureDetectedAt();
-
-    if (timeStamps) {
-      return timeStamps.map(ts => {
-        return formatExposedDate(dateLocale, new Date(ts).toLocaleString(dateLocale, dateFormatOptions));
-      })
-    }
-    else if (forceScreen)
+    if(forceScreen) {
       return [formatExposedDate(dateLocale, new Date().toLocaleString(dateLocale, dateFormatOptions))];
-  }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen]);
+    }
+    const timeStamps = exposureNotificationService.getExposureDetectedAt();
+    return timeStamps.map(ts => {
+      return formatExposedDate(dateLocale, new Date(ts).toLocaleString(dateLocale, dateFormatOptions));
+    });
+  }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen])
 
   return dates ? (
     <Box marginBottom="m">
