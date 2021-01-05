@@ -18,26 +18,24 @@ export const ExposureDateView = () => {
   const exposureNotificationService = useExposureNotificationService();
 
   const dates = useMemo(() => {
-    if(forceScreen) {
+    if (forceScreen) {
       return [formatExposedDate(dateLocale, new Date().toLocaleString(dateLocale, dateFormatOptions))];
     }
     const timeStamps = exposureNotificationService.getExposureDetectedAt();
     return timeStamps.map(ts => {
       return formatExposedDate(dateLocale, new Date(ts).toLocaleString(dateLocale, dateFormatOptions));
     });
-  }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen])
+  }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen]);
   const firstThreeUniqueDates = [...new Set(dates)].slice(0, 3);
   return firstThreeUniqueDates ? (
     <Box marginBottom="m">
-      <Text>
-        {i18n.translate('Home.ExposureDetected.Notification.Received')}:
-      </Text>
+      <Text>{i18n.translate('Home.ExposureDetected.Notification.Received')}:</Text>
       <>
-        {firstThreeUniqueDates.map((date, n) =>
-          <Text fontWeight={n === 0 ? "bold" : "normal"} key={n}>
+        {firstThreeUniqueDates.map((date, index) => (
+          <Text fontWeight={index === 0 ? 'bold' : 'normal'} key={date}>
             {date}
           </Text>
-        )}
+        ))}
       </>
     </Box>
   ) : null;
