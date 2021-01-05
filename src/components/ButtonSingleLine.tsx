@@ -73,7 +73,7 @@ export const ButtonSingleLine = ({
     borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
   };
 
-  const fontStyle = variant === 'bigFlatPurple' || 'bigFlatBlue' ? styles.strong : styles.normal;
+  const fontStyle = variant === 'bigFlatPurple' ? styles.strong : styles.normal;
 
   const content = (
     <Box
