@@ -135,7 +135,7 @@ export class ExposureNotificationService {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
     this.exposureHistory.observe(history => {
-      this.secureStorage.set(EXPOSURE_HISTORY, history.join(','), {});
+        this.secureStorage.set(EXPOSURE_HISTORY, history.join(','), {});
     });
 
     if (Platform.OS === 'android') {
@@ -767,9 +767,16 @@ export class ExposureNotificationService {
   }
 
   private async loadExposureHistory() {
-    const _exposureHistory = (await this.secureStorage.get(EXPOSURE_HISTORY)) || 'null';
-    const exposureHistory = _exposureHistory.split(',').map(x => Number(x));
-    this.exposureHistory.set(exposureHistory);
+    try {
+      const _exposureHistory = await this.secureStorage.get(EXPOSURE_HISTORY);
+      if (!_exposureHistory) {
+        return;
+      }
+      const exposureHistory = _exposureHistory.split(',').map(x => Number(x));
+      this.exposureHistory.set(exposureHistory);
+    } catch (error) {
+      captureMessage("Unable to load EXPOSURE_HISTORY from secure storage", error)
+    }
   }
 
   /**
@@ -878,16 +885,9 @@ export class ExposureNotificationService {
     if (summariesContainingExposures.length === 0) {
       return false;
     }
-    // const today = getCurrentDate();
-    this.setExposed(summariesContainingExposures[0], exposureStatus, lastUpdatedPeriod);
-    // this.exposureStatus.append({
-    //   type: ExposureStatusType.Exposed,
-    //   summary,
-    //   lastChecked: {
-    //     timestamp: today.getTime(),
-    //     period: periodSinceEpoch(today, HOURS_PER_PERIOD),
-    //   },
-    // });
+    const today = getCurrentDate();
+    const lastCheckedPeriod = periodSinceEpoch(today, HOURS_PER_PERIOD)
+    this.setExposed(summariesContainingExposures[0], exposureStatus, lastCheckedPeriod);
     return true;
   }
 
