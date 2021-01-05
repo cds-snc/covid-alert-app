@@ -440,6 +440,8 @@ export class ExposureNotificationService {
           daysBetween(new Date(exposureStatus.summary.lastExposureTimestamp || today.getTime()), today) >=
           EXPOSURE_NOTIFICATION_CYCLE
         ) {
+          // clear exposure history
+          this.exposureHistory.set([]);
           return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
         } else {
           return exposureStatus;
@@ -456,6 +458,8 @@ export class ExposureNotificationService {
       const summary = exposureStatus.summary;
       const summaries = exposureStatus.ignoredSummaries ? exposureStatus.ignoredSummaries : [];
       summaries.push(summary);
+      // clear exposure history
+      this.exposureHistory.set([]);
       return this.finalize({type: ExposureStatusType.Monitoring, ignoredSummaries: summaries});
     }
 
