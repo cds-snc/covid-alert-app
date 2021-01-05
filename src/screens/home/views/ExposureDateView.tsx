@@ -26,14 +26,14 @@ export const ExposureDateView = () => {
       return formatExposedDate(dateLocale, new Date(ts).toLocaleString(dateLocale, dateFormatOptions));
     });
   }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen])
-  const firstThreeDates = dates.slice(0, 3);
-  return firstThreeDates ? (
+  const firstThreeUniqueDates = [...new Set(dates)].slice(0, 3);
+  return firstThreeUniqueDates ? (
     <Box marginBottom="m">
       <Text>
         {i18n.translate('Home.ExposureDetected.Notification.Received')}:
       </Text>
       <>
-        {firstThreeDates.map((date, n) =>
+        {firstThreeUniqueDates.map((date, n) =>
           <Text fontWeight={n === 0 ? "bold" : "normal"} key={n}>
             {date}
           </Text>
