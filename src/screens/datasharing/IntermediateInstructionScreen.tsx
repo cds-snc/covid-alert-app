@@ -14,7 +14,7 @@ export const IntermediateInstructionScreen = () => {
   return (
     <BaseDataSharingView showBackButton={false}>
       <ScrollView style={styles.flex}>
-        <Box paddingHorizontal="m">
+        <Box paddingHorizontal="l">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('DataUpload.IntermediateStep.Title')}
           </Text>
