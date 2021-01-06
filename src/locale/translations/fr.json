@@ -103,7 +103,7 @@
     },
     "FrameworkUnavailable": {
       "Title": "Une erreur s’est produite",
-      "Body": "Pour utiliser Alerte COVID, veuillez mettre à jour votre système d’exploitation."
+      "Body": "Pour utiliser Alerte COVID, vous devez mettre à jour le système d’exploitation de votre téléphone."
     },
     "UnknownProblem": {
       "Title": "Une erreur s’est produite",
