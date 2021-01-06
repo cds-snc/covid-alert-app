@@ -720,7 +720,6 @@ describe('ExposureNotificationService', () => {
     });
 
     it('selects next exposure summary if user is already exposed', async () => {
-      // abc
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       const currentSummary = getSummary({
@@ -963,20 +962,29 @@ describe('ExposureNotificationService', () => {
     });
   });
   describe('performExposureStatusUpdate', () => {
-    it('does not update exposureDetectedAt when an old exposure is returned', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const tomorrow = new OriginalDate('2020-05-19T04:10:00+0000');
+    const summary1 = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 10,
+      attenuationDurations: [20, 0, 0],
+    });
+    const summary2 = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 1,
+      attenuationDurations: [20, 0, 0],
+    });
+    beforeEach(() => {
       service.exposureStatus.set({
         type: ExposureStatusType.Monitoring,
       });
+    });
+
+    it('does not update exposureDetectedAt when an old exposure is returned', async () => {
+      const today = new OriginalDate('2020-05-18T04:10:00+0000');
+      const tomorrow = new OriginalDate('2020-05-19T04:10:00+0000');
       // mock returning an exposure
-      const summary = getSummary({
-        today,
-        hasMatchedKey: true,
-        daysSinceLastExposure: 1,
-        attenuationDurations: [20, 0, 0],
-      });
-      bridge.detectExposure.mockResolvedValueOnce([summary]);
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
 
       // check that we are exposed and the detected at date is today
       await service.performExposureStatusUpdate();
@@ -988,7 +996,7 @@ describe('ExposureNotificationService', () => {
       );
       // mock changing the current date
       dateSpy.mockImplementationOnce((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : tomorrow));
-      bridge.detectExposure.mockResolvedValueOnce([summary]);
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
       // check that we are exposed and the detected at date is still the same
       await service.performExposureStatusUpdate();
       expect(service.exposureStatus.get()).toStrictEqual(
@@ -998,7 +1006,30 @@ describe('ExposureNotificationService', () => {
         }),
       );
     });
+    it('saves the exposure notification time to the history correctly', async () => {
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([today.getTime()]);
+      bridge.detectExposure.mockResolvedValueOnce([summary2]);
+      await service.performExposureStatusUpdate();
+      // why a 2nd status update? I don't know
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([today.getTime(), today.getTime()]);
+    });
+    it('erases exposure history when the state returns to monitoring', async () => {
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
+      await service.performExposureStatusUpdate();
+      bridge.detectExposure.mockResolvedValueOnce([summary2]);
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([today.getTime(), today.getTime()]);
+
+      const oneMonthFromToday = new OriginalDate('2020-06-18T04:10:00+0000');
+      dateSpy.mockImplementationOnce((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : oneMonthFromToday));
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([]);
+    });
   });
+
   describe('selectExposureSummary', () => {
     const summary1 = getSummary({
       today,
