@@ -38,7 +38,7 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
     }
   }, [navigation, region, regionalI18n]);
 
-  const versionNumber = `${i18n.translate('OverlayOpen.Version')}: ${APP_VERSION_NAME}(${APP_VERSION_CODE})`;
+  const versionNumber = `${i18n.translate('OverlayOpen.Version')}: ${APP_VERSION_NAME} (${APP_VERSION_CODE})`;
 
   return (
     <>
