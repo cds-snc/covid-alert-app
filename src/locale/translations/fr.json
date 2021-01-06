@@ -135,7 +135,7 @@
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
-    "Version": "Version",
+    "Version": "Version ",
     "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "BluetoothCardAction": "Activez Bluetooth",
     "EnterCodeCardTitle": "Avez-vous reçu un diagnostic de COVID-19?",
