@@ -33,7 +33,7 @@
     "DiagnosedShareUploadView": {
       "Title": "Presque terminé",
       "Body1": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées.",
-      "ButtonCTA":"Terminer le partage d’expositions"
+      "ButtonCTA": "Terminer le partage d’expositions"
     },
     "ExposureDetected": {
       "Title": "Vous avez été exposé",
@@ -66,8 +66,8 @@
     "DiagnosedView": {
       "Title": "Merci d’aider à lutter contre la COVID",
       "Body1": {
-        "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
-        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de partager toute nouvelle exposition enregistrée par votre téléphone."
+        "One": "Demain, vous recevrez une dernière notification vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone.",
+        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
       },
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
       "Body3": "Si vos symptômes vous inquiètent, vous pouvez consulter un professionnel de la santé. Prenez soin de vous et de votre famille pendant ce temps.",
@@ -103,7 +103,7 @@
     },
     "FrameworkUnavailable": {
       "Title": "Une erreur s’est produite",
-      "Body": "Pour utiliser Alerte COVID, veuillez mettre à jour votre système d’exploitation."
+      "Body": "Pour utiliser Alerte COVID, vous devez mettre à jour le système d’exploitation de votre téléphone."
     },
     "UnknownProblem": {
       "Title": "Une erreur s’est produite",
@@ -135,6 +135,7 @@
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
+    "Version": "Version",
     "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "BluetoothCardAction": "Activez Bluetooth",
     "EnterCodeCardTitle": "Avez-vous reçu un diagnostic de COVID-19?",
