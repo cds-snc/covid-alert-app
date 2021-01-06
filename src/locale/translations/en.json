@@ -103,7 +103,7 @@
     },
     "FrameworkUnavailable": {
       "Title": "Something went wrong",
-      "Body": "To use COVID Alert, please update your operating system."
+      "Body": "To use COVID Alert, you need to update your phone’s operating system."
     },
     "UnknownProblem": {
       "Title": "Something went wrong",
