@@ -6,9 +6,9 @@ import {useI18n, useRegionalI18n} from 'locale';
 import {captureException} from 'shared/log';
 import {useStorage} from 'services/StorageService';
 import {getExposedHelpMenuURL} from 'shared/RegionLogic';
-
 import {OnOffButton} from '../components/OnOffButton';
 import {InfoShareItem} from '../components/InfoShareItem';
+import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 
 export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomSheetBehavior}) => {
   const i18n = useI18n();
@@ -92,6 +92,11 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
           text={i18n.translate('Info.Privacy')}
           lastItem
         />
+      </Box>
+      <Box paddingBottom="l">
+        <Text variant="smallText">{`${i18n.translate(
+          'OverlayOpen.Version',
+        )}: ${APP_VERSION_NAME}(${APP_VERSION_CODE})`}</Text>
       </Box>
     </>
   );
