@@ -765,6 +765,23 @@ export class ExposureNotificationService {
     this.exposureHistory.set(exposureHistory);
   }
 
+  public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {
+    const exposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type !== ExposureStatusType.Exposed) {
+      log.debug({category: 'summary', message: 'selectExposureSummary', payload: {nextSummary}});
+      return {summary: nextSummary, isNext: true};
+    }
+    const currentSummary = exposureStatus.summary;
+    const currentSummaryDate = new Date(currentSummary.lastExposureTimestamp);
+    const nextSummaryDate = new Date(nextSummary.lastExposureTimestamp);
+    if (daysBetween(currentSummaryDate, nextSummaryDate) > 0) {
+      return {summary: nextSummary, isNext: true};
+    }
+
+    log.debug({category: 'summary', message: 'selectExposureSummary', payload: {currentSummary}});
+    return {summary: currentSummary, isNext: false};
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -936,23 +953,6 @@ export class ExposureNotificationService {
       exposureConfiguration = await this.getAlternateExposureConfiguration();
     }
     return exposureConfiguration;
-  }
-
-  private selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {
-    const exposureStatus = this.exposureStatus.get();
-    if (exposureStatus.type !== ExposureStatusType.Exposed) {
-      log.debug({category: 'summary', message: 'selectExposureSummary', payload: {nextSummary}});
-      return {summary: nextSummary, isNext: true};
-    }
-    const currentSummary = exposureStatus.summary;
-    const currentSummaryDate = new Date(currentSummary.lastExposureTimestamp);
-    const nextSummaryDate = new Date(nextSummary.lastExposureTimestamp);
-    if (daysBetween(currentSummaryDate, nextSummaryDate) > 0) {
-      return {summary: nextSummary, isNext: true};
-    }
-
-    log.debug({category: 'summary', message: 'selectExposureSummary', payload: {currentSummary}});
-    return {summary: currentSummary, isNext: false};
   }
 
   private async processNotification() {

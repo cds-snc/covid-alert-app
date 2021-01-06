@@ -974,7 +974,7 @@ describe('ExposureNotificationService', () => {
         today,
         hasMatchedKey: true,
         daysSinceLastExposure: 1,
-        attenuationDurations: [16, 0, 0],
+        attenuationDurations: [20, 0, 0],
       });
       bridge.detectExposure.mockResolvedValueOnce([summary]);
 
@@ -997,6 +997,50 @@ describe('ExposureNotificationService', () => {
           type: ExposureStatusType.Exposed,
         }),
       );
+    });
+  });
+  describe('selectExposureSummary', () => {
+    const summary1 = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 1,
+      attenuationDurations: [20, 0, 0],
+    });
+    const summary2 = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 2,
+      attenuationDurations: [20, 0, 0],
+    });
+    it('selects the next Exposure Summary if state is monitoring', () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+      });
+      const {summary, isNext} = service.selectExposureSummary(summary1);
+      expect(summary).toStrictEqual(summary1);
+      expect(isNext).toStrictEqual(true);
+    });
+    it('selects the current summary if the next one is older', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary: summary1,
+        exposureDetectedAt: today.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      const {summary, isNext} = service.selectExposureSummary(summary2);
+      expect(summary).toStrictEqual(summary1);
+      expect(isNext).toStrictEqual(false);
+    });
+    it('selects the next summary if the next one is newer', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary: summary2,
+        exposureDetectedAt: today.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      const {summary, isNext} = service.selectExposureSummary(summary1);
+      expect(summary).toStrictEqual(summary1);
+      expect(isNext).toStrictEqual(true);
     });
   });
 });
