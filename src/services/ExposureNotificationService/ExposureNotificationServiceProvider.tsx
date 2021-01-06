@@ -7,10 +7,10 @@ import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import {useStorage} from 'services/StorageService';
+import {log} from 'shared/logging/config';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
-import {log} from 'shared/logging/config';
 
 import {
   ExposureNotificationService,

@@ -195,13 +195,11 @@ export class ExposureNotificationService {
       this.starting = false;
       await this.updateSystemStatus();
 
-      log.debug({message:'failed to start framework', payload:{error});
+      log.debug({message: 'failed to start framework', payload: error});
 
       if (error.message === 'API_NOT_CONNECTED') {
         return {success: false, error: 'API_NOT_CONNECTED'};
       }
-
-
 
       return {success: false, error};
     }
