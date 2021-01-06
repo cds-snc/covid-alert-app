@@ -962,7 +962,6 @@ describe('ExposureNotificationService', () => {
       expect(shouldPerformExposureCheck).toStrictEqual(true);
     });
   });
-
   describe('performExposureStatusUpdate', () => {
     it('does not update exposureDetectedAt when an old exposure is returned', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
@@ -975,9 +974,9 @@ describe('ExposureNotificationService', () => {
         today,
         hasMatchedKey: true,
         daysSinceLastExposure: 1,
-        attenuationDurations: [20, 0, 0],
+        attenuationDurations: [16, 0, 0],
       });
-      bridge.detectExposure.mockResolvedValue([summary]);
+      bridge.detectExposure.mockResolvedValueOnce([summary]);
 
       // check that we are exposed and the detected at date is today
       await service.performExposureStatusUpdate();
@@ -988,8 +987,8 @@ describe('ExposureNotificationService', () => {
         }),
       );
       // mock changing the current date
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : tomorrow));
-
+      dateSpy.mockImplementationOnce((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : tomorrow));
+      bridge.detectExposure.mockResolvedValueOnce([summary]);
       // check that we are exposed and the detected at date is still the same
       await service.performExposureStatusUpdate();
       expect(service.exposureStatus.get()).toStrictEqual(
