@@ -33,7 +33,7 @@
     "DiagnosedShareUploadView": {
       "Title": "Presque terminé",
       "Body1": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées.",
-      "ButtonCTA":"Terminer le partage d’expositions"
+      "ButtonCTA": "Terminer le partage d’expositions"
     },
     "ExposureDetected": {
       "Title": "Vous avez été exposé",
@@ -135,6 +135,7 @@
     "TapPrompt": "Appuyez pour voir le menu"
   },
   "OverlayOpen": {
+    "Version": "Version",
     "BluetoothCardBody": "Vous devez l’activer dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
     "BluetoothCardAction": "Activez Bluetooth",
     "EnterCodeCardTitle": "Avez-vous reçu un diagnostic de COVID-19?",

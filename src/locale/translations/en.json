@@ -135,6 +135,7 @@
     "TapPrompt": "Tap for menu"
   },
   "OverlayOpen": {
+    "Version": "Version",
     "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
