@@ -237,9 +237,9 @@ export class ExposureNotificationService {
   async updateExposureStatusInBackground() {
     // @todo: maybe remove this gets called in updateExposureStatus
     if (!(await this.shouldPerformExposureCheck())) return;
-    await this.loadExposureStatus();
-    await this.loadExposureHistory();
     try {
+      await this.loadExposureStatus();
+      await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
 
