@@ -1024,7 +1024,9 @@ describe('ExposureNotificationService', () => {
       expect(service.exposureHistory.get()).toStrictEqual([today.getTime(), today.getTime()]);
 
       const oneMonthFromToday = new OriginalDate('2020-06-18T04:10:00+0000');
-      dateSpy.mockImplementationOnce((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : oneMonthFromToday));
+      dateSpy.mockImplementationOnce((...args: any[]) =>
+        args.length > 0 ? new OriginalDate(...args) : oneMonthFromToday,
+      );
       await service.performExposureStatusUpdate();
       expect(service.exposureHistory.get()).toStrictEqual([]);
     });
