@@ -7,9 +7,8 @@
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
-        // uncomment the next 2 lines to debug a single test
-        // "-t",
-        // "does not update exposureDetectedAt when an old exposure is returned"
+        "-t",
+        "my test name"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
