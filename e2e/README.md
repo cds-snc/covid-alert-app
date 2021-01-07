@@ -4,7 +4,7 @@
 
 ### Initial setup
 
-1. `yarn install`, `sudo gem install cocoapods`, `bundle install && yarn pod-install`
+1. Follow install instructions for main repo
 2. `brew tap wix/brew && brew install applesimutils`
 
 ### Running the tests
@@ -16,18 +16,19 @@
 
 ### Initial setup
 
-1. `yarn install`, `sudo gem install cocoapods`, `bundle install && yarn pod-install`
-2. Install the android emulator `Pixel_3_API_29` using [these instructions](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#installing-from-android-studio).
-3. [Set up quick boot](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#emulator-quick-boot) on the emulator.
+1. Get yourself one or more emulators, you have a couple options:
+
+- [Detox recommends Android Open-Source Project (AOSP) emulators](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#android-aosp-emulators)
+- Install from Android Studio [these instructions](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#installing-from-android-studio)
+
+2. (Optional) [Set up quick boot](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#emulator-quick-boot) on the emulator.
+
+**NOTE**: The AOSP emulators appear to require Java 8. You may have a newer version of Java like Java 14 installed. Here are some instructions on [how to install older versions of Java and switch them](java.md)
 
 ### Running the tests
 
 1. `yarn pre:test:android`
 2. `yarn test:android`
-
-## Notes
-
-We may want to look at using Android Open-Source Project (AOSP) emulators, since [Detox says they are better for automated testing](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md#android-aosp-emulators).
 
 ## Troubleshooting
 
