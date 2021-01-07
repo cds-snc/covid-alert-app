@@ -60,7 +60,6 @@ export const ExposureNotificationServiceProvider = ({
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      // if (newState !== 'active') return;
       if (newState === 'background') {
         exposureNotificationService.processOTKNotSharedNotification();
       } else if (newState !== 'active') {
