@@ -404,7 +404,9 @@
     "ExposureChecksBody": "Vérification d’exposition en cours",
     "ExposureChecksAndroidChannelName": "Vérifications d’exposition",
     "PausedMessageTitle": "Vous avez désactivé l’application",
-    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée."
+    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
+    "OTKNotSharedTitle": "Presque terminé",
+    "OTKNotSharedBody": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"
