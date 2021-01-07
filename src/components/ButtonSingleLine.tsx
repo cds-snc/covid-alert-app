@@ -73,8 +73,8 @@ export const ButtonSingleLine = ({
     borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
   };
 
-  const fontStyle = variant === 'bigFlatPurple' || 'bigFlatBlue' ? styles.strong : styles.normal;
-
+  const fontStyle = variant === 'bigFlatPurple' ? styles.strong : styles.normal;
+  const fontStyleBlue = variant === 'bigFlatBlue' ? styles.strong : styles.normal;
   const content = (
     <Box
       borderRadius={borderRadius}
@@ -115,6 +115,7 @@ export const ButtonSingleLine = ({
               style={{
                 ...styles.content,
                 ...fontStyle,
+                ...fontStyleBlue,
                 color: textColor || buttonColor,
               }}
             >

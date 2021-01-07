@@ -10,6 +10,7 @@ import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {TEST_MODE} from 'env';
 import {StyleSheet, Platform} from 'react-native';
+
 import {BaseHomeView} from '../components/BaseHomeView';
 import {Tip} from '../components/Tip';
 
