@@ -68,6 +68,7 @@ const storage: any = {
 const secureStorage: any = {
   get: jest.fn().mockResolvedValue(null),
   set: jest.fn().mockResolvedValueOnce(undefined),
+  remove: jest.fn().mockResolvedValue(null),
 };
 const bridge: any = {
   detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
@@ -894,11 +895,12 @@ describe('ExposureNotificationService', () => {
     expect(service.calculateNeedsSubmission()).toStrictEqual(false);
   });
 
-  it('updateExposure, stay Monitoring', () => {
+  it('updateExposure, stay Monitoring', async () => {
     service.exposureStatus.set({
       type: ExposureStatusType.Monitoring,
     });
-    expect(service.updateExposure()).toStrictEqual(
+    const sut = await service.updateExposure();
+    expect(sut).toStrictEqual(
       expect.objectContaining({
         type: ExposureStatusType.Monitoring,
       }),

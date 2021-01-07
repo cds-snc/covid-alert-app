@@ -86,6 +86,7 @@ export interface PersistencyProvider {
 export interface SecurePersistencyProvider {
   set(key: string, value: string, options: SecureStorageOptions): Promise<null>;
   get(key: string): Promise<string | null>;
+  remove(key: string): Promise<void>;
 }
 
 export interface SecureStorageOptions {
@@ -415,7 +416,7 @@ export class ExposureNotificationService {
     return daysBetweenUTC(lastSubmittedDay, today) > 0;
   }
 
-  public updateExposure(): ExposureStatus {
+  public async updateExposure(): Promise<ExposureStatus> {
     const exposureStatus: ExposureStatus = this.exposureStatus.get();
     const today: Date = getCurrentDate();
 
@@ -425,6 +426,7 @@ export class ExposureNotificationService {
         // Let's use device timezone for resetting exposureStatus for now
         // Ref https://github.com/cds-snc/covid-shield-mobile/issues/676
         if (daysBetween(today, new Date(exposureStatus.cycleEndsAt)) <= 0) {
+          await this.secureStorage.remove(SUBMISSION_AUTH_KEYS);
           return {type: ExposureStatusType.Monitoring, lastChecked: exposureStatus.lastChecked};
         } else {
           return {
@@ -538,7 +540,7 @@ export class ExposureNotificationService {
   public async performExposureStatusUpdateV2(): Promise<any> {
     const exposureConfiguration = await this.getExposureConfiguration();
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
-    const updatedExposure = this.updateExposure();
+    const updatedExposure = await this.updateExposure();
     if (updatedExposure !== currentExposureStatus) {
       this.exposureStatus.set(updatedExposure);
       this.finalize();
@@ -697,7 +699,7 @@ export class ExposureNotificationService {
     }
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
-    const updatedExposure = this.updateExposure();
+    const updatedExposure = await this.updateExposure();
     if (updatedExposure !== currentExposureStatus) {
       this.exposureStatus.set(updatedExposure);
       this.finalize();
