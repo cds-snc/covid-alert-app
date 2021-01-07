@@ -657,10 +657,11 @@ export class ExposureNotificationService {
 
   public getExposureDetectedAt(): number[] {
     const exposureStatus = this.exposureStatus.get();
-    const exposureHistory = this.exposureHistory.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
       return [];
     }
+    const exposureHistory = this.exposureHistory.get();
+    captureMessage('exposureHistory', exposureHistory);
     if (exposureHistory && exposureHistory.length > 0) {
       return exposureHistory;
     }
@@ -754,6 +755,7 @@ export class ExposureNotificationService {
       const exposureHistory = this.exposureHistory.get();
       if (exposureHistory.length === 0 && currentExposureStatus.exposureDetectedAt) {
         // an exposed person has upgraded the app and does not have exposure history set
+        captureMessage('backfilling missing exposure history');
         exposureHistory.push(currentExposureStatus.exposureDetectedAt);
         this.exposureHistory.set(exposureHistory);
       }
