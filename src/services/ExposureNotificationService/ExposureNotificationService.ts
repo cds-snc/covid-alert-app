@@ -658,10 +658,15 @@ export class ExposureNotificationService {
   public getExposureDetectedAt(): number[] {
     const exposureStatus = this.exposureStatus.get();
     const exposureHistory = this.exposureHistory.get();
-    if (exposureStatus.type === ExposureStatusType.Exposed && exposureHistory) {
+    if (exposureStatus.type !== ExposureStatusType.Exposed) {
+      return [];
+    }
+    if (exposureHistory && exposureHistory.length > 0) {
       return exposureHistory;
     }
-
+    if (exposureStatus.exposureDetectedAt) {
+      return [exposureStatus.exposureDetectedAt];
+    }
     return [];
   }
 
@@ -735,17 +740,23 @@ export class ExposureNotificationService {
 
   public async setExposed(
     nextSummary: ExposureSummary,
-    updatedExposureStatus: ExposureStatus,
+    currentExposureStatus: ExposureStatus,
     lastCheckedPeriod: number,
   ) {
     const {summary, isNext} = this.selectExposureSummary(nextSummary);
     if (this.isIgnoredSummary(summary)) {
       return this.finalize({}, lastCheckedPeriod);
     }
-    if (updatedExposureStatus.type === ExposureStatusType.Monitoring) {
+    if (currentExposureStatus.type === ExposureStatusType.Monitoring) {
       return this.setExposureDetectedAt(summary, lastCheckedPeriod);
     }
-    if (updatedExposureStatus.type === ExposureStatusType.Exposed && isNext) {
+    if (currentExposureStatus.type === ExposureStatusType.Exposed && isNext) {
+      const exposureHistory = this.exposureHistory.get();
+      if (exposureHistory.length === 0 && currentExposureStatus.exposureDetectedAt) {
+        // an exposed person has upgraded the app and does not have exposure history set
+        exposureHistory.push(currentExposureStatus.exposureDetectedAt);
+        this.exposureHistory.set(exposureHistory);
+      }
       return this.setExposureDetectedAt(summary, lastCheckedPeriod);
     }
   }
