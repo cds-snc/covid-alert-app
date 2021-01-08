@@ -890,8 +890,7 @@ export class ExposureNotificationService {
     const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
     try {
       for (const period of periodsSinceLastFetch) {
-        // const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
-        const keysFileUrl = '';
+        const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
         keysFileUrls.push(keysFileUrl);
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
       }
