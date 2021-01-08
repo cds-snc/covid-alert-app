@@ -31,9 +31,9 @@
       }
     },
     "DiagnosedShareUploadView": {
-      "Title": "Presque terminé",
+      "Title": "Pas tout à fait fini",
       "Body1": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées.",
-      "ButtonCTA": "Terminer le partage d’expositions"
+      "ButtonCTA": "Finir le partage d’expositions"
     },
     "ExposureDetected": {
       "Title": "Vous avez été exposé",
@@ -155,7 +155,7 @@
     "CodeNotShared": {
       "Title": "Aidez à ralentir la propagation de la COVID-19 ",
       "Body": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions.",
-      "CTA": "Terminer le partage d’expositions"
+      "CTA": "Finir le partage d’expositions"
     },
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
@@ -326,7 +326,7 @@
       "NoCode": "Vous n’avez pas de clé à usage unique?"
     },
     "IntermediateStep":{
-      "Title": "Terminer le partage d’expositions",
+      "Title": "Finir le partage d’expositions",
       "List":{
         "1a":"1. ",
         "1b": "Fait.",
