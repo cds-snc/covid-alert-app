@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
-import {formatExposedDate} from 'shared/date-fns';
+import {formatExposedDate, getCurrentDate} from 'shared/date-fns';
 import {useStorage} from 'services/StorageService';
 
 export const ExposureDateView = () => {
@@ -19,12 +19,14 @@ export const ExposureDateView = () => {
 
   const dates = useMemo(() => {
     if (forceScreen) {
-      return [formatExposedDate(dateLocale, new Date().toLocaleString(dateLocale, dateFormatOptions))];
+      return [formatExposedDate(dateLocale, getCurrentDate().toLocaleString(dateLocale, dateFormatOptions))];
     }
     const timeStamps = exposureNotificationService.getExposureDetectedAt();
-    return timeStamps.map(ts => {
-      return formatExposedDate(dateLocale, new Date(ts).toLocaleString(dateLocale, dateFormatOptions));
-    });
+    return timeStamps
+      .sort((ts1, ts2) => ts2 - ts1)
+      .map(ts => {
+        return formatExposedDate(dateLocale, new Date(ts).toLocaleString(dateLocale, dateFormatOptions));
+      });
   }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen]);
   const firstThreeUniqueDates = [...new Set(dates)].slice(0, 3);
   return firstThreeUniqueDates ? (

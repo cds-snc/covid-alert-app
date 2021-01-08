@@ -809,7 +809,7 @@ export class ExposureNotificationService {
       const exposureHistory = _exposureHistory.split(',').map(x => Number(x));
       this.exposureHistory.set(exposureHistory);
     } catch (error) {
-      captureMessage('Unable to load EXPOSURE_HISTORY from secure storage', error);
+      captureMessage('No EXPOSURE_HISTORY found');
     }
   }
 
@@ -890,7 +890,8 @@ export class ExposureNotificationService {
     const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
     try {
       for (const period of periodsSinceLastFetch) {
-        const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
+        // const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
+        const keysFileUrl = '';
         keysFileUrls.push(keysFileUrl);
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
       }
@@ -985,7 +986,7 @@ export class ExposureNotificationService {
         alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
       });
       await this.exposureStatus.append({
-        uploadReminderLastSentAt: new Date().getTime(),
+        uploadReminderLastSentAt: getCurrentDate().getTime(),
       });
     }
   }
