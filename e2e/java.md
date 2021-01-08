@@ -26,7 +26,7 @@ jdk() {
 
 run `source ~/.zshrc`
 
-now you can switch jdk by typing `jdk <version>` ie:
+now you can switch jdk by typing `jdk <version>` (note that to get Java versions below 8 we type in 1.X) ie:
 
 ```
 $ jdk 1.8
