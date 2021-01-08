@@ -77,11 +77,11 @@
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
-      "Title": "Téléverser les codes aléatoires",
+      "Title": "Partager les nouvelles expositions",
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
       "Body2": "Rappel : ",
-      "Body3": "Pour contribuer à la sécurité des autres, vous devez téléverser vos codes aléatoires tous les jours, surtout si vous avez à sortir de la maison.",
-      "ButtonCTA": "Téléverser vos codes aléatoires"
+      "Body3": "Pour contribuer à la sécurité des autres, vous devez partager vos nouvelles expositions tous les jours, surtout si vous avez à sortir de la maison.",
+      "ButtonCTA": "Partager les nouvelles expositions"
     },
     "BluetoothDisabled": "Bluetooth désactivé",
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
@@ -151,6 +151,11 @@
       "Title": "Réactiver Alerte COVID",
       "Body": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
       "CTA": "Réactiver"
+    },
+    "CodeNotShared": {
+      "Title": "Aidez à ralentir la propagation de la COVID-19 ",
+      "Body": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions.",
+      "CTA": "Terminer le partage d’expositions"
     },
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
@@ -319,6 +324,20 @@
       "Body2": "ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de clé à usage unique?"
+    },
+    "IntermediateStep":{
+      "Title": "Terminer le partage d’expositions",
+      "List":{
+        "1a":"1. ",
+        "1b": "Fait.",
+        "2a": "2. Vous fournissez quelques précisions ",
+        "2b": "qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
+        "3a": "3. Vous autorisez votre téléphone ",
+        "3b": "à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
+      },
+      "Body1": "Personne n’obtiendra de renseignements sur vous ",
+      "Body2": "ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
+      "CTA": "Suivant"
     },
     "Step2": {
       "Title1": "Vous sentez-vous malade?",
