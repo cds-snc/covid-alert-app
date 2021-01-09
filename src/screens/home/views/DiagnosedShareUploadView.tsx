@@ -14,8 +14,7 @@ export const DiagnosedShareUploadView = ({isBottomSheetExpanded}: {isBottomSheet
   const navigation = useNavigation();
   const toDataShare = useCallback(async () => {
     const initialTekUploadComplete = await AsyncStorage.getItem(INITIAL_TEK_UPLOAD_COMPLETE);
-    // @todo replace Step1 with new Intermediate instructions screen
-    const screen = initialTekUploadComplete === 'false' ? 'Step1' : 'TekUploadSubsequentDays';
+    const screen = initialTekUploadComplete === 'false' ? 'IntermediateScreen' : 'TekUploadSubsequentDays';
     return navigation.navigate('DataSharing', {screen});
   }, [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);

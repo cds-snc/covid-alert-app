@@ -7,10 +7,10 @@ import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import {useStorage} from 'services/StorageService';
+import {log} from 'shared/logging/config';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
-import {captureMessage} from '../../shared/log';
 
 import {
   ExposureNotificationService,
@@ -60,7 +60,6 @@ export const ExposureNotificationServiceProvider = ({
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      captureMessage(`ExposureNotificationServiceProvider onAppStateChange: ${newState}`);
       if (newState !== 'active') return;
       exposureNotificationService.updateExposure();
       await exposureNotificationService.updateExposureStatus();
@@ -94,13 +93,15 @@ export function useExposureNotificationService() {
   return useContext(ExposureNotificationServiceContext)!;
 }
 
-export function useStartExposureNotificationService(): () => Promise<boolean> {
+export function useStartExposureNotificationService(): () => Promise<boolean | {success: boolean; error?: string}> {
   const exposureNotificationService = useExposureNotificationService();
   const {setUserStopped} = useStorage();
 
   return useCallback(async () => {
     const start = await exposureNotificationService.start();
-    captureMessage(`useStartExposureNotificationService ${start}`);
+
+    log.debug({message: 'exposureNotificationService.start()', payload: start});
+
     if (Platform.OS === 'ios') {
       setUserStopped(false);
     }
@@ -111,6 +112,11 @@ export function useStartExposureNotificationService(): () => Promise<boolean> {
       setUserStopped(false);
       return true;
     }
+
+    if (start?.error === 'API_NOT_CONNECTED') {
+      return {success: false, error: 'API_NOT_CONNECTED'};
+    }
+
     return false;
   }, [exposureNotificationService, setUserStopped]);
 }
@@ -121,7 +127,7 @@ export function useStopExposureNotificationService(): () => Promise<boolean> {
   return useCallback(async () => {
     setUserStopped(true);
     const stopped = await exposureNotificationService.stop();
-    captureMessage(`useStopExposureNotificationService ${stopped}`);
+    log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
     return stopped;
   }, [exposureNotificationService, setUserStopped]);
 }

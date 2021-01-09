@@ -62,7 +62,7 @@
       "Title": "Thanks for helping fight COVID-19",
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
-        "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
+        "Other": "For the next {number} days, you’ll get a daily notification asking permission to share any new exposures your phone recorded."
       },
       "Body2": "You do not have to agree, even if you agreed the day before.",
       "Body3": "If you’re worried about your symptoms, get medical care as soon as you can. Take care of yourself and your family during this time.",
@@ -72,11 +72,11 @@
     },
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
-      "Title": "Upload random codes",
+      "Title": "Share new exposures",
       "Body1": "Thanks for helping slow the spread!",
       "Body2": "Reminder: ",
-      "Body3": "To help keep people safe, you need to upload your random codes every day, especially if you have to leave your home.",
-      "ButtonCTA": "Upload your random codes"
+      "Body3": "To help keep people safe, share your new exposures every day, especially if you have to leave your home.",
+      "ButtonCTA": "Share new exposures"
     },
     "DiagnosedShareUploadView": {
       "Title": "Not quite done",
@@ -103,7 +103,7 @@
     },
     "FrameworkUnavailable": {
       "Title": "Something went wrong",
-      "Body": "To use COVID Alert, please update your operating system."
+      "Body": "To use COVID Alert, you need to update your phone’s operating system."
     },
     "UnknownProblem": {
       "Title": "Something went wrong",
@@ -135,6 +135,7 @@
     "TapPrompt": "Tap for menu"
   },
   "OverlayOpen": {
+    "Version": "Version",
     "BluetoothCardBody": "You need to turn on Bluetooth in your phone’s settings so COVID Alert can work.",
     "BluetoothCardAction": "Turn on Bluetooth",
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
@@ -145,6 +146,11 @@
     "EnterCodeCardDiagnosedCountdown": {
       "One": "{number} day left!",
       "Other": "{number} days left!"
+    },
+    "CodeNotShared": {
+      "Title": "Help slow the spread",
+      "Body": "You entered your one-time key but you have not shared any exposures yet.",
+      "CTA": "Finish sharing exposures"
     },
     "TurnAppBackOn": {
       "Title": "Turn on COVID Alert",
@@ -318,6 +324,20 @@
       "Body2": "or the time you were near them. They will only get a notification that they were exposed recently.",
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
+    },
+    "IntermediateStep":{
+      "Title": "Finish sharing exposures",
+      "List":{
+        "1a":"1. ",
+        "1b": "Done",
+        "2a": "2. Give the app details ",
+        "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
+        "3a": "3. Allow your phone to share ",
+        "3b": "your random codes. These codes notify people you’ve been near."
+      },
+      "Body1": "Nobody will get any information about you ",
+      "Body2": "or the time you were near them. They will only get a notification that they were exposed recently.",
+      "CTA": "Next"
     },
     "Step2": {
       "Title1": "Are you feeling sick?",

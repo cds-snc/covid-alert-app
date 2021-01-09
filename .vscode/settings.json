@@ -27,5 +27,8 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "eslint.packageManager": "yarn",
-  "java.configuration.updateBuildConfiguration": "disabled"
+  "java.configuration.updateBuildConfiguration": "disabled",
+  "i18n-ally.localesPaths": [
+    "src/locale/translations"
+  ]
 }

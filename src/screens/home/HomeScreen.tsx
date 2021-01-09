@@ -46,13 +46,7 @@ interface ContentProps {
   isBottomSheetExpanded: boolean;
 }
 
-const UploadShareView = ({
-  hasShared = true,
-  isBottomSheetExpanded,
-}: {
-  hasShared?: boolean;
-  isBottomSheetExpanded: boolean;
-}) => {
+const UploadShareView = ({hasShared, isBottomSheetExpanded}: {hasShared?: boolean; isBottomSheetExpanded: boolean}) => {
   return hasShared ? (
     <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
   ) : (
@@ -131,7 +125,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
 
       /* @todo UploadShareView pass hasShared from ExposureStatus */
       return exposureStatus.needsSubmission ? (
-        <UploadShareView isBottomSheetExpanded={isBottomSheetExpanded} />
+        <UploadShareView isBottomSheetExpanded={isBottomSheetExpanded} hasShared={exposureStatus.hasShared} />
       ) : (
         <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
       );
