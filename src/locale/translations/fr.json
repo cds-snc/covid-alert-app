@@ -81,11 +81,7 @@
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
       "Body2": "Rappel : ",
       "Body3": "Pour contribuer à la sécurité des autres, vous devez partager vos nouvelles expositions tous les jours, surtout si vous avez à sortir de la maison.",
-<<<<<<< HEAD
-      "ButtonCTA": "Téléverser vos codes aléatoires"
-=======
       "ButtonCTA": "Partager les nouvelles expositions"
->>>>>>> d07b23631bdb7f9e68b98ac3aaa990d02cdd4845
     },
     "BluetoothDisabled": "Bluetooth désactivé",
     "EnableBluetoothCTA": "Vous devez activer la fonction Bluetooth dans les paramètres de votre téléphone pour qu’Alerte COVID fonctionne.",
