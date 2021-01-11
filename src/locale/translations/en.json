@@ -62,7 +62,7 @@
       "Title": "Thanks for helping fight COVID-19",
       "Body1": {
         "One": "Tomorrow, you’ll get your last notification asking permission to upload any new random codes your phone sent out.",
-        "Other": "For the next {number} days, you’ll get a daily notification asking permission to upload any new random codes your phone sent out."
+        "Other": "For the next {number} days, you’ll get a daily notification asking permission to share any new exposures your phone recorded."
       },
       "Body2": "You do not have to agree, even if you agreed the day before.",
       "Body3": "If you’re worried about your symptoms, get medical care as soon as you can. Take care of yourself and your family during this time.",
@@ -75,7 +75,7 @@
       "Title": "Upload random codes",
       "Body1": "Thanks for helping slow the spread!",
       "Body2": "Reminder: ",
-      "Body3": "To help keep people safe, you need to upload your random codes every day, especially if you have to leave your home.",
+      "Body3": "To help keep people safe, you need to share your new exposures every day, especially if you have to leave your home.",
       "ButtonCTA": "Upload your random codes"
     },
     "DiagnosedShareUploadView": {
