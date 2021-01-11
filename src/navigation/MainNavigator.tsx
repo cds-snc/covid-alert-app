@@ -6,6 +6,7 @@ import {TutorialScreen} from 'screens/tutorial';
 import {
   FormScreen,
   Step0Screen,
+  IntermediateInstructionScreen,
   Step2Screen,
   SymptomOnsetDateScreen,
   TekUploadNoDate,
@@ -22,7 +23,6 @@ import {LandingScreen} from 'screens/landing';
 import {TestScreen} from 'screens/testScreen';
 import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
 import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
-import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -73,6 +73,7 @@ const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
 const Step0ScreenWithNavBar = withDarkNav(Step0Screen);
+const IntermediateInstructionScreenWithNavBar = withDarkNav(IntermediateInstructionScreen);
 const Step2ScreenWithNavBar = withDarkNav(Step2Screen);
 const FormScreenWithNavBar = withDarkNav(FormScreen);
 const TestDateScreenWithNavBar = withDarkNav(TestDateScreen);
@@ -114,6 +115,7 @@ const DataSharingNavigator = () => {
     <FormContext.Provider value={{data: state, toggleModal, setSymptomOnsetDate, setTestDate}}>
       <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step0">
         <DataSharingStack.Screen name="Step0" component={Step0ScreenWithNavBar} />
+        <DataSharingStack.Screen name="IntermediateScreen" component={IntermediateInstructionScreenWithNavBar} />
         <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
         <DataSharingStack.Screen name="Step2" component={Step2ScreenWithNavBar} />
         <DataSharingStack.Screen name="SymptomOnsetDate" component={SymptomOnsetDateScreenWithNavBar} />
@@ -159,7 +161,6 @@ const MainNavigator = () => {
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
       <MainStack.Screen name="ErrorScreen" component={ErrorScreenWithNavBar} />
-      <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
     </MainStack.Navigator>
   );
 };
