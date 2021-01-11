@@ -67,7 +67,7 @@
       "Title": "Merci d’aider à lutter contre la COVID",
       "Body1": {
         "One": "Demain, vous recevrez une dernière notification vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone.",
-        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
+        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de partager toute nouvelle exposition enregistrée par votre téléphone."
       },
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
       "Body3": "Si vos symptômes vous inquiètent, vous pouvez consulter un professionnel de la santé. Prenez soin de vous et de votre famille pendant ce temps.",
@@ -423,7 +423,9 @@
     "ExposureChecksBody": "Vérification d’exposition en cours",
     "ExposureChecksAndroidChannelName": "Vérifications d’exposition",
     "PausedMessageTitle": "Vous avez désactivé l’application",
-    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée."
+    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
+    "OTKNotSharedTitle": "Presque terminé",
+    "OTKNotSharedBody": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"

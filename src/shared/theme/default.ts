@@ -317,6 +317,19 @@ const theme = {
         textColor: palette.bodyBlack,
       },
     },
+    bigFlatBlue: {
+      color: palette.brandBlue,
+      fontWeight: 'bold',
+      height: 30,
+      textColor: palette.white,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
     exposure25: {
       color: palette.exposure25,
       fontWeight: 'normal',

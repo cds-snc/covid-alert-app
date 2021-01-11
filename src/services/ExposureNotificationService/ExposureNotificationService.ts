@@ -738,6 +738,16 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
+  public processOTKNotSharedNotification() {
+    const exposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type === ExposureStatusType.Diagnosed && !exposureStatus.hasShared) {
+      PushNotification.presentLocalNotification({
+        alertTitle: this.i18n.translate('Notification.OTKNotSharedTitle'),
+        alertBody: this.i18n.translate('Notification.OTKNotSharedBody'),
+      });
+    }
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
