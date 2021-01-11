@@ -34,6 +34,12 @@ platform :ios do
     buildType = options[:type]
     release = options[:type] === 'production'
 
+    # Prompt to update XCode config
+    UI.user_error!("Better go do that") unless prompt(
+      text: "Did you remember to check your XCode Profile settings?",
+      boolean: true
+    )
+
     # Load env file
     load_env_file(buildType:buildType)
 
