@@ -728,8 +728,12 @@ export class ExposureNotificationService {
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
 
     try {
-      log.debug({category: 'exposure-check', message: 'detectExposure'});
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      log.debug({
+        category: 'exposure-check',
+        message: 'detectExposure',
+        payload: {summaries, history: this.exposureHistory},
+      });
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
@@ -752,6 +756,11 @@ export class ExposureNotificationService {
   ) {
     const {summary, isNext} = this.selectExposureSummary(nextSummary);
     if (this.isIgnoredSummary(summary)) {
+      log.debug({
+        category: 'exposure-check',
+        message: 'ignored',
+        payload: {nextSummary},
+      });
       return this.finalize({}, lastCheckedPeriod);
     }
     if (currentExposureStatus.type === ExposureStatusType.Monitoring) {
@@ -771,6 +780,13 @@ export class ExposureNotificationService {
 
   public async setExposureDetectedAt(summary: ExposureSummary, lastCheckedPeriod: number) {
     const exposureDetectedAt = getCurrentDate().getTime();
+
+    log.debug({
+      category: 'exposure-check',
+      message: 'setExposureDetectedAt',
+      payload: {summary, exposureDetectedAt},
+    });
+
     this.finalize(
       {
         type: ExposureStatusType.Exposed,
@@ -787,17 +803,31 @@ export class ExposureNotificationService {
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
-      log.debug({category: 'summary', message: 'selectExposureSummary', payload: {nextSummary}});
+      log.debug({
+        category: 'summary',
+        message: 'selectExposureSummary',
+        payload: {nextSummary, isNext: true, reason: 'prev not exposed', history: this.exposureHistory},
+      });
       return {summary: nextSummary, isNext: true};
     }
     const currentSummary = exposureStatus.summary;
     const currentSummaryDate = new Date(currentSummary.lastExposureTimestamp);
     const nextSummaryDate = new Date(nextSummary.lastExposureTimestamp);
     if (daysBetween(currentSummaryDate, nextSummaryDate) > 0) {
+      log.debug({
+        category: 'summary',
+        message: 'selectExposureSummary',
+        payload: {nextSummary, isNext: true, reason: daysBetween, history: this.exposureHistory},
+      });
       return {summary: nextSummary, isNext: true};
     }
 
-    log.debug({category: 'summary', message: 'selectExposureSummary', payload: {currentSummary}});
+    log.debug({
+      category: 'summary',
+      message: 'selectExposureSummary',
+      payload: {currentSummary, isNext: false, reason: 'default', history: this.exposureHistory},
+    });
+
     return {summary: currentSummary, isNext: false};
   }
 
@@ -810,9 +840,11 @@ export class ExposureNotificationService {
     try {
       const _exposureHistory = await this.secureStorage.get(EXPOSURE_HISTORY);
       if (!_exposureHistory) {
+        log.debug({message: "'Unable to retrieve EXPOSURE_HISTORY"});
         return;
       }
       const exposureHistory = _exposureHistory.split(',').map(x => Number(x));
+      log.debug({message: 'EXPOSURE_HISTORY', payload: exposureHistory});
       this.exposureHistory.set(exposureHistory);
     } catch (error) {
       log.debug({message: "'No EXPOSURE_HISTORY found"});
