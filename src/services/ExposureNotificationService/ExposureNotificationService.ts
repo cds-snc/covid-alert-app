@@ -667,11 +667,13 @@ export class ExposureNotificationService {
       return [];
     }
     const exposureHistory = this.exposureHistory.get();
-    log.debug({message: 'exposureHistory', payload: exposureHistory});
+
     if (exposureHistory && exposureHistory.length > 0) {
+      log.debug({message: 'exposureHistory', payload: exposureHistory});
       return exposureHistory;
     }
     if (exposureStatus.exposureDetectedAt) {
+      log.debug({message: 'exposureHistory', payload: {exposureDetectedAt: exposureStatus.exposureDetectedAt}});
       return [exposureStatus.exposureDetectedAt];
     }
     return [];
