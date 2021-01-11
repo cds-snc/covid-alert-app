@@ -716,7 +716,17 @@ export class ExposureNotificationService {
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
+    // @todo confirm how equality works here
     if (updatedExposure !== currentExposureStatus) {
+      log.debug({
+        category: 'exposure-check',
+        message: 'performExposureStatusUpdate',
+        payload: {
+          status: '!=',
+          updatedExposure,
+          currentExposureStatus,
+        },
+      });
       this.exposureStatus.set(updatedExposure);
       this.finalize();
     }
