@@ -16,6 +16,7 @@ import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
+import PQueue from 'p-queue';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -113,6 +114,8 @@ export class ExposureNotificationService {
   private storage: PersistencyProvider;
   private secureStorage: SecurePersistencyProvider;
 
+  private serialPromiseQueue: PQueue;
+
   constructor(
     backendInterface: BackendInterface,
     i18n: I18n,
@@ -130,6 +133,7 @@ export class ExposureNotificationService {
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
+    this.serialPromiseQueue = new PQueue({concurrency: 1});
 
     if (Platform.OS === 'android') {
       DeviceEventEmitter.removeAllListeners('initiateExposureCheckEvent');
@@ -346,20 +350,22 @@ export class ExposureNotificationService {
   }
 
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
-    const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
-    const serialized = JSON.stringify(keys);
-    try {
-      await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
-    } catch (error) {
-      captureException('Unable to store SUBMISSION_AUTH_KEYS', error);
-    }
-    const cycleStartsAt = getCurrentDate();
-    this.exposureStatus.append({
-      type: ExposureStatusType.Diagnosed,
-      needsSubmission: true,
-      hasShared: false,
-      cycleStartsAt: cycleStartsAt.getTime(),
-      cycleEndsAt: addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
+    this.serialPromiseQueue.add(async () => {
+      const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
+      const serialized = JSON.stringify(keys);
+      try {
+        await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
+      } catch (error) {
+        captureException('Unable to store SUBMISSION_AUTH_KEYS', error);
+      }
+      const cycleStartsAt = getCurrentDate();
+      this.exposureStatus.append({
+        type: ExposureStatusType.Diagnosed,
+        needsSubmission: true,
+        hasShared: false,
+        cycleStartsAt: cycleStartsAt.getTime(),
+        cycleEndsAt: addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
+      });
     });
   }
 
@@ -688,54 +694,56 @@ export class ExposureNotificationService {
   }
 
   public async performExposureStatusUpdate(): Promise<void> {
-    log.debug({category: 'exposure-check', message: 'performExposureStatusUpdate'});
+    this.serialPromiseQueue.add(async () => {
+      log.debug({category: 'exposure-check', message: 'performExposureStatusUpdate'});
 
-    const exposureConfiguration = await this.getExposureConfiguration();
-    const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
-    if (hasPendingExposureSummary) {
-      return;
-    }
-
-    const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
-    const updatedExposure = this.updateExposure();
-    if (updatedExposure !== currentExposureStatus) {
-      this.exposureStatus.set(updatedExposure);
-      this.finalize();
-    }
-
-    if (updatedExposure.type === ExposureStatusType.Diagnosed) {
-      return;
-    }
-
-    const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
-
-    try {
-      log.debug({category: 'exposure-check', message: 'detectExposure'});
-      const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-      const summariesContainingExposures = this.findSummariesContainingExposures(
-        exposureConfiguration.minimumExposureDurationMinutes,
-        summaries,
-      );
-      if (summariesContainingExposures.length > 0) {
-        const summary = this.selectExposureSummary(summariesContainingExposures[0]);
-
-        if (updatedExposure.type === ExposureStatusType.Monitoring && !this.isIgnoredSummary(summary)) {
-          return this.finalize(
-            {
-              type: ExposureStatusType.Exposed,
-              summary,
-              exposureDetectedAt: getCurrentDate().getTime(),
-            },
-            lastCheckedPeriod,
-          );
-        }
+      const exposureConfiguration = await this.getExposureConfiguration();
+      const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
+      if (hasPendingExposureSummary) {
+        return;
       }
-      return this.finalize({}, lastCheckedPeriod);
-    } catch (error) {
-      log.error({category: 'exposure-check', message: 'performExposureStatusUpdate', error});
-    }
 
-    return this.finalize();
+      const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
+      const updatedExposure = this.updateExposure();
+      if (updatedExposure !== currentExposureStatus) {
+        this.exposureStatus.set(updatedExposure);
+        this.finalize();
+      }
+
+      if (updatedExposure.type === ExposureStatusType.Diagnosed) {
+        return;
+      }
+
+      const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
+
+      try {
+        log.debug({category: 'exposure-check', message: 'detectExposure'});
+        const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+        const summariesContainingExposures = this.findSummariesContainingExposures(
+          exposureConfiguration.minimumExposureDurationMinutes,
+          summaries,
+        );
+        if (summariesContainingExposures.length > 0) {
+          const summary = this.selectExposureSummary(summariesContainingExposures[0]);
+
+          if (updatedExposure.type === ExposureStatusType.Monitoring && !this.isIgnoredSummary(summary)) {
+            return this.finalize(
+              {
+                type: ExposureStatusType.Exposed,
+                summary,
+                exposureDetectedAt: getCurrentDate().getTime(),
+              },
+              lastCheckedPeriod,
+            );
+          }
+        }
+        return this.finalize({}, lastCheckedPeriod);
+      } catch (error) {
+        log.error({category: 'exposure-check', message: 'performExposureStatusUpdate', error});
+      }
+
+      return this.finalize();
+    });
   }
 
   public processOTKNotSharedNotification() {
