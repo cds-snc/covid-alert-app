@@ -36,7 +36,7 @@ platform :ios do
 
     # Prompt to update XCode config
     UI.user_error!("Better go do that") unless prompt(
-      text: "Did you remember to check your XCode Profile settings?",
+      text: "Did you remember to check your Xcode Bundle Identifier and Provisioning Profile settings?",
       boolean: true
     )
 
