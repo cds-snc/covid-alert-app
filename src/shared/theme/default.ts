@@ -251,7 +251,7 @@ const theme = {
       height: 52,
       textColor: palette.white,
       fontFamily: 'notosans',
-      fontSize: 20,
+      fontSize: 18,
       borderBottomWidth: 4,
       borderBottomColor: palette.brandBlue,
       disabled: {

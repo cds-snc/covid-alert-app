@@ -5,3 +5,4 @@ export * from './TekUploadNoDate';
 export * from './TekUploadSubsequentDays';
 export * from './SymptomOnsetDateScreen';
 export * from './TestDateScreen';
+export * from './IntermediateInstructionScreen';
