@@ -1,6 +1,6 @@
 import React from 'react';
 import {useI18n} from 'locale';
-import {Text, Box} from 'components';
+import {Text, Box, RoundedBox} from 'components';
 import {ExposureStatusType, useExposureStatus} from 'services/ExposureNotificationService';
 import {getUploadDaysLeft} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
@@ -31,13 +31,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
 
   return (
     <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">
-      <Box
-        style={styles.roundedBox}
-        backgroundColor="bodyTitleWhite"
-        paddingHorizontal="m"
-        paddingVertical="m"
-        marginBottom="m"
-      >
+      <RoundedBox>
         <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedView.Title')}
           {/* No exposure detected */}
@@ -52,21 +46,16 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
             </Text>
           </>
         )}
-      </Box>
+      </RoundedBox>
+
       {daysLeft < 1 ? null : (
         <>
-          <Box
-            style={styles.roundedBox}
-            backgroundColor="bodyTitleWhite"
-            paddingHorizontal="m"
-            paddingVertical="m"
-            marginBottom="m"
-          >
+          <RoundedBox>
             <Text variant="bodyText" color="bodyText" marginBottom="m">
               {i18n.translate('Home.DiagnosedView.Body3')}
             </Text>
             {isRegionActive(region, regionalI18n.activeRegions) ? <Tip /> : null}
-          </Box>
+          </RoundedBox>
         </>
       )}
     </BaseHomeView>
