@@ -18,7 +18,7 @@ export const ExposureDateView = () => {
   const exposureNotificationService = useExposureNotificationService();
 
   const dates = useMemo(() => {
-    if (forceScreen) {
+    if (forceScreen && forceScreen !== 'None') {
       return [formatExposedDate(dateLocale, getCurrentDate().toLocaleString(dateLocale, dateFormatOptions))];
     }
     const timeStamps = exposureNotificationService.getExposureDetectedAt();
