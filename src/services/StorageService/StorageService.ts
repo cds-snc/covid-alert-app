@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Observable} from 'shared/Observable';
+import {ForceScreen} from 'shared/ForceScreen';
 import {Region} from 'shared/Region';
 import {getSystemLocale} from 'locale/utils';
 
@@ -18,7 +19,7 @@ export class StorageService {
   locale: Observable<string>;
   region: Observable<Region | undefined>;
   onboardedDatetime: Observable<Date | undefined>;
-  forceScreen: Observable<string | undefined>;
+  forceScreen: Observable<ForceScreen | undefined>;
   skipAllSet: Observable<boolean>;
   userStopped: Observable<boolean>;
 
@@ -27,7 +28,7 @@ export class StorageService {
     this.locale = new Observable<string>(getSystemLocale());
     this.region = new Observable<Region | undefined>(undefined);
     this.onboardedDatetime = new Observable<Date | undefined>(undefined);
-    this.forceScreen = new Observable<string | undefined>(undefined);
+    this.forceScreen = new Observable<ForceScreen | undefined>(undefined);
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
   }
@@ -52,7 +53,7 @@ export class StorageService {
     this.onboardedDatetime.set(value);
   };
 
-  setForceScreen = async (value: string | undefined) => {
+  setForceScreen = async (value: ForceScreen | undefined) => {
     await AsyncStorage.setItem(Key.ForceScreen, value ? value : '');
     this.forceScreen.set(value);
   };
@@ -82,7 +83,7 @@ export class StorageService {
     const onboardedDatetime = onboardedDatetimeStr ? new Date(onboardedDatetimeStr) : undefined;
     this.onboardedDatetime.set(onboardedDatetime);
 
-    const forceScreen = ((await AsyncStorage.getItem(Key.ForceScreen)) as string | undefined) || undefined;
+    const forceScreen = ((await AsyncStorage.getItem(Key.ForceScreen)) as ForceScreen | undefined) || undefined;
     this.forceScreen.set(forceScreen);
 
     const skipAllSet = (await AsyncStorage.getItem(Key.SkipAllSet)) === '1';
