@@ -98,6 +98,7 @@ export const FormScreen = () => {
       </Box>
       <Box flex={1} marginHorizontal="m" marginBottom="m">
         <Button
+          testID="submitTEKButton"
           loading={loading}
           variant="thinFlat"
           text={i18n.translate('DataUpload.FormView.Action')}
