@@ -790,6 +790,15 @@ export class ExposureNotificationService {
     }
   }
 
+ public processOTKNotSharedNotification() {
+    const exposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type === ExposureStatusType.Diagnosed && !exposureStatus.hasShared) {
+      PushNotification.presentLocalNotification({
+        alertTitle: this.i18n.translate('Notification.OTKNotSharedTitle'),
+        alertBody: this.i18n.translate('Notification.OTKNotSharedBody'),
+      });
+  }
+
   public async setExposureDetectedAt(summary: ExposureSummary, lastCheckedPeriod: number) {
     const exposureDetectedAt = getCurrentDate().getTime();
 
@@ -841,6 +850,7 @@ export class ExposureNotificationService {
     });
 
     return {summary: currentSummary, isNext: false};
+
   }
 
   private async loadExposureStatus() {

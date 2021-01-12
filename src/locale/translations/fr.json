@@ -31,9 +31,9 @@
       }
     },
     "DiagnosedShareUploadView": {
-      "Title": "Presque terminé",
+      "Title": "Pas tout à fait fini",
       "Body1": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées.",
-      "ButtonCTA": "Terminer le partage d’expositions"
+      "ButtonCTA": "Finir le partage d’expositions"
     },
     "ExposureDetected": {
       "Title": "Vous avez été exposé",
@@ -67,7 +67,7 @@
       "Title": "Merci d’aider à lutter contre la COVID",
       "Body1": {
         "One": "Demain, vous recevrez une dernière notification vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone.",
-        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de téléverser tout nouveau code aléatoire émis par votre téléphone."
+        "Other": "Au cours des {number} prochains jours, vous recevrez une notification quotidienne vous demandant l’autorisation de partager toute nouvelle exposition enregistrée par votre téléphone."
       },
       "Body2": "Vous n’êtes pas tenu d’accepter, même si vous avez accepté le jour d’avant.",
       "Body3": "Si vos symptômes vous inquiètent, vous pouvez consulter un professionnel de la santé. Prenez soin de vous et de votre famille pendant ce temps.",
@@ -155,7 +155,7 @@
     "CodeNotShared": {
       "Title": "Aidez à ralentir la propagation de la COVID-19 ",
       "Body": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions.",
-      "CTA": "Terminer le partage d’expositions"
+      "CTA": "Finir le partage d’expositions"
     },
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
@@ -326,7 +326,7 @@
       "NoCode": "Vous n’avez pas de clé à usage unique?"
     },
     "IntermediateStep":{
-      "Title": "Terminer le partage d’expositions",
+      "Title": "Finir le partage d’expositions",
       "List":{
         "1a":"1. ",
         "1b": "Fait.",
@@ -423,7 +423,9 @@
     "ExposureChecksBody": "Vérification d’exposition en cours",
     "ExposureChecksAndroidChannelName": "Vérifications d’exposition",
     "PausedMessageTitle": "Vous avez désactivé l’application",
-    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée."
+    "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
+    "OTKNotSharedTitle": "Pas tout à fait fini",
+    "OTKNotSharedBody": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"

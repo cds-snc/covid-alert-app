@@ -75,7 +75,7 @@
       "Title": "Share new exposures",
       "Body1": "Thanks for helping slow the spread!",
       "Body2": "Reminder: ",
-      "Body3": "To help keep people safe, share your new exposures every day, especially if you have to leave your home.",
+      "Body3": "To help keep people safe, you need to share your new exposures every day, especially if you have to leave your home.",
       "ButtonCTA": "Share new exposures"
     },
     "DiagnosedShareUploadView": {
@@ -329,7 +329,7 @@
       "Title": "Finish sharing exposures",
       "List":{
         "1a":"1. ",
-        "1b": "Done",
+        "1b": "Done.",
         "2a": "2. Give the app details ",
         "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
         "3a": "3. Allow your phone to share ",
@@ -423,7 +423,9 @@
     "ExposureChecksBody": "Checking for exposures",
     "ExposureChecksAndroidChannelName": "Checking for exposures",
     "PausedMessageTitle": "You turned off the app",
-    "PausedMessageBody": "The app is not recording exposures because you turned it off."
+    "PausedMessageBody": "The app is not recording exposures because you turned it off.",
+    "OTKNotSharedTitle": "Not quite done",
+    "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet."
   },
   "Partners": {
     "Label": "Developed in partnership with"
