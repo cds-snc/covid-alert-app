@@ -187,7 +187,7 @@ export function useReportDiagnosis() {
     [exposureNotificationService],
   );
 
-  const isUploading = useCallback(
+  const setIsUploading = useCallback(
     async (status: boolean) => {
       return exposureNotificationService.setUploadStatus(status);
     },
@@ -197,7 +197,7 @@ export function useReportDiagnosis() {
   return {
     startSubmission,
     fetchAndSubmitKeys,
-    isUploading,
+    setIsUploading,
   };
 }
 
