@@ -1,10 +1,10 @@
 import React from 'react';
-import {Box, Text, TextMultiline} from 'components';
+import {Text, TextMultiline, RoundedBox} from 'components';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import {StyleSheet, Platform} from 'react-native';
+import {Platform} from 'react-native';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -58,26 +58,11 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
       {Platform.OS === 'ios' ? (
         <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
-        <Box alignSelf="stretch" style={styles.roundedBox1}>
-          <Box paddingHorizontal="m" paddingVertical="m">
-            <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
-          </Box>
-        </Box>
+        <RoundedBox isBoxOne>
+          <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+        </RoundedBox>
       )}
       <WhatsNew />
     </BaseHomeView>
   );
 };
-
-const styles = StyleSheet.create({
-  roundedBox1: {
-    marginTop: Platform.OS === 'ios' ? 5 : -20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    zIndex: -1,
-  },
-  roundedBox2: {
-    borderRadius: 10,
-    backgroundColor: 'white',
-  },
-});
