@@ -851,7 +851,6 @@ export class ExposureNotificationService {
     });
 
     return {summary: currentSummary, isNext: false};
-
   }
 
   private async loadExposureStatus() {
