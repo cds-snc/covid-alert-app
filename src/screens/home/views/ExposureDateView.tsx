@@ -3,6 +3,7 @@ import {Text} from 'components';
 import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
 import {formatExposedDate} from 'shared/date-fns';
+import {ForceScreen} from 'shared/ForceScreen';
 import {useStorage} from 'services/StorageService';
 
 export const ExposureDateView = () => {
@@ -22,7 +23,7 @@ export const ExposureDateView = () => {
 
     if (timeStamp)
       return formatExposedDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
-    else if (forceScreen)
+    else if (forceScreen && forceScreen !== ForceScreen.None)
       return formatExposedDate(dateLocale, new Date().toLocaleString(dateLocale, dateFormatOptions));
   }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen]);
 
