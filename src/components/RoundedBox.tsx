@@ -4,16 +4,18 @@ import {StyleSheet, Platform} from 'react-native';
 
 interface RoundedBoxProp {
   children: React.ReactNode;
+  isBoxOne: boolean;
 }
 
-export const RoundedBox = ({children}: RoundedBoxProp) => {
+export const RoundedBox = ({children, isBoxOne}: RoundedBoxProp) => {
   return (
     <Box
-      style={styles.roundedBox}
-      backgroundColor="bodyTitleWhite"
+      style={isBoxOne ? styles.roundedBox1 : styles.roundedBox2}
       paddingHorizontal="m"
       paddingVertical="m"
       marginBottom="m"
+      marginTop="m"
+      alignSelf="stretch"
     >
       {children}
     </Box>
@@ -21,10 +23,14 @@ export const RoundedBox = ({children}: RoundedBoxProp) => {
 };
 
 const styles = StyleSheet.create({
-  roundedBox: {
+  roundedBox1: {
     marginTop: Platform.OS === 'ios' ? 5 : 20,
     backgroundColor: 'white',
     borderRadius: 10,
     zIndex: -1,
+  },
+  roundedBox2: {
+    borderRadius: 10,
+    backgroundColor: 'white',
   },
 });

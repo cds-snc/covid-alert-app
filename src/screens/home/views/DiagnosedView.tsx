@@ -1,6 +1,6 @@
 import React from 'react';
 import {useI18n} from 'locale';
-import {Text, Box, RoundedBox} from 'components';
+import {Text, RoundedBox} from 'components';
 import {ExposureStatusType, useExposureStatus} from 'services/ExposureNotificationService';
 import {getUploadDaysLeft} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
@@ -9,7 +9,6 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {TEST_MODE} from 'env';
-import {StyleSheet, Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {Tip} from '../components/Tip';
@@ -31,7 +30,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
 
   return (
     <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">
-      <RoundedBox>
+      <RoundedBox isBoxOne>
         <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedView.Title')}
           {/* No exposure detected */}
@@ -50,7 +49,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
 
       {daysLeft < 1 ? null : (
         <>
-          <RoundedBox>
+          <RoundedBox isBoxOne>
             <Text variant="bodyText" color="bodyText" marginBottom="m">
               {i18n.translate('Home.DiagnosedView.Body3')}
             </Text>
@@ -61,11 +60,3 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
     </BaseHomeView>
   );
 };
-const styles = StyleSheet.create({
-  roundedBox: {
-    marginTop: Platform.OS === 'ios' ? 5 : 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    zIndex: -1,
-  },
-});
