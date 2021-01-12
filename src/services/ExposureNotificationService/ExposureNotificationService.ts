@@ -70,6 +70,7 @@ export type ExposureStatus =
       type: ExposureStatusType.Diagnosed;
       needsSubmission: boolean;
       hasShared: boolean;
+      isUploading: boolean;
       submissionLastCompletedAt?: number;
       uploadReminderLastSentAt?: number;
       cycleStartsAt: number;
@@ -345,6 +346,17 @@ export class ExposureNotificationService {
     return this.exposureStatusUpdatePromise;
   }
 
+  async isUploading(): Promise<boolean> {
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type !== ExposureStatusType.Diagnosed) return false;
+
+    return exposureStatus.isUploading;
+  }
+
+  async setUploadStatus(status: boolean): Promise<void> {
+    this.exposureStatus.append({isUploading: status});
+  }
+
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
@@ -369,7 +381,9 @@ export class ExposureNotificationService {
       throw new Error('Submission keys: bad certificate');
     }
     const auth = JSON.parse(submissionKeysStr) as SubmissionKeySet;
+
     let temporaryExposureKeys: TemporaryExposureKey[];
+
     try {
       temporaryExposureKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
     } catch (error) {
@@ -382,6 +396,7 @@ export class ExposureNotificationService {
     } else {
       captureMessage('getTemporaryExposureKeyHistory', {message: 'No TEKs available to upload'});
     }
+
     await this.recordKeySubmission();
     await this.updateCycleTimes(contagiousDateInfo);
   }
@@ -740,6 +755,9 @@ export class ExposureNotificationService {
 
   public processOTKNotSharedNotification() {
     const exposureStatus = this.exposureStatus.get();
+
+    log.debug({message: 'processOTKNotSharedNotification', payload: exposureStatus});
+
     if (exposureStatus.type === ExposureStatusType.Diagnosed && !exposureStatus.hasShared) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.OTKNotSharedTitle'),
