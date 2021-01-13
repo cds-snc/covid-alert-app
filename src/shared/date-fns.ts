@@ -93,3 +93,7 @@ export const formatExposedDate = (date: Date, locale: string) => {
 export const getFirstThreeUniqueDates = (formattedDates: string[]) => {
   return [...new Set(formattedDates)].slice(0, 3);
 };
+
+export const parseSavedTimestamps = (savedTimestamps: string) => {
+  return savedTimestamps.split(',').map(x => Number(x));
+};

@@ -8,7 +8,7 @@ import ExposureNotification, {
   Infectiousness,
 } from 'bridge/ExposureNotification';
 import PushNotification, {NotificationPayload} from 'bridge/PushNotification';
-import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween} from 'shared/date-fns';
+import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween, parseSavedTimestamps} from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
@@ -883,7 +883,7 @@ export class ExposureNotificationService {
         log.debug({message: "'Unable to retrieve EXPOSURE_HISTORY"});
         return;
       }
-      const exposureHistory = _exposureHistory.split(',').map(x => Number(x));
+      const exposureHistory = parseSavedTimestamps(_exposureHistory);
       log.debug({message: 'EXPOSURE_HISTORY', payload: exposureHistory});
       this.exposureHistory.set(exposureHistory);
     } catch (error) {

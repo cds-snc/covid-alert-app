@@ -9,6 +9,8 @@ import {
   getCurrentDate,
   parseDateString,
   formatExposedDate,
+  parseSavedTimestamps,
+  getFirstThreeUniqueDates,
 } from './date-fns';
 
 /**
@@ -199,6 +201,41 @@ describe('date-fns', () => {
     });
   });
 
+  describe('parseSavedTimestamps', () => {
+    it('parsed a comma separated string of timestamps', () => {
+      expect(parseSavedTimestamps('1,2,3')).toStrictEqual([1, 2, 3]);
+      expect(parseSavedTimestamps('1609484400000')).toStrictEqual([1609484400000]);
+      expect(parseSavedTimestamps('1609484400000,1609570800000')).toStrictEqual([1609484400000, 1609570800000]);
+      expect(parseSavedTimestamps('1609484400000,1609570800000,1609657200000')).toStrictEqual([
+        1609484400000,
+        1609570800000,
+        1609657200000,
+      ]);
+    });
+  });
+
+  describe('getFirstThreeUniqueDates', () => {
+    it('gets only unique dates from an array of formatted dates', () => {
+      expect(getFirstThreeUniqueDates(['Jan. 1 2021', 'Jan. 1 2021'])).toStrictEqual(['Jan. 1 2021']);
+      expect(getFirstThreeUniqueDates(['Jan. 2 2021', 'Jan. 1 2021'])).toStrictEqual(['Jan. 2 2021', 'Jan. 1 2021']);
+      expect(getFirstThreeUniqueDates(['Jan. 2 2021', 'Jan. 1 2021', 'Jan. 1 2021'])).toStrictEqual([
+        'Jan. 2 2021',
+        'Jan. 1 2021',
+      ]);
+    });
+    it('gets only the first 3 dates from an array of formatted dates', () => {
+      expect(getFirstThreeUniqueDates(['Jan. 4 2021', 'Jan. 3 2021', 'Jan. 2 2021', 'Jan. 1 2021'])).toStrictEqual([
+        'Jan. 4 2021',
+        'Jan. 3 2021',
+        'Jan. 2 2021',
+      ]);
+      expect(getFirstThreeUniqueDates(['Jan. 4 2021', 'Jan. 3 2021', 'Jan. 2 2021', 'Jan. 2 2021'])).toStrictEqual([
+        'Jan. 4 2021',
+        'Jan. 3 2021',
+        'Jan. 2 2021',
+      ]);
+    });
+  });
   // eslint-disable-next-line jest/no-commented-out-tests
   // it('returns 1 missing day for keys upload', () => {
   //   const today = new Date('Wed Jul 28 2020 00:00:00 GMT-0400');
