@@ -1022,9 +1022,7 @@ describe('ExposureNotificationService', () => {
       bridge.detectExposure.mockResolvedValueOnce([summary1]);
       await service.performExposureStatusUpdate();
       expect(service.exposureHistory.get()).toStrictEqual([may18.getTime()]);
-      dateSpy.mockImplementation((...args: any[]) =>
-        args.length > 0 ? new OriginalDate(...args) : may19,
-      );
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : may19));
       bridge.detectExposure.mockResolvedValueOnce([summary2]);
       await service.performExposureStatusUpdate();
       expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may19.getTime()]);
@@ -1035,9 +1033,7 @@ describe('ExposureNotificationService', () => {
       bridge.detectExposure.mockResolvedValueOnce([summary2]);
       await service.performExposureStatusUpdate();
       expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may18.getTime()]);
-      dateSpy.mockImplementation((...args: any[]) =>
-        args.length > 0 ? new OriginalDate(...args) : june18,
-      );
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : june18));
       await service.performExposureStatusUpdate();
       expect(service.exposureHistory.get()).toStrictEqual([]);
     });
