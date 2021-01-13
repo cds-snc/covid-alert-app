@@ -181,6 +181,19 @@ const theme = {
         borderBottomColor: palette.gray3,
       },
     },
+    dangerWhiteText: {
+      color: palette.danger,
+      height: 52,
+      textColor: palette.white,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.gray4,
+        textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
+      },
+    },
     opaqueFlatBlackText: {
       color: palette.faded,
       height: 52,
@@ -238,7 +251,7 @@ const theme = {
       height: 52,
       textColor: palette.white,
       fontFamily: 'notosans',
-      fontSize: 20,
+      fontSize: 18,
       borderBottomWidth: 4,
       borderBottomColor: palette.brandBlue,
       disabled: {
@@ -293,6 +306,19 @@ const theme = {
     },
     bigFlatPurple: {
       color: palette.purple,
+      fontWeight: 'bold',
+      height: 30,
+      textColor: palette.white,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    bigFlatBlue: {
+      color: palette.brandBlue,
       fontWeight: 'bold',
       height: 30,
       textColor: palette.white,

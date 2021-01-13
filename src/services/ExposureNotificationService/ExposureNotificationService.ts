@@ -69,6 +69,8 @@ export type ExposureStatus =
   | {
       type: ExposureStatusType.Diagnosed;
       needsSubmission: boolean;
+      hasShared: boolean;
+      isUploading: boolean;
       submissionLastCompletedAt?: number;
       uploadReminderLastSentAt?: number;
       cycleStartsAt: number;
@@ -146,12 +148,14 @@ export class ExposureNotificationService {
 
   initiateExposureCheckHeadless = async () => {
     if (Platform.OS !== 'android') return;
-    log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
+    log.debug({category: 'background', message: 'initiateExposureCheckHeadless'});
     await this.initiateExposureCheck();
   };
 
   initiateExposureCheck = async () => {
     if (Platform.OS !== 'android') return;
+    if (!(await this.shouldPerformExposureCheck())) return;
+
     const payload: NotificationPayload = {
       alertTitle: this.i18n.translate('Notification.ExposureChecksTitle'),
       alertBody: this.i18n.translate('Notification.ExposureChecksBody'),
@@ -191,7 +195,13 @@ export class ExposureNotificationService {
     } catch (error) {
       this.starting = false;
       await this.updateSystemStatus();
-      captureException('Failed to start framework', error);
+
+      log.debug({message: 'failed to start framework', payload: error});
+
+      if (error.message === 'API_NOT_CONNECTED') {
+        return {success: false, error: 'API_NOT_CONNECTED'};
+      }
+
       return {success: false, error};
     }
   }
@@ -341,6 +351,17 @@ export class ExposureNotificationService {
     return this.exposureStatusUpdatePromise;
   }
 
+  async isUploading(): Promise<boolean> {
+    const exposureStatus: ExposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type !== ExposureStatusType.Diagnosed) return false;
+
+    return exposureStatus.isUploading;
+  }
+
+  async setUploadStatus(status: boolean): Promise<void> {
+    this.exposureStatus.append({isUploading: status});
+  }
+
   async startKeysSubmission(oneTimeCode: string): Promise<void> {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
@@ -353,6 +374,7 @@ export class ExposureNotificationService {
     this.exposureStatus.append({
       type: ExposureStatusType.Diagnosed,
       needsSubmission: true,
+      hasShared: false,
       cycleStartsAt: cycleStartsAt.getTime(),
       cycleEndsAt: addDays(cycleStartsAt, EXPOSURE_NOTIFICATION_CYCLE).getTime(),
     });
@@ -364,7 +386,9 @@ export class ExposureNotificationService {
       throw new Error('Submission keys: bad certificate');
     }
     const auth = JSON.parse(submissionKeysStr) as SubmissionKeySet;
+
     let temporaryExposureKeys: TemporaryExposureKey[];
+
     try {
       temporaryExposureKeys = await this.exposureNotification.getTemporaryExposureKeyHistory();
     } catch (error) {
@@ -377,6 +401,7 @@ export class ExposureNotificationService {
     } else {
       captureMessage('getTemporaryExposureKeyHistory', {message: 'No TEKs available to upload'});
     }
+
     await this.recordKeySubmission();
     await this.updateCycleTimes(contagiousDateInfo);
   }
@@ -741,6 +766,19 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
+  public processOTKNotSharedNotification() {
+    const exposureStatus = this.exposureStatus.get();
+
+    log.debug({message: 'processOTKNotSharedNotification', payload: exposureStatus});
+
+    if (exposureStatus.type === ExposureStatusType.Diagnosed && !exposureStatus.hasShared) {
+      PushNotification.presentLocalNotification({
+        alertTitle: this.i18n.translate('Notification.OTKNotSharedTitle'),
+        alertBody: this.i18n.translate('Notification.OTKNotSharedBody'),
+      });
+    }
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
@@ -771,7 +809,11 @@ export class ExposureNotificationService {
   private async recordKeySubmission() {
     const currentStatus = this.exposureStatus.get();
     if (currentStatus.type !== ExposureStatusType.Diagnosed) return;
-    this.exposureStatus.append({needsSubmission: false, submissionLastCompletedAt: getCurrentDate().getTime()});
+    this.exposureStatus.append({
+      needsSubmission: false,
+      hasShared: true,
+      submissionLastCompletedAt: getCurrentDate().getTime(),
+    });
   }
 
   private summaryExceedsMinimumMinutes(summary: ExposureSummary, minimumExposureDurationMinutes: number) {

@@ -19,6 +19,8 @@
 		92B51DEAB84B429696C44822 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190AEBD50CE3434EBCFCFBB4 /* NotoSans-Bold.ttf */; };
 		9DCF98527548A48AED34959C /* libPods-CovidShield-CovidShieldTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */; };
 		A10A691626414D8AABBB659C /* Device-Large.png in Resources */ = {isa = PBXBuildFile; fileRef = 431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */; };
+		A40D59F9258A44E6009DA167 /* ExposureNotification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A40D59F8258A44E6009DA167 /* ExposureNotification.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A4E2F5EF258A84B50037F403 /* ENActivityHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E2F5EE258A84B50037F403 /* ENActivityHandling.m */; };
 		BA054BD27C1A8657F6BF95BB /* libPods-CovidShield.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52445CBEB4F2B88669022976 /* libPods-CovidShield.a */; };
 		E0C908AD8D97409895BCF901 /* img_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B4DC3E27534960AEAA5640 /* img_0.png */; };
 		E1EAAA13E1C84385A63D42EA /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E93E71E0D77549B3926CABCB /* NotoSans-Regular.ttf */; };
@@ -64,6 +66,9 @@
 		74B6941D245F15B20077B9DA /* ExposureNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ExposureNotification.m; path = CovidShield/ExposureNotification.m; sourceTree = "<group>"; };
 		77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-CovidShieldTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B4DC3E27534960AEAA5640 /* img_0.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = img_0.png; path = ../src/assets/animation/images/img_0.png; sourceTree = "<group>"; };
+		A40D59F8258A44E6009DA167 /* ExposureNotification.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExposureNotification.framework; path = System/Library/Frameworks/ExposureNotification.framework; sourceTree = SDKROOT; };
+		A4E2F5ED258A84B50037F403 /* ENActivityHandling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ENActivityHandling.h; path = CovidShield/ENActivityHandling.h; sourceTree = "<group>"; };
+		A4E2F5EE258A84B50037F403 /* ENActivityHandling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ENActivityHandling.m; path = CovidShield/ENActivityHandling.m; sourceTree = "<group>"; };
 		DB9A1444C934C41C93EB531F /* Pods-CovidShield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.debug.xcconfig"; sourceTree = "<group>"; };
 		E93E71E0D77549B3926CABCB /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSans-Regular.ttf"; path = "../src/assets/fonts/NotoSans-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -85,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA054BD27C1A8657F6BF95BB /* libPods-CovidShield.a in Frameworks */,
+				A40D59F9258A44E6009DA167 /* ExposureNotification.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +147,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A40D59F8258A44E6009DA167 /* ExposureNotification.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				52445CBEB4F2B88669022976 /* libPods-CovidShield.a */,
 				77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */,
@@ -166,6 +173,8 @@
 				74B6941D245F15B20077B9DA /* ExposureNotification.m */,
 				7482404D246F9C0E009F68EA /* CovidShield.h */,
 				7482404E246F9C0E009F68EA /* CovidShield.m */,
+				A4E2F5ED258A84B50037F403 /* ENActivityHandling.h */,
+				A4E2F5EE258A84B50037F403 /* ENActivityHandling.m */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -455,6 +464,7 @@
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				7482404F246F9C0E009F68EA /* CovidShield.m in Sources */,
 				74B6941E245F15B20077B9DA /* ExposureNotification.m in Sources */,
+				A4E2F5EF258A84B50037F403 /* ENActivityHandling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,7 +562,7 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = "CovidShield/Info-debug.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -579,7 +589,7 @@
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = J7J9Q6KTWJ;
 				INFOPLIST_FILE = CovidShield/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -626,6 +636,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;

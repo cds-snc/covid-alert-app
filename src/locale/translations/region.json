@@ -1,5 +1,15 @@
 {
-  "Active": ["ON", "NL", "NB", "SK", "MB", "QC", "PE", "NS", "NT"],
+  "Active": [
+    "ON",
+    "NL",
+    "NB",
+    "SK",
+    "MB",
+    "QC",
+    "PE",
+    "NS",
+    "NT"
+  ],
   "en": {
     "RegionContent": {
       "Home": {
@@ -185,7 +195,7 @@
           "PE": {
             "Body": "You’re at risk of being infected.",
             "CTA": "Find out what to do next",
-            "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-alert-app"
+            "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-alert-app#utm_source=inapp&utm_medium=app&utm_campaign=CovidAlertApp"
           },
           "NT": {
             "Body": "You need to isolate for 14 days, and contact your local healthcare provider as soon as possible.",
@@ -439,7 +449,7 @@
           "PE": {
             "Body": "Vous êtes à risque d’être infecté. ",
             "CTA": "Lisez les étapes à suivre",
-            "URL": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/application-alerte-covid"
+            "URL": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/application-alerte-covid#utm_source=inapp&utm_medium=app&utm_campaign=ApplicationAlerteCovid"
           },
           "NT": {
             "Body": "Vous devez vous isoler pendant 14 jours et contacter votre professionnel de la santé dès que possible.",
