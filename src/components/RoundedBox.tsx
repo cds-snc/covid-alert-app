@@ -19,7 +19,6 @@ export const RoundedBox = ({children, isFirstBox}: RoundedBoxProp) => {
         {children}
       </Box>
     </Box>
-    //istop isbottom
   );
 };
 
