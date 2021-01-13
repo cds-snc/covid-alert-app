@@ -4,6 +4,11 @@ import {onboard} from './shared';
 const changeRegion = async region => {
   // should be called from the home screen
   await element(by.id('tapPromptCollapsed')).tap();
+  await element(by.id('getCodeButton')).swipe('up');
+  await element(by.id('getCodeButton')).swipe('up');
+  await element(by.id('getCodeButton')).swipe('up');
+  await element(by.id('getCodeButton')).swipe('up');
+
   await element(by.id('changeRegion')).tap();
   await waitFor(element(by.id(`RegionPickerSettings-${region}`)))
     .toBeVisible()
@@ -11,6 +16,11 @@ const changeRegion = async region => {
     .scroll(100, 'down');
   await element(by.id(`RegionPickerSettings-${region}`)).tap();
   await element(by.id('toolbarCloseButton')).tap();
+
+  await element(by.id('getCodeButton')).swipe('down');
+  await element(by.id('getCodeButton')).swipe('down');
+  await element(by.id('getCodeButton')).swipe('down');
+  await element(by.id('getCodeButton')).swipe('down');
   await element(by.id('BottomSheet-Close')).tap();
 };
 
@@ -21,7 +31,7 @@ const changeScreen = async screenName => {
     .whileElement(by.id('DemoMenu-ScrollView'))
     .scroll(100, 'down');
   await element(by.id(screenName)).tap();
-  await element(by.id(screenName)).swipe('right');
+  await element(by.id('toolbarCloseButton')).tap();
 };
 
 const changeAllSet = async value => {
@@ -62,14 +72,8 @@ const closeBottomSheet = async () => {
 describe('Test province flow', () => {
   it('lands on the right home screen', async () => {
     await onboard();
-    // eslint-disable-next-line jest/no-if
-    if (device.getPlatform() === 'android') {
-      await expect(element(by.id('exposureNotificationsDisabled'))).toBeVisible();
-      await device.takeScreenshot(`ExposureNotificationsDisabled`);
-    } else {
-      await expect(element(by.id('unknownProblem'))).toBeVisible();
-      await device.takeScreenshot(`UnknownProblem`);
-    }
+    await expect(element(by.id('exposureNotificationsDisabled'))).toBeVisible();
+    await device.takeScreenshot(`ExposureNotificationsDisabled`);
   });
 
   it('displays the right exposure view for ON, AB, NL', async () => {
@@ -106,7 +110,7 @@ describe('Test province flow', () => {
 });
 
 describe('Test region based screens', () => {
-  it('displays right no code screen for ON, AB, NL', async () => {
+  it.skip('displays right no code screen for ON, AB, NL', async () => {
     // ON
     await changeRegion('ON');
     await element(by.id('tapPromptCollapsed')).tap();
@@ -141,7 +145,7 @@ describe('Test region based screens', () => {
     await closeBottomSheet();
   });
 
-  it('displays right no exposure screens for no region', async () => {
+  it.skip('displays right no exposure screens for no region', async () => {
     await changeRegion('None');
     await changeScreen('NoExposureView');
     await device.takeScreenshot('AllSetViewNoRegion');
@@ -150,7 +154,7 @@ describe('Test region based screens', () => {
     await expect(element(by.id('noRegionHeader'))).toBeVisible();
   });
 
-  it('displays right all set screen for ON, AB, NL', async () => {
+  it.skip('displays right all set screen for ON, AB, NL', async () => {
     await changeAllSet('false');
 
     // ON
@@ -169,7 +173,7 @@ describe('Test region based screens', () => {
     await expect(element(by.id('allSetUncoveredRegionView'))).toBeVisible();
   });
 
-  it('displays right no exposure screens for ON, AB, NL', async () => {
+  it.skip('displays right no exposure screens for ON, AB, NL', async () => {
     // ON
     await changeRegion('ON');
     await changeAllSet('true');
