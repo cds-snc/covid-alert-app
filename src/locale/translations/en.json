@@ -425,7 +425,8 @@
     "PausedMessageTitle": "You turned off the app",
     "PausedMessageBody": "The app is not recording exposures because you turned it off.",
     "OTKNotSharedTitle": "Not quite done",
-    "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet."
+    "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet.",
+    "AndroidChannelName": "COVID Alert"
   },
   "Partners": {
     "Label": "Developed in partnership with"
