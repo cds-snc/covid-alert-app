@@ -25,7 +25,7 @@ jest.mock('react-native-zip-archive', () => ({
 
 jest.mock('../../bridge/CovidShield', () => ({
   getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
-  downloadDiagnosisKeysFile: jest.fn(),
+  downloadDiagnosisKeysFile: jest.fn(x => ''),
 }));
 
 jest.mock('react-native-background-fetch', () => {
@@ -962,14 +962,18 @@ describe('ExposureNotificationService', () => {
     });
   });
   describe('performExposureStatusUpdate', () => {
+    const may18 = new OriginalDate('2020-05-18T04:10:00+0000');
+    const may19 = new OriginalDate('2020-05-19T04:10:00+0000');
+    const may20 = new OriginalDate('2020-05-20T04:10:00+0000');
+    const june18 = new OriginalDate('2020-06-18T04:10:00+0000');
     const summary1 = getSummary({
-      today,
+      today: may18,
       hasMatchedKey: true,
       daysSinceLastExposure: 10,
       attenuationDurations: [20, 0, 0],
     });
     const summary2 = getSummary({
-      today,
+      today: may18,
       hasMatchedKey: true,
       daysSinceLastExposure: 1,
       attenuationDurations: [20, 0, 0],
@@ -981,51 +985,58 @@ describe('ExposureNotificationService', () => {
     });
 
     it('does not update exposureDetectedAt when an old exposure is returned', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const tomorrow = new OriginalDate('2020-05-19T04:10:00+0000');
       // mock returning an exposure
       bridge.detectExposure.mockResolvedValueOnce([summary1]);
 
-      // check that we are exposed and the detected at date is today
+      // check that we are exposed and the detected at date is may18
       await service.performExposureStatusUpdate();
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          exposureDetectedAt: today.getTime(),
+          exposureDetectedAt: may18.getTime(),
           type: ExposureStatusType.Exposed,
         }),
       );
       // mock changing the current date
-      dateSpy.mockImplementationOnce((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : tomorrow));
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : may19));
       bridge.detectExposure.mockResolvedValueOnce([summary1]);
       // check that we are exposed and the detected at date is still the same
       await service.performExposureStatusUpdate();
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          exposureDetectedAt: today.getTime(),
+          exposureDetectedAt: may18.getTime(),
           type: ExposureStatusType.Exposed,
         }),
       );
     });
-    it('saves the exposure notification time to the history correctly', async () => {
+    it('saves the exposure notification time to the history correctly - 2 exposures same day', async () => {
       bridge.detectExposure.mockResolvedValueOnce([summary1]);
       await service.performExposureStatusUpdate();
-      expect(service.exposureHistory.get()).toStrictEqual([today.getTime()]);
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime()]);
       bridge.detectExposure.mockResolvedValueOnce([summary2]);
       await service.performExposureStatusUpdate();
       // why a 2nd status update? I don't know
       await service.performExposureStatusUpdate();
-      expect(service.exposureHistory.get()).toStrictEqual([today.getTime(), today.getTime()]);
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may18.getTime()]);
+    });
+    it('saves the exposure notification time to the history correctly - 2 exposures different days', async () => {
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime()]);
+      dateSpy.mockImplementation((...args: any[]) =>
+        args.length > 0 ? new OriginalDate(...args) : may19,
+      );
+      bridge.detectExposure.mockResolvedValueOnce([summary2]);
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may19.getTime()]);
     });
     it('erases exposure history when the state returns to monitoring', async () => {
       bridge.detectExposure.mockResolvedValueOnce([summary1]);
       await service.performExposureStatusUpdate();
       bridge.detectExposure.mockResolvedValueOnce([summary2]);
       await service.performExposureStatusUpdate();
-      expect(service.exposureHistory.get()).toStrictEqual([today.getTime(), today.getTime()]);
-
-      const oneMonthFromToday = new OriginalDate('2020-06-18T04:10:00+0000');
-      dateSpy.mockImplementationOnce((...args: any[]) =>
-        args.length > 0 ? new OriginalDate(...args) : oneMonthFromToday,
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may18.getTime()]);
+      dateSpy.mockImplementation((...args: any[]) =>
+        args.length > 0 ? new OriginalDate(...args) : june18,
       );
       await service.performExposureStatusUpdate();
       expect(service.exposureHistory.get()).toStrictEqual([]);
