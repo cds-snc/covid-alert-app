@@ -8,7 +8,15 @@ import ExposureNotification, {
   Infectiousness,
 } from 'bridge/ExposureNotification';
 import PushNotification, {NotificationPayload} from 'bridge/PushNotification';
-import {addDays, periodSinceEpoch, minutesBetween, getCurrentDate, daysBetweenUTC, daysBetween, parseSavedTimestamps} from 'shared/date-fns';
+import {
+  addDays,
+  periodSinceEpoch,
+  minutesBetween,
+  getCurrentDate,
+  daysBetweenUTC,
+  daysBetween,
+  parseSavedTimestamps,
+} from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';

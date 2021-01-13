@@ -1083,4 +1083,51 @@ describe('ExposureNotificationService', () => {
       expect(isNext).toStrictEqual(true);
     });
   });
+  describe('getExposureDetectedAt', () => {
+    const may18 = new OriginalDate('2020-05-18T04:10:00+0000');
+    const may19 = new OriginalDate('2020-05-19T04:10:00+0000');
+    const may20 = new OriginalDate('2020-05-20T04:10:00+0000');
+    const summary = getSummary({
+      today: may18,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 1,
+      attenuationDurations: [20, 0, 0],
+    });
+    it('returns an empty array if status = monitoring', () => {
+      const dates = service.getExposureDetectedAt();
+      expect(dates).toStrictEqual([]);
+    });
+    it('returns exposureDetectedAt if there is no exposure history', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary,
+        exposureDetectedAt: may18.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      const dates = service.getExposureDetectedAt();
+      expect(dates).toStrictEqual([may18]);
+    });
+    it('returns the exposure history if it exists', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary,
+        exposureDetectedAt: may20.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      service.exposureHistory.set([may20.getTime(), may19.getTime(), may18.getTime()]);
+      const dates = service.getExposureDetectedAt();
+      expect(dates).toStrictEqual([may20, may19, may18]);
+    });
+    it('returns and sorts the exposure history if it exists', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary,
+        exposureDetectedAt: may20.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      service.exposureHistory.set([may18.getTime(), may19.getTime(), may20.getTime()]);
+      const dates = service.getExposureDetectedAt();
+      expect(dates).toStrictEqual([may20, may19, may18]);
+    });
+  });
 });
