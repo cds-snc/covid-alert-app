@@ -10,15 +10,15 @@ import {
   useExposureStatus,
   useUpdateExposureStatus,
   useStartExposureNotificationService,
+  useExposureNotificationSystemStatusAutomaticUpdater,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
+import {RegionCase} from 'shared/Region';
 import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
+import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
-
-import {useExposureNotificationSystemStatusAutomaticUpdater} from '../../services/ExposureNotificationService';
-import {RegionCase} from '../../shared/Region';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
@@ -83,17 +83,17 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const {forceScreen} = useStorage();
   if (TEST_MODE) {
     switch (forceScreen) {
-      case 'NoExposureView':
+      case ForceScreen.NoExposureView:
         return getNoExposureView(regionCase);
-      case 'ExposureView':
+      case ForceScreen.ExposureView:
         return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case 'DiagnosedShareView':
+      case ForceScreen.DiagnosedShareView:
         return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case 'DiagnosedView':
+      case ForceScreen.DiagnosedView:
         return <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case 'DiagnosedShareUploadView':
+      case ForceScreen.DiagnosedShareUploadView:
         return <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case 'FrameworkUnavailableView':
+      case ForceScreen.FrameworkUnavailableView:
         return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
       default:
         break;
