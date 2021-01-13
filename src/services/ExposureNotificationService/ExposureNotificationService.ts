@@ -676,7 +676,7 @@ export class ExposureNotificationService {
     return true;
   };
 
-  public getExposureDetectedAt(): number[] {
+  public getExposureDetectedAt(): Date[] {
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
       return [];
@@ -685,11 +685,11 @@ export class ExposureNotificationService {
 
     if (exposureHistory && exposureHistory.length > 0) {
       log.debug({message: 'exposureHistory', payload: exposureHistory});
-      return exposureHistory;
+      return exposureHistory.sort((ts1, ts2) => ts2 - ts1).map(ts => new Date(ts));
     }
     if (exposureStatus.exposureDetectedAt) {
       log.debug({message: 'exposureHistory', payload: {exposureDetectedAt: exposureStatus.exposureDetectedAt}});
-      return [exposureStatus.exposureDetectedAt];
+      return [new Date(exposureStatus.exposureDetectedAt)];
     }
     return [];
   }

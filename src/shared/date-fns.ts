@@ -67,8 +67,14 @@ export function parseDateString(dateString: string) {
   return new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
 }
 
-export const formatExposedDate = (locale: string, localeString: string) => {
-  const parts = localeString.split(' ');
+export const formatExposedDate = (date: Date, locale: string) => {
+  const dateFormatOptions = {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  };
+  const _formattedDate = date.toLocaleString(locale, dateFormatOptions);
+  const parts = _formattedDate.split(' ');
   // remove non-alpha chars from month
   const month = parts[0].replace(/\W/g, '');
   const day = parts[1];
@@ -81,5 +87,9 @@ export const formatExposedDate = (locale: string, localeString: string) => {
     return `${month}\u00a0${day}\u00a0${year}`;
   }
 
-  return localeString;
+  return _formattedDate;
+};
+
+export const getFirstThreeUniqueDates = (formattedDates: string[]) => {
+  return [...new Set(formattedDates)].slice(0, 3);
 };

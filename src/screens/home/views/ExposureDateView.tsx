@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
-import {formatExposedDate, getCurrentDate} from 'shared/date-fns';
+import {formatExposedDate, getCurrentDate, getFirstThreeUniqueDates} from 'shared/date-fns';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useStorage} from 'services/StorageService';
 
@@ -10,26 +10,21 @@ export const ExposureDateView = () => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const {forceScreen} = useStorage();
-  const dateFormatOptions = {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  };
 
   const exposureNotificationService = useExposureNotificationService();
 
-  const dates = useMemo(() => {
+  const dates: Date[] = useMemo(() => {
     if (forceScreen && forceScreen !== ForceScreen.None) {
-      return [formatExposedDate(dateLocale, getCurrentDate().toLocaleString(dateLocale, dateFormatOptions))];
+      return [getCurrentDate()];
     }
-    const timeStamps = exposureNotificationService.getExposureDetectedAt();
-    return timeStamps
-      .sort((ts1, ts2) => ts2 - ts1)
-      .map(ts => {
-        return formatExposedDate(dateLocale, new Date(ts).toLocaleString(dateLocale, dateFormatOptions));
-      });
-  }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen]);
-  const firstThreeUniqueDates = [...new Set(dates)].slice(0, 3);
+    return exposureNotificationService.getExposureDetectedAt();
+  }, [exposureNotificationService, forceScreen]);
+
+  const formattedDates = dates.map(date => {
+    return formatExposedDate(date, dateLocale);
+  });
+
+  const firstThreeUniqueDates = getFirstThreeUniqueDates(formattedDates);
   return firstThreeUniqueDates ? (
     <Box marginBottom="m">
       <Text>{i18n.translate('Home.ExposureDetected.Notification.Received')}:</Text>
