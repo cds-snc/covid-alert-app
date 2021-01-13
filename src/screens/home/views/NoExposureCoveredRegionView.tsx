@@ -58,7 +58,7 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
       {Platform.OS === 'ios' ? (
         <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
-        <RoundedBox isBoxOne>
+        <RoundedBox isFirstBox>
           <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
         </RoundedBox>
       )}

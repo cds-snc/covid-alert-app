@@ -30,7 +30,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
 
   return (
     <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">
-      <RoundedBox isBoxOne>
+      <RoundedBox isFirstBox>
         <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedView.Title')}
           {/* No exposure detected */}
@@ -49,7 +49,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
 
       {daysLeft < 1 ? null : (
         <>
-          <RoundedBox isBoxOne>
+          <RoundedBox isFirstBox>
             <Text variant="bodyText" color="bodyText" marginBottom="m">
               {i18n.translate('Home.DiagnosedView.Body3')}
             </Text>

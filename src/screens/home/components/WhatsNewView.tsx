@@ -7,7 +7,7 @@ export const WhatsNew = () => {
   const i18n = useI18n();
 
   return Platform.OS === 'ios' ? null : (
-    <RoundedBox isBoxOne={false}>
+    <RoundedBox isFirstBox={false}>
       <Text variant="bodySubTitle" color="bodyText" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
         {i18n.translate('Home.NoExposureDetected.WhatsNew.Title')}
       </Text>

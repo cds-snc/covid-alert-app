@@ -29,7 +29,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
 
   return (
     <>
-      <RoundedBox isBoxOne>
+      <RoundedBox isFirstBox>
         <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.ExposureDetected.Title')}
         </Text>
@@ -37,7 +37,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
         <ExposureDateView />
       </RoundedBox>
 
-      <RoundedBox isBoxOne={false}>
+      <RoundedBox isFirstBox={false}>
         <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.ExposureDetected.Title2')}
         </Text>

@@ -20,7 +20,7 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
 
   return (
     <BaseHomeView iconName="hand-reminder" testID="diagnosedShare">
-      <RoundedBox isBoxOne>
+      <RoundedBox isFirstBox>
         <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedShareView.Title')}
         </Text>

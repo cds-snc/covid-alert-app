@@ -4,28 +4,32 @@ import {StyleSheet, Platform} from 'react-native';
 
 interface RoundedBoxProp {
   children: React.ReactNode;
-  isBoxOne: boolean;
+  isFirstBox: boolean;
 }
 
-export const RoundedBox = ({children, isBoxOne}: RoundedBoxProp) => {
+export const RoundedBox = ({children, isFirstBox}: RoundedBoxProp) => {
   return (
-    <Box style={isBoxOne ? styles.roundedBox1 : styles.roundedBox2} marginBottom="m" marginTop="m" alignSelf="stretch">
+    <Box
+      style={isFirstBox ? [styles.roundedBox, styles.firstBox] : styles.roundedBox}
+      marginBottom="m"
+      marginTop="m"
+      alignSelf="stretch"
+    >
       <Box paddingHorizontal="m" paddingVertical="m">
         {children}
       </Box>
     </Box>
+    //istop isbottom
   );
 };
 
 const styles = StyleSheet.create({
-  roundedBox1: {
-    marginTop: Platform.OS === 'ios' ? 5 : 20,
-    backgroundColor: 'white',
+  roundedBox: {
     borderRadius: 10,
-    zIndex: -1,
+    backgroundColor: 'white',
   },
-  roundedBox2: {
-    borderRadius: 10,
-    backgroundColor: 'white',
+  firstBox: {
+    marginTop: Platform.OS === 'ios' ? 5 : 20,
+    zIndex: -1,
   },
 });
