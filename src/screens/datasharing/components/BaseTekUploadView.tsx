@@ -31,7 +31,7 @@ export const BaseTekUploadView = ({
   const navigation = useNavigation();
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
-  const {fetchAndSubmitKeys} = useReportDiagnosis();
+  const {fetchAndSubmitKeys, setIsUploading} = useReportDiagnosis();
 
   const onSuccess = useCallback(() => {
     AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
@@ -71,12 +71,16 @@ export const BaseTekUploadView = ({
   };
   const handleUpload = useCallback(async () => {
     setLoading(true);
+    setIsUploading(true);
+
     try {
       await fetchAndSubmitKeys(contagiousDateInfo);
       setLoading(false);
+      setIsUploading(false);
       onSuccess();
     } catch (error) {
       setLoading(false);
+      setIsUploading(false);
       onError(error);
     }
   }, [contagiousDateInfo, fetchAndSubmitKeys, onError, onSuccess]);
