@@ -21,7 +21,7 @@ export const DiagnosedShareUploadView = ({isBottomSheetExpanded}: {isBottomSheet
 
   return (
     <BaseHomeView iconName="hand-reminder-red">
-      <Box style={styles.roundedBox} backgroundColor="bodyTitleWhite">
+      <Box alignSelf="stretch" style={styles.roundedBox} backgroundColor="bodyTitleWhite">
         <Box paddingHorizontal="m" paddingVertical="m">
           <Text
             focusRef={autoFocusRef}

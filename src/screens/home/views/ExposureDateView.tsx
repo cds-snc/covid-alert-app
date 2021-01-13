@@ -3,6 +3,7 @@ import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
 import {formatExposedDate, getCurrentDate} from 'shared/date-fns';
+import {ForceScreen} from 'shared/ForceScreen';
 import {useStorage} from 'services/StorageService';
 
 export const ExposureDateView = () => {
@@ -18,7 +19,7 @@ export const ExposureDateView = () => {
   const exposureNotificationService = useExposureNotificationService();
 
   const dates = useMemo(() => {
-    if (forceScreen && forceScreen !== 'None') {
+    if (forceScreen && forceScreen !== ForceScreen.None) {
       return [formatExposedDate(dateLocale, getCurrentDate().toLocaleString(dateLocale, dateFormatOptions))];
     }
     const timeStamps = exposureNotificationService.getExposureDetectedAt();
