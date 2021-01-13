@@ -77,6 +77,7 @@ export const FormScreen = () => {
       <Box marginHorizontal="m" marginBottom="l">
         <StepXofY currentStep={1} />
         <Text
+          testID="pageTitle"
           variant="bodyTitle"
           color="overlayBodyText"
           accessibilityRole="header"
