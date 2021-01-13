@@ -9,15 +9,10 @@ interface RoundedBoxProp {
 
 export const RoundedBox = ({children, isBoxOne}: RoundedBoxProp) => {
   return (
-    <Box
-      style={isBoxOne ? styles.roundedBox1 : styles.roundedBox2}
-      paddingHorizontal="m"
-      paddingVertical="m"
-      marginBottom="m"
-      marginTop="m"
-      alignSelf="stretch"
-    >
-      {children}
+    <Box style={isBoxOne ? styles.roundedBox1 : styles.roundedBox2} marginBottom="m" marginTop="m" alignSelf="stretch">
+      <Box paddingHorizontal="m" paddingVertical="m">
+        {children}
+      </Box>
     </Box>
   );
 };
