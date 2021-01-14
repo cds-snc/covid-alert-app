@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
-const contentDirectory = 'translations';
+const contentDirectory = 'locale/translations';
 
 const asyncForEach = async (array, callback) => {
   for (let index = 0; index < array.length; index++) {
