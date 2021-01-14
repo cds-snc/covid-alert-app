@@ -6,10 +6,10 @@ export namespace covidshield {
     interface IKeyClaimRequest {
 
         /** KeyClaimRequest oneTimeCode */
-        oneTimeCode: string;
+        oneTimeCode?: (string|null);
 
         /** KeyClaimRequest appPublicKey */
-        appPublicKey: Uint8Array;
+        appPublicKey?: (Uint8Array|null);
     }
 
     /** Represents a KeyClaimRequest. */
@@ -223,16 +223,16 @@ export namespace covidshield {
     interface IEncryptedUploadRequest {
 
         /** EncryptedUploadRequest serverPublicKey */
-        serverPublicKey: Uint8Array;
+        serverPublicKey?: (Uint8Array|null);
 
         /** EncryptedUploadRequest appPublicKey */
-        appPublicKey: Uint8Array;
+        appPublicKey?: (Uint8Array|null);
 
         /** EncryptedUploadRequest nonce */
-        nonce: Uint8Array;
+        nonce?: (Uint8Array|null);
 
         /** EncryptedUploadRequest payload */
-        payload: Uint8Array;
+        payload?: (Uint8Array|null);
     }
 
     /** Represents an EncryptedUploadRequest. */
@@ -331,7 +331,7 @@ export namespace covidshield {
     interface IEncryptedUploadResponse {
 
         /** EncryptedUploadResponse error */
-        error: covidshield.EncryptedUploadResponse.ErrorCode;
+        error?: (covidshield.EncryptedUploadResponse.ErrorCode|null);
     }
 
     /** Represents an EncryptedUploadResponse. */
@@ -442,7 +442,7 @@ export namespace covidshield {
     interface IUpload {
 
         /** Upload timestamp */
-        timestamp: google.protobuf.ITimestamp;
+        timestamp?: (google.protobuf.ITimestamp|null);
 
         /** Upload keys */
         keys?: (covidshield.ITemporaryExposureKey[]|null);
@@ -458,7 +458,7 @@ export namespace covidshield {
         constructor(properties?: covidshield.IUpload);
 
         /** Upload timestamp. */
-        public timestamp: google.protobuf.ITimestamp;
+        public timestamp?: (google.protobuf.ITimestamp|null);
 
         /** Upload keys. */
         public keys: covidshield.ITemporaryExposureKey[];
@@ -557,6 +557,9 @@ export namespace covidshield {
 
         /** TemporaryExposureKeyExport keys */
         keys?: (covidshield.ITemporaryExposureKey[]|null);
+
+        /** TemporaryExposureKeyExport revisedKeys */
+        revisedKeys?: (covidshield.ITemporaryExposureKey[]|null);
     }
 
     /** Represents a TemporaryExposureKeyExport. */
@@ -588,6 +591,9 @@ export namespace covidshield {
 
         /** TemporaryExposureKeyExport keys. */
         public keys: covidshield.ITemporaryExposureKey[];
+
+        /** TemporaryExposureKeyExport revisedKeys. */
+        public revisedKeys: covidshield.ITemporaryExposureKey[];
 
         /**
          * Creates a new TemporaryExposureKeyExport instance using the specified properties.
@@ -776,6 +782,12 @@ export namespace covidshield {
 
         /** TemporaryExposureKey rollingPeriod */
         rollingPeriod?: (number|null);
+
+        /** TemporaryExposureKey reportType */
+        reportType?: (covidshield.TemporaryExposureKey.ReportType|null);
+
+        /** TemporaryExposureKey daysSinceOnsetOfSymptoms */
+        daysSinceOnsetOfSymptoms?: (number|null);
     }
 
     /** Represents a TemporaryExposureKey. */
@@ -798,6 +810,12 @@ export namespace covidshield {
 
         /** TemporaryExposureKey rollingPeriod. */
         public rollingPeriod: number;
+
+        /** TemporaryExposureKey reportType. */
+        public reportType: covidshield.TemporaryExposureKey.ReportType;
+
+        /** TemporaryExposureKey daysSinceOnsetOfSymptoms. */
+        public daysSinceOnsetOfSymptoms: number;
 
         /**
          * Creates a new TemporaryExposureKey instance using the specified properties.
@@ -868,6 +886,19 @@ export namespace covidshield {
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
+    }
+
+    namespace TemporaryExposureKey {
+
+        /** ReportType enum. */
+        enum ReportType {
+            UNKNOWN = 0,
+            CONFIRMED_TEST = 1,
+            CONFIRMED_CLINICAL_DIAGNOSIS = 2,
+            SELF_REPORT = 3,
+            RECURSIVE = 4,
+            REVOKED = 5
+        }
     }
 
     /** Properties of a TEKSignatureList. */
