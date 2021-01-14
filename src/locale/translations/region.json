@@ -1,15 +1,5 @@
 {
-  "Active": [
-    "ON",
-    "NL",
-    "NB",
-    "SK",
-    "MB",
-    "QC",
-    "PE",
-    "NS",
-    "NT"
-  ],
+  "Active": ["ON", "NL", "NB", "SK", "MB", "QC", "PE", "NS", "NT"],
   "en": {
     "RegionContent": {
       "Home": {
