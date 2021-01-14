@@ -22,6 +22,7 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
   return (
     <BaseHomeView iconName="hand-reminder" testID="diagnosedShare">
       <Box
+        alignSelf="stretch"
         style={styles.roundedBox}
         backgroundColor="bodyTitleWhite"
         paddingHorizontal="m"

@@ -32,6 +32,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   return (
     <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">
       <Box
+        alignSelf="stretch"
         style={styles.roundedBox}
         backgroundColor="bodyTitleWhite"
         paddingHorizontal="m"
@@ -56,6 +57,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
       {daysLeft < 1 ? null : (
         <>
           <Box
+            alignSelf="stretch"
             style={styles.roundedBox}
             backgroundColor="bodyTitleWhite"
             paddingHorizontal="m"

@@ -60,7 +60,7 @@ export const ExposureNotificationServiceProvider = ({
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      if (newState === 'background') {
+      if (newState === 'background' && !(await exposureNotificationService.isUploading())) {
         exposureNotificationService.processOTKNotSharedNotification();
       } else if (newState !== 'active') {
         return;
@@ -186,9 +186,18 @@ export function useReportDiagnosis() {
     },
     [exposureNotificationService],
   );
+
+  const setIsUploading = useCallback(
+    async (status: boolean) => {
+      return exposureNotificationService.setUploadStatus(status);
+    },
+    [exposureNotificationService],
+  );
+
   return {
     startSubmission,
     fetchAndSubmitKeys,
+    setIsUploading,
   };
 }
 
