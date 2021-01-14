@@ -32,8 +32,8 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
           message: 'exposureNotificationAPI.detectExposure',
           payload: {summary},
         });
-
-        summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
+        // this call will fail on V2 since `daysSinceLastExposure` does not exist on summary
+        // summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
         summaries.push(summary);
       }
 
