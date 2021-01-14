@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+
 const contentDirectory = 'src/locale/translations';
 const languages = ['en', 'fr'];
 const regions = ['ON', 'NL', 'NB', 'SK', 'MB', 'QC', 'PE', 'NS', 'NT'];
@@ -11,10 +12,10 @@ const asyncForEach = async (array, callback) => {
   }
 };
 
-const getRegionContent = async languages => {
-  let data = {};
+const getRegionContent = async activeLanguages => {
+  const data = {};
 
-  await asyncForEach(languages, async lang => {
+  await asyncForEach(activeLanguages, async lang => {
     const filePath = path.join(__dirname, contentDirectory, 'regional', `${lang}.json`);
     data[lang] = await fs.readFile(filePath, 'utf8');
   });
@@ -23,10 +24,10 @@ const getRegionContent = async languages => {
 };
 
 const writeFile = options => {
-  const {regions, regionContent, filePath} = options;
+  const {regions: active, regionContent, filePath} = options;
 
-  let json = {
-    Active: regions,
+  const json = {
+    Active: active,
   };
 
   // add keys for each language
@@ -35,12 +36,12 @@ const writeFile = options => {
   }
 
   fs.writeFile(filePath, JSON.stringify(json), err => {
-    if (err) return console.log(err);
+    if (err) return console.log(err); // eslint-disable-line no-console
   });
 };
 
 (async () => {
   const regionContent = await getRegionContent(languages);
   const filePath = path.join(__dirname, contentDirectory, outputFilename);
-  writeFile({regions, regionContent, filePath: filePath});
+  writeFile({regions, regionContent, filePath});
 })();
