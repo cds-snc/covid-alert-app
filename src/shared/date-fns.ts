@@ -75,18 +75,19 @@ export const formatExposedDate = (date: Date, locale: string) => {
   };
   const _formattedDate = date.toLocaleString(locale, dateFormatOptions);
   const parts = _formattedDate.split(' ');
-  // remove non-alpha chars from month
-  const month = parts[0].replace(/\W/g, '');
-  const day = parts[1];
   const year = parts[2];
 
   // @note \u00a0 is a non breaking space so the date doesn't wrap
+  // remove non-alpha chars from month
   if (locale === 'en-CA') {
+    const month = parts[0].replace(/\W/g, '');
+    const day = parts[1];
     return `${month}.\u00a0${day}\u00a0${year}`;
   } else if (locale === 'fr-CA') {
-    return `${month}\u00a0${day}\u00a0${year}`;
+    const month = parts[1].replace(/\W/g, '');
+    const day = parts[0];
+    return `${day}\u00a0${month}.\u00a0${year}`;
   }
-
   return _formattedDate;
 };
 

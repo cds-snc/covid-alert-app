@@ -153,9 +153,9 @@ describe('date-fns', () => {
 
   // formatExposedDate
   describe('formatExposedDate', () => {
-    it('returns formatted date for en', () => {
-      // en-CA
+    it('returns formatted date for en and fr', () => {
       expect(formatExposedDate(new Date(1605814310000), 'en-CA')).toStrictEqual('Nov.\u00a019,\u00a02020');
+      expect(formatExposedDate(new Date(1605814310000), 'fr-CA')).toStrictEqual('19\u00a0nov.\u00a02020');
     });
   });
 
