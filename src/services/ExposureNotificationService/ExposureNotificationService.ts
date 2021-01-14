@@ -28,6 +28,9 @@ import {ExposureConfigurationValidator, ExposureConfigurationValidationError} fr
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
+const MISSED_PERIODS = 'missedPeriods';
+const MISSED_DATE_1 = new Date(2020, 0, 12);
+const MISSED_DATE_2 = new Date(2020, 0, 13);
 
 export const EXPOSURE_STATUS = 'exposureStatus';
 
@@ -753,6 +756,32 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
+  public async addMissedPeriods(periodsSinceLastFetch: number[]) {
+    // load missed periods from storage
+    const missedPeriods = await this.loadMissedPeriods();
+    const today = getCurrentDate()
+    const missedPeriodsWithin14Days = missedPeriods.filter(ts => {
+      if (daysBetweenUTC(new Date(ts), today) > 14) {
+        return false;
+      }
+      return true;
+    });
+    // if there aren't any, return
+    if (missedPeriodsWithin14Days.length < 1) {
+      return periodsSinceLastFetch;
+    }
+    // if there is a 0 in periodsSinceLastFetch, we have a fresh install
+    if (periodsSinceLastFetch.indexOf(0) > -1) {
+      // clear the stored missedPeriods since they will be covered by the 0 check
+      this.storage.setItem(MISSED_PERIODS, '');
+      return periodsSinceLastFetch;
+    }
+    // clear storage
+    // todo: just clear storage after the check has been completed successfully, not before
+    this.storage.setItem(MISSED_PERIODS, '');
+    return periodsSinceLastFetch.concat(missedPeriods);
+  }
+
   public processOTKNotSharedNotification() {
     const exposureStatus = this.exposureStatus.get();
 
@@ -769,6 +798,18 @@ export class ExposureNotificationService {
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
     this.exposureStatus.append({...exposureStatus});
+  }
+
+  private async loadMissedPeriods() {
+    let missedPeriods: number[];
+    try {
+      missedPeriods = JSON.parse((await this.storage.getItem(MISSED_PERIODS)) || 'null');
+    } catch (error) {
+      // do something with error
+      missedPeriods = [MISSED_DATE_1.getTime(), MISSED_DATE_2.getTime()];
+      await this.storage.setItem(MISSED_PERIODS, JSON.stringify(missedPeriods));
+    }
+    return missedPeriods;
   }
 
   /**
@@ -846,8 +887,9 @@ export class ExposureNotificationService {
     const keysFileUrls: string[] = [];
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
     const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
+    const periodsToFetch = await this.addMissedPeriods(periodsSinceLastFetch);
     try {
-      for (const period of periodsSinceLastFetch) {
+      for (const period of periodsToFetch) {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
         keysFileUrls.push(keysFileUrl);
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
