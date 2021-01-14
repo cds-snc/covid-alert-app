@@ -1,6 +1,9 @@
 const fs = require('fs').promises;
 const path = require('path');
-const contentDirectory = 'locale/translations';
+const contentDirectory = 'src/locale/translations';
+const languages = ['en', 'fr'];
+const regions = ['ON', 'NL', 'NB', 'SK', 'MB', 'QC', 'PE', 'NS', 'NT'];
+const outputFilename = 'region.json';
 
 const asyncForEach = async (array, callback) => {
   for (let index = 0; index < array.length; index++) {
@@ -37,9 +40,7 @@ const writeFile = options => {
 };
 
 (async () => {
-  const languages = ['en', 'fr'];
-  const regions = ['ON', 'NL', 'NB', 'SK', 'MB', 'QC', 'PE', 'NS', 'NT'];
   const regionContent = await getRegionContent(languages);
-  const filePath = path.join(__dirname, contentDirectory, 'gen1-region.json');
+  const filePath = path.join(__dirname, contentDirectory, outputFilename);
   writeFile({regions, regionContent, filePath: filePath});
 })();
