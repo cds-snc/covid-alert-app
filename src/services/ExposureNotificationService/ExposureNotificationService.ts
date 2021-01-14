@@ -29,8 +29,8 @@ import {ExposureConfigurationValidator, ExposureConfigurationValidationError} fr
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
 const MISSED_PERIODS = 'missedPeriods';
-const MISSED_DATE_1 = new Date(2020, 0, 12);
-const MISSED_DATE_2 = new Date(2020, 0, 13);
+const MISSED_DATE_1 = new Date(2021, 0, 12);
+const MISSED_DATE_2 = new Date(2021, 0, 13);
 
 export const EXPOSURE_STATUS = 'exposureStatus';
 
@@ -759,8 +759,10 @@ export class ExposureNotificationService {
   public async addMissedPeriods(periodsSinceLastFetch: number[]) {
     const missedPeriods = await this.loadMissedPeriods();
     const today = getCurrentDate();
-    const missedPeriodsWithin14Days = missedPeriods.filter(ts => {
-      if (daysBetweenUTC(new Date(ts), today) > 14) {
+    const todayPeriod = periodSinceEpoch(today, HOURS_PER_PERIOD);
+    const fourteenDaysInPeriods = (14 * 24) / HOURS_PER_PERIOD;
+    const missedPeriodsWithin14Days = missedPeriods.filter(period => {
+      if (todayPeriod - period > fourteenDaysInPeriods) {
         return false;
       }
       return true;
@@ -810,7 +812,10 @@ export class ExposureNotificationService {
     const _missedPeriods = JSON.parse((await this.storage.getItem(MISSED_PERIODS)) || 'null');
     if (_missedPeriods === null) {
       log.debug({category: 'exposure-check', message: 'saving MISSED_PERIODS to storage'});
-      const missedPeriods = [MISSED_DATE_1.getTime(), MISSED_DATE_2.getTime()];
+      const missedPeriods = [
+        periodSinceEpoch(MISSED_DATE_1, HOURS_PER_PERIOD),
+        periodSinceEpoch(MISSED_DATE_2, HOURS_PER_PERIOD),
+      ];
       await this.storage.setItem(MISSED_PERIODS, JSON.stringify(missedPeriods));
       return missedPeriods;
     }
@@ -893,7 +898,8 @@ export class ExposureNotificationService {
     const keysFileUrls: string[] = [];
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
     const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
-    const periodsToFetch = await this.addMissedPeriods(periodsSinceLastFetch);
+    // const periodsToFetch = await this.addMissedPeriods(periodsSinceLastFetch);
+    const periodsToFetch = await this.addMissedPeriods([]);
     try {
       for (const period of periodsToFetch) {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
