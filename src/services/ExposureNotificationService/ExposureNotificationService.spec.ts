@@ -389,7 +389,7 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
 
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(1);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(3);
 
     server.retrieveDiagnosisKeys.mockClear();
 
@@ -400,7 +400,7 @@ describe('ExposureNotificationService', () => {
       },
     });
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(2);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(4);
 
     server.retrieveDiagnosisKeys.mockClear();
 
@@ -411,7 +411,7 @@ describe('ExposureNotificationService', () => {
       },
     });
     await service.updateExposureStatus();
-    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(3);
+    expect(server.retrieveDiagnosisKeys).toHaveBeenCalledTimes(5);
   });
 
   it('serializes status update', async () => {
@@ -1001,9 +1001,13 @@ describe('ExposureNotificationService', () => {
     });
   });
   describe('addMissedPeriods', () => {
-    it('asdf', async () => {
+    it('concats missing periods if the arg array does not contain 0', async () => {
       const periodsToCheck = await service.addMissedPeriods([1]);
-      expect(periodsToCheck).toStrictEqual([1,123,123]);
+      expect(periodsToCheck).toStrictEqual([1, 18639, 18640]);
+    });
+    it('does not concat missing periods if the arg array contains 0', async () => {
+      const periodsToCheck = await service.addMissedPeriods([0, 1]);
+      expect(periodsToCheck).toStrictEqual([0, 1]);
     });
   });
 });

@@ -898,8 +898,7 @@ export class ExposureNotificationService {
     const keysFileUrls: string[] = [];
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
     const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
-    // const periodsToFetch = await this.addMissedPeriods(periodsSinceLastFetch);
-    const periodsToFetch = await this.addMissedPeriods([]);
+    const periodsToFetch = await this.addMissedPeriods(periodsSinceLastFetch);
     try {
       for (const period of periodsToFetch) {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
