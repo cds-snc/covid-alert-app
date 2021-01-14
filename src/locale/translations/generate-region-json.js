@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const path = require('path');
 
 const asyncForEach = async (array, callback) => {
   for (let index = 0; index < array.length; index++) {
@@ -10,14 +11,15 @@ const getRegionContent = async languages => {
   let data = {};
 
   await asyncForEach(languages, async lang => {
-    data[lang] = await fs.readFile(`${lang}-region.json`, 'utf8');
+    const filePath = path.join(__dirname, `${lang}-region.json`);
+    data[lang] = await fs.readFile(filePath, 'utf8');
   });
 
   return data;
 };
 
 const writeFile = options => {
-  const {regions, regionContent, fileName} = options;
+  const {regions, regionContent, filePath} = options;
 
   let json = {
     Active: regions,
@@ -28,7 +30,7 @@ const writeFile = options => {
     json[key] = JSON.parse(value);
   }
 
-  fs.writeFile(fileName, JSON.stringify(json), err => {
+  fs.writeFile(filePath, JSON.stringify(json), err => {
     if (err) return console.log(err);
   });
 };
@@ -37,5 +39,6 @@ const writeFile = options => {
   const languages = ['en', 'fr'];
   const regions = ['ON', 'NL', 'NB', 'SK', 'MB', 'QC', 'PE', 'NS', 'NT'];
   const regionContent = await getRegionContent(languages);
-  writeFile({regions, regionContent, fileName: 'gen-region.json'});
+  const filePath = path.join(__dirname, 'gen1-region.json');
+  writeFile({regions, regionContent, filePath: filePath});
 })();
