@@ -83,7 +83,7 @@ export const BaseTekUploadView = ({
       setIsUploading(false);
       onError(error);
     }
-  }, [contagiousDateInfo, fetchAndSubmitKeys, onError, onSuccess]);
+  }, [contagiousDateInfo, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
 
   if (loading) {
     return (
