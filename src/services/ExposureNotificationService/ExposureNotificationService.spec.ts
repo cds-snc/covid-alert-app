@@ -1000,4 +1000,10 @@ describe('ExposureNotificationService', () => {
       );
     });
   });
+  describe('addMissedPeriods', () => {
+    it('asdf', async () => {
+      const periodsToCheck = await service.addMissedPeriods([1]);
+      expect(periodsToCheck).toStrictEqual([1,123,123]);
+    });
+  });
 });

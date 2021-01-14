@@ -757,7 +757,6 @@ export class ExposureNotificationService {
   }
 
   public async addMissedPeriods(periodsSinceLastFetch: number[]) {
-    // load missed periods from storage
     const missedPeriods = await this.loadMissedPeriods();
     const today = getCurrentDate();
     const missedPeriodsWithin14Days = missedPeriods.filter(ts => {
@@ -766,29 +765,26 @@ export class ExposureNotificationService {
       }
       return true;
     });
-    // if there aren't any, return
-    if (missedPeriodsWithin14Days.length < 1) {
+    if (missedPeriodsWithin14Days.length === 0) {
       log.debug({category: 'exposure-check', message: 'no missed periods within last 14 days'});
       return periodsSinceLastFetch;
     }
-    // if there is a 0 in periodsSinceLastFetch, we have a fresh install
     if (periodsSinceLastFetch.indexOf(0) > -1) {
-      // clear the stored missedPeriods since they will be covered by the 0 check
       log.debug({
         category: 'exposure-check',
-        message: 'fresh install - no need for additional checks for missed periods',
+        message: 'clearing missed periods - fresh install',
       });
-      this.storage.setItem(MISSED_PERIODS, '');
+      this.storage.setItem(MISSED_PERIODS, JSON.stringify([]));
       return periodsSinceLastFetch;
     }
     // clear storage
     // todo: just clear storage after the check has been completed successfully, not before
     log.debug({
       category: 'exposure-check',
-      message: 'adding missed periods',
+      message: 'adding missed periods to check',
       payload: periodsSinceLastFetch.concat(missedPeriods),
     });
-    this.storage.setItem(MISSED_PERIODS, '');
+    this.storage.setItem(MISSED_PERIODS, JSON.stringify([]));
     return periodsSinceLastFetch.concat(missedPeriods);
   }
 
@@ -810,18 +806,16 @@ export class ExposureNotificationService {
     this.exposureStatus.append({...exposureStatus});
   }
 
-  private async loadMissedPeriods() {
-    let missedPeriods: number[];
-    try {
-      missedPeriods = JSON.parse((await this.storage.getItem(MISSED_PERIODS)) || 'null');
-      log.debug({category: 'exposure-check', message: 'loading MISSED_PERIODS from storage', payload: missedPeriods});
-    } catch (error) {
-      // do something with error
+  private async loadMissedPeriods(): Promise<number[]> {
+    const _missedPeriods = JSON.parse((await this.storage.getItem(MISSED_PERIODS)) || 'null');
+    if (_missedPeriods === null) {
       log.debug({category: 'exposure-check', message: 'saving MISSED_PERIODS to storage'});
-      missedPeriods = [MISSED_DATE_1.getTime(), MISSED_DATE_2.getTime()];
+      const missedPeriods = [MISSED_DATE_1.getTime(), MISSED_DATE_2.getTime()];
       await this.storage.setItem(MISSED_PERIODS, JSON.stringify(missedPeriods));
+      return missedPeriods;
     }
-    return missedPeriods;
+    log.debug({category: 'exposure-check', message: 'loading MISSED_PERIODS from storage', payload: _missedPeriods});
+    return _missedPeriods;
   }
 
   /**
