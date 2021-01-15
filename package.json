@@ -8,6 +8,7 @@
     "bundle-ios": "yarn generate-translations && react-native bundle --dev false --platform ios --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios",
     "codegen-protobuf": "pbjs -t static-module -o src/services/BackendService/covidshield/covidshield.js src/services/BackendService/covidshield/covidshield.proto && pbts -o src/services/BackendService/covidshield/covidshield.d.ts src/services/BackendService/covidshield/covidshield.js",
     "generate-translations": "node translations.js",
+    "generate-translations:regional": "node translations-regional.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pod-install": "pushd ios; bundle exec pod install; popd",
     "run-android": "react-native run-android --variant debug",
