@@ -34,6 +34,12 @@ platform :ios do
     buildType = options[:type]
     release = options[:type] === 'production'
 
+    schemes = {
+      'production' => 'Production',
+      'staging' => 'Staging',
+      'demo' => 'Demo'
+    }
+
     # Prompt to update XCode config
     UI.user_error!("Better go do that") unless prompt(
       text: "Did you remember to check your Xcode Bundle Identifier and Provisioning Profile settings?",
@@ -61,15 +67,10 @@ platform :ios do
 
     # Build the app
     build_app(
-      scheme: "CovidShield",
+      scheme: schemes[buildType],
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "app-store",
       output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID"] => ENV["PROFILE"]
-        }
-      }
     )
 
     # Upload to TestFlight
