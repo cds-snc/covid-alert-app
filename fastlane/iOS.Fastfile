@@ -1,7 +1,7 @@
 platform :ios do
   lane :check_version_code_exists do
     testflight_latest = latest_testflight_build_number(
-      app_identifier: ENV["APP_ID_IOS"]
+      app_identifier: ENV["APP_ID"]
     )
 
     versions = Array(testflight_latest)
@@ -67,7 +67,7 @@ platform :ios do
       output_directory: output_directory,
       export_options: {
         provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE"]
+          ENV["APP_ID"] => ENV["PROFILE"]
         }
       }
     )
@@ -117,7 +117,7 @@ platform :ios do
       output_directory: output_directory,
       export_options: {
         provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
+          ENV["APP_ID"] => ENV["PROFILE_ADHOC"]
         }
       }
     )
@@ -146,7 +146,7 @@ platform :ios do
     get_provisioning_profile(
       adhoc: true,
       force: true,
-      app_identifier: ENV["APP_ID_IOS"],
+      app_identifier: ENV["APP_ID"],
       provisioning_name: ENV["PROFILE_ADHOC"],
       template_name: 'Exposure Notification for TEAMID (Distribution) iOS Dist ADHOC',
       output_path: './fastlane/certs/ios/',
@@ -160,7 +160,7 @@ platform :ios do
       output_directory: output_directory,
       export_options: {
         provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
+          ENV["APP_ID"] => ENV["PROFILE_ADHOC"]
         }
       }
     )
