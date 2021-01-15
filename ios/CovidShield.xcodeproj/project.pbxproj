@@ -53,11 +53,15 @@
 		195904172488B85500430369 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
 		195904192488B85E00430369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
 		1A0CE02FD9160E9B9AF76381 /* Pods-CovidShield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.release.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.release.xcconfig"; sourceTree = "<group>"; };
+		2DB2E3F0D1A0FEE1D468BC72 /* Pods-CovidShield-CovidShieldTests.staging-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.staging-release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.staging-release.xcconfig"; sourceTree = "<group>"; };
+		41E7CF20A6493278491652AA /* Pods-CovidShield.demo-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.demo-release.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.demo-release.xcconfig"; sourceTree = "<group>"; };
 		431D5AB0AA364B5C9E7BFF1D /* Device-Large.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Device-Large.png"; path = "../src/assets/animation/images/Device-Large.png"; sourceTree = "<group>"; };
 		4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.release.xcconfig"; sourceTree = "<group>"; };
 		4A5C897D24B63BE00074FF89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A5C897F24B63BE80074FF89 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		52445CBEB4F2B88669022976 /* libPods-CovidShield.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5548786CECFFDBB7940CD8C9 /* Pods-CovidShield-CovidShieldTests.demo-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.demo-release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.demo-release.xcconfig"; sourceTree = "<group>"; };
+		5F9174E8964B78E625930ADB /* Pods-CovidShield.staging-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.staging-release.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.staging-release.xcconfig"; sourceTree = "<group>"; };
 		7482404D246F9C0E009F68EA /* CovidShield.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CovidShield.h; path = CovidShield/CovidShield.h; sourceTree = "<group>"; };
 		7482404E246F9C0E009F68EA /* CovidShield.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CovidShield.m; path = CovidShield/CovidShield.m; sourceTree = "<group>"; };
 		7482405524773294009F68EA /* Config.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.release.xcconfig; sourceTree = "<group>"; };
@@ -162,6 +166,10 @@
 				1A0CE02FD9160E9B9AF76381 /* Pods-CovidShield.release.xcconfig */,
 				FA11CCD8EB9EB39453E3C0AA /* Pods-CovidShield-CovidShieldTests.debug.xcconfig */,
 				4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */,
+				41E7CF20A6493278491652AA /* Pods-CovidShield.demo-release.xcconfig */,
+				5F9174E8964B78E625930ADB /* Pods-CovidShield.staging-release.xcconfig */,
+				5548786CECFFDBB7940CD8C9 /* Pods-CovidShield-CovidShieldTests.demo-release.xcconfig */,
+				2DB2E3F0D1A0FEE1D468BC72 /* Pods-CovidShield-CovidShieldTests.staging-release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -799,7 +807,7 @@
 		};
 		BA352BA725B2328B00BC1444 /* Staging-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */;
+			baseConfigurationReference = 2DB2E3F0D1A0FEE1D468BC72 /* Pods-CovidShield-CovidShieldTests.staging-release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -898,7 +906,7 @@
 		};
 		BA352BAA25B232AE00BC1444 /* Demo-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4340865F2E3AB248EDD2005B /* Pods-CovidShield-CovidShieldTests.release.xcconfig */;
+			baseConfigurationReference = 5548786CECFFDBB7940CD8C9 /* Pods-CovidShield-CovidShieldTests.demo-release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
