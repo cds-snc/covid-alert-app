@@ -94,26 +94,24 @@ export interface ExposureNotification {
   getPendingExposureSummary(): Promise<ExposureSummary[] | undefined> /* used only by Android */;
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined>;
   getExposureWindows(): ExposureWindow[];
-  getExposureWindowsIos(summary: ExposureSummary): Promise<ExposureWindow[]>;
+  getExposureWindowsIos(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
   getExposureWindowsAndroid(diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
 }
 
 export interface ExposureNotificationAPI {
-  detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
+  detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary[]>;
   getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined> /* used only by Android */;
-  getExposureWindows(): Promise<ExposureWindow[]>;
+  getExposureWindows(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
   getExposureWindowsFromSummary(summary: ExposureSummary): Promise<ExposureWindow[]>;
 }
 
 export interface ExposureWindow {
-  scanInstances: ScanInstance[];
-  infectiousness: Infectiousness;
   calibrationConfidence: CalibrationConfidence;
-  day?: number;
-  date?: number;
-  diagnosisReportType?: ReportType;
-  reportType?: ReportType;
+  day: number;
+  infectiousness: Infectiousness;
+  reportType: ReportType;
+  scanInstances: ScanInstance[];
 }
 
 export interface ScanInstance {

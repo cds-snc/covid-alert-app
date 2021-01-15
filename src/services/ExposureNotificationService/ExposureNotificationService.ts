@@ -578,17 +578,7 @@ export class ExposureNotificationService {
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
-        const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
-
-        log.debug({category: 'exposure-check', message: 'detectExposure', payload: {summaries, keysFileUrls}});
-
-        // if (summaries.length > 0) {
-        //   exposureWindows = await this.exposureNotification.getExposureWindowsIos(summaries[0]);
-        // } else {
-        //   exposureWindows = [];
-        // }
-        // Todo: fix this
-        exposureWindows = [];
+        exposureWindows = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       }
 
       const [isExposed, dailySummary] = await this.checkIfExposedV2({
