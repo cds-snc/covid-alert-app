@@ -67,19 +67,34 @@ export function parseDateString(dateString: string) {
   return new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
 }
 
-export const formatExposedDate = (locale: string, localeString: string) => {
-  const parts = localeString.split(' ');
-  // remove non-alpha chars from month
-  const month = parts[0].replace(/\W/g, '');
-  const day = parts[1];
+export const formatExposedDate = (date: Date, locale: string) => {
+  const dateFormatOptions = {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  };
+  const _formattedDate = date.toLocaleString(locale, dateFormatOptions);
+  const parts = _formattedDate.split(' ');
   const year = parts[2];
 
   // @note \u00a0 is a non breaking space so the date doesn't wrap
+  // remove non-alpha chars from month
   if (locale === 'en-CA') {
+    const month = parts[0].replace(/\W/g, '');
+    const day = parts[1];
     return `${month}.\u00a0${day}\u00a0${year}`;
   } else if (locale === 'fr-CA') {
-    return `${month}\u00a0${day}\u00a0${year}`;
+    const month = parts[1].replace(/\W/g, '');
+    const day = parts[0];
+    return `${day}\u00a0${month}.\u00a0${year}`;
   }
+  return _formattedDate;
+};
 
-  return localeString;
+export const getFirstThreeUniqueDates = (formattedDates: string[]) => {
+  return [...new Set(formattedDates)].slice(0, 3);
+};
+
+export const parseSavedTimestamps = (savedTimestamps: string) => {
+  return savedTimestamps.split(',').map(x => Number(x));
 };
