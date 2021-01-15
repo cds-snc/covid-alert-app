@@ -303,20 +303,44 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
     NSNumber *idx = @(self.reportedSummaries.count);
     [self.reportedSummaries addObject:summary];
 //    NSNumber *enApiVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ENAPIVersion"];
-
+    
     if (@available(iOS 13.7, *)) {
-      resolve(@{
-        @"daySummaries": summary.daySummaries
-      });
+      [self.enManager getExposureWindowsFromSummary:(ENExposureDetectionSummary *)summary completionHandler:^(NSArray<ENExposureWindow *> * _Nullable exposureWindows, NSError * _Nullable error) {
+        if (error) {
+          reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+        } else {
+          NSMutableArray<NSDictionary *> *exWindow = [NSMutableArray new];
+          for (ENExposureWindow *obj in exposureWindows) {
+            
+            [exWindow addObject:@{
+              @"infectiousness": @(obj.infectiousness),
+              @"date": obj.date,
+              @"diagnosisReportType": @(obj.diagnosisReportType),
+              @"calibrationConfidence": @(obj.calibrationConfidence),
+              @"scanInstances": obj.scanInstances
+            }];
+          }
+          resolve(exWindow);
+        }
+      }];
     } else {
-      resolve(@{
-        @"attenuationDurations": summary.attenuationDurations,
-        @"daysSinceLastExposure": @(summary.daysSinceLastExposure),
-        @"matchedKeyCount": @(summary.matchedKeyCount),
-        @"maximumRiskScore": @(summary.maximumRiskScore),
-        @"_summaryIdx": idx
-      });
+      // Fallback on earlier versions
+      reject(@"API_NOT_AVAILABLE", @"API Not Available. Requires iOS 13.7+", nil);
     }
+    
+//    if (@available(iOS 13.7, *)) {
+//      resolve(@{
+//        @"daySummaries": summary.daySummaries
+//      });
+//    } else {
+//      resolve(@{
+//        @"attenuationDurations": summary.attenuationDurations,
+//        @"daysSinceLastExposure": @(summary.daysSinceLastExposure),
+//        @"matchedKeyCount": @(summary.matchedKeyCount),
+//        @"maximumRiskScore": @(summary.maximumRiskScore),
+//        @"_summaryIdx": idx
+//      });
+//    }
   }];
 }
 

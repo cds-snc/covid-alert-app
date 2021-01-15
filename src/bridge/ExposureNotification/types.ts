@@ -99,7 +99,7 @@ export interface ExposureNotification {
 }
 
 export interface ExposureNotificationAPI {
-  detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary>;
+  detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
   getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined> /* used only by Android */;
   getExposureWindows(): Promise<ExposureWindow[]>;
@@ -107,11 +107,13 @@ export interface ExposureNotificationAPI {
 }
 
 export interface ExposureWindow {
-  day: number;
   scanInstances: ScanInstance[];
-  reportType: ReportType;
   infectiousness: Infectiousness;
   calibrationConfidence: CalibrationConfidence;
+  day?: number;
+  date?: number;
+  diagnosisReportType?: ReportType;
+  reportType?: ReportType;
 }
 
 export interface ScanInstance {
