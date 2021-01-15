@@ -27,6 +27,7 @@ const writeFile = options => {
   const {regions: active, regionContent, filePath} = options;
 
   const json = {
+    Warning: 'THIS IS A GENERATED FILE - DO NOT EDIT',
     Active: active,
   };
 
