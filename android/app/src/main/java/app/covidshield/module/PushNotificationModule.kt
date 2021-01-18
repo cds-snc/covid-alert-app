@@ -77,13 +77,21 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             builder.setPriority(config.priority)
+            builder.setVibrate(longArrayOf(0));
+        } else {
+            builder.setChannelId(CHANNEL_ID)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(CHANNEL_ID, config.channelName, false)
-            builder.setChannelId(CHANNEL_ID)
+            NotificationChannel(
+                    CHANNEL_ID, config.channelName, NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = CHANNEL_DESC
+            }.also { channel ->
+                notificationManager.createNotificationChannel(channel)
+            }
         }
 
         notificationManager.notify(config.uuid.hashCode(), builder.build())
@@ -117,32 +125,11 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
         workManager.enqueueUniquePeriodicWork("notificationReminder", ExistingPeriodicWorkPolicy.REPLACE, notificationWorkerRequest)
     }
 
-    /**
-     * Create the required notification channel for O+ devices.
-     */
-    @TargetApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel(
-            channelId: String,
-            name: String,
-            disableSound: Boolean
-    ): NotificationChannel {
-        return NotificationChannel(
-                channelId, name, NotificationManager.IMPORTANCE_DEFAULT
-        ).apply {
-            description = CHANNEL_DESC
-        }.also { channel ->
-            if (disableSound) {
-                channel.setSound(null, null)
-            }
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
     companion object {
         // A randomly generated constant.
         // If either the channel importance / priority or the sound are changed,
         // then CHANNEL_ID also needs to be changed.
-        private const val CHANNEL_ID = "LMFWEBMADH"
+        private const val CHANNEL_ID = "LMFWEBMADK"
     }
 }
 
