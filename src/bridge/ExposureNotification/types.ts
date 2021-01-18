@@ -100,7 +100,7 @@ export interface ExposureNotification {
 
 export interface ExposureNotificationAPI {
   detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary>;
-  detectExposureV2(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureWindow>;
+  detectExposureV2(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
   getPendingExposureSummary(): Promise<ExposureSummary | undefined> /* used only by Android */;
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined> /* used only by Android */;
   getExposureWindows(): ExposureWindow[];
