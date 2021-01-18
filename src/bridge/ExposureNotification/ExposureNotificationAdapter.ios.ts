@@ -12,8 +12,17 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }
-
+      log.debug({
+        category: 'exposure-check',
+        message: 'exposureNotificationAPI.detectExposure before for loop',
+        payload: {diagnosisKeysURLs},
+      });
       for (const keysZipUrl of diagnosisKeysURLs) {
+        log.debug({
+          category: 'exposure-check',
+          message: 'exposureNotificationAPI.detectExposure start of for loop',
+          payload: {keysZipUrl},
+        });
         const components = keysZipUrl.split('/');
         components.pop();
         components.push('keys-export');
@@ -30,7 +39,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         log.debug({
           category: 'exposure-check',
           message: 'exposureNotificationAPI.detectExposure',
-          payload: {exposureWindows},
+          payload: {'exposureWindows.length': exposureWindows.length},
         });
         // this call will fail on V2 since `daysSinceLastExposure` does not exist on summary
         // summary.lastExposureTimestamp = getLastExposureTimestamp(summary);

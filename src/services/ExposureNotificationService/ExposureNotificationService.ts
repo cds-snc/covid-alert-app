@@ -580,7 +580,11 @@ export class ExposureNotificationService {
       } else {
         exposureWindows = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       }
-
+      log.debug({
+        category: 'exposure-check',
+        message: 'performExposureStatusUpdateV2',
+        payload: {'exposureWindows.length': exposureWindows.length},
+      });
       const [isExposed, dailySummary] = await this.checkIfExposedV2({
         exposureWindows,
         attenuationDurationThresholds: exposureConfiguration.attenuationDurationThresholds,
