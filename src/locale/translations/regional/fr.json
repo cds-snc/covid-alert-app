@@ -1,0 +1,254 @@
+{
+  "RegionContent": {
+    "Home": {
+      "ON": {
+        "ExposedHelpLink": "https://covid-19.ontario.ca/fr/expose"
+      },
+      "QC": {
+        "ExposedHelpLink": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/tests-de-depistage/?utm_source=canada.ca_alertecovid&utm_medium=application_Que_faire&utm_campaign=cqen_alertecovid_2020&utm_content=francais"
+      },
+      "SK": {
+        "ExposedHelpLink": "https://www.saskatchewan.ca/covid19-apps"
+      },
+      "NT": {
+        "ExposedHelpLink": "https://www.gov.nt.ca/covid-19/en/services/health-and-well-being/isolation"
+      }
+    },
+    "DiagnosedView": {
+      "Active": {
+        "ON": {
+          "Tip": {
+            "Body": "Vous pouvez vous préparer pour l’appel de la Santé publique sur le site Web des résultats du test.",
+            "CTA": "Site des résultats du test",
+            "URL": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+          }
+        },
+        "NL": {
+          "Tip": {
+            "Body": "Vous devez vous isoler et suivre les recommandations de santé publique.",
+            "CTA": "Comment vous isoler",
+            "URL": "https://www.gov.nl.ca/covid-19/comment-proceder-a-lauto-isolement/"
+          }
+        },
+        "NB": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "SK": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "MB": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "QC": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "NS": {
+          "Tip": {
+            "Body": "Vous devez vous isoler.",
+            "CTA": "Comment vous isoler",
+            "URL": "https://novascotia.ca/coronavirus/symptoms-and-testing/fr/#self-isolate"
+          }
+        },
+        "PE": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "NT": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        }
+      }
+    },
+    "NoCode": {
+      "Active": {
+        "ON": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Si vous avez reçu un test positif en Ontario :",
+          "Body2": "Allez sur le site Web des Résultats du test de diagnostic de la COVID-19 puis entrez vos informations.",
+          "Body3": "Consultez les résultats de votre test.",
+          "Body4": "Notez la clé à usage unique.",
+          "Body5": "Revenez ici et entrez la clé.",
+          "CTA": "Aller sur le site des Résultats du test pour la COVID-19",
+          "Link": "https://covid19results.ehealthontario.ca:4443/agree?la=fr"
+        },
+        "NL": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "Aide",
+          "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+        },
+        "NB": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "",
+          "Link": ""
+        },
+        "SK": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "Aide",
+          "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+        },
+        "MB": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "Aide",
+          "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+        },
+        "QC": {
+          "Title": "Avez-vous reçu un résultat positif?",
+          "Body": "Vous pouvez demander une clé à usage unique seulement si vous recevez un diagnostic de COVID-19.\n\nAprès avoir reçu l’appel de la Santé publique, appelez au 1-855-228-4253 pour demander une clé.\n\nN’appelez que si vous avez reçu un appel de la Santé publique concernant votre test positif.",
+          "CTA": "Votre résultat est-il positif?\nAppelez au 1-855-228-4253",
+          "Link": "tel:1-855-228-4253"
+        },
+        "PE": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "Aide",
+          "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+        },
+        "NS": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "Aide",
+          "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+        },
+        "NT": {
+          "Title": "Obtenir une clé à usage unique",
+          "Body": "Quand vous recevez un résultat de test positif pour la COVID-19, la Santé publique vous fournit aussi une clé à usage unique.\n\nVous recevrez une seule clé, et elle expirera au bout de 24 heures.",
+          "CTA": "Aide",
+          "Link": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html#4"
+        }
+      }
+    },
+    "ExposureView": {
+      "Active": {
+        "ON": {
+          "Body": "Vous êtes à risque d’être infecté.",
+          "CTA": "Lisez les étapes à suivre",
+          "URL": "https://ontario.ca/covidalerte-expose"
+        },
+        "NL": {
+          "Body": "Vous êtes à risque d’être infecté.",
+          "CTA": "Lisez les étapes à suivre",
+          "URL": "https://www.gov.nl.ca/covid-19/expose/"
+        },
+        "NB": {
+          "Body": "",
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://www2.gnb.ca/content/gnb/fr/corporate/promo/covid-19/alerte_covid.html"
+        },
+        "SK": {
+          "Body": "Vous êtes à risque d’être infecté.",
+          "CTA": "Lisez les étapes à suivre (page en anglais)",
+          "URL": "https://www.saskatchewan.ca/covid19-apps?utm_source=goc&utm_medium=link&utm_campaign=alert"
+        },
+        "MB": {
+          "Body": "Vous êtes à risque d’être infecté.",
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://covid19.soinscommunsmb.ca/covid19/outil-de-depistage/"
+        },
+        "QC": {
+          "Body": "Vous pourriez avoir contracté le virus.",
+          "CTA": "Lisez les consignes à suivre",
+          "URL": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/tests-de-depistage/?utm_source=canada.ca_alertecovid&utm_medium=application_consignes_a_suivre&utm_campaign=cqen_alertecovid_2020&utm_content=francais"
+        },
+        "NS": {
+          "Body": "",
+          "CTA": "Lisez les étapes à suivre",
+          "URL": "https://novascotia.ca/coronavirus/exposure/fr"
+        },
+        "PE": {
+          "Body": "Vous êtes à risque d’être infecté. ",
+          "CTA": "Lisez les étapes à suivre",
+          "URL": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/application-alerte-covid#utm_source=inapp&utm_medium=app&utm_campaign=ApplicationAlerteCovid"
+        },
+        "NT": {
+          "Body": "Vous devez vous isoler pendant 14 jours et contacter votre professionnel de la santé dès que possible.",
+          "CTA": "Comment vous isoler",
+          "URL": "https://www.gov.nt.ca/covid-19/fr/services/sant%C3%A9-et-bien-%C3%AAtre/isolement-obligatoire"
+        }
+      },
+      "Inactive": {
+        "CA": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://ca.thrive.health/covid19/fr"
+        },
+        "AB": {
+          "CTA": "Découvrez si vous devriez vous faire tester (lien en anglais seulement)",
+          "URL": "https://myhealth.alberta.ca/Journey/COVID-19/Pages/PubAsympIsolate.aspx"
+        },
+        "BC": {
+          "CTA": "Découvrez si vous devriez vous faire tester (lien en anglais seulement)",
+          "URL": "https://bc.thrive.health/covid19/en"
+        },
+        "MB": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://covid19.soinscommunsmb.ca/covid19/outil-de-depistage/"
+        },
+        "NB": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://www2.gnb.ca/content/gnb/fr/ministeres/bmhc/maladies_transmissibles/content/maladies_respiratoires/coronavirus/expositionaucoronavirus.html#/app/symptom-checker/guides/399/what-to-do"
+        },
+        "NL": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://www.811healthline.ca/fr/autoevaluation-pour-la-covid-19/"
+        },
+        "NT": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://www.gov.nt.ca/covid-19/fr/services/outil-d%E2%80%99auto-%C3%A9valuation-en-ligne-pour-la-covid-19-aux-tno"
+        },
+        "NS": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://novascotia.ca/coronavirus/when-to-seek-help/fr/#if-exposed"
+        },
+        "NU": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://nu.thrive.health/covid19/fr"
+        },
+        "ON": {
+          "CTA": "Lisez les étapes à suivre",
+          "URL": "https://ontario.ca/covidalerte-expose"
+        },
+        "PE": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://www.princeedwardisland.ca/fr/information/sante-et-mieux-etre/auto-isolement-pour-lutter-contre-la-covid-19"
+        },
+        "QC": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://www.quebec.ca/sante/problemes-de-sante/a-z/coronavirus-2019/consignes-isolement-personne-en-contact-covid-19/"
+        },
+        "SK": {
+          "CTA": "Découvrez si vous devriez vous faire tester (lien en anglais seulement)",
+          "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/covid-19-self-assessment"
+        },
+        "YT": {
+          "CTA": "Découvrez si vous devriez vous faire tester",
+          "URL": "https://service.yukon.ca/fr/covid-19-auto-evaluation/"
+        }
+      }
+    }
+  }
+}

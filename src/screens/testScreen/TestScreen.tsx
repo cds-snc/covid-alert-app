@@ -16,6 +16,7 @@ import {captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
+import {ForceScreen} from 'shared/ForceScreen';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -24,14 +25,19 @@ import {Section} from './views/Section';
 
 const ScreenRadioSelector = () => {
   const {forceScreen, setForceScreen} = useStorage();
+  const forceScreenOnPress = (value: string) => {
+    if (Object.values(ForceScreen).includes(value as ForceScreen)) {
+      setForceScreen(value as ForceScreen);
+    }
+  };
   const screenData = [
-    {displayName: 'None', value: 'None'},
-    {displayName: 'Not Exposed', value: 'NoExposureView'},
-    {displayName: 'Exposed', value: 'ExposureView'},
-    {displayName: 'Diagnosed Share Data', value: 'DiagnosedShareView'},
-    {displayName: 'Diagnosed', value: 'DiagnosedView'},
-    {displayName: 'Diagnosed Share Upload', value: 'DiagnosedShareUploadView'},
-    {displayName: 'Unsupported Framework', value: 'FrameworkUnavailableView'},
+    {displayName: 'None', value: ForceScreen.None},
+    {displayName: 'Not Exposed', value: ForceScreen.NoExposureView},
+    {displayName: 'Exposed', value: ForceScreen.ExposureView},
+    {displayName: 'Diagnosed Share Data', value: ForceScreen.DiagnosedShareView},
+    {displayName: 'Diagnosed', value: ForceScreen.DiagnosedView},
+    {displayName: 'Diagnosed Share Upload', value: ForceScreen.DiagnosedShareUploadView},
+    {displayName: 'Unsupported Framework', value: ForceScreen.FrameworkUnavailableView},
   ];
   return (
     <Box
@@ -47,7 +53,7 @@ const ScreenRadioSelector = () => {
             testID={x.value}
             key={x.displayName}
             selected={forceScreen === x.value}
-            onPress={setForceScreen}
+            onPress={forceScreenOnPress}
             name={x.displayName}
             value={x.value}
           />
