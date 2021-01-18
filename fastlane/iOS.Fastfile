@@ -1,10 +1,3 @@
-schemes = {
-  'production' => 'Production',
-  'staging' => 'Staging',
-  'demo' => 'Staging',
-  'diawi' => 'Staging',
-}
-
 platform :ios do
   lane :check_version_code_exists do
     testflight_latest = latest_testflight_build_number(
@@ -46,7 +39,7 @@ platform :ios do
 
     # Build the app
     build_app(
-      scheme: schemes[buildType],
+      scheme: ENV["XCODE_SCHEME"],
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "app-store",
       output_directory: output_directory,
@@ -104,18 +97,21 @@ platform :ios do
       )
     end
 
+    # For AdHoc builds we want to force regeneration of the
+    # Provisioning Profile so we can ensure all registered
+    # devices are added to the profile
     get_provisioning_profile(
       adhoc: true,
       force: true,
       app_identifier: ENV["APP_ID"],
-      provisioning_name: ENV["PROFILE"],
-      template_name: 'Exposure Notification for TEAMID (Distribution) iOS Dist ADHOC',
+      provisioning_name: ENV["XCODE_PROFILE"],
+      template_name: ENV["TEMPLATE"],
       output_path: './fastlane/certs/ios/',
-      filename: "CovidShield_AdHoc.mobileprovision"
+      filename: "CovidAlert_AdHoc.mobileprovision"
     )
 
     build_app(
-      scheme: "Staging",
+      scheme: ENV["XCODE_SCHEME"],
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "ad-hoc",
       output_directory: output_directory,
