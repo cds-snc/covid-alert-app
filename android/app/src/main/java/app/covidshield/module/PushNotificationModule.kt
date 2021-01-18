@@ -1,6 +1,5 @@
 package app.covidshield.module
 
-import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -94,6 +93,10 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
                 notificationManager.deleteNotificationChannel("COVID Alert")
                 notificationManager.createNotificationChannel(channel)
             }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            builder.setStyle(NotificationCompat.BigTextStyle().bigText(config.body))
         }
 
         notificationManager.notify(config.uuid.hashCode(), builder.build())
