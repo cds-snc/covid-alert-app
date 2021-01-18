@@ -22,6 +22,9 @@ platform :ios do
     # Load env file
     load_env_file(buildType:buildType)
 
+    # Check required env vars
+    UI.user_error!("Missing XCODE_SCHEME environment variable") unless ENV['XCODE_SCHEME']
+
     # Check Version Code
     check_version_code_exists
 
@@ -85,6 +88,16 @@ platform :ios do
   lane :adhoc do |options|
     env = (options[:env] ? options[:env] : "local")
     prepare_local(env: env)
+
+    # Check required env vars
+    UI.user_error!("Missing APPLE_ID environment variable") unless ENV['APPLE_ID']
+    UI.user_error!("Missing APP_ID environment variable") unless ENV['APP_ID']
+    UI.user_error!("Missing XCODE_PROFILE environment variable") unless ENV['XCODE_PROFILE']
+    UI.user_error!("Missing TEMPLATE environment variable") unless ENV['TEMPLATE']
+    UI.user_error!("Missing XCODE_SCHEME environment variable") unless ENV['XCODE_SCHEME']
+    UI.user_error!("Missing DIAWI_TOKEN environment variable") unless ENV['DIAWI_TOKEN']
+    UI.user_error!("Missing APP_VERSION_NAME environment variable") unless ENV['APP_VERSION_NAME']
+    UI.user_error!("Missing APP_VERSION_CODE environment variable") unless ENV['APP_VERSION_CODE']
 
     output_directory = File.expand_path('../build/ios')
 
