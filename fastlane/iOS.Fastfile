@@ -1,7 +1,8 @@
 schemes = {
   'production' => 'Production',
   'staging' => 'Staging',
-  'demo' => 'Demo'
+  'demo' => 'Staging',
+  'diawi' => 'Staging',
 }
 
 platform :ios do
@@ -97,25 +98,6 @@ platform :ios do
     )
 
     ensure_build_directory
-  end
-
-  desc "Builds a local iOS adhoc .ipa"
-  lane :local do
-    prepare_local
-
-    output_directory = File.expand_path('../build/ios')
-
-    build_app(
-      scheme: "CovidShield",
-      workspace: "./ios/CovidShield.xcworkspace",
-      export_method: "ad-hoc",
-      output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID"] => ENV["PROFILE_ADHOC"]
-        }
-      }
-    )
   end
 
   lane :devices_file_exists do
