@@ -2,22 +2,15 @@ import {log} from 'shared/logging/config';
 import {unzip} from 'react-native-zip-archive';
 
 import {ExposureConfiguration, ExposureNotificationAPI, ExposureSummary, ExposureWindow} from './types';
-import {getLastExposureTimestamp} from './utils';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotificationAPI) {
   return {
     ...exposureNotificationAPI,
     detectExposure: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
-      const allExposureWindows: ExposureWindow[] = [];
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }
-      log.debug({
-        category: 'exposure-check',
-        message: 'exposureNotificationAPI.detectExposure before for loop',
-        payload: {diagnosisKeysURLs},
-      });
-      for (const keysZipUrl of diagnosisKeysURLs) {
+      const mapKeysToExposureWindows = async (keysZipUrl: string) => {
         log.debug({
           category: 'exposure-check',
           message: 'exposureNotificationAPI.detectExposure start of for loop',
@@ -41,10 +34,20 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
           message: 'exposureNotificationAPI.detectExposure',
           payload: {'exposureWindows.length': exposureWindows.length},
         });
-        // this call will fail on V2 since `daysSinceLastExposure` does not exist on summary
-        // summary.lastExposureTimestamp = getLastExposureTimestamp(summary);
-        allExposureWindows.concat(exposureWindows);
-      }
+        return exposureWindows;
+      };
+
+      log.debug({
+        category: 'exposure-check',
+        message: 'exposureNotificationAPI.detectExposure before for loop',
+        payload: {diagnosisKeysURLs},
+      });
+      const exposureWindowArray = Promise.all(diagnosisKeysURLs.map(mapKeysToExposureWindows));
+      const allExposureWindows = exposureWindowArray.then(arrays => {
+        // https://stackoverflow.com/questions/42173350/synchronous-and-asynchronous-loops-in-javascript
+        // eslint-disable-next-line prefer-spread
+        return [].concat.apply([], arrays);
+      });
 
       log.debug({
         category: 'configuration',
