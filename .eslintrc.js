@@ -41,5 +41,6 @@ module.exports = {
     '**/services/BackendService/covidshield/*.d.ts',
     '**/services/BackendService/covidshield/*.js',
     '**/translations/index.js',
+    '**/translations/regional/index.js'
   ],
 };

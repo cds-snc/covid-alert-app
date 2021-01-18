@@ -37,6 +37,7 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
             NativePushNotification.presentLocalNotification({
               alertTitle: i18n.translate('Notification.PausedMessageTitle'),
               alertBody: i18n.translate('Notification.PausedMessageBody'),
+              channelName: i18n.translate('Notification.AndroidChannelName'),
             });
           },
           style: 'default',
