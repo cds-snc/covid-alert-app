@@ -1,5 +1,6 @@
 package app.covidshield.module
 
+import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
