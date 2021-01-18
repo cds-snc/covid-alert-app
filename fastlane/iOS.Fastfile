@@ -108,22 +108,17 @@ platform :ios do
       adhoc: true,
       force: true,
       app_identifier: ENV["APP_ID"],
-      provisioning_name: ENV["PROFILE_ADHOC"],
+      provisioning_name: ENV["PROFILE"],
       template_name: 'Exposure Notification for TEAMID (Distribution) iOS Dist ADHOC',
       output_path: './fastlane/certs/ios/',
       filename: "CovidShield_AdHoc.mobileprovision"
     )
 
     build_app(
-      scheme: "CovidShield",
+      scheme: "Staging",
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "ad-hoc",
       output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID"] => ENV["PROFILE_ADHOC"]
-        }
-      }
     )
 
     diawi(
