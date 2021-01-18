@@ -39,9 +39,6 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return summaries;
     },
     getPendingExposureSummary: async () => undefined,
-    getExposureWindowsIos: async (summary: ExposureSummary) => {
-      return exposureNotificationAPI.getExposureWindowsFromSummary(summary);
-    },
     detectExposureV2: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
@@ -96,7 +93,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         }
       };
       // the following only works if we use one element from diagnosisKeysURLs
-      const exposureWindowArray = Promise.all(diagnosisKeysURLs.slice(1).map(mapKeysToExposureWindows));
+      const exposureWindowArray = Promise.all(diagnosisKeysURLs.reverse().slice(1).map(mapKeysToExposureWindows));
       const allExposureWindows = exposureWindowArray.then(arrays => {
         // https://stackoverflow.com/questions/42173350/synchronous-and-asynchronous-loops-in-javascript
         // eslint-disable-next-line prefer-spread

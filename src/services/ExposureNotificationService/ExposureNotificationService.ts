@@ -733,7 +733,7 @@ export class ExposureNotificationService {
 
     try {
       log.debug({category: 'exposure-check', message: 'detectExposure'});
-      const summaries = await this.exposureNotification.detectExposureV2(exposureConfiguration, keysFileUrls);
+      const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,
