@@ -578,7 +578,7 @@ export class ExposureNotificationService {
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
-        exposureWindows = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+        exposureWindows = await this.exposureNotification.detectExposureV2(exposureConfiguration, keysFileUrls);
       }
       log.debug({
         category: 'exposure-check',
@@ -733,7 +733,7 @@ export class ExposureNotificationService {
 
     try {
       log.debug({category: 'exposure-check', message: 'detectExposure'});
-      const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+      const summaries = await this.exposureNotification.detectExposureV2(exposureConfiguration, keysFileUrls);
       const summariesContainingExposures = this.findSummariesContainingExposures(
         exposureConfiguration.minimumExposureDurationMinutes,
         summaries,

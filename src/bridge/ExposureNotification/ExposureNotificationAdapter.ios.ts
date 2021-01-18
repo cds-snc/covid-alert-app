@@ -7,7 +7,7 @@ import { RESULTS } from 'react-native-permissions';
 export default function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotificationAPI) {
   return {
     ...exposureNotificationAPI,
-    detectExposure: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
+    detectExposureV2: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }
@@ -25,7 +25,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         // hard-coding this temporarily - v2 takes 3 values
         configuration.attenuationDurationThresholds = [50, 62, 90];
 
-        const exposureWindows: ExposureWindow[] = await exposureNotificationAPI.detectExposure(configuration, [
+        const exposureWindows: ExposureWindow[] = await exposureNotificationAPI.detectExposureV2(configuration, [
           `${unzippedLocation}/export.bin`,
           `${unzippedLocation}/export.sig`,
         ]);
