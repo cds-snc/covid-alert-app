@@ -2,7 +2,6 @@ import {log} from 'shared/logging/config';
 import {unzip} from 'react-native-zip-archive';
 
 import {ExposureConfiguration, ExposureNotificationAPI, ExposureSummary, ExposureWindow} from './types';
-import { RESULTS } from 'react-native-permissions';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotificationAPI) {
   return {
@@ -60,8 +59,8 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
           console.log('done pause');
         }
       };
-
-      const exposureWindowArray = Promise.all(diagnosisKeysURLs.map(mapKeysToExposureWindows));
+      // the following only works if we use one element from diagnosisKeysURLs
+      const exposureWindowArray = Promise.all(diagnosisKeysURLs.slice(1).map(mapKeysToExposureWindows));
       const allExposureWindows = exposureWindowArray.then(arrays => {
         // https://stackoverflow.com/questions/42173350/synchronous-and-asynchronous-loops-in-javascript
         // eslint-disable-next-line prefer-spread
