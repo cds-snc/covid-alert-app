@@ -1,3 +1,9 @@
+schemes = {
+  'production' => 'Production',
+  'staging' => 'Staging',
+  'demo' => 'Demo'
+}
+
 platform :ios do
   lane :check_version_code_exists do
     testflight_latest = latest_testflight_build_number(
@@ -33,18 +39,6 @@ platform :ios do
     UI.user_error!("You must specify a build type") unless options[:type]
     buildType = options[:type]
     release = options[:type] === 'production'
-
-    schemes = {
-      'production' => 'Production',
-      'staging' => 'Staging',
-      'demo' => 'Demo'
-    }
-
-    # Prompt to update XCode config
-    UI.user_error!("Better go do that") unless prompt(
-      text: "Did you remember to check your Xcode Bundle Identifier and Provisioning Profile settings?",
-      boolean: true
-    )
 
     # Load env file
     load_env_file(buildType:buildType)
