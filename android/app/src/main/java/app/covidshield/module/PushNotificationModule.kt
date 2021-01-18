@@ -90,6 +90,8 @@ class PushNotificationModule(private val context: ReactApplicationContext) : Rea
             ).apply {
                 description = CHANNEL_DESC
             }.also { channel ->
+                // delete old channels as new ones are created with random channel IDs
+                notificationManager.deleteNotificationChannel("COVID Alert")
                 notificationManager.createNotificationChannel(channel)
             }
         }
