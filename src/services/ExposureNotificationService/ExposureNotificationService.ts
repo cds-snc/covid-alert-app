@@ -822,7 +822,7 @@ export class ExposureNotificationService {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.OTKNotSharedTitle'),
         alertBody: this.i18n.translate('Notification.OTKNotSharedBody'),
-        channelName: this.i18n.translate("Notification.AndroidChannelName"),
+        channelName: this.i18n.translate('Notification.AndroidChannelName'),
       });
     }
   }
@@ -1061,7 +1061,7 @@ export class ExposureNotificationService {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.ExposedMessageTitle'),
         alertBody: this.i18n.translate('Notification.ExposedMessageBody'),
-        channelName: this.i18n.translate("Notification.AndroidChannelName"),
+        channelName: this.i18n.translate('Notification.AndroidChannelName'),
       });
       await this.exposureStatus.append({
         notificationSent: true,
@@ -1071,7 +1071,7 @@ export class ExposureNotificationService {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.DailyUploadNotificationTitle'),
         alertBody: this.i18n.translate('Notification.DailyUploadNotificationBody'),
-        channelName: this.i18n.translate("Notification.AndroidChannelName"),
+        channelName: this.i18n.translate('Notification.AndroidChannelName'),
       });
       await this.exposureStatus.append({
         uploadReminderLastSentAt: getCurrentDate().getTime(),
