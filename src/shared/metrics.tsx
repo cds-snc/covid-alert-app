@@ -19,6 +19,10 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
 
 export type EventType = 'installed' | 'onboarded' | 'exposed' | 'onetimekey' | 'en-toggle';
 
+export const sendMetricEvent = (payload: any) => {
+  log.debug({message: 'metric', payload});
+};
+
 export const useMetrics = () => {
   const exposureStatus = useExposureStatus();
   const {region, userStopped} = useStorage();
@@ -48,7 +52,7 @@ export const useMetrics = () => {
         break;
     }
 
-    log.debug({message: 'metric', payload});
+    sendMetricEvent(payload);
   };
 
   return addEvent;
