@@ -17,7 +17,7 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   return {exposed: false};
 };
 
-export type EventType = 'installed' | 'onboarded' | 'exposed' | 'onetimekey' | 'en-toggle';
+export type EventType = 'installed' | 'onboarded' | 'exposed' | 'otk' | 'otk-with-date' | 'en-toggle';
 
 export const sendMetricEvent = (payload: any) => {
   log.debug({message: 'metric', payload});
@@ -44,8 +44,11 @@ export const useMetrics = () => {
         break;
       case 'exposed':
         break;
-      case 'onetimekey':
-        payload = {...checkStatus(exposureStatus), ...payload, symptomonsent: ''};
+      case 'otk':
+        payload = {...checkStatus(exposureStatus), ...payload};
+        break;
+      case 'otk-with-date':
+        payload = {...checkStatus(exposureStatus), ...payload};
         break;
       case 'en-toggle':
         payload = userStopped ? {...payload, state: 'off'} : {...payload, state: 'on'};
