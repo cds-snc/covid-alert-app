@@ -605,21 +605,16 @@ export class ExposureNotificationService {
       log.debug({
         category: 'exposure-check',
         message: 'performExposureStatusUpdateV2',
-        payload: {'exposureWindows.length': exposureWindows.length},
+        payload: {'exposureWindows.length': exposureWindows.length, exposureWindows},
       });
-      const [isExposed, dailySummary] = await this.checkIfExposedV2({
+      const [isExposed, summary] = await this.checkIfExposedV2({
         exposureWindows,
         attenuationDurationThresholds: exposureConfiguration.attenuationDurationThresholds,
         minimumExposureDurationMinutes: exposureConfiguration.minimumExposureDurationMinutes,
       });
-      if (isExposed) {
-        return this.finalize(
-          {
-            type: ExposureStatusType.Exposed,
-            summary: dailySummary,
-          },
-          lastCheckedPeriod,
-        );
+      if (isExposed && summary !== undefined) {
+        this.setExposed(summary, currentExposureStatus, lastCheckedPeriod);
+        return;
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
