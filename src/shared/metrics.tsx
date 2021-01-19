@@ -20,6 +20,25 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
 
 export type EventType = 'installed' | 'onboarded' | 'exposed' | 'otk-no-date' | 'otk-with-date' | 'en-toggle';
 
+interface Metric {
+  identifier: string;
+  timestamp: number;
+  region: string | undefined;
+}
+
+interface OnboardedMetric extends Metric {
+  pushnotification: string;
+  frameworkenabled: boolean;
+}
+
+interface OTKMetric extends Metric {
+  exposed: boolean;
+}
+
+interface EnToggleMetric extends Metric {
+  state: boolean;
+}
+
 export const sendMetricEvent = (payload: any) => {
   if (LOGGLY_URL) {
     log.debug({category: 'metrics', message: payload.identifier, payload});
@@ -33,14 +52,15 @@ export const useMetrics = () => {
   const [notificationStatus] = useNotificationPermissionStatus();
 
   const addEvent = (eventType: EventType) => {
-    let payload: any = {identifier: eventType, timestamp: new Date().getTime(), region};
+    const initialPayload: Metric = {identifier: eventType, timestamp: new Date().getTime(), region};
+    let payload: Metric | OnboardedMetric | OTKMetric | EnToggleMetric = {...initialPayload};
 
     switch (eventType) {
       case 'installed':
         break;
       case 'onboarded':
         payload = {
-          ...payload,
+          ...initialPayload,
           pushnotification: notificationStatus,
           frameworkenabled: systemStatus === SystemStatus.Active,
         };
@@ -48,13 +68,13 @@ export const useMetrics = () => {
       case 'exposed':
         break;
       case 'otk-no-date':
-        payload = {...checkStatus(exposureStatus), ...payload};
+        payload = {...checkStatus(exposureStatus), ...initialPayload};
         break;
       case 'otk-with-date':
-        payload = {...checkStatus(exposureStatus), ...payload};
+        payload = {...checkStatus(exposureStatus), ...initialPayload};
         break;
       case 'en-toggle':
-        payload = userStopped ? {...payload, state: 'off'} : {...payload, state: 'on'};
+        payload = userStopped ? {...initialPayload, state: false} : {...initialPayload, state: true};
         break;
     }
 
