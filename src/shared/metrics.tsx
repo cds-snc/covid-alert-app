@@ -1,6 +1,13 @@
 import {log} from 'shared/logging/config';
-import {useExposureStatus, ExposureStatusType, ExposureStatus} from 'services/ExposureNotificationService';
+import {
+  useExposureStatus,
+  ExposureStatusType,
+  ExposureStatus,
+  SystemStatus,
+  useSystemStatus,
+} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
+import {useNotificationPermissionStatus} from '../../src/screens/home/components/NotificationPermissionStatus';
 
 const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   if (exposureStatus.type === ExposureStatusType.Exposed) {
@@ -10,28 +17,36 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   return {exposed: false};
 };
 
-type EventType = 'onboarded' | 'otk' | 'enToggle';
+type EventType = 'installed' | 'onboarded' | 'exposed' | 'onetimekey' | 'en-toggle';
 
 export const useMetrics = () => {
   const exposureStatus = useExposureStatus();
   const {region, userStopped} = useStorage();
+  const [systemStatus] = useSystemStatus();
+  const [notificationStatus] = useNotificationPermissionStatus();
 
   const addEvent = (eventType: EventType) => {
-    let payload: any = {timestamp: new Date().getTime(), region};
+    let payload: any = {identifier: eventType, timestamp: new Date().getTime(), region};
 
     switch (eventType) {
+      case 'installed':
+        break;
       case 'onboarded':
-        payload = {...payload};
+        payload = {
+          ...payload,
+          pushnotification: notificationStatus,
+          frameworkenabled: systemStatus === SystemStatus.Active,
+        };
         break;
-      case 'otk':
-        payload = {...checkStatus(exposureStatus), ...payload};
+      case 'exposed':
         break;
-      case 'enToggle':
-        payload = userStopped ? {...payload, en: 'off'} : {...payload, en: 'on'};
+      case 'onetimekey':
+        payload = {...checkStatus(exposureStatus), ...payload, symptomonsent: ''};
+        break;
+      case 'en-toggle':
+        payload = userStopped ? {...payload, state: 'off'} : {...payload, state: 'on'};
         break;
     }
-
-    console.log('===================================');
 
     log.debug({message: 'metric', payload});
   };
