@@ -425,7 +425,8 @@
     "PausedMessageTitle": "Vous avez désactivé l’application",
     "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
     "OTKNotSharedTitle": "Pas tout à fait fini",
-    "OTKNotSharedBody": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées."
+    "OTKNotSharedBody": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées.",
+    "AndroidChannelName": "Alerte COVID"
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"

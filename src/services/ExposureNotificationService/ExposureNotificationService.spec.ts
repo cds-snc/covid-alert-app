@@ -25,7 +25,7 @@ jest.mock('react-native-zip-archive', () => ({
 
 jest.mock('../../bridge/CovidShield', () => ({
   getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
-  downloadDiagnosisKeysFile: jest.fn(),
+  downloadDiagnosisKeysFile: jest.fn(x => ''),
 }));
 
 jest.mock('react-native-background-fetch', () => {
@@ -719,8 +719,7 @@ describe('ExposureNotificationService', () => {
       );
     });
 
-    it('selects current exposure summary if user is already exposed', async () => {
-      // abc
+    it('selects next exposure summary if user is already exposed', async () => {
       const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
       const currentSummary = getSummary({
@@ -751,7 +750,7 @@ describe('ExposureNotificationService', () => {
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
           type: ExposureStatusType.Exposed,
-          summary: currentSummary,
+          summary: nextSummary,
         }),
       );
     });
@@ -962,42 +961,173 @@ describe('ExposureNotificationService', () => {
       expect(shouldPerformExposureCheck).toStrictEqual(true);
     });
   });
-
   describe('performExposureStatusUpdate', () => {
-    it('does not update exposureDetectedAt when an old exposure is returned', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-      const tomorrow = new OriginalDate('2020-05-19T04:10:00+0000');
+    const may18 = new OriginalDate('2020-05-18T04:10:00+0000');
+    const may19 = new OriginalDate('2020-05-19T04:10:00+0000');
+    const may20 = new OriginalDate('2020-05-20T04:10:00+0000');
+    const june18 = new OriginalDate('2020-06-18T04:10:00+0000');
+    const summary1 = getSummary({
+      today: may18,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 10,
+      attenuationDurations: [20, 0, 0],
+    });
+    const summary2 = getSummary({
+      today: may18,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 1,
+      attenuationDurations: [20, 0, 0],
+    });
+    beforeEach(() => {
       service.exposureStatus.set({
         type: ExposureStatusType.Monitoring,
       });
-      // mock returning an exposure
-      const summary = getSummary({
-        today,
-        hasMatchedKey: true,
-        daysSinceLastExposure: 1,
-        attenuationDurations: [20, 0, 0],
-      });
-      bridge.detectExposure.mockResolvedValue([summary]);
+    });
 
-      // check that we are exposed and the detected at date is today
+    it('does not update exposureDetectedAt when an old exposure is returned', async () => {
+      // mock returning an exposure
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
+
+      // check that we are exposed and the detected at date is may18
       await service.performExposureStatusUpdate();
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          exposureDetectedAt: today.getTime(),
+          exposureDetectedAt: may18.getTime(),
           type: ExposureStatusType.Exposed,
         }),
       );
       // mock changing the current date
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : tomorrow));
-
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : may19));
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
       // check that we are exposed and the detected at date is still the same
       await service.performExposureStatusUpdate();
       expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
-          exposureDetectedAt: today.getTime(),
+          exposureDetectedAt: may18.getTime(),
           type: ExposureStatusType.Exposed,
         }),
       );
+    });
+    it('saves the exposure notification time to the history correctly - 2 exposures same day', async () => {
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime()]);
+      bridge.detectExposure.mockResolvedValueOnce([summary2]);
+      await service.performExposureStatusUpdate();
+      // why a 2nd status update? I don't know
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may18.getTime()]);
+    });
+    it('saves the exposure notification time to the history correctly - 2 exposures different days', async () => {
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime()]);
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : may19));
+      bridge.detectExposure.mockResolvedValueOnce([summary2]);
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may19.getTime()]);
+    });
+    it('erases exposure history when the state returns to monitoring', async () => {
+      bridge.detectExposure.mockResolvedValueOnce([summary1]);
+      await service.performExposureStatusUpdate();
+      bridge.detectExposure.mockResolvedValueOnce([summary2]);
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may18.getTime()]);
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : june18));
+      await service.performExposureStatusUpdate();
+      expect(service.exposureHistory.get()).toStrictEqual([]);
+    });
+  });
+
+  describe('selectExposureSummary', () => {
+    const summary1 = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 1,
+      attenuationDurations: [20, 0, 0],
+    });
+    const summary2 = getSummary({
+      today,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 2,
+      attenuationDurations: [20, 0, 0],
+    });
+    it('selects the next Exposure Summary if state is monitoring', () => {
+      service.exposureStatus.set({
+        type: ExposureStatusType.Monitoring,
+      });
+      const {summary, isNext} = service.selectExposureSummary(summary1);
+      expect(summary).toStrictEqual(summary1);
+      expect(isNext).toStrictEqual(true);
+    });
+    it('selects the current summary if the next one is older', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary: summary1,
+        exposureDetectedAt: today.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      const {summary, isNext} = service.selectExposureSummary(summary2);
+      expect(summary).toStrictEqual(summary1);
+      expect(isNext).toStrictEqual(false);
+    });
+    it('selects the next summary if the next one is newer', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary: summary2,
+        exposureDetectedAt: today.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      const {summary, isNext} = service.selectExposureSummary(summary1);
+      expect(summary).toStrictEqual(summary1);
+      expect(isNext).toStrictEqual(true);
+    });
+  });
+  describe('getExposureDetectedAt', () => {
+    const may18 = new OriginalDate('2020-05-18T04:10:00+0000');
+    const may19 = new OriginalDate('2020-05-19T04:10:00+0000');
+    const may20 = new OriginalDate('2020-05-20T04:10:00+0000');
+    const summary = getSummary({
+      today: may18,
+      hasMatchedKey: true,
+      daysSinceLastExposure: 1,
+      attenuationDurations: [20, 0, 0],
+    });
+    it('returns an empty array if status = monitoring', () => {
+      const dates = service.getExposureDetectedAt();
+      expect(dates).toStrictEqual([]);
+    });
+    it('returns exposureDetectedAt if there is no exposure history', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary,
+        exposureDetectedAt: may18.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      const dates = service.getExposureDetectedAt();
+      expect(dates).toStrictEqual([may18]);
+    });
+    it('returns the exposure history if it exists', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary,
+        exposureDetectedAt: may20.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      service.exposureHistory.set([may20.getTime(), may19.getTime(), may18.getTime()]);
+      const dates = service.getExposureDetectedAt();
+      expect(dates).toStrictEqual([may20, may19, may18]);
+    });
+    it('returns and sorts the exposure history if it exists', () => {
+      const currentStatus: ExposureStatus = {
+        type: ExposureStatusType.Exposed,
+        summary,
+        exposureDetectedAt: may20.getTime(),
+      };
+      service.exposureStatus.set(currentStatus);
+      service.exposureHistory.set([may18.getTime(), may19.getTime(), may20.getTime()]);
+      const dates = service.getExposureDetectedAt();
+      expect(dates).toStrictEqual([may20, may19, may18]);
     });
   });
 });

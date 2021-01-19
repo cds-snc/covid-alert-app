@@ -105,6 +105,7 @@ const Content = () => {
     PushNotification.presentLocalNotification({
       alertTitle: i18n.translate('Notification.ExposedMessageTitle'),
       alertBody: i18n.translate('Notification.ExposedMessageBody'),
+      channelName: i18n.translate('Notification.AndroidChannelName'),
     });
   }, [i18n]);
 

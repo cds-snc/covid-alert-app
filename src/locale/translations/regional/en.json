@@ -1,0 +1,254 @@
+{
+  "RegionContent": {
+    "Home": {
+      "ON": {
+        "ExposedHelpLink": "https://covid-19.ontario.ca/exposed"
+      },
+      "QC": {
+        "ExposedHelpLink": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19/?utm_source=canada.ca_alertecovid&utm_medium=application_if_you_re_exposed&utm_campaign=cqen_alertecovid_2020&utm_content=anglais"
+      },
+      "SK": {
+        "ExposedHelpLink": "https://www.saskatchewan.ca/covid19-apps"
+      },
+      "NT": {
+        "ExposedHelpLink": "https://www.gov.nt.ca/covid-19/en/services/health-and-well-being/isolation"
+      }
+    },
+    "DiagnosedView": {
+      "Active": {
+        "ON": {
+          "Tip": {
+            "Body": "You can prepare for your call from Public Health through the test results website.",
+            "CTA": "Test results website",
+            "URL": "https://covid19results.ehealthontario.ca:4443/login"
+          }
+        },
+        "NL": {
+          "Tip": {
+            "Body": "You need to self-isolate and follow advice from public health.",
+            "CTA": "How to self-isolate",
+            "URL": "https://www.gov.nl.ca/covid-19/individuals-and-households/self-isolation-and-self-monitoring/"
+          }
+        },
+        "NB": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "SK": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "MB": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "QC": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "NS": {
+          "Tip": {
+            "Body": "You need to self-isolate.",
+            "CTA": "How to self-isolate",
+            "URL": "https://novascotia.ca/coronavirus/symptoms-and-testing/#self-isolate"
+          }
+        },
+        "PE": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        },
+        "NT": {
+          "Tip": {
+            "Body": "",
+            "CTA": "",
+            "URL": ""
+          }
+        }
+      }
+    },
+    "NoCode": {
+      "Active": {
+        "ON": {
+          "Title": "Get a one-time key",
+          "Body": "If you’ve tested positive in Ontario:",
+          "Body2": "Go to the COVID-19 Test Results Website and enter your details.",
+          "Body3": "Review your test results.",
+          "Body4": "Get the one-time key.",
+          "Body5": "Come back here and enter the key.",
+          "CTA": "Go to COVID-19 Test Results Website",
+          "Link": "https://covid19results.ehealthontario.ca:4443/"
+        },
+        "NL": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+          "CTA": "Help",
+          "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
+        },
+        "NB": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone when you get your positive test result.\n\nYou will get one key, and it expires in 24 hours or after you submit it.",
+          "CTA": "",
+          "Link": ""
+        },
+        "SK": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+          "CTA": "Help",
+          "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
+        },
+        "MB": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health gives you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+          "CTA": "Help",
+          "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
+        },
+        "QC": {
+          "Title": "Have you tested positive?",
+          "Body": "You can only ask for a one-time key if you test positive for COVID-19.\n\nAfter getting your call from Public Health, you can ask for a key at 1-855-228-4253.\n\nDo not call unless you’ve gotten a call from Public Health about your positive test result.",
+          "CTA": "Have you tested positive?\nCall 1-855-228-4253",
+          "Link": "tel:1-855-228-4253"
+        },
+        "NS": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health gives you a one-time key over the phone along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+          "CTA": "Help",
+          "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
+        },
+        "PE": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health gives you a one-time key.\n\nYou will only get one key, and it expires in 24 hours.",
+          "CTA": "Help",
+          "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
+        },
+        "NT": {
+          "Title": "Get a one-time key",
+          "Body": "If you test positive for COVID-19, public health will give you a one-time key along with your positive test result.\n\nYou will only get one key, and it expires in 24 hours.",
+          "CTA": "Help",
+          "Link": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html#4"
+        }
+      }
+    },
+    "ExposureView": {
+      "Active": {
+        "ON": {
+          "Body": "You’re at risk of being infected.",
+          "CTA": "Find out what to do next",
+          "URL": "https://ontario.ca/covidalert-exposed"
+        },
+        "NL": {
+          "Body": "You’re at risk of being infected.",
+          "CTA": "Find out what to do next",
+          "URL": "https://www.gov.nl.ca/covid-19/exposed/"
+        },
+        "NB": {
+          "Body": "",
+          "CTA": "Find out if you need to get tested",
+          "URL": "https://www2.gnb.ca/content/gnb/en/corporate/promo/covid-19/covid_alert.html"
+        },
+        "SK": {
+          "Body": "You’re at risk of being infected.",
+          "CTA": "Find out what to do next",
+          "URL": "https://www.saskatchewan.ca/covid19-apps?utm_source=goc&utm_medium=link&utm_campaign=alert"
+        },
+        "MB": {
+          "Body": "You’re at risk of being infected.",
+          "CTA": "Find out if you need to get tested",
+          "URL": "https://sharedhealthmb.ca/covid19/screening-tool/"
+        },
+        "QC": {
+          "Body": "You may have the virus.",
+          "CTA": "Find out what to do next",
+          "URL": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19/?utm_source=canada.ca_alertecovid&utm_medium=application_what_to_do_next&utm_campaign=cqen_alertecovid_2020&utm_content=anglais"
+        },
+        "NS": {
+          "Body": "",
+          "CTA": "Find out what to do next",
+          "URL": "https://novascotia.ca/coronavirus/exposure"
+        },
+        "PE": {
+          "Body": "You’re at risk of being infected.",
+          "CTA": "Find out what to do next",
+          "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-alert-app#utm_source=inapp&utm_medium=app&utm_campaign=CovidAlertApp"
+        },
+        "NT": {
+          "Body": "You need to isolate for 14 days, and contact your local healthcare provider as soon as possible.",
+          "CTA": "How to isolate safely",
+          "URL": "https://www.gov.nt.ca/covid-19/en/services/health-and-well-being/isolation"
+        }
+      },
+      "Inactive": {
+        "CA": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://ca.thrive.health/covid19/en"
+        },
+        "AB": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://myhealth.alberta.ca/Journey/COVID-19/Pages/PubAsympIsolate.aspx"
+        },
+        "BC": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://bc.thrive.health/covid19/en"
+        },
+        "MB": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://sharedhealthmb.ca/covid19/screening-tool/"
+        },
+        "NB": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://www2.gnb.ca/content/gnb/en/departments/ocmoh/cdc/content/respiratory_diseases/coronavirus/coronavirusexposure.html#/app/symptom-checker/guides/399/what-to-do"
+        },
+        "NL": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://nl.thrive.health/covid19/en"
+        },
+        "NT": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://www.gov.nt.ca/covid-19/en/services/nwt-online-covid-19-self-assessment-tool"
+        },
+        "NS": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://novascotia.ca/coronavirus/when-to-seek-help/#if-exposed"
+        },
+        "NU": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://nu.thrive.health/covid19/en"
+        },
+        "ON": {
+          "CTA": "Find out what to do next",
+          "URL": "https://ontario.ca/covidalert-exposed"
+        },
+        "PE": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://www.princeedwardisland.ca/en/information/health-and-wellness/covid-19-self-isolation"
+        },
+        "QC": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/instructions-for-people-who-have-been-in-contact-with-a-confirmed-case-of-covid-19/"
+        },
+        "SK": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://www.saskatchewan.ca/government/health-care-administration-and-provider-resources/treatment-procedures-and-guidelines/emerging-public-health-issues/2019-novel-coronavirus/covid-19-self-assessment"
+        },
+        "YT": {
+          "CTA": "Find out if you need to be tested",
+          "URL": "https://service.yukon.ca/en/covid-19-self-assessment/"
+        }
+      }
+    }
+  }
+}
