@@ -83,7 +83,6 @@ describe('Test province flow', () => {
     }
   });
 
-
   // eslint-disable-next-line jest/no-disabled-tests
   it.skip('displays the right exposure view for ON, AB, NL', async () => {
     await changeScreen('ExposureView');
