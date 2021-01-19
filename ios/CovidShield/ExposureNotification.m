@@ -378,7 +378,7 @@ RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictiona
             }
             [exWindow addObject:@{
               @"infectiousness": @(obj.infectiousness),
-              @"day": @(obj.date.timeIntervalSince1970),
+              @"day": @(1000 * obj.date.timeIntervalSince1970),
               @"reportType": @(obj.diagnosisReportType),
               @"calibrationConfidence": @(obj.calibrationConfidence),
               @"scanInstances": scanInstances

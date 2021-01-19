@@ -534,8 +534,9 @@ export class ExposureNotificationService {
 
     const dailySummaries = Object.entries(dailySummariesObj)
       .map(entry => {
+        const dayInMs = Number(entry[0]);
         const dailySummary: ExposureSummary = {
-          lastExposureTimestamp: Number(entry[0]),
+          lastExposureTimestamp: dayInMs,
           daysSinceLastExposure: -1 /* dummy value */,
           maximumRiskScore: -1 /* dummy value */,
           ...entry[1],
