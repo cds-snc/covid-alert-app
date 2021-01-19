@@ -65,21 +65,6 @@ platform :ios do
     end
   end
 
-  private_lane :prepare_local do |options|
-    env = (options[:env] ? options[:env] : "local")
-    load_env_file(buildType:env)
-
-    bundle_install
-
-    # install pods
-    cocoapods(
-      clean_install: true,
-      podfile: 'ios/Podfile'
-    )
-
-    ensure_build_directory
-  end
-
   lane :devices_file_exists do
     File.exist? File.expand_path "../fastlane/devices.txt"
   end
@@ -87,7 +72,7 @@ platform :ios do
   desc "Adhoc build, upload to Diawi"
   lane :adhoc do |options|
     env = (options[:env] ? options[:env] : "local")
-    prepare_local(env: env)
+    load_env_file(buildType:env)
 
     # Check required env vars
     UI.user_error!("Missing APPLE_ID environment variable") unless ENV['APPLE_ID']
@@ -98,6 +83,16 @@ platform :ios do
     UI.user_error!("Missing DIAWI_TOKEN environment variable") unless ENV['DIAWI_TOKEN']
     UI.user_error!("Missing APP_VERSION_NAME environment variable") unless ENV['APP_VERSION_NAME']
     UI.user_error!("Missing APP_VERSION_CODE environment variable") unless ENV['APP_VERSION_CODE']
+
+    bundle_install
+
+    # install pods
+    cocoapods(
+      clean_install: true,
+      podfile: 'ios/Podfile'
+    )
+
+    ensure_build_directory
 
     output_directory = File.expand_path('../build/ios')
 
