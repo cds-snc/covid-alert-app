@@ -28,6 +28,7 @@ export const useMetrics = () => {
   const {region, userStopped} = useStorage();
   const [systemStatus] = useSystemStatus();
   const [notificationStatus] = useNotificationPermissionStatus();
+  // const notificationStatus = '';
 
   const addEvent = (eventType: EventType) => {
     let payload: any = {identifier: eventType, timestamp: new Date().getTime(), region};
