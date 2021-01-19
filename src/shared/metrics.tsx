@@ -17,7 +17,7 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   return {exposed: false};
 };
 
-export type EventType = 'installed' | 'onboarded' | 'exposed' | 'otk' | 'otk-with-date' | 'en-toggle';
+export type EventType = 'installed' | 'onboarded' | 'exposed' | 'otk-no-date' | 'otk-with-date' | 'en-toggle';
 
 export const sendMetricEvent = (payload: any) => {
   log.debug({message: 'metric', payload});
@@ -28,7 +28,6 @@ export const useMetrics = () => {
   const {region, userStopped} = useStorage();
   const [systemStatus] = useSystemStatus();
   const [notificationStatus] = useNotificationPermissionStatus();
-  // const notificationStatus = '';
 
   const addEvent = (eventType: EventType) => {
     let payload: any = {identifier: eventType, timestamp: new Date().getTime(), region};
@@ -45,7 +44,7 @@ export const useMetrics = () => {
         break;
       case 'exposed':
         break;
-      case 'otk':
+      case 'otk-no-date':
         payload = {...checkStatus(exposureStatus), ...payload};
         break;
       case 'otk-with-date':

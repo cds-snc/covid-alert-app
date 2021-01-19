@@ -8,7 +8,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
-import {useMetrics} from 'shared/metrics';
+import {EventType, useMetrics} from 'shared/metrics';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -80,7 +80,12 @@ export const BaseTekUploadView = ({
       setLoading(false);
       setIsUploading(false);
 
-      const eventType = contagiousDateInfo.date ? 'otk-with-date' : 'otk';
+      let eventType: EventType = 'otk-with-date';
+
+      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
+        eventType = 'otk-no-date';
+      }
+
       addEvent(eventType);
 
       onSuccess();
