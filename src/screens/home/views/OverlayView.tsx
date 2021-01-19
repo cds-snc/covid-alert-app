@@ -174,7 +174,6 @@ const ShareDiagnosisCode = ({
         button={{
           text: i18n.translate('OverlayOpen.CodeNotShared.CTA'),
           action: () => {
-            bottomSheetBehavior.collapse();
             navigation.navigate('DataSharing', {screen: 'IntermediateScreen'});
           },
         }}

@@ -220,7 +220,7 @@ export const HomeScreen = () => {
   const previousStatus = usePrevious(currentStatus);
   useLayoutEffect(() => {
     if (previousStatus === ExposureStatusType.Monitoring && currentStatus === ExposureStatusType.Diagnosed) {
-      bottomSheetRef.current?.collapse();
+      bottomSheetRef.current?.expand();
     }
   }, [currentStatus, previousStatus]);
   useLayoutEffect(() => {
