@@ -39,7 +39,9 @@ interface EnToggleMetric extends Metric {
   state: boolean;
 }
 
-export const sendMetricEvent = (payload: any) => {
+type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
+
+export const sendMetricEvent = (payload: Payload) => {
   if (LOGGLY_URL) {
     log.debug({category: 'metrics', message: payload.identifier, payload});
   }
@@ -53,7 +55,7 @@ export const useMetrics = () => {
 
   const addEvent = (eventType: EventType) => {
     const initialPayload: Metric = {identifier: eventType, timestamp: new Date().getTime(), region};
-    let payload: Metric | OnboardedMetric | OTKMetric | EnToggleMetric = {...initialPayload};
+    let payload: Payload = {...initialPayload};
 
     switch (eventType) {
       case 'installed':
