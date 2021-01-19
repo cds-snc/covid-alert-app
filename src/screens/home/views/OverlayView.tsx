@@ -117,7 +117,6 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
 const ShareDiagnosisCode = ({
   i18n,
   isBottomSheetExpanded,
-  bottomSheetBehavior,
 }: {
   i18n: I18n;
   isBottomSheetExpanded: boolean;
