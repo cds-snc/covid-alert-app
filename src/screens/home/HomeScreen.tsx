@@ -16,7 +16,6 @@ import {
 import {useStorage} from 'services/StorageService';
 import {RegionCase} from 'shared/Region';
 import {getRegionCase} from 'shared/RegionLogic';
-import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
 
