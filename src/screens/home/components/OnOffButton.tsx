@@ -42,19 +42,19 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
               channelName: i18n.translate('Notification.AndroidChannelName'),
             });
 
-            addEvent('enToggle');
+            addEvent('en-toggle');
           },
           style: 'default',
         },
       ],
     );
-  }, [bottomSheetBehavior, i18n, stopExposureNotificationService]);
+  }, [addEvent, bottomSheetBehavior, i18n, stopExposureNotificationService]);
 
   const onStart = useCallback(async () => {
     bottomSheetBehavior.collapse();
     await startExposureNotificationService();
-    addEvent('enToggle');
-  }, [bottomSheetBehavior, startExposureNotificationService]);
+    addEvent('en-toggle');
+  }, [addEvent, bottomSheetBehavior, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
 

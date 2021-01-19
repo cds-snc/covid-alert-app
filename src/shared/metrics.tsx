@@ -7,7 +7,7 @@ import {
   useSystemStatus,
 } from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
-import {useNotificationPermissionStatus} from '../../src/screens/home/components/NotificationPermissionStatus';
+import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
 
 const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   if (exposureStatus.type === ExposureStatusType.Exposed) {
@@ -17,7 +17,7 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   return {exposed: false};
 };
 
-type EventType = 'installed' | 'onboarded' | 'exposed' | 'onetimekey' | 'en-toggle';
+export type EventType = 'installed' | 'onboarded' | 'exposed' | 'onetimekey' | 'en-toggle';
 
 export const useMetrics = () => {
   const exposureStatus = useExposureStatus();
