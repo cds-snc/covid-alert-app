@@ -20,7 +20,7 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
 export type EventType = 'installed' | 'onboarded' | 'exposed' | 'otk-no-date' | 'otk-with-date' | 'en-toggle';
 
 export const sendMetricEvent = (payload: any) => {
-  log.debug({message: 'metric', payload});
+  log.debug({category: 'metrics', message: payload.identifier, payload});
 };
 
 export const useMetrics = () => {
