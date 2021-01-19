@@ -216,13 +216,6 @@ export const HomeScreen = () => {
 
   const bottomSheetRef = useRef<BottomSheetBehavior>(null);
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);
-  const currentStatus = useExposureStatus().type;
-  const previousStatus = usePrevious(currentStatus);
-  useLayoutEffect(() => {
-    if (previousStatus === ExposureStatusType.Monitoring && currentStatus === ExposureStatusType.Diagnosed) {
-      bottomSheetRef.current?.expand();
-    }
-  }, [currentStatus, previousStatus]);
   useLayoutEffect(() => {
     bottomSheetRef.current?.setOnStateChange(setIsBottomSheetExpanded);
   }, []);
