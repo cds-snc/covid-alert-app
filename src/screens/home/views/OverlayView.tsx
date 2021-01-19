@@ -17,6 +17,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
+import {useMetrics} from 'shared/metrics';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -210,6 +211,8 @@ const TurnAppBackOn = ({
   bottomSheetBehavior: BottomSheetBehavior;
 }) => {
   const startExposureNotificationService = useStartExposureNotificationService();
+  const addEvent = useMetrics();
+
   const onStart = useCallback(async () => {
     bottomSheetBehavior.collapse();
     await startExposureNotificationService();
@@ -224,6 +227,7 @@ const TurnAppBackOn = ({
         text: i18n.translate('OverlayOpen.TurnAppBackOn.CTA'),
         action: () => {
           onStart();
+          addEvent('en-toggle');
         },
       }}
       backgroundColor="danger25Background"
