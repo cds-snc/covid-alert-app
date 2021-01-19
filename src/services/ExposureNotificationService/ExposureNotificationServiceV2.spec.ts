@@ -28,8 +28,6 @@ jest.mock('react-native-background-fetch', () => {
   };
 });
 
-//import {checkNotifications, requestNotifications} from 'react-native-permissions/mock';
-
 jest.mock('react-native-permissions', () => {
   return {checkNotifications: jest.fn(), requestNotifications: jest.fn()};
 });
