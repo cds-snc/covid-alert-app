@@ -8,6 +8,7 @@ import {
 } from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
+import {LOGGLY_URL} from 'env';
 
 const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   if (exposureStatus.type === ExposureStatusType.Exposed) {
@@ -20,7 +21,9 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
 export type EventType = 'installed' | 'onboarded' | 'exposed' | 'otk-no-date' | 'otk-with-date' | 'en-toggle';
 
 export const sendMetricEvent = (payload: any) => {
-  log.debug({category: 'metrics', message: payload.identifier, payload});
+  if (LOGGLY_URL) {
+    log.debug({category: 'metrics', message: payload.identifier, payload});
+  }
 };
 
 export const useMetrics = () => {
