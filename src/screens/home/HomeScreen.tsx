@@ -191,7 +191,15 @@ export const HomeScreen = () => {
       });
     }
   }, [navigation]);
-
+  useEffect(() => {
+    Linking.addEventListener('url', handleOpenURL);
+  }, []);
+  const handleOpenURL = event => {
+    navigateToUrl(event.url);
+  };
+  const navigateToUrl = url => {
+    // navigation.navigate()
+  };
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().
   const subscribeToStatusUpdates = useExposureNotificationSystemStatusAutomaticUpdater();

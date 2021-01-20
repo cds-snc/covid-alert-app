@@ -8,6 +8,7 @@
 #import "RNSplashScreen.h"
 #import <UserNotifications/UserNotifications.h>
 #import <RNCPushNotificationIOS.h>
+#import <React/RCTLinkingManager.h>
 
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
 #import <BackgroundTasks/BackgroundTasks.h>
@@ -40,6 +41,22 @@ static void patchBGTaskSubmission(void);
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
  [RNCPushNotificationIOS didRegisterUserNotificationSettings:notificationSettings];
+}
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  return [RCTLinkingManager application:application openURL:url
+                      sourceApplication:sourceApplication annotation:annotation];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+  return [RCTLinkingManager
+            application:application
+            continueUserActivity:userActivity
+            restorationHandler:restorationHandler
+         ];
 }
 // Required for the register event.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken

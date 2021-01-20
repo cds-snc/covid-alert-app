@@ -30,8 +30,8 @@
 	<integer>1</integer>
 	<key>ENDeveloperRegion</key>
 	<string>CA</string>
-  <key>ITSAppUsesNonExemptEncryption</key>
-  <false/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram</string>
@@ -65,5 +65,14 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>covidalert</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
