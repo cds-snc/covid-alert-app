@@ -33,6 +33,7 @@ import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
+import {doesPlatformSupportV2} from './ExposureNotificationServiceUtils';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
@@ -350,21 +351,12 @@ export class ExposureNotificationService {
       this.exposureStatusUpdatePromise = null;
       return input;
     };
-    switch (EN_API_VERSION) {
-      case '2':
-        log.debug({
-          category: 'exposure-check',
-          message: 'updateExposureStatus',
-          payload: {forceCheck},
-        });
-        this.exposureStatusUpdatePromise = this.performExposureStatusUpdateV2().then(cleanUpPromise, cleanUpPromise);
-        break;
-      default:
-        log.debug({category: 'exposure-check', message: 'updateExposureStatus', payload: {forceCheck}});
-        this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
-        break;
+    log.debug({category: 'exposure-check', message: 'updateExposureStatus', payload: {forceCheck}});
+    if (EN_API_VERSION === '2' && doesPlatformSupportV2(Platform)) {
+      this.exposureStatusUpdatePromise = this.performExposureStatusUpdateV2().then(cleanUpPromise, cleanUpPromise);
+    } else {
+      this.exposureStatusUpdatePromise = this.performExposureStatusUpdate().then(cleanUpPromise, cleanUpPromise);
     }
-
     return this.exposureStatusUpdatePromise;
   }
 
