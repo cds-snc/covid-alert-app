@@ -98,11 +98,6 @@ fastlane ios set_version
 fastlane ios build_and_deploy
 ```
 
-### ios local
-```
-fastlane ios local
-```
-Builds a local iOS adhoc .ipa
 ### ios devices_file_exists
 ```
 fastlane ios devices_file_exists

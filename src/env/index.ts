@@ -3,8 +3,8 @@ import Config from 'react-native-config';
 import NetInfo from '@react-native-community/netinfo';
 
 export const APP_ID = Platform.select({
-  android: Config.APP_ID_ANDROID,
-  ios: Config.APP_ID_IOS,
+  android: Config.APP_ID,
+  ios: Config.APP_ID,
 })!!;
 
 export const APP_VERSION_CODE = parseInt(Config.APP_VERSION_CODE, 10);
