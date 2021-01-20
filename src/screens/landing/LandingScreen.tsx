@@ -5,7 +5,7 @@ import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useMetrics} from 'shared/metrics';
+import {useMetrics, EventTypeMetric} from 'shared/metrics';
 
 export const LandingScreen = () => {
   const i18n = useI18n();
@@ -38,7 +38,7 @@ export const LandingScreen = () => {
         nextRoute = 'FrameworkUnavailableScreen';
       }
 
-      addEvent('installed');
+      addEvent(EventTypeMetric.Installed);
 
       navigation.reset({
         index: -1,

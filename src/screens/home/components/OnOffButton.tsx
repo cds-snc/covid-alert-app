@@ -10,7 +10,7 @@ import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {BottomSheetBehavior} from 'components';
 import {useStorage} from 'services/StorageService';
-import {useMetrics} from 'shared/metrics';
+import {useMetrics, EventTypeMetric} from 'shared/metrics';
 
 import {InfoShareItem} from './InfoShareItem';
 
@@ -42,7 +42,7 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
               channelName: i18n.translate('Notification.AndroidChannelName'),
             });
 
-            addEvent('en-toggle');
+            addEvent(EventTypeMetric.EnToggle);
           },
           style: 'default',
         },
@@ -53,7 +53,7 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
   const onStart = useCallback(async () => {
     bottomSheetBehavior.collapse();
     await startExposureNotificationService();
-    addEvent('en-toggle');
+    addEvent(EventTypeMetric.EnToggle);
   }, [addEvent, bottomSheetBehavior, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();

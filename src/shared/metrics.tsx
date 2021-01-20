@@ -9,7 +9,6 @@ import {
 import {useStorage} from 'services/StorageService';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
 import {LOGGLY_URL} from 'env';
-
 import {getCurrentDate} from 'shared/date-fns';
 
 const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
@@ -20,7 +19,14 @@ const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   return {exposed: false};
 };
 
-export type EventType = 'installed' | 'onboarded' | 'exposed' | 'otk-no-date' | 'otk-with-date' | 'en-toggle';
+export enum EventTypeMetric {
+  Installed = 'installed',
+  Onboarded = 'onboarded',
+  Exposed = 'exposed',
+  OtkNoDate = 'otk-no-date',
+  OtkWithDate = 'otk-with-date',
+  EnToggle = 'en-toggle',
+}
 
 interface Metric {
   identifier: string;
@@ -43,8 +49,8 @@ interface EnToggleMetric extends Metric {
 
 type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
 
+// note this can used direct i.e. outside of the React hook
 export const sendMetricEvent = (payload: Payload) => {
-  console.log(payload);
   if (LOGGLY_URL) {
     log.debug({category: 'metrics', message: payload.identifier, payload});
   }
@@ -56,29 +62,29 @@ export const useMetrics = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus] = useNotificationPermissionStatus();
 
-  const addEvent = (eventType: EventType) => {
+  const addEvent = (eventType: EventTypeMetric) => {
     const initialPayload: Metric = {identifier: eventType, timestamp: getCurrentDate().getTime(), region};
     let payload: Payload = {...initialPayload};
 
     switch (eventType) {
-      case 'installed':
+      case EventTypeMetric.Installed:
         break;
-      case 'onboarded':
+      case EventTypeMetric.Onboarded:
         payload = {
           ...initialPayload,
           pushnotification: notificationStatus,
           frameworkenabled: systemStatus === SystemStatus.Active,
         };
         break;
-      case 'exposed':
+      case EventTypeMetric.Exposed:
         break;
-      case 'otk-no-date':
+      case EventTypeMetric.OtkNoDate:
         payload = {...checkStatus(exposureStatus), ...initialPayload};
         break;
-      case 'otk-with-date':
+      case EventTypeMetric.OtkWithDate:
         payload = {...checkStatus(exposureStatus), ...initialPayload};
         break;
-      case 'en-toggle':
+      case EventTypeMetric.EnToggle:
         payload = userStopped ? {...initialPayload, state: false} : {...initialPayload, state: true};
         break;
     }
