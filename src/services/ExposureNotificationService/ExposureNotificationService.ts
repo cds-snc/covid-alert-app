@@ -849,7 +849,11 @@ export class ExposureNotificationService {
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
 
-    sendMetricEvent('exposed');
+    sendMetricEvent({
+      identifier: 'exposed',
+      timestamp: getCurrentDate().getTime(),
+      region: (await this.storage.getItem(Key.Region)) || '',
+    });
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {

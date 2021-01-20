@@ -10,6 +10,8 @@ import {useStorage} from 'services/StorageService';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
 import {LOGGLY_URL} from 'env';
 
+import {getCurrentDate} from 'shared/date-fns';
+
 const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   if (exposureStatus.type === ExposureStatusType.Exposed) {
     return {exposed: true};
@@ -42,6 +44,7 @@ interface EnToggleMetric extends Metric {
 type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
 
 export const sendMetricEvent = (payload: Payload) => {
+  console.log(payload);
   if (LOGGLY_URL) {
     log.debug({category: 'metrics', message: payload.identifier, payload});
   }
@@ -54,7 +57,7 @@ export const useMetrics = () => {
   const [notificationStatus] = useNotificationPermissionStatus();
 
   const addEvent = (eventType: EventType) => {
-    const initialPayload: Metric = {identifier: eventType, timestamp: new Date().getTime(), region};
+    const initialPayload: Metric = {identifier: eventType, timestamp: getCurrentDate().getTime(), region};
     let payload: Payload = {...initialPayload};
 
     switch (eventType) {
