@@ -1,4 +1,5 @@
 import {METRICS_URL} from 'env';
+import {log} from 'shared/logging/config';
 
 export enum MetricsPusherResult {
   Success,
@@ -17,6 +18,11 @@ export class DefaultMetricsPusher implements MetricsPusher {
   }
 
   push(): Promise<MetricsPusherResult> {
+    log.debug({
+      category: 'debug',
+      message: 'sending metrics to server',
+      payload: this.jsonAsString,
+    });
     return fetch(METRICS_URL, {
       method: 'POST',
       headers: {
@@ -25,6 +31,14 @@ export class DefaultMetricsPusher implements MetricsPusher {
       },
       body: this.jsonAsString,
     })
+      .then(response => response.json())
+      .then(json => {
+        log.debug({
+          category: 'debug',
+          message: 'metrics server response',
+          payload: json,
+        });
+      })
       .then(() => MetricsPusherResult.Success)
       .catch(() => MetricsPusherResult.Error);
   }

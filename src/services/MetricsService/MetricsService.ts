@@ -1,4 +1,5 @@
 import PQueue from 'p-queue';
+import {log} from 'shared/logging/config';
 
 import {Metric} from './Metric';
 import {MetricsJsonSerializer} from './MetricsJsonSerializer';
@@ -60,6 +61,11 @@ export class DefaultMetricsService implements MetricsService {
 
   publishMetrics(metrics: Metric[], forcePush = false): Promise<void> {
     return this.serialPromiseQueue.add(() => {
+      log.debug({
+        category: 'debug',
+        message: 'publishing new metrics',
+        payload: metrics,
+      });
       return this.metricsPublisher.publish(metrics).then(() => {
         if (forcePush) {
           return this.triggerPush();

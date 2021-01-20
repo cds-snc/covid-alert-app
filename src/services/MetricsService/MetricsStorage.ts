@@ -1,4 +1,5 @@
 import PQueue from 'p-queue';
+import {log} from 'shared/logging/config';
 
 import {Metric} from './Metric';
 import {SecureKeyValueStore} from './SecureKeyValueStorage';
@@ -28,6 +29,11 @@ export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStora
 
   save(metrics: Metric[]): Promise<void> {
     return this.serialPromiseQueue.add(() => {
+      log.debug({
+        category: 'debug',
+        message: 'saving metrics',
+        payload: metrics,
+      });
       return this.keyValueStore
         .retrieve(MetricsStorageKeyValueUniqueIdentifier)
         .then(existingMetrics => this.serializeNewMetrics(existingMetrics, metrics))
@@ -37,9 +43,15 @@ export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStora
 
   retrieve(): Promise<Metric[]> {
     return this.serialPromiseQueue.add(() => {
-      return this.keyValueStore
-        .retrieve(MetricsStorageKeyValueUniqueIdentifier)
-        .then(serializedMetrics => (serializedMetrics ? this.deserializeMetrics(serializedMetrics) : []));
+      return this.keyValueStore.retrieve(MetricsStorageKeyValueUniqueIdentifier).then(serializedMetrics => {
+        const metrics = serializedMetrics ? this.deserializeMetrics(serializedMetrics) : [];
+        log.debug({
+          category: 'debug',
+          message: 'retrieving metrics',
+          payload: metrics,
+        });
+        return metrics;
+      });
     });
   }
 
