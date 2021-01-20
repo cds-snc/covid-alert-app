@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import {log} from 'shared/logging/config';
 import {
   useExposureStatus,
@@ -64,32 +65,33 @@ export const useMetrics = () => {
 
   const addEvent = (eventType: EventTypeMetric) => {
     const initialPayload: Metric = {identifier: eventType, timestamp: getCurrentDate().getTime(), region};
-    let payload: Payload = {...initialPayload};
 
     switch (eventType) {
       case EventTypeMetric.Installed:
+      case EventTypeMetric.Exposed:
+        const metric: Metric = {...initialPayload};
+        sendMetricEvent(metric);
         break;
       case EventTypeMetric.Onboarded:
-        payload = {
+        const onboardedMetric: OnboardedMetric = {
           ...initialPayload,
           pushnotification: notificationStatus,
           frameworkenabled: systemStatus === SystemStatus.Active,
         };
-        break;
-      case EventTypeMetric.Exposed:
+        sendMetricEvent(onboardedMetric);
         break;
       case EventTypeMetric.OtkNoDate:
-        payload = {...checkStatus(exposureStatus), ...initialPayload};
-        break;
       case EventTypeMetric.OtkWithDate:
-        payload = {...checkStatus(exposureStatus), ...initialPayload};
+        const otkMetric: OTKMetric = {...checkStatus(exposureStatus), ...initialPayload};
+        sendMetricEvent(otkMetric);
         break;
       case EventTypeMetric.EnToggle:
-        payload = userStopped ? {...initialPayload, state: false} : {...initialPayload, state: true};
+        const enToggleMetric: EnToggleMetric = userStopped
+          ? {...initialPayload, state: false}
+          : {...initialPayload, state: true};
+        sendMetricEvent(enToggleMetric);
         break;
     }
-
-    sendMetricEvent(payload);
   };
 
   return addEvent;
