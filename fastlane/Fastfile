@@ -26,6 +26,29 @@ lane :load_env_file do |options|
   ENV["ENVFILE"] = env_file
 end
 
+lane :onboard do
+  match(
+    type: "development",
+    app_identifier: "ca.gc.hcsc.canada.stopcovid",
+    readonly: true,
+  )
+  match(
+    type: "adhoc",
+    app_identifier: "ca.gc.hcsc.canada.covidalert.dev",
+    readonly: true,
+  )
+  match(
+    type: "appstore",
+    app_identifier: "ca.gc.hcsc.canada.stopcovid",
+    readonly: true,
+  )
+  match(
+    type: "appstore",
+    app_identifier: "ca.gc.hcsc.canada.covidalert.dev",
+    readonly: true,
+  )
+end
+
 desc "Get latest version number"
 lane :get_latest_version do
   primary_play_versions = google_play_track_version_codes(

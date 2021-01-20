@@ -25,6 +25,11 @@ fastlane ensure_keystore_properties
 fastlane load_env_file
 ```
 
+### onboard
+```
+fastlane onboard
+```
+
 ### get_latest_version
 ```
 fastlane get_latest_version
