@@ -25,9 +25,9 @@ import {EventTypeMetric, useMetrics} from 'shared/metrics';
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const addEvent = useMetrics();
-  const onPress = () => {
+  const onPress = async () => {
     if (Platform.OS === 'android') {
-      startExposureNotificationService();
+      await startExposureNotificationService();
       addEvent(EventTypeMetric.EnToggle);
       return;
     }
@@ -52,9 +52,9 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
 const SystemStatusUnauthorized = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const addEvent = useMetrics();
-  const onPress = () => {
+  const onPress = async () => {
     if (Platform.OS === 'android') {
-      startExposureNotificationService();
+      await startExposureNotificationService();
       addEvent(EventTypeMetric.EnToggle);
       return;
     }

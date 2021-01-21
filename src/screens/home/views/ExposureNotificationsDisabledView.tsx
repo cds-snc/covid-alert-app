@@ -17,8 +17,8 @@ export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBo
     Linking.openSettings();
   }, []);
 
-  const startEn = useCallback(() => {
-    startExposureNotificationService();
+  const startEn = useCallback(async () => {
+    await startExposureNotificationService();
     addEvent(EventTypeMetric.EnToggle);
   }, [startExposureNotificationService]);
 
