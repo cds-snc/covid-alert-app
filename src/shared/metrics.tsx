@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import {
   useExposureStatus,
   ExposureStatusType,
@@ -55,7 +54,7 @@ type Payload = BaseMetric | OnboardedMetric | OTKMetric | EnToggleMetric;
 export const sendMetricEvent = (payload: Payload, metricsService: MetricsService) => {
   const {timestamp, identifier, region, ...data} = payload;
 
-  let events: [string, string][] = [];
+  const events: [string, string][] = [];
   for (const [key, value] of Object.entries(data)) {
     events.push([key, String(value || '')]);
   }
