@@ -1,7 +1,4 @@
 /* eslint-disable no-case-declarations */
-import {log} from 'shared/logging/config';
-import {APP_VERSION_CODE, LOGGLY_URL} from 'env';
-import {useMemo} from 'react';
 import {
   useExposureStatus,
   ExposureStatusType,
@@ -12,7 +9,6 @@ import {
 import {useStorage} from 'services/StorageService';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
 import {getCurrentDate} from 'shared/date-fns';
-import {Platform} from 'react-native';
 
 const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   if (exposureStatus.type === ExposureStatusType.Exposed) {
@@ -52,48 +48,6 @@ interface EnToggleMetric extends Metric {
 
 type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
 
-// this will be replaces with DefaultMetricsJsonSerializer #1371
-export class Logger {
-  private appVersion: number;
-  private appOs: string;
-
-  constructor(appVersion: number, appOs: string) {
-    console.log('===== new logger ======');
-    this.appVersion = appVersion;
-    this.appOs = appOs;
-  }
-
-  log(payload: any) {
-    console.log(payload); // eslint-disable-line no-console
-
-    if (LOGGLY_URL) {
-      log.debug({
-        category: 'metrics',
-        message: payload.identifier,
-        payload: {appVersion: this.appVersion, appOs: this.appOs},
-      });
-    }
-  }
-}
-
-// this will be replaced with DefaultMetricsService #1371
-class MetricsService implements MetricsService {
-  static initialize(logger: Logger) {
-    console.log('===== MetricsService initialize ======');
-    return new MetricsService(logger);
-  }
-
-  private logger: any;
-
-  private constructor(logger: any) {
-    this.logger = logger;
-  }
-
-  sendMetrics(timestamp: number, identifier: string, region: string | undefined, data: {}): Promise<void> {
-    return this.logger.log({timestamp, identifier, region, data});
-  }
-}
-
 // note this can used direct i.e. outside of the React hook
 export const sendMetricEvent = (payload: Payload, metricsService: MetricsService) => {
   const {timestamp, identifier, region, ...data} = payload;
@@ -105,12 +59,7 @@ export const useMetrics = () => {
   const {region, userStopped} = useStorage();
   const [systemStatus] = useSystemStatus();
   const [notificationStatus] = useNotificationPermissionStatus();
-
-  const metricsService = useMemo(() => {
-    const metricsJsonSerializer = new Logger(APP_VERSION_CODE, Platform.OS);
-    const metricsService = MetricsService.initialize(metricsJsonSerializer);
-    return metricsService;
-  }, []);
+  const metricsService = useMetricsProvider();
 
   const addEvent = (eventType: EventTypeMetric) => {
     const initialPayload: Metric = {identifier: eventType, timestamp: getCurrentDate().getTime(), region};
