@@ -54,7 +54,14 @@ type Payload = BaseMetric | OnboardedMetric | OTKMetric | EnToggleMetric;
 // note this can used direct i.e. outside of the React hook
 export const sendMetricEvent = (payload: Payload, metricsService: MetricsService) => {
   const {timestamp, identifier, region, ...data} = payload;
-  const newMetric = new Metric(timestamp, identifier, region ?? 'None', []);
+
+  let events: [string, string][] = [];
+  for (const [key, value] of Object.entries(data)) {
+    const val = value || '';
+    events.push([key, String(val)]);
+  }
+
+  const newMetric = new Metric(timestamp, identifier, region ?? 'None', [...events]);
   metricsService.publishMetric(newMetric);
 };
 
