@@ -8,6 +8,7 @@ import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
+import {useMetricsContext} from 'shared/MetricsProvider';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -18,8 +19,6 @@ import {
   PersistencyProvider,
   SecurePersistencyProvider,
 } from './ExposureNotificationService';
-
-import {useMetricsContext} from 'shared/MetricsProvider';
 
 const ExposureNotificationServiceContext = createContext<ExposureNotificationService | undefined>(undefined);
 
@@ -53,7 +52,7 @@ export const ExposureNotificationServiceProvider = ({
         exposureNotification || ExposureNotification,
         metrics.service,
       ),
-    [backendInterface, exposureNotification, i18n, secureStorage, storage],
+    [backendInterface, exposureNotification, i18n, metrics.service, secureStorage, storage],
   );
 
   useEffect(() => {
