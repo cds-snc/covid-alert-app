@@ -17,6 +17,10 @@ import {
   SystemStatus,
 } from './ExposureNotificationService';
 
+jest.mock('react-native-permissions', () => {
+  return {checkNotifications: jest.fn(), requestNotifications: jest.fn()};
+});
+
 const ONE_DAY = 3600 * 24 * 1000;
 
 jest.mock('react-native-zip-archive', () => ({
