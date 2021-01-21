@@ -19,6 +19,8 @@ import {
   SecurePersistencyProvider,
 } from './ExposureNotificationService';
 
+import {useMetricsContext} from 'shared/MetricsProvider';
+
 const ExposureNotificationServiceContext = createContext<ExposureNotificationService | undefined>(undefined);
 
 export interface ExposureNotificationServiceProviderProps {
@@ -40,6 +42,7 @@ export const ExposureNotificationServiceProvider = ({
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
   const {setUserStopped} = useStorage();
+  const metrics = useMetricsContext();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
@@ -48,6 +51,7 @@ export const ExposureNotificationServiceProvider = ({
         storage || AsyncStorage,
         secureStorage || RNSecureKeyStore,
         exposureNotification || ExposureNotification,
+        metrics.service,
       ),
     [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );

@@ -4,7 +4,7 @@ import {APP_VERSION_CODE, LOGGLY_URL} from 'env';
 import {Platform} from 'react-native';
 
 interface MetricsProviderProps {
-  service: MetricsService;
+  service?: MetricsService;
   children?: React.ReactElement;
 }
 
