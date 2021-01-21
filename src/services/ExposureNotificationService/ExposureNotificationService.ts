@@ -23,7 +23,7 @@ import {captureException, captureMessage} from 'shared/log';
 import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
-import {EN_API_VERSION} from 'env';
+import {APP_VERSION_CODE, EN_API_VERSION} from 'env';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -33,6 +33,8 @@ import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
+import { DefaultMetricsJsonSerializer } from 'services/MetricsService/MetricsJsonSerializer';
+import { DefaultMetricsService } from 'services/MetricsService/MetricsService';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
@@ -257,6 +259,11 @@ export class ExposureNotificationService {
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
+
+      // upload the metrics to the server upon completion of the exposure check.
+      const metricsJsonSerializer = new DefaultMetricsJsonSerializer(APP_VERSION_CODE.toString(), Platform.OS); // app version and app OS
+      const metricsService = DefaultMetricsService.initialize(metricsJsonSerializer);
+      metricsService.sendMetrics();
 
       const exposureStatus = this.exposureStatus.get();
       log.debug({
