@@ -57,8 +57,7 @@ export const sendMetricEvent = (payload: Payload, metricsService: MetricsService
 
   let events: [string, string][] = [];
   for (const [key, value] of Object.entries(data)) {
-    const val = value || '';
-    events.push([key, String(val)]);
+    events.push([key, String(value || '')]);
   }
 
   const newMetric = new Metric(timestamp, identifier, region ?? 'None', [...events]);
