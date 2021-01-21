@@ -195,13 +195,22 @@ export const HomeScreen = () => {
     }
   }, [navigation]);
   useEffect(() => {
+    function handleOpenURL({url}: EventURL) {
+      const routeName = url.split('/')[2];
+      navigation.navigate(routeName);
+    }
     Linking.addEventListener('url', handleOpenURL);
+    Linking.getInitialURL().then(initialURL => {
+      if (initialURL) {
+        const routeName = initialURL.split('/')[2];
+        navigation.navigate(routeName);
+      }
+    });
+
+    return function cleanUp() {
+      Linking.removeEventListener('url', handleOpenURL);
+    };
   }, []);
-  const handleOpenURL = ({url}: EventURL) => {
-    console.log('Event is:', url);
-    const routeName = url.split('/')[2];
-    navigation.navigate(routeName);
-  };
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().
   const subscribeToStatusUpdates = useExposureNotificationSystemStatusAutomaticUpdater();
