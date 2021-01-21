@@ -20,7 +20,7 @@ export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBo
   const startEn = useCallback(async () => {
     await startExposureNotificationService();
     addEvent(EventTypeMetric.EnToggle);
-  }, [startExposureNotificationService]);
+  }, [addEvent, startExposureNotificationService]);
 
   const onPress = () => {
     if (Platform.OS === 'android') {
