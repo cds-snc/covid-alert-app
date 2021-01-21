@@ -9,7 +9,7 @@ import {
 import {useStorage} from 'services/StorageService';
 import {useMetricsContext} from 'shared/MetricsProvider';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
-import {getCurrentDate} from 'shared/date-fns';
+import {getCurrentDate, getHoursBetween} from 'shared/date-fns';
 
 const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   if (exposureStatus.type === ExposureStatusType.Exposed) {
@@ -96,10 +96,15 @@ export const useMetrics = () => {
         sendMetricEvent(enToggleMetric, metrics.service);
         break;
       case EventTypeMetric.ExposedClear:
+        if (exposureStatus.type !== ExposureStatusType.Exposed) {
+          break;
+        }
+
         const clearExposedMetric: ClearExposedMetric = {
           ...initialPayload,
-          timeamount: getCurrentDate().getTime(),
+          timeamount: getHoursBetween(getCurrentDate(), new Date(exposureStatus.exposureDetectedAt)),
         };
+
         sendMetricEvent(clearExposedMetric, metrics.service);
         break;
     }
