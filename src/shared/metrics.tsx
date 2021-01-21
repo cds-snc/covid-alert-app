@@ -26,6 +26,7 @@ export enum EventTypeMetric {
   OtkNoDate = 'otk-no-date',
   OtkWithDate = 'otk-with-date',
   EnToggle = 'en-toggle',
+  ExposedClear = 'exposed-clear',
 }
 
 interface Metric {
@@ -45,6 +46,10 @@ interface OTKMetric extends Metric {
 
 interface EnToggleMetric extends Metric {
   state: boolean;
+}
+
+interface ClearExposedMetric extends Metric {
+  timeamount: number;
 }
 
 type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
@@ -89,6 +94,13 @@ export const useMetrics = () => {
           ? {...initialPayload, state: false}
           : {...initialPayload, state: true};
         sendMetricEvent(enToggleMetric, metrics.service);
+        break;
+      case EventTypeMetric.ExposedClear:
+        const clearExposedMetric: ClearExposedMetric = {
+          ...initialPayload,
+          timeamount: getCurrentDate().getTime(),
+        };
+        sendMetricEvent(clearExposedMetric, metrics.service);
         break;
     }
   };
