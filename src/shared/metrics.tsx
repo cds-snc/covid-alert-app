@@ -10,13 +10,15 @@ import {useStorage} from 'services/StorageService';
 import {useMetricsContext} from 'shared/MetricsProvider';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
 import {getCurrentDate} from 'shared/date-fns';
+import {MetricsService} from 'services/MetricsService/MetricsService';
+import {Metric} from 'services/MetricsService/Metric';
 
-const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
+const checkStatus = (exposureStatus: ExposureStatus): boolean => {
   if (exposureStatus.type === ExposureStatusType.Exposed) {
-    return {exposed: true};
+    return true;
   }
 
-  return {exposed: false};
+  return false;
 };
 
 export enum EventTypeMetric {
@@ -28,31 +30,32 @@ export enum EventTypeMetric {
   EnToggle = 'en-toggle',
 }
 
-interface Metric {
+interface BaseMetric {
   identifier: string;
   timestamp: number;
   region: string | undefined;
 }
 
-interface OnboardedMetric extends Metric {
+interface OnboardedMetric extends BaseMetric {
   pushnotification: string;
   frameworkenabled: boolean;
 }
 
-interface OTKMetric extends Metric {
+interface OTKMetric extends BaseMetric {
   exposed: boolean;
 }
 
-interface EnToggleMetric extends Metric {
+interface EnToggleMetric extends BaseMetric {
   state: boolean;
 }
 
-type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
+type Payload = BaseMetric | OnboardedMetric | OTKMetric | EnToggleMetric;
 
 // note this can used direct i.e. outside of the React hook
-export const sendMetricEvent = (payload: Payload, metricsService: any) => {
+export const sendMetricEvent = (payload: Payload, metricsService: MetricsService) => {
   const {timestamp, identifier, region, ...data} = payload;
-  metricsService.sendMetrics(timestamp, identifier, region, data);
+  const newMetric = new Metric(timestamp, identifier, region ?? 'None', []);
+  metricsService.publishMetric(newMetric);
 };
 
 export const useMetrics = () => {
@@ -63,34 +66,36 @@ export const useMetrics = () => {
   const metrics = useMetricsContext();
 
   const addEvent = (eventType: EventTypeMetric) => {
-    const initialPayload: Metric = {identifier: eventType, timestamp: getCurrentDate().getTime(), region};
+    const initialPayload: BaseMetric = {identifier: eventType, timestamp: getCurrentDate().getTime(), region};
+
+    let newMetricPayload: [string, string][] = [];
 
     switch (eventType) {
       case EventTypeMetric.Installed:
       case EventTypeMetric.Exposed:
-        const metric: Metric = {...initialPayload};
-        sendMetricEvent(metric, metrics.service);
         break;
       case EventTypeMetric.Onboarded:
-        const onboardedMetric: OnboardedMetric = {
-          ...initialPayload,
-          pushnotification: notificationStatus,
-          frameworkenabled: systemStatus === SystemStatus.Active,
-        };
-        sendMetricEvent(onboardedMetric, metrics.service);
+        newMetricPayload = [
+          ['pushnotification', String(notificationStatus)],
+          ['frameworkenabled', String(systemStatus === SystemStatus.Active)],
+        ];
         break;
       case EventTypeMetric.OtkNoDate:
       case EventTypeMetric.OtkWithDate:
-        const otkMetric: OTKMetric = {...checkStatus(exposureStatus), ...initialPayload};
-        sendMetricEvent(otkMetric, metrics.service);
+        newMetricPayload = [['exposed', String(checkStatus(exposureStatus))]];
         break;
       case EventTypeMetric.EnToggle:
-        const enToggleMetric: EnToggleMetric = userStopped
-          ? {...initialPayload, state: false}
-          : {...initialPayload, state: true};
-        sendMetricEvent(enToggleMetric, metrics.service);
+        newMetricPayload = [['state', String(userStopped)]];
         break;
     }
+
+    const newMetric = new Metric(
+      initialPayload.timestamp,
+      initialPayload.identifier,
+      initialPayload.region ?? 'None',
+      newMetricPayload,
+    );
+    metrics.service?.publishMetric(newMetric);
   };
 
   return addEvent;

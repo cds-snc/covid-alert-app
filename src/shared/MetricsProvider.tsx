@@ -2,6 +2,8 @@ import React, {useContext} from 'react';
 import {log} from 'shared/logging/config';
 import {APP_VERSION_CODE, LOGGLY_URL} from 'env';
 import {Platform} from 'react-native';
+import {DefaultMetricsService, MetricsService} from 'services/MetricsService/MetricsService';
+import {DefaultMetricsJsonSerializer, MetricsJsonSerializer} from 'services/MetricsService/MetricsJsonSerializer';
 
 interface MetricsProviderProps {
   service?: MetricsService;
@@ -9,7 +11,7 @@ interface MetricsProviderProps {
 }
 
 // this will be replaced with DefaultMetricsService #1371
-class MetricsService implements MetricsService {
+/* class MetricsService implements MetricsService {
   private logger: any;
 
   public constructor(logger: any) {
@@ -19,10 +21,10 @@ class MetricsService implements MetricsService {
   public sendMetrics(timestamp: number, identifier: string, region: string | undefined, data: {}): Promise<void> {
     return this.logger.log({timestamp, identifier, region, data});
   }
-}
+}*/
 
 // this will be replaces with DefaultMetricsJsonSerializer #1371
-export class Logger {
+/* export class Logger {
   private appVersion: number;
   private appOs: string;
 
@@ -40,13 +42,13 @@ export class Logger {
       });
     }
   }
-}
+}*/
 
 const MetricsContext = React.createContext<MetricsProviderProps | undefined>(undefined);
 
 const createMetricsService = () => {
-  const metricsJsonSerializer = new Logger(APP_VERSION_CODE, Platform.OS);
-  const metricsService = new MetricsService(metricsJsonSerializer);
+  const metricsJsonSerializer = new DefaultMetricsJsonSerializer(String(APP_VERSION_CODE), Platform.OS);
+  const metricsService = DefaultMetricsService.initialize(metricsJsonSerializer);
 
   return metricsService;
 };
