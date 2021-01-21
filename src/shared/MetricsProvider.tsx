@@ -32,13 +32,11 @@ export class Logger {
   }
 
   public log(payload: any) {
-    console.log(payload); // eslint-disable-line no-console
-
     if (LOGGLY_URL) {
       log.debug({
         category: 'metrics',
         message: payload.identifier,
-        payload: {appVersion: this.appVersion, appOs: this.appOs},
+        payload: {appVersion: this.appVersion, appOs: this.appOs, payload},
       });
     }
   }

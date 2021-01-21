@@ -50,7 +50,7 @@ interface EnToggleMetric extends Metric {
 type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
 
 // note this can used direct i.e. outside of the React hook
-export const sendMetricEvent = (payload: Payload, metricsService: any) => {
+export const sendMetricEvent = (payload: Payload, metricsService: MetricsService) => {
   const {timestamp, identifier, region, ...data} = payload;
   metricsService.sendMetrics(timestamp, identifier, region, data);
 };
