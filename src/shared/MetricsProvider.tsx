@@ -4,23 +4,19 @@ import {APP_VERSION_CODE, LOGGLY_URL} from 'env';
 import {Platform} from 'react-native';
 
 interface MetricsProviderProps {
+  service: MetricsService;
   children?: React.ReactElement;
 }
 
 // this will be replaced with DefaultMetricsService #1371
 class MetricsService implements MetricsService {
-  static initialize(logger: Logger) {
-    console.log('===== MetricsService initialize ======');
-    return new MetricsService(logger);
-  }
-
   private logger: any;
 
-  private constructor(logger: any) {
+  public constructor(logger: any) {
     this.logger = logger;
   }
 
-  sendMetrics(timestamp: number, identifier: string, region: string | undefined, data: {}): Promise<void> {
+  public sendMetrics(timestamp: number, identifier: string, region: string | undefined, data: {}): Promise<void> {
     return this.logger.log({timestamp, identifier, region, data});
   }
 }
@@ -31,12 +27,11 @@ export class Logger {
   private appOs: string;
 
   constructor(appVersion: number, appOs: string) {
-    console.log('===== new logger ======');
     this.appVersion = appVersion;
     this.appOs = appOs;
   }
 
-  log(payload: any) {
+  public log(payload: any) {
     console.log(payload); // eslint-disable-line no-console
 
     if (LOGGLY_URL) {
@@ -53,16 +48,17 @@ const MetricsContext = React.createContext<MetricsProviderProps | undefined>(und
 
 const createMetricsService = () => {
   const metricsJsonSerializer = new Logger(APP_VERSION_CODE, Platform.OS);
-  const metricsService = MetricsService.initialize(metricsJsonSerializer);
-  return {metricsService};
+  const metricsService = new MetricsService(metricsJsonSerializer);
+
+  return metricsService;
 };
 
 export const MetricsProvider = ({children}: MetricsProviderProps) => {
-  const value = createMetricsService();
+  const service = createMetricsService();
 
-  return <MetricsContext.Provider value={value}>{children}</MetricsContext.Provider>;
+  return <MetricsContext.Provider value={{service}}>{children}</MetricsContext.Provider>;
 };
 
-export const useMetricsProvider = () => {
+export const useMetricsContext = () => {
   return useContext(MetricsContext)!!;
 };

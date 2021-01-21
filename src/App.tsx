@@ -23,7 +23,6 @@ import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
-
 import {MetricsProvider} from './shared/MetricsProvider';
 
 // this allows us to use new Date().toLocaleString() for date formatting on android

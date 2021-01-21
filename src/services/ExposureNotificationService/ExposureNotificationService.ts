@@ -24,7 +24,7 @@ import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
-import {sendMetricEvent, EventTypeMetric} from 'shared/metrics';
+// import {sendMetricEvent, EventTypeMetric} from 'shared/metrics';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -849,11 +849,13 @@ export class ExposureNotificationService {
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
 
+    /*
     sendMetricEvent({
       identifier: EventTypeMetric.Exposed,
       timestamp: getCurrentDate().getTime(),
       region: (await this.storage.getItem(Key.Region)) || '',
     });
+    */
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {
