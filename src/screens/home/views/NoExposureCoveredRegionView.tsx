@@ -1,33 +1,20 @@
 import React from 'react';
-import {Text, TextMultiline} from 'components';
+import {Box, Text, TextMultiline} from 'components';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {StyleSheet, Platform} from 'react-native';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
+import {WhatsNew} from '../components/WhatsNewView';
 
-export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
-  const {onboardedDatetime, skipAllSet} = useStorage();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
-
-  if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
-    return (
-      <BaseHomeView iconName="thumbs-up">
-        <AllSetView
-          testID="allSetCoveredRegionView"
-          isBottomSheetExpanded={isBottomSheetExpanded}
-          titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
-          bodyText={i18n.translate('Home.NoExposureDetected.RegionCovered.AllSetBody')}
-        />
-      </BaseHomeView>
-    );
-  }
   return (
-    // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
-    <BaseHomeView iconName="thumbs-up">
+    <>
       <Text
         testID="coveredRegionHeader"
         focusRef={autoFocusRef}
@@ -45,6 +32,52 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
         marginBottom="m"
         text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
       />
+    </>
+  );
+};
+
+export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+  const i18n = useI18n();
+  const {onboardedDatetime, skipAllSet} = useStorage();
+
+  if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
+    return (
+      <BaseHomeView iconName="thumbs-up">
+        <AllSetView
+          testID="allSetCoveredRegionView"
+          isBottomSheetExpanded={isBottomSheetExpanded}
+          titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
+          bodyText={i18n.translate('Home.NoExposureDetected.RegionCovered.AllSetBody')}
+        />
+      </BaseHomeView>
+    );
+  }
+  return (
+    // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
+    <BaseHomeView iconName="thumbs-up">
+      {Platform.OS === 'ios' ? (
+        <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+      ) : (
+        <Box alignSelf="stretch" style={styles.roundedBox1}>
+          <Box paddingHorizontal="m" paddingVertical="m">
+            <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+          </Box>
+        </Box>
+      )}
+      <WhatsNew />
     </BaseHomeView>
   );
 };
+
+const styles = StyleSheet.create({
+  roundedBox1: {
+    marginTop: Platform.OS === 'ios' ? 5 : -20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    zIndex: -1,
+  },
+  roundedBox2: {
+    borderRadius: 10,
+    backgroundColor: 'white',
+  },
+});

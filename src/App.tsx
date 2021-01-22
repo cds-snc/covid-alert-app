@@ -12,38 +12,32 @@ import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationCo
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StorageServiceProvider, useStorageService} from 'services/StorageService';
-import Reactotron from 'reactotron-react-native';
-import {AppState, AppStateStatus, NativeModules, StatusBar} from 'react-native';
+import {AppState, AppStateStatus, Platform, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import {DemoMode} from 'testMode';
-import {TEST_MODE, SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
+import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
-import {captureMessage, captureException} from 'shared/log';
-import AsyncStorage from '@react-native-community/async-storage';
-import regionSchema from 'locale/translations/regionSchema.json';
-import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
+import {MetricsProvider} from './shared/MetricsProvider';
 
-const REGION_CONTENT_KEY = 'regionContentKey';
-// grabs the ip address
-if (__DEV__) {
-  const host = NativeModules.SourceCode.scriptURL.split('://')[1].split(':')[0];
-  Reactotron.configure({host})
-    .useReactNative()
-    .connect();
+// this allows us to use new Date().toLocaleString() for date formatting on android
+// https://github.com/facebook/react-native/issues/19410#issuecomment-482804142
+if (Platform.OS === 'android') {
+  require('intl');
+  require('intl/locale-data/jsonp/en-CA');
+  require('intl/locale-data/jsonp/fr-CA');
+  require('date-time-format-timezone');
 }
 interface IFetchData {
   payload: any;
 }
 
 const appInit = async () => {
-  captureMessage('App.appInit()');
   SplashScreen.hide();
 };
 
@@ -58,40 +52,17 @@ const App = () => {
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      captureMessage('onAppStateChange', {appState: newState});
       if (newState === 'active') {
-        captureMessage('app is active - fetch data', {appState: newState});
         await fetchData();
       }
     };
 
-    const loadStoredRegionContent = async () => {
-      const storedRegionContent = await AsyncStorage.getItem(REGION_CONTENT_KEY);
-      if (storedRegionContent) {
-        const storedRegionContentJson = JSON.parse(storedRegionContent);
-        try {
-          new JsonSchemaValidator().validateJson(storedRegionContentJson, regionSchema);
-          captureMessage('initData() loaded stored content.');
-          setRegionContent({payload: storedRegionContentJson});
-        } catch (error) {
-          captureException(error.message, error);
-        }
-      } else {
-        captureMessage('initData() no stored content.');
-      }
-    };
-
     const fetchData = async () => {
-      try {
-        await loadStoredRegionContent();
-        const downloadedRegionContent: RegionContentResponse = await backendService.getRegionContent();
-        if (downloadedRegionContent.status === 200) {
-          new JsonSchemaValidator().validateJson(downloadedRegionContent.payload, regionSchema);
-          setRegionContent({payload: downloadedRegionContent.payload});
-        }
-      } catch (error) {
-        captureException(error.message, error);
+      const regionContent: RegionContentResponse = await backendService.getRegionContent();
+      if (regionContent.status === 200) {
+        setRegionContent({payload: regionContent.payload});
       }
+      return true;
     };
 
     fetchData()
@@ -109,19 +80,15 @@ const App = () => {
   return (
     <I18nProvider>
       <RegionalProvider activeRegions={[]} translate={id => id} regionContent={regionContent.payload}>
-        <ExposureNotificationServiceProvider backendInterface={backendService}>
-          <DevPersistedNavigationContainer persistKey="navigationState">
-            <AccessibilityServiceProvider>
-              {TEST_MODE ? (
-                <DemoMode>
-                  <MainNavigator />
-                </DemoMode>
-              ) : (
+        <MetricsProvider>
+          <ExposureNotificationServiceProvider backendInterface={backendService}>
+            <DevPersistedNavigationContainer persistKey="navigationState">
+              <AccessibilityServiceProvider>
                 <MainNavigator />
-              )}
-            </AccessibilityServiceProvider>
-          </DevPersistedNavigationContainer>
-        </ExposureNotificationServiceProvider>
+              </AccessibilityServiceProvider>
+            </DevPersistedNavigationContainer>
+          </ExposureNotificationServiceProvider>
+        </MetricsProvider>
       </RegionalProvider>
     </I18nProvider>
   );

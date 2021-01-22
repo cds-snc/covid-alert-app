@@ -16,6 +16,11 @@ export {
   ExposureConfiguration,
   ExposureInformation,
   ExposureNotification,
+  CalibrationConfidence,
+  ExposureWindow,
+  Infectiousness,
+  ReportType,
+  ScanInstance,
 } from './types';
 
 export default ExposureNotificationAdapter(NativeModules.ExposureNotification);

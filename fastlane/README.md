@@ -25,6 +25,21 @@ fastlane ensure_keystore_properties
 fastlane load_env_file
 ```
 
+### onboard
+```
+fastlane onboard
+```
+
+### onboard_dev
+```
+fastlane onboard_dev
+```
+
+### get_latest_version
+```
+fastlane get_latest_version
+```
+Get latest version number
 ### create_github_release
 ```
 fastlane create_github_release
@@ -43,6 +58,11 @@ fastlane ensure_build_directory
 ### ensure_env_file_exists
 ```
 fastlane ensure_env_file_exists
+```
+
+### ensure_translations_generated
+```
+fastlane ensure_translations_generated
 ```
 
 
@@ -93,11 +113,6 @@ fastlane ios set_version
 fastlane ios build_and_deploy
 ```
 
-### ios local
-```
-fastlane ios local
-```
-Builds a local iOS adhoc .ipa
 ### ios devices_file_exists
 ```
 fastlane ios devices_file_exists

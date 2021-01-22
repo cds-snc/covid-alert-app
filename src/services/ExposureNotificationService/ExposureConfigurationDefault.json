@@ -1,13 +1,13 @@
 {
-  "attenuationDurationThresholds": [50, 63],
-  "minimumExposureDurationMinutes": 15,
-  "minimumRiskScore": 25,
-  "attenuationLevelValues": [1, 1, 8, 8, 8, 8, 8, 8],
+  "attenuationDurationThresholds": [50, 62],
+  "minimumRiskScore": 1,
+  "attenuationLevelValues": [2, 3, 4, 5, 6, 7, 8, 8],
   "attenuationWeight": 1,
   "daysSinceLastExposureLevelValues": [0, 1, 1, 1, 1, 1, 1, 1],
   "daysSinceLastExposureWeight": 1,
-  "durationLevelValues": [0, 0, 0, 0, 4, 4, 5, 8],
+  "durationLevelValues": [1, 1, 1, 1, 1, 1, 1, 1],
   "durationWeight": 1,
+  "minimumExposureDurationMinutes": 15,
   "transmissionRiskLevelValues": [1, 1, 1, 1, 1, 1, 1, 1],
   "transmissionRiskWeight": 1
 }

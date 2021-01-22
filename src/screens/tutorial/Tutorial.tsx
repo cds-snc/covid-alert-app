@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {StyleSheet, useWindowDimensions, View} from 'react-native';
-import Carousel, {CarouselStatic, CarouselProps} from 'react-native-snap-carousel';
+import {ListRenderItem, StyleSheet, useWindowDimensions, View} from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, Toolbar, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -12,7 +12,7 @@ import {TutorialContent, tutorialData, TutorialKey} from './TutorialContent';
 export const TutorialScreen = () => {
   const navigation = useNavigation();
   const {width: viewportWidth} = useWindowDimensions();
-  const carouselRef = useRef<CarouselStatic<TutorialKey>>(null);
+  const carouselRef = useRef<Carousel<TutorialKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const i18n = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
@@ -23,7 +23,7 @@ export const TutorialScreen = () => {
   const {isScreenReaderEnabled} = useAccessibilityService();
   const currentStepForRenderItem = isScreenReaderEnabled ? currentStep : -1;
 
-  const renderItem = useCallback<CarouselProps<TutorialKey>['renderItem']>(
+  const renderItem: ListRenderItem<TutorialKey> = useCallback(
     ({item, index}) => {
       return (
         <View style={styles.flex} accessibilityElementsHidden={index !== currentStepForRenderItem}>
@@ -62,7 +62,7 @@ export const TutorialScreen = () => {
         />
         <View style={styles.flex}>
           <Carousel
-            ref={carouselRef as any}
+            ref={carouselRef}
             data={tutorialData}
             renderItem={renderItem}
             sliderWidth={viewportWidth}

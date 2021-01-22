@@ -137,8 +137,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     defaultConfig {
-        applicationId project.env.get("APP_ID_ANDROID")
+        applicationId project.env.get("APP_ID")
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode project.env.get("APP_VERSION_CODE") as Integer
@@ -183,13 +187,6 @@ android {
             signingConfig signingConfigs.release
             proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
         }
-    }
-
-    packagingOptions {
-        pickFirst "lib/armeabi-v7a/libc++_shared.so"
-        pickFirst "lib/arm64-v8a/libc++_shared.so"
-        pickFirst "lib/x86/libc++_shared.so"
-        pickFirst "lib/x86_64/libc++_shared.so"
     }
 
     // applicationVariants are e.g. debug, release
@@ -237,6 +234,7 @@ dependencies {
     }
     debugImplementation("com.facebook.flipper:flipper-network-plugin:$facebookFlipperVersion") {
         exclude group: 'com.facebook.flipper'
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
     }
 
     if (enableHermes) {

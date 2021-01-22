@@ -1,24 +1,10 @@
 import React from 'react';
 import {Box, Text, Icon} from 'components';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import AbFlag from 'assets/flags/ab-flag.png';
-import BcFlag from 'assets/flags/bc-flag.png';
-import MbFlag from 'assets/flags/mb-flag.png';
-import NbFlag from 'assets/flags/nb-flag.png';
-import NlFlag from 'assets/flags/nl-flag.png';
-import NtFlag from 'assets/flags/nt-flag.png';
-import NsFlag from 'assets/flags/ns-flag.png';
-import NuFlag from 'assets/flags/nu-flag.png';
-import OnFlag from 'assets/flags/on-flag.png';
-import PeFlag from 'assets/flags/pe-flag.png';
-import QcFlag from 'assets/flags/qc-flag.png';
-import SkFlag from 'assets/flags/sk-flag.png';
-import YtFlag from 'assets/flags/yt-flag.png';
 import {Region} from 'shared/Region';
 
 interface RegionItemProps {
   code: Region;
-  flagIcon: any;
   name: string;
   selected: boolean;
   lastItem?: boolean;
@@ -27,20 +13,20 @@ interface RegionItemProps {
 }
 
 export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[] = [
-  {code: 'AB', flagIcon: AbFlag},
-  {code: 'BC', flagIcon: BcFlag},
-  {code: 'MB', flagIcon: MbFlag},
-  {code: 'NB', flagIcon: NbFlag},
-  {code: 'NL', flagIcon: NlFlag},
-  {code: 'NT', flagIcon: NtFlag},
-  {code: 'NS', flagIcon: NsFlag},
-  {code: 'NU', flagIcon: NuFlag},
-  {code: 'ON', flagIcon: OnFlag},
-  {code: 'PE', flagIcon: PeFlag},
-  {code: 'QC', flagIcon: QcFlag},
-  {code: 'SK', flagIcon: SkFlag},
-  {code: 'YT', flagIcon: YtFlag},
-  {code: 'None', flagIcon: null},
+  {code: 'AB'},
+  {code: 'BC'},
+  {code: 'MB'},
+  {code: 'NB'},
+  {code: 'NL'},
+  {code: 'NT'},
+  {code: 'NS'},
+  {code: 'NU'},
+  {code: 'ON'},
+  {code: 'PE'},
+  {code: 'QC'},
+  {code: 'SK'},
+  {code: 'YT'},
+  {code: 'None'},
 ];
 
 const RegionItem_ = ({code, onPress, name, lastItem, selected, testID}: RegionItemProps) => (
@@ -76,10 +62,5 @@ export const RegionItem = React.memo(RegionItem_);
 export const regionStyles = StyleSheet.create({
   flex: {
     flex: 1,
-  },
-  flag: {
-    width: 40,
-    height: 22,
-    resizeMode: 'stretch',
   },
 });

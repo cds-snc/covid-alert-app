@@ -4,6 +4,8 @@ object CovidShieldException {
 
     class UnknownException(cause: Throwable? = null) : Exception("UNKNOWN", cause)
 
+    class ApiNotConnectedException(cause: Throwable) : Exception("API_NOT_CONNECTED", cause)
+
     class ApiNotEnabledException : Exception("API_NOT_ENABLED")
 
     class SummaryTokenNotFoundException : IllegalArgumentException("SUMMARY_TOKEN_NOT_FOUND")

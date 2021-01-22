@@ -23,6 +23,7 @@ module.exports = {
     camelcase: 'off',
     'no-extend-native': 'off',
     'max-params': 'off',
+    'eslint-comments/no-unlimited-disable': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     'max-len': [
       'error',
@@ -33,13 +34,13 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'jsx-a11y/no-autofocus': 'off',
+    'jest/no-try-expect': 'off',
   },
   ignorePatterns: [
     '**/node_modules',
     '**/services/BackendService/covidshield/*.d.ts',
     '**/services/BackendService/covidshield/*.js',
     '**/translations/index.js',
-    'privacypolicy.js',
-    'privacypolicy-*.js',
+    '**/translations/regional/index.js'
   ],
 };

@@ -11,20 +11,24 @@ import {
   useStartExposureNotificationService,
 } from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
-import {daysBetween, getCurrentDate} from 'shared/date-fns';
+import {getUploadDaysLeft} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useStorage} from 'services/StorageService';
+import {EventTypeMetric, useMetrics} from 'shared/metrics';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
-  const onPress = () => {
+  const addEvent = useMetrics();
+  const onPress = async () => {
     if (Platform.OS === 'android') {
-      startExposureNotificationService();
+      await startExposureNotificationService();
+      addEvent(EventTypeMetric.EnToggle);
       return;
     }
     return toSettings();
@@ -37,6 +41,33 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
     <InfoButton
       title={i18n.translate('OverlayOpen.ExposureNotificationCardAction')}
       text={i18n.translate('OverlayOpen.ExposureNotificationCardBody')}
+      color="danger25Background"
+      variant="danger50Flat"
+      internalLink
+      onPress={onPress}
+    />
+  );
+};
+
+const SystemStatusUnauthorized = ({i18n}: {i18n: I18n}) => {
+  const startExposureNotificationService = useStartExposureNotificationService();
+  const addEvent = useMetrics();
+  const onPress = async () => {
+    if (Platform.OS === 'android') {
+      await startExposureNotificationService();
+      addEvent(EventTypeMetric.EnToggle);
+      return;
+    }
+    return toSettings();
+  };
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
+
+  return (
+    <InfoButton
+      title={i18n.translate('OverlayOpen.EnUnauthorizedCardAction')}
+      text={i18n.translate('OverlayOpen.EnUnauthorizedCardBody')}
       color="danger25Background"
       variant="danger50Flat"
       internalLink
@@ -88,11 +119,17 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   */
 };
 
-const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottomSheetExpanded: boolean}) => {
+const ShareDiagnosisCode = ({
+  i18n,
+  isBottomSheetExpanded,
+  bottomSheetBehavior,
+}: {
+  i18n: I18n;
+  isBottomSheetExpanded: boolean;
+  bottomSheetBehavior: BottomSheetBehavior;
+}) => {
   const navigation = useNavigation();
-  const [exposureStatus] = useExposureStatus();
-
-  //
+  const exposureStatus = useExposureStatus();
 
   const network = useNetInfo();
 
@@ -113,7 +150,7 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
   }
 
   if (exposureStatus.type === ExposureStatusType.Diagnosed) {
-    const daysLeft = daysBetween(getCurrentDate(), new Date(exposureStatus.cycleEndsAt)) - 1;
+    const daysLeft = getUploadDaysLeft(exposureStatus.cycleEndsAt);
     let bodyText = i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed');
     if (daysLeft > 0) {
       bodyText += i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {
@@ -121,7 +158,7 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
       });
     }
 
-    return (
+    return exposureStatus.hasShared ? (
       <InfoBlock
         focusOnTitle={isBottomSheetExpanded}
         titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
@@ -133,6 +170,22 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
         backgroundColor="infoBlockNeutralBackground"
         color="bodyText"
         showButton={false}
+      />
+    ) : (
+      <InfoBlock
+        focusOnTitle={isBottomSheetExpanded}
+        titleBolded={i18n.translate('OverlayOpen.CodeNotShared.Title')}
+        text={i18n.translate('OverlayOpen.CodeNotShared.Body')}
+        button={{
+          text: i18n.translate('OverlayOpen.CodeNotShared.CTA'),
+          action: () => {
+            bottomSheetBehavior.collapse();
+            navigation.navigate('DataSharing', {screen: 'IntermediateScreen'});
+          },
+        }}
+        backgroundColor="danger25Background"
+        color="bodyText"
+        showButton
       />
     );
   }
@@ -146,6 +199,42 @@ const ShareDiagnosisCode = ({i18n, isBottomSheetExpanded}: {i18n: I18n; isBottom
         action: () => navigation.navigate('DataSharing'),
       }}
       backgroundColor="infoBlockNeutralBackground"
+      color="bodyText"
+      showButton
+    />
+  );
+};
+
+const TurnAppBackOn = ({
+  i18n,
+  isBottomSheetExpanded,
+  bottomSheetBehavior,
+}: {
+  i18n: I18n;
+  isBottomSheetExpanded: boolean;
+  bottomSheetBehavior: BottomSheetBehavior;
+}) => {
+  const startExposureNotificationService = useStartExposureNotificationService();
+  const addEvent = useMetrics();
+
+  const onStart = useCallback(async () => {
+    bottomSheetBehavior.collapse();
+    await startExposureNotificationService();
+  }, [bottomSheetBehavior, startExposureNotificationService]);
+
+  return (
+    <InfoBlock
+      focusOnTitle={isBottomSheetExpanded}
+      titleBolded={i18n.translate('OverlayOpen.TurnAppBackOn.Title')}
+      text={i18n.translate('OverlayOpen.TurnAppBackOn.Body')}
+      button={{
+        text: i18n.translate('OverlayOpen.TurnAppBackOn.CTA'),
+        action: () => {
+          onStart();
+          addEvent(EventTypeMetric.EnToggle);
+        },
+      }}
+      backgroundColor="danger25Background"
       color="bodyText"
       showButton
     />
@@ -173,6 +262,7 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
+  const {userStopped} = useStorage();
 
   return (
     <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
@@ -193,12 +283,33 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
             <Box marginBottom="s">
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
-            <Box marginBottom="m" marginTop="s" marginHorizontal="m">
-              <ShareDiagnosisCode isBottomSheetExpanded={bottomSheetBehavior.isExpanded} i18n={i18n} />
+
+            {userStopped && status !== SystemStatus.Active && (
+              <Box marginBottom="m" marginTop="xl" marginHorizontal="m">
+                <TurnAppBackOn
+                  isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
+                  i18n={i18n}
+                  bottomSheetBehavior={bottomSheetBehavior}
+                />
+              </Box>
+            )}
+
+            <Box marginBottom="m" marginTop={userStopped ? 's' : 'xl'} marginHorizontal="m">
+              <ShareDiagnosisCode
+                isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
+                i18n={i18n}
+                bottomSheetBehavior={bottomSheetBehavior}
+              />
             </Box>
-            {(status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
+
+            {!userStopped && (status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
               <Box marginBottom="m" marginHorizontal="m">
                 <SystemStatusOff i18n={i18n} />
+              </Box>
+            )}
+            {!userStopped && status === SystemStatus.Unauthorized && (
+              <Box marginBottom="m" marginHorizontal="m">
+                <SystemStatusUnauthorized i18n={i18n} />
               </Box>
             )}
             {status === SystemStatus.BluetoothOff && (
@@ -212,7 +323,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               </Box>
             )}
             <Box marginBottom="m" marginHorizontal="m">
-              <InfoShareView />
+              <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
             </Box>
           </Box>
         </SafeAreaView>

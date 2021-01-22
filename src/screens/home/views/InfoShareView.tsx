@@ -1,48 +1,26 @@
 import React, {useCallback} from 'react';
-import {TouchableOpacity, TouchableOpacityProps, Linking} from 'react-native';
-import {Box, Text, Icon, IconProps} from 'components';
+import {Linking} from 'react-native';
+import {BottomSheetBehavior, Box, Text} from 'components';
 import {useNavigation} from '@react-navigation/native';
-import {useI18n} from 'locale';
+import {useI18n, useRegionalI18n} from 'locale';
 import {captureException} from 'shared/log';
+import {useStorage} from 'services/StorageService';
+import {getExposedHelpMenuURL} from 'shared/RegionLogic';
+import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 
-interface InfoShareItemProps extends TouchableOpacityProps {
-  onPress: () => void;
-  text: string;
-  icon: IconProps['name'];
-  lastItem?: boolean;
-}
-const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoShareItemProps) => (
-  <>
-    <TouchableOpacity activeOpacity={0.6} onPress={onPress} accessibilityRole="button" {...touchableProps}>
-      <Box
-        paddingVertical="s"
-        marginHorizontal="-m"
-        paddingHorizontal="m"
-        flexDirection="row"
-        alignContent="center"
-        justifyContent="space-between"
-        backgroundColor="infoBlockNeutralBackground"
-        borderRadius={5}
-      >
-        <Box flex={1}>
-          <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
-            {text}
-          </Text>
-        </Box>
+import {OnOffButton} from '../components/OnOffButton';
+import {InfoShareItem} from '../components/InfoShareItem';
 
-        <Box alignSelf="center">
-          <Icon size={25} name={icon} />
-        </Box>
-      </Box>
-    </TouchableOpacity>
-    {!lastItem && <Box height={5} marginHorizontal="-m" backgroundColor="overlayBackground" />}
-  </>
-);
-
-export const InfoShareView = () => {
+export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomSheetBehavior}) => {
   const i18n = useI18n();
+  const {region} = useStorage();
+  const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
-  const onPrivacy = useCallback(() => navigation.navigate('Privacy'), [navigation]);
+
+  const onPrivacy = useCallback(() => {
+    Linking.openURL(i18n.translate('Info.PrivacyUrl')).catch(error => captureException('An error occurred', error));
+  }, [i18n]);
+
   const onGetCode = useCallback(() => navigation.navigate('NoCode'), [navigation]);
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
@@ -50,9 +28,43 @@ export const InfoShareView = () => {
   const onHelp = useCallback(() => {
     Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
+  const onExposedHelp = useCallback(() => {
+    if (region !== undefined && region !== 'None') {
+      Linking.openURL(getExposedHelpMenuURL(region, regionalI18n)).catch(error =>
+        captureException('An error occurred', error),
+      );
+    } else {
+      navigation.navigate('RegionSelectExposedNoPT', {drawerMenu: true});
+    }
+  }, [navigation, region, regionalI18n]);
+
+  const versionNumber = `${i18n.translate('OverlayOpen.Version')}: ${APP_VERSION_NAME} (${APP_VERSION_CODE})`;
 
   return (
     <>
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginTop="m" marginBottom="m">
+        <InfoShareItem
+          testID="getCodeButton"
+          onPress={onGetCode}
+          text={i18n.translate('Info.GetCode')}
+          icon="icon-chevron"
+        />
+        <InfoShareItem
+          onPress={onExposedHelp}
+          text={i18n.translate('Home.ExposedHelpCTA')}
+          icon="icon-external-arrow"
+          accessibilityRole="link"
+          accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+        />
+        <InfoShareItem
+          onPress={onHelp}
+          text={i18n.translate('Info.Help')}
+          icon="icon-external-arrow"
+          accessibilityRole="link"
+          accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+          lastItem
+        />
+      </Box>
       <Box marginTop="l" marginBottom="m">
         <Text variant="settingTitle" fontWeight="normal">
           {i18n.translate('Info.SettingsTitle')}
@@ -65,7 +77,8 @@ export const InfoShareView = () => {
           icon="icon-chevron"
           testID="changeRegion"
         />
-        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" lastItem />
+        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
+        <OnOffButton bottomSheetBehavior={bottomSheetBehavior} />
       </Box>
       <Box marginTop="l" marginBottom="m">
         <Text variant="settingTitle" fontWeight="normal">
@@ -73,22 +86,18 @@ export const InfoShareView = () => {
         </Text>
       </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
-        <InfoShareItem
-          testID="getCodeButton"
-          onPress={onGetCode}
-          text={i18n.translate('Info.GetCode')}
-          icon="icon-chevron"
-        />
         <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
-        <InfoShareItem onPress={onPrivacy} text={i18n.translate('Info.Privacy')} icon="icon-chevron" />
         <InfoShareItem
-          onPress={onHelp}
-          text={i18n.translate('Info.Help')}
           icon="icon-external-arrow"
           accessibilityRole="link"
-          accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+          onPress={onPrivacy}
+          accessibilityHint={`${i18n.translate('Info.Privacy')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+          text={i18n.translate('Info.Privacy')}
           lastItem
         />
+      </Box>
+      <Box paddingBottom="l">
+        <Text variant="smallText">{versionNumber}</Text>
       </Box>
     </>
   );

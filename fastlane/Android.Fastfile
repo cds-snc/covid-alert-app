@@ -50,6 +50,9 @@ platform :android do
     # Load env file
     load_env_file(buildType:buildType)
 
+    # Check that translations have been generated
+    ensure_translations_generated
+
     # Check Version Code
     check_version_code_exists
 

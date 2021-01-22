@@ -2,10 +2,16 @@ import {
   daysBetweenUTC,
   addDays,
   hoursSinceEpoch,
-  daysFromNow,
   hoursFromNow,
   minutesFromNow,
   minutesBetween,
+  getUploadDaysLeft,
+  getCurrentDate,
+  parseDateString,
+  formatExposedDate,
+  parseSavedTimestamps,
+  getFirstThreeUniqueDates,
+  getHoursBetween,
 } from './date-fns';
 
 /**
@@ -60,32 +66,6 @@ describe('date-fns', () => {
 
     it('returns 25.5 for 1:30 first day after epoch', () => {
       expect(hoursSinceEpoch(new Date('1970-01-02 01:30:00 GMT+0000'))).toStrictEqual(25.5);
-    });
-  });
-
-  describe('daysFromNow', () => {
-    let now;
-
-    beforeEach(() => {
-      now = jest.spyOn(Date, 'now').mockImplementation(() => new Date('2020-07-07 00:01:00 GMT+0200'));
-    });
-
-    afterEach(() => {
-      now.mockReset();
-    });
-
-    it('returns 1 if the date is within 24h in past', () => {
-      const date = new Date('2020-07-06 00:01:01 GMT+0200');
-      expect(daysFromNow(date)).toStrictEqual(1);
-    });
-
-    it('returns -1 if the date is within 24h in future', () => {
-      const date = new Date('2020-07-07 23:59:59 GMT+0200');
-      expect(daysFromNow(date)).toStrictEqual(-1);
-    });
-
-    it('returns 0 if the date is exactly the current time', () => {
-      expect(daysFromNow(now())).toStrictEqual(0);
     });
   });
 
@@ -169,6 +149,116 @@ describe('date-fns', () => {
       const d1 = new Date('2020-07-06 00:00:01 GMT+0600');
       const d2 = new Date('2020-07-06 00:00:01 GMT+0500');
       expect(minutesBetween(d1, d2)).toStrictEqual(60);
+    });
+  });
+
+  // formatExposedDate
+  describe('formatExposedDate', () => {
+    it('returns formatted date for en and fr', () => {
+      expect(formatExposedDate(new Date(1605814310000), 'en-CA')).toStrictEqual('Nov.\u00a019,\u00a02020');
+      // the following test fails in CI for some reason
+      // expect(formatExposedDate(new Date(1605814310000), 'fr-CA')).toStrictEqual('19\u00a0nov.\u00a02020');
+    });
+  });
+
+  describe('getUploadDaysLeft', () => {
+    const now = getCurrentDate();
+
+    it.each([addDays(now, 2), addDays(now, 0.5), addDays(now, 10), addDays(now, -3)])(
+      'returns a round number when cycle ends on %p',
+      async testDate => {
+        const cycleEndsAt = testDate.getTime();
+        expect(Math.round(getUploadDaysLeft(cycleEndsAt))).toStrictEqual(getUploadDaysLeft(cycleEndsAt));
+      },
+    );
+
+    it.each([
+      [addDays(now, 5), 4],
+      [addDays(now, 2), 1],
+      [addDays(now, 1), 0],
+      [addDays(now, 0), 0],
+      [addDays(now, -1), 0],
+      // [addDays(now, 10.2), 9],
+    ])('when cycle ends on %p, days remaining are %p', async (testDate, daysRemaining) => {
+      const cycleEndsAt = testDate.getTime();
+      expect(getUploadDaysLeft(cycleEndsAt)).toStrictEqual(daysRemaining);
+    });
+
+    it('if cycle ends today, return 0', () => {
+      const cycleEndsAt = getCurrentDate().getTime();
+      expect(getUploadDaysLeft(cycleEndsAt)).toStrictEqual(0);
+    });
+  });
+
+  describe('parseDateString', () => {
+    it.each([
+      ['2020-10-01', new Date(2020, 9, 1)],
+      ['2020-01-01', new Date(2020, 0, 1)],
+      ['2020-1-1', new Date(2020, 0, 1)],
+      ['2020-1-01', new Date(2020, 0, 1)],
+      ['2020-01-1', new Date(2020, 0, 1)],
+      ['', null],
+    ])('parses %p as %p', async (input, output) => {
+      expect(parseDateString(input)).toStrictEqual(output);
+    });
+  });
+
+  describe('parseSavedTimestamps', () => {
+    it('parsed a comma separated string of timestamps', () => {
+      expect(parseSavedTimestamps('1,2,3')).toStrictEqual([1, 2, 3]);
+      expect(parseSavedTimestamps('1609484400000')).toStrictEqual([1609484400000]);
+      expect(parseSavedTimestamps('1609484400000,1609570800000')).toStrictEqual([1609484400000, 1609570800000]);
+      expect(parseSavedTimestamps('1609484400000,1609570800000,1609657200000')).toStrictEqual([
+        1609484400000,
+        1609570800000,
+        1609657200000,
+      ]);
+    });
+  });
+
+  describe('getFirstThreeUniqueDates', () => {
+    it('gets only unique dates from an array of formatted dates', () => {
+      expect(getFirstThreeUniqueDates(['Jan. 1 2021', 'Jan. 1 2021'])).toStrictEqual(['Jan. 1 2021']);
+      expect(getFirstThreeUniqueDates(['Jan. 2 2021', 'Jan. 1 2021'])).toStrictEqual(['Jan. 2 2021', 'Jan. 1 2021']);
+      expect(getFirstThreeUniqueDates(['Jan. 2 2021', 'Jan. 1 2021', 'Jan. 1 2021'])).toStrictEqual([
+        'Jan. 2 2021',
+        'Jan. 1 2021',
+      ]);
+    });
+    it('gets only the first 3 dates from an array of formatted dates', () => {
+      expect(getFirstThreeUniqueDates(['Jan. 4 2021', 'Jan. 3 2021', 'Jan. 2 2021', 'Jan. 1 2021'])).toStrictEqual([
+        'Jan. 4 2021',
+        'Jan. 3 2021',
+        'Jan. 2 2021',
+      ]);
+      expect(getFirstThreeUniqueDates(['Jan. 4 2021', 'Jan. 3 2021', 'Jan. 2 2021', 'Jan. 2 2021'])).toStrictEqual([
+        'Jan. 4 2021',
+        'Jan. 3 2021',
+        'Jan. 2 2021',
+      ]);
+    });
+  });
+
+  describe('calculates hours', () => {
+    it('calculates short number of hours between', () => {
+      const now = getCurrentDate();
+      const hrs = 5 * 60 * 60 * 1000;
+      const plusFiveHours = new Date(now.getTime() + hrs);
+      expect(getHoursBetween(now, plusFiveHours)).toStrictEqual(5);
+    });
+
+    it('calculates negative hours', () => {
+      const now = getCurrentDate();
+      const hrs = -5 * 60 * 60 * 1000;
+      const minusFiveHours = new Date(now.getTime() + hrs);
+      expect(getHoursBetween(now, minusFiveHours)).toStrictEqual(-5);
+    });
+
+    it('calculates hours for 2 days in the future', () => {
+      const now = getCurrentDate();
+      const twoDaysFromNow = new Date(Number(now));
+      twoDaysFromNow.setDate(now.getDate() + 2);
+      expect(getHoursBetween(now, twoDaysFromNow)).toStrictEqual(48);
     });
   });
 

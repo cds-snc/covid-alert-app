@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {StyleSheet, useWindowDimensions, View} from 'react-native';
-import Carousel, {CarouselStatic, CarouselProps} from 'react-native-snap-carousel';
+import {ListRenderItem, StyleSheet, useWindowDimensions, View} from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -9,13 +9,14 @@ import {useStorage} from 'services/StorageService';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {getCurrentDate} from 'shared/date-fns';
 import {useAccessibilityService} from 'services/AccessibilityService';
+import {useMetrics, EventTypeMetric} from 'shared/metrics';
 
 import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingContent';
 
 export const OnboardingScreen = () => {
   const navigation = useNavigation();
   const {width: viewportWidth} = useWindowDimensions();
-  const carouselRef = useRef<CarouselStatic<OnboardingKey>>(null);
+  const carouselRef = useRef<Carousel<OnboardingKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const i18n = useI18n();
   const {setOnboarded, setOnboardedDatetime, setRegion} = useStorage();
@@ -24,8 +25,9 @@ export const OnboardingScreen = () => {
   const isEnd = currentStep === onboardingData.length - 1;
   const {isScreenReaderEnabled} = useAccessibilityService();
   const currentStepForRenderItem = isScreenReaderEnabled ? currentStep : -1;
+  const addEvent = useMetrics();
 
-  const renderItem = useCallback<CarouselProps<OnboardingKey>['renderItem']>(
+  const renderItem: ListRenderItem<OnboardingKey> = useCallback(
     ({item, index}) => {
       return (
         <View style={styles.flex} accessibilityElementsHidden={index !== currentStepForRenderItem}>
@@ -37,10 +39,16 @@ export const OnboardingScreen = () => {
   );
 
   const onSnapToNewPage = useCallback(
-    (index: number) => {
+    async (index: number) => {
       // we want the EN permission dialogue to appear on the last step.
       if (index === onboardingData.length - 1) {
-        startExposureNotificationService();
+        const start = await startExposureNotificationService();
+        if (typeof start !== 'boolean' && start?.error === 'API_NOT_CONNECTED') {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'ErrorScreen'}],
+          });
+        }
       }
 
       // we want region cleared on the 2nd last step
@@ -48,12 +56,13 @@ export const OnboardingScreen = () => {
         setRegion(undefined);
       }
     },
-    [setRegion, startExposureNotificationService],
+    [navigation, setRegion, startExposureNotificationService],
   );
 
   const nextItem = useCallback(async () => {
     if (isEnd) {
       await setOnboarded(true);
+      addEvent(EventTypeMetric.Onboarded);
       await setOnboardedDatetime(getCurrentDate());
       navigation.reset({
         index: 0,
@@ -62,7 +71,7 @@ export const OnboardingScreen = () => {
       return;
     }
     carouselRef.current?.snapToNext();
-  }, [isEnd, navigation, setOnboarded, setOnboardedDatetime]);
+  }, [addEvent, isEnd, navigation, setOnboarded, setOnboardedDatetime]);
 
   const prevItem = useCallback(() => {
     carouselRef.current?.snapToPrev();
@@ -81,7 +90,7 @@ export const OnboardingScreen = () => {
       <SafeAreaView style={styles.flex}>
         <View style={styles.flex}>
           <Carousel
-            ref={carouselRef as any}
+            ref={carouselRef}
             data={onboardingData}
             renderItem={renderItem}
             sliderWidth={viewportWidth}
