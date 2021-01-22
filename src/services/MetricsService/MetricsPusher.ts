@@ -1,5 +1,9 @@
 import {METRICS_URL} from 'env';
 import {log} from 'shared/logging/config';
+import {Key} from 'services/StorageService';
+import {getCurrentDate} from 'shared/date-fns';
+import RNSecureKeyStore from 'react-native-secure-key-store';
+
 
 export enum MetricsPusherResult {
   Success,
@@ -39,6 +43,7 @@ export class DefaultMetricsPusher implements MetricsPusher {
           payload: json,
         });
       })
+      .then(() => RNSecureKeyStore.set(Key.MetricsLastUploadedDateTime, getCurrentDate().toString()))
       .then(() => MetricsPusherResult.Success)
       .catch(() => MetricsPusherResult.Error);
   }

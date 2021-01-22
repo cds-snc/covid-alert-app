@@ -30,12 +30,11 @@ import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 import {Key} from '../StorageService';
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
+import RNSecureKeyStore from 'react-native-secure-key-store';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
-import { DefaultMetricsJsonSerializer } from 'services/MetricsService/MetricsJsonSerializer';
-import { DefaultMetricsService } from 'services/MetricsService/MetricsService';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
@@ -263,9 +262,7 @@ export class ExposureNotificationService {
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
-
-      // upload the metrics to the server upon completion of the exposure check.
-      metricsService.sendMetrics();
+      await this.sendMetrics();
 
       const exposureStatus = this.exposureStatus.get();
       log.debug({
@@ -275,6 +272,19 @@ export class ExposureNotificationService {
       });
     } catch (error) {
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
+    }
+  }
+
+  private async sendMetrics() {
+    // upload the metrics to the server upon completion of the exposure check.
+    let metricsLastUploadedDateTime = await this.secureStorage.get(Key.MetricsLastUploadedDateTime);
+    if (metricsLastUploadedDateTime) {
+      const days = daysBetween(metricsLastUploadedDateTime, getCurrentDate());
+      if (days > 0) {
+        this.metricService.sendMetrics();
+      }
+    } else {
+      this.metricService.sendMetrics();
     }
   }
 

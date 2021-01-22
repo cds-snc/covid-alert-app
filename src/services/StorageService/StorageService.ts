@@ -12,6 +12,7 @@ export enum Key {
   ForceScreen = 'ForceScreen',
   SkipAllSet = 'SkipAllSet',
   UserStopped = 'UserStopped',
+  MetricsLastUploadedDateTime = 'MetricsLastUploadedDateTime',
 }
 
 export class StorageService {
