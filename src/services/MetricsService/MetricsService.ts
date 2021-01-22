@@ -86,6 +86,10 @@ export class DefaultMetricsService implements MetricsService {
       const minutesSinceLastUpload = minutesBetween(metricsLastUploadedDateTime, today);
       // randomize the upload window, to stagger when phones are uploading the metrics
       const randomMinutes = Math.floor(Math.random() * MIN_UPLOAD_MINUTES)
+      log.debug({
+        category: "metrics",
+        message: `MinutesSinceLastUpload: ${minutesSinceLastUpload}, MinimumUploadMinutes: ${MIN_UPLOAD_MINUTES}, RandomMinutes: ${randomMinutes}`,
+      });
       if (minutesSinceLastUpload > MIN_UPLOAD_MINUTES + randomMinutes) {
         return this.serialPromiseQueue.add(() => this.triggerPush());
       }
