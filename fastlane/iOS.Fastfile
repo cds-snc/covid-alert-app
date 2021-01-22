@@ -40,6 +40,9 @@ platform :ios do
     # Check required env vars
     UI.user_error!("Missing XCODE_SCHEME environment variable") unless ENV['XCODE_SCHEME']
 
+    # Check that translations have been generated
+    ensure_translations_generated
+
     # Check Version Code
     check_version_code_exists
     set_version
