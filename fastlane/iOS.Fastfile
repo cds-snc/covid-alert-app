@@ -128,7 +128,7 @@ platform :ios do
       type: "adhoc",
       app_identifier: ENV["APP_ID"],
       force_for_new_devices: true,
-      template_name: "Exposure Notification for TEAMID (Distribution) iOS Dist ADHOC",
+      template_name: ENV["TEMPLATE"],
       readonly: true,
     )
 
