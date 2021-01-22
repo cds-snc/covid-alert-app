@@ -9,6 +9,7 @@ import {useStorage} from 'services/StorageService';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {getCurrentDate} from 'shared/date-fns';
 import {useAccessibilityService} from 'services/AccessibilityService';
+import {useMetrics, EventTypeMetric} from 'shared/metrics';
 
 import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingContent';
 
@@ -24,6 +25,7 @@ export const OnboardingScreen = () => {
   const isEnd = currentStep === onboardingData.length - 1;
   const {isScreenReaderEnabled} = useAccessibilityService();
   const currentStepForRenderItem = isScreenReaderEnabled ? currentStep : -1;
+  const addEvent = useMetrics();
 
   const renderItem: ListRenderItem<OnboardingKey> = useCallback(
     ({item, index}) => {
@@ -60,6 +62,7 @@ export const OnboardingScreen = () => {
   const nextItem = useCallback(async () => {
     if (isEnd) {
       await setOnboarded(true);
+      addEvent(EventTypeMetric.Onboarded);
       await setOnboardedDatetime(getCurrentDate());
       navigation.reset({
         index: 0,
@@ -68,7 +71,7 @@ export const OnboardingScreen = () => {
       return;
     }
     carouselRef.current?.snapToNext();
-  }, [isEnd, navigation, setOnboarded, setOnboardedDatetime]);
+  }, [addEvent, isEnd, navigation, setOnboarded, setOnboardedDatetime]);
 
   const prevItem = useCallback(() => {
     carouselRef.current?.snapToPrev();
