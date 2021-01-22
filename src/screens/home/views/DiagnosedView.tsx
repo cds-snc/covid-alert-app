@@ -39,13 +39,13 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
         paddingVertical="m"
         marginBottom="m"
       >
-        <Text focusRef={autoFocusRef} testID="viewTitle" variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+        <Text focusRef={autoFocusRef} testID="bodyTitle" variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedView.Title')}
           {/* No exposure detected */}
         </Text>
         {daysLeft < 1 ? null : (
           <>
-            <Text variant="bodyText" color="bodyText" marginBottom="m">
+            <Text testID="bodyText" variant="bodyText" color="bodyText" marginBottom="m">
               {i18n.translate(pluralizeKey('Home.DiagnosedView.Body1', daysLeft), {number: daysLeft})}
             </Text>
             <Text variant="bodyText" color="bodyText" marginBottom="m">
@@ -64,7 +64,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
             paddingVertical="m"
             marginBottom="m"
           >
-            <Text variant="bodyText" testID="bodyText" color="bodyText" marginBottom="m">
+            <Text variant="bodyText" color="bodyText" marginBottom="m">
               {i18n.translate('Home.DiagnosedView.Body3')}
             </Text>
             {isRegionActive(region, regionalI18n.activeRegions) ? <Tip /> : null}
