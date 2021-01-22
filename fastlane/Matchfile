@@ -1,4 +1,4 @@
-git_url("git@github.com:cds-snc/covid-alert-app-certificates.git")
+git_url(ENV["CERTS_REPO"])
 
 storage_mode("git")
 
