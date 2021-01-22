@@ -1,5 +1,5 @@
 import PQueue from 'p-queue';
-import { Key } from 'services/StorageService';
+import {Key} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
 import {Metric} from './Metric';
