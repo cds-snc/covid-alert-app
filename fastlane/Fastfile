@@ -102,3 +102,18 @@ lane :ensure_env_file_exists do |options|
   UI.user_error!("#{file} environment file is missing!") unless file_exists
   UI.success("Using environment file #{file}")
 end
+
+lane :ensure_translations_generated do
+  yarn(
+    command: "generate-translations"
+  )
+
+  translations_status = Actions.sh("git status ../src/locale/translations --porcelain")
+
+  repo_clean = translations_status.empty?
+
+  UI.user_error!("Ok, go commit that file!") unless prompt(
+    text: "The translations file appears to be dirty, and changes should be committed. Are you sure you want to continue?",
+    boolean: true
+  ) unless repo_clean
+end
