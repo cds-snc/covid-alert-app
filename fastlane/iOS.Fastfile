@@ -127,14 +127,12 @@ platform :ios do
     # For AdHoc builds we want to force regeneration of the
     # Provisioning Profile so we can ensure all registered
     # devices are added to the profile
-    get_provisioning_profile(
-      adhoc: true,
-      force: true,
+    match(
+      type: "adhoc",
       app_identifier: ENV["APP_ID"],
-      provisioning_name: ENV["XCODE_PROFILE"],
+      force_for_new_devices: true,
       template_name: ENV["TEMPLATE"],
-      output_path: './fastlane/certs/ios/',
-      filename: "CovidAlert_AdHoc.mobileprovision"
+      readonly: true,
     )
 
     build_app(
