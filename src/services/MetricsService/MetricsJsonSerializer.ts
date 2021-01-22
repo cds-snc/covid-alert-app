@@ -1,7 +1,7 @@
 import {Metric} from './Metric';
 
 export interface MetricsJsonSerializer {
-  serializeToJson(metrics: Metric[]): string;
+  serializeToJson(timestamp: number, metrics: Metric[]): string;
 }
 
 export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
@@ -13,7 +13,7 @@ export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
     this.appOs = appOs;
   }
 
-  serializeToJson(metrics: Metric[]): string {
+  serializeToJson(timestamp: number, metrics: Metric[]): string {
     function serializeDynamicPayload(map: [string, string][]): any {
       return Array.from(map).reduce((acc, [key, value]) => {
         // @ts-ignore
@@ -23,7 +23,7 @@ export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
     }
 
     const jsonStructure = {
-      metricstimestamp: new Date().getTime(),
+      metricstimestamp: timestamp,
       appversion: this.appVersion,
       appos: this.appOs,
       payload: metrics.map(metric => {
