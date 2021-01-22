@@ -9,7 +9,7 @@ import {
 import {useStorage} from 'services/StorageService';
 import {useMetricsContext} from 'shared/MetricsProvider';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
-import {getCurrentDate} from 'shared/date-fns';
+import {getCurrentDate, getHoursBetween} from 'shared/date-fns';
 
 const checkStatus = (exposureStatus: ExposureStatus): {exposed: boolean} => {
   if (exposureStatus.type === ExposureStatusType.Exposed) {
@@ -26,6 +26,7 @@ export enum EventTypeMetric {
   OtkNoDate = 'otk-no-date',
   OtkWithDate = 'otk-with-date',
   EnToggle = 'en-toggle',
+  ExposedClear = 'exposed-clear',
 }
 
 interface Metric {
@@ -45,6 +46,10 @@ interface OTKMetric extends Metric {
 
 interface EnToggleMetric extends Metric {
   state: boolean;
+}
+
+interface ClearExposedMetric extends Metric {
+  hoursSinceExposureDetectedAt: number;
 }
 
 type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
@@ -89,6 +94,18 @@ export const useMetrics = () => {
           ? {...initialPayload, state: false}
           : {...initialPayload, state: true};
         sendMetricEvent(enToggleMetric, metrics.service);
+        break;
+      case EventTypeMetric.ExposedClear:
+        if (exposureStatus.type !== ExposureStatusType.Exposed) {
+          break;
+        }
+
+        const clearExposedMetric: ClearExposedMetric = {
+          ...initialPayload,
+          hoursSinceExposureDetectedAt: getHoursBetween(getCurrentDate(), new Date(exposureStatus.exposureDetectedAt)),
+        };
+
+        sendMetricEvent(clearExposedMetric, metrics.service);
         break;
     }
   };
