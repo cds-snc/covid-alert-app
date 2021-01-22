@@ -593,6 +593,7 @@ export class ExposureNotificationService {
     try {
       let exposureWindows: ExposureWindow[];
       if (Platform.OS === 'android') {
+        await this.exposureNotification.setDiagnosisKeysMapping();
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
         const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);

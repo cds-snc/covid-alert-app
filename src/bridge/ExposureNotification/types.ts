@@ -96,6 +96,7 @@ export interface ExposureNotification {
   getExposureWindows(): ExposureWindow[];
   getExposureWindowsIos(summary: ExposureSummary): Promise<ExposureWindow[]>;
   getExposureWindowsAndroid(diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
+  setDiagnosisKeysMapping(): Promise<void>;
 }
 
 export interface ExposureNotificationAPI {
@@ -104,6 +105,7 @@ export interface ExposureNotificationAPI {
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined> /* used only by Android */;
   getExposureWindows(): Promise<ExposureWindow[]>;
   getExposureWindowsFromSummary(summary: ExposureSummary): Promise<ExposureWindow[]>;
+  setDiagnosisKeysMapping(): Promise<void>;
 }
 
 export interface ExposureWindow {
