@@ -11,6 +11,7 @@ import {
   formatExposedDate,
   parseSavedTimestamps,
   getFirstThreeUniqueDates,
+  getHoursBetween,
 } from './date-fns';
 
 /**
@@ -237,6 +238,30 @@ describe('date-fns', () => {
       ]);
     });
   });
+
+  describe('calculates hours', () => {
+    it('calculates short number of hours between', () => {
+      const now = getCurrentDate();
+      const hrs = 5 * 60 * 60 * 1000;
+      const plusFiveHours = new Date(now.getTime() + hrs);
+      expect(getHoursBetween(now, plusFiveHours)).toStrictEqual(5);
+    });
+
+    it('calculates negative hours', () => {
+      const now = getCurrentDate();
+      const hrs = -5 * 60 * 60 * 1000;
+      const minusFiveHours = new Date(now.getTime() + hrs);
+      expect(getHoursBetween(now, minusFiveHours)).toStrictEqual(-5);
+    });
+
+    it('calculates hours for 2 days in the future', () => {
+      const now = getCurrentDate();
+      const twoDaysFromNow = new Date(Number(now));
+      twoDaysFromNow.setDate(now.getDate() + 2);
+      expect(getHoursBetween(now, twoDaysFromNow)).toStrictEqual(48);
+    });
+  });
+
   // eslint-disable-next-line jest/no-commented-out-tests
   // it('returns 1 missing day for keys upload', () => {
   //   const today = new Date('Wed Jul 28 2020 00:00:00 GMT-0400');

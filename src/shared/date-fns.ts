@@ -61,8 +61,8 @@ export function getUploadDaysLeft(cycleEndsAt: number) {
 
 export function getHoursBetween(date1: Date, date2: Date): number {
   const oneHourMs = 1000 * 60 * 60;
-  const hrs = (date1.getTime() - date2.getTime()) / oneHourMs;
-  return hrs;
+  const hrs = (date2.getTime() - date1.getTime()) / oneHourMs;
+  return Math.round(hrs);
 }
 
 export function parseDateString(dateString: string) {
