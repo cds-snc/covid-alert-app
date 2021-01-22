@@ -49,6 +49,14 @@ lane :onboard do
   )
 end
 
+lane :onboard_dev do
+  match(
+    type: "development",
+    app_identifier: "ca.gc.hcsc.canada.stopcovid",
+    readonly: true,
+  )
+end
+
 desc "Get latest version number"
 lane :get_latest_version do
   primary_play_versions = google_play_track_version_codes(

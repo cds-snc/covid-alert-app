@@ -30,6 +30,11 @@ fastlane load_env_file
 fastlane onboard
 ```
 
+### onboard_dev
+```
+fastlane onboard_dev
+```
+
 ### get_latest_version
 ```
 fastlane get_latest_version
