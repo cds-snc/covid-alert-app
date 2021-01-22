@@ -1,7 +1,7 @@
 platform :ios do
   lane :check_version_code_exists do
     testflight_latest = latest_testflight_build_number(
-      app_identifier: ENV["APP_ID_IOS"]
+      app_identifier: ENV["APP_ID"]
     )
 
     versions = Array(testflight_latest)
@@ -34,14 +34,11 @@ platform :ios do
     buildType = options[:type]
     release = options[:type] === 'production'
 
-    # Prompt to update XCode config
-    UI.user_error!("Better go do that") unless prompt(
-      text: "Did you remember to check your Xcode Bundle Identifier and Provisioning Profile settings?",
-      boolean: true
-    )
-
     # Load env file
     load_env_file(buildType:buildType)
+
+    # Check required env vars
+    UI.user_error!("Missing XCODE_SCHEME environment variable") unless ENV['XCODE_SCHEME']
 
     # Check Version Code
     check_version_code_exists
@@ -61,15 +58,10 @@ platform :ios do
 
     # Build the app
     build_app(
-      scheme: "CovidShield",
+      scheme: ENV["XCODE_SCHEME"],
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "app-store",
       output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE"]
-        }
-      }
     )
 
     # Upload to TestFlight
@@ -89,9 +81,24 @@ platform :ios do
     end
   end
 
-  private_lane :prepare_local do |options|
+  lane :devices_file_exists do
+    File.exist? File.expand_path "../fastlane/devices.txt"
+  end
+
+  desc "Adhoc build, upload to Diawi"
+  lane :adhoc do |options|
     env = (options[:env] ? options[:env] : "local")
     load_env_file(buildType:env)
+
+    # Check required env vars
+    UI.user_error!("Missing APPLE_ID environment variable") unless ENV['APPLE_ID']
+    UI.user_error!("Missing APP_ID environment variable") unless ENV['APP_ID']
+    UI.user_error!("Missing XCODE_PROFILE environment variable") unless ENV['XCODE_PROFILE']
+    UI.user_error!("Missing TEMPLATE environment variable") unless ENV['TEMPLATE']
+    UI.user_error!("Missing XCODE_SCHEME environment variable") unless ENV['XCODE_SCHEME']
+    UI.user_error!("Missing DIAWI_TOKEN environment variable") unless ENV['DIAWI_TOKEN']
+    UI.user_error!("Missing APP_VERSION_NAME environment variable") unless ENV['APP_VERSION_NAME']
+    UI.user_error!("Missing APP_VERSION_CODE environment variable") unless ENV['APP_VERSION_CODE']
 
     bundle_install
 
@@ -102,35 +109,6 @@ platform :ios do
     )
 
     ensure_build_directory
-  end
-
-  desc "Builds a local iOS adhoc .ipa"
-  lane :local do
-    prepare_local
-
-    output_directory = File.expand_path('../build/ios')
-
-    build_app(
-      scheme: "CovidShield",
-      workspace: "./ios/CovidShield.xcworkspace",
-      export_method: "ad-hoc",
-      output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
-        }
-      }
-    )
-  end
-
-  lane :devices_file_exists do
-    File.exist? File.expand_path "../fastlane/devices.txt"
-  end
-
-  desc "Adhoc build, upload to Diawi"
-  lane :adhoc do |options|
-    env = (options[:env] ? options[:env] : "local")
-    prepare_local(env: env)
 
     output_directory = File.expand_path('../build/ios')
 
@@ -143,26 +121,24 @@ platform :ios do
       )
     end
 
+    # For AdHoc builds we want to force regeneration of the
+    # Provisioning Profile so we can ensure all registered
+    # devices are added to the profile
     get_provisioning_profile(
       adhoc: true,
       force: true,
-      app_identifier: ENV["APP_ID_IOS"],
-      provisioning_name: ENV["PROFILE_ADHOC"],
-      template_name: 'Exposure Notification for TEAMID (Distribution) iOS Dist ADHOC',
+      app_identifier: ENV["APP_ID"],
+      provisioning_name: ENV["XCODE_PROFILE"],
+      template_name: ENV["TEMPLATE"],
       output_path: './fastlane/certs/ios/',
-      filename: "CovidShield_AdHoc.mobileprovision"
+      filename: "CovidAlert_AdHoc.mobileprovision"
     )
 
     build_app(
-      scheme: "CovidShield",
+      scheme: ENV["XCODE_SCHEME"],
       workspace: "./ios/CovidShield.xcworkspace",
       export_method: "ad-hoc",
       output_directory: output_directory,
-      export_options: {
-        provisioningProfiles: {
-          ENV["APP_ID_IOS"] => ENV["PROFILE_ADHOC"]
-        }
-      }
     )
 
     diawi(
