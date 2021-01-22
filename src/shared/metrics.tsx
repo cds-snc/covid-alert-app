@@ -49,7 +49,7 @@ interface EnToggleMetric extends Metric {
 }
 
 interface ClearExposedMetric extends Metric {
-  timeamount: number;
+  hoursSinceExposureDetectedAt: number;
 }
 
 type Payload = Metric | OnboardedMetric | OTKMetric | EnToggleMetric;
@@ -102,7 +102,7 @@ export const useMetrics = () => {
 
         const clearExposedMetric: ClearExposedMetric = {
           ...initialPayload,
-          timeamount: getHoursBetween(getCurrentDate(), new Date(exposureStatus.exposureDetectedAt)),
+          hoursSinceExposureDetectedAt: getHoursBetween(getCurrentDate(), new Date(exposureStatus.exposureDetectedAt)),
         };
 
         sendMetricEvent(clearExposedMetric, metrics.service);
