@@ -41,6 +41,7 @@ const ScreenRadioSelector = () => {
   ];
   return (
     <Box
+      testID="ForceScreens"
       marginTop="l"
       paddingHorizontal="m"
       borderRadius={10}
@@ -132,7 +133,7 @@ const Content = () => {
         </Text>
       </Section>
       <Section>
-        <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
+        <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" testID="ShowSampleNotification" />
       </Section>
       <Section>
         <Item title="Force screen" />
