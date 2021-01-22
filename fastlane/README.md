@@ -60,6 +60,11 @@ fastlane ensure_build_directory
 fastlane ensure_env_file_exists
 ```
 
+### ensure_translations_generated
+```
+fastlane ensure_translations_generated
+```
+
 
 ----
 
