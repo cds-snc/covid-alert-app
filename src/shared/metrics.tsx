@@ -8,7 +8,7 @@ import {
 import {useStorage} from 'services/StorageService';
 import {useMetricsContext} from 'shared/MetricsProvider';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
-import {getCurrentDate} from 'shared/date-fns';
+import {getCurrentDate, getHoursBetween} from 'shared/date-fns';
 import {MetricsService} from 'services/MetricsService/MetricsService';
 import {Metric} from 'services/MetricsService/Metric';
 
@@ -27,6 +27,7 @@ export enum EventTypeMetric {
   OtkNoDate = 'otk-no-date',
   OtkWithDate = 'otk-with-date',
   EnToggle = 'en-toggle',
+  ExposedClear = 'exposed-clear',
 }
 
 interface BaseMetric {
@@ -46,6 +47,10 @@ interface OTKMetric extends BaseMetric {
 
 interface EnToggleMetric extends BaseMetric {
   state: boolean;
+}
+
+interface ClearExposedMetric extends BaseMetric {
+  hoursSinceExposureDetectedAt: number;
 }
 
 type Payload = BaseMetric | OnboardedMetric | OTKMetric | EnToggleMetric;
@@ -91,6 +96,17 @@ export const useMetrics = () => {
         break;
       case EventTypeMetric.EnToggle:
         newMetricPayload = [['state', String(userStopped)]];
+        break;
+      case EventTypeMetric.ExposedClear:
+        if (exposureStatus.type !== ExposureStatusType.Exposed) {
+          break;
+        }
+        newMetricPayload = [
+          [
+            'hoursSinceExposureDetectedAt',
+            String(getHoursBetween(getCurrentDate(), new Date(exposureStatus.exposureDetectedAt))),
+          ],
+        ];
         break;
     }
 

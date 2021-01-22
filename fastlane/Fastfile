@@ -26,6 +26,37 @@ lane :load_env_file do |options|
   ENV["ENVFILE"] = env_file
 end
 
+lane :onboard do
+  match(
+    type: "development",
+    app_identifier: "ca.gc.hcsc.canada.stopcovid",
+    readonly: true,
+  )
+  match(
+    type: "adhoc",
+    app_identifier: "ca.gc.hcsc.canada.covidalert.dev",
+    readonly: true,
+  )
+  match(
+    type: "appstore",
+    app_identifier: "ca.gc.hcsc.canada.stopcovid",
+    readonly: true,
+  )
+  match(
+    type: "appstore",
+    app_identifier: "ca.gc.hcsc.canada.covidalert.dev",
+    readonly: true,
+  )
+end
+
+lane :onboard_dev do
+  match(
+    type: "development",
+    app_identifier: "ca.gc.hcsc.canada.stopcovid",
+    readonly: true,
+  )
+end
+
 desc "Get latest version number"
 lane :get_latest_version do
   primary_play_versions = google_play_track_version_codes(
@@ -101,4 +132,19 @@ lane :ensure_env_file_exists do |options|
 
   UI.user_error!("#{file} environment file is missing!") unless file_exists
   UI.success("Using environment file #{file}")
+end
+
+lane :ensure_translations_generated do
+  yarn(
+    command: "generate-translations"
+  )
+
+  translations_status = Actions.sh("git status ../src/locale/translations --porcelain")
+
+  repo_clean = translations_status.empty?
+
+  UI.user_error!("Ok, go commit that file!") unless prompt(
+    text: "The translations file appears to be dirty, and changes should be committed. Are you sure you want to continue?",
+    boolean: true
+  ) unless repo_clean
 end
