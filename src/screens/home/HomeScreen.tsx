@@ -197,7 +197,13 @@ export const HomeScreen = () => {
   useEffect(() => {
     function handleOpenURL({url}: EventURL) {
       const routeName = url.split('/')[2];
-      navigation.navigate(routeName);
+      const id = url.split('/')[4];
+      const name = url.split('/')[5];
+      const URLSplit = url.split('/');
+      console.log('URL Split:', URLSplit);
+      if (routeName === 'QRCodeScreen') {
+        navigation.navigate('QRCodeScreen', {id, name});
+      }
     }
     Linking.addEventListener('url', handleOpenURL);
     Linking.getInitialURL().then(initialURL => {

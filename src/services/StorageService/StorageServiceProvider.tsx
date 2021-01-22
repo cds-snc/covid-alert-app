@@ -52,6 +52,14 @@ export const useStorage = () => {
     [storageService],
   );
 
+  const [checkInID, setCheckInID] = useState(storageService.checkInID.get());
+  const setCheckIn = useMemo(
+    () => (newCheckIn: string) => {
+      storageService.setCheckInID(newCheckIn);
+    },
+    [storageService],
+  );
+
   const [region, setRegionInternal] = useState(storageService.region.get());
   const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);
 
@@ -68,6 +76,7 @@ export const useStorage = () => {
 
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
+  useEffect(() => storageService.checkInID.observe(setCheckInID), [storageService.checkInID]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
   useEffect(() => storageService.onboardedDatetime.observe(setOnboardedDatetimeInternal), [
     storageService.onboardedDatetime,
@@ -83,11 +92,12 @@ export const useStorage = () => {
     setOnboardedDatetime(undefined);
     setSkipAllSet(false);
     setUserStopped(false);
+    setCheckIn('0');
     await AsyncStorage.clear();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped, setCheckIn]);
 
   return useMemo(
     () => ({
@@ -95,6 +105,8 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
+      checkInID,
+      setCheckIn,
       region,
       setRegion,
       onboardedDatetime,
@@ -112,6 +124,8 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
+      checkInID,
+      setCheckIn,
       region,
       setRegion,
       onboardedDatetime,

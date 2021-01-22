@@ -1,24 +1,26 @@
 import React from 'react';
 import {BaseDataSharingView} from '../../datasharing/components/BaseDataSharingView';
-import {Box, Text} from 'components';
+import {Box, Button, Text} from 'components';
+import {useStorage} from 'services/StorageService';
 
-export const QRCodeView = () => {
+export const QRCodeView = ({route}: any) => {
+  const {id, name} = route.params;
+  const {checkInID, setCheckIn} = useStorage();
+  setCheckIn(id.toString());
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m">
+        <Text>Successful Check-in</Text>
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-          QR Code Test Screen
+          {urlToString(name)}
         </Text>
-        <Text marginBottom="l">
-          <Text>This is a demo screen to test deep link functionality</Text>
-        </Text>
-        <Text marginBottom="l">
-          <Text>
-            The only way to access this screen is by scanning a QR Code or by typing covidalert://QRCodeScreen into your
-            browser.
-          </Text>
-        </Text>
+        <Button variant="thinFlat" text="Storage" onPress={() => console.log('Check In: ', checkInID)} />
       </Box>
     </BaseDataSharingView>
   );
 };
+
+function urlToString(url: string): string {
+  const title = url.replace('_', ' ');
+  return title;
+}
