@@ -1,20 +1,23 @@
 import PQueue from 'p-queue';
+import { Key } from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
 import {Metric} from './Metric';
 import {MetricsJsonSerializer} from './MetricsJsonSerializer';
 import {DefaultMetricsProvider, MetricsProvider} from './MetricsProvider';
 import {DefaultMetricsPublisher, MetricsPublisher} from './MetricsPublisher';
-import {DefaultMetricsPusher, MetricsPusher, MetricsPusherResult} from './MetricsPusher';
+import {DefaultMetricsPusher, MetricsPusher, MetricsPusherResult, MIN_UPLOAD_MINUTES} from './MetricsPusher';
 import {DefaultMetricsStorage, MetricsStorageCleaner} from './MetricsStorage';
 import {DefaultSecureKeyValueStore, SecureKeyValueStore} from './SecureKeyValueStorage';
+import RNSecureKeyStore from 'react-native-secure-key-store';
+import {getCurrentDate, minutesBetween} from 'shared/date-fns';
 
 const LastMetricTimestampSentToTheServerUniqueIdentifier = '3FFE2346-1910-4FD7-A23F-52D83CFF083A';
 
 export interface MetricsService {
   publishMetric(metric: Metric, forcePush?: boolean): Promise<void>;
   publishMetrics(metrics: Metric[], forcePush?: boolean): Promise<void>;
-  sendMetrics(): Promise<void>;
+  sendDailyMetrics(): Promise<void>;
 }
 
 export class DefaultMetricsService implements MetricsService {
@@ -74,8 +77,22 @@ export class DefaultMetricsService implements MetricsService {
     });
   }
 
-  sendMetrics(): Promise<void> {
-    return this.serialPromiseQueue.add(() => this.triggerPush());
+  async sendDailyMetrics(): Promise<void> {
+    let metricsLastUploadedDateTimeString = await RNSecureKeyStore.get(Key.MetricsLastUploadedDateTime);
+
+    try{
+      const metricsLastUploadedDateTime = new Date(metricsLastUploadedDateTimeString);
+      const today = getCurrentDate();
+      const minutesSinceLastUpload = minutesBetween(metricsLastUploadedDateTime, today);
+      // randomize the upload window, to stagger when phones are uploading the metrics
+      const randomMinutes = Math.floor(Math.random() * MIN_UPLOAD_MINUTES)
+      if (minutesSinceLastUpload > MIN_UPLOAD_MINUTES + randomMinutes) {
+        return this.serialPromiseQueue.add(() => this.triggerPush());
+      }
+    } catch {
+      // if something goes wrong with the metricsLastUploadedDateTimeString, upload the metrics anyway
+      return this.serialPromiseQueue.add(() => this.triggerPush());
+    }
   }
 
   private triggerPush(): Promise<void> {
