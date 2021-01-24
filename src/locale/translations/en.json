@@ -325,10 +325,10 @@
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
     },
-    "IntermediateStep":{
+    "IntermediateStep": {
       "Title": "Finish sharing exposures",
-      "List":{
-        "1a":"1. ",
+      "List": {
+        "1a": "1. ",
         "1b": "Done.",
         "2a": "2. Give the app details ",
         "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
@@ -530,6 +530,11 @@
     "ApiNotConnected": {
       "Title": "Something went wrong",
       "Body": "Unfortunately, it looks like COVID Alert will not work on this phone. \n\nIf you have more than one profile on your phone, try installing the app in the main profile."
+    },
+    "QRCode": {
+      "Title": "QR Code Title",
+      "Body": "QR Code Body",
+      "CTA": "QR Code CTA"
     }
   }
 }

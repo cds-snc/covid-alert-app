@@ -44,7 +44,7 @@ const Content = () => {
   );
 };
 
-export const ErrorScreen = () => {
+export const QRCodeScreen = () => {
   return (
     <Box flex={1} alignItems="center" backgroundColor="mainBackground">
       <Box

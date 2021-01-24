@@ -5,5 +5,5 @@ export enum ForceScreen {
   'DiagnosedShareView' = 'DiagnosedShareView',
   'DiagnosedView' = 'DiagnosedView',
   'DiagnosedShareUploadView' = 'DiagnosedShareUploadView',
-  'FrameworkUnavailableView' = 'FrameworkUnavailableView',
+  'FrameworkUnavailableView' = 'FrameworkUnavailableView'
 }
