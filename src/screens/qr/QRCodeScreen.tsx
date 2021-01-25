@@ -45,13 +45,11 @@ const Content = () => {
 
 export const QRCodeScreen = () => {
   return (
-    <BaseHomeView>
-      <Box flex={1} alignItems="center" backgroundColor="mainBackground">
-        <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
-          <Content />
-        </Box>
+    <Box flex={1} alignItems="center" backgroundColor="mainBackground">
+      <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
+        <Content />
       </Box>
-    </BaseHomeView>
+    </Box>
   );
 };
 
