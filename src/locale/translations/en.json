@@ -481,6 +481,11 @@
     "End": "List end",
     "Bullet": "Bullet"
   },
+  "QRCode": {
+    "Title": "QR Code Title",
+    "Body": "QR Code Body",
+    "CTA": "QR Code CTA"
+  },
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {
@@ -530,11 +535,6 @@
     "ApiNotConnected": {
       "Title": "Something went wrong",
       "Body": "Unfortunately, it looks like COVID Alert will not work on this phone. \n\nIf you have more than one profile on your phone, try installing the app in the main profile."
-    },
-    "QRCode": {
-      "Title": "QR Code Title",
-      "Body": "QR Code Body",
-      "CTA": "QR Code CTA"
     }
   }
 }

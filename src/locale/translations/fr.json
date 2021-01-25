@@ -481,6 +481,11 @@
     "End": "Fin de liste",
     "Bullet": "Puce"
   },
+  "QRCode": {
+    "Title": "QR Code Title",
+    "Body": "QR Code Body",
+    "CTA": "QR Code CTA"
+  },
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {
@@ -530,11 +535,6 @@
     "ApiNotConnected": {
       "Title": "Une erreur s'est produite",
       "Body": "Malheureusement, il semble qu'Alerte COVID ne fonctionne pas sur votre téléphone. \n\nSi vous avez plusieurs profils utilisateur, essayez d'installer l'application dans le profil de base."
-    },
-    "QRCode": {
-      "Title": "QR Code Title",
-      "Body": "QR Code Body",
-      "CTA": "QR Code CTA"
     }
   }
 }

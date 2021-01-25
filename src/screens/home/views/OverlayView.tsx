@@ -1,53 +1,48 @@
-import React, { useCallback } from 'react';
-import Animated, { sub, abs } from 'react-native-reanimated';
-import { useNetInfo } from '@react-native-community/netinfo';
-import { Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon } from 'components';
-import { useI18n, I18n } from 'locale';
-import { Linking, Platform, TouchableOpacity, StyleSheet, View } from 'react-native';
+import React, {useCallback} from 'react';
+import Animated, {sub, abs} from 'react-native-reanimated';
+import {useNetInfo} from '@react-native-community/netinfo';
+import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
+import {useI18n, I18n} from 'locale';
+import {Linking, Platform, TouchableOpacity, StyleSheet, View} from 'react-native';
 import {
   ExposureStatusType,
   SystemStatus,
   useExposureStatus,
   useStartExposureNotificationService,
 } from 'services/ExposureNotificationService';
-import { useNavigation } from '@react-navigation/native';
-import { getUploadDaysLeft } from 'shared/date-fns';
-import { pluralizeKey } from 'shared/pluralization';
-import { ScrollView } from 'react-native-gesture-handler';
-import { useAccessibilityService } from 'services/AccessibilityService';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useStorage } from 'services/StorageService';
-import { EventTypeMetric, useMetrics } from 'shared/metrics';
+import {useNavigation} from '@react-navigation/native';
+import {getUploadDaysLeft} from 'shared/date-fns';
+import {pluralizeKey} from 'shared/pluralization';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useAccessibilityService} from 'services/AccessibilityService';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useStorage} from 'services/StorageService';
+import {EventTypeMetric, useMetrics} from 'shared/metrics';
 
-import { InfoShareView } from './InfoShareView';
-import { StatusHeaderView } from './StatusHeaderView';
+import {InfoShareView} from './InfoShareView';
+import {StatusHeaderView} from './StatusHeaderView';
 
-const QRCode = ({
-  i18n,
-  bottomSheetBehavior,
-}: {
-  i18n: I18n;
-  bottomSheetBehavior: BottomSheetBehavior;
-}) => {
+const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: BottomSheetBehavior}) => {
   const navigation = useNavigation();
-  return <InfoBlock
-    titleBolded={i18n.translate('QRCode.Title')}
-    text={i18n.translate('QRCode.Body')}
-    button={{
-      text: i18n.translate('QRCode.CTA'),
-      action: () => {
-        bottomSheetBehavior.collapse();
-        navigation.navigate('QRCodeScreen');
-      },
-    }}
-    backgroundColor="danger25Background"
-    color="bodyText"
-    showButton
-  />
-}
+  return (
+    <InfoBlock
+      titleBolded={i18n.translate('QRCode.Title')}
+      text={i18n.translate('QRCode.Body')}
+      button={{
+        text: i18n.translate('QRCode.CTA'),
+        action: () => {
+          bottomSheetBehavior.collapse();
+          navigation.navigate('QRCodeScreen');
+        },
+      }}
+      backgroundColor="infoBlockNeutralBackground"
+      color="bodyText"
+      showButton
+    />
+  );
+};
 
-
-const SystemStatusOff = ({ i18n }: { i18n: I18n }) => {
+const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const addEvent = useMetrics();
   const onPress = async () => {
@@ -74,7 +69,7 @@ const SystemStatusOff = ({ i18n }: { i18n: I18n }) => {
   );
 };
 
-const SystemStatusUnauthorized = ({ i18n }: { i18n: I18n }) => {
+const SystemStatusUnauthorized = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const addEvent = useMetrics();
   const onPress = async () => {
@@ -101,7 +96,7 @@ const SystemStatusUnauthorized = ({ i18n }: { i18n: I18n }) => {
   );
 };
 
-const BluetoothStatusOff = ({ i18n }: { i18n: I18n }) => {
+const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
   return (
     <InfoBlock
       titleBolded={i18n.translate('OverlayOpen.BluetoothCardAction')}
@@ -109,7 +104,7 @@ const BluetoothStatusOff = ({ i18n }: { i18n: I18n }) => {
       color="bodyText"
       button={{
         text: '',
-        action: () => { },
+        action: () => {},
       }}
       text={i18n.translate('OverlayOpen.BluetoothCardBody')}
       showButton={false}
@@ -117,7 +112,7 @@ const BluetoothStatusOff = ({ i18n }: { i18n: I18n }) => {
   );
 };
 
-const NotificationStatusOff = ({ action, i18n }: { action: () => void; i18n: I18n }) => {
+const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
   return (
     <InfoButton
       title={i18n.translate('OverlayOpen.NotificationCardStatus')}
@@ -166,7 +161,7 @@ const ShareDiagnosisCode = ({
         color="bodyText"
         button={{
           text: '',
-          action: () => { },
+          action: () => {},
         }}
         text={i18n.translate('OverlayOpen.NoConnectivityCardBody')}
         showButton={false}
@@ -190,29 +185,29 @@ const ShareDiagnosisCode = ({
         text={bodyText}
         button={{
           text: '',
-          action: () => { },
+          action: () => {},
         }}
         backgroundColor="infoBlockNeutralBackground"
         color="bodyText"
         showButton={false}
       />
     ) : (
-        <InfoBlock
-          focusOnTitle={isBottomSheetExpanded}
-          titleBolded={i18n.translate('OverlayOpen.CodeNotShared.Title')}
-          text={i18n.translate('OverlayOpen.CodeNotShared.Body')}
-          button={{
-            text: i18n.translate('OverlayOpen.CodeNotShared.CTA'),
-            action: () => {
-              bottomSheetBehavior.collapse();
-              navigation.navigate('DataSharing', { screen: 'IntermediateScreen' });
-            },
-          }}
-          backgroundColor="danger25Background"
-          color="bodyText"
-          showButton
-        />
-      );
+      <InfoBlock
+        focusOnTitle={isBottomSheetExpanded}
+        titleBolded={i18n.translate('OverlayOpen.CodeNotShared.Title')}
+        text={i18n.translate('OverlayOpen.CodeNotShared.Body')}
+        button={{
+          text: i18n.translate('OverlayOpen.CodeNotShared.CTA'),
+          action: () => {
+            bottomSheetBehavior.collapse();
+            navigation.navigate('DataSharing', {screen: 'IntermediateScreen'});
+          },
+        }}
+        backgroundColor="danger25Background"
+        color="bodyText"
+        showButton
+      />
+    );
   }
   return (
     <InfoBlock
@@ -266,7 +261,7 @@ const TurnAppBackOn = ({
   );
 };
 
-const AccessibleView = ({ children }: { children: React.ReactNode }) => {
+const AccessibleView = ({children}: {children: React.ReactNode}) => {
   const accessibilityService = useAccessibilityService();
 
   return accessibilityService.isScreenReaderEnabled ? (
@@ -274,8 +269,8 @@ const AccessibleView = ({ children }: { children: React.ReactNode }) => {
       {children}
     </ScrollView>
   ) : (
-      <View style={styles.content}>{children}</View>
-    );
+    <View style={styles.content}>{children}</View>
+  );
 };
 
 interface Props extends Pick<BoxProps, 'maxWidth'> {
@@ -285,12 +280,12 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
   bottomSheetBehavior: BottomSheetBehavior;
 }
 
-export const OverlayView = ({ status, notificationWarning, turnNotificationsOn, bottomSheetBehavior }: Props) => {
+export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
   const i18n = useI18n();
-  const { userStopped } = useStorage();
+  const {userStopped} = useStorage();
 
   return (
-    <Animated.View style={{ opacity: abs(sub(bottomSheetBehavior.callbackNode, 1)) }}>
+    <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
       <AccessibleView>
         <SafeAreaView>
           <Box>
@@ -347,6 +342,11 @@ export const OverlayView = ({ status, notificationWarning, turnNotificationsOn, 
                 <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
               </Box>
             )}
+
+            <Box marginBottom="m" marginHorizontal="m">
+              <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
+            </Box>
+
             <Box marginBottom="m" marginHorizontal="m">
               <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
             </Box>

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Box } from 'components';
-import { Text, View, StyleSheet, Button, Alert } from 'react-native';
-import { BarCodeScanner, BarCodeScannerResult } from 'expo-barcode-scanner';
-import { useI18n } from 'locale';
-
+import React, {useState, useEffect} from 'react';
+import {Box} from 'components';
+import {Text, View, StyleSheet, Button, Alert} from 'react-native';
+import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
+import {useI18n} from 'locale';
+import {BaseHomeView} from '../home/components/BaseHomeView';
 
 const Content = () => {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
@@ -12,18 +12,16 @@ const Content = () => {
 
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const {status} = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
 
   const handleBarCodeScanned = (scanningResult: BarCodeScannerResult) => {
-    const { type, data } = scanningResult
+    const {type, data} = scanningResult;
     setScanned(true);
     const msg = `Bar code with type ${type} and data ${data} has been scanned!`;
-    Alert.alert("Error", msg, [
-      { text: i18n.translate(`Errors.Action`) },
-    ]);
+    Alert.alert('Error', msg, [{text: i18n.translate(`Errors.Action`)}]);
   };
 
   if (hasPermission === null) {
@@ -39,6 +37,7 @@ const Content = () => {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
+
       {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   );
@@ -46,16 +45,13 @@ const Content = () => {
 
 export const QRCodeScreen = () => {
   return (
-    <Box flex={1} alignItems="center" backgroundColor="mainBackground">
-      <Box
-        flex={1}
-        paddingTop="m"
-        paddingBottom="m"
-        alignSelf="stretch"
-      >
-        <Content />
+    <BaseHomeView>
+      <Box flex={1} alignItems="center" backgroundColor="mainBackground">
+        <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
+          <Content />
+        </Box>
       </Box>
-    </Box>
+    </BaseHomeView>
   );
 };
 
