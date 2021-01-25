@@ -7,25 +7,8 @@ import {log} from 'shared/logging/config';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export const QRCodeView = ({route}: any) => {
-  const {id, name} = route.params;
+  const {name} = route.params;
   const {checkInIDJson, setRemoveCheckIn} = useStorage();
-
-  // const retrieveData = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('CheckInID');
-
-  //     if (value !== null) {
-  //       console.log('value', value);
-  //       const obj = JSON.parse(value);
-
-  //       // for (var i = 0; i < obj.length; i++) {
-  //       //   console.log(obj[i]);
-  //       // }
-  //     } else {
-  //       console.log('does not exist');
-  //     }
-  //   } catch (error) {}
-  // };
 
   return (
     <BaseDataSharingView showBackButton={false}>
