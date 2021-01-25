@@ -27,8 +27,12 @@ export const QRCodeView = ({route}: any) => {
             Date
           </Text> */}
         </Box>
-        <Text marginBottom="xxl"> Thank you for scanning. You have successfully checked in</Text>
-        <Button variant="thinFlat" text="Check Storage Values" onPress={retrieveData} />
+        <Text marginBottom="xl"> Thank you for scanning. You have successfully checked in</Text>
+      </Box>
+      <Box marginTop="l" padding="m">
+        <Button variant="thinFlat" text="Check  Values" onPress={retrieveData} />
+      </Box>
+      <Box margin="m">
         <Button variant="thinFlat" text="Cancel Check In" onPress={() => setRemoveCheckIn(checkInIDJson)} />
       </Box>
     </BaseDataSharingView>
@@ -61,5 +65,8 @@ const styles = StyleSheet.create({
   bottomButton: {
     position: 'absolute',
     bottom: 0,
+  },
+  box: {
+    backgroundColor: 'blue',
   },
 });
