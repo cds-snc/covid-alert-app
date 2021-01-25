@@ -71,7 +71,7 @@ export class StorageService {
     this.userStopped.set(value);
   };
 
-  setCheckInJSON = async (value: string) => {
+  setCheckIn = async (value: string) => {
     const existingIds = (await AsyncStorage.getItem(Key.CheckInID)) || '0';
 
     let newId = JSON.parse(existingIds);
@@ -118,8 +118,8 @@ export class StorageService {
     const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
     this.userStopped.set(userStopped);
 
-    const checkInJSON = (await AsyncStorage.getItem(Key.CheckInID)) || '0';
-    this.checkInID.set(JSON.parse(checkInJSON));
+    const checkInID = (await AsyncStorage.getItem(Key.CheckInID)) || '0';
+    this.checkInID.set(JSON.parse(checkInID));
   };
 }
 

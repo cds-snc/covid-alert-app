@@ -52,10 +52,10 @@ export const useStorage = () => {
     [storageService],
   );
 
-  const [checkInIDJson, setCheckInIdJson] = useState(storageService.checkInID.get());
-  const setCheckInJSON = useMemo(
-    () => (checkInJson: string) => {
-      storageService.setCheckInJSON(checkInJson);
+  const [checkInID, setCheckInId] = useState(storageService.checkInID.get());
+  const setCheckIn = useMemo(
+    () => (checkIn: string) => {
+      storageService.setCheckIn(checkIn);
     },
     [storageService],
   );
@@ -83,7 +83,7 @@ export const useStorage = () => {
 
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
-  useEffect(() => storageService.checkInID.observe(setCheckInIdJson), [storageService.checkInID]);
+  useEffect(() => storageService.checkInID.observe(setCheckInId), [storageService.checkInID]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
   useEffect(() => storageService.onboardedDatetime.observe(setOnboardedDatetimeInternal), [
     storageService.onboardedDatetime,
@@ -104,7 +104,7 @@ export const useStorage = () => {
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped, setCheckInJSON]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped, setCheckIn]);
 
   return useMemo(
     () => ({
@@ -112,8 +112,8 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
-      checkInIDJson,
-      setCheckInJSON,
+      checkInIDJson: checkInID,
+      setCheckInJSON: setCheckIn,
       setRemoveCheckIn,
       region,
       setRegion,
@@ -132,8 +132,8 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
-      checkInIDJson,
-      setCheckInJSON,
+      checkInID,
+      setCheckIn,
       setRemoveCheckIn,
       region,
       setRegion,
