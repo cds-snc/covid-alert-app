@@ -33,6 +33,8 @@ export class MockExposureNotification implements ExposureNotification {
 
   provideDiagnosisKeys = async () => undefined;
 
+  setDiagnosisKeysDataMapping = async () => {};
+
   getExposureWindows = () => [];
 
   getExposureWindowsAndroid = async () => [];
