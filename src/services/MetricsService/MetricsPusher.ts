@@ -1,10 +1,10 @@
-import {METRICS_URL} from 'env';
+import {METRICS_URL, TEST_MODE} from 'env';
 import {log} from 'shared/logging/config';
 import {Key} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 
-export const MIN_UPLOAD_MINUTES = 60 * 24;  // 24 hours
+export const MIN_UPLOAD_MINUTES = TEST_MODE ? 60 : 60 * 24;  // 24 hours
 
 export enum MetricsPusherResult {
   Success,
