@@ -53,7 +53,7 @@ interface ClearExposedMetric extends BaseMetric {
   hoursSinceExposureDetectedAt: number;
 }
 
-type Payload = BaseMetric | OnboardedMetric | OTKMetric | EnToggleMetric;
+type Payload = BaseMetric | OnboardedMetric | OTKMetric | EnToggleMetric | ClearExposedMetric;
 
 // note this can used direct i.e. outside of the React hook
 export const sendMetricEvent = (payload: Payload, metricsService: MetricsService) => {
