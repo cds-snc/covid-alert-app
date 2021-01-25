@@ -61,8 +61,8 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       });
       return exposureWindows;
     },
-    setDiagnosisKeysMapping: async () => {
-      await exposureNotificationAPI.setDiagnosisKeysMapping();
+    setDiagnosisKeysDataMapping: async () => {
+      await exposureNotificationAPI.setDiagnosisKeysDataMapping();
     },
   };
 }

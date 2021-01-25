@@ -223,12 +223,7 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                 val diagnosisKeysDataMapping: DiagnosisKeysDataMapping by lazy {
                     val daysToInfectiousness = mutableMapOf<Int, Int>()
                     for (i in -14..14) {
-                        when (i) {
-                            in -5..-3 -> daysToInfectiousness[i] = Infectiousness.STANDARD
-                            in -2..5 -> daysToInfectiousness[i] = Infectiousness.STANDARD
-                            in 6..10 -> daysToInfectiousness[i] = Infectiousness.STANDARD
-                            else -> daysToInfectiousness[i] = Infectiousness.STANDARD
-                        }
+                        daysToInfectiousness[i] = Infectiousness.STANDARD
                     }
                     DiagnosisKeysDataMapping.DiagnosisKeysDataMappingBuilder()
                             .setDaysSinceOnsetToInfectiousness(daysToInfectiousness)
@@ -236,7 +231,10 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
                             .setReportTypeWhenMissing(ReportType.CONFIRMED_TEST)
                             .build()
                 }
-                exposureNotificationClient.setDiagnosisKeysDataMapping(diagnosisKeysDataMapping)
+                val oldDiagnosisKeysDataMapping = exposureNotificationClient.diagnosisKeysDataMapping.await()
+                if (diagnosisKeysDataMapping != oldDiagnosisKeysDataMapping) {
+                    exposureNotificationClient.setDiagnosisKeysDataMapping(diagnosisKeysDataMapping)
+                }
                 promise.resolve(null)
             } catch (exception: Exception) {
                 promise.reject(exception)
