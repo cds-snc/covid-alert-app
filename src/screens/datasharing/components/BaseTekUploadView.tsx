@@ -8,6 +8,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
+import {EventTypeMetric, useMetrics} from 'shared/metrics';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -32,6 +33,7 @@ export const BaseTekUploadView = ({
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys, setIsUploading} = useReportDiagnosis();
+  const addEvent = useMetrics();
 
   const onSuccess = useCallback(() => {
     AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
@@ -77,13 +79,22 @@ export const BaseTekUploadView = ({
       await fetchAndSubmitKeys(contagiousDateInfo);
       setLoading(false);
       setIsUploading(false);
+
+      let eventType: EventTypeMetric = EventTypeMetric.OtkWithDate;
+
+      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
+        eventType = EventTypeMetric.OtkNoDate;
+      }
+
+      addEvent(eventType);
+
       onSuccess();
     } catch (error) {
       setLoading(false);
       setIsUploading(false);
       onError(error);
     }
-  }, [contagiousDateInfo, fetchAndSubmitKeys, onError, onSuccess]);
+  }, [addEvent, contagiousDateInfo, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
 
   if (loading) {
     return (

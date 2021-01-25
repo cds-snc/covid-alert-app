@@ -1,8 +1,8 @@
 import React, {useMemo} from 'react';
-import {Text} from 'components';
+import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
-import {formatExposedDate} from 'shared/date-fns';
+import {formatExposedDate, getCurrentDate, getFirstThreeUniqueDates} from 'shared/date-fns';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useStorage} from 'services/StorageService';
 
@@ -10,26 +10,31 @@ export const ExposureDateView = () => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const {forceScreen} = useStorage();
-  const dateFormatOptions = {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  };
 
   const exposureNotificationService = useExposureNotificationService();
 
-  const date = useMemo(() => {
-    const timeStamp = exposureNotificationService.getExposureDetectedAt();
+  const dates: Date[] = useMemo(() => {
+    if (forceScreen && forceScreen !== ForceScreen.None) {
+      return [getCurrentDate()];
+    }
+    return exposureNotificationService.getExposureDetectedAt();
+  }, [exposureNotificationService, forceScreen]);
 
-    if (timeStamp)
-      return formatExposedDate(dateLocale, new Date(timeStamp).toLocaleString(dateLocale, dateFormatOptions));
-    else if (forceScreen && forceScreen !== ForceScreen.None)
-      return formatExposedDate(dateLocale, new Date().toLocaleString(dateLocale, dateFormatOptions));
-  }, [dateFormatOptions, dateLocale, exposureNotificationService, forceScreen]);
+  const formattedDates = dates.map(date => {
+    return formatExposedDate(date, dateLocale);
+  });
 
-  return date ? (
-    <Text marginBottom="m">
-      {i18n.translate('Home.ExposureDetected.Notification.Received')}: <Text fontWeight="bold">{date}</Text>
-    </Text>
+  const firstThreeUniqueDates = getFirstThreeUniqueDates(formattedDates);
+  return firstThreeUniqueDates ? (
+    <Box marginBottom="m">
+      <Text>{i18n.translate('Home.ExposureDetected.Notification.Received')}:</Text>
+      <>
+        {firstThreeUniqueDates.map((date, index) => (
+          <Text fontWeight={index === 0 ? 'bold' : 'normal'} key={date}>
+            {date}
+          </Text>
+        ))}
+      </>
+    </Box>
   ) : null;
 };
