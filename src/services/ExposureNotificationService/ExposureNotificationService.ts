@@ -24,6 +24,7 @@ import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
+import {sendMetricEvent, EventTypeMetric} from 'shared/metrics';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -125,6 +126,7 @@ export class ExposureNotificationService {
   private i18n: I18n;
   private storage: PersistencyProvider;
   private secureStorage: SecurePersistencyProvider;
+  private metricService: any;
 
   constructor(
     backendInterface: BackendInterface,
@@ -132,6 +134,7 @@ export class ExposureNotificationService {
     storage: PersistencyProvider,
     secureStorage: SecurePersistencyProvider,
     exposureNotification: typeof ExposureNotification,
+    metricService?: any,
   ) {
     this.i18n = i18n;
     this.exposureNotification = exposureNotification;
@@ -141,6 +144,7 @@ export class ExposureNotificationService {
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
+    this.metricService = metricService;
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
@@ -842,6 +846,15 @@ export class ExposureNotificationService {
     const exposureHistory = this.exposureHistory.get();
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
+
+    sendMetricEvent(
+      {
+        identifier: EventTypeMetric.Exposed,
+        timestamp: getCurrentDate().getTime(),
+        region: (await this.storage.getItem(Key.Region)) || '',
+      },
+      this.metricService,
+    );
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {

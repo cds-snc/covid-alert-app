@@ -142,7 +142,7 @@ android {
     }
 
     defaultConfig {
-        applicationId project.env.get("APP_ID_ANDROID")
+        applicationId project.env.get("APP_ID")
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode project.env.get("APP_VERSION_CODE") as Integer

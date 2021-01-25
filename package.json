@@ -20,13 +20,15 @@
     "pre:test:ios": "detox build --configuration=ios",
     "pre:test:android": "detox build --configuration=android",
     "tsc": "tsc",
+    "onboard": "bundle exec fastlane onboard",
+    "onboard:dev_only": "bundle exec fastlane onboard_dev",
     "get_latest_version": "bundle exec fastlane get_latest_version",
     "deploy-android:staging": "bundle exec fastlane android build_and_deploy type:staging",
     "deploy-android:production": "bundle exec fastlane android build_and_deploy type:production",
     "deploy-ios:staging": "bundle exec fastlane ios build_and_deploy type:staging",
     "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production",
-    "deploy-ios:diawi": "bundle exec fastlane ios adhoc",
-    "deploy-android:diawi": "bundle exec fastlane android adhoc",
+    "deploy-ios:diawi": "bundle exec fastlane ios adhoc env:diawi",
+    "deploy-android:diawi": "bundle exec fastlane android adhoc env:diawi",
     "deploy-ios:demo": "bundle exec fastlane ios build_and_deploy type:demo"
   },
   "dependencies": {
