@@ -1,43 +1,43 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { TextInput, StyleSheet, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useI18n } from 'locale';
+import React, {useCallback, useState, useEffect} from 'react';
+import {TextInput, StyleSheet, ScrollView} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useI18n} from 'locale';
 import PushNotification from 'bridge/PushNotification';
-import { Box, Button, LanguageToggle, Text, Toolbar } from 'components';
-import { useStorage } from 'services/StorageService';
+import {Box, Button, LanguageToggle, Text, Toolbar} from 'components';
+import {useStorage} from 'services/StorageService';
 import {
   ExposureStatusType,
   useExposureNotificationService,
   useReportDiagnosis,
   useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
-import { APP_VERSION_NAME, APP_VERSION_CODE } from 'env';
-import { captureMessage } from 'shared/log';
-import { useNavigation } from '@react-navigation/native';
-import { ContagiousDateType } from 'shared/DataSharing';
-import { getLogUUID, setLogUUID } from 'shared/logging/uuid';
-import { ForceScreen } from 'shared/ForceScreen';
+import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
+import {captureMessage} from 'shared/log';
+import {useNavigation} from '@react-navigation/native';
+import {ContagiousDateType} from 'shared/DataSharing';
+import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
+import {ForceScreen} from 'shared/ForceScreen';
 
-import { RadioButton } from './components/RadioButtons';
-import { MockProvider } from './MockProvider';
-import { Item } from './views/Item';
-import { Section } from './views/Section';
+import {RadioButton} from './components/RadioButtons';
+import {MockProvider} from './MockProvider';
+import {Item} from './views/Item';
+import {Section} from './views/Section';
 
 const ScreenRadioSelector = () => {
-  const { forceScreen, setForceScreen } = useStorage();
+  const {forceScreen, setForceScreen} = useStorage();
   const forceScreenOnPress = (value: string) => {
     if (Object.values(ForceScreen).includes(value as ForceScreen)) {
       setForceScreen(value as ForceScreen);
     }
   };
   const screenData = [
-    { displayName: 'None', value: ForceScreen.None },
-    { displayName: 'Not Exposed', value: ForceScreen.NoExposureView },
-    { displayName: 'Exposed', value: ForceScreen.ExposureView },
-    { displayName: 'Diagnosed Share Data', value: ForceScreen.DiagnosedShareView },
-    { displayName: 'Diagnosed', value: ForceScreen.DiagnosedView },
-    { displayName: 'Diagnosed Share Upload', value: ForceScreen.DiagnosedShareUploadView },
-    { displayName: 'Unsupported Framework', value: ForceScreen.FrameworkUnavailableView },
+    {displayName: 'None', value: ForceScreen.None},
+    {displayName: 'Not Exposed', value: ForceScreen.NoExposureView},
+    {displayName: 'Exposed', value: ForceScreen.ExposureView},
+    {displayName: 'Diagnosed Share Data', value: ForceScreen.DiagnosedShareView},
+    {displayName: 'Diagnosed', value: ForceScreen.DiagnosedView},
+    {displayName: 'Diagnosed Share Upload', value: ForceScreen.DiagnosedShareUploadView},
+    {displayName: 'Unsupported Framework', value: ForceScreen.FrameworkUnavailableView},
   ];
   return (
     <Box
@@ -64,10 +64,10 @@ const ScreenRadioSelector = () => {
 };
 
 const SkipAllSetRadioSelector = () => {
-  const { skipAllSet, setSkipAllSet } = useStorage();
+  const {skipAllSet, setSkipAllSet} = useStorage();
   const screenData = [
-    { displayName: 'False', value: 'false' },
-    { displayName: 'True', value: 'true' },
+    {displayName: 'False', value: 'false'},
+    {displayName: 'True', value: 'true'},
   ];
 
   return (
@@ -99,7 +99,7 @@ const SkipAllSetRadioSelector = () => {
 const Content = () => {
   const i18n = useI18n();
 
-  const { reset } = useStorage();
+  const {reset} = useStorage();
 
   const onShowSampleNotification = useCallback(() => {
     PushNotification.presentLocalNotification({
@@ -112,7 +112,7 @@ const Content = () => {
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
 
-  const { fetchAndSubmitKeys } = useReportDiagnosis();
+  const {fetchAndSubmitKeys} = useReportDiagnosis();
 
   const [UUID, setUUID] = useState('');
   const onApplyUUID = useCallback(() => {
@@ -156,7 +156,7 @@ const Content = () => {
           variant="bigFlat"
           onPress={async () => {
             captureMessage('Force upload keys');
-            fetchAndSubmitKeys({ dateType: ContagiousDateType.None, date: null });
+            fetchAndSubmitKeys({dateType: ContagiousDateType.None, date: null});
           }}
         />
       </Section>
@@ -167,7 +167,7 @@ const Content = () => {
           onPress={async () => {
             captureMessage('Clear exposure history');
             exposureNotificationService.exposureStatusUpdatePromise = null;
-            exposureNotificationService.exposureStatus.set({ type: ExposureStatusType.Monitoring });
+            exposureNotificationService.exposureStatus.set({type: ExposureStatusType.Monitoring});
           }}
         />
       </Section>
