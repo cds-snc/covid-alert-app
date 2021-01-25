@@ -40,11 +40,11 @@ const Content = () => {
       />
 
       {scanned && (
-        <>
-          <Box alignSelf="stretch" marginTop="xl" marginBottom="s" paddingHorizontal="m">
+        <Box marginTop="xxl">
+          <Box alignSelf="stretch" marginTop="xxl" marginBottom="s" paddingHorizontal="m">
             <ButtonSingleLine
               text={i18n.translate('QRCode.Back')}
-              variant="bigFlatNeutralGrey"
+              variant="opaqueFlatBlackText"
               internalLink
               onPress={() => {
                 navigation.navigate('Home');
@@ -54,11 +54,11 @@ const Content = () => {
           <Box alignSelf="stretch" marginTop="s" marginBottom="l" paddingHorizontal="m">
             <ButtonSingleLine
               text={i18n.translate('QRCode.ScanAgain')}
-              variant="bigFlatNeutralGrey"
+              variant="opaqueFlatBlackText"
               onPress={() => setScanned(false)}
             />
           </Box>
-        </>
+        </Box>
       )}
     </View>
   );
@@ -66,10 +66,8 @@ const Content = () => {
 
 export const QRCodeScreen = () => {
   return (
-    <Box flex={1} alignItems="center" backgroundColor="mainBackground">
-      <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
-        <Content />
-      </Box>
+    <Box flex={1} alignSelf="stretch">
+      <Content />
     </Box>
   );
 };
