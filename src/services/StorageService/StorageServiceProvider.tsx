@@ -52,17 +52,17 @@ export const useStorage = () => {
     [storageService],
   );
 
-  const removeCheckIn = useMemo(
-    () => (key: string) => {
-      storageService.removeCheckInID(key);
-    },
-    [storageService],
-  );
-
   const [checkInIDJson, setCheckInIdJson] = useState(storageService.checkInID.get());
   const setCheckInJSON = useMemo(
     () => (checkInJson: string) => {
       storageService.setCheckInJSON(checkInJson);
+    },
+    [storageService],
+  );
+
+  const setRemoveCheckIn = useMemo(
+    () => (IDtoRemove: string) => {
+      storageService.removeCheckInID(IDtoRemove);
     },
     [storageService],
   );
@@ -91,6 +91,7 @@ export const useStorage = () => {
   useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
   useEffect(() => storageService.skipAllSet.observe(setSkipAllSetInternal), [storageService.skipAllSet]);
   useEffect(() => storageService.userStopped.observe(setUserStoppedInternal), [storageService.userStopped]);
+  // useEffect(() => storageService.checkInID.observe(setRemoveCheckIn), [storageService.checkInID]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
@@ -113,7 +114,7 @@ export const useStorage = () => {
       setLocale,
       checkInIDJson,
       setCheckInJSON,
-      removeCheckIn,
+      setRemoveCheckIn,
       region,
       setRegion,
       onboardedDatetime,
@@ -133,7 +134,7 @@ export const useStorage = () => {
       setLocale,
       checkInIDJson,
       setCheckInJSON,
-      removeCheckIn,
+      setRemoveCheckIn,
       region,
       setRegion,
       onboardedDatetime,

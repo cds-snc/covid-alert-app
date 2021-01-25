@@ -8,18 +8,24 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export const QRCodeView = ({route}: any) => {
   const {id, name} = route.params;
-  const {checkInIDJson} = useStorage();
+  const {checkInIDJson, setRemoveCheckIn} = useStorage();
 
-  const retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('CheckInID');
-      if (value !== null) {
-        log.debug({category: 'debug', payload: value});
-      } else {
-        console.log('does not exist');
-      }
-    } catch (error) {}
-  };
+  // const retrieveData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('CheckInID');
+
+  //     if (value !== null) {
+  //       console.log('value', value);
+  //       const obj = JSON.parse(value);
+
+  //       // for (var i = 0; i < obj.length; i++) {
+  //       //   console.log(obj[i]);
+  //       // }
+  //     } else {
+  //       console.log('does not exist');
+  //     }
+  //   } catch (error) {}
+  // };
 
   return (
     <BaseDataSharingView showBackButton={false}>
@@ -39,9 +45,8 @@ export const QRCodeView = ({route}: any) => {
           </Text> */}
         </Box>
         <Text marginBottom="xxl"> Thank you for scanning. You have successfully checked in</Text>
-
-        {/* <Button variant="thinFlat" text="Cancel Check In" onPress={removeVal} /> */}
         <Button variant="thinFlat" text="Check Storage Values" onPress={retrieveData} />
+        <Button variant="thinFlat" text="Cancel Check In" onPress={() => setRemoveCheckIn(checkInIDJson)} />
       </Box>
     </BaseDataSharingView>
   );
@@ -50,6 +55,18 @@ export const QRCodeView = ({route}: any) => {
 function urlToString(url: string): string {
   const title = url.replace('_', ' ');
   return title;
+}
+
+async function retrieveData() {
+  try {
+    const value = await AsyncStorage.getItem('CheckInID');
+
+    if (value !== null) {
+      log.debug({category: 'debug', payload: value});
+    } else {
+      console.log('does not exist');
+    }
+  } catch (error) {}
 }
 
 const styles = StyleSheet.create({
