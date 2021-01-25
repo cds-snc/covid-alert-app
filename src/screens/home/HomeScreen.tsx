@@ -186,7 +186,7 @@ interface EventURL {
 }
 export const HomeScreen = () => {
   const navigation = useNavigation();
-  const {userStopped} = useStorage();
+  const {userStopped, setCheckInJSON} = useStorage();
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {
@@ -200,7 +200,7 @@ export const HomeScreen = () => {
       const id = url.split('/')[4];
       const name = url.split('/')[5];
       const URLSplit = url.split('/');
-      console.log('URL Split:', URLSplit);
+      setCheckInJSON(id.toString());
       if (routeName === 'QRCodeScreen') {
         navigation.navigate('QRCodeScreen', {id, name});
       }

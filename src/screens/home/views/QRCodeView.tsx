@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export const QRCodeView = ({route}: any) => {
   const {id, name} = route.params;
-  const {checkInIDJson, setCheckInJSON} = useStorage();
+  const {checkInIDJson} = useStorage();
 
   const retrieveData = async () => {
     try {
@@ -20,7 +20,7 @@ export const QRCodeView = ({route}: any) => {
       }
     } catch (error) {}
   };
-  setCheckInJSON(id.toString());
+
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m" alignItems="center">
@@ -34,14 +34,14 @@ export const QRCodeView = ({route}: any) => {
           <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
             {urlToString(name)}
           </Text>
-          <Text variant="bodySubTitle" marginBottom="xs">
+          {/* <Text variant="bodySubTitle" marginBottom="xs">
             Date
-          </Text>
+          </Text> */}
         </Box>
-        <Text marginBottom="m"> Thank you for scanning. You have successfully checked in</Text>
+        <Text marginBottom="xxl"> Thank you for scanning. You have successfully checked in</Text>
 
-        <Button variant="thinFlat" text="Check Storage" onPress={retrieveData} />
-        {/* <Button variant="thinFlat" text="Cancel Check In" onPress={() => log.debug({category: 'debug', payload: checkInID})} /> */}
+        {/* <Button variant="thinFlat" text="Cancel Check In" onPress={removeVal} /> */}
+        <Button variant="thinFlat" text="Check Storage Values" onPress={retrieveData} />
       </Box>
     </BaseDataSharingView>
   );
