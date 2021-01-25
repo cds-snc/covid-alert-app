@@ -1,6 +1,14 @@
 /* eslint-disable no-undef */
 import {onboard} from './shared';
 
+/**
+ * This is a method that returns a promise that waits for the given time period
+ * @author Dave
+ * @param {integer} ms Miliseconds to wait
+ */
+// eslint-disable-next-line promise/param-names
+const sleep = ms => new Promise(rs => setTimeout(rs, ms));
+
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "onboard"] }] */
 describe('Demo menu test', () => {
   it('onboard', async () => {
@@ -18,10 +26,8 @@ describe('Demo menu test', () => {
     await expect(element(by.id('ShowSampleNotification'))).toBeVisible();
     await element(by.id('ShowSampleNotification')).tap();
     await device.takeScreenshot('SampleNotification');
-    await element(by.id('ForceScreens')).swipe('up', 'slow', 0.1);
-    await element(by.id('ForceScreens')).swipe('down', 'slow', 0.1);
-    await element(by.id('ForceScreens')).swipe('up', 'slow', 0.1);
-    await element(by.id('ForceScreens')).swipe('down', 'slow', 0.2);
+    // next line waits for notif to go away
+    await sleep(9000);
   });
 
   /**
