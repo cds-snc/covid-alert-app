@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {Box, ButtonSingleLine} from 'components';
-import {Text, View, StyleSheet, Alert} from 'react-native';
+import {Dimensions, Text, View, StyleSheet, Alert} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+
+const {width} = Dimensions.get('window');
 
 const Content = () => {
   const navigation = useNavigation();
@@ -33,18 +35,26 @@ const Content = () => {
   }
 
   return (
-    <View style={styles.flex}>
+    <>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
-      />
+      >
+        <View style={styles.layerTop} />
+        <View style={styles.layerCenter}>
+          <View style={styles.layerLeft} />
+          <View style={styles.focused} />
+          <View style={styles.layerRight} />
+        </View>
+        <View style={styles.layerBottom} />
+      </BarCodeScanner>
 
       {scanned && (
         <Box marginTop="xxl">
           <Box alignSelf="stretch" marginTop="xxl" marginBottom="s" paddingHorizontal="m">
             <ButtonSingleLine
               text={i18n.translate('QRCode.Back')}
-              variant="opaqueFlatBlackText"
+              variant="thinFlatNeutralGrey"
               internalLink
               onPress={() => {
                 navigation.navigate('Home');
@@ -54,13 +64,13 @@ const Content = () => {
           <Box alignSelf="stretch" marginTop="s" marginBottom="l" paddingHorizontal="m">
             <ButtonSingleLine
               text={i18n.translate('QRCode.ScanAgain')}
-              variant="opaqueFlatBlackText"
+              variant="thinFlatNeutralGrey"
               onPress={() => setScanned(false)}
             />
           </Box>
         </Box>
       )}
-    </View>
+    </>
   );
 };
 
@@ -72,8 +82,33 @@ export const QRCodeScreen = () => {
   );
 };
 
+const opacity = 'rgba(0, 0, 0, .8)';
 const styles = StyleSheet.create({
-  flex: {
+  container: {
     flex: 1,
+    flexDirection: 'column',
+  },
+  layerTop: {
+    flex: 2,
+    backgroundColor: opacity,
+  },
+  layerCenter: {
+    flex: 3,
+    flexDirection: 'row',
+  },
+  layerLeft: {
+    flex: 1,
+    backgroundColor: opacity,
+  },
+  focused: {
+    flex: 20,
+  },
+  layerRight: {
+    flex: 1,
+    backgroundColor: opacity,
+  },
+  layerBottom: {
+    flex: 2,
+    backgroundColor: opacity,
   },
 });
