@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { HomeScreen } from 'screens/home';
-import { TutorialScreen } from 'screens/tutorial';
+import React, {useState} from 'react';
+import {StatusBar} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {HomeScreen} from 'screens/home';
+import {TutorialScreen} from 'screens/tutorial';
 import {
   FormScreen,
   Step0Screen,
@@ -13,20 +13,20 @@ import {
   TekUploadSubsequentDays,
   TestDateScreen,
 } from 'screens/datasharing';
-import { LanguageScreen } from 'screens/language';
-import { useStorage } from 'services/StorageService';
-import { RegionPickerSettingsScreen, RegionPickerExposedNoPTScreen } from 'screens/regionPicker';
-import { NoCodeScreen } from 'screens/nocode/NoCode';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { OnboardingScreen } from 'screens/onboarding';
-import { LandingScreen } from 'screens/landing';
-import { TestScreen } from 'screens/testScreen';
-import { ErrorScreen } from 'screens/errorScreen/ErrorScreen';
-import { QRCodeScreen } from 'screens/qr/QRCodeScreen';
-import { DismissAlertScreen } from 'screens/home/views/ClearExposureView';
-import { FrameworkUnavailableView } from 'screens/home/views/FrameworkUnavailableView';
+import {LanguageScreen} from 'screens/language';
+import {useStorage} from 'services/StorageService';
+import {RegionPickerSettingsScreen, RegionPickerExposedNoPTScreen} from 'screens/regionPicker';
+import {NoCodeScreen} from 'screens/nocode/NoCode';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {OnboardingScreen} from 'screens/onboarding';
+import {LandingScreen} from 'screens/landing';
+import {TestScreen} from 'screens/testScreen';
+import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
+import {QRCodeScreen} from 'screens/qr/QRCodeScreen';
+import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
+import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
 
-import { FormContext, FormContextDefaults } from '../shared/FormContext';
+import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
 const MainStack = createStackNavigator<MainStackParamList>();
 
@@ -69,7 +69,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Home: undefined;
   Onboarding: undefined;
   Tutorial: undefined;
-  RegionSelectExposedNoPT: { drawerMenu: boolean } | undefined;
+  RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
@@ -96,7 +96,7 @@ const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
   return (
-    <OnboardingStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Onboarding">
+    <OnboardingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Onboarding">
       <OnboardingStack.Screen name="Onboarding" component={OnboardingWithNavBar} />
     </OnboardingStack.Navigator>
   );
@@ -105,18 +105,18 @@ const DataSharingStack = createStackNavigator();
 const DataSharingNavigator = () => {
   const [state, setState] = useState(FormContextDefaults);
   const toggleModal = (val: boolean) => {
-    setState({ ...state, modalVisible: val });
+    setState({...state, modalVisible: val});
   };
   const setSymptomOnsetDate = (val: string) => {
-    setState({ ...state, symptomOnsetDate: val });
+    setState({...state, symptomOnsetDate: val});
   };
   const setTestDate = (val: string) => {
-    setState({ ...state, testDate: val });
+    setState({...state, testDate: val});
   };
 
   return (
-    <FormContext.Provider value={{ data: state, toggleModal, setSymptomOnsetDate, setTestDate }}>
-      <DataSharingStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Step0">
+    <FormContext.Provider value={{data: state, toggleModal, setSymptomOnsetDate, setTestDate}}>
+      <DataSharingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Step0">
         <DataSharingStack.Screen name="Step0" component={Step0ScreenWithNavBar} />
         <DataSharingStack.Screen name="IntermediateScreen" component={IntermediateInstructionScreenWithNavBar} />
         <DataSharingStack.Screen name="FormView" component={FormScreenWithNavBar} />
@@ -130,24 +130,24 @@ const DataSharingNavigator = () => {
   );
 };
 
-const forFade = ({ current }: { current: any }) => ({
+const forFade = ({current}: {current: any}) => ({
   cardStyle: {
     opacity: current.progress,
   },
 });
 
 const MainNavigator = () => {
-  const { isOnboarding } = useStorage();
+  const {isOnboarding} = useStorage();
   return (
     <MainStack.Navigator
-      screenOptions={{ headerShown: false }}
+      screenOptions={{headerShown: false}}
       initialRouteName={isOnboarding ? 'Landing' : 'Home'}
       mode="modal"
     >
       <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
       <MainStack.Screen
-        options={{ cardStyleInterpolator: forFade }}
+        options={{cardStyleInterpolator: forFade}}
         name="OnboardingNavigator"
         component={OnboardingNavigator}
       />
@@ -157,7 +157,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="RegionSelect" component={RegionPickerSettingsScreenWithNavBar} />
       <MainStack.Screen
         name="RegionSelectExposedNoPT"
-        initialParams={{ drawerMenu: false }}
+        initialParams={{drawerMenu: false}}
         component={RegionPickerSettingsExposedScreenWithNavBar}
       />
       <MainStack.Screen name="DismissAlert" component={DismissAlertScreenWithNavBar} />

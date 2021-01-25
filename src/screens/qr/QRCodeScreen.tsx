@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {Box, ButtonSingleLine} from 'components';
-import {Dimensions, Text, View, StyleSheet, Alert} from 'react-native';
+import {Text, View, StyleSheet, Alert} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-
-const {width} = Dimensions.get('window');
 
 const Content = () => {
   const navigation = useNavigation();
