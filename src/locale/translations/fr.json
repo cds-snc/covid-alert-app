@@ -482,9 +482,11 @@
     "Bullet": "Puce"
   },
   "QRCode": {
-    "Title": "QR Code Title",
-    "Body": "QR Code Body",
-    "CTA": "QR Code CTA"
+    "Title": "QR Code",
+    "Body": "Aenean accumsan quis dolor vestibulum dignissim. Etiam id egestas lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos",
+    "CTA": "Scan QR Code",
+    "ScanAgain": "Tap to scan again",
+    "Back": "Back"
   },
   "Errors": {
     "Action": "OK",
