@@ -52,10 +52,17 @@ export const useStorage = () => {
     [storageService],
   );
 
-  const [checkInID, setCheckInID] = useState(storageService.checkInID.get());
-  const setCheckIn = useMemo(
-    () => (newCheckIn: string) => {
-      storageService.setCheckInID(newCheckIn);
+  const removeCheckIn = useMemo(
+    () => (key: string) => {
+      storageService.removeCheckInID(key);
+    },
+    [storageService],
+  );
+
+  const [checkInIDJson, setCheckInIdJson] = useState(storageService.checkInID.get());
+  const setCheckInJSON = useMemo(
+    () => (checkInJson: string) => {
+      storageService.setCheckInJSON(checkInJson);
     },
     [storageService],
   );
@@ -76,7 +83,7 @@ export const useStorage = () => {
 
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
-  useEffect(() => storageService.checkInID.observe(setCheckInID), [storageService.checkInID]);
+  useEffect(() => storageService.checkInID.observe(setCheckInIdJson), [storageService.checkInID]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
   useEffect(() => storageService.onboardedDatetime.observe(setOnboardedDatetimeInternal), [
     storageService.onboardedDatetime,
@@ -92,12 +99,11 @@ export const useStorage = () => {
     setOnboardedDatetime(undefined);
     setSkipAllSet(false);
     setUserStopped(false);
-    setCheckIn('0');
     await AsyncStorage.clear();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped, setCheckIn]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped, setCheckInJSON]);
 
   return useMemo(
     () => ({
@@ -105,8 +111,9 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
-      checkInID,
-      setCheckIn,
+      checkInIDJson,
+      setCheckInJSON,
+      removeCheckIn,
       region,
       setRegion,
       onboardedDatetime,
@@ -124,8 +131,9 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
-      checkInID,
-      setCheckIn,
+      checkInIDJson,
+      setCheckInJSON,
+      removeCheckIn,
       region,
       setRegion,
       onboardedDatetime,

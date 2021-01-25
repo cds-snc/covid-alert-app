@@ -4,11 +4,23 @@ import {Box, Button, Text, Icon} from 'components';
 import {useStorage} from 'services/StorageService';
 import {StyleSheet} from 'react-native';
 import {log} from 'shared/logging/config';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const QRCodeView = ({route}: any) => {
   const {id, name} = route.params;
-  const {checkInID, setCheckIn, removeCheckIn} = useStorage();
-  setCheckIn(id.toString());
+  const {checkInIDJson, setCheckInJSON} = useStorage();
+
+  const retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('CheckInID');
+      if (value !== null) {
+        log.debug({category: 'debug', payload: value});
+      } else {
+        console.log('does not exist');
+      }
+    } catch (error) {}
+  };
+  setCheckInJSON(id.toString());
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m" alignItems="center">
@@ -28,11 +40,7 @@ export const QRCodeView = ({route}: any) => {
         </Box>
         <Text marginBottom="m"> Thank you for scanning. You have successfully checked in</Text>
 
-        <Button
-          variant="thinFlat"
-          text="Check Storage"
-          onPress={() => log.debug({category: 'debug', payload: checkInID})}
-        />
+        <Button variant="thinFlat" text="Check Storage" onPress={retrieveData} />
         {/* <Button variant="thinFlat" text="Cancel Check In" onPress={() => log.debug({category: 'debug', payload: checkInID})} /> */}
       </Box>
     </BaseDataSharingView>
