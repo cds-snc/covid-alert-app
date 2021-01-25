@@ -39,7 +39,14 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
         paddingVertical="m"
         marginBottom="m"
       >
-        <Text focusRef={autoFocusRef} testID="bodyTitle" variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+        <Text
+          focusRef={autoFocusRef}
+          testID="bodyTitle"
+          variant="bodyTitle"
+          color="bodyText"
+          marginBottom="m"
+          accessibilityRole="header"
+        >
           {i18n.translate('Home.DiagnosedView.Title')}
           {/* No exposure detected */}
         </Text>

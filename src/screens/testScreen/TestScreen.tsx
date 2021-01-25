@@ -133,7 +133,12 @@ const Content = () => {
         </Text>
       </Section>
       <Section>
-        <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" testID="ShowSampleNotification" />
+        <Button
+          text="Show sample notification"
+          onPress={onShowSampleNotification}
+          variant="bigFlat"
+          testID="ShowSampleNotification"
+        />
       </Section>
       <Section>
         <Item title="Force screen" />
