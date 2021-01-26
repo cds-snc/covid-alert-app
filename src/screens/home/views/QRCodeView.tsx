@@ -2,7 +2,6 @@ import React from 'react';
 import {BaseDataSharingView} from '../../datasharing/components/BaseDataSharingView';
 import {Box, Button, Text, Icon} from 'components';
 import {useStorage} from 'services/StorageService';
-import {StyleSheet} from 'react-native';
 import {log} from 'shared/logging/config';
 import AsyncStorage from '@react-native-community/async-storage';
 

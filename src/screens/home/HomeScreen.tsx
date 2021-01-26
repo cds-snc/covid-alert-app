@@ -204,9 +204,6 @@ export const HomeScreen = () => {
       const routeName = urlObj.split('/')[2];
       const id = urlObj.split('/')[4];
       const name = urlObj.split('/')[5];
-      // const URLSplit = url.split('/');
-      // console.log('urlsplit', URLSplit);
-      // {id: id.toString(), date: Date}
       setCheckInJSON(id.toString());
       if (routeName === 'QRCodeScreen') {
         navigation.navigate('QRCodeScreen', {id, name});
@@ -217,14 +214,6 @@ export const HomeScreen = () => {
     Linking.getInitialURL().then(initialURL => {
       if (initialURL) {
         handleOpenURL(initialURL);
-        // const routeName = initialURL.split('/')[2];
-        // const id = initialURL.split('/')[4];
-        // const name = initialURL.split('/')[5];
-        // console.log('initialURL', typeof initialURL);
-        // setCheckInJSON(id.toString());
-        // if (routeName === 'QRCodeScreen') {
-        //   navigation.navigate('QRCodeScreen', {id, name});
-        // }
       }
     });
 
