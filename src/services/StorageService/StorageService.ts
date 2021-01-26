@@ -12,7 +12,7 @@ export enum Key {
   ForceScreen = 'ForceScreen',
   SkipAllSet = 'SkipAllSet',
   UserStopped = 'UserStopped',
-  CheckInID = 'CheckInID'
+  CheckInID = 'CheckInID',
 }
 
 export class StorageService {
@@ -78,10 +78,11 @@ export class StorageService {
     if (!newId) {
       newId = [];
     }
-    newId.push(value)
+    newId.push(value);
     await AsyncStorage.setItem(Key.CheckInID, JSON.stringify(newId));
     this.checkInID.set(value);
-  }
+  };
+
   removeCheckInID = async (value: string) => {
     const IDs = await AsyncStorage.getItem(Key.CheckInID);
     if (IDs !== null) {
@@ -92,7 +93,7 @@ export class StorageService {
       }
       await AsyncStorage.setItem(Key.CheckInID, JSON.stringify(parsedIDs));
     }
-  }
+  };
 
   init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';

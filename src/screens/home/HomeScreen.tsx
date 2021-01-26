@@ -36,12 +36,12 @@ import {OverlayView} from './views/OverlayView';
 import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
 import {ExposureNotificationsUserStoppedView} from './views/ExposureNotificationsUserStoppedView';
 import {UnknownProblemView} from './views/UnknownProblemView';
-
 import {
   useNotificationPermissionStatus,
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
+import {log} from 'shared/logging/config';
 
 interface ContentProps {
   isBottomSheetExpanded: boolean;
@@ -196,8 +196,8 @@ export const HomeScreen = () => {
   }, [navigation]);
   useEffect(() => {
     function handleOpenURL(url: any) {
-      var objConstructor = {}.constructor;
-      var urlObj = url;
+      const objConstructor = {}.constructor;
+      let urlObj = url;
       if (url.constructor === objConstructor) {
         urlObj = url.url;
       }
@@ -212,15 +212,17 @@ export const HomeScreen = () => {
     Linking.addEventListener('url', handleOpenURL);
 
     Linking.getInitialURL().then(initialURL => {
-      if (initialURL) {
+      try {
         handleOpenURL(initialURL);
+      } catch (error) {
+        log.error({category: 'debug', error});
       }
     });
 
     return function cleanUp() {
       Linking.removeEventListener('url', handleOpenURL);
     };
-  }, []);
+  }, [navigation, setCheckInJSON]);
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().
   const subscribeToStatusUpdates = useExposureNotificationSystemStatusAutomaticUpdater();

@@ -1,9 +1,10 @@
 import React from 'react';
-import {BaseDataSharingView} from '../../datasharing/components/BaseDataSharingView';
 import {Box, Button, Text, Icon} from 'components';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import {BaseDataSharingView} from '../../datasharing/components/BaseDataSharingView';
 
 export const QRCodeView = ({route}: any) => {
   const {name} = route.params;
