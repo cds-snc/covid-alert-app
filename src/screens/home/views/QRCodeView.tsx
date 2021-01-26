@@ -3,8 +3,7 @@ import {Box, Button, Text, Icon} from 'components';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import {BaseDataSharingView} from '../../datasharing/components/BaseDataSharingView';
+import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 
 export const QRCodeView = ({route}: any) => {
   const {name} = route.params;
@@ -48,10 +47,12 @@ async function retrieveData() {
   try {
     const value = await AsyncStorage.getItem('CheckInID');
 
-    if (value !== null) {
+    if (value) {
       log.debug({category: 'debug', payload: value});
     } else {
-      console.log('does not exist');
+      log.error({category: 'debug', error: 'does not exist'});
     }
-  } catch (error) {}
+  } catch (error) {
+    log.error({category: 'debug', error});
+  }
 }

@@ -12,7 +12,7 @@ export enum Key {
   ForceScreen = 'ForceScreen',
   SkipAllSet = 'SkipAllSet',
   UserStopped = 'UserStopped',
-  CheckInID = 'CheckInID',
+  CheckInId = 'CheckInID',
 }
 
 export class StorageService {
@@ -72,26 +72,26 @@ export class StorageService {
   };
 
   setCheckIn = async (value: string) => {
-    const existingIds = (await AsyncStorage.getItem(Key.CheckInID)) || '0';
+    const existingIds = (await AsyncStorage.getItem(Key.CheckInId)) || '0';
 
     let newId = JSON.parse(existingIds);
     if (!newId) {
       newId = [];
     }
     newId.push(value);
-    await AsyncStorage.setItem(Key.CheckInID, JSON.stringify(newId));
+    await AsyncStorage.setItem(Key.CheckInId, JSON.stringify(newId));
     this.checkInID.set(value);
   };
 
   removeCheckInID = async (value: string) => {
-    const IDs = await AsyncStorage.getItem(Key.CheckInID);
+    const IDs = await AsyncStorage.getItem(Key.CheckInId);
     if (IDs !== null) {
       const parsedIDs = JSON.parse(IDs);
       const index = parsedIDs.indexOf(value);
       if (index > -1) {
         parsedIDs.splice(index, 1);
       }
-      await AsyncStorage.setItem(Key.CheckInID, JSON.stringify(parsedIDs));
+      await AsyncStorage.setItem(Key.CheckInId, JSON.stringify(parsedIDs));
     }
   };
 
@@ -119,7 +119,7 @@ export class StorageService {
     const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
     this.userStopped.set(userStopped);
 
-    const checkInID = (await AsyncStorage.getItem(Key.CheckInID)) || '0';
+    const checkInID = (await AsyncStorage.getItem(Key.CheckInId)) || '0';
     this.checkInID.set(JSON.parse(checkInID));
   };
 }

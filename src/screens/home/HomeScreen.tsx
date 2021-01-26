@@ -19,6 +19,7 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
+import {log} from 'shared/logging/config';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
@@ -41,7 +42,6 @@ import {
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
-import {log} from 'shared/logging/config';
 
 interface ContentProps {
   isBottomSheetExpanded: boolean;
@@ -211,13 +211,14 @@ export const HomeScreen = () => {
     }
     Linking.addEventListener('url', handleOpenURL);
 
-    Linking.getInitialURL().then(initialURL => {
-      try {
-        handleOpenURL(initialURL);
-      } catch (error) {
-        log.error({category: 'debug', error});
-      }
-    });
+    Linking.getInitialURL()
+      .then(initialURL => {
+        if (initialURL) {
+          return handleOpenURL(initialURL);
+        }
+      })
+      .catch(err => log.error({category: 'debug', error: err}));
+    Linking.getInitialURL();
 
     return function cleanUp() {
       Linking.removeEventListener('url', handleOpenURL);
