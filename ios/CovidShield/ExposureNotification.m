@@ -299,11 +299,7 @@ RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictiona
   }
 
   if (configDict[@"attenuationDurationThresholds"]) {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 13.6) {
-      configuration.attenuationDurationThresholds = mapIntValues(configDict[@"attenuationDurationThresholds"]);
-    } else {
-      configuration.metadata = @{@"attenuationDurationThresholds": mapIntValues(configDict[@"attenuationDurationThresholds"])};
-    }
+    configuration.attenuationDurationThresholds = mapIntValues(configDict[@"attenuationDurationThresholds"]);
   }
 
   if (configDict[@"attenuationLevelValues"]) {
@@ -332,19 +328,17 @@ RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictiona
     configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
   }
 
-  if (@available(iOS 13.7, *)) {
-    configuration.immediateDurationWeight = 100;
-    configuration.nearDurationWeight = 100;
-    configuration.mediumDurationWeight = 100;
-    configuration.otherDurationWeight = 100;
-    configuration.infectiousnessStandardWeight = 100;
-    configuration.infectiousnessHighWeight = 100;
-    configuration.reportTypeConfirmedTestWeight = 100;
-    configuration.reportTypeConfirmedClinicalDiagnosisWeight = 100;
-    configuration.reportTypeSelfReportedWeight = 100;
-    configuration.reportTypeRecursiveWeight = 100;
-    configuration.infectiousnessForDaysSinceOnsetOfSymptoms = getInfectiousness();
-  }
+  configuration.immediateDurationWeight = 100;
+  configuration.nearDurationWeight = 100;
+  configuration.mediumDurationWeight = 100;
+  configuration.otherDurationWeight = 100;
+  configuration.infectiousnessStandardWeight = 100;
+  configuration.infectiousnessHighWeight = 100;
+  configuration.reportTypeConfirmedTestWeight = 100;
+  configuration.reportTypeConfirmedClinicalDiagnosisWeight = 100;
+  configuration.reportTypeSelfReportedWeight = 100;
+  configuration.reportTypeRecursiveWeight = 100;
+  configuration.infectiousnessForDaysSinceOnsetOfSymptoms = getInfectiousness();
 
   NSMutableArray *arr = [NSMutableArray new];
   for (NSString *urlStr in urls) {
@@ -358,39 +352,33 @@ RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictiona
       reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
       return;
     }
-    NSNumber *idx = @(self.reportedSummaries.count);
     [self.reportedSummaries addObject:summary];
     
-    if (@available(iOS 13.7, *)) {
-      [self.enManager getExposureWindowsFromSummary:(ENExposureDetectionSummary *)summary completionHandler:^(NSArray<ENExposureWindow *> * _Nullable exposureWindows, NSError * _Nullable error) {
-        if (error) {
-          reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
-        } else {
-          NSMutableArray<NSDictionary *> *exWindow = [NSMutableArray new];
-          for (ENExposureWindow *obj in exposureWindows) {
-            NSMutableArray<NSDictionary *> *scanInstances = [NSMutableArray new];
-            for (ENScanInstance *obj2 in obj.scanInstances) {
-              [scanInstances addObject:@{
-                @"minAttenuation": @(obj2.minimumAttenuation),
-                @"typicalAttenuation": @(obj2.typicalAttenuation),
-                @"secondsSinceLastScan": @(obj2.secondsSinceLastScan),
-              }];
-            }
-            [exWindow addObject:@{
-              @"infectiousness": @(obj.infectiousness),
-              @"day": @(1000 * obj.date.timeIntervalSince1970),
-              @"reportType": @(obj.diagnosisReportType),
-              @"calibrationConfidence": @(obj.calibrationConfidence),
-              @"scanInstances": scanInstances
+    [self.enManager getExposureWindowsFromSummary:(ENExposureDetectionSummary *)summary completionHandler:^(NSArray<ENExposureWindow *> * _Nullable exposureWindows, NSError * _Nullable error) {
+      if (error) {
+        reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+      } else {
+        NSMutableArray<NSDictionary *> *exWindow = [NSMutableArray new];
+        for (ENExposureWindow *obj in exposureWindows) {
+          NSMutableArray<NSDictionary *> *scanInstances = [NSMutableArray new];
+          for (ENScanInstance *obj2 in obj.scanInstances) {
+            [scanInstances addObject:@{
+              @"minAttenuation": @(obj2.minimumAttenuation),
+              @"typicalAttenuation": @(obj2.typicalAttenuation),
+              @"secondsSinceLastScan": @(obj2.secondsSinceLastScan),
             }];
           }
-          resolve(exWindow);
+          [exWindow addObject:@{
+            @"infectiousness": @(obj.infectiousness),
+            @"day": @(1000 * obj.date.timeIntervalSince1970),
+            @"reportType": @(obj.diagnosisReportType),
+            @"calibrationConfidence": @(obj.calibrationConfidence),
+            @"scanInstances": scanInstances
+          }];
         }
-      }];
-    } else {
-      // Fallback on earlier versions
-      reject(@"API_NOT_AVAILABLE", @"API Not Available. Requires iOS 13.7+", nil);
-    }
+        resolve(exWindow);
+      }
+    }];
     
   }];
   
