@@ -12,14 +12,6 @@ import {getCurrentDate, getHoursBetween} from 'shared/date-fns';
 import {MetricsService} from 'services/MetricsService/MetricsService';
 import {Metric} from 'services/MetricsService/Metric';
 
-const checkStatus = (exposureStatus: ExposureStatus): boolean => {
-  if (exposureStatus.type === ExposureStatusType.Exposed) {
-    return true;
-  }
-
-  return false;
-};
-
 export enum EventTypeMetric {
   Installed = 'installed',
   Onboarded = 'onboarded',
@@ -92,7 +84,6 @@ export const useMetrics = () => {
         break;
       case EventTypeMetric.OtkNoDate:
       case EventTypeMetric.OtkWithDate:
-        newMetricPayload = [['exposed', String(checkStatus(exposureStatus))]];
         break;
       case EventTypeMetric.EnToggle:
         newMetricPayload = [['state', String(userStopped)]];
