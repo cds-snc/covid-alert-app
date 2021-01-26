@@ -23,9 +23,9 @@ export const QRCodeView = ({route}: any) => {
           <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
             {urlToString(name)}
           </Text>
-          {/* <Text variant="bodySubTitle" marginBottom="xs">
+          <Text variant="bodySubTitle" marginBottom="xs">
             Date
-          </Text> */}
+          </Text>
         </Box>
         <Text marginBottom="xl"> Thank you for scanning. You have successfully checked in</Text>
       </Box>
@@ -55,18 +55,3 @@ async function retrieveData() {
     }
   } catch (error) {}
 }
-
-const styles = StyleSheet.create({
-  bottom: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 36,
-  },
-  bottomButton: {
-    position: 'absolute',
-    bottom: 0,
-  },
-  box: {
-    backgroundColor: 'blue',
-  },
-});
