@@ -180,7 +180,9 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
     />
   );
 };
-
+interface EventURL {
+  url: string;
+}
 export const HomeScreen = () => {
   const navigation = useNavigation();
   const {userStopped} = useStorage();
@@ -191,7 +193,14 @@ export const HomeScreen = () => {
       });
     }
   }, [navigation]);
-
+  useEffect(() => {
+    Linking.addEventListener('url', handleOpenURL);
+  }, []);
+  const handleOpenURL = ({url}: EventURL) => {
+    console.log('Event is:', url);
+    const routeName = url.split('/')[2];
+    navigation.navigate(routeName);
+  };
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().
   const subscribeToStatusUpdates = useExposureNotificationSystemStatusAutomaticUpdater();
