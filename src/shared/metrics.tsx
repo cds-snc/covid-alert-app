@@ -1,7 +1,6 @@
 import {
   useExposureStatus,
   ExposureStatusType,
-  ExposureStatus,
   SystemStatus,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
