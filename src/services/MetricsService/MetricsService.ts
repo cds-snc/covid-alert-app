@@ -1,3 +1,4 @@
+import {METRICS_API_KEY, METRICS_URL} from 'env';
 import PQueue from 'p-queue';
 import {Key} from 'services/StorageService';
 import {log} from 'shared/logging/config';
@@ -26,12 +27,14 @@ export class DefaultMetricsService implements MetricsService {
     const metricsStorage = new DefaultMetricsStorage(secureKeyValueStore);
     const metricsPublisher = new DefaultMetricsPublisher(metricsStorage);
     const metricsProvider = new DefaultMetricsProvider(metricsStorage);
+    const metricsPusher = new DefaultMetricsPusher(METRICS_URL, METRICS_API_KEY);
     return new DefaultMetricsService(
       secureKeyValueStore,
       metricsPublisher,
       metricsProvider,
       metricsStorage,
       metricsJsonSerializer,
+      metricsPusher,
     );
   }
 
@@ -40,6 +43,7 @@ export class DefaultMetricsService implements MetricsService {
   private metricsProvider: MetricsProvider;
   private metricsStorageCleaner: MetricsStorageCleaner;
   private metricsJsonSerializer: MetricsJsonSerializer;
+  private metricsPusher: MetricsPusher;
 
   private serialPromiseQueue: PQueue;
 
@@ -49,12 +53,14 @@ export class DefaultMetricsService implements MetricsService {
     metricsProvider: MetricsProvider,
     metricsStorageCleaner: MetricsStorageCleaner,
     metricsJsonSerializer: MetricsJsonSerializer,
+    metricsPusher: MetricsPusher,
   ) {
     this.secureKeyValueStore = secureKeyValueStore;
     this.metricsPublisher = metricsPublisher;
     this.metricsProvider = metricsProvider;
     this.metricsStorageCleaner = metricsStorageCleaner;
     this.metricsJsonSerializer = metricsJsonSerializer;
+    this.metricsPusher = metricsPusher;
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 
@@ -101,9 +107,8 @@ export class DefaultMetricsService implements MetricsService {
 
   private triggerPush(): Promise<void> {
     const pushAndClearMetrics = (metrics: Metric[]): Promise<void> => {
-      const jsonAsString = this.metricsJsonSerializer.serializeToJson(metrics);
-      const metricsPusher: MetricsPusher = new DefaultMetricsPusher(jsonAsString);
-      return Promise.all([metricsPusher.push(), Promise.resolve(metrics.pop())])
+      const jsonAsString = this.metricsJsonSerializer.serializeToJson(new Date().getTime(), metrics);
+      return Promise.all([this.metricsPusher.push(jsonAsString), Promise.resolve(metrics.pop())])
         .then(([pushResult, lastPushedMetric]) => {
           switch (pushResult) {
             case MetricsPusherResult.Success:

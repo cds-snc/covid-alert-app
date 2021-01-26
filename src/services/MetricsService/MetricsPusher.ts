@@ -1,4 +1,3 @@
-import {METRICS_URL, TEST_MODE} from 'env';
 import {log} from 'shared/logging/config';
 import {Key} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';
@@ -12,29 +11,32 @@ export enum MetricsPusherResult {
 }
 
 export interface MetricsPusher {
-  push(): Promise<MetricsPusherResult>;
+  push(jsonAsString: string): Promise<MetricsPusherResult>;
 }
 
 export class DefaultMetricsPusher implements MetricsPusher {
-  private jsonAsString: string;
+  private apiEndpointUrl: string;
+  private apiEndpointKey: string;
 
-  constructor(jsonAsString: string) {
-    this.jsonAsString = jsonAsString;
+  constructor(apiEndpointUrl: string, apiEndpointKey: string) {
+    this.apiEndpointUrl = apiEndpointUrl;
+    this.apiEndpointKey = apiEndpointKey;
   }
 
-  push(): Promise<MetricsPusherResult> {
+  push(jsonAsString: string): Promise<MetricsPusherResult> {
     log.debug({
       category: 'debug',
       message: 'sending metrics to server',
-      payload: this.jsonAsString,
+      payload: jsonAsString,
     });
-    return fetch(METRICS_URL, {
+    return fetch(this.apiEndpointUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'x-api-key': this.apiEndpointKey,
       },
-      body: this.jsonAsString,
+      body: jsonAsString,
     })
       .then(response => response.json())
       .then(json => {

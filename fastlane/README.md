@@ -25,6 +25,16 @@ fastlane ensure_keystore_properties
 fastlane load_env_file
 ```
 
+### onboard
+```
+fastlane onboard
+```
+
+### onboard_dev
+```
+fastlane onboard_dev
+```
+
 ### get_latest_version
 ```
 fastlane get_latest_version
@@ -48,6 +58,11 @@ fastlane ensure_build_directory
 ### ensure_env_file_exists
 ```
 fastlane ensure_env_file_exists
+```
+
+### ensure_translations_generated
+```
+fastlane ensure_translations_generated
 ```
 
 

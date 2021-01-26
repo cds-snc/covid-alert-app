@@ -1,24 +1,15 @@
 import {
   useExposureStatus,
   ExposureStatusType,
-  ExposureStatus,
   SystemStatus,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 import {useMetricsContext} from 'shared/MetricsProvider';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
-import {getCurrentDate} from 'shared/date-fns';
+import {getCurrentDate, getHoursBetween} from 'shared/date-fns';
 import {MetricsService} from 'services/MetricsService/MetricsService';
 import {Metric} from 'services/MetricsService/Metric';
-
-const checkStatus = (exposureStatus: ExposureStatus): boolean => {
-  if (exposureStatus.type === ExposureStatusType.Exposed) {
-    return true;
-  }
-
-  return false;
-};
 
 export enum EventTypeMetric {
   Installed = 'installed',
@@ -27,6 +18,7 @@ export enum EventTypeMetric {
   OtkNoDate = 'otk-no-date',
   OtkWithDate = 'otk-with-date',
   EnToggle = 'en-toggle',
+  ExposedClear = 'exposed-clear',
 }
 
 interface BaseMetric {
@@ -48,7 +40,11 @@ interface EnToggleMetric extends BaseMetric {
   state: boolean;
 }
 
-type Payload = BaseMetric | OnboardedMetric | OTKMetric | EnToggleMetric;
+interface ClearExposedMetric extends BaseMetric {
+  hoursSinceExposureDetectedAt: number;
+}
+
+type Payload = BaseMetric | OnboardedMetric | OTKMetric | EnToggleMetric | ClearExposedMetric;
 
 // note this can used direct i.e. outside of the React hook
 export const sendMetricEvent = (payload: Payload, metricsService: MetricsService) => {
@@ -87,10 +83,20 @@ export const useMetrics = () => {
         break;
       case EventTypeMetric.OtkNoDate:
       case EventTypeMetric.OtkWithDate:
-        newMetricPayload = [['exposed', String(checkStatus(exposureStatus))]];
         break;
       case EventTypeMetric.EnToggle:
         newMetricPayload = [['state', String(userStopped)]];
+        break;
+      case EventTypeMetric.ExposedClear:
+        if (exposureStatus.type !== ExposureStatusType.Exposed) {
+          break;
+        }
+        newMetricPayload = [
+          [
+            'hoursSinceExposureDetectedAt',
+            String(getHoursBetween(getCurrentDate(), new Date(exposureStatus.exposureDetectedAt))),
+          ],
+        ];
         break;
     }
 
