@@ -32,7 +32,7 @@ const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: B
         text: i18n.translate('QRCode.CTA'),
         action: () => {
           bottomSheetBehavior.collapse();
-          navigation.navigate('QRCodeScreen');
+          navigation.navigate('QRCodeReaderScreen');
         },
       }}
       backgroundColor="infoBlockNeutralBackground"

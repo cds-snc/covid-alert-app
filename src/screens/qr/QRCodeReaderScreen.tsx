@@ -56,6 +56,7 @@ const Content = () => {
       const msg = `Incorrect code with type ${type} and data ${data} has been scanned!`;
       Alert.alert('Error', msg, [{text: i18n.translate(`Errors.Action`)}]);
     } else {
+      // console.log('go to:', result);
       navigation.navigate(CheckinRoute, result);
     }
   };
