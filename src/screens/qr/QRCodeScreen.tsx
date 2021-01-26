@@ -5,6 +5,8 @@ import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
+import {log} from '../../shared/logging/config';
+
 interface EventURL {
   url: string;
 }
@@ -15,7 +17,7 @@ interface EventData {
 }
 
 const setCheckInJSON = (id: string) => {
-  console.log(id);
+  log.debug({message: 'setCheckInJSON', payload: id});
 };
 
 const CheckinRoute = 'QRCodeScreen';
@@ -50,12 +52,11 @@ const Content = () => {
 
     const result = handleOpenURL({url: data});
 
-    if (typeof result !== 'boolean') {
-      console.log('go to route');
-      navigation.navigate(CheckinRoute, result);
-    } else {
+    if (typeof result === 'boolean') {
       const msg = `Incorrect code with type ${type} and data ${data} has been scanned!`;
       Alert.alert('Error', msg, [{text: i18n.translate(`Errors.Action`)}]);
+    } else {
+      navigation.navigate(CheckinRoute, result);
     }
   };
 
