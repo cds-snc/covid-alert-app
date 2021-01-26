@@ -103,3 +103,5 @@ ios/assets
 artifacts/*
 
 devices.txt
+
+android/**/generated/*
