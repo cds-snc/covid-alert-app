@@ -5,6 +5,32 @@ import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
+interface EventURL {
+  url: string;
+}
+
+interface EventData {
+  id: string;
+  name: string;
+}
+
+const setCheckInJSON = (id: string) => {
+  console.log(id);
+};
+
+const CheckinRoute = 'QRCodeScreen';
+
+const handleOpenURL = ({url}: EventURL): EventData | boolean => {
+  const routeName = url.split('/')[2];
+  const id = url.split('/')[4];
+  const name = url.split('/')[5];
+  setCheckInJSON(id.toString());
+  if (routeName === CheckinRoute) {
+    return {id, name};
+  }
+  return false;
+};
+
 const Content = () => {
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState<boolean>(false);
@@ -21,8 +47,16 @@ const Content = () => {
   const handleBarCodeScanned = (scanningResult: BarCodeScannerResult) => {
     const {type, data} = scanningResult;
     setScanned(true);
-    const msg = `Bar code with type ${type} and data ${data} has been scanned!`;
-    Alert.alert('Success', msg, [{text: i18n.translate(`Errors.Action`)}]);
+
+    const result = handleOpenURL({url: data});
+
+    if (typeof result !== 'boolean') {
+      console.log('go to route');
+      navigation.navigate(CheckinRoute, result);
+    } else {
+      const msg = `Incorrect code with type ${type} and data ${data} has been scanned!`;
+      Alert.alert('Error', msg, [{text: i18n.translate(`Errors.Action`)}]);
+    }
   };
 
   if (hasPermission === null) {
