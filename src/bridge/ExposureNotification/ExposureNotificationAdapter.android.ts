@@ -45,24 +45,37 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return [];
     },
     getExposureWindowsAndroid: async (diagnosisKeysURLs: string[]) => {
-      await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
-      const _exposureWindows = await exposureNotificationAPI.getExposureWindows();
-      const exposureWindows = _exposureWindows.map(window => {
-        window.day = Number(window.day);
-        window.calibrationConfidence = window.calibrationConfidence as CalibrationConfidence;
-        window.infectiousness = window.infectiousness as Infectiousness;
-        window.reportType = window.reportType as ReportType;
-        return window;
-      });
-      log.debug({
-        category: 'exposure-check',
-        message: 'exposureWindows',
-        payload: exposureWindows,
-      });
-      return exposureWindows;
+      try {
+        await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
+      } catch (error) {
+        log.error({message: 'exposureNotificationAPI.provideDiagnosisKeys failed', error});
+      }
+      try {
+        const _exposureWindows = await exposureNotificationAPI.getExposureWindows();
+        const exposureWindows = _exposureWindows.map(window => {
+          window.day = Number(window.day);
+          window.calibrationConfidence = window.calibrationConfidence as CalibrationConfidence;
+          window.infectiousness = window.infectiousness as Infectiousness;
+          window.reportType = window.reportType as ReportType;
+          return window;
+        });
+        log.debug({
+          category: 'exposure-check',
+          message: 'exposureWindows',
+          payload: {'exposureWindows.length': exposureWindows.length, exposureWindows},
+        });
+        return exposureWindows;
+      } catch (error) {
+        log.error({message: 'exposureNotificationAPI.getExposureWindows failed', error});
+      }
     },
     setDiagnosisKeysDataMapping: async () => {
-      await exposureNotificationAPI.setDiagnosisKeysDataMapping();
+      try {
+        await exposureNotificationAPI.setDiagnosisKeysDataMapping();
+      } catch (error) {
+        log.error({message: 'exposureNotificationAPI.setDiagnosisKeysDataMapping failed', error});
+      }
+      log.debug({message: 'setDiagnosisKeysDataMapping successful'});
     },
   };
 }
