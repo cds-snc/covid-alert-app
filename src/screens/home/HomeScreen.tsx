@@ -181,9 +181,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
     />
   );
 };
-interface EventURL {
-  url: string;
-}
+
 export const HomeScreen = () => {
   const navigation = useNavigation();
   const {userStopped, setCheckInJSON} = useStorage();
