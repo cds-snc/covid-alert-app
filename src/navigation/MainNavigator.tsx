@@ -22,7 +22,7 @@ import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
 import {TestScreen} from 'screens/testScreen';
 import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
-import {QRCodeScreen} from 'screens/qr/QRCodeScreen';
+import {QRCodeReaderScreen} from 'screens/qr/QRCodeReaderScreen';
 import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
 
@@ -89,7 +89,7 @@ const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const TestScreenWithNavBar = withDarkNav(TestScreen);
 const ErrorScreenWithNavBar = withDarkNav(ErrorScreen);
 const DismissAlertScreenWithNavBar = withDarkNav(DismissAlertScreen);
-const QRCodeScreenWithNavBar = withDarkNav(QRCodeScreen);
+const QRCodeReaderScreenWithNavBar = withDarkNav(QRCodeReaderScreen);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
@@ -164,7 +164,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
       <MainStack.Screen name="ErrorScreen" component={ErrorScreenWithNavBar} />
-      <MainStack.Screen name="QRCodeScreen" component={QRCodeScreenWithNavBar} />
+      <MainStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
     </MainStack.Navigator>
   );

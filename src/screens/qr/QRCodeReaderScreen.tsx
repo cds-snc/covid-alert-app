@@ -107,7 +107,7 @@ const Content = () => {
   );
 };
 
-export const QRCodeScreen = () => {
+export const QRCodeReaderScreen = () => {
   return (
     <Box flex={1} alignSelf="stretch">
       <Content />
