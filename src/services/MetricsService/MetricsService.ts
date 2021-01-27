@@ -1,24 +1,32 @@
-import {METRICS_API_KEY, METRICS_URL} from 'env';
+import {METRICS_API_KEY, METRICS_URL, TEST_MODE} from 'env';
 import PQueue from 'p-queue';
-import {Key} from 'services/StorageService';
 import {log} from 'shared/logging/config';
+import {getCurrentDate, minutesBetween} from 'shared/date-fns';
 
 import {Metric} from './Metric';
 import {MetricsJsonSerializer} from './MetricsJsonSerializer';
 import {DefaultMetricsProvider, MetricsProvider} from './MetricsProvider';
 import {DefaultMetricsPublisher, MetricsPublisher} from './MetricsPublisher';
-import {DefaultMetricsPusher, MetricsPusher, MetricsPusherResult, MIN_UPLOAD_MINUTES} from './MetricsPusher';
+import {DefaultMetricsPusher, MetricsPusher, MetricsPusherResult} from './MetricsPusher';
 import {DefaultMetricsStorage, MetricsStorageCleaner} from './MetricsStorage';
 import {DefaultSecureKeyValueStore, SecureKeyValueStore} from './SecureKeyValueStorage';
-import RNSecureKeyStore from 'react-native-secure-key-store';
-import {getCurrentDate, minutesBetween} from 'shared/date-fns';
 
 const LastMetricTimestampSentToTheServerUniqueIdentifier = '3FFE2346-1910-4FD7-A23F-52D83CFF083A';
+const MetricsLastUploadedDateTime = 'C0663511-3718-4D85-B165-A38155DED2F3';
+
+// eslint-disable-next-line line-comment-position
+const MIN_UPLOAD_MINUTES = TEST_MODE ? 60 : 60 * 24; // 24 hours
 
 export interface MetricsService {
   publishMetric(metric: Metric, forcePush?: boolean): Promise<void>;
   publishMetrics(metrics: Metric[], forcePush?: boolean): Promise<void>;
   sendDailyMetrics(): Promise<void>;
+}
+
+enum TriggerPushResult {
+  Success,
+  Error,
+  NoData,
 }
 
 export class DefaultMetricsService implements MetricsService {
@@ -75,50 +83,63 @@ export class DefaultMetricsService implements MetricsService {
         message: 'publishing new metrics',
         payload: metrics,
       });
-      return this.metricsPublisher.publish(metrics).then(() => {
-        if (forcePush) {
-          return this.triggerPush();
+      return this.metricsPublisher
+        .publish(metrics)
+        .then(() => {
+          if (forcePush) {
+            return this.triggerPush();
+          }
+        })
+        .then(() => {});
+    });
+  }
+
+  sendDailyMetrics(): Promise<void> {
+    const pushAndMarkLastUploadedDateTime = (): Promise<void> => {
+      return this.triggerPush().then(result => {
+        if (result === TriggerPushResult.Success) {
+          return this.markMetricsLastUploadedDateTime(new Date());
+        }
+      });
+    };
+
+    return this.serialPromiseQueue.add(() => {
+      return this.getMetricsLastUploadedDateTime().then(metricsLastUploadedDateTime => {
+        if (metricsLastUploadedDateTime) {
+          const today = getCurrentDate();
+          const minutesSinceLastUpload = minutesBetween(metricsLastUploadedDateTime, today);
+          // randomize the upload window, to stagger when phones are uploading the metrics
+          const randomMinutes = Math.floor(Math.random() * MIN_UPLOAD_MINUTES);
+          log.debug({
+            category: 'metrics',
+            message: `MinutesSinceLastUpload: ${minutesSinceLastUpload}, MinimumUploadMinutes: ${MIN_UPLOAD_MINUTES}, RandomMinutes: ${randomMinutes}`,
+          });
+          if (minutesSinceLastUpload > MIN_UPLOAD_MINUTES + randomMinutes) {
+            return pushAndMarkLastUploadedDateTime();
+          }
         }
       });
     });
   }
 
-  async sendDailyMetrics(): Promise<void> {
-    let metricsLastUploadedDateTimeString = await RNSecureKeyStore.get(Key.MetricsLastUploadedDateTime);
-
-    try{
-      const metricsLastUploadedDateTime = new Date(metricsLastUploadedDateTimeString);
-      const today = getCurrentDate();
-      const minutesSinceLastUpload = minutesBetween(metricsLastUploadedDateTime, today);
-      // randomize the upload window, to stagger when phones are uploading the metrics
-      const randomMinutes = Math.floor(Math.random() * MIN_UPLOAD_MINUTES)
-      log.debug({
-        category: "metrics",
-        message: `MinutesSinceLastUpload: ${minutesSinceLastUpload}, MinimumUploadMinutes: ${MIN_UPLOAD_MINUTES}, RandomMinutes: ${randomMinutes}`,
-      });
-      if (minutesSinceLastUpload > MIN_UPLOAD_MINUTES + randomMinutes) {
-        return this.serialPromiseQueue.add(() => this.triggerPush());
-      }
-    } catch {
-      // if something goes wrong with the metricsLastUploadedDateTimeString, upload the metrics anyway
-      return this.serialPromiseQueue.add(() => this.triggerPush());
-    }
-  }
-
-  private triggerPush(): Promise<void> {
-    const pushAndClearMetrics = (metrics: Metric[]): Promise<void> => {
+  private triggerPush(): Promise<TriggerPushResult> {
+    const pushAndClearMetrics = (metrics: Metric[]): Promise<TriggerPushResult> => {
       const jsonAsString = this.metricsJsonSerializer.serializeToJson(new Date().getTime(), metrics);
       return Promise.all([this.metricsPusher.push(jsonAsString), Promise.resolve(metrics.pop())])
         .then(([pushResult, lastPushedMetric]) => {
           switch (pushResult) {
             case MetricsPusherResult.Success:
-              return this.markLastMetricTimestampSentToTheServer(lastPushedMetric!.timestamp);
+              return Promise.all([
+                this.markLastMetricTimestampSentToTheServer(lastPushedMetric!.timestamp),
+                this.metricsStorageCleaner.deleteUntilTimestamp(lastPushedMetric!.timestamp),
+                Promise.resolve(TriggerPushResult.Success),
+              ]);
             case MetricsPusherResult.Error:
-              // Failed to send metrics to the server
+              return Promise.all([Promise.resolve(), Promise.resolve(), Promise.resolve(TriggerPushResult.Error)]);
               break;
           }
         })
-        .then(() => this.clearStorageFromUnnecessaryMetrics());
+        .then(([, , result]) => result);
     };
     return this.getLastMetricTimestampSentToTheServer()
       .then(lastTimestamp => {
@@ -131,6 +152,8 @@ export class DefaultMetricsService implements MetricsService {
       .then(metrics => {
         if (metrics.length > 0) {
           return pushAndClearMetrics(metrics);
+        } else {
+          return TriggerPushResult.NoData;
         }
       });
   }
@@ -145,11 +168,11 @@ export class DefaultMetricsService implements MetricsService {
     return this.secureKeyValueStore.save(LastMetricTimestampSentToTheServerUniqueIdentifier, `${timestamp}`);
   }
 
-  private clearStorageFromUnnecessaryMetrics(): Promise<void> {
-    return this.getLastMetricTimestampSentToTheServer().then(lastTimestamp => {
-      if (lastTimestamp) {
-        this.metricsStorageCleaner.deleteUntilTimestamp(lastTimestamp);
-      }
-    });
+  private getMetricsLastUploadedDateTime(): Promise<Date | null> {
+    return this.secureKeyValueStore.retrieve(MetricsLastUploadedDateTime).then(value => new Date(Number(value)));
+  }
+
+  private markMetricsLastUploadedDateTime(date: Date): Promise<void> {
+    return this.secureKeyValueStore.save(MetricsLastUploadedDateTime, `${date.getTime()}`);
   }
 }
