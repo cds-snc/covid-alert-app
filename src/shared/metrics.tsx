@@ -66,7 +66,7 @@ export const useMetrics = () => {
   const [notificationStatus] = useNotificationPermissionStatus();
   const metrics = useMetricsContext();
 
-  const addEvent = (eventType: EventTypeMetric) => {
+  const addEvent = (eventType: EventTypeMetric, forcePushToServer = false) => {
     const initialPayload: BaseMetric = {identifier: eventType, timestamp: getCurrentDate().getTime(), region};
 
     let newMetricPayload: [string, string][] = [];
@@ -106,7 +106,7 @@ export const useMetrics = () => {
       initialPayload.region ?? 'None',
       newMetricPayload,
     );
-    metrics.service?.publishMetric(newMetric);
+    metrics.service?.publishMetric(newMetric, forcePushToServer);
   };
 
   return addEvent;

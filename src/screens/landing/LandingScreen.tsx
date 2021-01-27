@@ -38,7 +38,7 @@ export const LandingScreen = () => {
         nextRoute = 'FrameworkUnavailableScreen';
       }
 
-      addEvent(EventTypeMetric.Installed);
+      addEvent(EventTypeMetric.Installed, true);
 
       navigation.reset({
         index: -1,
