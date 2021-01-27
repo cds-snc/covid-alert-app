@@ -261,7 +261,7 @@ export class ExposureNotificationService {
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
-      this.metricService.sendDailyMetrics();
+      await this.metricService.sendDailyMetrics();
 
       const exposureStatus = this.exposureStatus.get();
       log.debug({
