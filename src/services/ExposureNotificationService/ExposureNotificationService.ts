@@ -375,6 +375,7 @@ export class ExposureNotificationService {
   }
 
   async setUploadStatus(status: boolean): Promise<void> {
+    log.debug({message: 'setUploadStatus', payload: {status}});
     this.exposureStatus.append({isUploading: status});
   }
 
@@ -690,6 +691,7 @@ export class ExposureNotificationService {
 
   public getExposureDetectedAt(): Date[] {
     const exposureStatus = this.exposureStatus.get();
+
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
       return [];
     }

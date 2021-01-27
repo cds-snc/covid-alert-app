@@ -19,6 +19,7 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
+import {log} from 'shared/logging/config';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
@@ -124,6 +125,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
       }
 
       /* @todo UploadShareView pass hasShared from ExposureStatus */
+      log.debug({message: 'Home Screen -> exposureStatus', payload: {exposureStatus}});
       return exposureStatus.needsSubmission ? (
         <UploadShareView isBottomSheetExpanded={isBottomSheetExpanded} hasShared={exposureStatus.hasShared} />
       ) : (

@@ -80,13 +80,13 @@ export const BaseTekUploadView = ({
       setLoading(false);
       setIsUploading(false);
 
-      let eventType: EventTypeMetric = EventTypeMetric.OtkWithDate;
+      // let eventType: EventTypeMetric = EventTypeMetric.OtkWithDate;
 
-      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
-        eventType = EventTypeMetric.OtkNoDate;
-      }
+      // if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
+      //   eventType = EventTypeMetric.OtkNoDate;
+      // }
 
-      addEvent(eventType);
+      // addEvent(eventType);
 
       onSuccess();
     } catch (error) {
