@@ -22,10 +22,9 @@ const setCheckInJSON = (id: string) => {
 
 const CheckinRoute = 'QRCodeScreen';
 
+// covidalert://QRCodeScreen/id/1/location_name
 const handleOpenURL = ({url}: EventURL): EventData | boolean => {
-  const routeName = url.split('/')[2];
-  const id = url.split('/')[4];
-  const name = url.split('/')[5];
+  const [, , routeName, , id, name] = url.split('/');
   setCheckInJSON(id.toString());
   if (routeName === CheckinRoute) {
     return {id, name};
