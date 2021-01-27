@@ -86,17 +86,17 @@ export const BaseTekUploadView = ({
       setLoading(false);
       setIsUploading(false);
 
-      if (exposureStatus.type === ExposureStatusType.Exposed) {
-        let eventType: EventTypeMetric = EventTypeMetric.OtkWithDate;
+      let eventType: EventTypeMetric = EventTypeMetric.OtkWithDate;
 
-        if (
-          !contagiousDateInfo ||
-          contagiousDateInfo.dateType === ContagiousDateType.None ||
-          !contagiousDateInfo.date
-        ) {
-          eventType = EventTypeMetric.OtkNoDate;
+      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
+        eventType = EventTypeMetric.OtkNoDate;
+      }
+
+      if (eventType === EventTypeMetric.OtkNoDate) {
+        if (exposureStatus.type === ExposureStatusType.Exposed) {
+          addEvent(eventType);
         }
-
+      } else {
         addEvent(eventType);
       }
 
