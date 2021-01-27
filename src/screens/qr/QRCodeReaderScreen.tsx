@@ -4,8 +4,7 @@ import {Text, View, StyleSheet, Alert} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-
-import {log} from '../../shared/logging/config';
+import {useStorage} from 'services/StorageService';
 
 interface EventURL {
   url: string;
@@ -16,16 +15,12 @@ interface EventData {
   name: string;
 }
 
-const setCheckInJSON = (id: string) => {
-  log.debug({message: 'setCheckInJSON', payload: id});
-};
-
 const CheckinRoute = 'QRCodeScreen';
 
 // covidalert://QRCodeScreen/id/1/location_name
 const handleOpenURL = ({url}: EventURL): EventData | boolean => {
   const [, , routeName, , id, name] = url.split('/');
-  setCheckInJSON(id.toString());
+
   if (routeName === CheckinRoute) {
     return {id, name};
   }
@@ -34,6 +29,7 @@ const handleOpenURL = ({url}: EventURL): EventData | boolean => {
 
 const Content = () => {
   const navigation = useNavigation();
+  const {setCheckInJSON} = useStorage();
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
   const i18n = useI18n();
@@ -55,7 +51,7 @@ const Content = () => {
       const msg = `Incorrect code with type ${type} and data ${data} has been scanned!`;
       Alert.alert('Error', msg, [{text: i18n.translate(`Errors.Action`)}]);
     } else {
-      // console.log('go to:', result);
+      setCheckInJSON(result.id.toString());
       navigation.navigate(CheckinRoute, result);
     }
   };
