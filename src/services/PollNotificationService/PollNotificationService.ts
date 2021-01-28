@@ -2,8 +2,9 @@ import PushNotification from 'bridge/PushNotification';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
 import semver from 'semver';
-import { log } from 'shared/logging/config';
-import { NotificationMessage } from './types';
+import {log} from 'shared/logging/config';
+
+import {NotificationMessage} from './types';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
 const ETAG_STORAGE_KEY = 'NotificationsEtag';
@@ -61,11 +62,13 @@ const clearNotificationReceipts = async () => {
 };
 
 const shouldDisplayNotification = (message: any, selectedRegion: any, selectedLocale: any): boolean => {
-  return checkRegion(message.target_regions, selectedRegion) &&
-          checkVersion(message.target_version, APP_VERSION_NAME) &&
-          checkDate(message.expires_at) &&
-          checkMessage(message, selectedLocale)
-}
+  return (
+    checkRegion(message.target_regions, selectedRegion) &&
+    checkVersion(message.target_version, APP_VERSION_NAME) &&
+    checkDate(message.expires_at) &&
+    checkMessage(message, selectedLocale)
+  );
+};
 
 // Validate that there is a locale-specific message
 const checkMessage = (message: any, locale: string): boolean => {
@@ -150,7 +153,7 @@ const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> =>
     if (newEtag) {
       log.debug({
         category: 'debug',
-        message: 'Storing etag'
+        message: 'Storing etag',
       });
       await AsyncStorage.setItem(ETAG_STORAGE_KEY, newEtag);
     }
@@ -161,8 +164,8 @@ const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> =>
     log.error({
       category: 'debug',
       message: 'PollNotificationService fetchNotifications() error',
-      error: error,
-    })
+      error,
+    });
     return false;
   }
 };
