@@ -91,15 +91,7 @@ export const BaseTekUploadView = ({
         eventType = EventTypeMetric.OtkNoDate;
       }
 
-      const filteredMetricsService = FilteredMetricsService.sharedInstance();
-
-      if (eventType === EventTypeMetric.OtkNoDate) {
-        if (exposureStatus.type === ExposureStatusType.Exposed) {
-          filteredMetricsService.addEvent(eventType);
-        }
-      } else {
-        filteredMetricsService.addEvent(eventType);
-      }
+      FilteredMetricsService.sharedInstance().addEvent(eventType);
 
       onSuccess();
     } catch (error) {
@@ -107,7 +99,7 @@ export const BaseTekUploadView = ({
       setIsUploading(false);
       onError(error);
     }
-  }, [contagiousDateInfo, exposureStatus.type, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
+  }, [contagiousDateInfo, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
 
   if (loading) {
     return (
