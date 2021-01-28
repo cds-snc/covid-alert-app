@@ -4,13 +4,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useClearExposedStatus} from 'services/ExposureNotificationService';
-import {EventTypeMetric, useMetrics} from 'shared/metrics';
 import {useI18n} from 'locale';
+import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService/FilteredMetricsService';
 
 export const DismissAlertScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
-  const addEvent = useMetrics();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const [clearExposedStatus] = useClearExposedStatus();
 
@@ -25,13 +24,13 @@ export const DismissAlertScreen = () => {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
         onPress: () => {
           clearExposedStatus();
-          addEvent(EventTypeMetric.ExposedClear);
+          FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.ExposedClear);
           close();
         },
         style: 'default',
       },
     ]);
-  }, [addEvent, clearExposedStatus, close, i18n]);
+  }, [clearExposedStatus, close, i18n]);
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>

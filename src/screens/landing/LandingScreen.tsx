@@ -5,13 +5,12 @@ import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useMetrics, EventTypeMetric} from 'shared/metrics';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 export const LandingScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const {setLocale} = useStorage();
-  const addEvent = useMetrics();
 
   const isENFrameworkSupported = async () => {
     if (Platform.OS === 'ios') {
@@ -38,15 +37,16 @@ export const LandingScreen = () => {
         nextRoute = 'FrameworkUnavailableScreen';
       }
 
-      addEvent(EventTypeMetric.Installed, true);
-
       navigation.reset({
         index: -1,
         routes: [{name: nextRoute}],
       });
     },
-    [addEvent, navigation, setLocale],
+    [navigation, setLocale],
   );
+
+  FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.Installed, true);
+
   return (
     <SafeAreaView style={styles.flex}>
       <Box flex={1} marginBottom="s" style={{...styles.imageBackround}}>

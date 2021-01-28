@@ -10,7 +10,7 @@ import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {BottomSheetBehavior} from 'components';
 import {useStorage} from 'services/StorageService';
-import {useMetrics, EventTypeMetric} from 'shared/metrics';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 import {InfoShareItem} from './InfoShareItem';
 
@@ -19,7 +19,6 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
   const {userStopped} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
   const stopExposureNotificationService = useStopExposureNotificationService();
-  const addEvent = useMetrics();
 
   const onStop = useCallback(() => {
     Alert.alert(
@@ -42,19 +41,19 @@ export const OnOffButton = ({bottomSheetBehavior}: {bottomSheetBehavior: BottomS
               channelName: i18n.translate('Notification.AndroidChannelName'),
             });
 
-            addEvent(EventTypeMetric.EnToggle);
+            FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.EnToggle);
           },
           style: 'default',
         },
       ],
     );
-  }, [addEvent, bottomSheetBehavior, i18n, stopExposureNotificationService]);
+  }, [bottomSheetBehavior, i18n, stopExposureNotificationService]);
 
   const onStart = useCallback(async () => {
     bottomSheetBehavior.collapse();
     await startExposureNotificationService();
-    addEvent(EventTypeMetric.EnToggle);
-  }, [addEvent, bottomSheetBehavior, startExposureNotificationService]);
+    FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.EnToggle);
+  }, [bottomSheetBehavior, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
 
