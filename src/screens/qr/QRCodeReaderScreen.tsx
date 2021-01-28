@@ -31,6 +31,10 @@ const Content = () => {
   const navigation = useNavigation();
   const {setCheckInJSON} = useStorage();
   const [hasPermission, setHasPermission] = useState<boolean>(false);
+  const [bounds, setBounds] = useState<any>({
+    origin: {x: 66, y: 266.28570556640625},
+    size: {height: 190.28573608398438, width: 191.71429443359375},
+  });
   const [scanned, setScanned] = useState<boolean>(false);
   const i18n = useI18n();
 
@@ -40,6 +44,20 @@ const Content = () => {
       setHasPermission(status === 'granted');
     })();
   }, []);
+
+  const handleBarCodeScanning = (scanningResult: BarCodeScannerResult) => {
+    /*
+    {"x": 140.57142639160156, "y": 336.8571472167969}
+    {"height": 146, "width": 148.57142639160156}
+    {"x": 87.14286041259766, "y": 280.5714416503906}
+    {"height": 160.5714111328125, "width": 166.28570556640625}
+    */
+
+    const {bounds} = scanningResult;
+    setBounds(bounds);
+    //console.log(bounds?.origin);
+    //console.log(bounds?.size);
+  };
 
   const handleBarCodeScanned = (scanningResult: BarCodeScannerResult) => {
     const {type, data} = scanningResult;
@@ -63,19 +81,28 @@ const Content = () => {
     return <Text>No access to camera</Text>;
   }
 
+  console.log(bounds);
+
   return (
-    <>
+    <React.Fragment key={bounds.origin.x + bounds.origin.y}>
       <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        onBarCodeScanned={scanned ? handleBarCodeScanning : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       >
-        <View style={styles.layerTop} />
-        <View style={styles.layerCenter}>
-          <View style={styles.layerLeft} />
-          <View style={styles.focused} />
-          <View style={styles.layerRight} />
-        </View>
-        <View style={styles.layerBottom} />
+        <View
+          style={{
+            borderWidth: 2,
+            borderRadius: 0,
+            position: 'absolute',
+            borderColor: '#FFF',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(255, 255, 255, 0.3)',
+            padding: 10,
+            ...bounds?.size,
+            left: bounds?.origin?.x,
+            top: bounds?.origin?.y,
+          }}
+        ></View>
       </BarCodeScanner>
 
       {scanned && (
@@ -99,7 +126,7 @@ const Content = () => {
           </Box>
         </Box>
       )}
-    </>
+    </React.Fragment>
   );
 };
 
@@ -110,34 +137,3 @@ export const QRCodeReaderScreen = () => {
     </Box>
   );
 };
-
-const opacity = 'rgba(0, 0, 0, .8)';
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  layerTop: {
-    flex: 2,
-    backgroundColor: opacity,
-  },
-  layerCenter: {
-    flex: 3,
-    flexDirection: 'row',
-  },
-  layerLeft: {
-    flex: 1,
-    backgroundColor: opacity,
-  },
-  focused: {
-    flex: 20,
-  },
-  layerRight: {
-    flex: 1,
-    backgroundColor: opacity,
-  },
-  layerBottom: {
-    flex: 2,
-    backgroundColor: opacity,
-  },
-});
