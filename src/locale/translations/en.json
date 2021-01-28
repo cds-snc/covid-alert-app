@@ -320,7 +320,7 @@
         "3a": "3. Allow your phone to share ",
         "3b": "your random codes. These codes notify people you’ve been near."
       },
-      "Body1": "Exposed people will not get any information about you",
+      "Body1": "Exposed people will not get any information about you ",
       "Body2": "or the time you were near them. They will only get a notification that they were exposed recently.",
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
