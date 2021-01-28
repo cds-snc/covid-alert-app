@@ -1,4 +1,3 @@
-import {captureException, captureMessage} from 'shared/log';
 import PushNotification from 'bridge/PushNotification';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
@@ -113,32 +112,57 @@ const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> =>
   try {
     if (etag) {
       headers['If-None-Match'] = etag;
-      captureMessage('>>>>> headers', headers);
-      captureMessage('>>>>> Received etag from storage', {etag});
+      log.debug({
+        category: 'debug',
+        message: 'headers',
+        payload: headers,
+      });
+      log.debug({
+        category: 'debug',
+        message: 'Received etag from storage',
+        payload: etag,
+      });
     }
 
     const response = await fetch(FEED_URL, {
       method: 'GET',
       headers,
     });
-    captureMessage('fetchNotifications() response status', {status: response.status});
+    log.debug({
+      category: 'debug',
+      message: 'fetchNotifications() response status',
+      payload: {status: response.status},
+    });
 
     if (response.status === 304) {
-      captureMessage('>>>>> No feed changes, skipping');
+      log.debug({
+        category: 'debug',
+        message: 'No feed changes, skipping',
+      });
       return false;
     }
-    captureMessage('>>>>> Feed updated');
+    log.debug({
+      category: 'debug',
+      message: 'Feed updated',
+    });
     const newEtag = response.headers.get('Etag');
 
     if (newEtag) {
-      captureMessage('>>>>> Storing etag');
+      log.debug({
+        category: 'debug',
+        message: 'Storing etag'
+      });
       await AsyncStorage.setItem(ETAG_STORAGE_KEY, newEtag);
     }
 
     const json = await response.json();
     return json.messages as [NotificationMessage];
   } catch (error) {
-    captureException('>>>>>> Error', error);
+    log.error({
+      category: 'debug',
+      message: 'PollNotificationService fetchNotifications() error',
+      error: error,
+    })
     return false;
   }
 };
