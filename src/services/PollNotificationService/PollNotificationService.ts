@@ -3,28 +3,30 @@ import PushNotification from 'bridge/PushNotification';
 import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME} from 'env';
 import semver from 'semver';
+import { log } from 'shared/logging/config';
+import { NotificationMessage } from './types';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
 const ETAG_STORAGE_KEY = 'NotificationsEtag';
 const FEED_URL = 'https://abe63f9151c4.ngrok.io/api';
 
 const checkForNotifications = async () => {
-  const selectedRegion = (await AsyncStorage.getItem('Region')) || 'CA';
-  const selectedLocale = (await AsyncStorage.getItem('Locale')) || 'en';
   const readReceipts = await getReadReceipts();
 
   // Fetch messages from api
-  const messages = await fetchNotifications();
+  const messages: [NotificationMessage] | boolean | undefined = await fetchNotifications();
 
-  if (messages) {
-    messages.forEach(async (message: any) => {
+  if (messages && Array.isArray(messages)) {
+    messages.forEach(async (message: NotificationMessage) => {
+      log.debug({
+        category: 'debug',
+        message: 'message',
+        payload: message,
+      });
       if (!readReceipts.includes(message.id)) {
-        if (
-          checkRegion(message.target_regions, selectedRegion) &&
-          checkVersion(message.target_version, APP_VERSION_NAME) &&
-          checkDate(message.expires_at) &&
-          checkMessage(message, selectedLocale)
-        ) {
+        const selectedRegion: string = (await AsyncStorage.getItem('Region')) || 'CA';
+        const selectedLocale: string = (await AsyncStorage.getItem('Locale')) || 'en';
+        if (shouldDisplayNotification(message, selectedRegion, selectedLocale)) {
           PushNotification.presentLocalNotification({
             alertTitle: message.title[selectedLocale],
             alertBody: message.message[selectedLocale],
@@ -59,13 +61,20 @@ const clearNotificationReceipts = async () => {
   await AsyncStorage.removeItem(READ_RECEIPTS_KEY);
 };
 
+const shouldDisplayNotification = (message: any, selectedRegion: any, selectedLocale: any): boolean => {
+  return checkRegion(message.target_regions, selectedRegion) &&
+          checkVersion(message.target_version, APP_VERSION_NAME) &&
+          checkDate(message.expires_at) &&
+          checkMessage(message, selectedLocale)
+}
+
 // Validate that there is a locale-specific message
-const checkMessage = (message: any, locale: string) => {
+const checkMessage = (message: any, locale: string): boolean => {
   return typeof message.title[locale] === 'string' && typeof message.message[locale] === 'string';
 };
 
 // If an expiry date is provide, validate that it's in the future
-const checkDate = (target: string) => {
+const checkDate = (target: string): boolean => {
   if (target === undefined) {
     return true;
   }
@@ -74,7 +83,7 @@ const checkDate = (target: string) => {
 };
 
 // If a version constraint is provided, check the current app version against it
-const checkVersion = (target: string, current: string) => {
+const checkVersion = (target: string, current: string): boolean => {
   // Normalize the version string
   const currentVersion = semver.valid(semver.coerce(current)) || '';
 
@@ -88,7 +97,7 @@ const checkVersion = (target: string, current: string) => {
 };
 
 // Validate the region specified for display
-const checkRegion = (target: string[], selected: string) => {
+const checkRegion = (target: string[], selected: string): boolean => {
   if (target.includes('CA') || target.includes(selected)) {
     return true;
   }
@@ -97,7 +106,7 @@ const checkRegion = (target: string[], selected: string) => {
 };
 
 // Fetch notifications from the endpoint
-const fetchNotifications = async () => {
+const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> => {
   const etag = await AsyncStorage.getItem(ETAG_STORAGE_KEY);
   const headers: any = {};
 
@@ -127,9 +136,10 @@ const fetchNotifications = async () => {
     }
 
     const json = await response.json();
-    return json.messages;
+    return json.messages as [NotificationMessage];
   } catch (error) {
     captureException('>>>>>> Error', error);
+    return false;
   }
 };
 
