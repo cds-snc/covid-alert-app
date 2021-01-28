@@ -5,6 +5,7 @@ import {useExposureNotificationService} from 'services/ExposureNotificationServi
 import {formatExposedDate, getCurrentDate, getFirstThreeUniqueDates} from 'shared/date-fns';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useStorage} from 'services/StorageService';
+import {log} from 'shared/logging/config';
 
 export const ExposureDateView = () => {
   const i18n = useI18n();
@@ -17,7 +18,9 @@ export const ExposureDateView = () => {
     if (forceScreen && forceScreen !== ForceScreen.None) {
       return [getCurrentDate()];
     }
-    return exposureNotificationService.getExposureDetectedAt();
+    const _dates = exposureNotificationService.getExposureDetectedAt();
+    log.debug({message: '_dates', payload: {_dates}});
+    return _dates;
   }, [exposureNotificationService, forceScreen]);
 
   const formattedDates = dates.map(date => {
@@ -25,6 +28,7 @@ export const ExposureDateView = () => {
   });
 
   const firstThreeUniqueDates = getFirstThreeUniqueDates(formattedDates);
+  log.debug({message: 'firstThreeUniqueDates', payload: {firstThreeUniqueDates}});
   return firstThreeUniqueDates ? (
     <Box marginBottom="m">
       <Text>{i18n.translate('Home.ExposureDetected.Notification.Received')}:</Text>
