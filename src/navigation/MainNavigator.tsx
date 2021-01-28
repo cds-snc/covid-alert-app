@@ -26,6 +26,7 @@ import {QRCodeReaderScreen} from 'screens/qr/QRCodeReaderScreen';
 import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
 import {QRCodeView} from 'screens/home/views/QRCodeView';
+import {QRExposedScreen} from 'screens/qr/QRExposedScreen';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -92,6 +93,7 @@ const ErrorScreenWithNavBar = withDarkNav(ErrorScreen);
 const DismissAlertScreenWithNavBar = withDarkNav(DismissAlertScreen);
 const QRCodeReaderScreenWithNavBar = withDarkNav(QRCodeReaderScreen);
 const QRCodeViewWithNavBar = withDarkNav(QRCodeView);
+const QRExposedScreenWithNavBar = withDarkNav(QRExposedScreen);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 
@@ -169,6 +171,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
       <MainStack.Screen name="QRCodeScreen" component={QRCodeViewWithNavBar} />
+      <MainStack.Screen name="QRExposedScreen" component={QRExposedScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };

@@ -1,0 +1,7 @@
+{
+  "exposedLocations" : [
+    {"id": "150", "name": "Tim Hortons"},
+    {"id":"2", "name": "Mr. Lube"},
+    {"id":"3", "name": "Burger King"}
+  ]
+}

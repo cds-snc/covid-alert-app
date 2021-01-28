@@ -192,6 +192,7 @@ export const HomeScreen = () => {
       });
     }
   }, [navigation]);
+
   useEffect(() => {
     function handleOpenURL(url: any) {
       const objConstructor = {}.constructor;
