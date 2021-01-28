@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable jest/no-if, no-undef */
 import {onboard} from './shared';
 
 /**
@@ -9,6 +9,11 @@ import {onboard} from './shared';
 // eslint-disable-next-line promise/param-names
 const sleep = ms => new Promise(rs => setTimeout(rs, ms));
 
+/**
+ * True if the current device is Apple, false otherwise.
+ */
+const isDeviceFruity = device.getPlatform() === 'ios';
+
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "onboard"] }] */
 describe('Demo menu test', () => {
   it('onboard', async () => {
@@ -18,16 +23,8 @@ describe('Demo menu test', () => {
     await expect(element(by.id('headerButton'))).toBeVisible();
     await element(by.id('headerButton')).tap();
     await expect(element(by.id('ShowSampleNotification'))).toBeVisible();
-    await expect(element(by.id('headerButton'))).not.toBeVisible();
+    if (isDeviceFruity) await expect(element(by.id('headerButton'))).not.toBeVisible();
     await device.takeScreenshot('DemoMenu');
-  });
-
-  it('trigger sample notification', async () => {
-    await expect(element(by.id('ShowSampleNotification'))).toBeVisible();
-    await element(by.id('ShowSampleNotification')).tap();
-    await device.takeScreenshot('SampleNotification');
-    // next line waits for notif to go away
-    await sleep(9000);
   });
 
   /**
@@ -54,21 +51,20 @@ describe('Demo menu test', () => {
    *
    * @type {[boolean]}
    */
-  const weScroll = [0, 0, 1, 0, 1, 0, 0];
+  const weScroll = [0, 0, 1, 1, 1, 0, 0];
+  if (isDeviceFruity) weScroll[3] = 0;
 
   screens.forEach((scr, here) => {
     it(`force ${scr} screen`, async () => {
       await expect(element(by.id('ForceScreens'))).toBeVisible();
-      await element(by.id('ForceScreens')).swipe('up', 'slow', 0.2);
+      await element(by.id('ShowSampleNotification')).swipe('up', 'slow', isDeviceFruity ? 0.2 : 0.4);
       await expect(element(by.id(scr))).toBeVisible();
       await element(by.id(scr)).tap();
       await element(by.id('toolbarCloseButton')).tap();
       // We should now be on the expected forced screen
       await device.takeScreenshot(`ForceScreen.${scr}${weScroll[here] ? '-top' : ''}`);
-      // eslint-disable-next-line jest/no-if
       if (weScroll[here]) {
         await expect(element(by.id('bodyTitle'))).toBeVisible();
-        await element(by.id('bodyText')).swipe('up', 'fast');
         await element(by.id('bodyText')).swipe('up', 'fast');
         await device.takeScreenshot(`ForceScreen.${scr}-bottom`);
       }
@@ -78,8 +74,16 @@ describe('Demo menu test', () => {
     });
   });
 
+  it('trigger sample notification', async () => {
+    await expect(element(by.id('ShowSampleNotification'))).toBeVisible();
+    await element(by.id('ShowSampleNotification')).tap();
+    await device.takeScreenshot('SampleNotification');
+    // next line waits for notification to fade
+    await sleep(8000);
+  });
+
   it('close demo menu', async () => {
-    await expect(element(by.id('headerButton'))).not.toBeVisible();
+    if (isDeviceFruity) await expect(element(by.id('headerButton'))).not.toBeVisible();
     await expect(element(by.id('toolbarCloseButton'))).toBeVisible();
     await element(by.id('toolbarCloseButton')).tap();
     await expect(element(by.id('ShowSampleNotification'))).not.toBeVisible();

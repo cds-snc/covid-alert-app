@@ -29,13 +29,20 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
         paddingVertical="m"
         marginBottom="m"
       >
-        <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+        <Text
+          focusRef={autoFocusRef}
+          variant="bodyTitle"
+          testID="bodyTitle"
+          color="bodyText"
+          marginBottom="m"
+          accessibilityRole="header"
+        >
           {i18n.translate('Home.DiagnosedShareView.Title')}
         </Text>
         <Text variant="bodyText" color="bodyText" marginBottom="m">
           {i18n.translate('Home.DiagnosedShareView.Body1')}
         </Text>
-        <Text variant="bodyText" color="bodyText">
+        <Text variant="bodyText" testID="bodyText" color="bodyText">
           <Text fontWeight="bold">{i18n.translate('Home.DiagnosedShareView.Body2')}</Text>
           {i18n.translate('Home.DiagnosedShareView.Body3')}
         </Text>
