@@ -125,11 +125,9 @@ const Content = () => {
     var idArray: string[] = [];
     await getExposedLocations().then(val => {
       val.filter((item: any) => {
-        console.log(item.id);
         idArray.push(item.id);
       });
     });
-    // console.log('idArray', idArray);
     retrieveData().then(val => {
       const filteredArray = idArray.filter(value => val?.includes(value));
       if (filteredArray.length > 0) {
