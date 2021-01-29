@@ -5,6 +5,7 @@ import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
+import {BackButton} from './BackButton';
 
 interface EventURL {
   url: string;
@@ -70,15 +71,14 @@ const Content = () => {
     >
       <View style={styles.layerTop} />
 
-      <Box style={styles.back}>
-        <Button
-          color="bodyTextWhite"
+      <Box style={styles.back} paddingHorizontal="m">
+        <BackButton
+          textStyles={styles.backText}
+          iconName="icon-chevron-back-white"
           text={i18n.translate(`QRCode.Reader.Back`)}
-          variant="text"
           onPress={() => {
             navigation.navigate('Home');
           }}
-          backButton={true}
         />
       </Box>
 
@@ -129,7 +129,13 @@ const styles = StyleSheet.create({
   back: {
     backgroundColor: opacity,
     flex: 1,
+    flexDirection: 'column',
     alignContent: 'flex-start',
+  },
+  backText: {
+    color: 'white',
+    marginLeft: 5,
+    fontSize: 18,
   },
   container: {
     flex: 1,
