@@ -1,14 +1,7 @@
 import {log} from 'shared/logging/config';
 import {captureMessage} from 'shared/log';
 
-import {
-  CalibrationConfidence,
-  ExposureConfiguration,
-  ExposureNotificationAPI,
-  ExposureSummary,
-  Infectiousness,
-  ReportType,
-} from './types';
+import {ExposureConfiguration, ExposureNotificationAPI, ExposureSummary} from './types';
 import {getLastExposureTimestamp} from './utils';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotificationAPI) {
@@ -45,21 +38,41 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return [];
     },
     getExposureWindowsAndroid: async (diagnosisKeysURLs: string[]) => {
-      await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
-      const _exposureWindows = await exposureNotificationAPI.getExposureWindows();
-      const exposureWindows = _exposureWindows.map(window => {
-        window.day = Number(window.day);
-        window.calibrationConfidence = window.calibrationConfidence as CalibrationConfidence;
-        window.infectiousness = window.infectiousness as Infectiousness;
-        window.reportType = window.reportType as ReportType;
-        return window;
-      });
-      log.debug({
-        category: 'exposure-check',
-        message: 'exposureWindows',
-        payload: exposureWindows,
-      });
-      return exposureWindows;
+      try {
+        await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
+      } catch (error) {
+        log.error({category: 'exposure-check', message: 'exposureNotificationAPI.provideDiagnosisKeys failed', error});
+        // no-op
+      }
+      try {
+        const _exposureWindows = await exposureNotificationAPI.getExposureWindows();
+        const exposureWindows = _exposureWindows.map(window => {
+          return {...window, day: Number(window.day)};
+        });
+        log.debug({
+          category: 'exposure-check',
+          message: 'exposureWindows',
+          payload: {'exposureWindows.length': exposureWindows.length, exposureWindows},
+        });
+        return exposureWindows;
+      } catch (error) {
+        log.error({category: 'exposure-check', message: 'exposureNotificationAPI.getExposureWindows failed', error});
+        // no-op
+      }
+      return [];
+    },
+    setDiagnosisKeysDataMapping: async () => {
+      try {
+        await exposureNotificationAPI.setDiagnosisKeysDataMapping();
+      } catch (error) {
+        log.error({
+          category: 'exposure-check',
+          message: 'exposureNotificationAPI.setDiagnosisKeysDataMapping failed',
+          error,
+        });
+        // no-op
+      }
+      log.debug({category: 'exposure-check', message: 'setDiagnosisKeysDataMapping successful'});
     },
   };
 }

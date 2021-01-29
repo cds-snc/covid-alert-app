@@ -590,6 +590,7 @@ export class ExposureNotificationService {
     try {
       let exposureWindows: ExposureWindow[];
       if (Platform.OS === 'android') {
+        await this.exposureNotification.setDiagnosisKeysDataMapping();
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
         exposureWindows = await this.exposureNotification.getExposureWindowsIos(exposureConfiguration, keysFileUrls);
@@ -610,7 +611,7 @@ export class ExposureNotificationService {
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
-      log.error({category: 'exposure-check', error});
+      log.error({category: 'exposure-check', message: 'performExposureStatusUpdateV2', error});
     }
 
     return this.finalize();
@@ -682,7 +683,7 @@ export class ExposureNotificationService {
 
   public getExposureDetectedAt(): Date[] {
     const exposureStatus = this.exposureStatus.get();
-    log.info({message: 'getExposureDetectedAt', payload: {exposureStatus}});
+    log.info({category: 'exposure-check', message: 'getExposureDetectedAt', payload: {exposureStatus}});
 
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
       return [];
