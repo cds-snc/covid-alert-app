@@ -611,8 +611,9 @@ export class ExposureNotificationService {
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
       log.error({category: 'exposure-check', error});
-      return false;
     }
+
+    return this.finalize();
   }
 
   public shouldPerformExposureCheck = async () => {
