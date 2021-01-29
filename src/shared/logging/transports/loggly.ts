@@ -1,5 +1,5 @@
 import {Platform} from 'react-native';
-import {APP_VERSION_CODE, APP_VERSION_NAME, LOGGLY_URL} from 'env';
+import {APP_VERSION_CODE, APP_VERSION_NAME, LOGGLY_URL, EN_API_VERSION} from 'env';
 import {transportFunctionType} from 'react-native-logs';
 import AsyncStorage from '@react-native-community/async-storage';
 import {getCurrentDate, minutesBetween} from 'shared/date-fns';
@@ -11,6 +11,7 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
   const platform = Platform.OS;
   const versionCode = APP_VERSION_CODE;
   const versionName = APP_VERSION_NAME;
+  const enApiVerion = String(EN_API_VERSION) || 'not set';
   let currentStatus = '';
   let lastCheckedMinutesAgo = '';
 
@@ -42,6 +43,7 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
         versionName,
         currentStatus,
         lastCheckedMinutesAgo,
+        enApiVerion,
       }),
     }).catch(error => {
       console.log(error); // eslint-disable-line no-console
