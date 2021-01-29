@@ -19,6 +19,8 @@ describe('ExposureNotificationServiceUtils', () => {
       ['13.7', true],
       ['12.5', true],
       ['12.5.1', true],
+      ['12.5.0.1', true],
+      ['1.1', false],
       ['12.4', false],
       ['14.4', true],
       [14.4, true],

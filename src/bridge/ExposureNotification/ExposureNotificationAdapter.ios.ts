@@ -46,7 +46,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       return summaries;
     },
     getPendingExposureSummary: async () => undefined,
-    detectExposureV2: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
+    getExposureWindowsIos: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
       if (diagnosisKeysURLs.length === 0) {
         throw new Error('Attempt to call detectExposure with empty list of downloaded files');
       }

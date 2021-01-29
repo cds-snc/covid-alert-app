@@ -327,17 +327,17 @@ RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictiona
   if (configDict[@"transmissionRiskWeight"]) {
     configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
   }
-
-  configuration.immediateDurationWeight = 100;
-  configuration.nearDurationWeight = 100;
-  configuration.mediumDurationWeight = 100;
-  configuration.otherDurationWeight = 100;
-  configuration.infectiousnessStandardWeight = 100;
-  configuration.infectiousnessHighWeight = 100;
-  configuration.reportTypeConfirmedTestWeight = 100;
-  configuration.reportTypeConfirmedClinicalDiagnosisWeight = 100;
-  configuration.reportTypeSelfReportedWeight = 100;
-  configuration.reportTypeRecursiveWeight = 100;
+  int arbitraryWeight = 100;
+  configuration.immediateDurationWeight = arbitraryWeight;
+  configuration.nearDurationWeight = arbitraryWeight;
+  configuration.mediumDurationWeight = arbitraryWeight;
+  configuration.otherDurationWeight = arbitraryWeight;
+  configuration.infectiousnessStandardWeight = arbitraryWeight;
+  configuration.infectiousnessHighWeight = arbitraryWeight;
+  configuration.reportTypeConfirmedTestWeight = arbitraryWeight;
+  configuration.reportTypeConfirmedClinicalDiagnosisWeight = arbitraryWeight;
+  configuration.reportTypeSelfReportedWeight = arbitraryWeight;
+  configuration.reportTypeRecursiveWeight = arbitraryWeight;
   configuration.infectiousnessForDaysSinceOnsetOfSymptoms = getInfectiousness();
 
   NSMutableArray *arr = [NSMutableArray new];
@@ -358,7 +358,7 @@ RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictiona
       if (error) {
         reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
       } else {
-        NSMutableArray<NSDictionary *> *exWindow = [NSMutableArray new];
+        NSMutableArray<NSDictionary *> *exWindows = [NSMutableArray new];
         for (ENExposureWindow *obj in exposureWindows) {
           NSMutableArray<NSDictionary *> *scanInstances = [NSMutableArray new];
           for (ENScanInstance *obj2 in obj.scanInstances) {
@@ -368,7 +368,7 @@ RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictiona
               @"secondsSinceLastScan": @(obj2.secondsSinceLastScan),
             }];
           }
-          [exWindow addObject:@{
+          [exWindows addObject:@{
             @"infectiousness": @(obj.infectiousness),
             @"day": @(1000 * obj.date.timeIntervalSince1970),
             @"reportType": @(obj.diagnosisReportType),
@@ -376,7 +376,7 @@ RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictiona
             @"scanInstances": scanInstances
           }];
         }
-        resolve(exWindow);
+        resolve(exWindows);
       }
     }];
     

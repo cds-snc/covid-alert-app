@@ -592,7 +592,7 @@ export class ExposureNotificationService {
       if (Platform.OS === 'android') {
         exposureWindows = await this.exposureNotification.getExposureWindowsAndroid(keysFileUrls);
       } else {
-        exposureWindows = await this.exposureNotification.detectExposureV2(exposureConfiguration, keysFileUrls);
+        exposureWindows = await this.exposureNotification.getExposureWindowsIos(exposureConfiguration, keysFileUrls);
       }
       log.debug({
         category: 'exposure-check',

@@ -91,7 +91,7 @@ export interface ExposureNotification {
   getStatus(): Promise<Status>;
   getTemporaryExposureKeyHistory(): Promise<TemporaryExposureKey[]>;
   detectExposure(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureSummary[]>;
-  detectExposureV2(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
+  getExposureWindowsIos(configuration: ExposureConfiguration, diagnosisKeysURLs: string[]): Promise<ExposureWindow[]>;
   getPendingExposureSummary(): Promise<ExposureSummary[] | undefined> /* used only by Android */;
   provideDiagnosisKeys(diagnosisKeysURLs: string[]): Promise<undefined>;
   getExposureWindows(): Promise<ExposureWindow[]>;

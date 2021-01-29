@@ -37,5 +37,5 @@ export class MockExposureNotification implements ExposureNotification {
 
   getExposureWindowsAndroid = async () => [];
 
-  detectExposureV2 = async () => [];
+  getExposureWindowsIos = async () => [];
 }
