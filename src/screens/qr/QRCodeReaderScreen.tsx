@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {Box, ButtonSingleLine, Text, Button} from 'components';
+import {Box, ButtonSingleLine, Text} from 'components';
 import {View, StyleSheet, Alert} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {BackButton} from './BackButton';
+import jwt from 'react-native-pure-jwt';
+import {QR_CODE_PUBLIC_KEY} from 'env';
 
 interface EventURL {
   url: string;
@@ -13,18 +15,31 @@ interface EventURL {
 
 interface EventData {
   id: string;
-  name: string;
 }
 
 const CheckinRoute = 'QRCodeScreen';
 
 // covidalert://QRCodeScreen/id/1/location_name
-const handleOpenURL = ({url}: EventURL): EventData | boolean => {
-  const [, , routeName, , id, name] = url.split('/');
+const handleOpenURL = async ({url}: EventURL): Promise<EventData | boolean> => {
+  const [, , routeName, id] = url.split('/');
 
-  if (routeName === CheckinRoute) {
-    return {id, name};
+  try {
+    // tslint:disable-next-line
+    const result = await jwt.decode(
+      id, // the token
+      QR_CODE_PUBLIC_KEY, // the secret
+      {
+        skipValidation: false, // to skip signature and exp verification
+      },
+    );
+
+    if (routeName === CheckinRoute) {
+      return result.payload;
+    }
+  } catch (err) {
+    console.log(err);
   }
+
   return false;
 };
 
@@ -42,11 +57,11 @@ const Content = () => {
     })();
   }, []);
 
-  const handleBarCodeScanned = (scanningResult: BarCodeScannerResult) => {
+  const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
     const {type, data} = scanningResult;
     setScanned(true);
 
-    const result = handleOpenURL({url: data});
+    const result = await handleOpenURL({url: data});
 
     if (typeof result === 'boolean') {
       const msg = `Incorrect code with type ${type} and data ${data} has been scanned!`;
