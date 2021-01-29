@@ -114,8 +114,8 @@ const Content = () => {
     PollNotifications.clearNotificationReceipts();
   }, []);
 
-  const onPollNotifications = useCallback(() => {
-    PollNotifications.checkForNotifications();
+  const onPollNotifications = useCallback(async () => {
+    await PollNotifications.checkForNotifications();
   }, []);
 
   const exposureNotificationService = useExposureNotificationService();
