@@ -12,7 +12,6 @@ import {BackendService} from 'services/BackendService';
 import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
 import {ExposureNotificationService} from 'services/ExposureNotificationService';
 import {createBackgroundI18n} from 'locale';
-import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 import {name as appName} from '../app.json';
 
@@ -32,7 +31,6 @@ if (Platform.OS === 'android') {
       AsyncStorage,
       RNSecureKeyStore,
       ExposureNotification,
-      FilteredMetricsService.sharedInstance(),
     );
     await exposureNotificationService.updateExposureStatusInBackground();
   });
@@ -47,7 +45,6 @@ if (Platform.OS === 'android') {
       AsyncStorage,
       RNSecureKeyStore,
       ExposureNotification,
-      FilteredMetricsService.sharedInstance(),
     );
     if (await exposureNotificationService.shouldPerformExposureCheck()) {
       await exposureNotificationService.initiateExposureCheckHeadless();

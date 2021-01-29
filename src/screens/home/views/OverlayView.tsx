@@ -27,7 +27,6 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const onPress = async () => {
     if (Platform.OS === 'android') {
       await startExposureNotificationService();
-      FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.EnToggle);
       return;
     }
     return toSettings();
@@ -53,7 +52,6 @@ const SystemStatusUnauthorized = ({i18n}: {i18n: I18n}) => {
   const onPress = async () => {
     if (Platform.OS === 'android') {
       await startExposureNotificationService();
-      FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.EnToggle);
       return;
     }
     return toSettings();
@@ -228,7 +226,6 @@ const TurnAppBackOn = ({
         text: i18n.translate('OverlayOpen.TurnAppBackOn.CTA'),
         action: () => {
           onStart();
-          FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.EnToggle);
         },
       }}
       backgroundColor="danger25Background"

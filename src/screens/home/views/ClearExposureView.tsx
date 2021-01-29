@@ -3,7 +3,7 @@ import {ScrollView, StyleSheet, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
-import {useClearExposedStatus} from 'services/ExposureNotificationService';
+import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {useI18n} from 'locale';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService/FilteredMetricsService';
 
@@ -12,6 +12,7 @@ export const DismissAlertScreen = () => {
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const [clearExposedStatus] = useClearExposedStatus();
+  const exposureStatus = useExposureStatus();
 
   const onClearExposedState = useCallback(() => {
     Alert.alert(i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Body'), undefined, [
@@ -24,13 +25,13 @@ export const DismissAlertScreen = () => {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
         onPress: () => {
           clearExposedStatus();
-          FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.ExposedClear);
+          FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
           close();
         },
         style: 'default',
       },
     ]);
-  }, [clearExposedStatus, close, i18n]);
+  }, [clearExposedStatus, close, exposureStatus, i18n]);
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>

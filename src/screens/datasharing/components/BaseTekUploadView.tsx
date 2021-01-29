@@ -3,12 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ActivityIndicator, ScrollView, StyleSheet, Alert} from 'react-native';
 import {Box, Button} from 'components';
 import {useI18n} from 'locale';
-import {
-  useReportDiagnosis,
-  cannotGetTEKsError,
-  useExposureStatus,
-  ExposureStatusType,
-} from 'services/ExposureNotificationService';
+import {useReportDiagnosis, cannotGetTEKsError, useExposureStatus} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -85,13 +80,11 @@ export const BaseTekUploadView = ({
       setLoading(false);
       setIsUploading(false);
 
-      let eventType: EventTypeMetric = EventTypeMetric.OtkWithDate;
-
       if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
-        eventType = EventTypeMetric.OtkNoDate;
+        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkNoDate, exposureStatus});
+      } else {
+        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkWithDate});
       }
-
-      FilteredMetricsService.sharedInstance().addEvent(eventType);
 
       onSuccess();
     } catch (error) {
@@ -99,7 +92,7 @@ export const BaseTekUploadView = ({
       setIsUploading(false);
       onError(error);
     }
-  }, [contagiousDateInfo, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
+  }, [contagiousDateInfo, exposureStatus, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
 
   if (loading) {
     return (

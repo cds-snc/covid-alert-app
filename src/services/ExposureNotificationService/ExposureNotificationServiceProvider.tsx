@@ -8,7 +8,7 @@ import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
-import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -49,7 +49,6 @@ export const ExposureNotificationServiceProvider = ({
         storage || AsyncStorage,
         secureStorage || RNSecureKeyStore,
         exposureNotification || ExposureNotification,
-        FilteredMetricsService.sharedInstance(),
       ),
     [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );
@@ -107,6 +106,7 @@ export function useStartExposureNotificationService(): () => Promise<boolean | {
     const start = await exposureNotificationService.start();
 
     log.debug({message: 'exposureNotificationService.start()', payload: start});
+    FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.EnToggle, state: true});
 
     if (Platform.OS === 'ios') {
       setUserStopped(false);
@@ -134,6 +134,7 @@ export function useStopExposureNotificationService(): () => Promise<boolean> {
     setUserStopped(true);
     const stopped = await exposureNotificationService.stop();
     log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
+    FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.EnToggle, state: false});
     return stopped;
   }, [exposureNotificationService, setUserStopped]);
 }

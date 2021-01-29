@@ -1,14 +1,10 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_CODE} from 'env';
 import PQueue from 'p-queue';
 import {Platform} from 'react-native';
-import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
-import {
-  ExposureStatusType,
-  SystemStatus,
-  useExposureStatus,
-  useSystemStatus,
-} from 'services/ExposureNotificationService';
-import {useStorage} from 'services/StorageService';
+import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {ExposureStatus, ExposureStatusType, SystemStatus} from 'services/ExposureNotificationService';
+import {Key} from 'services/StorageService';
 import {getHoursBetween, getCurrentDate} from 'shared/date-fns';
 import {log} from 'shared/logging/config';
 
@@ -27,6 +23,32 @@ export enum EventTypeMetric {
   EnToggle = 'en-toggle',
   ExposedClear = 'exposed-clear',
 }
+
+export type EventWithContext =
+  | {
+      type: EventTypeMetric.Installed;
+    }
+  | {
+      type: EventTypeMetric.Onboarded;
+    }
+  | {
+      type: EventTypeMetric.Exposed;
+    }
+  | {
+      type: EventTypeMetric.OtkNoDate;
+      exposureStatus: ExposureStatus;
+    }
+  | {
+      type: EventTypeMetric.OtkWithDate;
+    }
+  | {
+      type: EventTypeMetric.EnToggle;
+      state: boolean;
+    }
+  | {
+      type: EventTypeMetric.ExposedClear;
+      exposureStatus: ExposureStatus;
+    };
 
 export class FilteredMetricsService {
   private static instance: FilteredMetricsService;
@@ -55,39 +77,32 @@ export class FilteredMetricsService {
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 
-  addEvent(eventType: EventTypeMetric): Promise<void> {
+  addEvent(eventWithContext: EventWithContext): Promise<void> {
     return this.serialPromiseQueue.add(() => {
-      const exposureStatus = useExposureStatus();
-      const {region, userStopped} = useStorage();
-
-      switch (eventType) {
+      switch (eventWithContext.type) {
         case EventTypeMetric.Installed:
-          return this.publishInstalledEventIfNecessary(region);
-        case EventTypeMetric.Exposed:
-          return this.publishEvent(EventTypeMetric.Exposed, [], region);
+          return this.publishInstalledEventIfNecessary();
         case EventTypeMetric.Onboarded:
           return this.stateStorage.markOnboardedEventShouldBePublished();
+        case EventTypeMetric.Exposed:
+          return this.publishEvent(EventTypeMetric.Exposed, []);
         case EventTypeMetric.OtkNoDate:
-          if (exposureStatus.type === ExposureStatusType.Exposed) {
-            return this.publishEvent(EventTypeMetric.OtkNoDate, [], region);
+          if (eventWithContext.exposureStatus.type === ExposureStatusType.Exposed) {
+            return this.publishEvent(EventTypeMetric.OtkNoDate, []);
           }
           break;
         case EventTypeMetric.OtkWithDate:
-          return this.publishEvent(EventTypeMetric.OtkWithDate, [], region);
+          return this.publishEvent(EventTypeMetric.OtkWithDate, []);
         case EventTypeMetric.EnToggle:
-          return this.publishEvent(EventTypeMetric.EnToggle, [['state', String(userStopped)]], region);
+          return this.publishEvent(EventTypeMetric.EnToggle, [['state', String(eventWithContext.state)]]);
         case EventTypeMetric.ExposedClear:
-          if (exposureStatus.type === ExposureStatusType.Exposed) {
-            return this.publishEvent(
-              EventTypeMetric.ExposedClear,
+          if (eventWithContext.exposureStatus.type === ExposureStatusType.Exposed) {
+            return this.publishEvent(EventTypeMetric.ExposedClear, [
               [
-                [
-                  'hoursSinceExposureDetectedAt',
-                  String(getHoursBetween(getCurrentDate(), new Date(exposureStatus.exposureDetectedAt))),
-                ],
+                'hoursSinceExposureDetectedAt',
+                String(getHoursBetween(getCurrentDate(), new Date(eventWithContext.exposureStatus.exposureDetectedAt))),
               ],
-              region,
-            );
+            ]);
           }
           break;
       }
@@ -96,22 +111,18 @@ export class FilteredMetricsService {
     });
   }
 
-  sendDailyMetrics(): Promise<void> {
+  sendDailyMetrics(systemStatus: SystemStatus, notificationStatus: Status): Promise<void> {
     return this.serialPromiseQueue.add(() => {
-      const [systemStatus] = useSystemStatus();
-      const [notificationStatus] = useNotificationPermissionStatus();
-      const {region} = useStorage();
       return this.publishOnboardedEventIfNecessary(
         String(notificationStatus),
         String(systemStatus === SystemStatus.Active),
-        region,
       ).then(() => this.metricsService.sendDailyMetrics());
     });
   }
 
-  private publishInstalledEventIfNecessary(region?: string): Promise<void> {
+  private publishInstalledEventIfNecessary(): Promise<void> {
     const publishAndMark = (): Promise<void> => {
-      return this.publishEvent(EventTypeMetric.Installed, [], region, true).then(() =>
+      return this.publishEvent(EventTypeMetric.Installed, [], true).then(() =>
         this.stateStorage.markInstalledEventAsPublished(),
       );
     };
@@ -122,20 +133,12 @@ export class FilteredMetricsService {
     });
   }
 
-  private publishOnboardedEventIfNecessary(
-    notificationStatus: string,
-    frameworkenabled: string,
-    region?: string,
-  ): Promise<void> {
+  private publishOnboardedEventIfNecessary(notificationStatus: string, frameworkenabled: string): Promise<void> {
     const publishAndMark = (): Promise<void> => {
-      return this.publishEvent(
-        EventTypeMetric.Onboarded,
-        [
-          ['pushnotification', notificationStatus],
-          ['frameworkenabled', frameworkenabled],
-        ],
-        region,
-      ).then(() => this.stateStorage.markOnboardedEventShouldNotBePublished());
+      return this.publishEvent(EventTypeMetric.Onboarded, [
+        ['pushnotification', notificationStatus],
+        ['frameworkenabled', frameworkenabled],
+      ]).then(() => this.stateStorage.markOnboardedEventShouldNotBePublished());
     };
     return this.stateStorage.shouldOnboardedEventBePublished().then(shouldPublish => {
       if (shouldPublish) {
@@ -147,12 +150,23 @@ export class FilteredMetricsService {
   private publishEvent(
     eventType: EventTypeMetric,
     metricPayload: [string, string][],
-    region?: string,
     forcePushToServer = false,
   ): Promise<void> {
-    return this.metricsService.publishMetric(
-      new Metric(new Date().getTime(), eventType, region ?? 'None', metricPayload),
-      forcePushToServer,
-    );
+    return this.getRegion().then(region => {
+      return this.metricsService.publishMetric(
+        new Metric(new Date().getTime(), eventType, region, metricPayload),
+        forcePushToServer,
+      );
+    });
+  }
+
+  private getRegion(): Promise<string> {
+    return AsyncStorage.getItem(Key.Region).then(region => {
+      if (region) {
+        return region;
+      } else {
+        return 'None';
+      }
+    });
   }
 }

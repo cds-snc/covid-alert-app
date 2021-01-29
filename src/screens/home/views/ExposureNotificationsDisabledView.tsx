@@ -4,7 +4,6 @@ import React, {useCallback} from 'react';
 import {Linking, Platform} from 'react-native';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -18,7 +17,6 @@ export const ExposureNotificationsDisabledView = ({isBottomSheetExpanded}: {isBo
 
   const startEn = useCallback(async () => {
     await startExposureNotificationService();
-    FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.EnToggle);
   }, [startExposureNotificationService]);
 
   const onPress = () => {

@@ -61,7 +61,7 @@ export const OnboardingScreen = () => {
   const nextItem = useCallback(async () => {
     if (isEnd) {
       await setOnboarded(true);
-      FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.Onboarded);
+      FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.Onboarded});
       await setOnboardedDatetime(getCurrentDate());
       navigation.reset({
         index: 0,

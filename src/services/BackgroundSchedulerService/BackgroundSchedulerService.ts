@@ -3,7 +3,6 @@ import {AppRegistry, Platform} from 'react-native';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNSecureKeyStore from 'react-native-secure-key-store';
-import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
@@ -126,7 +125,6 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
         AsyncStorage,
         RNSecureKeyStore,
         ExposureNotification,
-        FilteredMetricsService.sharedInstance(),
       );
       registerPeriodicTask(async () => {
         await exposureNotificationService.updateExposureStatusInBackground();

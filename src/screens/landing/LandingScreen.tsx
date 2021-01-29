@@ -45,7 +45,7 @@ export const LandingScreen = () => {
     [navigation, setLocale],
   );
 
-  FilteredMetricsService.sharedInstance().addEvent(EventTypeMetric.Installed);
+  FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.Installed});
 
   return (
     <SafeAreaView style={styles.flex}>
