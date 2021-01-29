@@ -6,8 +6,9 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {BackButton} from './BackButton';
-import jwt from 'react-native-pure-jwt';
 import {QR_CODE_PUBLIC_KEY} from 'env';
+// @ts-ignore
+import jwt from 'react-native-pure-jwt';
 
 interface EventURL {
   url: string;
@@ -24,7 +25,7 @@ const handleOpenURL = async ({url}: EventURL): Promise<EventData | boolean> => {
   const [, , routeName, id] = url.split('/');
 
   try {
-    // tslint:disable-next-line
+    // @ts-ignore
     const result = await jwt.decode(
       id, // the token
       QR_CODE_PUBLIC_KEY, // the secret
