@@ -193,6 +193,7 @@ interface EventData {
 const CheckinRoute = 'QRCodeScreen';
 const handleOpenNewURL = ({url}: EventURL): EventData | boolean => {
   const [, , routeName, , id, name] = url.split('/');
+  console.log('name', name);
   if (routeName === CheckinRoute) {
     return {id, name};
   }
@@ -230,6 +231,7 @@ export const HomeScreen = () => {
       .then(initialURL => {
         if (initialURL) {
           const result: any = handleOpenNewURL({url: initialURL});
+          console.log('result', result);
           setCheckInJSON(result.id.toString());
           navigation.navigate(CheckinRoute, result);
         }
