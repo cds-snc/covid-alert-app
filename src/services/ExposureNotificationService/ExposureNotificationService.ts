@@ -611,7 +611,7 @@ export class ExposureNotificationService {
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
-      log.error({message: 'performExposureStatusUpdateV2', error});
+      log.error({category: 'exposure-check', message: 'performExposureStatusUpdateV2', error});
       return false;
     }
   }
@@ -682,7 +682,7 @@ export class ExposureNotificationService {
 
   public getExposureDetectedAt(): Date[] {
     const exposureStatus = this.exposureStatus.get();
-    log.info({message: 'getExposureDetectedAt', payload: {exposureStatus}});
+    log.info({category: 'exposure-check', message: 'getExposureDetectedAt', payload: {exposureStatus}});
 
     if (exposureStatus.type !== ExposureStatusType.Exposed) {
       return [];

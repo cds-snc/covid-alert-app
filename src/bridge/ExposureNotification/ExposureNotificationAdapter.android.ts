@@ -1,14 +1,7 @@
 import {log} from 'shared/logging/config';
 import {captureMessage} from 'shared/log';
 
-import {
-  CalibrationConfidence,
-  ExposureConfiguration,
-  ExposureNotificationAPI,
-  ExposureSummary,
-  Infectiousness,
-  ReportType,
-} from './types';
+import {ExposureConfiguration, ExposureNotificationAPI, ExposureSummary} from './types';
 import {getLastExposureTimestamp} from './utils';
 
 export default function ExposureNotificationAdapter(exposureNotificationAPI: ExposureNotificationAPI) {
@@ -48,16 +41,13 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       try {
         await exposureNotificationAPI.provideDiagnosisKeys(diagnosisKeysURLs);
       } catch (error) {
-        log.error({message: 'exposureNotificationAPI.provideDiagnosisKeys failed', error});
+        log.error({category: 'exposure-check', message: 'exposureNotificationAPI.provideDiagnosisKeys failed', error});
+        // no-op
       }
       try {
         const _exposureWindows = await exposureNotificationAPI.getExposureWindows();
         const exposureWindows = _exposureWindows.map(window => {
-          window.day = Number(window.day);
-          window.calibrationConfidence = window.calibrationConfidence as CalibrationConfidence;
-          window.infectiousness = window.infectiousness as Infectiousness;
-          window.reportType = window.reportType as ReportType;
-          return window;
+          return {...window, day: Number(window.day)};
         });
         log.debug({
           category: 'exposure-check',
@@ -66,16 +56,23 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
         });
         return exposureWindows;
       } catch (error) {
-        log.error({message: 'exposureNotificationAPI.getExposureWindows failed', error});
+        log.error({category: 'exposure-check', message: 'exposureNotificationAPI.getExposureWindows failed', error});
+        // no-op
       }
+      return [];
     },
     setDiagnosisKeysDataMapping: async () => {
       try {
         await exposureNotificationAPI.setDiagnosisKeysDataMapping();
       } catch (error) {
-        log.error({message: 'exposureNotificationAPI.setDiagnosisKeysDataMapping failed', error});
+        log.error({
+          category: 'exposure-check',
+          message: 'exposureNotificationAPI.setDiagnosisKeysDataMapping failed',
+          error,
+        });
+        // no-op
       }
-      log.debug({message: 'setDiagnosisKeysDataMapping successful'});
+      log.debug({category: 'exposure-check', message: 'setDiagnosisKeysDataMapping successful'});
     },
   };
 }
