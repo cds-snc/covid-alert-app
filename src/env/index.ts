@@ -33,7 +33,7 @@ export const LOGGLY_URL = Config.LOGGLY_URL || false;
 
 export const LOG_LEVEL = Config.LOG_LEVEL || 'debug';
 
-export const METRICS_URL = Config.METRICS_URL;
+export const METRICS_URL = Config.METRICS_URL || false;
 
 export const METRICS_API_KEY = Config.METRICS_API_KEY;
 

@@ -10,6 +10,7 @@ import {DefaultMetricsPublisher, MetricsPublisher} from './MetricsPublisher';
 import {DefaultMetricsPusher, MetricsPusher, MetricsPusherResult} from './MetricsPusher';
 import {DefaultMetricsStorage, MetricsStorageCleaner} from './MetricsStorage';
 import {DefaultSecureKeyValueStore, SecureKeyValueStore} from './SecureKeyValueStorage';
+import {InactiveMetricsService} from './InactiveMetricsService';
 
 const LastMetricTimestampSentToTheServerUniqueIdentifier = '3FFE2346-1910-4FD7-A23F-52D83CFF083A';
 const MetricsLastUploadedDateTime = 'C0663511-3718-4D85-B165-A38155DED2F3';
@@ -31,19 +32,23 @@ enum TriggerPushResult {
 
 export class DefaultMetricsService implements MetricsService {
   static initialize(metricsJsonSerializer: MetricsJsonSerializer): MetricsService {
-    const secureKeyValueStore = new DefaultSecureKeyValueStore();
-    const metricsStorage = new DefaultMetricsStorage(secureKeyValueStore);
-    const metricsPublisher = new DefaultMetricsPublisher(metricsStorage);
-    const metricsProvider = new DefaultMetricsProvider(metricsStorage);
-    const metricsPusher = new DefaultMetricsPusher(METRICS_URL, METRICS_API_KEY);
-    return new DefaultMetricsService(
-      secureKeyValueStore,
-      metricsPublisher,
-      metricsProvider,
-      metricsStorage,
-      metricsJsonSerializer,
-      metricsPusher,
-    );
+    if (METRICS_URL) {
+      const secureKeyValueStore = new DefaultSecureKeyValueStore();
+      const metricsStorage = new DefaultMetricsStorage(secureKeyValueStore);
+      const metricsPublisher = new DefaultMetricsPublisher(metricsStorage);
+      const metricsProvider = new DefaultMetricsProvider(metricsStorage);
+      const metricsPusher = new DefaultMetricsPusher(METRICS_URL, METRICS_API_KEY);
+      return new DefaultMetricsService(
+        secureKeyValueStore,
+        metricsPublisher,
+        metricsProvider,
+        metricsStorage,
+        metricsJsonSerializer,
+        metricsPusher,
+      );
+    } else {
+      return new InactiveMetricsService();
+    }
   }
 
   private secureKeyValueStore: SecureKeyValueStore;
