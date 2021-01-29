@@ -1,6 +1,6 @@
 import PushNotification from 'bridge/PushNotification';
 import AsyncStorage from '@react-native-community/async-storage';
-import {APP_VERSION_NAME} from 'env';
+import {APP_VERSION_NAME, NOTIFICATION_FEED_URL} from 'env';
 import semver from 'semver';
 import {log} from 'shared/logging/config';
 
@@ -8,42 +8,29 @@ import {NotificationMessage} from './types';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
 const ETAG_STORAGE_KEY = 'NotificationsEtag';
-const FEED_URL = 'https://abe63f9151c4.ngrok.io/api';
 
 const checkForNotifications = async () => {
-  const readReceipts = await getReadReceipts();
-
   // Fetch messages from api
-  const messages: [NotificationMessage] | boolean | undefined = await fetchNotifications();
+  const messages: NotificationMessage[] = await fetchNotifications();
+  const readReceipts: string[] = await getReadReceipts();
 
-  if (messages && Array.isArray(messages)) {
-    messages.forEach(async (message: NotificationMessage) => {
-      log.debug({
-        category: 'debug',
-        message: 'message',
-        payload: message,
-      });
-      if (!readReceipts.includes(message.id)) {
-        const selectedRegion: string = (await AsyncStorage.getItem('Region')) || 'CA';
-        const selectedLocale: string = (await AsyncStorage.getItem('Locale')) || 'en';
-        if (shouldDisplayNotification(message, selectedRegion, selectedLocale)) {
-          PushNotification.presentLocalNotification({
-            alertTitle: message.title[selectedLocale],
-            alertBody: message.message[selectedLocale],
-          });
+  const selectedRegion: string = (await AsyncStorage.getItem('Region')) || 'CA';
+  const selectedLocale: string = (await AsyncStorage.getItem('Locale')) || 'en';
+  const messageToDisplay = messages.find(message =>
+    shouldDisplayNotification(message, selectedRegion, selectedLocale, readReceipts),
+  );
 
-          // push message id onto readReceipts
-          readReceipts.push(message.id);
-        }
-      }
+  if (messageToDisplay) {
+    PushNotification.presentLocalNotification({
+      alertTitle: messageToDisplay.title[selectedLocale],
+      alertBody: messageToDisplay.message[selectedLocale],
     });
-
-    // Save read receipts back to storage
-    saveReadReceipts(readReceipts);
+    readReceipts.push(messageToDisplay.id);
+    await saveReadReceipts(readReceipts);
   }
 };
 
-const getReadReceipts = async () => {
+const getReadReceipts = async (): Promise<string[]> => {
   const readReceipts = await AsyncStorage.getItem(READ_RECEIPTS_KEY);
 
   if (readReceipts) {
@@ -61,8 +48,14 @@ const clearNotificationReceipts = async () => {
   await AsyncStorage.removeItem(READ_RECEIPTS_KEY);
 };
 
-const shouldDisplayNotification = (message: any, selectedRegion: any, selectedLocale: any): boolean => {
+const shouldDisplayNotification = (
+  message: NotificationMessage,
+  selectedRegion: any,
+  selectedLocale: any,
+  readReceipts: string[],
+): boolean => {
   return (
+    checkReadReceipts(message.id, readReceipts) &&
     checkRegion(message.target_regions, selectedRegion) &&
     checkVersion(message.target_version, APP_VERSION_NAME) &&
     checkDate(message.expires_at) &&
@@ -75,13 +68,13 @@ const checkMessage = (message: any, locale: string): boolean => {
   return typeof message.title[locale] === 'string' && typeof message.message[locale] === 'string';
 };
 
+const checkReadReceipts = (messageId: string, readReceipts: string[]): boolean => {
+  return readReceipts.includes(messageId) === false;
+};
+
 // If an expiry date is provide, validate that it's in the future
 const checkDate = (target: string): boolean => {
-  if (target === undefined) {
-    return true;
-  }
-
-  return Date.parse(target) >= Date.now();
+  return target === undefined || Date.parse(target) >= Date.now();
 };
 
 // If a version constraint is provided, check the current app version against it
@@ -89,26 +82,17 @@ const checkVersion = (target: string, current: string): boolean => {
   // Normalize the version string
   const currentVersion = semver.valid(semver.coerce(current)) || '';
 
-  // If no target version provided, display to all
-  if (target === undefined) {
-    return true;
-  }
-
   // Check the version constraint against current
-  return semver.satisfies(currentVersion, target);
+  return target === undefined || semver.satisfies(currentVersion, target);
 };
 
 // Validate the region specified for display
 const checkRegion = (target: string[], selected: string): boolean => {
-  if (target.includes('CA') || target.includes(selected)) {
-    return true;
-  }
-
-  return false;
+  return target.includes('CA') || target.includes(selected);
 };
 
 // Fetch notifications from the endpoint
-const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> => {
+const fetchNotifications = async (): Promise<NotificationMessage[]> => {
   const etag = await AsyncStorage.getItem(ETAG_STORAGE_KEY);
   const headers: any = {};
 
@@ -126,8 +110,12 @@ const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> =>
         payload: etag,
       });
     }
-
-    const response = await fetch(FEED_URL, {
+    log.debug({
+      category: 'debug',
+      message: 'NOTIFICATION_FEED_URL',
+      payload: NOTIFICATION_FEED_URL,
+    });
+    const response = await fetch('https://7b66800feaad.ngrok.io/api', {
       method: 'GET',
       headers,
     });
@@ -142,7 +130,7 @@ const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> =>
         category: 'debug',
         message: 'No feed changes, skipping',
       });
-      return false;
+      return [];
     }
     log.debug({
       category: 'debug',
@@ -159,6 +147,11 @@ const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> =>
     }
 
     const json = await response.json();
+    log.debug({
+      category: 'debug',
+      message: response.toString(),
+      payload: json.messages,
+    });
     return json.messages as [NotificationMessage];
   } catch (error) {
     log.error({
@@ -166,7 +159,7 @@ const fetchNotifications = async (): Promise<[NotificationMessage] | boolean> =>
       message: 'PollNotificationService fetchNotifications() error',
       error,
     });
-    return false;
+    return [];
   }
 };
 
