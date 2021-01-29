@@ -100,13 +100,17 @@ export function useExposureNotificationService() {
 
 export function useStartExposureNotificationService(): () => Promise<boolean | {success: boolean; error?: string}> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped, onboardedDatetime} = useStorage();
 
   return useCallback(async () => {
     const start = await exposureNotificationService.start();
 
     log.debug({message: 'exposureNotificationService.start()', payload: start});
-    FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.EnToggle, state: true});
+    FilteredMetricsService.sharedInstance().addEvent({
+      type: EventTypeMetric.EnToggle,
+      state: true,
+      onboardedDate: onboardedDatetime,
+    });
 
     if (Platform.OS === 'ios') {
       setUserStopped(false);
@@ -124,19 +128,23 @@ export function useStartExposureNotificationService(): () => Promise<boolean | {
     }
 
     return false;
-  }, [exposureNotificationService, setUserStopped]);
+  }, [exposureNotificationService, onboardedDatetime, setUserStopped]);
 }
 
 export function useStopExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped, onboardedDatetime} = useStorage();
   return useCallback(async () => {
     setUserStopped(true);
     const stopped = await exposureNotificationService.stop();
     log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
-    FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.EnToggle, state: false});
+    FilteredMetricsService.sharedInstance().addEvent({
+      type: EventTypeMetric.EnToggle,
+      state: false,
+      onboardedDate: onboardedDatetime,
+    });
     return stopped;
-  }, [exposureNotificationService, setUserStopped]);
+  }, [exposureNotificationService, onboardedDatetime, setUserStopped]);
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {

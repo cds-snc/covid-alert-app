@@ -44,6 +44,7 @@ export type EventWithContext =
   | {
       type: EventTypeMetric.EnToggle;
       state: boolean;
+      onboardedDate: Date | undefined;
     }
   | {
       type: EventTypeMetric.ExposedClear;
@@ -94,7 +95,7 @@ export class FilteredMetricsService {
         case EventTypeMetric.OtkWithDate:
           return this.publishEvent(EventTypeMetric.OtkWithDate, []);
         case EventTypeMetric.EnToggle:
-          return this.publishEvent(EventTypeMetric.EnToggle, [['state', String(eventWithContext.state)]]);
+          return this.publishEnToggleEventIfNecessary(eventWithContext.state, eventWithContext.onboardedDate);
         case EventTypeMetric.ExposedClear:
           if (eventWithContext.exposureStatus.type === ExposureStatusType.Exposed) {
             return this.publishEvent(EventTypeMetric.ExposedClear, [
@@ -145,6 +146,26 @@ export class FilteredMetricsService {
         return publishAndMark();
       }
     });
+  }
+
+  private publishEnToggleEventIfNecessary(state: boolean, onboardedDate: Date | undefined): Promise<void> {
+    function shouldPublishEnToggle(): boolean {
+      if (state) {
+        if (onboardedDate && getHoursBetween(onboardedDate, new Date()) > 24) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    }
+
+    if (shouldPublishEnToggle()) {
+      return this.publishEvent(EventTypeMetric.EnToggle, [['state', String(state)]]);
+    } else {
+      return Promise.resolve();
+    }
   }
 
   private publishEvent(
