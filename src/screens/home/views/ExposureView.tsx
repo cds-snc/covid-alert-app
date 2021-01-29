@@ -26,7 +26,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
   const i18n = useI18n();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
-  const activeBodyText = regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`);
+  const activeBodyText = ;
 
   return (
     <>
@@ -46,7 +46,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
             {i18n.translate('Home.ExposureDetected.Title2')}
           </Text>
           {regionActive ? (
-            <ActiveContent text={activeBodyText} /> /* pulls from region.json */
+            <ActiveContent text={regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`)} /> /* pulls from region.json */
           ) : (
             <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body2')}</Text>
           )}
