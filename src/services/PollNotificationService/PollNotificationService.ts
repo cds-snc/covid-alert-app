@@ -12,6 +12,8 @@ const ETAG_STORAGE_KEY = 'NotificationsEtag';
 const checkForNotifications = async () => {
   // Fetch messages from api
   const messages: NotificationMessage[] = await fetchNotifications();
+  if (!messages || Array.isArray(messages) === false) return;
+
   const readReceipts: string[] = await getReadReceipts();
 
   const selectedRegion: string = (await AsyncStorage.getItem('Region')) || 'CA';
@@ -115,7 +117,7 @@ const fetchNotifications = async (): Promise<NotificationMessage[]> => {
       message: 'NOTIFICATION_FEED_URL',
       payload: NOTIFICATION_FEED_URL,
     });
-    const response = await fetch('https://7b66800feaad.ngrok.io/api', {
+    const response = await fetch(NOTIFICATION_FEED_URL.toString(), {
       method: 'GET',
       headers,
     });
