@@ -55,8 +55,8 @@ const Content = () => {
 
     const {bounds} = scanningResult;
     setBounds(bounds);
-    //console.log(bounds?.origin);
-    //console.log(bounds?.size);
+    // console.log(bounds?.origin);
+    // console.log(bounds?.size);
   };
 
   const handleBarCodeScanned = (scanningResult: BarCodeScannerResult) => {
@@ -102,7 +102,7 @@ const Content = () => {
             left: bounds?.origin?.x,
             top: bounds?.origin?.y,
           }}
-        ></View>
+        />
       </BarCodeScanner>
 
       {scanned && (

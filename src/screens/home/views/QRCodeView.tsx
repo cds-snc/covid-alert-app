@@ -1,38 +1,49 @@
 import React from 'react';
-import {Box, Button, Text, Icon} from 'components';
+import {Box, Button, Text, Icon, InfoBlock} from 'components';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
+import {useI18n} from 'locale';
+import {getCurrentDate} from 'shared/date-fns';
 
 export const QRCodeView = ({route}: any) => {
   const {name} = route.params;
   const {checkInIDJson, setRemoveCheckIn} = useStorage();
+  const i18n = useI18n();
 
   return (
     <BaseDataSharingView showBackButton={false}>
-      <Box paddingHorizontal="m" alignItems="center">
+      <Box paddingHorizontal="m">
         <Box paddingBottom="l">
-          <Icon name="icon-green-check" height={120} width={150} />
-          <Text variant="bodySubTitle" marginTop="m">
-            Successful Check-in
+          <Icon name="icon-green-check" height={50} width={60} />
+          <Text variant="bodySubTitle" marginTop="xl">
+            {i18n.translate('QRCheckInView.Title')}
           </Text>
         </Box>
         <Box paddingBottom="l">
-          <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
-            {urlToString(name)}
-          </Text>
-          <Text variant="bodySubTitle" marginBottom="xs">
-            Date
-          </Text>
+          <InfoBlock
+            titleBolded={urlToString(name)}
+            backgroundColor="greenBackground"
+            color="bodyText"
+            button={{
+              text: '',
+              action: () => {},
+            }}
+            text={returnTodaysDate()}
+            showButton={false}
+          />
         </Box>
-        <Text marginBottom="xl"> Thank you for scanning. You have successfully checked in</Text>
       </Box>
       <Box marginTop="l" padding="m">
-        <Button variant="thinFlat" text="Check  Values" onPress={retrieveData} />
+        <Button variant="thinFlat" text={i18n.translate('QRCheckInView.CTA1')} onPress={retrieveData} />
       </Box>
       <Box margin="m">
-        <Button variant="thinFlat" text="Cancel Check In" onPress={() => setRemoveCheckIn(checkInIDJson)} />
+        <Button
+          variant="thinFlat"
+          text={i18n.translate('QRCheckInView.CTA2')}
+          onPress={() => setRemoveCheckIn(checkInIDJson)}
+        />
       </Box>
     </BaseDataSharingView>
   );
@@ -56,3 +67,15 @@ async function retrieveData() {
     log.error({category: 'debug', error});
   }
 }
+const returnTodaysDate = (): string => {
+  const today = getCurrentDate();
+  const dateString = today.toLocaleString('default', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+  return dateString;
+};

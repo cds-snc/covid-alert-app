@@ -17,12 +17,12 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
 import {Item} from './views/Item';
 import {Section} from './views/Section';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const ScreenRadioSelector = () => {
   const {forceScreen, setForceScreen} = useStorage();
@@ -122,7 +122,7 @@ const Content = () => {
     return fetchedData;
   };
   const showExposedQr = async () => {
-    var idArray: string[] = [];
+    const idArray: string[] = [];
     await getExposedLocations().then(val => {
       val.filter((item: any) => {
         idArray.push(item.id);

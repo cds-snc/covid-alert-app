@@ -369,6 +369,7 @@
       "Body": "You do not need to enter it again.",
       "CTA": "Next"
     },
+
     "ConsentView": {
       "Title": "Now you can upload your codes",
       "Body1": "Your phone will ask your permission to upload your most recent random codes or “random IDs”.",
@@ -487,6 +488,12 @@
     "CTA": "Scan QR Code",
     "ScanAgain": "Tap to scan again",
     "Back": "Back"
+  },
+  "QRCheckInView": {
+    "Title": "Subscribe",
+    "CTA1": "Continue to home",
+    "CTA2": "Cancel this subscription",
+    "MoreInfo": "Learn more about QR codes and COVID alert"
   },
   "Errors": {
     "Action": "OK",

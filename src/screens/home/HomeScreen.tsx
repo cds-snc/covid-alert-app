@@ -42,6 +42,7 @@ import {
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
+import {event} from 'react-native-reanimated';
 
 interface ContentProps {
   isBottomSheetExpanded: boolean;
@@ -181,7 +182,22 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
     />
   );
 };
+interface EventURL {
+  url: string;
+}
 
+interface EventData {
+  id: string;
+  name: string;
+}
+const CheckinRoute = 'QRCodeScreen';
+const handleOpenNewURL = ({url}: EventURL): EventData | boolean => {
+  const [, , routeName, , id, name] = url.split('/');
+  if (routeName === CheckinRoute) {
+    return {id, name};
+  }
+  return false;
+};
 export const HomeScreen = () => {
   const navigation = useNavigation();
   const {userStopped, setCheckInJSON} = useStorage();
@@ -195,6 +211,7 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     function handleOpenURL(url: any) {
+      console.log('I am called');
       const objConstructor = {}.constructor;
       let urlObj = url;
       if (url.constructor === objConstructor) {
@@ -208,16 +225,18 @@ export const HomeScreen = () => {
         navigation.navigate('QRCodeScreen', {id, name});
       }
     }
-    Linking.addEventListener('url', handleOpenURL);
 
     Linking.getInitialURL()
       .then(initialURL => {
         if (initialURL) {
-          return handleOpenURL(initialURL);
+          const result: any = handleOpenNewURL({url: initialURL});
+          setCheckInJSON(result.id.toString());
+          navigation.navigate(CheckinRoute, result);
         }
       })
       .catch(err => log.error({category: 'debug', error: err}));
     Linking.getInitialURL();
+    Linking.addEventListener('url', handleOpenURL);
 
     return function cleanUp() {
       Linking.removeEventListener('url', handleOpenURL);
