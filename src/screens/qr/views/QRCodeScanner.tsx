@@ -1,41 +1,43 @@
 import React, {useState} from 'react';
-import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
-import {BackButton} from './BackButton';
-import {handleOpenURL, CheckinRoute} from '../utils';
 import {View, StyleSheet, Alert} from 'react-native';
+import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
+import {handleOpenURL, CheckinRoute} from '../utils';
 import {Box, ButtonSingleLine, Text} from 'components';
-
+import {BackButton} from './BackButton';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
+import {QRCodeError} from './index';
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
   const {setCheckInJSON} = useStorage();
   const [scanned, setScanned] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
   const i18n = useI18n();
   const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
     const {type, data} = scanningResult;
-    setScanned(true);
-
     const result = await handleOpenURL({url: data});
+    setScanned(true);
 
     if (typeof result === 'boolean') {
       const msg = `Incorrect code with type ${type} and data ${data} has been scanned!`;
-      Alert.alert('Error', msg, [{text: i18n.translate(`Errors.Action`)}]);
+      setErrorMessage(msg);
     } else {
       setCheckInJSON(result.id.toString());
       navigation.navigate(CheckinRoute, result);
     }
   };
 
-  return (
+  return errorMessage ? (
+    <QRCodeError>{errorMessage}</QRCodeError>
+  ) : (
     <BarCodeScanner
       onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
       style={{...StyleSheet.absoluteFillObject}}
     >
       <View style={styles.layerTop} />
-
       <Box style={styles.back} paddingHorizontal="m">
         <BackButton
           textStyles={styles.backText}
@@ -46,13 +48,11 @@ export const QRCodeScanner = () => {
           }}
         />
       </Box>
-
       <View style={styles.layerCenter}>
         <View style={styles.layerLeft} />
         <View style={styles.focused} />
         <View style={styles.layerRight} />
       </View>
-
       <Box style={styles.info} alignSelf="stretch" paddingVertical="m" paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" color="bodyTitleWhite">
           {i18n.translate(`QRCode.Reader.Title`)}
@@ -60,7 +60,6 @@ export const QRCodeScanner = () => {
         <Text variant="bodyText" marginBottom="m" color="bodyTextWhite">
           {i18n.translate(`QRCode.Reader.Body`)}
         </Text>
-
         <ButtonSingleLine
           text={i18n.translate('QRCode.Reader.Learn')}
           variant="thinFlatNeutralGrey"
@@ -71,7 +70,6 @@ export const QRCodeScanner = () => {
           iconName="icon-chevron"
         />
       </Box>
-
       <View style={styles.layerBottom} />
     </BarCodeScanner>
   );

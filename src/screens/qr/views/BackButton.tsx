@@ -1,7 +1,5 @@
 import React from 'react';
-
 import {StyleSheet, Text, TextStyle, TouchableOpacity} from 'react-native';
-
 import {Box, Icon, IconName} from 'components';
 
 export interface ButtonSelectProps {

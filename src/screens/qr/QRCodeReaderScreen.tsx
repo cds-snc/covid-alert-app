@@ -1,10 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Box} from 'components';
 import {BarCodeScanner} from 'expo-barcode-scanner';
-
-import {NoPermission} from './views/NoPermission';
-import {NoCamera} from './views/NoCamera';
-import {QRCodeScanner} from './views/QRCodeScanner';
+import {Box} from 'components';
+import {QRCodeScanner, NoPermission, NoCamera} from './views';
 
 const Content = () => {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
