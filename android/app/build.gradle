@@ -7,6 +7,7 @@ project.ext.envConfigFiles = [
         release: ".env.production"
 ]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 
 import com.android.build.OutputFile
 
@@ -225,6 +226,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesPlayServicesVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    addUnimodulesDependencies()
 
     debugImplementation("com.facebook.flipper:flipper:$facebookFlipperVersion") {
         exclude group: 'com.facebook.fbjni'

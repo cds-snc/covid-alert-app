@@ -19,6 +19,7 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
+import {log} from 'shared/logging/config';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
@@ -183,7 +184,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
-  const {userStopped} = useStorage();
+  const {userStopped, setCheckInJSON} = useStorage();
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {
@@ -192,6 +193,36 @@ export const HomeScreen = () => {
     }
   }, [navigation]);
 
+  useEffect(() => {
+    function handleOpenURL(url: any) {
+      const objConstructor = {}.constructor;
+      let urlObj = url;
+      if (url.constructor === objConstructor) {
+        urlObj = url.url;
+      }
+      const routeName = urlObj.split('/')[2];
+      const id = urlObj.split('/')[4];
+      const name = urlObj.split('/')[5];
+      setCheckInJSON(id.toString());
+      if (routeName === 'QRCodeScreen') {
+        navigation.navigate('QRCodeScreen', {id, name});
+      }
+    }
+    Linking.addEventListener('url', handleOpenURL);
+
+    Linking.getInitialURL()
+      .then(initialURL => {
+        if (initialURL) {
+          return handleOpenURL(initialURL);
+        }
+      })
+      .catch(err => log.error({category: 'debug', error: err}));
+    Linking.getInitialURL();
+
+    return function cleanUp() {
+      Linking.removeEventListener('url', handleOpenURL);
+    };
+  }, [navigation, setCheckInJSON]);
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().
   const subscribeToStatusUpdates = useExposureNotificationSystemStatusAutomaticUpdater();

@@ -12,6 +12,7 @@ export enum Key {
   ForceScreen = 'ForceScreen',
   SkipAllSet = 'SkipAllSet',
   UserStopped = 'UserStopped',
+  CheckInId = 'CheckInID',
 }
 
 export class StorageService {
@@ -22,6 +23,7 @@ export class StorageService {
   forceScreen: Observable<ForceScreen | undefined>;
   skipAllSet: Observable<boolean>;
   userStopped: Observable<boolean>;
+  checkInID: Observable<string>;
 
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
@@ -31,6 +33,7 @@ export class StorageService {
     this.forceScreen = new Observable<ForceScreen | undefined>(undefined);
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
+    this.checkInID = new Observable<string>('0');
   }
 
   setOnboarded = async (value: boolean) => {
@@ -68,6 +71,30 @@ export class StorageService {
     this.userStopped.set(value);
   };
 
+  setCheckIn = async (value: string) => {
+    const existingIds = (await AsyncStorage.getItem(Key.CheckInId)) || '0';
+
+    let newId = JSON.parse(existingIds);
+    if (!newId) {
+      newId = [];
+    }
+    newId.push(value);
+    await AsyncStorage.setItem(Key.CheckInId, JSON.stringify(newId));
+    this.checkInID.set(value);
+  };
+
+  removeCheckInID = async (value: string) => {
+    const IDs = await AsyncStorage.getItem(Key.CheckInId);
+    if (IDs !== null) {
+      const parsedIDs = JSON.parse(IDs);
+      const index = parsedIDs.indexOf(value);
+      if (index > -1) {
+        parsedIDs.splice(index, 1);
+      }
+      await AsyncStorage.setItem(Key.CheckInId, JSON.stringify(parsedIDs));
+    }
+  };
+
   init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
@@ -91,6 +118,9 @@ export class StorageService {
 
     const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
     this.userStopped.set(userStopped);
+
+    const checkInID = (await AsyncStorage.getItem(Key.CheckInId)) || '0';
+    this.checkInID.set(JSON.parse(checkInID));
   };
 }
 

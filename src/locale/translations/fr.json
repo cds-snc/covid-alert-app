@@ -325,10 +325,10 @@
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de clé à usage unique?"
     },
-    "IntermediateStep":{
+    "IntermediateStep": {
       "Title": "Finir le partage d’expositions",
-      "List":{
-        "1a":"1. ",
+      "List": {
+        "1a": "1. ",
         "1b": "Fait.",
         "2a": "2. Vous fournissez quelques précisions ",
         "2b": "qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
@@ -480,6 +480,13 @@
     "Start": "Début de liste",
     "End": "Fin de liste",
     "Bullet": "Puce"
+  },
+  "QRCode": {
+    "Title": "QR Code",
+    "Body": "Aenean accumsan quis dolor vestibulum dignissim. Etiam id egestas lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos",
+    "CTA": "Scan QR Code",
+    "ScanAgain": "Tap to scan again",
+    "Back": "Back"
   },
   "Errors": {
     "Action": "OK",

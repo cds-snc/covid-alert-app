@@ -325,10 +325,10 @@
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
     },
-    "IntermediateStep":{
+    "IntermediateStep": {
       "Title": "Finish sharing exposures",
-      "List":{
-        "1a":"1. ",
+      "List": {
+        "1a": "1. ",
         "1b": "Done.",
         "2a": "2. Give the app details ",
         "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
@@ -480,6 +480,17 @@
     "Start": "List start",
     "End": "List end",
     "Bullet": "Bullet"
+  },
+  "QRCode": {
+    "Title": "QR Code",
+    "Body": "Aenean accumsan quis dolor vestibulum dignissim. Etiam id egestas lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos",
+    "CTA": "Scan QR Code",
+    "Reader": {
+      "Title": "Point the camera at the QR code",
+      "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",
+      "Back": "Back",
+      "Learn": "Learn more about QR codes and COVID Alert"
+    }
   },
   "Errors": {
     "Action": "OK",

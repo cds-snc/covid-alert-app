@@ -22,6 +22,7 @@ import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
 import {Item} from './views/Item';
 import {Section} from './views/Section';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const ScreenRadioSelector = () => {
   const {forceScreen, setForceScreen} = useStorage();
@@ -98,6 +99,7 @@ const SkipAllSetRadioSelector = () => {
 
 const Content = () => {
   const i18n = useI18n();
+  const navigation = useNavigation();
 
   const {reset} = useStorage();
 
@@ -108,6 +110,31 @@ const Content = () => {
       channelName: i18n.translate('Notification.AndroidChannelName'),
     });
   }, [i18n]);
+  const getExposedLocations = async () => {
+    const fetchedData = await fetch('https://0b77d0c49f3a.ngrok.io/exposedLocations', {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson;
+      });
+
+    return fetchedData;
+  };
+  const showExposedQr = async () => {
+    var idArray: string[] = [];
+    await getExposedLocations().then(val => {
+      val.filter((item: any) => {
+        idArray.push(item.id);
+      });
+    });
+    retrieveData().then(val => {
+      const filteredArray = idArray.filter(value => val?.includes(value));
+      if (filteredArray.length > 0) {
+        navigation.navigate('QRExposedScreen');
+      }
+    });
+  };
 
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
@@ -134,6 +161,9 @@ const Content = () => {
       </Section>
       <Section>
         <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
+      </Section>
+      <Section>
+        <Button text="Trigger QR Exposed" onPress={showExposedQr} variant="bigFlat" />
       </Section>
       <Section>
         <Item title="Force screen" />
@@ -221,3 +251,31 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
 });
+async function retrieveData() {
+  try {
+    const value = await AsyncStorage.getItem('CheckInID');
+
+    // if (value) {
+    //   console.log('value', value);
+    // } else {
+    //   console.log('elseStatement');
+    //   // log.error({category: 'debug', error: 'does not exist'});
+    // }
+
+    return value;
+  } catch (error) {
+    // log.error({category: 'debug', error});
+    console.error('error:', error);
+  }
+}
+
+// function retrieveData() {
+//   const value = AsyncStorage.getItem('CheckInID');
+
+//   if (value) {
+//     console.log('value', value);
+//   } else {
+//     console.log('elseStatement');
+//     // log.error({category: 'debug', error: 'does not exist'});
+//   }
+// }
