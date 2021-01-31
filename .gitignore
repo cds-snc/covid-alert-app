@@ -104,8 +104,5 @@ artifacts/*
 
 devices.txt
 
-<<<<<<< HEAD
 vendor
-=======
 android/**/generated/*
->>>>>>> e0afbd996df4bb341aadc6f97a03ca0b07678f50
