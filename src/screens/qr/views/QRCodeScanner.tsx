@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Alert} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {handleOpenURL, CheckinRoute} from '../utils';
 import {Box, ButtonSingleLine, Text} from 'components';
@@ -31,7 +31,7 @@ export const QRCodeScanner = () => {
   };
 
   return errorMessage ? (
-    <QRCodeError>{errorMessage}</QRCodeError>
+    <QRCodeError />
   ) : (
     <BarCodeScanner
       onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
