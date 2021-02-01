@@ -3,9 +3,9 @@ import {useStorage} from 'services/StorageService';
 import {Linking} from 'react-native';
 import {log} from 'shared/logging/config';
 import {useNavigation} from '@react-navigation/native';
-import {QR_CODE_PUBLIC_KEY} from 'env';
+// import {QR_CODE_PUBLIC_KEY} from 'env';
 // @ts-ignore
-import jwt from 'react-native-pure-jwt';
+// import jwt from 'react-native-pure-jwt';
 
 interface EventURL {
   url: string;
@@ -18,22 +18,20 @@ interface EventData {
 export const CheckinRoute = 'QRCodeScreen';
 
 export const handleOpenURL = async ({url}: EventURL): Promise<EventData | boolean> => {
-  const [, , routeName, id] = url.split('/');
+  const [, , id, name] = url.split('/');
 
   try {
     // @ts-ignore
-    const result = await jwt.decode(
-      // the token
-      id,
-      QR_CODE_PUBLIC_KEY,
-      {
-        skipValidation: false,
-      },
-    );
-
-    if (routeName === CheckinRoute) {
-      return result.payload;
-    }
+    // const result = await jwt.decode(
+    //   // the token
+    //   id,
+    //   QR_CODE_PUBLIC_KEY,
+    //   {
+    //     skipValidation: false,
+    //   },
+    // );
+    // return result.payload;
+    return {id, name};
   } catch (err) {
     // noop
     log.debug({message: 'handleOpenURL', payload: err});
