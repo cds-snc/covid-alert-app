@@ -103,6 +103,7 @@ const Content = () => {
   const navigation = useNavigation();
 
   const {reset} = useStorage();
+  const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 
   const onShowSampleNotification = useCallback(() => {
     PushNotification.presentLocalNotification({
@@ -217,6 +218,9 @@ const Content = () => {
       </Section>
       <Section>
         <LanguageToggle />
+      </Section>
+      <Section>
+        <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
       </Section>
       <Section>
         <Button text="Clear data" onPress={reset} variant="danger50Flat" />
