@@ -8,9 +8,8 @@ import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
 import {StyleSheet, Platform} from 'react-native';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
-
-import {ExposureDateView} from '../home/views/ExposureDateView';
-import {NegativeTestButton} from '../home/views/ClearExposureView';
+import {ExposureDateView} from 'screens/home/views/ExposureDateView';
+import {NegativeTestButton} from 'screens/home/views/ClearExposureView';
 
 const ActiveContent = ({text}: {text: string}) => {
   if (text === '') {
@@ -32,8 +31,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
       <Box alignSelf="stretch" style={styles.roundedBox1}>
         <Box paddingHorizontal="m" paddingVertical="m">
           <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-            {/* {i18n.translate('Home.ExposureDetected.Title')} */}
-            QR Code Screen: You've been Exposed
+            {i18n.translate('QRCodeExposed.Title')}
           </Text>
           <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
           <ExposureDateView />

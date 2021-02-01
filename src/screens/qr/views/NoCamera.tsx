@@ -13,7 +13,7 @@ export const NoCamera = ({updatePermissions}: {updatePermissions: () => void}) =
   const requestPermissions = useCallback(async () => {
     await BarCodeScanner.requestPermissionsAsync();
     updatePermissions();
-  }, []);
+  }, [updatePermissions]);
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
