@@ -5,6 +5,7 @@ import {Box, ButtonSingleLine, Text} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
+import {log} from 'shared/logging/config';
 
 import {handleOpenURL, CheckinRoute} from '../utils';
 
@@ -16,7 +17,7 @@ export const QRCodeScanner = () => {
   const navigation = useNavigation();
   const {setCheckInJSON} = useStorage();
   const [scanned, setScanned] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [hasError, setError] = useState<boolean>(false);
 
   const i18n = useI18n();
   const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
@@ -25,15 +26,15 @@ export const QRCodeScanner = () => {
     setScanned(true);
 
     if (typeof result === 'boolean') {
-      const msg = `Incorrect code with type ${type} and data ${data} has been scanned!`;
-      setErrorMessage(msg);
+      log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`});
+      setError(true);
     } else {
       setCheckInJSON(result.id.toString());
       navigation.navigate(CheckinRoute, result);
     }
   };
 
-  return errorMessage ? (
+  return hasError ? (
     <QRCodeError />
   ) : (
     <BarCodeScanner
