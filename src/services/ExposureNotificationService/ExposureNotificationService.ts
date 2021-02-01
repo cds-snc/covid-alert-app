@@ -266,7 +266,7 @@ export class ExposureNotificationService {
         message: 'updatedExposureStatusInBackground',
         payload: {exposureStatus},
       });
-      PollNotifications.checkForNotifications();
+      PollNotifications.checkForNotifications(this.i18n);
     } catch (error) {
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }

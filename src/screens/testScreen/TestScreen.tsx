@@ -115,8 +115,8 @@ const Content = () => {
   }, []);
 
   const onPollNotifications = useCallback(async () => {
-    await PollNotifications.checkForNotifications();
-  }, []);
+    await PollNotifications.checkForNotifications(i18n);
+  }, [i18n]);
 
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();

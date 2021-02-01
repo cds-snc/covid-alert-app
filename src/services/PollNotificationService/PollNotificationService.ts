@@ -5,52 +5,49 @@ import semver from 'semver';
 import {log} from 'shared/logging/config';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import {getCurrentDate, minutesBetween} from 'shared/date-fns';
+import {I18n} from 'locale';
 
 import {NotificationMessage} from './types';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
 const ETAG_STORAGE_KEY = 'NotificationsEtag';
-const LastPollNotificationDateTime = 'DC05139A-64B5-11EB-AE93-0242AC130002';
+const LastPollNotificationDateTime = 'LastPollNotificationDateTimeKey';
 
 // 24 hours
-const MIN_POLL_NOTIFICATION_MINUTES = TEST_MODE ? 60 : 60 * 24;
+const MIN_POLL_NOTIFICATION_MINUTES = TEST_MODE ? 2 : 60 * 24;
 
-const checkForNotifications = async () => {
+const checkForNotifications = async (i18n: I18n) => {
   // Fetch messages from api
-  return getLastPollNotificationDateTime().then(async metricsLastUploadedDateTime => {
-    if (metricsLastUploadedDateTime) {
-      const today = getCurrentDate();
-      const minutesSinceLastUpload = minutesBetween(metricsLastUploadedDateTime, today);
-      // randomize the upload window, to stagger when phones are uploading the metrics
-      const randomMinutes = Math.floor(Math.random() * MIN_POLL_NOTIFICATION_MINUTES);
-      log.debug({
-        category: 'metrics',
-        message: `MinutesSinceLastUpload: ${minutesSinceLastUpload}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}, RandomMinutes: ${randomMinutes}`,
-      });
-      if (minutesSinceLastUpload > MIN_POLL_NOTIFICATION_MINUTES + randomMinutes) {
-        const messages: NotificationMessage[] = await fetchNotifications();
-        if (!messages || Array.isArray(messages) === false) return;
+  const lastPollNotificationDateTime = await getLastPollNotificationDateTime();
 
-        const readReceipts: string[] = await getReadReceipts();
+  if (shouldPollNotifications(lastPollNotificationDateTime) === false) return;
 
-        const selectedRegion: string = (await AsyncStorage.getItem('Region')) || 'CA';
-        const selectedLocale: string = (await AsyncStorage.getItem('Locale')) || 'en';
-        const messageToDisplay = messages.find(message =>
-          shouldDisplayNotification(message, selectedRegion, selectedLocale, readReceipts),
-        );
+  const messages: NotificationMessage[] = await fetchNotifications();
+  if (!messages || Array.isArray(messages) === false) return;
 
-        if (messageToDisplay) {
-          PushNotification.presentLocalNotification({
-            alertTitle: messageToDisplay.title[selectedLocale],
-            alertBody: messageToDisplay.message[selectedLocale],
-          });
-          readReceipts.push(messageToDisplay.id);
-          await saveReadReceipts(readReceipts);
-        }
-        markLastPollDateTime(today);
-      }
-    }
-  });
+  const readReceipts: string[] = await getReadReceipts();
+
+  const selectedRegion: string = (await AsyncStorage.getItem('Region')) || 'CA';
+  const selectedLocale: string = (await AsyncStorage.getItem('Locale')) || 'en';
+  const messageToDisplay = messages.find(message =>
+    shouldDisplayNotification(message, selectedRegion, selectedLocale, readReceipts),
+  );
+
+  if (messageToDisplay) {
+    log.debug({
+      category: 'debug',
+      message: 'Message to display',
+      payload: messageToDisplay,
+    });
+    PushNotification.presentLocalNotification({
+      alertTitle: messageToDisplay.title[selectedLocale],
+      alertBody: messageToDisplay.message[selectedLocale],
+      channelName: i18n.translate('Notification.AndroidChannelName'),
+    });
+    readReceipts.push(messageToDisplay.id);
+    await saveReadReceipts(readReceipts);
+  }
+  await markLastPollDateTime(getCurrentDate());
 };
 
 const getReadReceipts = async (): Promise<string[]> => {
@@ -186,12 +183,26 @@ const fetchNotifications = async (): Promise<NotificationMessage[]> => {
   }
 };
 
-const getLastPollNotificationDateTime = (): Promise<Date | null> => {
-  return RNSecureKeyStore.get(LastPollNotificationDateTime);
+const shouldPollNotifications = (lastPollNotificationDateTime: Date | null): boolean => {
+  if (!lastPollNotificationDateTime) return true;
+
+  const today = getCurrentDate();
+  const minutesSinceLastPollNotification = minutesBetween(new Date(Number(lastPollNotificationDateTime)), today);
+  // randomize the upload window, to stagger when phones are uploading the metrics
+  const randomMinutes = Math.floor(Math.random() * MIN_POLL_NOTIFICATION_MINUTES);
+  log.debug({
+    category: 'debug',
+    message: `Minutes Since Last Poll Notification: ${minutesSinceLastPollNotification}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}, RandomMinutes: ${randomMinutes}`,
+  });
+  return minutesSinceLastPollNotification > MIN_POLL_NOTIFICATION_MINUTES + randomMinutes;
 };
 
-const markLastPollDateTime = (date: Date): Promise<void> => {
-  return RNSecureKeyStore.set(LastPollNotificationDateTime, `${date.getTime()}`);
+const getLastPollNotificationDateTime = async (): Promise<any> => {
+  return RNSecureKeyStore.get(LastPollNotificationDateTime).catch(() => null);
+};
+
+const markLastPollDateTime = async (date: Date): Promise<void> => {
+  return RNSecureKeyStore.set(LastPollNotificationDateTime, `${date.getTime()}`, null).catch(() => null);
 };
 
 export const PollNotifications = {
