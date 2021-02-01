@@ -6,11 +6,6 @@
       "CTA": "Turn back on"
     },
     "NoExposureDetected": {
-      "WhatsNew": {
-        "Title": "New notifications show app is working",
-        "Body1": "If you got a notification that popped up and went away, it’s ok.",
-        "Body2": "The app now shows notifications while checking for exposures."
-      },
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
@@ -189,7 +184,7 @@
       }
     },
     "ChangeRegion": "Change province or territory",
-    "Privacy": "How it protects your privacy",
+    "Privacy": "Privacy",
     "PrivacyUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/privacy-policy.html",
     "SettingsTitle": "Settings",
     "InformationTitle": "About COVID Alert"
@@ -320,7 +315,7 @@
         "3a": "3. Allow your phone to share ",
         "3b": "your random codes. These codes notify people you’ve been near."
       },
-      "Body1": "Nobody will get any information about you ",
+      "Body1": "Exposed people will not get any information about you ",
       "Body2": "or the time you were near them. They will only get a notification that they were exposed recently.",
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
@@ -447,7 +442,7 @@
     "Title": "Where do you live? (optional)",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
-    "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
+    "Body": "Choose your region to check if you can report a diagnosis through this app.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "Optional": "* Optional",
@@ -474,7 +469,7 @@
   "RegionPickerNoPT": {
     "Exposed": {
       "Title": "Find your area’s advice",
-      "Body": "The steps you need to take when you’re exposed depend on the province or territory you live in. The app will not remember your choice."
+      "Body": "The steps you need to take when you’re exposed depend on the province or territory you live in."
     }
   },
   "A11yList": {
@@ -483,9 +478,7 @@
     "Bullet": "Bullet"
   },
   "QRCode": {
-    "Title": "QR Code",
-    "Body": "Aenean accumsan quis dolor vestibulum dignissim. Etiam id egestas lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos",
-    "CTA": "Scan QR Code",
+    "CTA": "Scan a place",
     "Reader": {
       "Title": "Point the camera at the QR code",
       "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",

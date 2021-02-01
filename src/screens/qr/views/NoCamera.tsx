@@ -1,10 +1,11 @@
 import React, {useCallback} from 'react';
 import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
 import {ScrollView, StyleSheet} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {useNavigation} from '@react-navigation/native';
+
+import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
 export const NoCamera = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
@@ -15,36 +16,34 @@ export const NoCamera = ({updatePermissions}: {updatePermissions: () => void}) =
     updatePermissions();
   }, [updatePermissions]);
   return (
-    <Box backgroundColor="overlayBackground" flex={1}>
-      <SafeAreaView style={styles.flex}>
-        <Box marginBottom="m">
-          <Toolbar
-            title=""
-            navText={i18n.translate('RegionPicker.Close')}
-            navLabel={i18n.translate('RegionPicker.Close')}
-            navIcon="icon-back-arrow"
-            onIconClicked={close}
-          />
-        </Box>
-        <ScrollView style={styles.flex}>
-          <Box paddingHorizontal="m">
-            <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-              {i18n.translate('QRCode.CameraPermissions.Title')}
-            </Text>
+    <BaseQRCodeScreen showBackButton showCloseButton={false}>
+      <Box marginBottom="m">
+        <Toolbar
+          title=""
+          navText={i18n.translate('RegionPicker.Close')}
+          navLabel={i18n.translate('RegionPicker.Close')}
+          navIcon="icon-back-arrow"
+          onIconClicked={close}
+        />
+      </Box>
+      <ScrollView style={styles.flex}>
+        <Box paddingHorizontal="m">
+          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+            {i18n.translate('QRCode.CameraPermissions.Title')}
+          </Text>
 
-            <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
+          <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
 
-            <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
-              <ButtonSingleLine
-                text={i18n.translate('QRCode.CameraPermissions.CTA')}
-                variant="thinFlat"
-                onPress={requestPermissions}
-              />
-            </Box>
+          <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
+            <ButtonSingleLine
+              text={i18n.translate('QRCode.CameraPermissions.CTA')}
+              variant="thinFlat"
+              onPress={requestPermissions}
+            />
           </Box>
-        </ScrollView>
-      </SafeAreaView>
-    </Box>
+        </Box>
+      </ScrollView>
+    </BaseQRCodeScreen>
   );
 };
 

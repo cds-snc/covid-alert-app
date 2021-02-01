@@ -7,9 +7,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
+import {ToolbarWhite} from '../components/Toolbar';
 import {handleOpenURL} from '../utils';
-
-import {BackButton} from './BackButton';
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
@@ -38,14 +37,7 @@ export const QRCodeScanner = () => {
     >
       <View style={styles.layerTop} />
       <Box style={styles.back} paddingHorizontal="m">
-        <BackButton
-          textStyles={styles.backText}
-          iconName="icon-chevron-back-white"
-          text={i18n.translate(`QRCode.Reader.Back`)}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-        />
+        <ToolbarWhite isWhite />
       </Box>
       <View style={styles.layerCenter}>
         <View style={styles.layerLeft} />
