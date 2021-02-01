@@ -31,8 +31,8 @@
              * Properties of a KeyClaimRequest.
              * @memberof covidshield
              * @interface IKeyClaimRequest
-             * @property {string} oneTimeCode KeyClaimRequest oneTimeCode
-             * @property {Uint8Array} appPublicKey KeyClaimRequest appPublicKey
+             * @property {string|null} [oneTimeCode] KeyClaimRequest oneTimeCode
+             * @property {Uint8Array|null} [appPublicKey] KeyClaimRequest appPublicKey
              */
     
             /**
@@ -90,8 +90,10 @@
             KeyClaimRequest.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.oneTimeCode);
-                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.appPublicKey);
+                if (message.oneTimeCode != null && Object.hasOwnProperty.call(message, "oneTimeCode"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.oneTimeCode);
+                if (message.appPublicKey != null && Object.hasOwnProperty.call(message, "appPublicKey"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.appPublicKey);
                 return writer;
             };
     
@@ -137,10 +139,6 @@
                         break;
                     }
                 }
-                if (!message.hasOwnProperty("oneTimeCode"))
-                    throw $util.ProtocolError("missing required 'oneTimeCode'", { instance: message });
-                if (!message.hasOwnProperty("appPublicKey"))
-                    throw $util.ProtocolError("missing required 'appPublicKey'", { instance: message });
                 return message;
             };
     
@@ -171,10 +169,12 @@
             KeyClaimRequest.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (!$util.isString(message.oneTimeCode))
-                    return "oneTimeCode: string expected";
-                if (!(message.appPublicKey && typeof message.appPublicKey.length === "number" || $util.isString(message.appPublicKey)))
-                    return "appPublicKey: buffer expected";
+                if (message.oneTimeCode != null && message.hasOwnProperty("oneTimeCode"))
+                    if (!$util.isString(message.oneTimeCode))
+                        return "oneTimeCode: string expected";
+                if (message.appPublicKey != null && message.hasOwnProperty("appPublicKey"))
+                    if (!(message.appPublicKey && typeof message.appPublicKey.length === "number" || $util.isString(message.appPublicKey)))
+                        return "appPublicKey: buffer expected";
                 return null;
             };
     
@@ -573,10 +573,10 @@
              * Properties of an EncryptedUploadRequest.
              * @memberof covidshield
              * @interface IEncryptedUploadRequest
-             * @property {Uint8Array} serverPublicKey EncryptedUploadRequest serverPublicKey
-             * @property {Uint8Array} appPublicKey EncryptedUploadRequest appPublicKey
-             * @property {Uint8Array} nonce EncryptedUploadRequest nonce
-             * @property {Uint8Array} payload EncryptedUploadRequest payload
+             * @property {Uint8Array|null} [serverPublicKey] EncryptedUploadRequest serverPublicKey
+             * @property {Uint8Array|null} [appPublicKey] EncryptedUploadRequest appPublicKey
+             * @property {Uint8Array|null} [nonce] EncryptedUploadRequest nonce
+             * @property {Uint8Array|null} [payload] EncryptedUploadRequest payload
              */
     
             /**
@@ -650,10 +650,14 @@
             EncryptedUploadRequest.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.serverPublicKey);
-                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.appPublicKey);
-                writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.nonce);
-                writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.payload);
+                if (message.serverPublicKey != null && Object.hasOwnProperty.call(message, "serverPublicKey"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.serverPublicKey);
+                if (message.appPublicKey != null && Object.hasOwnProperty.call(message, "appPublicKey"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.appPublicKey);
+                if (message.nonce != null && Object.hasOwnProperty.call(message, "nonce"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.nonce);
+                if (message.payload != null && Object.hasOwnProperty.call(message, "payload"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.payload);
                 return writer;
             };
     
@@ -705,14 +709,6 @@
                         break;
                     }
                 }
-                if (!message.hasOwnProperty("serverPublicKey"))
-                    throw $util.ProtocolError("missing required 'serverPublicKey'", { instance: message });
-                if (!message.hasOwnProperty("appPublicKey"))
-                    throw $util.ProtocolError("missing required 'appPublicKey'", { instance: message });
-                if (!message.hasOwnProperty("nonce"))
-                    throw $util.ProtocolError("missing required 'nonce'", { instance: message });
-                if (!message.hasOwnProperty("payload"))
-                    throw $util.ProtocolError("missing required 'payload'", { instance: message });
                 return message;
             };
     
@@ -743,14 +739,18 @@
             EncryptedUploadRequest.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (!(message.serverPublicKey && typeof message.serverPublicKey.length === "number" || $util.isString(message.serverPublicKey)))
-                    return "serverPublicKey: buffer expected";
-                if (!(message.appPublicKey && typeof message.appPublicKey.length === "number" || $util.isString(message.appPublicKey)))
-                    return "appPublicKey: buffer expected";
-                if (!(message.nonce && typeof message.nonce.length === "number" || $util.isString(message.nonce)))
-                    return "nonce: buffer expected";
-                if (!(message.payload && typeof message.payload.length === "number" || $util.isString(message.payload)))
-                    return "payload: buffer expected";
+                if (message.serverPublicKey != null && message.hasOwnProperty("serverPublicKey"))
+                    if (!(message.serverPublicKey && typeof message.serverPublicKey.length === "number" || $util.isString(message.serverPublicKey)))
+                        return "serverPublicKey: buffer expected";
+                if (message.appPublicKey != null && message.hasOwnProperty("appPublicKey"))
+                    if (!(message.appPublicKey && typeof message.appPublicKey.length === "number" || $util.isString(message.appPublicKey)))
+                        return "appPublicKey: buffer expected";
+                if (message.nonce != null && message.hasOwnProperty("nonce"))
+                    if (!(message.nonce && typeof message.nonce.length === "number" || $util.isString(message.nonce)))
+                        return "nonce: buffer expected";
+                if (message.payload != null && message.hasOwnProperty("payload"))
+                    if (!(message.payload && typeof message.payload.length === "number" || $util.isString(message.payload)))
+                        return "payload: buffer expected";
                 return null;
             };
     
@@ -863,7 +863,7 @@
              * Properties of an EncryptedUploadResponse.
              * @memberof covidshield
              * @interface IEncryptedUploadResponse
-             * @property {covidshield.EncryptedUploadResponse.ErrorCode} error EncryptedUploadResponse error
+             * @property {covidshield.EncryptedUploadResponse.ErrorCode|null} [error] EncryptedUploadResponse error
              */
     
             /**
@@ -913,7 +913,8 @@
             EncryptedUploadResponse.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.error);
+                if (message.error != null && Object.hasOwnProperty.call(message, "error"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.error);
                 return writer;
             };
     
@@ -956,8 +957,6 @@
                         break;
                     }
                 }
-                if (!message.hasOwnProperty("error"))
-                    throw $util.ProtocolError("missing required 'error'", { instance: message });
                 return message;
             };
     
@@ -988,25 +987,26 @@
             EncryptedUploadResponse.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                switch (message.error) {
-                default:
-                    return "error: enum value expected";
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                    break;
-                }
+                if (message.error != null && message.hasOwnProperty("error"))
+                    switch (message.error) {
+                    default:
+                        return "error: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                        break;
+                    }
                 return null;
             };
     
@@ -1161,7 +1161,7 @@
              * Properties of an Upload.
              * @memberof covidshield
              * @interface IUpload
-             * @property {google.protobuf.ITimestamp} timestamp Upload timestamp
+             * @property {google.protobuf.ITimestamp|null} [timestamp] Upload timestamp
              * @property {Array.<covidshield.ITemporaryExposureKey>|null} [keys] Upload keys
              */
     
@@ -1183,7 +1183,7 @@
     
             /**
              * Upload timestamp.
-             * @member {google.protobuf.ITimestamp} timestamp
+             * @member {google.protobuf.ITimestamp|null|undefined} timestamp
              * @memberof covidshield.Upload
              * @instance
              */
@@ -1221,7 +1221,8 @@
             Upload.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
+                    $root.google.protobuf.Timestamp.encode(message.timestamp, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                 if (message.keys != null && message.keys.length)
                     for (var i = 0; i < message.keys.length; ++i)
                         $root.covidshield.TemporaryExposureKey.encode(message.keys[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
@@ -1272,8 +1273,6 @@
                         break;
                     }
                 }
-                if (!message.hasOwnProperty("timestamp"))
-                    throw $util.ProtocolError("missing required 'timestamp'", { instance: message });
                 return message;
             };
     
@@ -1304,7 +1303,7 @@
             Upload.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                {
+                if (message.timestamp != null && message.hasOwnProperty("timestamp")) {
                     var error = $root.google.protobuf.Timestamp.verify(message.timestamp);
                     if (error)
                         return "timestamp." + error;
@@ -1405,6 +1404,7 @@
              * @property {number|null} [batchSize] TemporaryExposureKeyExport batchSize
              * @property {Array.<covidshield.ISignatureInfo>|null} [signatureInfos] TemporaryExposureKeyExport signatureInfos
              * @property {Array.<covidshield.ITemporaryExposureKey>|null} [keys] TemporaryExposureKeyExport keys
+             * @property {Array.<covidshield.ITemporaryExposureKey>|null} [revisedKeys] TemporaryExposureKeyExport revisedKeys
              */
     
             /**
@@ -1418,6 +1418,7 @@
             function TemporaryExposureKeyExport(properties) {
                 this.signatureInfos = [];
                 this.keys = [];
+                this.revisedKeys = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -1481,6 +1482,14 @@
             TemporaryExposureKeyExport.prototype.keys = $util.emptyArray;
     
             /**
+             * TemporaryExposureKeyExport revisedKeys.
+             * @member {Array.<covidshield.ITemporaryExposureKey>} revisedKeys
+             * @memberof covidshield.TemporaryExposureKeyExport
+             * @instance
+             */
+            TemporaryExposureKeyExport.prototype.revisedKeys = $util.emptyArray;
+    
+            /**
              * Creates a new TemporaryExposureKeyExport instance using the specified properties.
              * @function create
              * @memberof covidshield.TemporaryExposureKeyExport
@@ -1520,6 +1529,9 @@
                 if (message.keys != null && message.keys.length)
                     for (var i = 0; i < message.keys.length; ++i)
                         $root.covidshield.TemporaryExposureKey.encode(message.keys[i], writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                if (message.revisedKeys != null && message.revisedKeys.length)
+                    for (var i = 0; i < message.revisedKeys.length; ++i)
+                        $root.covidshield.TemporaryExposureKey.encode(message.revisedKeys[i], writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                 return writer;
             };
     
@@ -1578,6 +1590,11 @@
                         if (!(message.keys && message.keys.length))
                             message.keys = [];
                         message.keys.push($root.covidshield.TemporaryExposureKey.decode(reader, reader.uint32()));
+                        break;
+                    case 8:
+                        if (!(message.revisedKeys && message.revisedKeys.length))
+                            message.revisedKeys = [];
+                        message.revisedKeys.push($root.covidshield.TemporaryExposureKey.decode(reader, reader.uint32()));
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -1647,6 +1664,15 @@
                             return "keys." + error;
                     }
                 }
+                if (message.revisedKeys != null && message.hasOwnProperty("revisedKeys")) {
+                    if (!Array.isArray(message.revisedKeys))
+                        return "revisedKeys: array expected";
+                    for (var i = 0; i < message.revisedKeys.length; ++i) {
+                        var error = $root.covidshield.TemporaryExposureKey.verify(message.revisedKeys[i]);
+                        if (error)
+                            return "revisedKeys." + error;
+                    }
+                }
                 return null;
             };
     
@@ -1706,6 +1732,16 @@
                         message.keys[i] = $root.covidshield.TemporaryExposureKey.fromObject(object.keys[i]);
                     }
                 }
+                if (object.revisedKeys) {
+                    if (!Array.isArray(object.revisedKeys))
+                        throw TypeError(".covidshield.TemporaryExposureKeyExport.revisedKeys: array expected");
+                    message.revisedKeys = [];
+                    for (var i = 0; i < object.revisedKeys.length; ++i) {
+                        if (typeof object.revisedKeys[i] !== "object")
+                            throw TypeError(".covidshield.TemporaryExposureKeyExport.revisedKeys: object expected");
+                        message.revisedKeys[i] = $root.covidshield.TemporaryExposureKey.fromObject(object.revisedKeys[i]);
+                    }
+                }
                 return message;
             };
     
@@ -1725,6 +1761,7 @@
                 if (options.arrays || options.defaults) {
                     object.signatureInfos = [];
                     object.keys = [];
+                    object.revisedKeys = [];
                 }
                 if (options.defaults) {
                     if ($util.Long) {
@@ -1766,6 +1803,11 @@
                     object.keys = [];
                     for (var j = 0; j < message.keys.length; ++j)
                         object.keys[j] = $root.covidshield.TemporaryExposureKey.toObject(message.keys[j], options);
+                }
+                if (message.revisedKeys && message.revisedKeys.length) {
+                    object.revisedKeys = [];
+                    for (var j = 0; j < message.revisedKeys.length; ++j)
+                        object.revisedKeys[j] = $root.covidshield.TemporaryExposureKey.toObject(message.revisedKeys[j], options);
                 }
                 return object;
             };
@@ -2026,6 +2068,8 @@
              * @property {number|null} [transmissionRiskLevel] TemporaryExposureKey transmissionRiskLevel
              * @property {number|null} [rollingStartIntervalNumber] TemporaryExposureKey rollingStartIntervalNumber
              * @property {number|null} [rollingPeriod] TemporaryExposureKey rollingPeriod
+             * @property {covidshield.TemporaryExposureKey.ReportType|null} [reportType] TemporaryExposureKey reportType
+             * @property {number|null} [daysSinceOnsetOfSymptoms] TemporaryExposureKey daysSinceOnsetOfSymptoms
              */
     
             /**
@@ -2076,6 +2120,22 @@
             TemporaryExposureKey.prototype.rollingPeriod = 144;
     
             /**
+             * TemporaryExposureKey reportType.
+             * @member {covidshield.TemporaryExposureKey.ReportType} reportType
+             * @memberof covidshield.TemporaryExposureKey
+             * @instance
+             */
+            TemporaryExposureKey.prototype.reportType = 0;
+    
+            /**
+             * TemporaryExposureKey daysSinceOnsetOfSymptoms.
+             * @member {number} daysSinceOnsetOfSymptoms
+             * @memberof covidshield.TemporaryExposureKey
+             * @instance
+             */
+            TemporaryExposureKey.prototype.daysSinceOnsetOfSymptoms = 0;
+    
+            /**
              * Creates a new TemporaryExposureKey instance using the specified properties.
              * @function create
              * @memberof covidshield.TemporaryExposureKey
@@ -2107,6 +2167,10 @@
                     writer.uint32(/* id 3, wireType 0 =*/24).int32(message.rollingStartIntervalNumber);
                 if (message.rollingPeriod != null && Object.hasOwnProperty.call(message, "rollingPeriod"))
                     writer.uint32(/* id 4, wireType 0 =*/32).int32(message.rollingPeriod);
+                if (message.reportType != null && Object.hasOwnProperty.call(message, "reportType"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).int32(message.reportType);
+                if (message.daysSinceOnsetOfSymptoms != null && Object.hasOwnProperty.call(message, "daysSinceOnsetOfSymptoms"))
+                    writer.uint32(/* id 6, wireType 0 =*/48).sint32(message.daysSinceOnsetOfSymptoms);
                 return writer;
             };
     
@@ -2152,6 +2216,12 @@
                         break;
                     case 4:
                         message.rollingPeriod = reader.int32();
+                        break;
+                    case 5:
+                        message.reportType = reader.int32();
+                        break;
+                    case 6:
+                        message.daysSinceOnsetOfSymptoms = reader.sint32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -2200,6 +2270,21 @@
                 if (message.rollingPeriod != null && message.hasOwnProperty("rollingPeriod"))
                     if (!$util.isInteger(message.rollingPeriod))
                         return "rollingPeriod: integer expected";
+                if (message.reportType != null && message.hasOwnProperty("reportType"))
+                    switch (message.reportType) {
+                    default:
+                        return "reportType: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        break;
+                    }
+                if (message.daysSinceOnsetOfSymptoms != null && message.hasOwnProperty("daysSinceOnsetOfSymptoms"))
+                    if (!$util.isInteger(message.daysSinceOnsetOfSymptoms))
+                        return "daysSinceOnsetOfSymptoms: integer expected";
                 return null;
             };
     
@@ -2226,6 +2311,34 @@
                     message.rollingStartIntervalNumber = object.rollingStartIntervalNumber | 0;
                 if (object.rollingPeriod != null)
                     message.rollingPeriod = object.rollingPeriod | 0;
+                switch (object.reportType) {
+                case "UNKNOWN":
+                case 0:
+                    message.reportType = 0;
+                    break;
+                case "CONFIRMED_TEST":
+                case 1:
+                    message.reportType = 1;
+                    break;
+                case "CONFIRMED_CLINICAL_DIAGNOSIS":
+                case 2:
+                    message.reportType = 2;
+                    break;
+                case "SELF_REPORT":
+                case 3:
+                    message.reportType = 3;
+                    break;
+                case "RECURSIVE":
+                case 4:
+                    message.reportType = 4;
+                    break;
+                case "REVOKED":
+                case 5:
+                    message.reportType = 5;
+                    break;
+                }
+                if (object.daysSinceOnsetOfSymptoms != null)
+                    message.daysSinceOnsetOfSymptoms = object.daysSinceOnsetOfSymptoms | 0;
                 return message;
             };
     
@@ -2253,6 +2366,8 @@
                     object.transmissionRiskLevel = 0;
                     object.rollingStartIntervalNumber = 0;
                     object.rollingPeriod = 144;
+                    object.reportType = options.enums === String ? "UNKNOWN" : 0;
+                    object.daysSinceOnsetOfSymptoms = 0;
                 }
                 if (message.keyData != null && message.hasOwnProperty("keyData"))
                     object.keyData = options.bytes === String ? $util.base64.encode(message.keyData, 0, message.keyData.length) : options.bytes === Array ? Array.prototype.slice.call(message.keyData) : message.keyData;
@@ -2262,6 +2377,10 @@
                     object.rollingStartIntervalNumber = message.rollingStartIntervalNumber;
                 if (message.rollingPeriod != null && message.hasOwnProperty("rollingPeriod"))
                     object.rollingPeriod = message.rollingPeriod;
+                if (message.reportType != null && message.hasOwnProperty("reportType"))
+                    object.reportType = options.enums === String ? $root.covidshield.TemporaryExposureKey.ReportType[message.reportType] : message.reportType;
+                if (message.daysSinceOnsetOfSymptoms != null && message.hasOwnProperty("daysSinceOnsetOfSymptoms"))
+                    object.daysSinceOnsetOfSymptoms = message.daysSinceOnsetOfSymptoms;
                 return object;
             };
     
@@ -2275,6 +2394,28 @@
             TemporaryExposureKey.prototype.toJSON = function toJSON() {
                 return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
             };
+    
+            /**
+             * ReportType enum.
+             * @name covidshield.TemporaryExposureKey.ReportType
+             * @enum {number}
+             * @property {number} UNKNOWN=0 UNKNOWN value
+             * @property {number} CONFIRMED_TEST=1 CONFIRMED_TEST value
+             * @property {number} CONFIRMED_CLINICAL_DIAGNOSIS=2 CONFIRMED_CLINICAL_DIAGNOSIS value
+             * @property {number} SELF_REPORT=3 SELF_REPORT value
+             * @property {number} RECURSIVE=4 RECURSIVE value
+             * @property {number} REVOKED=5 REVOKED value
+             */
+            TemporaryExposureKey.ReportType = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "UNKNOWN"] = 0;
+                values[valuesById[1] = "CONFIRMED_TEST"] = 1;
+                values[valuesById[2] = "CONFIRMED_CLINICAL_DIAGNOSIS"] = 2;
+                values[valuesById[3] = "SELF_REPORT"] = 3;
+                values[valuesById[4] = "RECURSIVE"] = 4;
+                values[valuesById[5] = "REVOKED"] = 5;
+                return values;
+            })();
     
             return TemporaryExposureKey;
         })();

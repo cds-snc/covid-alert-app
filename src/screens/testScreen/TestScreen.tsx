@@ -191,7 +191,6 @@ const Content = () => {
           text="Force exposure check"
           variant="bigFlat"
           onPress={async () => {
-            captureMessage('Forcing Exposure Check');
             updateExposureStatus(true);
           }}
         />

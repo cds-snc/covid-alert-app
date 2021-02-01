@@ -154,25 +154,6 @@ RCT_REMAP_METHOD(getTemporaryExposureKeyHistory, getTemporaryExposureKeyHistoryW
   }];
 }
 
-RCT_REMAP_METHOD(getExposureWindowsFromSummary, getExposureWindowsFromSummary: (ENExposureDetectionSummary *)summary resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
-    reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
-    return;
-  }
-  if (@available(iOS 13.7, *)) {
-    [self.enManager getExposureWindowsFromSummary:(ENExposureDetectionSummary *)summary completionHandler:^(NSArray<ENExposureWindow *> * _Nullable exposureWindows, NSError * _Nullable error) {
-      if (error) {
-        reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
-      } else {
-        resolve(exposureWindows);
-      }
-    }];
-  } else {
-    // Fallback on earlier versions
-    reject(@"API_NOT_AVAILABLE", @"API Not Available. Requires iOS 13.7+", nil);
-  }
-}
-
 NSArray *map(NSArray* array, id (^transform)(id value)) {
   NSMutableArray *acc = [NSMutableArray new];
   for (id value in array) {
@@ -185,6 +166,42 @@ NSArray *mapIntValues(NSArray *arr) {
   return map(arr, ^NSNumber *(NSNumber *value) {
     return @([value intValue]);
   });
+}
+
+NSDictionary *getInfectiousness() {
+
+  NSDictionary<NSNumber *, NSNumber *> *newDict = @{
+    @-14: @1,
+    @-13: @1,
+    @-12: @1,
+    @-11: @1,
+    @-10: @1,
+    @-9: @1,
+    @-8: @1,
+    @-7: @1,
+    @-6: @1,
+    @-5: @1,
+    @-4: @1,
+    @-3: @1,
+    @-2: @1,
+    @-1: @1,
+    @0: @1,
+    @1: @1,
+    @2: @1,
+    @3: @1,
+    @4: @1,
+    @5: @1,
+    @6: @1,
+    @7: @1,
+    @8: @1,
+    @9: @1,
+    @10: @1,
+    @11: @1,
+    @12: @1,
+    @13: @1,
+    @14: @1,
+  };
+  return newDict.copy;
 }
 
 RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *)configDict diagnosisKeysURLs:(NSArray*)urls withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
@@ -265,5 +282,105 @@ RCT_REMAP_METHOD(detectExposure, detectExposureWithConfiguration:(NSDictionary *
   }];
 }
 
-@end
+RCT_REMAP_METHOD(detectExposureV2, detectExposureWithConfigurationV2:(NSDictionary *)configDict diagnosisKeysURLs:(NSArray*)urls withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  if (ENManager.authorizationStatus != ENAuthorizationStatusAuthorized) {
+    reject(@"API_NOT_ENABLED", [NSString stringWithFormat:@"Exposure Notification not authorized: %ld", ENManager.authorizationStatus], nil);
+    return;
+  }
 
+  ENExposureConfiguration *configuration = [ENExposureConfiguration new];
+
+  if (configDict[@"metadata"]) {
+    configuration.metadata = configDict[@"metadata"];
+  }
+
+  if (configDict[@"minimumRiskScore"]) {
+    configuration.minimumRiskScore = [configDict[@"minimumRiskScore"] intValue];
+  }
+
+  if (configDict[@"attenuationDurationThresholds"]) {
+    configuration.attenuationDurationThresholds = mapIntValues(configDict[@"attenuationDurationThresholds"]);
+  }
+
+  if (configDict[@"attenuationLevelValues"]) {
+    configuration.attenuationLevelValues = mapIntValues(configDict[@"attenuationLevelValues"]);
+  }
+
+  if (configDict[@"attenuationWeight"]) {
+    configuration.attenuationWeight = [configDict[@"attenuationWeight"] doubleValue];
+  }
+  if (configDict[@"daysSinceLastExposureLevelValues"]) {
+    configuration.daysSinceLastExposureLevelValues = mapIntValues(configDict[@"daysSinceLastExposureLevelValues"]);
+  }
+  if (configDict[@"daysSinceLastExposureWeight"]) {
+    configuration.daysSinceLastExposureWeight = [configDict[@"daysSinceLastExposureWeight"] doubleValue];
+  }
+  if (configDict[@"durationLevelValues"]) {
+    configuration.durationLevelValues = mapIntValues(configDict[@"durationLevelValues"]);
+  }
+  if (configDict[@"durationWeight"]) {
+    configuration.durationWeight = [configDict[@"durationWeight"] doubleValue];
+  }
+  if (configDict[@"transmissionRiskLevelValues"]) {
+    configuration.transmissionRiskLevelValues = mapIntValues(configDict[@"transmissionRiskLevelValues"]);
+  }
+  if (configDict[@"transmissionRiskWeight"]) {
+    configuration.transmissionRiskWeight = [configDict[@"transmissionRiskWeight"] doubleValue];
+  }
+  int arbitraryWeight = 100;
+  configuration.immediateDurationWeight = arbitraryWeight;
+  configuration.nearDurationWeight = arbitraryWeight;
+  configuration.mediumDurationWeight = arbitraryWeight;
+  configuration.otherDurationWeight = arbitraryWeight;
+  configuration.infectiousnessStandardWeight = arbitraryWeight;
+  configuration.infectiousnessHighWeight = arbitraryWeight;
+  configuration.reportTypeConfirmedTestWeight = arbitraryWeight;
+  configuration.reportTypeConfirmedClinicalDiagnosisWeight = arbitraryWeight;
+  configuration.reportTypeSelfReportedWeight = arbitraryWeight;
+  configuration.reportTypeRecursiveWeight = arbitraryWeight;
+  configuration.infectiousnessForDaysSinceOnsetOfSymptoms = getInfectiousness();
+
+  NSMutableArray *arr = [NSMutableArray new];
+  for (NSString *urlStr in urls) {
+    [arr addObject: [NSURL fileURLWithPath:urlStr]];
+  }
+
+  [self.enManager detectExposuresWithConfiguration:configuration
+                                  diagnosisKeyURLs:arr
+                                 completionHandler:^(ENExposureDetectionSummary * _Nullable summary, NSError * _Nullable error) {
+    if (error) {
+      reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+      return;
+    }
+    [self.reportedSummaries addObject:summary];
+    
+    [self.enManager getExposureWindowsFromSummary:(ENExposureDetectionSummary *)summary completionHandler:^(NSArray<ENExposureWindow *> * _Nullable exposureWindows, NSError * _Nullable error) {
+      if (error) {
+        reject([NSString stringWithFormat:@"%ld", (long)error.code], error.localizedDescription ,error);
+      } else {
+        NSMutableArray<NSDictionary *> *exWindows = [NSMutableArray new];
+        for (ENExposureWindow *obj in exposureWindows) {
+          NSMutableArray<NSDictionary *> *scanInstances = [NSMutableArray new];
+          for (ENScanInstance *obj2 in obj.scanInstances) {
+            [scanInstances addObject:@{
+              @"minAttenuation": @(obj2.minimumAttenuation),
+              @"typicalAttenuation": @(obj2.typicalAttenuation),
+              @"secondsSinceLastScan": @(obj2.secondsSinceLastScan),
+            }];
+          }
+          [exWindows addObject:@{
+            @"infectiousness": @(obj.infectiousness),
+            @"day": @(1000 * obj.date.timeIntervalSince1970),
+            @"reportType": @(obj.diagnosisReportType),
+            @"calibrationConfidence": @(obj.calibrationConfidence),
+            @"scanInstances": scanInstances
+          }];
+        }
+        resolve(exWindows);
+      }
+    }];
+    
+  }];
+  
+}
+@end
