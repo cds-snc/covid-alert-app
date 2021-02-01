@@ -38,7 +38,7 @@ export const CheckInHistoryScreen = () => {
           Check-in History
         </Text>
         <Box>
-          <CheckInList checkIns={JSON.parse(checkInIDJson)} />
+          <CheckInList checkIns={checkInIDJson} />
         </Box>
       </Box>
     </BaseDataSharingView>
