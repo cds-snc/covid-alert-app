@@ -8,7 +8,6 @@ import {StyleSheet, Platform} from 'react-native';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
-import {WhatsNew} from '../components/WhatsNewView';
 
 const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
@@ -64,7 +63,6 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
           </Box>
         </Box>
       )}
-      <WhatsNew />
     </BaseHomeView>
   );
 };
