@@ -497,9 +497,9 @@
       "CTA": "Allow camera permissions"
     },
     "Error": {
-      "Title": "Error: Try using your phone’s camera",
-      "Body": "The app had trouble connecting with your camera. Try opening your phone’s camera directly and pointing it at the square.",
-      "CTA": "Learn more about QR codes and COVID Alert"
+      "Title": "QR code not recognized",
+      "Body": "You may not have scanned an official COVID Alert QR code.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "CTA": "Try Again"
     }
   },
   "Errors": {
