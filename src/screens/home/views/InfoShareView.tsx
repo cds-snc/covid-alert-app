@@ -42,7 +42,14 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
 
   return (
     <>
-      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginTop="m" marginBottom="m">
+      <Box
+        paddingHorizontal="m"
+        borderRadius={10}
+        overflow="hidden"
+        marginTop="m"
+        marginBottom="m"
+        testID="InfoShareViewID"
+      >
         <InfoShareItem
           testID="getCodeButton"
           onPress={onGetCode}

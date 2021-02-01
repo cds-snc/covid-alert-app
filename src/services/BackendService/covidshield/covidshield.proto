@@ -15,10 +15,10 @@ option go_package="pkg/proto/covidshield";
 // will fail.
 message KeyClaimRequest {
   // one_time_code is the code received from the testing portal.
-  required string one_time_code = 1; // 8 numerical digits
+  optional string one_time_code = 1; // 10 alphanumeric characters
   // app_public_key is generated locally and saved upon successful request
   // completion.
-  required bytes app_public_key = 2; // 32 bytes
+  optional bytes app_public_key = 2; // 32 bytes
 }
 
 // KeyClaimResponse is received from the server in response to a
@@ -54,21 +54,21 @@ message EncryptedUploadRequest {
   // server_public_key is provided by the Diagnosis Server to the App, and is
   // used to encrypt the payload. This key should be stored locally for 14
   // days, and used to submit the follow-up Diagnosis Key.
-  required bytes server_public_key = 1; // 32 bytes
+  optional bytes server_public_key = 1; // 32 bytes
   // app_public_key is the public side of a keypair generated once by the
   // application and linked to the server_public_key. These are linked in the
   // Diagnosis Server, so that only one app_public_key is authorized to upload
   // for a given server_public_key. If a new server_public_key is issued to an App
   // (e.g. months later), a new app_public_key should be generated.
-  required bytes app_public_key = 2; // 32 bytes
+  optional bytes app_public_key = 2; // 32 bytes
   // nonce must be 24 random bytes, and absolutely must NOT be re-used between
   // subsequent submissions of Diagnosis Keys. This nonce is passed to the
   // encryption library to generate the ciphertext.
-  required bytes nonce = 3; // 24 bytes
+  optional bytes nonce = 3; // 24 bytes
   // payload is the result of encoding/marshalling, and then encrypting, an
   // `Upload` message. It is done this way rather than as an embedded message
   // field, because we need to encrypt a byte stream, not an object.
-  required bytes payload = 4; // variable length
+  optional bytes payload = 4; // variable length
 }
 
 // EncryptedUploadResponse is received from the server in response to a
@@ -92,13 +92,13 @@ message EncryptedUploadResponse {
     INVALID_TRANSMISSION_RISK_LEVEL = 13;
     NO_KEYS_IN_PAYLOAD = 14;
   }
-  required ErrorCode error = 1;
+  optional ErrorCode error = 1;
 }
 
 // Upload is the decrypted type of the `payload` field in EncryptedUploadRequest.
 message Upload {
   // timestamp is just the current device time at message generation.
-  required google.protobuf.Timestamp timestamp = 1;
+  optional google.protobuf.Timestamp timestamp = 1;
   // keys returns from the ExposureNotification API.
   repeated TemporaryExposureKey keys = 2;
 }
@@ -142,6 +142,11 @@ message TemporaryExposureKeyExport {
 
   // The temporary exposure keys themselves.
   repeated TemporaryExposureKey keys = 7;
+
+  // Keys that have changed status from previous key archives,
+  // including keys that are being revoked.
+  repeated TemporaryExposureKey revised_keys = 8;
+
 }
 
 message SignatureInfo {
@@ -180,6 +185,24 @@ message TemporaryExposureKey {
 
   // Number of intervals in a period.
   optional int32 rolling_period = 4 [default = 144];
+
+  // Data type that represents why this key was published.
+  enum ReportType {
+    UNKNOWN = 0;  // Never returned by the client API.
+    CONFIRMED_TEST = 1;
+    CONFIRMED_CLINICAL_DIAGNOSIS = 2;
+    SELF_REPORT = 3;
+    RECURSIVE = 4;  // Reserved for future use.
+    REVOKED = 5;  // Used to revoke a key, never returned by client API.
+  }
+
+  // Type of diagnosis associated with a key.
+  optional ReportType report_type = 5;
+
+  // Number of days elapsed between symptom onset and the TEK being used.
+  // E.g. 2 means TEK is from 2 days after onset of symptoms.
+  // Valid values range is from -14 to 14.
+  optional sint32 days_since_onset_of_symptoms = 6;
 }
 
 message TEKSignatureList {
