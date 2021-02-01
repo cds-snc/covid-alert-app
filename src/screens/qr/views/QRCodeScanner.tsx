@@ -8,12 +8,11 @@ import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
 import {handleOpenURL, CheckinRoute} from '../utils';
+import {ToolbarWhite} from '../components/Toolbar';
 
 import {BackButton} from './BackButton';
 
 import {QRCodeError} from './index';
-
-import {ToolbarWhite} from '../components/Toolbar';
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
@@ -45,7 +44,7 @@ export const QRCodeScanner = () => {
     >
       <View style={styles.layerTop} />
       <Box style={styles.back} paddingHorizontal="m">
-        <ToolbarWhite isWhite={true} />
+        <ToolbarWhite isWhite />
       </Box>
       <View style={styles.layerCenter}>
         <View style={styles.layerLeft} />

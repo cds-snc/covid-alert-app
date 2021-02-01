@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import {Box, Button} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
+
 import {BackButton} from '../views/BackButton';
 
 export interface ToolbarProps {

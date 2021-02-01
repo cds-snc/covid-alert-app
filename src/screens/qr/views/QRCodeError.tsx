@@ -4,12 +4,13 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
 export const QRCodeError = () => {
   const i18n = useI18n();
   return (
-    <BaseQRCodeScreen showBackButton={false} showCloseButton={true}>
+    <BaseQRCodeScreen showBackButton={false} showCloseButton>
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>

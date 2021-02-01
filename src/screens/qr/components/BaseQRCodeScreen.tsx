@@ -3,8 +3,9 @@ import {useNavigation} from '@react-navigation/native';
 import {KeyboardAvoidingView, Platform, StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box} from 'components';
-import {Toolbar} from './Toolbar';
 import {useI18n} from 'locale';
+
+import {Toolbar} from './Toolbar';
 
 interface BaseQRCodeScreenProps {
   children?: React.ReactNode;
