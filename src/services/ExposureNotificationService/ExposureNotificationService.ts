@@ -24,6 +24,7 @@ import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
+import {PollNotifications} from 'services/PollNotificationService';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -33,7 +34,6 @@ import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
-import {PollNotifications} from 'services/PollNotificationService';
 import {doesPlatformSupportV2} from './ExposureNotificationServiceUtils';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
