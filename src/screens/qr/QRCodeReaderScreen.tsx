@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {BarCodeScanner, PermissionResponse} from 'expo-barcode-scanner';
 import {Box} from 'components';
+
 import {QRCodeScanner, NoPermission, NoCamera} from './views';
 
 const Content = () => {

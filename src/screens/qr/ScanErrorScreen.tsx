@@ -5,10 +5,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
-export const QRCodeError = () => {
+export const ScanErrorScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
+  const tryAgain = useCallback(() => navigation.navigate('QRCodeReaderScreen'), [navigation]);
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
@@ -34,7 +35,7 @@ export const QRCodeError = () => {
                 text={i18n.translate('QRCode.Error.CTA')}
                 variant="bigFlatNeutralGrey"
                 internalLink
-                onPress={() => {}}
+                onPress={tryAgain}
               />
             </Box>
           </Box>

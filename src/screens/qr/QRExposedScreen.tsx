@@ -7,7 +7,8 @@ import {useStorage} from 'services/StorageService';
 import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
 import {StyleSheet, Platform} from 'react-native';
-import {BaseDataSharingView} from '../datasharing/components/BaseDataSharingView';
+import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
+
 import {ExposureDateView} from '../home/views/ExposureDateView';
 import {NegativeTestButton} from '../home/views/ClearExposureView';
 

@@ -25,7 +25,8 @@ import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
 import {QRCodeReaderScreen} from 'screens/qr/QRCodeReaderScreen';
 import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
-import {QRCodeView} from 'screens/home/views/QRCodeView';
+import {CheckInSuccessfulScreen} from 'screens/qr/CheckInSuccessfulScreen';
+import {ScanErrorScreen} from 'screens/qr/ScanErrorScreen';
 import {QRExposedScreen} from 'screens/qr/QRExposedScreen';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
@@ -92,7 +93,8 @@ const TestScreenWithNavBar = withDarkNav(TestScreen);
 const ErrorScreenWithNavBar = withDarkNav(ErrorScreen);
 const DismissAlertScreenWithNavBar = withDarkNav(DismissAlertScreen);
 const QRCodeReaderScreenWithNavBar = withDarkNav(QRCodeReaderScreen);
-const QRCodeViewWithNavBar = withDarkNav(QRCodeView);
+const CheckInSuccessfulScreenWithNavBar = withDarkNav(CheckInSuccessfulScreen);
+const ScanErrorScreenWithNavBar = withDarkNav(ScanErrorScreen);
 const QRExposedScreenWithNavBar = withDarkNav(QRExposedScreen);
 
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
@@ -134,6 +136,17 @@ const DataSharingNavigator = () => {
   );
 };
 
+const QRCodeStack = createStackNavigator();
+const QRCodeNavigator = () => {
+  return (
+    <QRCodeStack.Navigator screenOptions={{headerShown: false}} initialRouteName="QRCodeReaderScreen">
+      <QRCodeStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
+      <QRCodeStack.Screen name="ScanErrorScreen" component={ScanErrorScreenWithNavBar} />
+      <QRCodeStack.Screen name="QRCodeScreen" component={CheckInSuccessfulScreenWithNavBar} />
+    </QRCodeStack.Navigator>
+  );
+};
+
 const forFade = ({current}: {current: any}) => ({
   cardStyle: {
     opacity: current.progress,
@@ -168,10 +181,9 @@ const MainNavigator = () => {
       <MainStack.Screen name="NoCode" component={NoCodeWithNavBar} />
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
       <MainStack.Screen name="ErrorScreen" component={ErrorScreenWithNavBar} />
-      <MainStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
-      <MainStack.Screen name="QRCodeScreen" component={QRCodeViewWithNavBar} />
       <MainStack.Screen name="QRExposedScreen" component={QRExposedScreenWithNavBar} />
+      <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
     </MainStack.Navigator>
   );
 };

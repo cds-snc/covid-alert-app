@@ -35,7 +35,7 @@ export const handleOpenURL = async ({url}: EventURL): Promise<EventData | boolea
       return result.payload;
     }
   } catch (err) {
-    //noop
+    // noop
     log.debug({message: 'handleOpenURL', payload: err});
   }
 

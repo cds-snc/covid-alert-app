@@ -11,13 +11,10 @@ import {handleOpenURL, CheckinRoute} from '../utils';
 
 import {BackButton} from './BackButton';
 
-import {QRCodeError} from './index';
-
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
   const {setCheckInJSON} = useStorage();
   const [scanned, setScanned] = useState<boolean>(false);
-  const [hasError, setError] = useState<boolean>(false);
 
   const i18n = useI18n();
   const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
@@ -27,16 +24,14 @@ export const QRCodeScanner = () => {
 
     if (typeof result === 'boolean') {
       log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`});
-      setError(true);
+      navigation.navigate('ScanErrorScreen');
     } else {
       setCheckInJSON(result.id.toString());
       navigation.navigate(CheckinRoute, result);
     }
   };
 
-  return hasError ? (
-    <QRCodeError />
-  ) : (
+  return (
     <BarCodeScanner
       onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
       style={{...StyleSheet.absoluteFillObject}}

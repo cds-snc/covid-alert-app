@@ -5,7 +5,7 @@ import {log} from 'shared/logging/config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 
-export const QRCodeView = ({route}: any) => {
+export const CheckInSuccessfulScreen = ({route}: any) => {
   const {name} = route.params;
   const {checkInIDJson, setRemoveCheckIn} = useStorage();
 
