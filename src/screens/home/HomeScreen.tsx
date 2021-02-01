@@ -20,6 +20,7 @@ import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
 import {log} from 'shared/logging/config';
+import {event} from 'react-native-reanimated';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
@@ -42,7 +43,6 @@ import {
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
-import {event} from 'react-native-reanimated';
 
 interface ContentProps {
   isBottomSheetExpanded: boolean;
@@ -193,7 +193,6 @@ interface EventData {
 const CheckinRoute = 'QRCodeScreen';
 const handleOpenNewURL = ({url}: EventURL): EventData | boolean => {
   const [, , routeName, , id, name] = url.split('/');
-  console.log('name', name);
   if (routeName === CheckinRoute) {
     return {id, name};
   }
@@ -212,7 +211,6 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     function handleOpenURL(url: any) {
-      console.log('I am called');
       const objConstructor = {}.constructor;
       let urlObj = url;
       if (url.constructor === objConstructor) {
@@ -231,7 +229,7 @@ export const HomeScreen = () => {
       .then(initialURL => {
         if (initialURL) {
           const result: any = handleOpenNewURL({url: initialURL});
-          console.log('result', result);
+
           setCheckInJSON(result.id.toString());
           navigation.navigate(CheckinRoute, result);
         }

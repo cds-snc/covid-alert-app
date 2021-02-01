@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {Box, ButtonSingleLine} from 'components';
-import {Text, View, StyleSheet, Alert} from 'react-native';
+import {Box, ButtonSingleLine, Text} from 'components';
+import {View, StyleSheet, Alert} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
+import {QR_CODE_PUBLIC_KEY} from 'env';
+// @ts-ignore
+import jwt from 'react-native-pure-jwt';
+
+import {BackButton} from './BackButton';
 
 interface EventURL {
   url: string;
@@ -12,18 +17,31 @@ interface EventURL {
 
 interface EventData {
   id: string;
-  name: string;
 }
 
 const CheckinRoute = 'QRCodeScreen';
 
 // covidalert://QRCodeScreen/id/1/location_name
-const handleOpenURL = ({url}: EventURL): EventData | boolean => {
-  const [, , routeName, , id, name] = url.split('/');
+const handleOpenURL = async ({url}: EventURL): Promise<EventData | boolean> => {
+  const [, , routeName, id] = url.split('/');
 
-  if (routeName === CheckinRoute) {
-    return {id, name};
+  try {
+    // @ts-ignore
+    const result = await jwt.decode(
+      id, // the token
+      QR_CODE_PUBLIC_KEY, // the secret
+      {
+        skipValidation: false, // to skip signature and exp verification
+      },
+    );
+
+    if (routeName === CheckinRoute) {
+      return result.payload;
+    }
+  } catch (err) {
+    console.log(err);
   }
+
   return false;
 };
 
@@ -31,10 +49,6 @@ const Content = () => {
   const navigation = useNavigation();
   const {setCheckInJSON} = useStorage();
   const [hasPermission, setHasPermission] = useState<boolean>(false);
-  const [bounds, setBounds] = useState<any>({
-    origin: {x: 66, y: 266.28570556640625},
-    size: {height: 190.28573608398438, width: 191.71429443359375},
-  });
   const [scanned, setScanned] = useState<boolean>(false);
   const i18n = useI18n();
 
@@ -45,25 +59,11 @@ const Content = () => {
     })();
   }, []);
 
-  const handleBarCodeScanning = (scanningResult: BarCodeScannerResult) => {
-    /*
-    {"x": 140.57142639160156, "y": 336.8571472167969}
-    {"height": 146, "width": 148.57142639160156}
-    {"x": 87.14286041259766, "y": 280.5714416503906}
-    {"height": 160.5714111328125, "width": 166.28570556640625}
-    */
-
-    const {bounds} = scanningResult;
-    setBounds(bounds);
-    // console.log(bounds?.origin);
-    // console.log(bounds?.size);
-  };
-
-  const handleBarCodeScanned = (scanningResult: BarCodeScannerResult) => {
+  const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
     const {type, data} = scanningResult;
     setScanned(true);
 
-    const result = handleOpenURL({url: data});
+    const result = await handleOpenURL({url: data});
 
     if (typeof result === 'boolean') {
       const msg = `Incorrect code with type ${type} and data ${data} has been scanned!`;
@@ -81,52 +81,51 @@ const Content = () => {
     return <Text>No access to camera</Text>;
   }
 
-  console.log(bounds);
-
   return (
-    <React.Fragment key={bounds.origin.x + bounds.origin.y}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? handleBarCodeScanning : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      >
-        <View
-          style={{
-            borderWidth: 2,
-            borderRadius: 0,
-            position: 'absolute',
-            borderColor: '#FFF',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(255, 255, 255, 0.3)',
-            padding: 10,
-            ...bounds?.size,
-            left: bounds?.origin?.x,
-            top: bounds?.origin?.y,
+    <BarCodeScanner
+      onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+      style={{...StyleSheet.absoluteFillObject}}
+    >
+      <View style={styles.layerTop} />
+
+      <Box style={styles.back} paddingHorizontal="m">
+        <BackButton
+          textStyles={styles.backText}
+          iconName="icon-chevron-back-white"
+          text={i18n.translate(`QRCode.Reader.Back`)}
+          onPress={() => {
+            navigation.navigate('Home');
           }}
         />
-      </BarCodeScanner>
+      </Box>
 
-      {scanned && (
-        <Box marginTop="xxl">
-          <Box alignSelf="stretch" marginTop="xxl" marginBottom="s" paddingHorizontal="m">
-            <ButtonSingleLine
-              text={i18n.translate('QRCode.Back')}
-              variant="thinFlatNeutralGrey"
-              internalLink
-              onPress={() => {
-                navigation.navigate('Home');
-              }}
-            />
-          </Box>
-          <Box alignSelf="stretch" marginTop="s" marginBottom="l" paddingHorizontal="m">
-            <ButtonSingleLine
-              text={i18n.translate('QRCode.ScanAgain')}
-              variant="thinFlatNeutralGrey"
-              onPress={() => setScanned(false)}
-            />
-          </Box>
-        </Box>
-      )}
-    </React.Fragment>
+      <View style={styles.layerCenter}>
+        <View style={styles.layerLeft} />
+        <View style={styles.focused} />
+        <View style={styles.layerRight} />
+      </View>
+
+      <Box style={styles.info} alignSelf="stretch" paddingVertical="m" paddingHorizontal="m">
+        <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" color="bodyTitleWhite">
+          {i18n.translate(`QRCode.Reader.Title`)}
+        </Text>
+        <Text variant="bodyText" marginBottom="m" color="bodyTextWhite">
+          {i18n.translate(`QRCode.Reader.Body`)}
+        </Text>
+
+        <ButtonSingleLine
+          text={i18n.translate('QRCode.Reader.Learn')}
+          variant="thinFlatNeutralGrey"
+          onPress={() => {
+            navigation.navigate('Home');
+            setScanned(false);
+          }}
+          iconName="icon-chevron"
+        />
+      </Box>
+
+      <View style={styles.layerBottom} />
+    </BarCodeScanner>
   );
 };
 
@@ -137,3 +136,49 @@ export const QRCodeReaderScreen = () => {
     </Box>
   );
 };
+
+const opacity = 'rgba(0, 0, 0, .8)';
+
+const styles = StyleSheet.create({
+  info: {
+    backgroundColor: opacity,
+  },
+  back: {
+    backgroundColor: opacity,
+    flex: 1,
+    flexDirection: 'column',
+    alignContent: 'flex-start',
+  },
+  backText: {
+    color: 'white',
+    marginLeft: 5,
+    fontSize: 18,
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  layerTop: {
+    flex: 1,
+    backgroundColor: opacity,
+  },
+  layerCenter: {
+    flex: 5,
+    flexDirection: 'row',
+  },
+  layerLeft: {
+    flex: 1,
+    backgroundColor: opacity,
+  },
+  focused: {
+    flex: 20,
+  },
+  layerRight: {
+    flex: 1,
+    backgroundColor: opacity,
+  },
+  layerBottom: {
+    flex: 2,
+    backgroundColor: opacity,
+  },
+});
