@@ -20,24 +20,19 @@ import {useStorage} from 'services/StorageService';
 import {EventTypeMetric, useMetrics} from 'shared/metrics';
 
 import {InfoShareView} from './InfoShareView';
+import {InfoShareAction} from '../../home/components/InfoShareAction';
 import {StatusHeaderView} from './StatusHeaderView';
 
 const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: BottomSheetBehavior}) => {
   const navigation = useNavigation();
   return (
-    <InfoBlock
-      titleBolded={i18n.translate('QRCode.Title')}
-      text={i18n.translate('QRCode.Body')}
-      button={{
-        text: i18n.translate('QRCode.CTA'),
-        action: () => {
-          bottomSheetBehavior.collapse();
-          navigation.navigate('QRCodeFlow');
-        },
+    <InfoShareAction
+      icon="icon-chevron"
+      text={i18n.translate('QRCode.CTA')}
+      onPress={() => {
+        bottomSheetBehavior.collapse();
+        navigation.navigate('QRCodeFlow');
       }}
-      backgroundColor="infoBlockNeutralBackground"
-      color="bodyText"
-      showButton
     />
   );
 };
