@@ -142,7 +142,7 @@ const QRCodeNavigator = () => {
     <QRCodeStack.Navigator screenOptions={{headerShown: false}} initialRouteName="QRCodeReaderScreen">
       <QRCodeStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
       <QRCodeStack.Screen name="ScanErrorScreen" component={ScanErrorScreenWithNavBar} />
-      <QRCodeStack.Screen name="QRCodeScreen" component={CheckInSuccessfulScreenWithNavBar} />
+      <QRCodeStack.Screen name="CheckInSuccessfulScreen" component={CheckInSuccessfulScreenWithNavBar} />
     </QRCodeStack.Navigator>
   );
 };

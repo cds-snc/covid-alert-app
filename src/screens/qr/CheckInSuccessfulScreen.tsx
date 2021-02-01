@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Box, Button, Text, Icon, InfoBlock} from 'components';
 import {useStorage} from 'services/StorageService';
-import {log} from 'shared/logging/config';
-import AsyncStorage from '@react-native-community/async-storage';
+import {useNavigation} from '@react-navigation/native';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {useI18n} from 'locale';
 import {getCurrentDate} from 'shared/date-fns';
@@ -11,7 +10,8 @@ export const CheckInSuccessfulScreen = ({route}: any) => {
   const {name} = route.params;
   const {checkInIDJson, setRemoveCheckIn} = useStorage();
   const i18n = useI18n();
-
+  const navigation = useNavigation();
+  const navigateHome = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m">
@@ -36,7 +36,7 @@ export const CheckInSuccessfulScreen = ({route}: any) => {
         </Box>
       </Box>
       <Box marginTop="l" padding="m">
-        <Button variant="thinFlat" text={i18n.translate('QRCheckInView.CTA1')} onPress={retrieveData} />
+        <Button variant="thinFlat" text={i18n.translate('QRCheckInView.CTA1')} onPress={navigateHome} />
       </Box>
       <Box margin="m">
         <Button
@@ -50,23 +50,10 @@ export const CheckInSuccessfulScreen = ({route}: any) => {
 };
 
 function urlToString(url: string): string {
-  const title = url.replace('_', ' ');
+  const title = url.replace(/_/g, ' ');
   return title;
 }
 
-async function retrieveData() {
-  try {
-    const value = await AsyncStorage.getItem('CheckInID');
-
-    if (value) {
-      log.debug({category: 'debug', payload: value});
-    } else {
-      log.error({category: 'debug', error: 'does not exist'});
-    }
-  } catch (error) {
-    log.error({category: 'debug', error});
-  }
-}
 const returnTodaysDate = (): string => {
   const today = getCurrentDate();
   const dateString = today.toLocaleString('default', {

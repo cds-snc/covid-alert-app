@@ -15,8 +15,6 @@ interface EventData {
   id: string;
 }
 
-export const CheckinRoute = 'QRCodeScreen';
-
 export const handleOpenURL = async ({url}: EventURL): Promise<EventData | boolean> => {
   const [, , id, name] = url.split('/');
 
@@ -53,7 +51,7 @@ export const useDeepLinks = () => {
           // noop
         } else {
           setCheckInJSON(result.id.toString());
-          navigation.navigate(CheckinRoute, result);
+          navigation.navigate('CheckInSuccessfulScreen', result);
         }
       };
 

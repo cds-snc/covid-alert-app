@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
-import {handleOpenURL, CheckinRoute} from '../utils';
+import {handleOpenURL} from '../utils';
 
 import {BackButton} from './BackButton';
 
@@ -27,7 +27,7 @@ export const QRCodeScanner = () => {
       navigation.navigate('ScanErrorScreen');
     } else {
       setCheckInJSON(result.id.toString());
-      navigation.navigate(CheckinRoute, result);
+      navigation.navigate('CheckInSuccessfulScreen', result);
     }
   };
 
