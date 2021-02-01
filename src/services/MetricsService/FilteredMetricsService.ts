@@ -36,7 +36,7 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.OtkNoDate;
-      exposureStatus: ExposureStatus;
+      exposureHistory: number[];
     }
   | {
       type: EventTypeMetric.OtkWithDate;
@@ -88,7 +88,7 @@ export class FilteredMetricsService {
         case EventTypeMetric.Exposed:
           return this.publishEvent(EventTypeMetric.Exposed, []);
         case EventTypeMetric.OtkNoDate:
-          if (eventWithContext.exposureStatus.type === ExposureStatusType.Exposed) {
+          if (eventWithContext.exposureHistory.length > 0) {
             return this.publishEvent(EventTypeMetric.OtkNoDate, []);
           }
           break;

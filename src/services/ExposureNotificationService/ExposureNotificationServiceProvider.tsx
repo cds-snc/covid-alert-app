@@ -171,6 +171,12 @@ export function useExposureStatus(): ExposureStatus {
   return state;
 }
 
+export function useExposureHistory(): number[] {
+  const exposureNotificationService = useExposureNotificationService();
+  const [history] = useState<number[]>(exposureNotificationService.exposureHistory.get());
+  return history;
+}
+
 export function useUpdateExposureStatus(): (forceCheck?: boolean) => void {
   const exposureNotificationService = useExposureNotificationService();
   const update = useCallback(
