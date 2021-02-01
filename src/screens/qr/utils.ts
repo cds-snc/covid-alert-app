@@ -3,7 +3,6 @@ import {useStorage} from 'services/StorageService';
 import {Linking} from 'react-native';
 import {log} from 'shared/logging/config';
 import {useNavigation} from '@react-navigation/native';
-
 import {QR_CODE_PUBLIC_KEY} from 'env';
 // @ts-ignore
 import jwt from 'react-native-pure-jwt';
@@ -24,10 +23,11 @@ export const handleOpenURL = async ({url}: EventURL): Promise<EventData | boolea
   try {
     // @ts-ignore
     const result = await jwt.decode(
-      id, // the token
-      QR_CODE_PUBLIC_KEY, // the secret
+      // the token
+      id,
+      QR_CODE_PUBLIC_KEY,
       {
-        skipValidation: false, // to skip signature and exp verification
+        skipValidation: false,
       },
     );
 
@@ -35,7 +35,8 @@ export const handleOpenURL = async ({url}: EventURL): Promise<EventData | boolea
       return result.payload;
     }
   } catch (err) {
-    console.log(err);
+    //noop
+    log.debug({message: 'handleOpenURL', payload: err});
   }
 
   return false;
@@ -51,7 +52,7 @@ export const useDeepLinks = () => {
         const result = await handleOpenURL(url);
 
         if (typeof result === 'boolean') {
-          //noop
+          // noop
         } else {
           setCheckInJSON(result.id.toString());
           navigation.navigate(CheckinRoute, result);

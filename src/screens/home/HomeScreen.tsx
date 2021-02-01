@@ -19,6 +19,7 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
+
 import {useDeepLinks} from '../qr/utils';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';

@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
-import {handleOpenURL, CheckinRoute} from '../utils';
 import {Box, ButtonSingleLine, Text} from 'components';
-import {BackButton} from './BackButton';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
+
+import {handleOpenURL, CheckinRoute} from '../utils';
+
+import {BackButton} from './BackButton';
+
 import {QRCodeError} from './index';
 
 export const QRCodeScanner = () => {
