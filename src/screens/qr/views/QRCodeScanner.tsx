@@ -63,7 +63,7 @@ export const QRCodeScanner = () => {
           text={i18n.translate('QRCode.Reader.Learn')}
           variant="thinFlatNeutralGrey"
           onPress={() => {
-            navigation.navigate('Home');
+            navigation.navigate('LearnAboutQRScreen');
             setScanned(false);
           }}
           iconName="icon-chevron"
