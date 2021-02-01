@@ -19,8 +19,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {EventTypeMetric, useMetrics} from 'shared/metrics';
 
+import {InfoShareAction} from '../components/InfoShareAction';
+
 import {InfoShareView} from './InfoShareView';
-import {InfoShareAction} from '../../home/components/InfoShareAction';
 import {StatusHeaderView} from './StatusHeaderView';
 
 const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: BottomSheetBehavior}) => {
