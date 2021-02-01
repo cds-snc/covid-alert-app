@@ -42,6 +42,14 @@ export function daysBetweenUTC(date1: Date, date2: Date): number {
   return (startDate2.getTime() - startDate1.getTime()) / (1000 * 3600 * 24);
 }
 
+export function datesAreOnSameDay(date1: Date, date2: Date): boolean {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+}
+
 export function getCurrentDate(): Date {
   return new Date();
 }
