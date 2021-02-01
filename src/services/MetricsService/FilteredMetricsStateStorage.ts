@@ -20,27 +20,21 @@ export class DefaultFilteredMetricsStateStorage implements FilteredMetricsStateS
   }
 
   markInstalledEventAsPublished(): Promise<void> {
-    return this.keyValueStore.save(InstalledEventMarkerKeyValueUniqueIdentifier, 'true');
+    return this.keyValueStore.save(InstalledEventMarkerKeyValueUniqueIdentifier, 'exists');
   }
 
   isInstalledEventPublished(): Promise<boolean> {
-    return this.keyValueStore.retrieve(InstalledEventMarkerKeyValueUniqueIdentifier).then(result => {
-      if (result) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    return this.keyValueStore.retrieve(InstalledEventMarkerKeyValueUniqueIdentifier).then(result => Boolean(result));
   }
 
   markOnboardedEventShouldBePublished(): Promise<void> {
-    return this.keyValueStore.save(OnboardedEventMarkerKeyValueUniqueIdentifier, 'true');
+    return this.keyValueStore.save(OnboardedEventMarkerKeyValueUniqueIdentifier, JSON.stringify(true));
   }
 
   shouldOnboardedEventBePublished(): Promise<boolean> {
     return this.keyValueStore.retrieve(OnboardedEventMarkerKeyValueUniqueIdentifier).then(result => {
       if (result) {
-        return Boolean(result);
+        return JSON.parse(result);
       } else {
         return false;
       }
@@ -48,6 +42,6 @@ export class DefaultFilteredMetricsStateStorage implements FilteredMetricsStateS
   }
 
   markOnboardedEventShouldNotBePublished(): Promise<void> {
-    return this.keyValueStore.save(OnboardedEventMarkerKeyValueUniqueIdentifier, 'false');
+    return this.keyValueStore.save(OnboardedEventMarkerKeyValueUniqueIdentifier, JSON.stringify(false));
   }
 }
