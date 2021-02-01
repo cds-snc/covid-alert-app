@@ -7,18 +7,13 @@ import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
-import {handleOpenURL, CheckinRoute} from '../utils';
 import {ToolbarWhite} from '../components/Toolbar';
-
-import {BackButton} from './BackButton';
-
-import {QRCodeError} from './index';
+import {handleOpenURL} from '../utils';
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
   const {setCheckInJSON} = useStorage();
   const [scanned, setScanned] = useState<boolean>(false);
-  const [hasError, setError] = useState<boolean>(false);
 
   const i18n = useI18n();
   const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
@@ -28,16 +23,14 @@ export const QRCodeScanner = () => {
 
     if (typeof result === 'boolean') {
       log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`});
-      setError(true);
+      navigation.navigate('ScanErrorScreen');
     } else {
       setCheckInJSON(result.id.toString());
-      navigation.navigate(CheckinRoute, result);
+      navigation.navigate('CheckInSuccessfulScreen', result);
     }
   };
 
-  return hasError ? (
-    <QRCodeError />
-  ) : (
+  return (
     <BarCodeScanner
       onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
       style={{...StyleSheet.absoluteFillObject}}
@@ -62,7 +55,7 @@ export const QRCodeScanner = () => {
           text={i18n.translate('QRCode.Reader.Learn')}
           variant="thinFlatNeutralGrey"
           onPress={() => {
-            navigation.navigate('Home');
+            navigation.navigate('LearnAboutQRScreen');
             setScanned(false);
           }}
           iconName="icon-chevron"

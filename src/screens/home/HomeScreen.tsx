@@ -182,22 +182,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
     />
   );
 };
-interface EventURL {
-  url: string;
-}
 
-interface EventData {
-  id: string;
-  name: string;
-}
-const CheckinRoute = 'QRCodeScreen';
-const handleOpenNewURL = ({url}: EventURL): EventData | boolean => {
-  const [, , routeName, , id, name] = url.split('/');
-  if (routeName === CheckinRoute) {
-    return {id, name};
-  }
-  return false;
-};
 export const HomeScreen = () => {
   const navigation = useNavigation();
   const {userStopped} = useStorage();

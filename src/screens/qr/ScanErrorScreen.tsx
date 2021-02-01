@@ -1,14 +1,15 @@
 import React, {useCallback} from 'react';
-import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
+import {Box, Text, ButtonSingleLine} from 'components';
 import {ScrollView, StyleSheet} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
-import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
+import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
-export const QRCodeError = () => {
+export const ScanErrorScreen = () => {
   const i18n = useI18n();
+  const navigation = useNavigation();
+  const tryAgain = useCallback(() => navigation.navigate('QRCodeReaderScreen'), [navigation]);
   return (
     <BaseQRCodeScreen showBackButton={false} showCloseButton>
       <ScrollView style={styles.flex}>
@@ -24,7 +25,7 @@ export const QRCodeError = () => {
               text={i18n.translate('QRCode.Error.CTA')}
               variant="bigFlatNeutralGrey"
               internalLink
-              onPress={() => {}}
+              onPress={tryAgain}
             />
           </Box>
         </Box>
