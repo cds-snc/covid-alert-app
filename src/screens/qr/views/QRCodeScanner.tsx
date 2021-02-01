@@ -13,6 +13,8 @@ import {BackButton} from './BackButton';
 
 import {QRCodeError} from './index';
 
+import {ToolbarWhite} from '../components/Toolbar';
+
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
   const {setCheckInJSON} = useStorage();
@@ -43,14 +45,7 @@ export const QRCodeScanner = () => {
     >
       <View style={styles.layerTop} />
       <Box style={styles.back} paddingHorizontal="m">
-        <BackButton
-          textStyles={styles.backText}
-          iconName="icon-chevron-back-white"
-          text={i18n.translate(`QRCode.Reader.Back`)}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-        />
+        <ToolbarWhite isWhite={true} />
       </Box>
       <View style={styles.layerCenter}>
         <View style={styles.layerLeft} />
