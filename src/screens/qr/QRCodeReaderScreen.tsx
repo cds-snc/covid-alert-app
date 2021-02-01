@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {Box} from 'components';
-
 import {QRCodeScanner, NoPermission, NoCamera} from './views';
 
 const Content = () => {
@@ -9,7 +8,7 @@ const Content = () => {
 
   useEffect(() => {
     (async () => {
-      const {status} = await BarCodeScanner.requestPermissionsAsync();
+      const {status} = await BarCodeScanner.getPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);

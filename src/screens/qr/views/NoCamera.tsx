@@ -3,12 +3,16 @@ import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
 import {ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
+import {BarCodeScanner} from 'expo-barcode-scanner';
 import {useNavigation} from '@react-navigation/native';
 
 export const NoCamera = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
+  const requestPermissions = useCallback(async () => {
+    await BarCodeScanner.requestPermissionsAsync();
+  }, []);
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
@@ -31,10 +35,9 @@ export const NoCamera = () => {
 
             <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
               <ButtonSingleLine
-                text={i18n.translate('QRCode.Error.CTA')}
-                variant="bigFlatNeutralGrey"
-                internalLink
-                onPress={() => {}}
+                text={i18n.translate('QRCode.CameraPermissions.CTA')}
+                variant="thinFlat"
+                onPress={requestPermissions}
               />
             </Box>
           </Box>
