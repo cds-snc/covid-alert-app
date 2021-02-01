@@ -483,9 +483,7 @@
     "Bullet": "Bullet"
   },
   "QRCode": {
-    "Title": "QR Code",
-    "Body": "Aenean accumsan quis dolor vestibulum dignissim. Etiam id egestas lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos",
-    "CTA": "Scan QR Code",
+    "CTA": "Scan a place",
     "Reader": {
       "Title": "Point the camera at the QR code",
       "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",
