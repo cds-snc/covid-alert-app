@@ -104,4 +104,5 @@ artifacts/*
 
 devices.txt
 
+vendor
 android/**/generated/*

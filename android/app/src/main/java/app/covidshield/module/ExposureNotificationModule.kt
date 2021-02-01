@@ -40,10 +40,8 @@ import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
+import com.google.android.gms.nearby.exposurenotification.*
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_NOTIFICATION_SETTINGS
-import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
-import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -217,6 +215,33 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
             }
         }
     }
+
+    @ReactMethod
+    fun setDiagnosisKeysDataMapping(promise: Promise) {
+        promise.launch(this) {
+            try{
+                val diagnosisKeysDataMapping: DiagnosisKeysDataMapping by lazy {
+                    val daysToInfectiousness = mutableMapOf<Int, Int>()
+                    for (i in -14..14) {
+                        daysToInfectiousness[i] = Infectiousness.STANDARD
+                    }
+                    DiagnosisKeysDataMapping.DiagnosisKeysDataMappingBuilder()
+                            .setDaysSinceOnsetToInfectiousness(daysToInfectiousness)
+                            .setInfectiousnessWhenDaysSinceOnsetMissing(Infectiousness.STANDARD)
+                            .setReportTypeWhenMissing(ReportType.CONFIRMED_TEST)
+                            .build()
+                }
+                val oldDiagnosisKeysDataMapping = exposureNotificationClient.diagnosisKeysDataMapping.await()
+                if (diagnosisKeysDataMapping != oldDiagnosisKeysDataMapping) {
+                    exposureNotificationClient.setDiagnosisKeysDataMapping(diagnosisKeysDataMapping)
+                }
+                promise.resolve(null)
+            } catch (exception: Exception) {
+                promise.reject(exception)
+            }
+        }
+    }
+
 
     @ReactMethod
     fun getExposureWindows(promise: Promise) {

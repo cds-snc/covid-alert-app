@@ -18,6 +18,7 @@ import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
 import AsyncStorage from '@react-native-community/async-storage';
+import {log} from 'shared/logging/config';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -111,7 +112,7 @@ const Content = () => {
     });
   }, [i18n]);
   const getExposedLocations = async () => {
-    const fetchedData = await fetch('https://0b77d0c49f3a.ngrok.io/exposedLocations', {
+    const fetchedData = await fetch('https://c0a5a2126838.ngrok.io/exposedLocations', {
       method: 'GET',
     })
       .then(response => response.json())
@@ -128,12 +129,16 @@ const Content = () => {
         idArray.push(item.id);
       });
     });
-    retrieveData().then(val => {
-      const filteredArray = idArray.filter(value => val?.includes(value));
-      if (filteredArray.length > 0) {
-        navigation.navigate('QRExposedScreen');
-      }
-    });
+    retrieveData()
+      .then(val => {
+        const filteredArray = idArray.filter(value => val?.includes(value));
+        if (filteredArray.length > 0) {
+          navigation.navigate('QRExposedScreen');
+        }
+      })
+      .catch(error => {
+        log.error({category: 'debug', error});
+      });
   };
 
   const exposureNotificationService = useExposureNotificationService();
@@ -206,7 +211,6 @@ const Content = () => {
           text="Force exposure check"
           variant="bigFlat"
           onPress={async () => {
-            captureMessage('Forcing Exposure Check');
             updateExposureStatus(true);
           }}
         />
@@ -254,28 +258,8 @@ const styles = StyleSheet.create({
 async function retrieveData() {
   try {
     const value = await AsyncStorage.getItem('CheckInID');
-
-    // if (value) {
-    //   console.log('value', value);
-    // } else {
-    //   console.log('elseStatement');
-    //   // log.error({category: 'debug', error: 'does not exist'});
-    // }
-
     return value;
   } catch (error) {
-    // log.error({category: 'debug', error});
-    console.error('error:', error);
+    log.error({category: 'debug', error});
   }
 }
-
-// function retrieveData() {
-//   const value = AsyncStorage.getItem('CheckInID');
-
-//   if (value) {
-//     console.log('value', value);
-//   } else {
-//     console.log('elseStatement');
-//     // log.error({category: 'debug', error: 'does not exist'});
-//   }
-// }

@@ -19,8 +19,8 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
-import {log} from 'shared/logging/config';
-import {event} from 'react-native-reanimated';
+
+import {useDeepLinks} from '../qr/utils';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
@@ -200,7 +200,8 @@ const handleOpenNewURL = ({url}: EventURL): EventData | boolean => {
 };
 export const HomeScreen = () => {
   const navigation = useNavigation();
-  const {userStopped, setCheckInJSON} = useStorage();
+  const {userStopped} = useStorage();
+
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {
@@ -209,39 +210,8 @@ export const HomeScreen = () => {
     }
   }, [navigation]);
 
-  useEffect(() => {
-    function handleOpenURL(url: any) {
-      const objConstructor = {}.constructor;
-      let urlObj = url;
-      if (url.constructor === objConstructor) {
-        urlObj = url.url;
-      }
-      const routeName = urlObj.split('/')[2];
-      const id = urlObj.split('/')[4];
-      const name = urlObj.split('/')[5];
-      setCheckInJSON(id.toString());
-      if (routeName === 'QRCodeScreen') {
-        navigation.navigate('QRCodeScreen', {id, name});
-      }
-    }
+  useDeepLinks();
 
-    Linking.getInitialURL()
-      .then(initialURL => {
-        if (initialURL) {
-          const result: any = handleOpenNewURL({url: initialURL});
-
-          setCheckInJSON(result.id.toString());
-          navigation.navigate(CheckinRoute, result);
-        }
-      })
-      .catch(err => log.error({category: 'debug', error: err}));
-    Linking.getInitialURL();
-    Linking.addEventListener('url', handleOpenURL);
-
-    return function cleanUp() {
-      Linking.removeEventListener('url', handleOpenURL);
-    };
-  }, [navigation, setCheckInJSON]);
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().
   const subscribeToStatusUpdates = useExposureNotificationSystemStatusAutomaticUpdater();

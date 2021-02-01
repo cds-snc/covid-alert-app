@@ -491,6 +491,16 @@
       "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",
       "Back": "Back",
       "Learn": "Learn more about QR codes and COVID Alert"
+    },
+    "CameraPermissions": {
+      "Title": "Allow camera permissions",
+      "Body": "The app needs permission to use your camera to read the QR codes.\n\nYou can also use your phone’s camera app if you prefer not to let the app access your camera.",
+      "CTA": "Allow camera permissions"
+    },
+    "Error": {
+      "Title": "QR code not recognized",
+      "Body": "You may not have scanned an official COVID Alert QR code.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "CTA": "Try Again"
     }
   },
   "QRCheckInView": {
@@ -499,8 +509,8 @@
     "CTA2": "Cancel this subscription",
     "MoreInfo": "Learn more about QR codes and COVID alert"
   },
-  "QRNotRecognizedView": {
-
+  "QRCodeExposed": {
+    "Title": "You've been Exposed"
   },
   "Errors": {
     "Action": "OK",
