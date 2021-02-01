@@ -12,6 +12,7 @@ export const NoCamera = () => {
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const requestPermissions = useCallback(async () => {
     await BarCodeScanner.requestPermissionsAsync();
+    navigation.navigate('QRCodeReaderScreen');
   }, []);
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
