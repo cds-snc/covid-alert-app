@@ -6,13 +6,13 @@ import {useI18n} from 'locale';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {useNavigation} from '@react-navigation/native';
 
-export const NoCamera = () => {
+export const NoCamera = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const requestPermissions = useCallback(async () => {
     await BarCodeScanner.requestPermissionsAsync();
-    navigation.navigate('QRCodeReaderScreen');
+    updatePermissions();
   }, []);
   return (
     <Box backgroundColor="overlayBackground" flex={1}>

@@ -6,18 +6,29 @@ import {QRCodeScanner, NoPermission, NoCamera} from './views';
 const Content = () => {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
 
+  const checkPermissions = async () => {
+    const {status} = await BarCodeScanner.getPermissionsAsync();
+    setHasPermission(status === 'granted');
+  };
+
   useEffect(() => {
     (async () => {
-      const {status} = await BarCodeScanner.getPermissionsAsync();
-      setHasPermission(status === 'granted');
+      checkPermissions();
     })();
   }, []);
 
+  //canAskAgain
   if (hasPermission === null) {
     return <NoPermission />;
   }
   if (hasPermission === false) {
-    return <NoCamera />;
+    return (
+      <NoCamera
+        updatePermissions={() => {
+          checkPermissions();
+        }}
+      />
+    );
   }
 
   return <QRCodeScanner />;
