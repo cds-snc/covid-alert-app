@@ -34,6 +34,7 @@ import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
+import { PollNotifications } from 'services/PollNotificationService';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
@@ -268,6 +269,7 @@ export class ExposureNotificationService {
         message: 'updatedExposureStatusInBackground',
         payload: {exposureStatus},
       });
+      PollNotifications.checkForNotifications();
     } catch (error) {
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
