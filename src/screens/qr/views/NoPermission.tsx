@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Box, Text, ButtonSingleLine, Button} from 'components';
-import {ScrollView, StyleSheet, Linking} from 'react-native';
+import {StyleSheet, Linking} from 'react-native';
 import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
@@ -12,19 +12,17 @@ export const NoPermission = () => {
   }, []);
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
-      <ScrollView style={styles.flex}>
-        <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-            {i18n.translate('QRCode.CameraPermissions.Title')}
-          </Text>
+      <Box paddingHorizontal="m">
+        <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+          {i18n.translate('QRCode.CameraPermissions.Title')}
+        </Text>
 
-          <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
+        <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
 
-          <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
-            <Button variant="bigFlat" text="Permission" onPress={toSettings} />
-          </Box>
+        <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
+          <Button variant="bigFlat" text={i18n.translate('QRCode.CameraPermissions.CTA')} onPress={toSettings} />
         </Box>
-      </ScrollView>
+      </Box>
     </BaseQRCodeScreen>
   );
 };

@@ -37,7 +37,7 @@ export const QRCodeScanner = () => {
     >
       <View style={styles.layerTop} />
       <Box style={styles.back} paddingHorizontal="m">
-        <Toolbar useWhiteText={true} onClose={() => {}} showBackButton={true} />
+        <Toolbar useWhiteText showBackButton />
       </Box>
       <View style={styles.layerCenter}>
         <View style={styles.layerLeft} />

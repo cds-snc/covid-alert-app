@@ -7,20 +7,21 @@ import {useI18n} from 'locale';
 import {BackButton} from '../views/BackButton';
 
 export interface ToolbarProps {
-  onClose(): void;
   navText?: string;
   showBackButton?: boolean;
   showCloseButton?: boolean;
   useWhiteText?: boolean;
 }
 
-export const Toolbar = ({navText, onClose, showBackButton, showCloseButton, useWhiteText}: ToolbarProps) => {
+export const Toolbar = ({navText, showBackButton, showCloseButton, useWhiteText}: ToolbarProps) => {
+  const navigation = useNavigation();
+  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
     <Box flexDirection="row" alignItems="center" minHeight={56}>
       {showBackButton ? <QRBackButton useWhiteText={useWhiteText} /> : null}
       {showCloseButton ? (
         <Box style={styles.right}>
-          <Button testID="toolbarCloseButton" text={navText} variant="text" onPress={onClose} />
+          <Button testID="toolbarCloseButton" text={navText} variant="text" onPress={close} />
         </Box>
       ) : null}
     </Box>

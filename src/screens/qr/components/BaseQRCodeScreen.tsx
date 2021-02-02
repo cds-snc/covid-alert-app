@@ -14,24 +14,19 @@ interface BaseQRCodeScreenProps {
 }
 
 export const BaseQRCodeScreen = ({children, showBackButton, showCloseButton}: BaseQRCodeScreenProps) => {
-  const navigation = useNavigation();
   const i18n = useI18n();
-  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
         <Box marginBottom="m">
           <Toolbar
             navText={i18n.translate('DataUpload.Close')}
-            onClose={close}
             showBackButton={showBackButton}
             showCloseButton={showCloseButton}
             useWhiteText={false}
           />
         </Box>
-        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
-          {children}
-        </ScrollView>
+        <ScrollView style={styles.flex}>{children}</ScrollView>
       </SafeAreaView>
     </Box>
   );

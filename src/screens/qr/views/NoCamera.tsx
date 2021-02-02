@@ -9,8 +9,7 @@ import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
 export const NoCamera = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
-  const navigation = useNavigation();
-  const close = useCallback(() => navigation.goBack(), [navigation]);
+
   const requestPermissions = useCallback(async () => {
     await BarCodeScanner.requestPermissionsAsync();
     updatePermissions();
