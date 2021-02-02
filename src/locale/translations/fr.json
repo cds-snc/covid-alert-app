@@ -6,11 +6,6 @@
       "CTA": "Réactiver"
     },
     "NoExposureDetected": {
-      "WhatsNew": {
-        "Title": "",
-        "Body1": "",
-        "Body2": ""
-      },
       "AllSetTitle": "Vous voilà prêt!",
       "RegionCovered": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
@@ -325,10 +320,10 @@
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de clé à usage unique?"
     },
-    "IntermediateStep":{
+    "IntermediateStep": {
       "Title": "Finir le partage d’expositions",
-      "List":{
-        "1a":"1. ",
+      "List": {
+        "1a": "1. ",
         "1b": "Fait.",
         "2a": "2. Vous fournissez quelques précisions ",
         "2b": "qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",

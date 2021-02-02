@@ -24,6 +24,9 @@ import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {checkNotifications} from 'react-native-permissions';
+import {Status} from 'screens/home/components/NotificationPermissionStatus';
 import {PollNotifications} from 'services/PollNotificationService';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
@@ -259,6 +262,11 @@ export class ExposureNotificationService {
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
+
+      const notificationStatus: Status = await checkNotifications()
+        .then(({status}) => status)
+        .catch(() => 'unavailable');
+      await FilteredMetricsService.sharedInstance().sendDailyMetrics(this.systemStatus.get(), notificationStatus);
 
       const exposureStatus = this.exposureStatus.get();
       log.debug({
@@ -848,6 +856,8 @@ export class ExposureNotificationService {
     const exposureHistory = this.exposureHistory.get();
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
+
+    FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.Exposed});
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {

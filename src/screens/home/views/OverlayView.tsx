@@ -17,18 +17,15 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
-import {EventTypeMetric, useMetrics} from 'shared/metrics';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
-  const addEvent = useMetrics();
   const onPress = async () => {
     if (Platform.OS === 'android') {
       await startExposureNotificationService();
-      addEvent(EventTypeMetric.EnToggle);
       return;
     }
     return toSettings();
@@ -51,11 +48,9 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
 
 const SystemStatusUnauthorized = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
-  const addEvent = useMetrics();
   const onPress = async () => {
     if (Platform.OS === 'android') {
       await startExposureNotificationService();
-      addEvent(EventTypeMetric.EnToggle);
       return;
     }
     return toSettings();
@@ -215,7 +210,6 @@ const TurnAppBackOn = ({
   bottomSheetBehavior: BottomSheetBehavior;
 }) => {
   const startExposureNotificationService = useStartExposureNotificationService();
-  const addEvent = useMetrics();
 
   const onStart = useCallback(async () => {
     bottomSheetBehavior.collapse();
@@ -231,7 +225,6 @@ const TurnAppBackOn = ({
         text: i18n.translate('OverlayOpen.TurnAppBackOn.CTA'),
         action: () => {
           onStart();
-          addEvent(EventTypeMetric.EnToggle);
         },
       }}
       backgroundColor="danger25Background"
