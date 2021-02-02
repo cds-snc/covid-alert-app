@@ -1,12 +1,15 @@
 import React, {useCallback} from 'react';
-import {Box, Text, ButtonSingleLine} from 'components';
-import {ScrollView, StyleSheet} from 'react-native';
+import {Box, Text, ButtonSingleLine, Button} from 'components';
+import {ScrollView, StyleSheet, Linking} from 'react-native';
 import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
 export const NoPermission = () => {
   const i18n = useI18n();
+  const toSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
       <ScrollView style={styles.flex}>
@@ -18,12 +21,7 @@ export const NoPermission = () => {
           <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
 
           <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
-            <ButtonSingleLine
-              text={i18n.translate('QRCode.Error.CTA')}
-              variant="bigFlatNeutralGrey"
-              internalLink
-              onPress={() => {}}
-            />
+            <Button variant="bigFlat" text="Permission" onPress={toSettings} />
           </Box>
         </Box>
       </ScrollView>

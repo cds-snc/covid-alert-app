@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
-import {ToolbarWhite} from '../components/Toolbar';
+import {Toolbar} from '../components/Toolbar';
 import {handleOpenURL} from '../utils';
 
 export const QRCodeScanner = () => {
@@ -37,7 +37,7 @@ export const QRCodeScanner = () => {
     >
       <View style={styles.layerTop} />
       <Box style={styles.back} paddingHorizontal="m">
-        <ToolbarWhite isWhite />
+        <Toolbar useWhiteText={true} onClose={() => {}} showBackButton={true} />
       </Box>
       <View style={styles.layerCenter}>
         <View style={styles.layerLeft} />

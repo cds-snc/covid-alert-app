@@ -18,24 +18,22 @@ export const BaseQRCodeScreen = ({children, showBackButton, showCloseButton}: Ba
   const i18n = useI18n();
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
-    <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Box backgroundColor="overlayBackground" flex={1}>
-        <SafeAreaView style={styles.flex}>
-          <Box marginBottom="m">
-            <Toolbar
-              navText={i18n.translate('DataUpload.Close')}
-              onIconClicked={close}
-              showBackButton={showBackButton}
-              showCloseButton={showCloseButton}
-              isWhite={false}
-            />
-          </Box>
-          <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
-            {children}
-          </ScrollView>
-        </SafeAreaView>
-      </Box>
-    </KeyboardAvoidingView>
+    <Box backgroundColor="overlayBackground" flex={1}>
+      <SafeAreaView style={styles.flex}>
+        <Box marginBottom="m">
+          <Toolbar
+            navText={i18n.translate('DataUpload.Close')}
+            onClose={close}
+            showBackButton={showBackButton}
+            showCloseButton={showCloseButton}
+            useWhiteText={false}
+          />
+        </Box>
+        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
+          {children}
+        </ScrollView>
+      </SafeAreaView>
+    </Box>
   );
 };
 const styles = StyleSheet.create({

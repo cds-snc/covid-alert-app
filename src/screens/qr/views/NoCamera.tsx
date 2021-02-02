@@ -17,32 +17,21 @@ export const NoCamera = ({updatePermissions}: {updatePermissions: () => void}) =
   }, [updatePermissions]);
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
-      <Box marginBottom="m">
-        <Toolbar
-          title=""
-          navText={i18n.translate('RegionPicker.Close')}
-          navLabel={i18n.translate('RegionPicker.Close')}
-          navIcon="icon-back-arrow"
-          onIconClicked={close}
-        />
-      </Box>
-      <ScrollView style={styles.flex}>
-        <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-            {i18n.translate('QRCode.CameraPermissions.Title')}
-          </Text>
+      <Box paddingHorizontal="m">
+        <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+          {i18n.translate('QRCode.CameraPermissions.Title')}
+        </Text>
 
-          <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
+        <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
 
-          <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
-            <ButtonSingleLine
-              text={i18n.translate('QRCode.CameraPermissions.CTA')}
-              variant="thinFlat"
-              onPress={requestPermissions}
-            />
-          </Box>
+        <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
+          <ButtonSingleLine
+            text={i18n.translate('QRCode.CameraPermissions.CTA')}
+            variant="thinFlat"
+            onPress={requestPermissions}
+          />
         </Box>
-      </ScrollView>
+      </Box>
     </BaseQRCodeScreen>
   );
 };
