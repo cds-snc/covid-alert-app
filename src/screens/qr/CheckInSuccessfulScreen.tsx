@@ -19,7 +19,7 @@ export const CheckInSuccessfulScreen = () => {
         <Box paddingBottom="l">
           <Icon name="icon-green-check" height={50} width={60} />
           <Text variant="bodySubTitle" marginTop="xl">
-            {i18n.translate('QRCheckInView.Title')}
+            {i18n.translate('QRCode.CheckInView.Title')}
           </Text>
         </Box>
         <Box paddingBottom="l">
@@ -37,10 +37,10 @@ export const CheckInSuccessfulScreen = () => {
         </Box>
       </Box>
       <Box marginTop="l" padding="m">
-        <Button variant="thinFlat" text={i18n.translate('QRCheckInView.CTA1')} onPress={navigateHome} />
+        <Button variant="thinFlat" text={i18n.translate('QRCode.CheckInView.CTA1')} onPress={navigateHome} />
       </Box>
       <Box margin="m">
-        <Button variant="thinFlat" text={i18n.translate('QRCheckInView.CTA2')} onPress={() => removeCheckIn()} />
+        <Button variant="thinFlat" text={i18n.translate('QRCode.CheckInView.CTA2')} onPress={() => removeCheckIn()} />
       </Box>
     </BaseDataSharingView>
   );

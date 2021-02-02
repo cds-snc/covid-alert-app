@@ -31,7 +31,7 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
       <Box alignSelf="stretch" style={styles.roundedBox1}>
         <Box paddingHorizontal="m" paddingVertical="m">
           <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-            {i18n.translate('QRCodeExposed.Title')}
+            {i18n.translate('QRCode.Exposed.Title')}
           </Text>
           <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
           <ExposureDateView />

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Box, Text, Button} from 'components';
-import {Linking} from 'react-native';
+import {Linking, StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
@@ -12,17 +12,24 @@ export const NoPermission = () => {
   }, []);
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
-      <Box paddingHorizontal="m">
+      <Box paddingHorizontal="m" style={styles.flex}>
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           Permission Denied!
         </Text>
 
-        <Text marginBottom="l">Content.</Text>
-
-        <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
-          <Button variant="bigFlat" text={i18n.translate('QRCode.CameraPermissions.CTA')} onPress={toSettings} />
+        <Box style={styles.flex}>
+          <Text marginBottom="l">Content.</Text>
+        </Box>
+        <Box paddingHorizontal="s" paddingTop="xl" marginBottom="m">
+          <Button variant="thinFlat" text={i18n.translate('QRCode.CameraPermissions.CTA')} onPress={toSettings} />
         </Box>
       </Box>
     </BaseQRCodeScreen>
   );
 };
+
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+});
