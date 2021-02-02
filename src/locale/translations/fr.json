@@ -6,11 +6,6 @@
       "CTA": "Réactiver"
     },
     "NoExposureDetected": {
-      "WhatsNew": {
-        "Title": "Nouvelles notifications durant les vérifications d’exposition",
-        "Body1": "Si vous avez reçu une notification qui a vite disparu, c’est normal.",
-        "Body2": "L’application affiche maintenant des notifications durant les vérifications d’exposition."
-      },
       "AllSetTitle": "Vous voilà prêt!",
       "RegionCovered": {
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
@@ -189,7 +184,7 @@
       }
     },
     "ChangeRegion": "Modifier la province ou le territoire",
-    "Privacy": "Protection de votre vie privée",
+    "Privacy": "Confidentialité",
     "PrivacyUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/politique-confidentialite.html",
     "SettingsTitle": "Paramètres",
     "InformationTitle": "À propos d’Alerte COVID"
@@ -320,15 +315,15 @@
         "3a": "3. Vous autorisez votre téléphone ",
         "3b": "à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
       },
-      "Body1": "Personne n’obtiendra de renseignements sur vous ",
+      "Body1": "Les personnes exposées n’obtiendront aucun renseignement sur vous ",
       "Body2": "ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de clé à usage unique?"
     },
-    "IntermediateStep":{
+    "IntermediateStep": {
       "Title": "Finir le partage d’expositions",
-      "List":{
-        "1a":"1. ",
+      "List": {
+        "1a": "1. ",
         "1b": "Fait.",
         "2a": "2. Vous fournissez quelques précisions ",
         "2b": "qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
@@ -446,7 +441,7 @@
     "Title": "Où habitez-vous? (facultatif)",
     "SettingsTitle": "Province ou territoire",
     "Close": "Fermer",
-    "Body": "Sélectionnez votre région pour savoir si vous pouvez signaler un diagnostic à l’aide de l’application.\n\nLa région où vous habitez ne sera jamais transmise à personne.",
+    "Body": "Sélectionnez votre région pour savoir si vous pouvez signaler un diagnostic à l’aide de l’application.",
     "Skip": "Ignorer",
     "GetStarted": "Commencer",
     "Optional": "* Facultatif",
@@ -473,7 +468,7 @@
   "RegionPickerNoPT": {
     "Exposed": {
       "Title": "Trouvez les consignes de votre région",
-      "Body": "Les mesures à prendre après avoir été exposé dépendent de votre province ou de votre territoire. L’application ne mémorisera pas votre choix de région."
+      "Body": "Les mesures à prendre après une exposition dépendent de votre province ou de votre territoire."
     }
   },
   "A11yList": {

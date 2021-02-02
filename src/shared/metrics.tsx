@@ -27,6 +27,7 @@ export enum EventTypeMetric {
   OtkNoDate = 'otk-no-date',
   OtkWithDate = 'otk-with-date',
   EnToggle = 'en-toggle',
+  ExposedClear = 'exposed-clear',
 }
 
 interface BaseMetric {
@@ -92,15 +93,29 @@ export const useMetrics = () => {
       case EventTypeMetric.EnToggle:
         newMetricPayload = [['state', String(userStopped)]];
         break;
-    }
+      case EventTypeMetric.ExposedClear:
+        if (exposureStatus.type !== ExposureStatusType.Exposed) {
+          break;
+        }
+        /*
+        const clearExposedMetric: ClearExposedMetric = {
+          ...initialPayload,
+          hoursSinceExposureDetectedAt: getHoursBetween(getCurrentDate(), new Date(exposureStatus.exposureDetectedAt)),
+        };
+        */
 
+        // sendMetricEvent(clearExposedMetric, metrics.service);
+        break;
+    }
+    /*
     const newMetric = new Metric(
       initialPayload.timestamp,
       initialPayload.identifier,
       initialPayload.region ?? 'None',
       newMetricPayload,
     );
-    metrics.service?.publishMetric(newMetric);
+    */
+    // metrics.service?.publishMetric(newMetric);
   };
 
   return addEvent;

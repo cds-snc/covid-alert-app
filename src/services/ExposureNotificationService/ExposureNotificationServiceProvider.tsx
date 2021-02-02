@@ -8,7 +8,6 @@ import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
-import {useMetricsContext} from 'shared/MetricsProvider';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -41,7 +40,6 @@ export const ExposureNotificationServiceProvider = ({
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
   const {setUserStopped} = useStorage();
-  const metrics = useMetricsContext();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
@@ -50,9 +48,8 @@ export const ExposureNotificationServiceProvider = ({
         storage || AsyncStorage,
         secureStorage || RNSecureKeyStore,
         exposureNotification || ExposureNotification,
-        metrics.service,
       ),
-    [backendInterface, exposureNotification, i18n, metrics.service, secureStorage, storage],
+    [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );
 
   useEffect(() => {

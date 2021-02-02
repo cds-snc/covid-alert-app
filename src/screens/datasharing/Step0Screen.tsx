@@ -33,7 +33,7 @@ export const Step0Screen = () => {
             <Text fontWeight="bold">{i18n.translate('DataUpload.Step0.List.3a')}</Text>
             <Text>{i18n.translate('DataUpload.Step0.List.3b')}</Text>
           </Text>
-          <Text marginBottom="l">
+          <Text marginBottom="l" testID="Step0Body">
             <Text fontWeight="bold">{i18n.translate('DataUpload.Step0.Body1')}</Text>
             <Text>{i18n.translate('DataUpload.Step0.Body2')}</Text>
           </Text>

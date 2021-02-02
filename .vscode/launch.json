@@ -1,15 +1,19 @@
 {
-  "version": "0.2.0",
+  "version": "0.2.1",
   "configurations": [
     {
-      "name": "Debug Jest Tests",
+      "name": "Debug Android",
+      "cwd": "${workspaceFolder}",
+      "type": "reactnativedirect",
+      "request": "attach",
+      "platform": "android"
+    },
+    {
+      "name": "Debug Jest Test",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": [
-        "-t",
-        "my test name"
-      ],
+      "args": ["-t", "my test name"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
