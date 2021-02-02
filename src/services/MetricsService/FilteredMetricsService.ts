@@ -150,14 +150,11 @@ export class FilteredMetricsService {
 
   private publishEnToggleEventIfNecessary(state: boolean, onboardedDate: Date | undefined): Promise<void> {
     function shouldPublishEnToggle(): boolean {
-      if (state) {
-        if (onboardedDate && getHoursBetween(onboardedDate, new Date()) > 24) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
+      if (!state) return true;
+      if (onboardedDate && getHoursBetween(onboardedDate, getCurrentDate()) > 24) {
         return true;
+      } else {
+        return false;
       }
     }
 
@@ -168,26 +165,20 @@ export class FilteredMetricsService {
     }
   }
 
-  private publishEvent(
+  private async publishEvent(
     eventType: EventTypeMetric,
     metricPayload: [string, string][],
     forcePushToServer = false,
   ): Promise<void> {
-    return this.getRegion().then(region => {
-      return this.metricsService.publishMetric(
-        new Metric(new Date().getTime(), eventType, region, metricPayload),
-        forcePushToServer,
-      );
-    });
+    const region = await this.getRegion();
+    return this.metricsService.publishMetric(
+      new Metric(getCurrentDate().getTime(), eventType, region, metricPayload),
+      forcePushToServer,
+    );
   }
 
-  private getRegion(): Promise<string> {
-    return AsyncStorage.getItem(Key.Region).then(region => {
-      if (region) {
-        return region;
-      } else {
-        return 'None';
-      }
-    });
+  private async getRegion(): Promise<string> {
+    const regionOpt = await AsyncStorage.getItem(Key.Region);
+    return regionOpt ? regionOpt : 'None';
   }
 }

@@ -103,7 +103,7 @@ export class DefaultMetricsService implements MetricsService {
     const pushAndMarkLastUploadedDateTime = (): Promise<void> => {
       return this.triggerPush().then(result => {
         if (result === TriggerPushResult.Success) {
-          return this.markMetricsLastUploadedDateTime(new Date());
+          return this.markMetricsLastUploadedDateTime(getCurrentDate());
         }
       });
     };
@@ -129,7 +129,7 @@ export class DefaultMetricsService implements MetricsService {
 
   private triggerPush(): Promise<TriggerPushResult> {
     const pushAndClearMetrics = (metrics: Metric[]): Promise<TriggerPushResult> => {
-      const jsonAsString = this.metricsJsonSerializer.serializeToJson(new Date().getTime(), metrics);
+      const jsonAsString = this.metricsJsonSerializer.serializeToJson(getCurrentDate().getTime(), metrics);
       return Promise.all([this.metricsPusher.push(jsonAsString), Promise.resolve(metrics.pop())])
         .then(([pushResult, lastPushedMetric]) => {
           switch (pushResult) {
