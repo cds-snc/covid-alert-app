@@ -23,7 +23,7 @@ export const QRCodeScanner = () => {
       setScanned(true);
       addCheckIn(checkInData);
       // todo: pass checkInData directly to the next page so there is no async issue
-      navigation.navigate('CheckInSuccessfulScreen');
+      navigation.navigate('CheckInSuccessfulScreen', checkInData);
     } catch (error) {
       log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`, payload: {error}});
       navigation.navigate('ScanErrorScreen');

@@ -5,14 +5,25 @@ import {useNavigation} from '@react-navigation/native';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {useI18n} from 'locale';
 import {formatCheckInDate} from 'shared/date-fns';
+import {CheckInData} from 'shared/qr';
 
-export const CheckInSuccessfulScreen = () => {
-  const {checkInHistory, removeCheckIn} = useStorage();
-  const mostRecentCheckIn = checkInHistory.slice(-1)[0];
-  const formattedCheckInDate = formatCheckInDate(new Date(mostRecentCheckIn.timestamp));
+interface CheckInSuccessfulRoute {
+  route: {
+    params: CheckInData;
+  };
+}
+export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
+  const {name, timestamp} = route.params;
+  const {removeCheckIn} = useStorage();
+  const formattedCheckInDate = formatCheckInDate(new Date(timestamp));
   const i18n = useI18n();
   const navigation = useNavigation();
   const navigateHome = useCallback(() => navigation.navigate('Home'), [navigation]);
+  const cancelCheckIn = useCallback(() => {
+    removeCheckIn();
+    navigateHome();
+  }, [removeCheckIn, navigateHome]);
+
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m">
@@ -24,7 +35,7 @@ export const CheckInSuccessfulScreen = () => {
         </Box>
         <Box paddingBottom="l">
           <InfoBlock
-            titleBolded={mostRecentCheckIn.name}
+            titleBolded={name}
             backgroundColor="greenBackground"
             color="bodyText"
             button={{
@@ -40,7 +51,7 @@ export const CheckInSuccessfulScreen = () => {
         <Button variant="thinFlat" text={i18n.translate('QRCode.CheckInView.CTA1')} onPress={navigateHome} />
       </Box>
       <Box margin="m">
-        <Button variant="thinFlat" text={i18n.translate('QRCode.CheckInView.CTA2')} onPress={() => removeCheckIn()} />
+        <Button variant="thinFlat" text={i18n.translate('QRCode.CheckInView.CTA2')} onPress={cancelCheckIn} />
       </Box>
     </BaseDataSharingView>
   );
