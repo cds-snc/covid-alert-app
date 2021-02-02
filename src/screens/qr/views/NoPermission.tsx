@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
-import {Box, Text, ButtonSingleLine, Button} from 'components';
-import {StyleSheet, Linking} from 'react-native';
+import {Box, Text, Button} from 'components';
+import {Linking} from 'react-native';
 import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
@@ -14,10 +14,10 @@ export const NoPermission = () => {
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
       <Box paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-          {i18n.translate('QRCode.CameraPermissions.Title')}
+          Permission Denied!
         </Text>
 
-        <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
+        <Text marginBottom="l">Content.</Text>
 
         <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
           <Button variant="bigFlat" text={i18n.translate('QRCode.CameraPermissions.CTA')} onPress={toSettings} />
@@ -26,21 +26,3 @@ export const NoPermission = () => {
     </BaseQRCodeScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  invisible: {
-    display: 'none',
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    zIndex: 2,
-  },
-});
