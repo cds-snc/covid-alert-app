@@ -29,6 +29,7 @@ import {CheckInSuccessfulScreen} from 'screens/qr/CheckInSuccessfulScreen';
 import {ScanErrorScreen} from 'screens/qr/ScanErrorScreen';
 import {QRExposedScreen} from 'screens/qr/QRExposedScreen';
 import {LearnAboutQRScreen} from 'screens/qr/LearnAboutQRScreen';
+import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -99,6 +100,7 @@ const ScanErrorScreenWithNavBar = withDarkNav(ScanErrorScreen);
 const QRExposedScreenWithNavBar = withDarkNav(QRExposedScreen);
 const LearnAboutQRScreenWithNavBar = withDarkNav(LearnAboutQRScreen);
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
+const CheckInHistoryScreenWithNavBar = withDarkNavNonModal(CheckInHistoryScreen);
 
 const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
@@ -186,6 +188,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
       <MainStack.Screen name="QRExposedScreen" component={QRExposedScreenWithNavBar} />
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
+      <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };
