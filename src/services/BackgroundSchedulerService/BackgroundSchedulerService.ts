@@ -38,18 +38,6 @@ const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationServ
       async taskId => {
         // All background tasks come through this same callback
         switch (taskId) {
-          case 'app.covidshield.poll-notifications': {
-            try {
-              await PollNotifications.checkForNotifications();
-            } catch (error) {
-              log.error({
-                category: 'background',
-                message: `runPollNotificationsTaskError`,
-                error,
-              });
-            }
-            break;
-          }
           default: {
             log.debug({
               category: 'background',
