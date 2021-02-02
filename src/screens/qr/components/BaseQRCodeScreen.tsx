@@ -1,6 +1,6 @@
 import React, {useCallback, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {KeyboardAvoidingView, Platform, StyleSheet, ScrollView} from 'react-native';
+import {KeyboardAvoidingView, Platform, StyleSheet, ScrollView, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box} from 'components';
 import {useI18n} from 'locale';
@@ -26,7 +26,7 @@ export const BaseQRCodeScreen = ({children, showBackButton, showCloseButton}: Ba
             useWhiteText={false}
           />
         </Box>
-        <ScrollView style={styles.flex}>{children}</ScrollView>
+        <View style={styles.flex}>{children}</View>
       </SafeAreaView>
     </Box>
   );

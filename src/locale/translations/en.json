@@ -494,17 +494,19 @@
       "Title": "QR code not recognized",
       "Body": "You may not have scanned an official COVID Alert QR code.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
       "CTA": "Try Again"
+    },
+    "CheckInView": {
+      "Title": "Subscribe",
+      "CTA1": "Continue to home",
+      "CTA2": "Cancel this subscription",
+      "MoreInfo": "Learn more about QR codes and COVID alert"
+    },
+    "Exposed": {
+      "Title": "You've been Exposed"
     }
   },
-  "QRCheckInView": {
-    "Title": "Subscribe",
-    "CTA1": "Continue to home",
-    "CTA2": "Cancel this subscription",
-    "MoreInfo": "Learn more about QR codes and COVID alert"
-  },
-  "QRCodeExposed": {
-    "Title": "You've been Exposed"
-  },
+
+
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {

@@ -481,14 +481,16 @@
     "Body": "Aenean accumsan quis dolor vestibulum dignissim. Etiam id egestas lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos",
     "CTA": "Scan QR Code",
     "ScanAgain": "Tap to scan again",
-    "Back": "Back"
+    "Back": "Back",
+
+    "CheckInView": {
+      "Title": "Visite enregistrée",
+      "CTA1": "Retour à l’écran d’accueil",
+      "CTA2": "Annuler la visite",
+      "MoreInfo": "En savoir plus sur les codes QR"
+    }
   },
-  "QRCheckInView": {
-    "Title": "Visite enregistrée",
-    "CTA1": "Retour à l’écran d’accueil",
-    "CTA2": "Annuler la visite",
-    "MoreInfo": "En savoir plus sur les codes QR"
-  },
+
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {
