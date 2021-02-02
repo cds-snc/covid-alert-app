@@ -33,7 +33,12 @@ const QRBackButton = ({useWhiteText}: {useWhiteText?: boolean}) => {
   const i18n = useI18n();
   const back = useCallback(() => navigation.goBack(), [navigation]);
   return useWhiteText ? (
-    <BackButton textStyles={styles.backText} iconName="icon-chevron-back-white" onPress={back} />
+    <BackButton
+      text={i18n.translate(`QRCode.Reader.Back`)}
+      textStyles={styles.backText}
+      iconName="icon-chevron-back-white"
+      onPress={back}
+    />
   ) : (
     <Button backButton text={i18n.translate(`QRCode.Reader.Back`)} variant="text" onPress={back} />
   );
