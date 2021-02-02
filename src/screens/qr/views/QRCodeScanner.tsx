@@ -12,21 +12,21 @@ import {handleOpenURL} from '../utils';
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
-  const {setCheckInJSON} = useStorage();
+  const {addCheckIn} = useStorage();
   const [scanned, setScanned] = useState<boolean>(false);
 
   const i18n = useI18n();
   const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
     const {type, data} = scanningResult;
-    const result = await handleOpenURL({url: data});
-    setScanned(true);
-
-    if (typeof result === 'boolean') {
-      log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`});
+    try {
+      const checkInData = await handleOpenURL({url: data});
+      setScanned(true);
+      addCheckIn(checkInData);
+      // todo: pass checkInData directly to the next page so there is no async issue
+      navigation.navigate('CheckInSuccessfulScreen');
+    } catch (error) {
+      log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`, payload: {error}});
       navigation.navigate('ScanErrorScreen');
-    } else {
-      setCheckInJSON(result.id.toString());
-      navigation.navigate('CheckInSuccessfulScreen', result);
     }
   };
 

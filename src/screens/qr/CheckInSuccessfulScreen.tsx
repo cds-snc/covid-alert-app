@@ -4,11 +4,12 @@ import {useStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {useI18n} from 'locale';
-import {getCurrentDate} from 'shared/date-fns';
+import {formatCheckInDate} from 'shared/date-fns';
 
-export const CheckInSuccessfulScreen = ({route}: any) => {
-  const {name} = route.params;
-  const {checkInIDJson, setRemoveCheckIn} = useStorage();
+export const CheckInSuccessfulScreen = () => {
+  const {checkInHistory, removeCheckIn} = useStorage();
+  const mostRecentCheckIn = checkInHistory.slice(-1)[0];
+  const formattedCheckInDate = formatCheckInDate(new Date(mostRecentCheckIn.timestamp));
   const i18n = useI18n();
   const navigation = useNavigation();
   const navigateHome = useCallback(() => navigation.navigate('Home'), [navigation]);
@@ -23,14 +24,14 @@ export const CheckInSuccessfulScreen = ({route}: any) => {
         </Box>
         <Box paddingBottom="l">
           <InfoBlock
-            titleBolded={urlToString(name)}
+            titleBolded={mostRecentCheckIn.name}
             backgroundColor="greenBackground"
             color="bodyText"
             button={{
               text: '',
               action: () => {},
             }}
-            text={returnTodaysDate()}
+            text={formattedCheckInDate}
             showButton={false}
           />
         </Box>
@@ -39,30 +40,8 @@ export const CheckInSuccessfulScreen = ({route}: any) => {
         <Button variant="thinFlat" text={i18n.translate('QRCheckInView.CTA1')} onPress={navigateHome} />
       </Box>
       <Box margin="m">
-        <Button
-          variant="thinFlat"
-          text={i18n.translate('QRCheckInView.CTA2')}
-          onPress={() => setRemoveCheckIn(checkInIDJson)}
-        />
+        <Button variant="thinFlat" text={i18n.translate('QRCheckInView.CTA2')} onPress={() => removeCheckIn()} />
       </Box>
     </BaseDataSharingView>
   );
-};
-
-function urlToString(url: string): string {
-  const title = url.replace(/_/g, ' ');
-  return title;
-}
-
-const returnTodaysDate = (): string => {
-  const today = getCurrentDate();
-  const dateString = today.toLocaleString('default', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  });
-  return dateString;
 };

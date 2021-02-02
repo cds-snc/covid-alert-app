@@ -2,26 +2,22 @@ import React from 'react';
 import {Box, Text} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {useStorage} from 'services/StorageService';
+import {CheckInData} from 'shared/qr';
+import {formatCheckInDate} from 'shared/date-fns';
 
-// what we should be storing:
-export interface CheckInData {
-  id: string;
-  name: string;
-  timestamp: number;
-}
-
-const CheckInList = ({checkIns}: {checkIns: string[] | string}) => {
-  console.log("checkIns", checkIns);
-  if (!Array.isArray(checkIns)) {
+const CheckInList = ({checkIns}: {checkIns: CheckInData[]}) => {
+  if (checkIns.length === 0) {
     return <Text>No Check-ins yet</Text>;
   }
   return (
     <>
-      {checkIns.map((locationId, index) => {
+      {checkIns.map((checkIn, index) => {
         return (
-          <Text marginBottom="l" key={locationId.concat(index.toString())}>
-            {locationId}
-          </Text>
+          <Box marginBottom="l" key={checkIn.id.concat(index.toString())}>
+            <Text>ID: {checkIn.id}</Text>
+            <Text>Name: {checkIn.name}</Text>
+            <Text>Time: {formatCheckInDate(new Date(checkIn.timestamp))}</Text>
+          </Box>
         );
       })}
     </>
@@ -29,8 +25,7 @@ const CheckInList = ({checkIns}: {checkIns: string[] | string}) => {
 };
 
 export const CheckInHistoryScreen = () => {
-  const {checkInIDJson} = useStorage();
-  console.log('checkInIDJson', {checkInIDJson});
+  const {checkInHistory} = useStorage();
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m">
@@ -38,7 +33,7 @@ export const CheckInHistoryScreen = () => {
           Check-in History
         </Text>
         <Box>
-          <CheckInList checkIns={checkInIDJson} />
+          <CheckInList checkIns={checkInHistory} />
         </Box>
       </Box>
     </BaseDataSharingView>

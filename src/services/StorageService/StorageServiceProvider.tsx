@@ -2,6 +2,7 @@ import React, {createContext, useCallback, useContext, useEffect, useMemo, useSt
 import AsyncStorage from '@react-native-community/async-storage';
 import {DevSettings} from 'react-native';
 import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
+import {CheckInData} from 'shared/qr';
 import {getSystemLocale} from 'locale/utils';
 
 import {StorageService, createStorageService} from './StorageService';
@@ -52,17 +53,17 @@ export const useStorage = () => {
     [storageService],
   );
 
-  const [checkInID, setCheckInId] = useState(storageService.checkInID.get());
-  const setCheckIn = useMemo(
-    () => (checkIn: string) => {
-      storageService.setCheckIn(checkIn);
+  const [checkInHistory, addCheckInInternal] = useState(storageService.checkInHistory.get());
+  const addCheckIn = useMemo(
+    () => (newCheckIn: CheckInData) => {
+      storageService.addCheckIn(newCheckIn);
     },
     [storageService],
   );
 
-  const setRemoveCheckIn = useMemo(
-    () => (IDtoRemove: string) => {
-      storageService.removeCheckInID(IDtoRemove);
+  const removeCheckIn = useMemo(
+    () => () => {
+      storageService.removeCheckIn();
     },
     [storageService],
   );
@@ -83,7 +84,7 @@ export const useStorage = () => {
 
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
-  useEffect(() => storageService.checkInID.observe(setCheckInId), [storageService.checkInID]);
+  useEffect(() => storageService.checkInHistory.observe(addCheckInInternal), [storageService.checkInHistory]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
   useEffect(() => storageService.onboardedDatetime.observe(setOnboardedDatetimeInternal), [
     storageService.onboardedDatetime,
@@ -91,7 +92,6 @@ export const useStorage = () => {
   useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
   useEffect(() => storageService.skipAllSet.observe(setSkipAllSetInternal), [storageService.skipAllSet]);
   useEffect(() => storageService.userStopped.observe(setUserStoppedInternal), [storageService.userStopped]);
-  // useEffect(() => storageService.checkInID.observe(setRemoveCheckIn), [storageService.checkInID]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
@@ -112,9 +112,9 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
-      checkInIDJson: checkInID,
-      setCheckInJSON: setCheckIn,
-      setRemoveCheckIn,
+      checkInHistory,
+      addCheckIn,
+      removeCheckIn,
       region,
       setRegion,
       onboardedDatetime,
@@ -132,9 +132,9 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
-      checkInID,
-      setCheckIn,
-      setRemoveCheckIn,
+      checkInHistory,
+      addCheckIn,
+      removeCheckIn,
       region,
       setRegion,
       onboardedDatetime,

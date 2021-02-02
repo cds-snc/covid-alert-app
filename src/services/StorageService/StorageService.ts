@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Observable} from 'shared/Observable';
 import {ForceScreen} from 'shared/ForceScreen';
 import {Region} from 'shared/Region';
+import {CheckInData} from 'shared/qr';
 import {getSystemLocale} from 'locale/utils';
 
 export enum Key {
@@ -12,7 +13,7 @@ export enum Key {
   ForceScreen = 'ForceScreen',
   SkipAllSet = 'SkipAllSet',
   UserStopped = 'UserStopped',
-  CheckInId = 'CheckInID',
+  CheckInHistory = 'CheckInHistory',
 }
 
 export class StorageService {
@@ -23,7 +24,7 @@ export class StorageService {
   forceScreen: Observable<ForceScreen | undefined>;
   skipAllSet: Observable<boolean>;
   userStopped: Observable<boolean>;
-  checkInID: Observable<string>;
+  checkInHistory: Observable<CheckInData[]>;
 
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
@@ -33,7 +34,7 @@ export class StorageService {
     this.forceScreen = new Observable<ForceScreen | undefined>(undefined);
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
-    this.checkInID = new Observable<string>('0');
+    this.checkInHistory = new Observable<CheckInData[]>([]);
   }
 
   setOnboarded = async (value: boolean) => {
@@ -71,28 +72,21 @@ export class StorageService {
     this.userStopped.set(value);
   };
 
-  setCheckIn = async (value: string) => {
-    const existingIds = (await AsyncStorage.getItem(Key.CheckInId)) || '0';
-
-    let newId = JSON.parse(existingIds);
-    if (!newId) {
-      newId = [];
-    }
-    newId.push(value);
-    await AsyncStorage.setItem(Key.CheckInId, JSON.stringify(newId));
-    this.checkInID.set(value);
+  addCheckIn = async (value: CheckInData) => {
+    const _checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
+    const checkInHistory = JSON.parse(_checkInHistory);
+    checkInHistory.push(value);
+    await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(checkInHistory));
+    this.checkInHistory.set(checkInHistory);
   };
 
-  removeCheckInID = async (value: string) => {
-    const IDs = await AsyncStorage.getItem(Key.CheckInId);
-    if (IDs !== null) {
-      const parsedIDs = JSON.parse(IDs);
-      const index = parsedIDs.indexOf(value);
-      if (index > -1) {
-        parsedIDs.splice(index, 1);
-      }
-      await AsyncStorage.setItem(Key.CheckInId, JSON.stringify(parsedIDs));
-    }
+  removeCheckIn = async () => {
+    // removes most recent Check In
+    const _checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
+    const checkInHistory = JSON.parse(_checkInHistory);
+    const newCheckInHistory = checkInHistory.slice(0, -1);
+    await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(newCheckInHistory));
+    this.checkInHistory.set(newCheckInHistory);
   };
 
   init = async () => {
@@ -119,8 +113,8 @@ export class StorageService {
     const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
     this.userStopped.set(userStopped);
 
-    const checkInID = (await AsyncStorage.getItem(Key.CheckInId)) || '0';
-    this.checkInID.set(JSON.parse(checkInID));
+    const checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
+    this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 }
 
