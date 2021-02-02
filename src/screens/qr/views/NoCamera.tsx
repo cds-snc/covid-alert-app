@@ -1,9 +1,7 @@
 import React, {useCallback} from 'react';
-import {Box, Text, Toolbar, ButtonSingleLine} from 'components';
-import {ScrollView, StyleSheet} from 'react-native';
+import {Box, Text, ButtonSingleLine} from 'components';
 import {useI18n} from 'locale';
 import {BarCodeScanner} from 'expo-barcode-scanner';
-import {useNavigation} from '@react-navigation/native';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
@@ -34,21 +32,3 @@ export const NoCamera = ({updatePermissions}: {updatePermissions: () => void}) =
     </BaseQRCodeScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  invisible: {
-    display: 'none',
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    zIndex: 2,
-  },
-});

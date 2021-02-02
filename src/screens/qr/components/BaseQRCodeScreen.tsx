@@ -1,6 +1,5 @@
-import React, {useCallback, useContext} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {KeyboardAvoidingView, Platform, StyleSheet, ScrollView, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box} from 'components';
 import {useI18n} from 'locale';
