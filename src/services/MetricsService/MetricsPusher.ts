@@ -20,7 +20,7 @@ export class DefaultMetricsPusher implements MetricsPusher {
 
   push(jsonAsString: string): Promise<MetricsPusherResult> {
     log.debug({
-      category: 'debug',
+      category: 'metrics',
       message: 'sending metrics to server',
       payload: jsonAsString,
     });
@@ -36,7 +36,7 @@ export class DefaultMetricsPusher implements MetricsPusher {
       .then(response => response.json())
       .then(json => {
         log.debug({
-          category: 'debug',
+          category: 'metrics',
           message: 'metrics server response',
           payload: json,
         });
