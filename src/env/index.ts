@@ -35,6 +35,8 @@ export const LOG_LEVEL = Config.LOG_LEVEL || 'debug';
 
 export const METRICS_URL = Config.METRICS_URL;
 
+export const METRICS_API_KEY = Config.METRICS_API_KEY;
+
 /**
  * Set reachability check url to empty to prevent
  * unnecessary background network activity
