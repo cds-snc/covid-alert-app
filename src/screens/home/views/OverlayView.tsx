@@ -19,7 +19,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {EventTypeMetric, useMetrics} from 'shared/metrics';
 
-import {InfoShareAction} from '../components/InfoShareAction';
+import {PrimaryActionButton} from '../components/PrimaryActionButton';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
@@ -27,8 +27,8 @@ import {StatusHeaderView} from './StatusHeaderView';
 const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: BottomSheetBehavior}) => {
   const navigation = useNavigation();
   return (
-    <InfoShareAction
-      icon="icon-chevron"
+    <PrimaryActionButton
+      icon="qr-code"
       text={i18n.translate('QRCode.CTA')}
       onPress={() => {
         bottomSheetBehavior.collapse();
@@ -119,20 +119,6 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
       variant="bigFlatNeutralGrey"
     />
   );
-
-  /*
-  return (
-    <InfoBlock
-      icon="icon-notifications"
-      title={i18n.translate('OverlayOpen.NotificationCardStatus')}
-      titleBolded={i18n.translate('OverlayOpen.NotificationCardStatusOff')}
-      text={i18n.translate('OverlayOpen.NotificationCardBody')}
-      button={{text: i18n.translate('OverlayOpen.NotificationCardAction'), action}}
-      backgroundColor="infoBlockNeutralBackground"
-      color="overlayBodyText"
-    />
-  );
-  */
 };
 
 const ShareDiagnosisCode = ({
