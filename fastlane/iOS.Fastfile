@@ -68,9 +68,7 @@ platform :ios do
     )
 
     # Upload to TestFlight
-    groups = ENV["TEST_GROUPS"].split(",")
     upload_to_testflight(
-      groups: groups,
       skip_submission: true,
       ipa: lane_context[SharedValues::IPA_OUTPUT_PATH]
     )
