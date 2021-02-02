@@ -140,8 +140,8 @@ export class DefaultMetricsService implements MetricsService {
                 Promise.resolve(TriggerPushResult.Success),
               ]);
             case MetricsPusherResult.Error:
+            default:
               return Promise.all([Promise.resolve(), Promise.resolve(), Promise.resolve(TriggerPushResult.Error)]);
-              break;
           }
         })
         .then(([, , result]) => result);

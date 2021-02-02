@@ -3,12 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ActivityIndicator, ScrollView, StyleSheet, Alert} from 'react-native';
 import {Box, Button} from 'components';
 import {useI18n} from 'locale';
-import {
-  useReportDiagnosis,
-  cannotGetTEKsError,
-  useExposureStatus,
-  useExposureHistory,
-} from 'services/ExposureNotificationService';
+import {useReportDiagnosis, cannotGetTEKsError, useExposureHistory} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
