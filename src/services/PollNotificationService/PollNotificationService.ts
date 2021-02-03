@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME, NOTIFICATION_FEED_URL, TEST_MODE} from 'env';
 import semver from 'semver';
 import {log} from 'shared/logging/config';
-import RNSecureKeyStore from 'react-native-secure-key-store';
+import RNSecureKeyStore, { ACCESSIBLE } from 'react-native-secure-key-store';
 import {getCurrentDate, minutesBetween} from 'shared/date-fns';
 import {I18n} from 'locale';
 
@@ -202,7 +202,9 @@ const getLastPollNotificationDateTime = async (): Promise<any> => {
 };
 
 const markLastPollDateTime = async (date: Date): Promise<void> => {
-  return RNSecureKeyStore.set(LastPollNotificationDateTime, `${date.getTime()}`, null).catch(() => null);
+  return RNSecureKeyStore.set(LastPollNotificationDateTime, `${date.getTime()}`, {
+    accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
+  }).catch(() => null);
 };
 
 export const PollNotifications = {
