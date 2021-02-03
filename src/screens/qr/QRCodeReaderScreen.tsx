@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {BarCodeScanner, PermissionResponse} from 'expo-barcode-scanner';
 import {Box} from 'components';
 
-import {QRCodeScanner, NoPermission, NoCamera} from './views';
+import {QRCodeScanner, CameraPermissionDenied, RequestCameraPermission} from './views';
 
 const Content = () => {
   const [hasPermission, setHasPermission] = useState<PermissionResponse | undefined>();
@@ -19,12 +19,12 @@ const Content = () => {
   }, []);
 
   if (hasPermission?.canAskAgain === false) {
-    return <NoPermission />;
+    return <CameraPermissionDenied />;
   }
 
   if (!hasPermission || hasPermission?.granted === false) {
     return (
-      <NoCamera
+      <RequestCameraPermission
         updatePermissions={() => {
           checkPermissions();
         }}

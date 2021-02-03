@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
-export const ScanErrorScreen = () => {
+export const InvalidQRCodeScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const tryAgain = useCallback(() => navigation.navigate('QRCodeReaderScreen'), [navigation]);

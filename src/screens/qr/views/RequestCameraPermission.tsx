@@ -5,7 +5,7 @@ import {BarCodeScanner} from 'expo-barcode-scanner';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
-export const NoCamera = ({updatePermissions}: {updatePermissions: () => void}) => {
+export const RequestCameraPermission = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
 
   const requestPermissions = useCallback(async () => {

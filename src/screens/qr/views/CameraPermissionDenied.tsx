@@ -5,7 +5,7 @@ import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
-export const NoPermission = () => {
+export const CameraPermissionDenied = () => {
   const i18n = useI18n();
   const toSettings = useCallback(() => {
     Linking.openSettings();
