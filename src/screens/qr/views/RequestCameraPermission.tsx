@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react';
-import {Box, Text, ButtonSingleLine} from 'components';
+import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
+import {StyleSheet} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
@@ -14,17 +15,19 @@ export const RequestCameraPermission = ({updatePermissions}: {updatePermissions:
   }, [updatePermissions]);
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
-      <Box paddingHorizontal="m">
+      <Box paddingHorizontal="m" style={styles.flex}>
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.CameraPermissions.Title')}
         </Text>
-
-        <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
+        <Box style={styles.flex}>
+          <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body')}</Text>
+          <Text marginBottom="l">{i18n.translate('QRCode.CameraPermissions.Body2')}</Text>
+        </Box>
 
         <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
-          <ButtonSingleLine
-            text={i18n.translate('QRCode.CameraPermissions.CTA')}
+          <Button
             variant="thinFlat"
+            text={i18n.translate('QRCode.CameraPermissions.CTA')}
             onPress={requestPermissions}
           />
         </Box>
@@ -32,3 +35,8 @@ export const RequestCameraPermission = ({updatePermissions}: {updatePermissions:
     </BaseQRCodeScreen>
   );
 };
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+});
