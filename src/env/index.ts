@@ -15,6 +15,8 @@ export const SUBMIT_URL = Config.SUBMIT_URL;
 
 export const RETRIEVE_URL = Config.RETRIEVE_URL;
 
+export const NOTIFICATION_FEED_URL = Config.NOTIFICATION_FEED_URL;
+
 export const HMAC_KEY = Config.HMAC_KEY;
 
 export const MCC_CODE = parseInt(Config.MCC_CODE, 10) || 302;

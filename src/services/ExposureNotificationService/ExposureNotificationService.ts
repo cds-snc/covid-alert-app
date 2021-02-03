@@ -27,6 +27,7 @@ import {EN_API_VERSION} from 'env';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {PollNotifications} from 'services/PollNotificationService';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -273,6 +274,7 @@ export class ExposureNotificationService {
         message: 'updatedExposureStatusInBackground',
         payload: {exposureStatus},
       });
+      PollNotifications.checkForNotifications(this.i18n);
     } catch (error) {
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
