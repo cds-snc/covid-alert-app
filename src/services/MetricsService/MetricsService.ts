@@ -122,6 +122,8 @@ export class DefaultMetricsService implements MetricsService {
           if (minutesSinceLastUpload > MIN_UPLOAD_MINUTES + randomMinutes) {
             return pushAndMarkLastUploadedDateTime();
           }
+        } else {
+          return pushAndMarkLastUploadedDateTime();
         }
       });
     });
@@ -166,7 +168,7 @@ export class DefaultMetricsService implements MetricsService {
   private getLastMetricTimestampSentToTheServer(): Promise<number | null> {
     return this.secureKeyValueStore
       .retrieve(LastMetricTimestampSentToTheServerUniqueIdentifier)
-      .then(value => Number(value));
+      .then(value => (value ? Number(value) : null));
   }
 
   private markLastMetricTimestampSentToTheServer(timestamp: number): Promise<void> {
@@ -174,7 +176,9 @@ export class DefaultMetricsService implements MetricsService {
   }
 
   private getMetricsLastUploadedDateTime(): Promise<Date | null> {
-    return this.secureKeyValueStore.retrieve(MetricsLastUploadedDateTime).then(value => new Date(Number(value)));
+    return this.secureKeyValueStore
+      .retrieve(MetricsLastUploadedDateTime)
+      .then(value => (value ? new Date(Number(value)) : null));
   }
 
   private markMetricsLastUploadedDateTime(date: Date): Promise<void> {
