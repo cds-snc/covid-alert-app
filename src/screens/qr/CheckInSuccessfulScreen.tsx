@@ -2,10 +2,12 @@ import React, {useCallback} from 'react';
 import {Box, Button, Text, Icon, InfoBlock} from 'components';
 import {useStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
-import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {useI18n} from 'locale';
 import {formatCheckInDate} from 'shared/date-fns';
 import {CheckInData} from 'shared/qr';
+import {StyleSheet} from 'react-native';
+
+import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
 interface CheckInSuccessfulRoute {
   route: {
@@ -25,8 +27,8 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
   }, [removeCheckIn, navigateHome]);
 
   return (
-    <BaseDataSharingView showBackButton={false}>
-      <Box paddingHorizontal="m">
+    <BaseQRCodeScreen showBackButton={false}>
+      <Box paddingHorizontal="m" style={styles.flex}>
         <Box paddingBottom="l">
           <Icon name="icon-green-check" height={50} width={60} />
           <Text variant="bodySubTitle" marginTop="xl">
@@ -47,12 +49,21 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
           />
         </Box>
       </Box>
-      <Box marginTop="l" padding="m">
+      <Box marginHorizontal="m" marginBottom="m">
         <Button variant="thinFlat" text={i18n.translate('QRCode.CheckInView.CTA1')} onPress={navigateHome} />
       </Box>
-      <Box margin="m">
-        <Button variant="thinFlat" text={i18n.translate('QRCode.CheckInView.CTA2')} onPress={cancelCheckIn} />
+      <Box marginHorizontal="m" marginBottom="l">
+        <Button variant="thinFlatGrey" text={i18n.translate('QRCode.CheckInView.CTA2')} onPress={cancelCheckIn} />
       </Box>
-    </BaseDataSharingView>
+    </BaseQRCodeScreen>
   );
 };
+
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+  button: {
+    fontSize: 18,
+  },
+});
