@@ -1,11 +1,10 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
-import {Text, ButtonSingleLine, Box} from 'components';
+import {Text, ButtonSingleLine, Box, RoundedBox} from 'components';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
-import {StyleSheet, Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -21,14 +20,7 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
 
   return (
     <BaseHomeView iconName="hand-reminder" testID="diagnosedShare">
-      <Box
-        alignSelf="stretch"
-        style={styles.roundedBox}
-        backgroundColor="bodyTitleWhite"
-        paddingHorizontal="m"
-        paddingVertical="m"
-        marginBottom="m"
-      >
+      <RoundedBox isFirstBox>
         <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedShareView.Title')}
         </Text>
@@ -47,15 +39,7 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
             iconName="icon-chevron-white"
           />
         </Box>
-      </Box>
+      </RoundedBox>
     </BaseHomeView>
   );
 };
-const styles = StyleSheet.create({
-  roundedBox: {
-    marginTop: Platform.OS === 'ios' ? 5 : 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    zIndex: -1,
-  },
-});

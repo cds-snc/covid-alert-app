@@ -21,3 +21,4 @@ export * from './Toolbar';
 export * from './TouchableIcon';
 export * from './LanguageToggle';
 export * from './ErrorBox';
+export * from './RoundedBox';
