@@ -1,3 +1,3 @@
-export * from './NoCamera';
-export * from './NoPermission';
+export * from './RequestCameraPermission';
+export * from './CameraPermissionDenied';
 export * from './QRCodeScanner';
