@@ -35,6 +35,8 @@ export const LOG_LEVEL = Config.LOG_LEVEL || 'debug';
 
 export const QR_CODE_PUBLIC_KEY = Config.QR_CODE_PUBLIC_KEY;
 
+export const OUTBREAK_LOCATIONS_URL = Config.OUTBREAK_LOCATIONS_URL;
+
 /**
  * Set reachability check url to empty to prevent
  * unnecessary background network activity
