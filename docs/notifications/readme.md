@@ -1,4 +1,4 @@
-# Pull/Poll notifications proof-of-concept
+# Pull/Poll notifications
 
 With traditional Push Notifications, a Device ID and other device meta information is shared with a third-party service, which raises privacy concerns.
 
@@ -22,7 +22,7 @@ To prevent "notification fatigue" where a newly onboarded user might have multip
 
 ## Read receipts
 
-The mobile app will store read receipts in AsyncStorage keyed by message.id
+The mobile app will store read receipts in RNSecureKeyStore keyed by message.id
 
 ## Files
 
@@ -31,7 +31,6 @@ The mobile app will store read receipts in AsyncStorage keyed by message.id
 
 ## Notes
 
-- For POC, the JSON file could be stored in an S3 bucket or even Github
 - Probably best to not store messages for long, ie we should trim the json of expired notifications when publishing new ones to limit bandwidth usage
 - The mobile app should have a local storage mechanism to track receipts using the unique id of the message (sqlite)
 - Can provide target_region for display (Province codes, CA for all)
