@@ -17,7 +17,7 @@ export const Toolbar = ({navText, showBackButton, showCloseButton, useWhiteText}
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
-    <Box flexDirection="row" alignItems="center" minHeight={56}>
+    <Box flexDirection="row" alignItems="center" minHeight={76}>
       {showBackButton ? <QRBackButton useWhiteText={useWhiteText} /> : null}
       {showCloseButton ? (
         <Box style={styles.right}>

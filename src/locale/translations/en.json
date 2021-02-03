@@ -488,6 +488,7 @@
     "CameraPermissions": {
       "Title": "Allow camera permissions",
       "Body": "The app needs permission to use your camera to read the QR codes.\n\nYou can also use your phone’s camera app if you prefer not to let the app access your camera.",
+      "Body2": "You can also update your phone’s settings to give COVID Alert permission to use the camera.",
       "CTA": "Allow camera permissions"
     },
     "Error": {
