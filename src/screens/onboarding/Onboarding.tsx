@@ -9,6 +9,7 @@ import {useStorage} from 'services/StorageService';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {getCurrentDate} from 'shared/date-fns';
 import {useAccessibilityService} from 'services/AccessibilityService';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingContent';
 
@@ -60,6 +61,7 @@ export const OnboardingScreen = () => {
   const nextItem = useCallback(async () => {
     if (isEnd) {
       await setOnboarded(true);
+      FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.Onboarded});
       await setOnboardedDatetime(getCurrentDate());
       navigation.reset({
         index: 0,

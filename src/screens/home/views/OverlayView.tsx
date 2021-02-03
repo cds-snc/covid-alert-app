@@ -23,9 +23,9 @@ import {StatusHeaderView} from './StatusHeaderView';
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
-  const onPress = () => {
+  const onPress = async () => {
     if (Platform.OS === 'android') {
-      startExposureNotificationService();
+      await startExposureNotificationService();
       return;
     }
     return toSettings();
@@ -48,9 +48,9 @@ const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
 
 const SystemStatusUnauthorized = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
-  const onPress = () => {
+  const onPress = async () => {
     if (Platform.OS === 'android') {
-      startExposureNotificationService();
+      await startExposureNotificationService();
       return;
     }
     return toSettings();
@@ -210,6 +210,7 @@ const TurnAppBackOn = ({
   bottomSheetBehavior: BottomSheetBehavior;
 }) => {
   const startExposureNotificationService = useStartExposureNotificationService();
+
   const onStart = useCallback(async () => {
     bottomSheetBehavior.collapse();
     await startExposureNotificationService();

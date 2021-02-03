@@ -1,6 +1,6 @@
-app_identifier ENV["APP_ID_IOS"]
+app_identifier ENV["APP_ID"]
 apple_id ENV["APPLE_ID"]
 team_id ENV["TEAM_ID"]
 
-package_name ENV["APP_ID_ANDROID"]
+package_name ENV["APP_ID"]
 json_key_file ENV["PLAY_STORE_CREDENTIALS"]

@@ -6,11 +6,6 @@
       "CTA": "Turn back on"
     },
     "NoExposureDetected": {
-      "WhatsNew": {
-        "Title": "New notifications show app is working",
-        "Body1": "If you got a notification that popped up and went away, it’s ok.",
-        "Body2": "The app now shows notifications while checking for exposures."
-      },
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
@@ -189,7 +184,7 @@
       }
     },
     "ChangeRegion": "Change province or territory",
-    "Privacy": "How it protects your privacy",
+    "Privacy": "Privacy",
     "PrivacyUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/privacy-policy.html",
     "SettingsTitle": "Settings",
     "InformationTitle": "About COVID Alert"
@@ -320,15 +315,15 @@
         "3a": "3. Allow your phone to share ",
         "3b": "your random codes. These codes notify people you’ve been near."
       },
-      "Body1": "Nobody will get any information about you ",
+      "Body1": "Exposed people will not get any information about you ",
       "Body2": "or the time you were near them. They will only get a notification that they were exposed recently.",
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
     },
-    "IntermediateStep":{
+    "IntermediateStep": {
       "Title": "Finish sharing exposures",
-      "List":{
-        "1a":"1. ",
+      "List": {
+        "1a": "1. ",
         "1b": "Done.",
         "2a": "2. Give the app details ",
         "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
@@ -425,7 +420,8 @@
     "PausedMessageTitle": "You turned off the app",
     "PausedMessageBody": "The app is not recording exposures because you turned it off.",
     "OTKNotSharedTitle": "Not quite done",
-    "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet."
+    "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet.",
+    "AndroidChannelName": "COVID Alert"
   },
   "Partners": {
     "Label": "Developed in partnership with"
@@ -445,7 +441,7 @@
     "Title": "Where do you live? (optional)",
     "SettingsTitle": "Province or territory",
     "Close": "Close",
-    "Body": "Choose your region to check if you can report a diagnosis through this app.\n\nYour region will never be shared with anyone.",
+    "Body": "Choose your region to check if you can report a diagnosis through this app.",
     "Skip": "Skip",
     "GetStarted": "Get started",
     "Optional": "* Optional",
@@ -472,7 +468,7 @@
   "RegionPickerNoPT": {
     "Exposed": {
       "Title": "Find your area’s advice",
-      "Body": "The steps you need to take when you’re exposed depend on the province or territory you live in. The app will not remember your choice."
+      "Body": "The steps you need to take when you’re exposed depend on the province or territory you live in."
     }
   },
   "A11yList": {

@@ -1,6 +1,6 @@
 {
-  "name": "CovidAlert",
-  "version": "1.1.6",
+  "name": "covidalert",
+  "version": "1.1.7",
   "private": true,
   "scripts": {
     "postinstall": "patch-package",
@@ -8,6 +8,7 @@
     "bundle-ios": "yarn generate-translations && react-native bundle --dev false --platform ios --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios",
     "codegen-protobuf": "pbjs -t static-module -o src/services/BackendService/covidshield/covidshield.js src/services/BackendService/covidshield/covidshield.proto && pbts -o src/services/BackendService/covidshield/covidshield.d.ts src/services/BackendService/covidshield/covidshield.js",
     "generate-translations": "node translations.js",
+    "generate-translations:regional": "node translations-regional.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pod-install": "pushd ios; bundle exec pod install; popd",
     "run-android": "react-native run-android --variant debug",
@@ -19,13 +20,15 @@
     "pre:test:ios": "detox build --configuration=ios",
     "pre:test:android": "detox build --configuration=android",
     "tsc": "tsc",
+    "onboard": "bundle exec fastlane onboard",
+    "onboard:dev_only": "bundle exec fastlane onboard_dev",
     "get_latest_version": "bundle exec fastlane get_latest_version",
     "deploy-android:staging": "bundle exec fastlane android build_and_deploy type:staging",
     "deploy-android:production": "bundle exec fastlane android build_and_deploy type:production",
     "deploy-ios:staging": "bundle exec fastlane ios build_and_deploy type:staging",
     "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production",
-    "deploy-ios:diawi": "bundle exec fastlane ios adhoc",
-    "deploy-android:diawi": "bundle exec fastlane android adhoc",
+    "deploy-ios:diawi": "bundle exec fastlane ios adhoc env:diawi",
+    "deploy-android:diawi": "bundle exec fastlane android adhoc env:diawi",
     "deploy-ios:demo": "bundle exec fastlane ios build_and_deploy type:demo"
   },
   "dependencies": {
@@ -45,6 +48,7 @@
     "date-time-format-timezone": "^1.0.22",
     "intl": "^1.2.5",
     "jsonschema": "^1.2.6",
+    "p-queue": "^6.6.2",
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-background-fetch": "^3.1.0",

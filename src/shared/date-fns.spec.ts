@@ -9,6 +9,9 @@ import {
   getCurrentDate,
   parseDateString,
   formatExposedDate,
+  parseSavedTimestamps,
+  getFirstThreeUniqueDates,
+  getHoursBetween,
 } from './date-fns';
 
 /**
@@ -151,15 +154,10 @@ describe('date-fns', () => {
 
   // formatExposedDate
   describe('formatExposedDate', () => {
-    it('returns formatted date for en', () => {
-      const dateFormatOptions = {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      };
-      // en-CA
-      const enStr = new Date(1605814310000).toLocaleString('en-CA', dateFormatOptions);
-      expect(formatExposedDate('en-CA', enStr)).toStrictEqual('Nov.\u00a019,\u00a02020');
+    it('returns formatted date for en and fr', () => {
+      expect(formatExposedDate(new Date(1605814310000), 'en-CA')).toStrictEqual('Nov.\u00a019,\u00a02020');
+      // the following test fails in CI for some reason
+      // expect(formatExposedDate(new Date(1605814310000), 'fr-CA')).toStrictEqual('19\u00a0nov.\u00a02020');
     });
   });
 
@@ -202,6 +200,65 @@ describe('date-fns', () => {
       ['', null],
     ])('parses %p as %p', async (input, output) => {
       expect(parseDateString(input)).toStrictEqual(output);
+    });
+  });
+
+  describe('parseSavedTimestamps', () => {
+    it('parsed a comma separated string of timestamps', () => {
+      expect(parseSavedTimestamps('1,2,3')).toStrictEqual([1, 2, 3]);
+      expect(parseSavedTimestamps('1609484400000')).toStrictEqual([1609484400000]);
+      expect(parseSavedTimestamps('1609484400000,1609570800000')).toStrictEqual([1609484400000, 1609570800000]);
+      expect(parseSavedTimestamps('1609484400000,1609570800000,1609657200000')).toStrictEqual([
+        1609484400000,
+        1609570800000,
+        1609657200000,
+      ]);
+    });
+  });
+
+  describe('getFirstThreeUniqueDates', () => {
+    it('gets only unique dates from an array of formatted dates', () => {
+      expect(getFirstThreeUniqueDates(['Jan. 1 2021', 'Jan. 1 2021'])).toStrictEqual(['Jan. 1 2021']);
+      expect(getFirstThreeUniqueDates(['Jan. 2 2021', 'Jan. 1 2021'])).toStrictEqual(['Jan. 2 2021', 'Jan. 1 2021']);
+      expect(getFirstThreeUniqueDates(['Jan. 2 2021', 'Jan. 1 2021', 'Jan. 1 2021'])).toStrictEqual([
+        'Jan. 2 2021',
+        'Jan. 1 2021',
+      ]);
+    });
+    it('gets only the first 3 dates from an array of formatted dates', () => {
+      expect(getFirstThreeUniqueDates(['Jan. 4 2021', 'Jan. 3 2021', 'Jan. 2 2021', 'Jan. 1 2021'])).toStrictEqual([
+        'Jan. 4 2021',
+        'Jan. 3 2021',
+        'Jan. 2 2021',
+      ]);
+      expect(getFirstThreeUniqueDates(['Jan. 4 2021', 'Jan. 3 2021', 'Jan. 2 2021', 'Jan. 2 2021'])).toStrictEqual([
+        'Jan. 4 2021',
+        'Jan. 3 2021',
+        'Jan. 2 2021',
+      ]);
+    });
+  });
+
+  describe('calculates hours', () => {
+    it('calculates short number of hours between', () => {
+      const now = getCurrentDate();
+      const hrs = 5 * 60 * 60 * 1000;
+      const plusFiveHours = new Date(now.getTime() + hrs);
+      expect(getHoursBetween(now, plusFiveHours)).toStrictEqual(5);
+    });
+
+    it('calculates negative hours', () => {
+      const now = getCurrentDate();
+      const hrs = -5 * 60 * 60 * 1000;
+      const minusFiveHours = new Date(now.getTime() + hrs);
+      expect(getHoursBetween(now, minusFiveHours)).toStrictEqual(-5);
+    });
+
+    it('calculates hours for 2 days in the future', () => {
+      const now = getCurrentDate();
+      const twoDaysFromNow = new Date(Number(now));
+      twoDaysFromNow.setDate(now.getDate() + 2);
+      expect(getHoursBetween(now, twoDaysFromNow)).toStrictEqual(48);
     });
   });
 

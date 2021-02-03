@@ -5,6 +5,7 @@ import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 export const LandingScreen = () => {
   const i18n = useI18n();
@@ -43,6 +44,9 @@ export const LandingScreen = () => {
     },
     [navigation, setLocale],
   );
+
+  FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.Installed});
+
   return (
     <SafeAreaView style={styles.flex}>
       <Box flex={1} marginBottom="s" style={{...styles.imageBackround}}>

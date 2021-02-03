@@ -3,11 +3,12 @@ import {useNavigation} from '@react-navigation/native';
 import {ActivityIndicator, ScrollView, StyleSheet, Alert} from 'react-native';
 import {Box, Button} from 'components';
 import {useI18n} from 'locale';
-import {useReportDiagnosis, cannotGetTEKsError} from 'services/ExposureNotificationService';
+import {useReportDiagnosis, cannotGetTEKsError, useExposureHistory} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -32,6 +33,7 @@ export const BaseTekUploadView = ({
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys, setIsUploading} = useReportDiagnosis();
+  const exposureHistory = useExposureHistory();
 
   const onSuccess = useCallback(() => {
     AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
@@ -77,13 +79,20 @@ export const BaseTekUploadView = ({
       await fetchAndSubmitKeys(contagiousDateInfo);
       setLoading(false);
       setIsUploading(false);
+
+      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
+        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkNoDate, exposureHistory});
+      } else {
+        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkWithDate});
+      }
+
       onSuccess();
     } catch (error) {
       setLoading(false);
       setIsUploading(false);
       onError(error);
     }
-  }, [contagiousDateInfo, fetchAndSubmitKeys, onError, onSuccess]);
+  }, [contagiousDateInfo, exposureHistory, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
 
   if (loading) {
     return (
