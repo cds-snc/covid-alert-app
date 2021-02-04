@@ -102,6 +102,11 @@ const Content = () => {
   const navigation = useNavigation();
 
   const {reset, checkInHistory} = useStorage();
+
+  const onClearOutbreak = useCallback(async () => {
+    //add code to clear once the outbreak status is available
+  }, []);
+
   const onCheckForOutbreak = useCallback(async () => {
     const exposed = await checkForOutbreakExposures(checkInHistory);
     if (exposed) {
@@ -147,6 +152,9 @@ const Content = () => {
       </Section>
       <Section>
         <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
+      </Section>
+      <Section>
+        <Button text="Clear Outbreak Exposures" onPress={onClearOutbreak} variant="bigFlat" />
       </Section>
       <Section>
         <Item title="Force screen" />
