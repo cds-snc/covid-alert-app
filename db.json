@@ -1,7 +1,7 @@
 {
   "exposedLocations" : [
-    {"id": "150", "name": "Tim Hortons"},
-    {"id":"2", "name": "Mr. Lube"},
-    {"id":"3", "name": "Burger King"}
+    {"id": "150", "name": "Tim Hortons", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"},
+    {"id":"2", "name": "Mr. Lube", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"},
+    {"id":"3", "name": "Burger King", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"}
   ]
 }
