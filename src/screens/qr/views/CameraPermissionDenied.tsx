@@ -1,20 +1,29 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Box, Text, Button} from 'components';
-import {Linking, StyleSheet} from 'react-native';
+import {AppState, AppStateStatus, Linking, StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
-import {useNavigation} from '@react-navigation/native';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
-export const CameraPermissionDenied = () => {
+export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
-  const navigation = useNavigation();
   const toSettings = useCallback(() => {
     Linking.openSettings();
-    // @note we can look into updating this later to look for updated state
-    // for now linking back to home after linking out to settings
-    navigation.navigate('Home');
   }, []);
+
+  useEffect(() => {
+    const onAppStateChange = async (newState: AppStateStatus) => {
+      if (newState === 'active') {
+        updatePermissions();
+      }
+    };
+
+    AppState.addEventListener('change', onAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', onAppStateChange);
+    };
+  }, []);
+
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
       <Box paddingHorizontal="m" style={styles.flex}>
