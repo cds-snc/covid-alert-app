@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Observable} from 'shared/Observable';
 import {ForceScreen} from 'shared/ForceScreen';
 import {Region} from 'shared/Region';
-import {CheckInData, OutbreakStatus, initialOutbreakStatus} from 'shared/qr';
 import {getSystemLocale} from 'locale/utils';
 
 export enum Key {
@@ -24,8 +23,6 @@ export class StorageService {
   forceScreen: Observable<ForceScreen | undefined>;
   skipAllSet: Observable<boolean>;
   userStopped: Observable<boolean>;
-  checkInHistory: Observable<CheckInData[]>;
-  outbreakStatus: Observable<OutbreakStatus>;
 
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
@@ -35,8 +32,6 @@ export class StorageService {
     this.forceScreen = new Observable<ForceScreen | undefined>(undefined);
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
-    this.checkInHistory = new Observable<CheckInData[]>([]);
-    this.outbreakStatus = new Observable<OutbreakStatus>(initialOutbreakStatus);
   }
 
   setOnboarded = async (value: boolean) => {
@@ -74,28 +69,6 @@ export class StorageService {
     this.userStopped.set(value);
   };
 
-  addCheckIn = async (value: CheckInData) => {
-    const _checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
-    const checkInHistory = JSON.parse(_checkInHistory);
-    checkInHistory.push(value);
-    await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(checkInHistory));
-    this.checkInHistory.set(checkInHistory);
-  };
-
-  removeCheckIn = async () => {
-    // removes most recent Check In
-    const _checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
-    const checkInHistory = JSON.parse(_checkInHistory);
-    const newCheckInHistory = checkInHistory.slice(0, -1);
-    await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(newCheckInHistory));
-    this.checkInHistory.set(newCheckInHistory);
-  };
-
-  setOutbreakStatus = async (value: OutbreakStatus) => {
-    await AsyncStorage.setItem(Key.OutbreakStatus, JSON.stringify(value));
-    this.outbreakStatus.set(value);
-  };
-
   init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
@@ -119,12 +92,6 @@ export class StorageService {
 
     const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
     this.userStopped.set(userStopped);
-
-    const checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
-    this.checkInHistory.set(JSON.parse(checkInHistory));
-
-    const outbreakStatus = (await AsyncStorage.getItem(Key.OutbreakStatus)) || JSON.stringify(initialOutbreakStatus);
-    this.outbreakStatus.set(JSON.parse(outbreakStatus));
   };
 }
 

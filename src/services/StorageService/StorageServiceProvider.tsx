@@ -2,7 +2,6 @@ import React, {createContext, useCallback, useContext, useEffect, useMemo, useSt
 import AsyncStorage from '@react-native-community/async-storage';
 import {DevSettings} from 'react-native';
 import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
-import {CheckInData, initialOutbreakStatus} from 'shared/qr';
 import {getSystemLocale} from 'locale/utils';
 
 import {StorageService, createStorageService} from './StorageService';
@@ -53,21 +52,6 @@ export const useStorage = () => {
     [storageService],
   );
 
-  const [checkInHistory, addCheckInInternal] = useState(storageService.checkInHistory.get());
-  const addCheckIn = useMemo(
-    () => (newCheckIn: CheckInData) => {
-      storageService.addCheckIn(newCheckIn);
-    },
-    [storageService],
-  );
-
-  const removeCheckIn = useMemo(
-    () => () => {
-      storageService.removeCheckIn();
-    },
-    [storageService],
-  );
-
   const [region, setRegionInternal] = useState(storageService.region.get());
   const setRegion = useMemo(() => storageService.setRegion, [storageService.setRegion]);
 
@@ -82,12 +66,8 @@ export const useStorage = () => {
   const [skipAllSet, setSkipAllSetInternal] = useState(storageService.skipAllSet.get());
   const setSkipAllSet = useMemo(() => storageService.setSkipAllSet, [storageService.setSkipAllSet]);
 
-  const [outbreakStatus, setOutbreakStatusInternal] = useState(storageService.outbreakStatus.get());
-  const setOutbreakStatus = useMemo(() => storageService.setOutbreakStatus, [storageService.setOutbreakStatus]);
-
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
-  useEffect(() => storageService.checkInHistory.observe(addCheckInInternal), [storageService.checkInHistory]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
   useEffect(() => storageService.onboardedDatetime.observe(setOnboardedDatetimeInternal), [
     storageService.onboardedDatetime,
@@ -95,7 +75,6 @@ export const useStorage = () => {
   useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
   useEffect(() => storageService.skipAllSet.observe(setSkipAllSetInternal), [storageService.skipAllSet]);
   useEffect(() => storageService.userStopped.observe(setUserStoppedInternal), [storageService.userStopped]);
-  useEffect(() => storageService.outbreakStatus.observe(setOutbreakStatusInternal), [storageService.outbreakStatus]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
@@ -104,12 +83,11 @@ export const useStorage = () => {
     setOnboardedDatetime(undefined);
     setSkipAllSet(false);
     setUserStopped(false);
-    setOutbreakStatus(initialOutbreakStatus);
     await AsyncStorage.clear();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setOutbreakStatus, setRegion, setSkipAllSet, setUserStopped]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped]);
 
   return useMemo(
     () => ({
@@ -117,9 +95,6 @@ export const useStorage = () => {
       setOnboarded,
       locale,
       setLocale,
-      checkInHistory,
-      addCheckIn,
-      removeCheckIn,
       region,
       setRegion,
       onboardedDatetime,
@@ -131,17 +106,12 @@ export const useStorage = () => {
       reset,
       userStopped,
       setUserStopped,
-      outbreakStatus,
-      setOutbreakStatus,
     }),
     [
       isOnboarding,
       setOnboarded,
       locale,
       setLocale,
-      checkInHistory,
-      addCheckIn,
-      removeCheckIn,
       region,
       setRegion,
       onboardedDatetime,
@@ -153,8 +123,6 @@ export const useStorage = () => {
       reset,
       userStopped,
       setUserStopped,
-      outbreakStatus,
-      setOutbreakStatus,
     ],
   );
 };

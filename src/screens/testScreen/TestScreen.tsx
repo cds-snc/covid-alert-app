@@ -17,13 +17,14 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
-import {checkForOutbreakExposures, OutbreakStatusType} from 'shared/qr';
+import {OutbreakStatusType} from 'shared/qr';
+import {useOutbreakService} from 'shared/OutbreakProvider';
+import {getCurrentDate} from 'shared/date-fns';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
 import {Item} from './views/Item';
 import {Section} from './views/Section';
-import { getCurrentDate } from 'shared/date-fns';
 
 const ScreenRadioSelector = () => {
   const {forceScreen, setForceScreen} = useStorage();
@@ -102,7 +103,8 @@ const Content = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
 
-  const {reset, checkInHistory, setOutbreakStatus} = useStorage();
+  const {reset} = useStorage();
+  const {checkForExposures, setOutbreakStatus} = useOutbreakService();
 
   const onClearOutbreak = useCallback(async () => {
     setOutbreakStatus({
@@ -112,8 +114,8 @@ const Content = () => {
   }, [setOutbreakStatus]);
 
   const onCheckForOutbreak = useCallback(async () => {
-    checkForOutbreakExposures(checkInHistory);
-  }, [checkInHistory]);
+    checkForExposures();
+  }, [checkForExposures]);
 
   const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 

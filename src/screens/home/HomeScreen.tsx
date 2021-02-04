@@ -20,6 +20,7 @@ import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
 import {OutbreakStatusType} from 'shared/qr';
+import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {useDeepLinks} from '../qr/utils';
 
@@ -59,12 +60,13 @@ const UploadShareView = ({hasShared, isBottomSheetExpanded}: {hasShared?: boolea
 };
 
 const Content = ({isBottomSheetExpanded}: ContentProps) => {
-  const {region, userStopped, outbreakStatus} = useStorage();
+  const {region, userStopped} = useStorage();
 
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const exposureStatus = useExposureStatus();
   const [systemStatus] = useSystemStatus();
+  const {outbreakStatus} = useOutbreakService();
   const [, turnNotificationsOn] = useNotificationPermissionStatus();
   useEffect(() => {
     return turnNotificationsOn();

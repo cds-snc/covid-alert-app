@@ -1,10 +1,10 @@
 import {useEffect} from 'react';
-import {useStorage} from 'services/StorageService';
 import {Linking} from 'react-native';
 import {log} from 'shared/logging/config';
 import {useNavigation} from '@react-navigation/native';
 import {CheckInData} from 'shared/qr';
 import {getCurrentDate} from 'shared/date-fns';
+import {useOutbreakService} from 'shared/OutbreakProvider';
 
 interface EventURL {
   url: string;
@@ -12,7 +12,6 @@ interface EventURL {
 
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
   const [scheme, , id, name] = url.split('/');
-  console.log('scheme', scheme);
 
   if (!id || !name || scheme !== 'covidalert:') {
     throw new Error('bad URL from QR code');
@@ -27,7 +26,7 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
 };
 
 export const useDeepLinks = () => {
-  const {addCheckIn} = useStorage();
+  const {addCheckIn} = useOutbreakService();
   const navigation = useNavigation();
 
   useEffect(() => {

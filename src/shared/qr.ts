@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 import {OUTBREAK_LOCATIONS_URL} from 'env';
-import {Key} from 'services/StorageService';
+// import {Key} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
 import {getCurrentDate} from './date-fns';
@@ -30,7 +30,7 @@ export const getOutbreakLocations = async () => {
   return fetchedData.json();
 };
 
-export const checkForOutbreakExposures = async (checkInHistory: CheckInData[]) => {
+export const getNewOutbreakStatus = async (checkInHistory: CheckInData[]): Promise<OutbreakStatus> => {
   const outbreakLocations = await getOutbreakLocations();
   log.debug({message: 'fetching outbreak locations', payload: {outbreakLocations}});
   const outbreakIds = await outbreakLocations.exposedLocations.map((location: any) => location.id);
@@ -47,6 +47,6 @@ export const checkForOutbreakExposures = async (checkInHistory: CheckInData[]) =
     type: newOutbreakStatusType,
     lastChecked: getCurrentDate().getTime(),
   };
-  log.debug({message: 'checkForOutbreakExposures', payload: {newOutbreakStatus}});
-  AsyncStorage.setItem(Key.OutbreakStatus, JSON.stringify(newOutbreakStatus));
+  log.debug({message: 'getNewOutbreakStatus', payload: {newOutbreakStatus}});
+  return newOutbreakStatus;
 };

@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
 import {Box, Button, Text, Icon, InfoBlock} from 'components';
-import {useStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {formatCheckInDate} from 'shared/date-fns';
 import {CheckInData} from 'shared/qr';
 import {StyleSheet} from 'react-native';
+import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
@@ -16,7 +16,7 @@ interface CheckInSuccessfulRoute {
 }
 export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
   const {name, timestamp} = route.params;
-  const {removeCheckIn} = useStorage();
+  const {removeCheckIn} = useOutbreakService();
   const formattedCheckInDate = formatCheckInDate(new Date(timestamp));
   const i18n = useI18n();
   const navigation = useNavigation();

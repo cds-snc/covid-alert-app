@@ -22,7 +22,7 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, []);
+  }, [updatePermissions]);
 
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>

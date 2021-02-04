@@ -4,15 +4,15 @@ import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {Box, ButtonSingleLine, Text} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
+import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {Toolbar} from '../components/Toolbar';
 import {handleOpenURL} from '../utils';
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
-  const {addCheckIn} = useStorage();
+  const {addCheckIn} = useOutbreakService();
   const [scanned, setScanned] = useState<boolean>(false);
 
   const i18n = useI18n();

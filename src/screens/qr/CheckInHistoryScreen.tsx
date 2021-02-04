@@ -1,9 +1,9 @@
 import React from 'react';
 import {Box, Text} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
-import {useStorage} from 'services/StorageService';
 import {CheckInData} from 'shared/qr';
 import {formatCheckInDate} from 'shared/date-fns';
+import {useOutbreakService} from 'shared/OutbreakProvider';
 
 const CheckInList = ({checkIns}: {checkIns: CheckInData[]}) => {
   if (checkIns.length === 0) {
@@ -25,7 +25,7 @@ const CheckInList = ({checkIns}: {checkIns: CheckInData[]}) => {
 };
 
 export const CheckInHistoryScreen = () => {
-  const {checkInHistory} = useStorage();
+  const {checkInHistory} = useOutbreakService();
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m">
