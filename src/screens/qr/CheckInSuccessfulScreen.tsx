@@ -21,16 +21,19 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const navigateHome = useCallback(() => navigation.navigate('Home'), [navigation]);
+  const navigateCancelCheckIn = useCallback(() => navigation.navigate('CheckInCancelScreen'), [navigation]);
   const cancelCheckIn = useCallback(() => {
     removeCheckIn();
-    navigateHome();
-  }, [removeCheckIn, navigateHome]);
+    navigateCancelCheckIn();
+  }, [removeCheckIn, navigateCancelCheckIn]);
 
   return (
-    <BaseQRCodeScreen showBackButton={false}>
+    <BaseQRCodeScreen>
+      <Box paddingHorizontal="l" marginTop="-xl">
+        <Icon name="icon-green-check" height={50} width={50} />
+      </Box>
       <Box paddingHorizontal="m" style={styles.flex}>
         <Box paddingBottom="l">
-          <Icon name="icon-green-check" height={50} width={60} />
           <Text variant="bodySubTitle" marginTop="xl">
             {i18n.translate('QRCode.CheckInView.Title')}
           </Text>
