@@ -498,9 +498,9 @@
       "CTA2": "Back to Home"
     },
     "CheckInView": {
-      "Title": "Subscribe",
+      "Title": "Saved",
       "CTA1": "Continue to home",
-      "CTA2": "Cancel this subscription",
+      "CTA2": "Cancel this visit",
       "MoreInfo": "Learn more about QR codes and COVID alert"
     },
     "Exposed": {

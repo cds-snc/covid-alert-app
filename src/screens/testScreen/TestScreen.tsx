@@ -17,8 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
-import AsyncStorage from '@react-native-community/async-storage';
-import {log} from 'shared/logging/config';
+import {checkForOutbreakExposures} from 'shared/qr';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -102,7 +101,14 @@ const Content = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
 
-  const {reset} = useStorage();
+  const {reset, checkInHistory} = useStorage();
+  const onCheckForOutbreak = useCallback(async () => {
+    const exposed = await checkForOutbreakExposures(checkInHistory);
+    if (exposed) {
+      navigation.navigate('QRExposedScreen');
+    }
+  }, [checkInHistory, navigation]);
+
   const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 
   const onShowSampleNotification = useCallback(() => {
@@ -112,35 +118,6 @@ const Content = () => {
       channelName: i18n.translate('Notification.AndroidChannelName'),
     });
   }, [i18n]);
-  const getExposedLocations = async () => {
-    const fetchedData = await fetch('https://c0a5a2126838.ngrok.io/exposedLocations', {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        return responseJson;
-      });
-
-    return fetchedData;
-  };
-  const showExposedQr = async () => {
-    const idArray: string[] = [];
-    await getExposedLocations().then(val => {
-      val.filter((item: any) => {
-        idArray.push(item.id);
-      });
-    });
-    retrieveData()
-      .then(val => {
-        const filteredArray = idArray.filter(value => val?.includes(value));
-        if (filteredArray.length > 0) {
-          navigation.navigate('QRExposedScreen');
-        }
-      })
-      .catch(error => {
-        log.error({category: 'debug', error});
-      });
-  };
 
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
@@ -169,7 +146,7 @@ const Content = () => {
         <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
       </Section>
       <Section>
-        <Button text="Trigger QR Exposed" onPress={showExposedQr} variant="bigFlat" />
+        <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
       </Section>
       <Section>
         <Item title="Force screen" />
@@ -259,11 +236,3 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
 });
-async function retrieveData() {
-  try {
-    const value = await AsyncStorage.getItem('CheckInID');
-    return value;
-  } catch (error) {
-    log.error({category: 'debug', error});
-  }
-}

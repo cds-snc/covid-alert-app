@@ -19,7 +19,13 @@ const Content = () => {
   }, []);
 
   if (hasPermission?.canAskAgain === false) {
-    return <CameraPermissionDenied />;
+    return (
+      <CameraPermissionDenied
+        updatePermissions={() => {
+          checkPermissions();
+        }}
+      />
+    );
   }
 
   if (!hasPermission || hasPermission?.granted === false) {

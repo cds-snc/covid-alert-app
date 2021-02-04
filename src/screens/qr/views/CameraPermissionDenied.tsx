@@ -1,15 +1,29 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Box, Text, Button} from 'components';
-import {Linking, StyleSheet} from 'react-native';
+import {AppState, AppStateStatus, Linking, StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
-export const CameraPermissionDenied = () => {
+export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
   const toSettings = useCallback(() => {
     Linking.openSettings();
   }, []);
+
+  useEffect(() => {
+    const onAppStateChange = async (newState: AppStateStatus) => {
+      if (newState === 'active') {
+        updatePermissions();
+      }
+    };
+
+    AppState.addEventListener('change', onAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', onAppStateChange);
+    };
+  }, []);
+
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
       <Box paddingHorizontal="m" style={styles.flex}>
