@@ -16,6 +16,12 @@ export enum OutbreakStatusType {
   Exposed = 'exposed',
 }
 
+export interface ExposedLocationData {
+  id: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+}
 export interface OutbreakStatus {
   type: OutbreakStatusType;
   lastChecked: number;
@@ -23,26 +29,42 @@ export interface OutbreakStatus {
 
 export const initialOutbreakStatus = {type: OutbreakStatusType.Monitoring, lastChecked: 0};
 
-export const getOutbreakLocations = async () => {
+export const getOutbreakLocations = async (): Promise<ExposedLocationData[]> => {
   const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
     method: 'GET',
   });
-  return fetchedData.json();
+  const data = await fetchedData.json();
+  return data.exposedLocations;
 };
 
 export const getNewOutbreakStatus = async (checkInHistory: CheckInData[]): Promise<OutbreakStatus> => {
   const outbreakLocations = await getOutbreakLocations();
+
   log.debug({message: 'fetching outbreak locations', payload: {outbreakLocations}});
-  const outbreakIds = await outbreakLocations.exposedLocations.map((location: any) => location.id);
-  const matches = checkInHistory.filter(checkIn => {
+  const outbreakIds = outbreakLocations.map(location => location.id);
+
+  const checkInLocationMatches = checkInHistory.filter(checkIn => {
     if (outbreakIds.indexOf(checkIn.id) > -1) {
       return true;
     }
     return false;
   });
+
+  const matches = checkInLocationMatches.filter(checkIn => {
+    const checkInTime = new Date(checkIn.timestamp);
+    const timeAndLocationMatches = outbreakLocations
+      .filter(location => location.id === checkIn.id)
+      .filter(location => checkInTime > new Date(location.startDate) && checkInTime < new Date(location.endDate));
+    if (timeAndLocationMatches.length > 0) {
+      return true;
+    }
+    return false;
+  });
+
   log.debug({message: 'outbreak location matches', payload: {matches}});
 
   const newOutbreakStatusType = matches.length > 0 ? OutbreakStatusType.Exposed : OutbreakStatusType.Monitoring;
+
   const newOutbreakStatus = {
     type: newOutbreakStatusType,
     lastChecked: getCurrentDate().getTime(),
