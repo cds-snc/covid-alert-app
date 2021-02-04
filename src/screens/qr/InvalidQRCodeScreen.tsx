@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
-import {Box, Text, ButtonSingleLine} from 'components';
-import {ScrollView, StyleSheet} from 'react-native';
+import {Box, Text, Icon, Button} from 'components';
+import {StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
@@ -10,26 +10,27 @@ export const InvalidQRCodeScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const tryAgain = useCallback(() => navigation.navigate('QRCodeReaderScreen'), [navigation]);
+  const goHome = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
-    <BaseQRCodeScreen showBackButton={false} showCloseButton>
-      <ScrollView style={styles.flex}>
-        <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-            {i18n.translate('QRCode.Error.Title')}
-          </Text>
-
+    <BaseQRCodeScreen showBackButton={false} showCloseButton={false}>
+      <Box paddingHorizontal="l" marginTop="-xl">
+        <Icon name="icon-x" height={50} width={50} />
+      </Box>
+      <Box paddingHorizontal="m" marginTop="l" style={styles.flex}>
+        <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
+          {i18n.translate('QRCode.Error.Title')}
+        </Text>
+        <Box style={styles.flex}>
           <Text marginBottom="l">{i18n.translate('QRCode.Error.Body')}</Text>
-
-          <Box alignSelf="stretch" marginTop="xl" marginBottom="l">
-            <ButtonSingleLine
-              text={i18n.translate('QRCode.Error.CTA')}
-              variant="bigFlatNeutralGrey"
-              internalLink
-              onPress={tryAgain}
-            />
-          </Box>
         </Box>
-      </ScrollView>
+
+        <Box alignSelf="stretch" marginTop="xl">
+          <Button variant="thinFlat" text={i18n.translate('QRCode.Error.CTA2')} onPress={goHome} />
+        </Box>
+        <Box alignSelf="stretch" marginTop="s" marginBottom="l">
+          <Button variant="thinFlatNeutralGrey" text={i18n.translate('QRCode.Error.CTA')} onPress={tryAgain} />
+        </Box>
+      </Box>
     </BaseQRCodeScreen>
   );
 };
