@@ -2,13 +2,18 @@ import React, {useCallback} from 'react';
 import {Box, Text, Button} from 'components';
 import {Linking, StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
+import {useNavigation} from '@react-navigation/native';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
 export const CameraPermissionDenied = () => {
   const i18n = useI18n();
+  const navigation = useNavigation();
   const toSettings = useCallback(() => {
     Linking.openSettings();
+    // @note we can look into updating this later to look for updated state
+    // for now linking back to home after linking out to settings
+    navigation.navigate('Home');
   }, []);
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
