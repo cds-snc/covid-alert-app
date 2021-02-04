@@ -3,7 +3,7 @@ import {onboard} from './shared';
 
 /**
  * This is a method that returns a promise that waits for the given time period
- * @author Dave
+ * @author Dave S., who took it as best practice from the following https://stackoverflow.com/a/39914235
  * @param {integer} ms Miliseconds to wait
  */
 // eslint-disable-next-line promise/param-names
