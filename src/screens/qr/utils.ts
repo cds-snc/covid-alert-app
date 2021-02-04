@@ -11,8 +11,10 @@ interface EventURL {
 }
 
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
-  const [, , id, name] = url.split('/');
-  if (!id || !name) {
+  const [scheme, , id, name] = url.split('/');
+  console.log('scheme', scheme);
+
+  if (!id || !name || scheme !== 'covidalert:') {
     throw new Error('bad URL from QR code');
   }
   const checkInData: CheckInData = {
