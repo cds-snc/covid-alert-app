@@ -505,6 +505,10 @@
     },
     "Exposed": {
       "Title": "You've been Exposed"
+    },
+    "CancelCheckIn": {
+      "Title": "Successfully cancelled check in",
+      "Body": "You have successfully cancelled this check in, you may close this screen"
     }
   },
 
