@@ -108,11 +108,8 @@ const Content = () => {
   }, []);
 
   const onCheckForOutbreak = useCallback(async () => {
-    const exposed = await checkForOutbreakExposures(checkInHistory);
-    if (exposed) {
-      navigation.navigate('QRExposedScreen');
-    }
-  }, [checkInHistory, navigation]);
+    checkForOutbreakExposures(checkInHistory);
+  }, [checkInHistory]);
 
   const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 

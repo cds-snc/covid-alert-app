@@ -19,6 +19,7 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
+import {OutbreakStatusType} from 'shared/qr';
 
 import {useDeepLinks} from '../qr/utils';
 
@@ -43,6 +44,7 @@ import {
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
+import {OutbreakExposedView} from './views/OutbreakExposedView';
 
 interface ContentProps {
   isBottomSheetExpanded: boolean;
@@ -57,7 +59,7 @@ const UploadShareView = ({hasShared, isBottomSheetExpanded}: {hasShared?: boolea
 };
 
 const Content = ({isBottomSheetExpanded}: ContentProps) => {
-  const {region, userStopped} = useStorage();
+  const {region, userStopped, outbreakStatus} = useStorage();
 
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
@@ -100,6 +102,10 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
       default:
         break;
     }
+  }
+
+  if (outbreakStatus.type === OutbreakStatusType.Exposed) {
+    return <OutbreakExposedView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
   if (userStopped && systemStatus !== SystemStatus.Active) {

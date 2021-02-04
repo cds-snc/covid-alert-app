@@ -2,7 +2,8 @@ import React from 'react';
 import {Box, Text} from 'components';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {StyleSheet, Platform} from 'react-native';
-import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
+
+import {BaseHomeView} from '../components/BaseHomeView';
 
 const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
@@ -20,11 +21,11 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   );
 };
 
-export const QRExposedScreen = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const OutbreakExposedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   return (
-    <BaseDataSharingView showBackButton={false}>
+    <BaseHomeView iconName="hand-caution" testID="outbreakExposure">
       <ExposureText isBottomSheetExpanded={isBottomSheetExpanded} />
-    </BaseDataSharingView>
+    </BaseHomeView>
   );
 };
 

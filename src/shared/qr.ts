@@ -1,11 +1,27 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import {OUTBREAK_LOCATIONS_URL} from 'env';
+import {Key} from 'services/StorageService';
 import {log} from 'shared/logging/config';
+
+import {getCurrentDate} from './date-fns';
 
 export interface CheckInData {
   id: string;
   name: string;
   timestamp: number;
 }
+
+export enum OutbreakStatusType {
+  Monitoring = 'monitoring',
+  Exposed = 'exposed',
+}
+
+export interface OutbreakStatus {
+  type: OutbreakStatusType;
+  lastChecked: number;
+}
+
+export const initialOutbreakStatus = {type: OutbreakStatusType.Monitoring, lastChecked: 0};
 
 export const getOutbreakLocations = async () => {
   const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
@@ -25,8 +41,12 @@ export const checkForOutbreakExposures = async (checkInHistory: CheckInData[]) =
     return false;
   });
   log.debug({message: 'outbreak location matches', payload: {matches}});
-  if (matches.length > 0) {
-    return true;
-  }
-  return false;
+
+  const newOutbreakStatusType = matches.length > 0 ? OutbreakStatusType.Exposed : OutbreakStatusType.Monitoring;
+  const newOutbreakStatus = {
+    type: newOutbreakStatusType,
+    lastChecked: getCurrentDate().getTime(),
+  };
+  log.debug({message: 'checkForOutbreakExposures', payload: {newOutbreakStatus}});
+  AsyncStorage.setItem(Key.OutbreakStatus, JSON.stringify(newOutbreakStatus));
 };

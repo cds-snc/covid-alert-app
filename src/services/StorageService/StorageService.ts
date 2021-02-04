@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Observable} from 'shared/Observable';
 import {ForceScreen} from 'shared/ForceScreen';
 import {Region} from 'shared/Region';
-import {CheckInData} from 'shared/qr';
+import {CheckInData, OutbreakStatus, initialOutbreakStatus} from 'shared/qr';
 import {getSystemLocale} from 'locale/utils';
 
 export enum Key {
@@ -14,8 +14,8 @@ export enum Key {
   SkipAllSet = 'SkipAllSet',
   UserStopped = 'UserStopped',
   CheckInHistory = 'CheckInHistory',
+  OutbreakStatus = 'OutbreakStatus',
 }
-
 export class StorageService {
   isOnboarding: Observable<boolean>;
   locale: Observable<string>;
@@ -25,6 +25,7 @@ export class StorageService {
   skipAllSet: Observable<boolean>;
   userStopped: Observable<boolean>;
   checkInHistory: Observable<CheckInData[]>;
+  outbreakStatus: Observable<OutbreakStatus>;
 
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
@@ -35,6 +36,7 @@ export class StorageService {
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
     this.checkInHistory = new Observable<CheckInData[]>([]);
+    this.outbreakStatus = new Observable<OutbreakStatus>(initialOutbreakStatus);
   }
 
   setOnboarded = async (value: boolean) => {
@@ -89,6 +91,11 @@ export class StorageService {
     this.checkInHistory.set(newCheckInHistory);
   };
 
+  setOutbreakStatus = async (value: OutbreakStatus) => {
+    await AsyncStorage.setItem(Key.OutbreakStatus, JSON.stringify(value));
+    this.outbreakStatus.set(value);
+  };
+
   init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
@@ -115,6 +122,9 @@ export class StorageService {
 
     const checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
     this.checkInHistory.set(JSON.parse(checkInHistory));
+
+    const outbreakStatus = (await AsyncStorage.getItem(Key.OutbreakStatus)) || JSON.stringify(initialOutbreakStatus);
+    this.outbreakStatus.set(JSON.parse(outbreakStatus));
   };
 }
 
