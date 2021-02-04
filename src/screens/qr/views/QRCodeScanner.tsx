@@ -25,7 +25,7 @@ export const QRCodeScanner = () => {
       navigation.navigate('CheckInSuccessfulScreen', checkInData);
     } catch (error) {
       log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`, payload: {error}});
-      navigation.navigate('ScanErrorScreen');
+      navigation.navigate('InvalidQRCodeScreen');
     }
   };
 
