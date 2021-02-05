@@ -12,6 +12,7 @@ import {
   parseSavedTimestamps,
   getFirstThreeUniqueDates,
   getHoursBetween,
+  datesAreOnSameDay,
 } from './date-fns';
 
 /**
@@ -259,6 +260,20 @@ describe('date-fns', () => {
       const twoDaysFromNow = new Date(Number(now));
       twoDaysFromNow.setDate(now.getDate() + 2);
       expect(getHoursBetween(now, twoDaysFromNow)).toStrictEqual(48);
+    });
+  });
+
+  describe('datesAreOnSameDay', () => {
+    it('validates two dates are on same day', () => {
+      const now = getCurrentDate();
+      const plusFiveHours = new Date(now.getTime() + 5 * 60 * 60 * 1000);
+      expect(datesAreOnSameDay(now, plusFiveHours)).toStrictEqual(true);
+    });
+
+    it('validates two dates are not on same day', () => {
+      const now = getCurrentDate();
+      const plusTwentyFiveHours = new Date(now.getTime() + 25 * 60 * 60 * 1000);
+      expect(datesAreOnSameDay(now, plusTwentyFiveHours)).toStrictEqual(false);
     });
   });
 

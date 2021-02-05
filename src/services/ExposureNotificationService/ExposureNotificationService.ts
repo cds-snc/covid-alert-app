@@ -263,10 +263,14 @@ export class ExposureNotificationService {
       await this.updateExposureStatus();
       await this.processNotification();
 
+      const filteredMetricsService = FilteredMetricsService.sharedInstance();
+
+      await filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
+
       const notificationStatus: Status = await checkNotifications()
         .then(({status}) => status)
         .catch(() => 'unavailable');
-      await FilteredMetricsService.sharedInstance().sendDailyMetrics(this.systemStatus.get(), notificationStatus);
+      await filteredMetricsService.sendDailyMetrics(this.systemStatus.get(), notificationStatus);
 
       const exposureStatus = this.exposureStatus.get();
       log.debug({

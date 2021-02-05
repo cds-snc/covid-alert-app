@@ -5,7 +5,7 @@ import {Platform} from 'react-native';
 import {Status} from 'screens/home/components/NotificationPermissionStatus';
 import {ExposureStatus, ExposureStatusType, SystemStatus} from 'services/ExposureNotificationService';
 import {Key} from 'services/StorageService';
-import {getHoursBetween, getCurrentDate} from 'shared/date-fns';
+import {getHoursBetween, getCurrentDate, datesAreOnSameDay} from 'shared/date-fns';
 import {log} from 'shared/logging/config';
 
 import {DefaultFilteredMetricsStateStorage, FilteredMetricsStateStorage} from './FilteredMetricsStateStorage';
@@ -22,6 +22,7 @@ export enum EventTypeMetric {
   OtkWithDate = 'otk-with-date',
   EnToggle = 'en-toggle',
   ExposedClear = 'exposed-clear',
+  BackgroundCheck = 'background-check',
 }
 
 export type EventWithContext =
@@ -49,6 +50,9 @@ export type EventWithContext =
   | {
       type: EventTypeMetric.ExposedClear;
       exposureStatus: ExposureStatus;
+    }
+  | {
+      type: EventTypeMetric.BackgroundCheck;
     };
 
 export class FilteredMetricsService {
@@ -105,6 +109,10 @@ export class FilteredMetricsService {
               ],
             ]);
           }
+          break;
+        case EventTypeMetric.BackgroundCheck:
+          return this.publishBackgroundCheckEventIfNecessary();
+        default:
           break;
       }
 
@@ -163,6 +171,32 @@ export class FilteredMetricsService {
     } else {
       return Promise.resolve();
     }
+  }
+
+  private publishBackgroundCheckEventIfNecessary(): Promise<void> {
+    const publishAndSave = (
+      numberOfBackgroundCheckForPreviousDay: number,
+      newBackgroundCheckEvent: Date,
+    ): Promise<void> => {
+      return this.publishEvent(EventTypeMetric.BackgroundCheck, [
+        ['count', String(numberOfBackgroundCheckForPreviousDay)],
+      ]).then(() => this.stateStorage.saveBackgroundCheckEvents([newBackgroundCheckEvent]));
+    };
+
+    const newBackgroundCheckEvent = getCurrentDate();
+
+    return this.stateStorage.getBackgroundCheckEvents().then(events => {
+      if (events.length > 0) {
+        const lastBackgroundCheckEvent = events[events.length - 1];
+        if (datesAreOnSameDay(lastBackgroundCheckEvent, newBackgroundCheckEvent)) {
+          return this.stateStorage.saveBackgroundCheckEvents(events.concat(newBackgroundCheckEvent));
+        } else {
+          return publishAndSave(events.length, newBackgroundCheckEvent);
+        }
+      } else {
+        return this.stateStorage.saveBackgroundCheckEvents([newBackgroundCheckEvent]);
+      }
+    });
   }
 
   private async publishEvent(
