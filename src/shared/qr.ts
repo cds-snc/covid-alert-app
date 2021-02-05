@@ -32,12 +32,12 @@ interface TimeWindow {
   end: number;
 }
 
-interface Data {
+interface MatchData {
   id: string;
   outbreakData: ExposedLocationData[];
   checkInData: CheckInData[];
-  matchCount: number;
-  matchedCheckIns: CheckInData[];
+  matchCount?: number;
+  matchedCheckIns?: CheckInData[];
   mostRecentCheckOut?: number;
 }
 
@@ -69,42 +69,10 @@ export const getNewOutbreakStatus = async (checkInHistory: CheckInData[]): Promi
   if (checkInLocationMatches.length === 0) {
     return createOutbreakStatus({exposed: false});
   }
-  const relevantOutbreakIds = checkInLocationMatches.map(data => data.id);
-  const uniqueRelevantOutbreakIds = Array.from(new Set(relevantOutbreakIds));
-  const relevantOutbreakData = outbreakLocations.filter(
-    location => uniqueRelevantOutbreakIds.indexOf(location.id) > -1,
-  );
-  const relevantCheckInData = checkInHistory.filter(data => uniqueRelevantOutbreakIds.indexOf(data.id) > -1);
+  const matchedOutbreakIdsNotUnique = checkInLocationMatches.map(data => data.id);
+  const matchedOutbreakIds = Array.from(new Set(matchedOutbreakIdsNotUnique));
 
-  const calcData: Data[] = uniqueRelevantOutbreakIds.map(id => {
-    return {
-      id,
-      outbreakData: relevantOutbreakData.filter(data => data.id === id),
-      checkInData: relevantCheckInData.filter(data => data.id === id),
-      matchCount: 0,
-      matchedCheckIns: [],
-    };
-  });
-
-  calcData.forEach(data => {
-    for (const checkIn of data.checkInData) {
-      for (const outbreak of data.outbreakData) {
-        const window1: TimeWindow = {
-          start: checkIn.timestamp,
-          end: checkIn.timestamp + ONE_HOUR_IN_MS,
-        };
-        const window2: TimeWindow = {
-          start: new Date(outbreak.startTime).getTime(),
-          end: new Date(outbreak.endTime).getTime(),
-        };
-        if (doTimeWindowsOverlap(window1, window2)) {
-          data.matchCount += 1;
-          data.matchedCheckIns.push(checkIn);
-        }
-      }
-    }
-  });
-  const matches = calcData.filter(data => data.matchCount > 0);
+  const matches = getMatches({checkInHistory, outbreakLocations, matchedOutbreakIds});
 
   log.debug({message: 'outbreak matches', payload: {matches}});
 
@@ -127,4 +95,51 @@ export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) =
     return true;
   }
   return false;
+};
+
+export const getMatches = ({
+  outbreakLocations,
+  checkInHistory,
+  matchedOutbreakIds,
+}: {
+  outbreakLocations: ExposedLocationData[];
+  checkInHistory: CheckInData[];
+  matchedOutbreakIds: string[];
+}): MatchData[] => {
+  const relevantOutbreakData = outbreakLocations.filter(location => matchedOutbreakIds.indexOf(location.id) > -1);
+  const relevantCheckInData = checkInHistory.filter(data => matchedOutbreakIds.indexOf(data.id) > -1);
+
+  const _matchData = matchedOutbreakIds.map(id => {
+    return {
+      id,
+      outbreakData: relevantOutbreakData.filter(data => data.id === id),
+      checkInData: relevantCheckInData.filter(data => data.id === id),
+    };
+  });
+
+  const matchData = _matchData.map(data => processMatchData(data));
+  const matches = matchData.filter(data => data.matchCount > 0);
+  return matches;
+};
+
+const processMatchData = (matchData: MatchData) => {
+  let matchCount = 0;
+  const matchedCheckIns = [];
+  for (const checkIn of matchData.checkInData) {
+    for (const outbreak of matchData.outbreakData) {
+      const window1: TimeWindow = {
+        start: checkIn.timestamp,
+        end: checkIn.timestamp + ONE_HOUR_IN_MS,
+      };
+      const window2: TimeWindow = {
+        start: new Date(outbreak.startTime).getTime(),
+        end: new Date(outbreak.endTime).getTime(),
+      };
+      if (doTimeWindowsOverlap(window1, window2)) {
+        matchCount += 1;
+        matchedCheckIns.push(checkIn);
+      }
+    }
+  }
+  return {...matchData, matchCount, matchedCheckIns};
 };
