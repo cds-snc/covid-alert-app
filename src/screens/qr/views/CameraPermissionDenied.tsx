@@ -1,12 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
-import {Box, Text, Button} from 'components';
+import {Box, Text, Button, ButtonSingleLine} from 'components';
 import {AppState, AppStateStatus, Linking, StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
+import {useNavigation} from '@react-navigation/native';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
 export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
+  const navigation = useNavigation();
   const toSettings = useCallback(() => {
     Linking.openSettings();
   }, []);
@@ -28,14 +30,25 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
       <Box paddingHorizontal="m" style={styles.flex}>
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
-          Permission Denied!
+          {i18n.translate('QRCode.CameraPermissionDenied.Title')}
         </Text>
 
         <Box style={styles.flex}>
-          <Text marginBottom="l">Content.</Text>
+          <Text marginBottom="l"> {i18n.translate('QRCode.CameraPermissionDenied.Body')}</Text>
         </Box>
         <Box paddingHorizontal="s" paddingTop="xl" marginBottom="m">
-          <Button variant="thinFlat" text={i18n.translate('QRCode.CameraPermissions.CTA')} onPress={toSettings} />
+          <Button variant="thinFlat" text={i18n.translate('QRCode.CameraPermissionDenied.CTA')} onPress={toSettings} />
+        </Box>
+
+        <Box paddingHorizontal="s" marginBottom="m">
+          <ButtonSingleLine
+            text={i18n.translate('QRCode.Reader.Learn')}
+            variant="thinFlatNeutralGrey"
+            onPress={() => {
+              navigation.navigate('LearnAboutQRScreen');
+            }}
+            iconName="icon-chevron"
+          />
         </Box>
       </Box>
     </BaseQRCodeScreen>
