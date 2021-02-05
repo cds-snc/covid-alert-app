@@ -33,7 +33,10 @@ export class DefaultMetricsPusher implements MetricsPusher {
       },
       body: jsonAsString,
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw response.status;
+        return response.json();
+      })
       .then(json => {
         log.debug({
           category: 'metrics',
