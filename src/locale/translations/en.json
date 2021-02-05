@@ -486,10 +486,17 @@
       "Learn": "Learn more about QR codes and COVID Alert"
     },
     "CameraPermissions": {
-      "Title": "Allow camera permissions",
-      "Body": "The app needs permission to use your camera to read the QR codes.\n\nYou can also use your phone’s camera app if you prefer not to let the app access your camera.",
-      "Body2": "You can also update your phone’s settings to give COVID Alert permission to use the camera.",
-      "CTA": "Allow camera permissions"
+      "Title": "Give access to cameras",
+      "Body": "The app needs permission to use your camera to scan a place.",
+      "Title2": "Worried about giving access?",
+      "Body2": "You can also use your phone’s camera app if you prefer not to let the app access your camera.",
+      "CTA": "Allow camera permissions",
+      "Cancel": "Not now"
+    },
+    "CameraPermissionDenied": {
+      "Title": "Permission denied",
+      "Body": "You said no to COVID Alert using your phone’s camera.\n\nTo scan a place, you’ll need to update your phone’s settings to let COVID Alert  use the camera.\n\nYou can also use your phone’s camera directly or a QR scanning app.",
+      "CTA": "Go to settings"
     },
     "Error": {
       "Title": "QR code not recognized",
@@ -511,7 +518,6 @@
       "Body": "You have successfully cancelled this check in, you may close this screen"
     }
   },
-
 
   "Errors": {
     "Action": "OK",
