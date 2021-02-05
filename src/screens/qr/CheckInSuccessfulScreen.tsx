@@ -41,7 +41,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
         <Box paddingBottom="l">
           <InfoBlock
             titleBolded={name}
-            backgroundColor="greenBackground"
+            backgroundColor="lightGreenBackground"
             color="bodyText"
             button={{
               text: '',
