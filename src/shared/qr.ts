@@ -27,7 +27,7 @@ export interface OutbreakStatus {
   lastChecked: number;
 }
 
-interface TimeWindow {
+export interface TimeWindow {
   start: number;
   end: number;
 }
@@ -92,6 +92,12 @@ export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) =
     return true;
   }
   if (window1.end >= window2.start && window1.end <= window2.end) {
+    return true;
+  }
+  if (window2.start >= window1.start && window2.start <= window1.end) {
+    return true;
+  }
+  if (window2.end >= window1.start && window2.end <= window1.end) {
     return true;
   }
   return false;
