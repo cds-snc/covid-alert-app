@@ -35,7 +35,7 @@
 			<string>com.cdssnc.covidalert</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>covidalert</string>
+				<string>canada.ca</string>
 			</array>
 			<key>CFBundleURLTypes</key>
 			<array>
