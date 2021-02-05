@@ -13,7 +13,7 @@ interface EventURL {
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
   const [scheme, , id, name] = url.split('/');
 
-  if (!id || !name || scheme !== 'covidalert:') {
+  if (!id || !name || scheme !== 'canada.ca:') {
     throw new Error('bad URL from QR code');
   }
   const checkInData: CheckInData = {
@@ -35,7 +35,10 @@ export const useDeepLinks = () => {
         try {
           const checkInData = await handleOpenURL(url);
           addCheckIn(checkInData);
-          navigation.navigate('CheckInSuccessfulScreen');
+          navigation.navigate('QRCodeFlow', {
+            screen: 'CheckInSuccessfulScreen',
+            params: checkInData,
+          });
         } catch (error) {
           // noop
           log.error({error});
@@ -47,7 +50,8 @@ export const useDeepLinks = () => {
       Linking.getInitialURL()
         .then(initialURL => {
           if (initialURL) {
-            return deepLink(initialURL);
+            const urlObj = {url: initialURL};
+            return deepLink(urlObj);
           }
         })
         .catch(err => log.error({category: 'debug', error: err}));
