@@ -76,6 +76,7 @@
 		A40D59F8258A44E6009DA167 /* ExposureNotification.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExposureNotification.framework; path = System/Library/Frameworks/ExposureNotification.framework; sourceTree = SDKROOT; };
 		A4E2F5ED258A84B50037F403 /* ENActivityHandling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ENActivityHandling.h; path = CovidShield/ENActivityHandling.h; sourceTree = "<group>"; };
 		A4E2F5EE258A84B50037F403 /* ENActivityHandling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ENActivityHandling.m; path = CovidShield/ENActivityHandling.m; sourceTree = "<group>"; };
+		C40A5C5B25CF35DE00396B56 /* CovidShieldDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CovidShieldDebug.entitlements; path = CovidShield/CovidShieldDebug.entitlements; sourceTree = "<group>"; };
 		DB9A1444C934C41C93EB531F /* Pods-CovidShield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.debug.xcconfig"; sourceTree = "<group>"; };
 		DF927FC69F850C41EFC51F89 /* Pods-CovidShield.diawi-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.diawi-release.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.diawi-release.xcconfig"; sourceTree = "<group>"; };
 		E93E71E0D77549B3926CABCB /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSans-Regular.ttf"; path = "../src/assets/fonts/NotoSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		13B07FAE1A68108700A75B9A /* CovidShield */ = {
 			isa = PBXGroup;
 			children = (
+				C40A5C5B25CF35DE00396B56 /* CovidShieldDebug.entitlements */,
 				179621B4246C643100B9FC0D /* CovidShield.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
