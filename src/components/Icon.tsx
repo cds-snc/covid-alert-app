@@ -29,6 +29,9 @@ import PurpleBullet from 'assets/purple-bullet.svg';
 import HandReminderRed from 'assets/hand-reminder-red.svg';
 import QRCode from 'assets/qr-code.svg';
 import ScanQRCodeWhiteArrow from 'assets/scan-qr-code-white-arrow.svg';
+import Camera from 'assets/camera.svg';
+import GreenCircleCheck from 'assets/green-circle-check.svg';
+import RedCircleExclamation from 'assets/red-circle-exclamation.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -61,6 +64,9 @@ const ICONS = {
   'hand-reminder-red': HandReminderRed,
   'qr-code': QRCode,
   'scan-qr-code-white-arrow': ScanQRCodeWhiteArrow,
+  'camera-permission': Camera,
+  'green-circle-check': GreenCircleCheck,
+  'red-circle-exclamation': RedCircleExclamation,
 };
 
 export type IconName = keyof typeof ICONS;

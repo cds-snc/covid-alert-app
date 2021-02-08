@@ -29,10 +29,10 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
 
   return (
     <BaseQRCodeScreen>
-      <Box paddingHorizontal="l" marginTop="-xl">
-        <Icon name="icon-green-check" height={50} width={50} />
+      <Box paddingHorizontal="m" marginTop="-xl">
+        <Icon name="green-circle-check" height={75} width={75} />
       </Box>
-      <Box paddingHorizontal="m" style={styles.flex}>
+      <Box paddingHorizontal="m">
         <Box paddingBottom="l">
           <Text variant="bodySubTitle" marginTop="xl">
             {i18n.translate('QRCode.CheckInView.Title')}

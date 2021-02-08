@@ -4,6 +4,7 @@ import {useI18n} from 'locale';
 import {StyleSheet} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {useNavigation} from '@react-navigation/native';
+import {Icon} from 'components/Icon';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
@@ -20,7 +21,8 @@ export const RequestCameraPermission = ({updatePermissions}: {updatePermissions:
   return (
     <BaseQRCodeScreen showBackButton showCloseButton={false}>
       <Box paddingHorizontal="m" style={styles.flex}>
-        <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
+        <Icon size={50} name="camera-permission" />
+        <Text variant="bodyTitle" marginVertical="m" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.CameraPermissions.Title')}
         </Text>
         <Box style={styles.flex}>

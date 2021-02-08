@@ -508,9 +508,9 @@
       "CTA2": "Back to Home"
     },
     "CheckInView": {
-      "Title": "Saved",
-      "CTA1": "Continue to home",
-      "CTA2": "Cancel this visit",
+      "Title": "Scanned",
+      "CTA1": "Ok",
+      "CTA2": "Cancel",
       "MoreInfo": "Learn more about QR codes and COVID alert"
     },
     "Exposed": {

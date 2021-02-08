@@ -485,10 +485,16 @@
       "Learn": ""
     },
     "CheckInView": {
-      "Title": "Visite enregistrée",
-      "CTA1": "Retour à l’écran d’accueil",
+      "Title": "Lieu scanné",
+      "CTA1": "Ok",
       "CTA2": "Annuler la visite",
-      "MoreInfo": "En savoir plus sur les codes QR"
+      "MoreInfo": "Annuler"
+    },
+    "Error": {
+      "Title": "Code QR non reconnu",
+      "Body": "Vérifiez qu’il s’agit bien d’un code QR officiel d’Alerte COVID. Si vous n’êtes pas certain, demandez l’aide d’un employé.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "CTA": "Réessayer",
+      "CTA2": "Retour à l’écran d’accueil"
     },
     "CameraPermissions" :{
       "Title": "Autoriser l’accès à l’appareil photo",
