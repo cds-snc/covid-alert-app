@@ -6,16 +6,16 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-    <key>NSExceptionDomains</key>
-    <dict>
-        <key>localhost:3000</key>
-        <dict>
-            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-        </dict>
-    </dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost:3000</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
@@ -89,7 +89,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>covidalert</string>
+				<string>canada.ca</string>
 			</array>
 		</dict>
 	</array>
