@@ -1,18 +1,21 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Key} from 'services/StorageService';
-
+import PushNotification from 'bridge/PushNotification';
 import {Observable} from './Observable';
-import {CheckInData, getNewOutbreakStatus, initialOutbreakStatus, OutbreakStatus} from './qr';
+import {useI18nRef, I18n} from 'locale';
+import {CheckInData, getNewOutbreakStatus, initialOutbreakStatus, OutbreakStatus, OutbreakStatusType} from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
 
 class OutbreakService implements OutbreakService {
   outbreakStatus: Observable<OutbreakStatus>;
   checkInHistory: Observable<CheckInData[]>;
+  i18n: I18n;
 
-  constructor() {
+  constructor(i18n: I18n) {
     this.outbreakStatus = new Observable<OutbreakStatus>(initialOutbreakStatus);
     this.checkInHistory = new Observable<CheckInData[]>([]);
+    this.i18n = i18n;
   }
 
   setOutbreakStatus = async (value: OutbreakStatus) => {
@@ -48,11 +51,21 @@ class OutbreakService implements OutbreakService {
   checkForExposures = async () => {
     const newOutbreakStatusType = await getNewOutbreakStatus(this.checkInHistory.get());
     this.setOutbreakStatus(newOutbreakStatusType);
+    this.processOutbreakNotification(newOutbreakStatusType);
+  };
+  processOutbreakNotification = (status: OutbreakStatus) => {
+    if (status.type === 'exposed') {
+      PushNotification.presentLocalNotification({
+        alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
+        alertBody: this.i18n.translate('Notification.OutbreakMessageBody'),
+        channelName: this.i18n.translate('Notification.AndroidChannelName'),
+      });
+    }
   };
 }
 
-export const createOutbreakService = async () => {
-  const service = new OutbreakService();
+export const createOutbreakService = async (i18n: I18n) => {
+  const service = new OutbreakService(i18n);
   await service.init();
   return service;
 };
@@ -66,8 +79,12 @@ export const OutbreakContext = React.createContext<OutbreakProviderProps | undef
 
 export const OutbreakProvider = ({children}: OutbreakProviderProps) => {
   const [outbreakService, setOutbreakService] = useState<OutbreakService>();
+  const i18n = useI18nRef();
   useEffect(() => {
-    const {callable, cancelable} = createCancellableCallbackPromise(() => createOutbreakService(), setOutbreakService);
+    const {callable, cancelable} = createCancellableCallbackPromise(
+      () => createOutbreakService(i18n),
+      setOutbreakService,
+    );
     callable();
     return cancelable;
   }, []);
