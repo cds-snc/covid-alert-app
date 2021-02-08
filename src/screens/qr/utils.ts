@@ -27,6 +27,7 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
     const checkInData: CheckInData = {
       id: locationData.id,
       name: locationData.name,
+      address: locationData.address,
       timestamp: getCurrentDate().getTime(),
     };
     return checkInData;

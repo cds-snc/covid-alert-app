@@ -16,6 +16,7 @@ const CheckInList = ({checkIns}: {checkIns: CheckInData[]}) => {
           <Box marginBottom="l" key={checkIn.id.concat(index.toString())}>
             <Text>ID: {checkIn.id}</Text>
             <Text>Name: {checkIn.name}</Text>
+            <Text>Address: {checkIn.address}</Text>
             <Text>Time: {formatCheckInDate(new Date(checkIn.timestamp))}</Text>
           </Box>
         );

@@ -8,6 +8,7 @@ import {getCurrentDate} from './date-fns';
 export interface CheckInData {
   id: string;
   name: string;
+  address: string;
   timestamp: number;
 }
 

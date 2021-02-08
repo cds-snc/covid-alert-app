@@ -2,9 +2,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Key} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
-import {Observable} from './Observable';
 import {useI18nRef, I18n} from 'locale';
-import {CheckInData, getNewOutbreakStatus, initialOutbreakStatus, OutbreakStatus, OutbreakStatusType} from './qr';
+
+import {Observable} from './Observable';
+import {CheckInData, getNewOutbreakStatus, initialOutbreakStatus, OutbreakStatus} from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
 
 class OutbreakService implements OutbreakService {

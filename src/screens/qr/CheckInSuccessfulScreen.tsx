@@ -15,9 +15,8 @@ interface CheckInSuccessfulRoute {
   };
 }
 export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
-  const {name, timestamp} = route.params;
+  const {address, name} = route.params;
   const {removeCheckIn} = useOutbreakService();
-  const formattedCheckInDate = formatCheckInDate(new Date(timestamp));
   const i18n = useI18n();
   const navigation = useNavigation();
   const navigateHome = useCallback(() => navigation.navigate('Home'), [navigation]);
@@ -47,7 +46,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
               text: '',
               action: () => {},
             }}
-            text={formattedCheckInDate}
+            text={address}
             showButton={false}
           />
         </Box>
@@ -61,12 +60,3 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
     </BaseQRCodeScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  button: {
-    fontSize: 18,
-  },
-});
