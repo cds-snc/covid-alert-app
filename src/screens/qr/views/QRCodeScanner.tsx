@@ -6,6 +6,7 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {log} from 'shared/logging/config';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+import {Icon} from 'components/Icon';
 
 import {Toolbar} from '../components/Toolbar';
 import {handleOpenURL} from '../utils';
@@ -35,7 +36,7 @@ export const QRCodeScanner = () => {
       style={{...StyleSheet.absoluteFillObject}}
     >
       <View style={styles.layerTop} />
-      <Box style={styles.back} paddingHorizontal="m">
+      <Box style={styles.back} paddingHorizontal="m" paddingBottom="m">
         <Toolbar useWhiteText showBackButton />
       </Box>
       <View style={styles.layerCenter}>
@@ -47,18 +48,7 @@ export const QRCodeScanner = () => {
         <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" color="bodyTitleWhite">
           {i18n.translate(`QRCode.Reader.Title`)}
         </Text>
-        <Text variant="bodyText" marginBottom="m" color="bodyTextWhite">
-          {i18n.translate(`QRCode.Reader.Body`)}
-        </Text>
-        <ButtonSingleLine
-          text={i18n.translate('QRCode.Reader.Learn')}
-          variant="thinFlatNeutralGrey"
-          onPress={() => {
-            navigation.navigate('LearnAboutQRScreen');
-            setScanned(false);
-          }}
-          iconName="icon-chevron"
-        />
+        <Icon size={175} name="scan-qr-code-white-arrow" />
       </Box>
       <View style={styles.layerBottom} />
     </BarCodeScanner>
@@ -91,7 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: opacity,
   },
   layerCenter: {
-    flex: 5,
+    flex: 10,
     flexDirection: 'row',
   },
   layerLeft: {
@@ -106,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: opacity,
   },
   layerBottom: {
-    flex: 2,
+    flex: 1,
     backgroundColor: opacity,
   },
 });

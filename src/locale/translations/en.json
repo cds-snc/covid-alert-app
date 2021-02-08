@@ -422,7 +422,9 @@
     "PausedMessageBody": "The app is not recording exposures because you turned it off.",
     "OTKNotSharedTitle": "Not quite done",
     "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet.",
-    "AndroidChannelName": "COVID Alert"
+    "AndroidChannelName": "COVID Alert",
+    "OutbreakMessageTitle": "You have been exposed to an Outbreak",
+    "OutbreakMessageBody": "There was an outbreak at one of the locations you scanned"
   },
   "Partners": {
     "Label": "Developed in partnership with"
@@ -487,16 +489,17 @@
     },
     "CameraPermissions": {
       "Title": "Give access to cameras",
-      "Body": "The app needs permission to use your camera to scan a place.",
-      "Title2": "Worried about giving access?",
-      "Body2": "You can also use your phone’s camera app if you prefer not to let the app access your camera.",
-      "CTA": "Allow camera permissions",
+      "Body": "To scan a place, the app needs to use your camera.",
+      "Title2": "Not sure about giving access?",
+      "Body2": "You can also use your phone’s camera directly if you prefer not to let the app access your camera.",
+      "CTA": "Next",
       "Cancel": "Not now"
     },
     "CameraPermissionDenied": {
-      "Title": "Permission denied",
+      "Title": "Access denied",
       "Body": "You said no to COVID Alert using your phone’s camera.\n\nTo scan a place, you’ll need to update your phone’s settings to let COVID Alert  use the camera.\n\nYou can also use your phone’s camera directly or a QR scanning app.",
-      "CTA": "Go to settings"
+      "CTA": "Allow camera access in settings",
+      "CTA2": "About scanning a place"
     },
     "Error": {
       "Title": "QR code not recognized",
@@ -505,9 +508,9 @@
       "CTA2": "Back to Home"
     },
     "CheckInView": {
-      "Title": "Saved",
-      "CTA1": "Continue to home",
-      "CTA2": "Cancel this visit",
+      "Title": "Scanned",
+      "CTA1": "Ok",
+      "CTA2": "Cancel",
       "MoreInfo": "Learn more about QR codes and COVID alert"
     },
     "Exposed": {

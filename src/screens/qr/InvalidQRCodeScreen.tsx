@@ -13,14 +13,14 @@ export const InvalidQRCodeScreen = () => {
   const goHome = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
     <BaseQRCodeScreen showBackButton={false} showCloseButton={false}>
-      <Box paddingHorizontal="l" marginTop="-xl">
-        <Icon name="icon-x" height={50} width={50} />
+      <Box paddingHorizontal="m" marginTop="-xl">
+        <Icon name="red-circle-exclamation" height={75} width={75} />
       </Box>
       <Box paddingHorizontal="m" marginTop="l" style={styles.flex}>
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.Error.Title')}
         </Text>
-        <Box style={styles.flex}>
+        <Box>
           <Text marginBottom="l">{i18n.translate('QRCode.Error.Body')}</Text>
         </Box>
 
