@@ -160,6 +160,9 @@ const Content = () => {
         <Button text="Clear Outbreak Exposures" onPress={onClearOutbreak} variant="bigFlat" />
       </Section>
       <Section>
+        <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
+      </Section>
+      <Section>
         <Item title="Force screen" />
         <ScreenRadioSelector />
       </Section>
@@ -206,9 +209,6 @@ const Content = () => {
       </Section>
       <Section>
         <LanguageToggle />
-      </Section>
-      <Section>
-        <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
       </Section>
       <Section>
         <Button text="Clear data" onPress={reset} variant="danger50Flat" />
