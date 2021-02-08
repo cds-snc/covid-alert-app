@@ -477,17 +477,32 @@
     "Bullet": "Puce"
   },
   "QRCode": {
-    "Title": "QR Code",
-    "Body": "Aenean accumsan quis dolor vestibulum dignissim. Etiam id egestas lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos",
-    "CTA": "Scan QR Code",
-    "ScanAgain": "Tap to scan again",
-    "Back": "Back",
-
+    "CTA": "Scan a place",
+    "Reader": {
+      "Title": "Placez votre appareil photo devant le code QR",
+      "Body": "",
+      "Back": "Précédent",
+      "Learn": ""
+    },
     "CheckInView": {
       "Title": "Visite enregistrée",
       "CTA1": "Retour à l’écran d’accueil",
       "CTA2": "Annuler la visite",
       "MoreInfo": "En savoir plus sur les codes QR"
+    },
+    "CameraPermissions" :{
+      "Title": "Autoriser l’accès à l’appareil photo",
+      "Body": "Pour scanner un lieu, l’application doit pouvoir utiliser l’appareil photo.",
+      "Title2": "Vous hésitez à autoriser l’accès?",
+      "Body2": "You can also use your phone’s camera app if you prefer not to let the app access your camera.",
+      "CTA": "Suivant",
+      "Cancel": "Pas maintenant"
+    },
+    "CameraPermissionDenied": {
+      "Title": "Autorisation refusée",
+      "Body": "Vous avez refusé qu’Alerte COVID utilise votre appareil photo.\n\nPour scanner un lieu, vous devez autoriser Alerte COVID à utiliser l’appareil photo dans les paramètres de votre téléphone.\n\nVous pouvez aussi utiliser directement votre appareil photo ou une application de lecture de codes QR.",
+      "CTA": "Autoriser l’accès dans les paramètres",
+      "CTA2": "En savoir plus sur Scanner un lieu"
     }
   },
 

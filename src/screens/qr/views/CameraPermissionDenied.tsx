@@ -42,7 +42,7 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
 
         <Box paddingHorizontal="s" marginBottom="m">
           <ButtonSingleLine
-            text={i18n.translate('QRCode.Reader.Learn')}
+            text={i18n.translate('QRCode.CameraPermissionDenied.CTA2')}
             variant="thinFlatNeutralGrey"
             onPress={() => {
               navigation.navigate('LearnAboutQRScreen');

@@ -28,6 +28,7 @@ import CanadaLogo from 'assets/canada.svg';
 import PurpleBullet from 'assets/purple-bullet.svg';
 import HandReminderRed from 'assets/hand-reminder-red.svg';
 import QRCode from 'assets/qr-code.svg';
+import ScanQRCodeWhiteArrow from 'assets/scan-qr-code-white-arrow.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -59,6 +60,7 @@ const ICONS = {
   'canada-logo': CanadaLogo,
   'hand-reminder-red': HandReminderRed,
   'qr-code': QRCode,
+  'scan-qr-code-white-arrow': ScanQRCodeWhiteArrow,
 };
 
 export type IconName = keyof typeof ICONS;
