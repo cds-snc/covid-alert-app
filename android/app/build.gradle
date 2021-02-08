@@ -144,6 +144,7 @@ android {
 
     defaultConfig {
         applicationId project.env.get("APP_ID")
+        manifestPlaceholders = [QR_HOST: project.env.get("QR_HOST")]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode project.env.get("APP_VERSION_CODE") as Integer

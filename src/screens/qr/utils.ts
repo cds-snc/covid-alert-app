@@ -5,24 +5,34 @@ import {useNavigation} from '@react-navigation/native';
 import {CheckInData} from 'shared/qr';
 import {getCurrentDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+import {QR_HOST} from 'env';
+import base64 from 'react-native-base64';
 
 interface EventURL {
   url: string;
 }
 
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
-  const [scheme, , id, name] = url.split('/');
+  const [scheme, , host] = url.split('/');
 
-  if (!id || !name || scheme !== 'canada.ca:') {
+  if (scheme !== 'https:' || host !== QR_HOST) {
     throw new Error('bad URL from QR code');
   }
-  const checkInData: CheckInData = {
-    id,
-    // temporary until we encode this string properly
-    name: name.replace(/_/g, ' '),
-    timestamp: getCurrentDate().getTime(),
-  };
-  return checkInData;
+
+  const [, base64Str] = url.split('#');
+  try {
+    const _locationData = base64.decode(base64Str);
+    const locationData = JSON.parse(_locationData);
+    log.debug({message: 'decoded and parsed location data', payload: {locationData}});
+    const checkInData: CheckInData = {
+      id: locationData.id,
+      name: locationData.name,
+      timestamp: getCurrentDate().getTime(),
+    };
+    return checkInData;
+  } catch (error) {
+    throw new Error('Problem decoding or parsing QR hash data');
+  }
 };
 
 export const useDeepLinks = () => {

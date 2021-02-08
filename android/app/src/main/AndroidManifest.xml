@@ -35,7 +35,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="canada.ca" />
+                <data android:scheme="https" android:host="${QR_HOST}" android:path="/exposure-configuration/download.html" />
             </intent-filter>
         </activity>
 
