@@ -8648,6 +8648,11 @@ react-native-background-fetch@^3.1.0:
     plist "^3.0.1"
     xcode "^2.0.0"
 
+react-native-base64@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-base64/-/react-native-base64-0.2.1.tgz#3d0e73a649c4c0129f7b7695d3912456aebae847"
+  integrity sha512-eHgt/MA8y5ZF0aHfZ1aTPcIkDWxza9AaEk4GcpIX+ZYfZ04RcaNahO+527KR7J44/mD3efYfM23O2C1N44ByWA==
+
 react-native-config@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.1.0.tgz#e59ee672ca6cd36599d86b806b22b129f1631ca2"
@@ -8696,11 +8701,6 @@ react-native-markdown-display@^6.1.0:
 react-native-permissions@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.1.4.tgz#b0663839d28444d8ea6b5302303b2151ea70d2da"
-
-react-native-pure-jwt@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/react-native-pure-jwt/-/react-native-pure-jwt-2.2.2.tgz#cf8177c45b65baccc58d6f75af53748dc742f1b2"
-  integrity sha512-gxIW0H4fQtzUwNaxgLk0TdQXv1bErKZFvTSlYyGwNFX2nsZgzkjyV4hole6bv4wvmj/0c/5NRGcTLkosmA33dg==
 
 react-native-reanimated@^1.8.0:
   version "1.8.0"
