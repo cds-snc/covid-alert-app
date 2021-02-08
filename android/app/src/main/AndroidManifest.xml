@@ -31,11 +31,11 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter android:label="filter_react_native">
+            <intent-filter android:label="COVID Alert">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="canada.ca" />
+                <data android:scheme="https" android:host="canada.ca" />
             </intent-filter>
         </activity>
 
