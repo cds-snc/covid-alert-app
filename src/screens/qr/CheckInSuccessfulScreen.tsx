@@ -2,9 +2,7 @@ import React, {useCallback} from 'react';
 import {Box, Button, Text, Icon, InfoBlock} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
-import {formatCheckInDate} from 'shared/date-fns';
 import {CheckInData} from 'shared/qr';
-import {StyleSheet} from 'react-native';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
