@@ -1,12 +1,11 @@
 import React from 'react';
 import {useI18n} from 'locale';
-import {Box, Text} from 'components';
+import {Text, RoundedBox} from 'components';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useStorage} from 'services/StorageService';
 import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
-import {StyleSheet, Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
@@ -26,12 +25,10 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
   const i18n = useI18n();
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
-  const activeBodyText = regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`);
 
   return (
     <>
-      <Box alignSelf="stretch" style={styles.roundedBox1}>
-        <Box paddingHorizontal="m" paddingVertical="m">
+      <RoundedBox isFirstBox>
           <Text
             focusRef={autoFocusRef}
             testID="bodyTitle"
@@ -39,29 +36,28 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
             marginBottom="m"
             accessibilityRole="header"
           >
-            {i18n.translate('Home.ExposureDetected.Title')}
-          </Text>
-          <Text testID="bodyText" marginBottom="m">
-            {i18n.translate('Home.ExposureDetected.Body1')}
-          </Text>
-          <ExposureDateView />
-        </Box>
-      </Box>
+          {i18n.translate('Home.ExposureDetected.Title')}
+        </Text>
+        <Text testID="bodyText" marginBottom="m">
+          {i18n.translate('Home.ExposureDetected.Body1')}
+        </Text>
+        <ExposureDateView />
+      </RoundedBox>
 
-      <Box alignSelf="stretch" marginTop="m" style={styles.roundedBox2}>
-        <Box paddingHorizontal="m" paddingVertical="m">
-          <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-            {i18n.translate('Home.ExposureDetected.Title2')}
-          </Text>
-          {regionActive ? (
-            <ActiveContent text={activeBodyText} /> /* pulls from region.json */
-          ) : (
-            <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body2')}</Text>
-          )}
-          <ExposedHelpButton />
-          <NegativeTestButton />
-        </Box>
-      </Box>
+      <RoundedBox isFirstBox={false}>
+        <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
+          {i18n.translate('Home.ExposureDetected.Title2')}
+        </Text>
+        {regionActive ? (
+          <ActiveContent
+            text={regionalI18n.translate(`RegionContent.ExposureView.Active.${region}.Body`)}
+          /> /* pulls from region.json */
+        ) : (
+          <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body2')}</Text>
+        )}
+        <ExposedHelpButton />
+        <NegativeTestButton />
+      </RoundedBox>
     </>
   );
 };
@@ -73,16 +69,3 @@ export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: bo
     </BaseHomeView>
   );
 };
-
-const styles = StyleSheet.create({
-  roundedBox1: {
-    marginTop: Platform.OS === 'ios' ? 5 : -20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    zIndex: -1,
-  },
-  roundedBox2: {
-    borderRadius: 10,
-    backgroundColor: 'white',
-  },
-});

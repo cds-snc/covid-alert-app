@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
+import {PollNotifications} from 'services/PollNotificationService';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -110,6 +111,14 @@ const Content = () => {
     });
   }, [i18n]);
 
+  const onClearReadReceipts = useCallback(() => {
+    PollNotifications.clearNotificationReceipts();
+  }, []);
+
+  const onPollNotifications = useCallback(async () => {
+    await PollNotifications.checkForNotifications(i18n);
+  }, [i18n]);
+
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
 
@@ -140,6 +149,12 @@ const Content = () => {
           variant="bigFlat"
           testID="ShowSampleNotification"
         />
+      </Section>
+      <Section>
+        <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
+      </Section>
+      <Section>
+        <Button text="Clear notification receipts" onPress={onClearReadReceipts} variant="bigFlat" />
       </Section>
       <Section>
         <Item title="Force screen" />
@@ -182,7 +197,6 @@ const Content = () => {
           text="Force exposure check"
           variant="bigFlat"
           onPress={async () => {
-            captureMessage('Forcing Exposure Check');
             updateExposureStatus(true);
           }}
         />

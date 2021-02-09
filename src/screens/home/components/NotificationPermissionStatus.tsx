@@ -3,7 +3,7 @@ import {checkNotifications, requestNotifications} from 'react-native-permissions
 import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
 import {AppState} from 'react-native';
 
-type Status = 'denied' | 'granted' | 'unavailable' | 'blocked';
+export type Status = 'denied' | 'granted' | 'unavailable' | 'blocked';
 
 interface NotificationPermissionStatusContextProps {
   status: Status;

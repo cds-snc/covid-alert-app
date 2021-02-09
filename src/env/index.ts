@@ -15,6 +15,8 @@ export const SUBMIT_URL = Config.SUBMIT_URL;
 
 export const RETRIEVE_URL = Config.RETRIEVE_URL;
 
+export const NOTIFICATION_FEED_URL = Config.NOTIFICATION_FEED_URL;
+
 export const HMAC_KEY = Config.HMAC_KEY;
 
 export const MCC_CODE = parseInt(Config.MCC_CODE, 10) || 302;
@@ -32,6 +34,10 @@ export const EN_API_VERSION = Config.EN_API_VERSION;
 export const LOGGLY_URL = Config.LOGGLY_URL || false;
 
 export const LOG_LEVEL = Config.LOG_LEVEL || 'debug';
+
+export const METRICS_URL = Config.METRICS_URL || false;
+
+export const METRICS_API_KEY = Config.METRICS_API_KEY;
 
 /**
  * Set reachability check url to empty to prevent

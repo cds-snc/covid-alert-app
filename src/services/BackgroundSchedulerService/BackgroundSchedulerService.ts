@@ -35,18 +35,23 @@ const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationServ
         stopOnTerminate: false,
       },
       async taskId => {
-        log.debug({
-          category: 'background',
-          message: `runPeriodicTask: ${taskId}`,
-        });
-        try {
-          await task();
-        } catch (error) {
-          log.error({
-            category: 'background',
-            message: 'runPeriodicTask',
-            error,
-          });
+        // All background tasks come through this same callback
+        switch (taskId) {
+          default: {
+            log.debug({
+              category: 'background',
+              message: `runPeriodicTask: ${taskId}`,
+            });
+            try {
+              await task();
+            } catch (error) {
+              log.error({
+                category: 'background',
+                message: 'runPeriodicTask',
+                error,
+              });
+            }
+          }
         }
         BackgroundFetch.finish(taskId);
       },

@@ -8,7 +8,7 @@ import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
-import {useMetricsContext} from 'shared/MetricsProvider';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -41,7 +41,6 @@ export const ExposureNotificationServiceProvider = ({
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
   const {setUserStopped} = useStorage();
-  const metrics = useMetricsContext();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
@@ -50,9 +49,8 @@ export const ExposureNotificationServiceProvider = ({
         storage || AsyncStorage,
         secureStorage || RNSecureKeyStore,
         exposureNotification || ExposureNotification,
-        metrics.service,
       ),
-    [backendInterface, exposureNotification, i18n, metrics.service, secureStorage, storage],
+    [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );
 
   useEffect(() => {
@@ -102,12 +100,17 @@ export function useExposureNotificationService() {
 
 export function useStartExposureNotificationService(): () => Promise<boolean | {success: boolean; error?: string}> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped, onboardedDatetime} = useStorage();
 
   return useCallback(async () => {
     const start = await exposureNotificationService.start();
 
     log.debug({message: 'exposureNotificationService.start()', payload: start});
+    FilteredMetricsService.sharedInstance().addEvent({
+      type: EventTypeMetric.EnToggle,
+      state: true,
+      onboardedDate: onboardedDatetime,
+    });
 
     if (Platform.OS === 'ios') {
       setUserStopped(false);
@@ -125,18 +128,23 @@ export function useStartExposureNotificationService(): () => Promise<boolean | {
     }
 
     return false;
-  }, [exposureNotificationService, setUserStopped]);
+  }, [exposureNotificationService, onboardedDatetime, setUserStopped]);
 }
 
 export function useStopExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped, onboardedDatetime} = useStorage();
   return useCallback(async () => {
     setUserStopped(true);
     const stopped = await exposureNotificationService.stop();
     log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
+    FilteredMetricsService.sharedInstance().addEvent({
+      type: EventTypeMetric.EnToggle,
+      state: false,
+      onboardedDate: onboardedDatetime,
+    });
     return stopped;
-  }, [exposureNotificationService, setUserStopped]);
+  }, [exposureNotificationService, onboardedDatetime, setUserStopped]);
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {
@@ -161,6 +169,12 @@ export function useExposureStatus(): ExposureStatus {
   }, [exposureNotificationService.exposureStatus]);
 
   return state;
+}
+
+export function useExposureHistory(): number[] {
+  const exposureNotificationService = useExposureNotificationService();
+  const [history] = useState<number[]>(exposureNotificationService.exposureHistory.get());
+  return history;
 }
 
 export function useUpdateExposureStatus(): (forceCheck?: boolean) => void {
