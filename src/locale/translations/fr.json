@@ -509,6 +509,12 @@
       "Body": "Vous avez refusé qu’Alerte COVID utilise votre appareil photo.\n\nPour scanner un lieu, vous devez autoriser Alerte COVID à utiliser l’appareil photo dans les paramètres de votre téléphone.\n\nVous pouvez aussi utiliser directement votre appareil photo ou une application de lecture de codes QR.",
       "CTA": "Autoriser l’accès dans les paramètres",
       "CTA2": "En savoir plus sur Scanner un lieu"
+    },
+    "ScanAPlace": {
+      "Title": "Scanner un lieu",
+      "Body": "Vous pouvez être notifié si des personnes contagieuses ont visité le même lieu que vous. Lorsque vous scannez un code QR Alerte COVID à l’entrée d’un lieu, l’application l’enregistre sur votre téléphone.\n\nLes lieux que vous visitez",
+      "Body2": "ne seront pas communiqués à personne.",
+      "CTA": "Suivant"
     }
   },
 

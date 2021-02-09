@@ -519,6 +519,12 @@
     "CancelCheckIn": {
       "Title": "Successfully cancelled check in",
       "Body": "You have successfully cancelled this check in, you may close this screen"
+    },
+    "ScanAPlace": {
+      "Title": "Scan a place",
+      "Body": "You can get notified if contagious people have visited the same place as you. When you scan COVID Alert QR codes at the places you go, the app saves them to your phone.\n\nThe places you visit",
+      "Body2": " will not be shared with anyone.",
+      "CTA": "Next"
     }
   },
 

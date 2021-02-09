@@ -3,9 +3,11 @@ import {Box, Text, Button} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
+import {useI18n} from 'locale';
 
 export const LearnAboutQRScreen = () => {
   const navigation = useNavigation();
+  const i18n = useI18n();
   const {setHasViewedQr} = useStorage();
   const toQRScreen = useCallback(async () => {
     await setHasViewedQr(true);
@@ -15,10 +17,15 @@ export const LearnAboutQRScreen = () => {
     <BaseDataSharingView>
       <Box paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
-          Learn more about QR codes
+          {i18n.translate('QRCode.ScanAPlace.Title')}
         </Text>
-        <Text marginBottom="l">Content.</Text>
-        <Button text="Next" variant="bigFlatBlue" onPress={toQRScreen} />
+
+        <Text marginBottom="l">
+          <Text>{i18n.translate('QRCode.ScanAPlace.Body')}</Text>
+          <Text variant="bodySubTitle">{i18n.translate('QRCode.ScanAPlace.Body2')}</Text>
+        </Text>
+
+        <Button text="Next" variant="thinFlat" onPress={toQRScreen} />
       </Box>
     </BaseDataSharingView>
   );
