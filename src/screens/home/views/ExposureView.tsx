@@ -29,13 +29,13 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   return (
     <>
       <RoundedBox isFirstBox>
-          <Text
-            focusRef={autoFocusRef}
-            testID="bodyTitle"
-            variant="bodyTitle"
-            marginBottom="m"
-            accessibilityRole="header"
-          >
+        <Text
+          focusRef={autoFocusRef}
+          testID="bodyTitle"
+          variant="bodyTitle"
+          marginBottom="m"
+          accessibilityRole="header"
+        >
           {i18n.translate('Home.ExposureDetected.Title')}
         </Text>
         <Text testID="bodyText" marginBottom="m">
