@@ -19,7 +19,6 @@ export enum OutbreakStatusType {
 
 export interface ExposedLocationData {
   id: string;
-  name: string;
   startTime: string;
   endTime: string;
 }
