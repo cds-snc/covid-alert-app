@@ -79,7 +79,7 @@ describe('Demo menu test', () => {
     await element(by.id('ShowSampleNotification')).tap();
     await device.takeScreenshot('SampleNotification');
     // next line waits for notification to fade
-    await sleep(8000);
+    await sleep(7000);
   });
 
   it('close demo menu', async () => {
