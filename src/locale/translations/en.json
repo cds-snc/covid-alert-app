@@ -488,7 +488,7 @@
       "Learn": "Learn more about QR codes and COVID Alert"
     },
     "CameraPermissions": {
-      "Title": "Give access to cameras",
+      "Title": "Give access to camera",
       "Body": "To scan a place, the app needs to use your camera.",
       "Title2": "Not sure about giving access?",
       "Body2": "You can also use your phone’s camera directly if you prefer not to let the app access your camera.",

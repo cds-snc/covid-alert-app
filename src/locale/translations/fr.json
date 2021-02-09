@@ -477,7 +477,7 @@
     "Bullet": "Puce"
   },
   "QRCode": {
-    "CTA": "Scan a place",
+    "CTA": "Scanner un lieu",
     "Reader": {
       "Title": "Placez votre appareil photo devant le code QR",
       "Body": "",
