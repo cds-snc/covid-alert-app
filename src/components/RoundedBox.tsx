@@ -4,10 +4,10 @@ import {StyleSheet, Platform} from 'react-native';
 
 interface RoundedBoxProp {
   children: React.ReactNode;
-  isFirstBox: boolean;
+  isFirstBox?: boolean;
 }
 
-export const RoundedBox = ({children, isFirstBox}: RoundedBoxProp) => {
+export const RoundedBox = ({children, isFirstBox = false}: RoundedBoxProp) => {
   return (
     <Box
       style={isFirstBox ? [styles.roundedBox, styles.firstBox] : styles.roundedBox}

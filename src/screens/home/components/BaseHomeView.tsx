@@ -1,15 +1,14 @@
 import React from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Box, Header, Icon, IconName} from 'components';
+import {Box, Header, Icon, IconName, RoundedBox} from 'components';
 
 interface BaseHomeViewProps {
   children?: React.ReactNode;
-  iconName?: IconName;
   testID?: string;
 }
 
-export const BaseHomeView = ({children, iconName, testID}: BaseHomeViewProps) => {
+export const BaseHomeView = ({children, testID}: BaseHomeViewProps) => {
   return (
     <>
       <SafeAreaView edges={['top']}>
@@ -21,25 +20,54 @@ export const BaseHomeView = ({children, iconName, testID}: BaseHomeViewProps) =>
         testID={testID}
         contentContainerStyle={styles.scrollContainer}
       >
-        <SafeAreaView edges={['left', 'right']}>
-          <Box width="100%" justifyContent="flex-start" marginBottom="-l">
-            <Box style={{...styles.primaryIcon}}>
-              <Icon name={iconName} height={120} width={150} />
-            </Box>
-          </Box>
-          <Box
-            width="100%"
-            flex={1}
-            alignItems="flex-start"
-            justifyContent="flex-start"
-            paddingHorizontal="m"
-            marginBottom="l"
-          >
-            {children}
-          </Box>
-        </SafeAreaView>
+        <SafeAreaView edges={['left', 'right']}>{children}</SafeAreaView>
       </ScrollView>
     </>
+  );
+};
+
+interface ExposureStatusWrapperProps {
+  children?: React.ReactNode;
+  testID?: string;
+  iconName?: IconName;
+}
+
+export const ExposureStatusWrapper = ({children, iconName}: ExposureStatusWrapperProps) => {
+  return (
+    <>
+      <Box width="100%" justifyContent="flex-start" marginBottom="-l">
+        <Box style={{...styles.primaryIcon}}>
+          <Icon name={iconName} height={120} width={150} />
+        </Box>
+      </Box>
+      <Box
+        width="100%"
+        flex={1}
+        alignItems="flex-start"
+        justifyContent="flex-start"
+        paddingHorizontal="m"
+        marginBottom="l"
+      >
+        <RoundedBox>{children}</RoundedBox>
+      </Box>
+    </>
+  );
+};
+
+interface SystemStatusWrapperProps {
+  children?: React.ReactNode;
+  testID?: string;
+  iconName?: IconName;
+}
+
+export const SystemStatusWrapper = ({children, iconName}: SystemStatusWrapperProps) => {
+  return (
+    <Box marginHorizontal="m" marginBottom="m">
+      <RoundedBox>
+        <Icon name={iconName} height={40} width={40} />
+        {children}
+      </RoundedBox>
+    </Box>
   );
 };
 

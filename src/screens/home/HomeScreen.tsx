@@ -41,6 +41,7 @@ import {
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
+import {BaseHomeView} from './components/BaseHomeView';
 
 interface ContentProps {
   isBottomSheetExpanded: boolean;
@@ -54,19 +55,15 @@ const UploadShareView = ({hasShared, isBottomSheetExpanded}: {hasShared?: boolea
   );
 };
 
-const Content = ({isBottomSheetExpanded}: ContentProps) => {
-  const {region, userStopped} = useStorage();
-
+const ContentExposureStatus = ({isBottomSheetExpanded}: ContentProps) => {
+  const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const exposureStatus = useExposureStatus();
-  const [systemStatus] = useSystemStatus();
   const [, turnNotificationsOn] = useNotificationPermissionStatus();
   useEffect(() => {
     return turnNotificationsOn();
   }, [turnNotificationsOn]);
-
-  const network = useNetInfo();
 
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
@@ -93,57 +90,68 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
         return <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />;
       case ForceScreen.DiagnosedShareUploadView:
         return <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      case ForceScreen.FrameworkUnavailableView:
-        return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
       default:
         break;
     }
-  }
-
-  if (userStopped && systemStatus !== SystemStatus.Active) {
-    return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
-  }
-
-  switch (systemStatus) {
-    case SystemStatus.Undefined:
-    case SystemStatus.Unauthorized:
-      return <ExposureNotificationsUnauthorizedView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case SystemStatus.Disabled:
-    case SystemStatus.Restricted:
-      return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
-    case SystemStatus.PlayServicesNotAvailable:
-      return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
   switch (exposureStatus.type) {
     case ExposureStatusType.Exposed:
       return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
     case ExposureStatusType.Diagnosed:
-      if (!network.isConnected) {
-        return <NetworkDisabledView />;
-      }
-
-      /* @todo UploadShareView pass hasShared from ExposureStatus */
       return exposureStatus.needsSubmission ? (
         <UploadShareView isBottomSheetExpanded={isBottomSheetExpanded} hasShared={exposureStatus.hasShared} />
       ) : (
         <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
       );
     case ExposureStatusType.Monitoring:
+      return getNoExposureView(regionCase);
+  }
+};
+
+const ContentSystemStatus = () => {
+  const {userStopped} = useStorage();
+  const [systemStatus] = useSystemStatus();
+  const network = useNetInfo();
+
+  // this is for the test menu
+  const {forceScreen} = useStorage();
+  if (TEST_MODE) {
+    switch (forceScreen) {
+      case ForceScreen.FrameworkUnavailableView:
+        return <FrameworkUnavailableView />;
+      default:
+        break;
+    }
+  }
+
+  if (userStopped && systemStatus !== SystemStatus.Active) {
+    return <ExposureNotificationsUserStoppedView />;
+  }
+
+  switch (systemStatus) {
+    case SystemStatus.Undefined:
+    case SystemStatus.Unauthorized:
+      return <ExposureNotificationsUnauthorizedView />;
+    case SystemStatus.Disabled:
+    case SystemStatus.Restricted:
+      return <ExposureNotificationsDisabledView />;
+    case SystemStatus.PlayServicesNotAvailable:
+      return <FrameworkUnavailableView />;
+  }
+
+  if (!network.isConnected) {
+    return <NetworkDisabledView />;
+  }
+  switch (systemStatus) {
+    case SystemStatus.BluetoothOff:
+      return <BluetoothDisabledView />;
+    case SystemStatus.LocationOff:
+      return <LocationOffView />;
+    case SystemStatus.Active:
+      return <></>;
     default:
-      if (!network.isConnected) {
-        return <NetworkDisabledView />;
-      }
-      switch (systemStatus) {
-        case SystemStatus.BluetoothOff:
-          return <BluetoothDisabledView />;
-        case SystemStatus.LocationOff:
-          return <LocationOffView isBottomSheetExpanded={isBottomSheetExpanded} />;
-        case SystemStatus.Active:
-          return getNoExposureView(regionCase);
-        default:
-          return <UnknownProblemView isBottomSheetExpanded={isBottomSheetExpanded} />;
-      }
+      return <UnknownProblemView />;
   }
 };
 
@@ -250,7 +258,10 @@ export const HomeScreen = () => {
           importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
         >
           <Animated.View style={{opacity: fadeAnim}}>
-            <Content isBottomSheetExpanded={isBottomSheetExpanded} />
+            <BaseHomeView>
+              <ContentExposureStatus isBottomSheetExpanded={isBottomSheetExpanded} />
+              <ContentSystemStatus />
+            </BaseHomeView>
           </Animated.View>
         </Box>
         <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />

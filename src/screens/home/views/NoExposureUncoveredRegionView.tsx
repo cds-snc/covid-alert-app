@@ -5,7 +5,7 @@ import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
-import {BaseHomeView} from '../components/BaseHomeView';
+import {ExposureStatusWrapper} from '../components/BaseHomeView';
 import {AllSetView} from '../components/AllSetView';
 
 export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
@@ -15,19 +15,19 @@ export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottom
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (
-      <BaseHomeView iconName="hand-no-province-yet">
+      <ExposureStatusWrapper iconName="hand-no-province-yet">
         <AllSetView
           testID="allSetUncoveredRegionView"
           isBottomSheetExpanded
           titleText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
           bodyText={i18n.translate('Home.NoExposureDetected.RegionNotCovered.AllSetBody')}
         />
-      </BaseHomeView>
+      </ExposureStatusWrapper>
     );
   }
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
-    <BaseHomeView iconName="hand-no-province-yet">
+    <ExposureStatusWrapper iconName="hand-no-province-yet">
       <Text
         testID="uncoveredRegionHeader"
         focusRef={autoFocusRef}
@@ -45,6 +45,6 @@ export const NoExposureUncoveredRegionView = ({isBottomSheetExpanded}: {isBottom
         marginBottom="m"
         text={i18n.translate('Home.NoExposureDetected.RegionNotCovered.Body')}
       />
-    </BaseHomeView>
+    </ExposureStatusWrapper>
   );
 };

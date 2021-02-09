@@ -7,7 +7,7 @@ import {useStorage} from 'services/StorageService';
 import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
 
-import {BaseHomeView} from '../components/BaseHomeView';
+import {ExposureStatusWrapper} from '../components/BaseHomeView';
 
 import {ExposureDateView} from './ExposureDateView';
 import {NegativeTestButton} from './ClearExposureView';
@@ -56,8 +56,8 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
 
 export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   return (
-    <BaseHomeView iconName="hand-caution" testID="exposure">
+    <ExposureStatusWrapper iconName="hand-caution" testID="exposure">
       <ExposureText isBottomSheetExpanded={isBottomSheetExpanded} />
-    </BaseHomeView>
+    </ExposureStatusWrapper>
   );
 };

@@ -3,11 +3,10 @@ import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
 import {Linking, Platform} from 'react-native';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
-import {BaseHomeView} from '../components/BaseHomeView';
+import {SystemStatusWrapper} from '../components/BaseHomeView';
 
-export const LocationOffView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const LocationOffView = () => {
   const i18n = useI18n();
   const startExposureNotificationService = useStartExposureNotificationService();
 
@@ -25,10 +24,9 @@ export const LocationOffView = ({isBottomSheetExpanded}: {isBottomSheetExpanded:
     }
     return toSettings();
   };
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   return (
-    <BaseHomeView iconName="icon-bluetooth-disabled">
-      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+    <SystemStatusWrapper iconName="icon-bluetooth-disabled">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.EnDisabled.Title')}
       </Text>
       <Text variant="bodyText" color="bodyText">
@@ -53,6 +51,6 @@ export const LocationOffView = ({isBottomSheetExpanded}: {isBottomSheetExpanded:
           <Text>{i18n.translate('Home.EnDisabled.AndroidBody2c')}</Text>
         </Text>
       </Box>
-    </BaseHomeView>
+    </SystemStatusWrapper>
   );
 };

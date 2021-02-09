@@ -7,7 +7,7 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {Platform} from 'react-native';
 
 import {AllSetView} from '../components/AllSetView';
-import {BaseHomeView} from '../components/BaseHomeView';
+import {ExposureStatusWrapper} from '../components/BaseHomeView';
 
 const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
@@ -41,19 +41,19 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (
-      <BaseHomeView iconName="thumbs-up">
+      <ExposureStatusWrapper iconName="thumbs-up">
         <AllSetView
           testID="allSetCoveredRegionView"
           isBottomSheetExpanded={isBottomSheetExpanded}
           titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
           bodyText={i18n.translate('Home.NoExposureDetected.RegionCovered.AllSetBody')}
         />
-      </BaseHomeView>
+      </ExposureStatusWrapper>
     );
   }
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
-    <BaseHomeView iconName="thumbs-up">
+    <ExposureStatusWrapper iconName="thumbs-up">
       {Platform.OS === 'ios' ? (
         <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
       ) : (
@@ -61,6 +61,6 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
           <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
         </RoundedBox>
       )}
-    </BaseHomeView>
+    </ExposureStatusWrapper>
   );
 };

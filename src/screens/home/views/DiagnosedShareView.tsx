@@ -6,7 +6,7 @@ import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
 
-import {BaseHomeView} from '../components/BaseHomeView';
+import {ExposureStatusWrapper} from '../components/BaseHomeView';
 
 export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const i18n = useI18n();
@@ -19,7 +19,7 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   return (
-    <BaseHomeView iconName="hand-reminder" testID="diagnosedShare">
+    <ExposureStatusWrapper iconName="hand-reminder" testID="diagnosedShare">
       <RoundedBox isFirstBox>
         <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedShareView.Title')}
@@ -40,6 +40,6 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
           />
         </Box>
       </RoundedBox>
-    </BaseHomeView>
+    </ExposureStatusWrapper>
   );
 };

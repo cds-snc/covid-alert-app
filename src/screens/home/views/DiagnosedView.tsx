@@ -10,7 +10,7 @@ import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {TEST_MODE} from 'env';
 
-import {BaseHomeView} from '../components/BaseHomeView';
+import {ExposureStatusWrapper} from '../components/BaseHomeView';
 import {Tip} from '../components/Tip';
 
 export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
@@ -29,7 +29,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   }
 
   return (
-    <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">
+    <ExposureStatusWrapper iconName="hand-thank-you-with-love" testID="diagnosed">
       <RoundedBox isFirstBox>
         <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedView.Title')}
@@ -57,6 +57,6 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
           </RoundedBox>
         </>
       )}
-    </BaseHomeView>
+    </ExposureStatusWrapper>
   );
 };
