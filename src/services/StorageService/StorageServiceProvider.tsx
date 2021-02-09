@@ -66,6 +66,11 @@ export const useStorage = () => {
   const [skipAllSet, setSkipAllSetInternal] = useState(storageService.skipAllSet.get());
   const setSkipAllSet = useMemo(() => storageService.setSkipAllSet, [storageService.setSkipAllSet]);
 
+  const [hasViewedQrInstructions, setHasViewedQrInstructions] = useState(storageService.hasViewedQrInstructions.get());
+  const setHasViewedQr = useMemo(() => storageService.setHasViewedQrInstructions, [
+    storageService.setHasViewedQrInstructions,
+  ]);
+
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
@@ -75,6 +80,9 @@ export const useStorage = () => {
   useEffect(() => storageService.forceScreen.observe(setForceScreenInternal), [storageService.forceScreen]);
   useEffect(() => storageService.skipAllSet.observe(setSkipAllSetInternal), [storageService.skipAllSet]);
   useEffect(() => storageService.userStopped.observe(setUserStoppedInternal), [storageService.userStopped]);
+  useEffect(() => storageService.hasViewedQrInstructions.observe(setHasViewedQrInstructions), [
+    storageService.hasViewedQrInstructions,
+  ]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
@@ -83,11 +91,12 @@ export const useStorage = () => {
     setOnboardedDatetime(undefined);
     setSkipAllSet(false);
     setUserStopped(false);
+    setHasViewedQr(false);
     await AsyncStorage.clear();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped]);
+  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped, setHasViewedQr]);
 
   return useMemo(
     () => ({
@@ -106,6 +115,8 @@ export const useStorage = () => {
       reset,
       userStopped,
       setUserStopped,
+      hasViewedQrInstructions,
+      setHasViewedQr,
     }),
     [
       isOnboarding,
@@ -123,6 +134,8 @@ export const useStorage = () => {
       reset,
       userStopped,
       setUserStopped,
+      hasViewedQrInstructions,
+      setHasViewedQr,
     ],
   );
 };

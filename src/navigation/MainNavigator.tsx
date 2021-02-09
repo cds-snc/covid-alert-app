@@ -141,8 +141,12 @@ const DataSharingNavigator = () => {
 
 const QRCodeStack = createStackNavigator();
 const QRCodeNavigator = () => {
+  const {hasViewedQrInstructions} = useStorage();
   return (
-    <QRCodeStack.Navigator screenOptions={{headerShown: false}} initialRouteName="QRCodeReaderScreen">
+    <QRCodeStack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={hasViewedQrInstructions ? 'QRCodeReaderScreen' : 'LearnAboutQRScreen'}
+    >
       <QRCodeStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
       <QRCodeStack.Screen name="InvalidQRCodeScreen" component={InvalidQRCodeScreenWithNavBar} />
       <QRCodeStack.Screen name="CheckInSuccessfulScreen" component={CheckInSuccessfulScreenWithNavBar} />
