@@ -42,7 +42,6 @@ const ScreenRadioSelector = () => {
   ];
   return (
     <Box
-      testID="ForceScreens"
       marginTop="l"
       paddingHorizontal="m"
       borderRadius={10}
@@ -138,7 +137,14 @@ const Content = () => {
   return (
     <Box marginHorizontal="m">
       <Section>
-        <Text paddingLeft="m" paddingRight="m" fontWeight="bold" paddingBottom="s" color="overlayBodyText">
+        <Text
+          testID="DemoMenu"
+          paddingLeft="m"
+          paddingRight="m"
+          fontWeight="bold"
+          paddingBottom="s"
+          color="overlayBodyText"
+        >
           Demo menu
         </Text>
       </Section>
@@ -154,7 +160,12 @@ const Content = () => {
         <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
       </Section>
       <Section>
-        <Button text="Clear notification receipts" onPress={onClearReadReceipts} variant="bigFlat" />
+        <Button
+          text="Clear notification receipts"
+          onPress={onClearReadReceipts}
+          variant="bigFlat"
+          testID="ClearNotificationReceipts"
+        />
       </Section>
       <Section>
         <Item title="Force screen" />

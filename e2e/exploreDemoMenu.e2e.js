@@ -56,8 +56,8 @@ describe('Demo menu test', () => {
 
   screens.forEach((scr, here) => {
     it(`force ${scr} screen`, async () => {
-      await expect(element(by.id('ForceScreens'))).toBeVisible();
-      await element(by.id('ShowSampleNotification')).swipe('up', 'slow', isDeviceFruity ? 0.2 : 0.4);
+      await expect(element(by.id('DemoMenu'))).toBeVisible();
+      await element(by.id('ClearNotificationReceipts')).swipe('up', 'slow', isDeviceFruity ? 0.26 : 0.4);
       await expect(element(by.id(scr))).toBeVisible();
       await element(by.id(scr)).tap();
       await element(by.id('toolbarCloseButton')).tap();
