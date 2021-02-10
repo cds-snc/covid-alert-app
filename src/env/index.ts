@@ -37,7 +37,7 @@ export const QR_CODE_PUBLIC_KEY = Config.QR_CODE_PUBLIC_KEY;
 
 export const OUTBREAK_LOCATIONS_URL = Config.OUTBREAK_LOCATIONS_URL;
 
-export const QR_HOST = Config.QR_HOST;
+export const QR_HOST = Config.QR_HOST || '';
 
 /**
  * Set reachability check url to empty to prevent

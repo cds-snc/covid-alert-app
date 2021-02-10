@@ -11,7 +11,7 @@ import {
   useReportDiagnosis,
   useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
-import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
+import {APP_VERSION_NAME, APP_VERSION_CODE, QR_HOST} from 'env';
 import {captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
@@ -153,15 +153,20 @@ const Content = () => {
       <Section>
         <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
       </Section>
-      <Section>
-        <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
-      </Section>
-      <Section>
-        <Button text="Clear Outbreak Exposures" onPress={onClearOutbreak} variant="bigFlat" />
-      </Section>
-      <Section>
-        <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
-      </Section>
+      {QR_HOST !== '' && (
+        <>
+          <Section>
+            <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
+          </Section>
+          <Section>
+            <Button text="Clear Outbreak Exposures" onPress={onClearOutbreak} variant="bigFlat" />
+          </Section>
+          <Section>
+            <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
+          </Section>
+        </>
+      )}
+
       <Section>
         <Item title="Force screen" />
         <ScreenRadioSelector />
