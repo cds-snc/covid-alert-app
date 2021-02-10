@@ -20,20 +20,18 @@ export const DiagnosedShareUploadView = ({isBottomSheetExpanded}: {isBottomSheet
 
   return (
     <ExposureStatusWrapper iconName="hand-reminder-red">
-      <RoundedBox isFirstBox>
-        <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
-          {i18n.translate('Home.DiagnosedShareUploadView.Title')}
-        </Text>
-        <Text variant="bodyText" color="bodyText" marginBottom="m">
-          {i18n.translate('Home.DiagnosedShareUploadView.Body1')}
-        </Text>
-        <ButtonSingleLine
-          text={i18n.translate('Home.DiagnosedShareUploadView.ButtonCTA')}
-          variant="dangerWhiteText"
-          onPress={toDataShare}
-          iconName="icon-chevron-white"
-        />
-      </RoundedBox>
+      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+        {i18n.translate('Home.DiagnosedShareUploadView.Title')}
+      </Text>
+      <Text variant="bodyText" color="bodyText" marginBottom="m">
+        {i18n.translate('Home.DiagnosedShareUploadView.Body1')}
+      </Text>
+      <ButtonSingleLine
+        text={i18n.translate('Home.DiagnosedShareUploadView.ButtonCTA')}
+        variant="dangerWhiteText"
+        onPress={toDataShare}
+        iconName="icon-chevron-white"
+      />
     </ExposureStatusWrapper>
   );
 };
