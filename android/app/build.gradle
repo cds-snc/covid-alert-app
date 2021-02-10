@@ -231,8 +231,6 @@ dependencies {
     addUnimodulesDependencies(
       exclude: [
         'unimodules-face-detector-interface',
-        'unimodules-permissions-interface', // uncomment to use qr-feature
-        'expo-permissions' // uncomment to use qr-feature
       ]
     )
 
