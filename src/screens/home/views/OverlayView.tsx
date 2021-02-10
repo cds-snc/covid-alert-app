@@ -18,6 +18,7 @@ import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {EventTypeMetric, useMetrics} from 'shared/metrics';
+import {QR_HOST} from 'env';
 
 import {PrimaryActionButton} from '../components/PrimaryActionButton';
 
@@ -325,9 +326,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               </Box>
             )}
 
-            <Box marginBottom="m" marginHorizontal="m">
-              <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
-            </Box>
+            {QR_HOST !== '' && (
+              <Box marginBottom="m" marginHorizontal="m">
+                <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
+              </Box>
+            )}
 
             <Box marginBottom="m" marginHorizontal="m">
               <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
