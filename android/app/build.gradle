@@ -228,7 +228,13 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesPlayServicesVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
-    addUnimodulesDependencies()
+    addUnimodulesDependencies(
+      exclude: [
+        'unimodules-face-detector-interface',
+        'unimodules-permissions-interface', // uncomment to use qr-feature
+        'expo-permissions' // uncomment to use qr-feature
+      ]
+    )
 
     debugImplementation("com.facebook.flipper:flipper:$facebookFlipperVersion") {
         exclude group: 'com.facebook.fbjni'

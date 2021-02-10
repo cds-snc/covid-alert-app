@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="app.covidshield.MainApplication"
@@ -31,12 +30,12 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter android:label="COVID Alert">
+            <!-- <intent-filter android:label="COVID Alert">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="${QR_HOST}" android:path="/exposure-configuration/download.html" />
-            </intent-filter>
+            </intent-filter> -->
         </activity>
 
         <!-- See https://developers.google.com/android/exposure-notifications/exposure-notifications-api-->
