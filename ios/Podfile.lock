@@ -367,7 +367,6 @@ PODS:
   - UMCameraInterface (5.4.0)
   - UMConstantsInterface (5.4.0)
   - UMCore (6.0.0)
-  - UMFaceDetectorInterface (5.4.0)
   - UMFileSystemInterface (5.4.0)
   - UMFontInterface (5.4.0)
   - UMImageLoaderInterface (5.4.0)
@@ -465,7 +464,6 @@ DEPENDENCIES:
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
   - UMConstantsInterface (from `../node_modules/unimodules-constants-interface/ios`)
   - "UMCore (from `../node_modules/@unimodules/core/ios`)"
-  - UMFaceDetectorInterface (from `../node_modules/unimodules-face-detector-interface/ios`)
   - UMFileSystemInterface (from `../node_modules/unimodules-file-system-interface/ios`)
   - UMFontInterface (from `../node_modules/unimodules-font-interface/ios`)
   - UMImageLoaderInterface (from `../node_modules/unimodules-image-loader-interface/ios`)
@@ -603,8 +601,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/unimodules-constants-interface/ios"
   UMCore:
     :path: "../node_modules/@unimodules/core/ios"
-  UMFaceDetectorInterface:
-    :path: "../node_modules/unimodules-face-detector-interface/ios"
   UMFileSystemInterface:
     :path: "../node_modules/unimodules-file-system-interface/ios"
   UMFontInterface:
@@ -690,7 +686,6 @@ SPEC CHECKSUMS:
   UMCameraInterface: d516032121192fee9a6c93bdfff0bb2cc7282796
   UMConstantsInterface: 6825ea3832d26ed392ca6eff2df84edd69968fd0
   UMCore: 97ba5041c9c92317ce61739f6d126a692c8ef4a8
-  UMFaceDetectorInterface: 60b36b07faa539205efce30b20c192e058b31c23
   UMFileSystemInterface: ab01294ce58a3c773aefb4a5b131ce589c199559
   UMFontInterface: 85fe1b845fb7caab45e04d9ce47e1677a5ce90a5
   UMImageLoaderInterface: 18f37df089b7e6d301e3acac025a8264d26b66d6
@@ -702,6 +697,6 @@ SPEC CHECKSUMS:
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
   ZXingObjC: fdbb269f25dd2032da343e06f10224d62f537bdb
 
-PODFILE CHECKSUM: 05bf4d04005887b9eb62164552eaf77de359bd34
+PODFILE CHECKSUM: 5bd14b034d4a83cefb7a9a1103c459b32651e66d
 
 COCOAPODS: 1.7.5
