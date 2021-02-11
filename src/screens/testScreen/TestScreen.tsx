@@ -20,6 +20,7 @@ import {ForceScreen} from 'shared/ForceScreen';
 import {OutbreakStatusType} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 import {getCurrentDate} from 'shared/date-fns';
+import {PollNotifications} from 'services/PollNotificationService';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -127,6 +128,14 @@ const Content = () => {
     });
   }, [i18n]);
 
+  const onClearReadReceipts = useCallback(() => {
+    PollNotifications.clearNotificationReceipts();
+  }, []);
+
+  const onPollNotifications = useCallback(async () => {
+    await PollNotifications.checkForNotifications(i18n);
+  }, [i18n]);
+
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
 
@@ -167,6 +176,12 @@ const Content = () => {
         </>
       )}
 
+      <Section>
+        <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
+      </Section>
+      <Section>
+        <Button text="Clear notification receipts" onPress={onClearReadReceipts} variant="bigFlat" />
+      </Section>
       <Section>
         <Item title="Force screen" />
         <ScreenRadioSelector />

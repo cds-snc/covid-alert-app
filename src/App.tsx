@@ -23,7 +23,6 @@ import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
-import {MetricsProvider} from './shared/MetricsProvider';
 import {OutbreakProvider} from './shared/OutbreakProvider';
 
 // this allows us to use new Date().toLocaleString() for date formatting on android
@@ -81,17 +80,15 @@ const App = () => {
   return (
     <I18nProvider>
       <RegionalProvider activeRegions={[]} translate={id => id} regionContent={regionContent.payload}>
-        <MetricsProvider>
-          <ExposureNotificationServiceProvider backendInterface={backendService}>
-            <OutbreakProvider>
-              <DevPersistedNavigationContainer persistKey="navigationState">
-                <AccessibilityServiceProvider>
-                  <MainNavigator />
-                </AccessibilityServiceProvider>
-              </DevPersistedNavigationContainer>
-            </OutbreakProvider>
-          </ExposureNotificationServiceProvider>
-        </MetricsProvider>
+        <ExposureNotificationServiceProvider backendInterface={backendService}>
+          <OutbreakProvider>
+            <DevPersistedNavigationContainer persistKey="navigationState">
+              <AccessibilityServiceProvider>
+                <MainNavigator />
+              </AccessibilityServiceProvider>
+            </DevPersistedNavigationContainer>
+          </OutbreakProvider>
+        </ExposureNotificationServiceProvider>
       </RegionalProvider>
     </I18nProvider>
   );

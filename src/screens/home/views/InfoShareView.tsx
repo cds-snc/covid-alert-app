@@ -28,6 +28,9 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
   const onHelp = useCallback(() => {
     Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
+
+  const regionIcon = region !== undefined && region !== 'None' ? 'icon-external-arrow' : 'icon-chevron';
+
   const onExposedHelp = useCallback(() => {
     if (region !== undefined && region !== 'None') {
       Linking.openURL(getExposedHelpMenuURL(region, regionalI18n)).catch(error =>
@@ -49,13 +52,15 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
           text={i18n.translate('Info.GetCode')}
           icon="icon-chevron"
         />
+
         <InfoShareItem
           onPress={onExposedHelp}
           text={i18n.translate('Home.ExposedHelpCTA')}
-          icon="icon-external-arrow"
+          icon={regionIcon}
           accessibilityRole="link"
           accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate('Home.ExternalLinkHint')}`}
         />
+
         <InfoShareItem
           onPress={onHelp}
           text={i18n.translate('Info.Help')}

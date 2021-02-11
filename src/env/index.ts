@@ -15,6 +15,8 @@ export const SUBMIT_URL = Config.SUBMIT_URL;
 
 export const RETRIEVE_URL = Config.RETRIEVE_URL;
 
+export const NOTIFICATION_FEED_URL = Config.NOTIFICATION_FEED_URL;
+
 export const HMAC_KEY = Config.HMAC_KEY;
 
 export const MCC_CODE = parseInt(Config.MCC_CODE, 10) || 302;
@@ -38,6 +40,10 @@ export const QR_CODE_PUBLIC_KEY = Config.QR_CODE_PUBLIC_KEY;
 export const OUTBREAK_LOCATIONS_URL = Config.OUTBREAK_LOCATIONS_URL;
 
 export const QR_HOST = Config.QR_HOST || '';
+
+export const METRICS_URL = Config.METRICS_URL || false;
+
+export const METRICS_API_KEY = Config.METRICS_API_KEY;
 
 /**
  * Set reachability check url to empty to prevent
