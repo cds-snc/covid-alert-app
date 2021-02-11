@@ -6,8 +6,8 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:retrieval.wild-samphire.cdssandbox.xyz?mode=developer</string>
-		<string>applinks:retrieval.wild-samphire.cdssandbox.xyz</string>
+		<string>applinks:$(ASSOCIATED_DOMAIN)?mode=developer</string>
+		<string>applinks:$(ASSOCIATED_DOMAIN)</string>
 	</array>
 	<key>com.apple.developer.exposure-notification</key>
 	<true/>
