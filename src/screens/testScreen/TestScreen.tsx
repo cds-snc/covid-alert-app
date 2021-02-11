@@ -11,7 +11,7 @@ import {
   useReportDiagnosis,
   useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
-import {APP_VERSION_NAME, APP_VERSION_CODE, QR_HOST} from 'env';
+import {APP_VERSION_NAME, APP_VERSION_CODE, QR_ENABLED} from 'env';
 import {captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
@@ -162,7 +162,7 @@ const Content = () => {
       <Section>
         <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
       </Section>
-      {QR_HOST !== '' && (
+      {QR_ENABLED && (
         <>
           <Section>
             <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />

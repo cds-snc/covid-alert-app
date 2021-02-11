@@ -17,7 +17,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
-import {QR_HOST} from 'env';
+import {QR_ENABLED} from 'env';
 
 import {PrimaryActionButton} from '../components/PrimaryActionButton';
 
@@ -319,7 +319,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               </Box>
             )}
 
-            {QR_HOST !== '' && (
+            {QR_ENABLED && (
               <Box marginBottom="m" marginHorizontal="m">
                 <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
               </Box>
