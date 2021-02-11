@@ -22,8 +22,15 @@ import {OnboardingScreen} from 'screens/onboarding';
 import {LandingScreen} from 'screens/landing';
 import {TestScreen} from 'screens/testScreen';
 import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
+import {QRCodeReaderScreen} from 'screens/qr/QRCodeReaderScreen';
 import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
+import {CheckInSuccessfulScreen} from 'screens/qr/CheckInSuccessfulScreen';
+import {CheckInCancelScreen} from 'screens/qr/CheckInCancelScreen';
+import {InvalidQRCodeScreen} from 'screens/qr/InvalidQRCodeScreen';
+import {LearnAboutQRScreen} from 'screens/qr/LearnAboutQRScreen';
+import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
+import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -88,8 +95,14 @@ const NoCodeWithNavBar = withDarkNav(NoCodeScreen);
 const TestScreenWithNavBar = withDarkNav(TestScreen);
 const ErrorScreenWithNavBar = withDarkNav(ErrorScreen);
 const DismissAlertScreenWithNavBar = withDarkNav(DismissAlertScreen);
-
+const QRCodeReaderScreenWithNavBar = withDarkNav(QRCodeReaderScreen);
+const CheckInSuccessfulScreenWithNavBar = withDarkNav(CheckInSuccessfulScreen);
+const CheckInCancelScreenWithNavBar = withDarkNav(CheckInCancelScreen);
+const InvalidQRCodeScreenWithNavBar = withDarkNav(InvalidQRCodeScreen);
+const LearnAboutQRScreenWithNavBar = withDarkNav(LearnAboutQRScreen);
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
+const CheckInHistoryScreenWithNavBar = withDarkNavNonModal(CheckInHistoryScreen);
+const QRCodeIntroScreenWithNavBar = withDarkNav(QRCodeIntroScreen);
 
 const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
@@ -128,6 +141,24 @@ const DataSharingNavigator = () => {
   );
 };
 
+const QRCodeStack = createStackNavigator();
+const QRCodeNavigator = () => {
+  const {hasViewedQrInstructions} = useStorage();
+  return (
+    <QRCodeStack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={hasViewedQrInstructions ? 'QRCodeReaderScreen' : 'QRCodeIntroScreen'}
+    >
+      <QRCodeStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
+      <QRCodeStack.Screen name="InvalidQRCodeScreen" component={InvalidQRCodeScreenWithNavBar} />
+      <QRCodeStack.Screen name="CheckInSuccessfulScreen" component={CheckInSuccessfulScreenWithNavBar} />
+      <QRCodeStack.Screen name="CheckInCancelScreen" component={CheckInCancelScreenWithNavBar} />
+      <QRCodeStack.Screen name="LearnAboutQRScreen" component={LearnAboutQRScreenWithNavBar} />
+      <QRCodeStack.Screen name="QRCodeIntroScreen" component={QRCodeIntroScreenWithNavBar} />
+    </QRCodeStack.Navigator>
+  );
+};
+
 const forFade = ({current}: {current: any}) => ({
   cardStyle: {
     opacity: current.progress,
@@ -163,6 +194,8 @@ const MainNavigator = () => {
       <MainStack.Screen name="TestScreen" component={TestScreenWithNavBar} />
       <MainStack.Screen name="ErrorScreen" component={ErrorScreenWithNavBar} />
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
+      <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
+      <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };

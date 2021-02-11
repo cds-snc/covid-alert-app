@@ -12,8 +12,10 @@ export enum Key {
   ForceScreen = 'ForceScreen',
   SkipAllSet = 'SkipAllSet',
   UserStopped = 'UserStopped',
+  CheckInHistory = 'CheckInHistory',
+  OutbreakStatus = 'OutbreakStatus',
+  HasViewedQrInstructions = 'HasViewedQRInstructions',
 }
-
 export class StorageService {
   isOnboarding: Observable<boolean>;
   locale: Observable<string>;
@@ -22,6 +24,7 @@ export class StorageService {
   forceScreen: Observable<ForceScreen | undefined>;
   skipAllSet: Observable<boolean>;
   userStopped: Observable<boolean>;
+  hasViewedQrInstructions: Observable<boolean>;
 
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
@@ -31,6 +34,7 @@ export class StorageService {
     this.forceScreen = new Observable<ForceScreen | undefined>(undefined);
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
+    this.hasViewedQrInstructions = new Observable<boolean>(false);
   }
 
   setOnboarded = async (value: boolean) => {
@@ -68,6 +72,11 @@ export class StorageService {
     this.userStopped.set(value);
   };
 
+  setHasViewedQrInstructions = async (value: boolean) => {
+    await AsyncStorage.setItem(Key.HasViewedQrInstructions, value ? '1' : '0');
+    this.hasViewedQrInstructions.set(value);
+  };
+
   init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
@@ -91,6 +100,9 @@ export class StorageService {
 
     const userStopped = (await AsyncStorage.getItem(Key.UserStopped)) === '1';
     this.userStopped.set(userStopped);
+
+    const hasViewedQrInstructions = (await AsyncStorage.getItem(Key.HasViewedQrInstructions)) === '1';
+    this.hasViewedQrInstructions.set(hasViewedQrInstructions);
   };
 }
 

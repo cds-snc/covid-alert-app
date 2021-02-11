@@ -7,6 +7,7 @@ import IconDownArrow from 'assets/icon-down-arrow.svg';
 import IconBluetoothDisabled from 'assets/icon-bluetooth-disabled.svg';
 import IconChevron from 'assets/icon-chevron.svg';
 import IconChevronBack from 'assets/icon-chevron-back.svg';
+import IconChevronBackWhite from 'assets/icon-chevron-back-white.svg';
 import IconChevronWhite from 'assets/icon-chevron-white.svg';
 import IconExternalArrow from 'assets/icon-external-arrow.svg';
 import IconExternalArrowLight from 'assets/icon-external-arrow-light.svg';
@@ -26,6 +27,11 @@ import HandNoProvinceYet from 'assets/hand-no-province-yet.svg';
 import CanadaLogo from 'assets/canada.svg';
 import PurpleBullet from 'assets/purple-bullet.svg';
 import HandReminderRed from 'assets/hand-reminder-red.svg';
+import QRCode from 'assets/qr-code.svg';
+import ScanQRCodeWhiteArrow from 'assets/scan-qr-code-white-arrow.svg';
+import Camera from 'assets/camera.svg';
+import GreenCircleCheck from 'assets/green-circle-check.svg';
+import RedCircleExclamation from 'assets/red-circle-exclamation.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -37,6 +43,7 @@ const ICONS = {
   'icon-green-check': IconGreenCheck,
   'icon-chevron': IconChevron,
   'icon-chevron-back': IconChevronBack,
+  'icon-chevron-back-white': IconChevronBackWhite,
   'icon-chevron-white': IconChevronWhite,
   'icon-external-arrow': IconExternalArrow,
   'icon-external-arrow-light': IconExternalArrowLight,
@@ -55,6 +62,11 @@ const ICONS = {
   'hand-no-province-yet': HandNoProvinceYet,
   'canada-logo': CanadaLogo,
   'hand-reminder-red': HandReminderRed,
+  'qr-code': QRCode,
+  'scan-qr-code-white-arrow': ScanQRCodeWhiteArrow,
+  'camera-permission': Camera,
+  'green-circle-check': GreenCircleCheck,
+  'red-circle-exclamation': RedCircleExclamation,
 };
 
 export type IconName = keyof typeof ICONS;
