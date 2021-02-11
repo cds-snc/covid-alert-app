@@ -265,13 +265,13 @@ describe('date-fns', () => {
 
   describe('datesAreOnSameDay', () => {
     it('validates two dates are on same day', () => {
-      const now = getCurrentDate();
+      const now = new Date(Number(1612539273));
       const plusFiveHours = new Date(now.getTime() + 5 * 60 * 60 * 1000);
       expect(datesAreOnSameDay(now, plusFiveHours)).toStrictEqual(true);
     });
 
     it('validates two dates are not on same day', () => {
-      const now = getCurrentDate();
+      const now = new Date(Number(1612539273));
       const plusTwentyFiveHours = new Date(now.getTime() + 25 * 60 * 60 * 1000);
       expect(datesAreOnSameDay(now, plusTwentyFiveHours)).toStrictEqual(false);
     });
