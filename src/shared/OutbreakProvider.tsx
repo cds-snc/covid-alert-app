@@ -54,6 +54,7 @@ class OutbreakService implements OutbreakService {
     this.setOutbreakStatus(newOutbreakStatusType);
     this.processOutbreakNotification(newOutbreakStatusType);
   };
+
   processOutbreakNotification = (status: OutbreakStatus) => {
     if (status.type === 'exposed') {
       PushNotification.presentLocalNotification({
@@ -88,7 +89,7 @@ export const OutbreakProvider = ({children}: OutbreakProviderProps) => {
     );
     callable();
     return cancelable;
-  }, []);
+  }, [i18n]);
 
   return <OutbreakContext.Provider value={{outbreakService}}>{outbreakService && children}</OutbreakContext.Provider>;
 };

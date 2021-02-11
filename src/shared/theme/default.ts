@@ -284,6 +284,11 @@ const theme = {
       fontSize: 18,
       borderBottomWidth: 4,
       borderBottomColor: palette.darkGrey,
+      disabled: {
+        color: palette.gray4,
+        textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
+      },
     },
     bigFlatNeutralGrey: {
       color: palette.neutralGrey,

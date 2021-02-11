@@ -88,6 +88,7 @@
     "@types/jest": "^24.0.24",
     "@types/jest-when": "^2.7.1",
     "@types/react-native": "^0.63.25",
+    "@types/react-native-base64": "^0.1.0",
     "@types/react-native-snap-carousel": "^3.8.2",
     "@types/react-test-renderer": "16.9.2",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
