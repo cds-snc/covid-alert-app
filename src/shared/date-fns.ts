@@ -105,6 +105,18 @@ export const formatExposedDate = (date: Date, locale: string) => {
   return _formattedDate;
 };
 
+export const formatCheckInDate = (date: Date) => {
+  const dateString = date.toLocaleString('default', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+  return dateString;
+};
+
 export const getFirstThreeUniqueDates = (formattedDates: string[]) => {
   return [...new Set(formattedDates)].slice(0, 3);
 };

@@ -476,6 +476,48 @@
     "End": "Fin de liste",
     "Bullet": "Puce"
   },
+  "QRCode": {
+    "CTA": "Scanner un lieu",
+    "Reader": {
+      "Title": "Placez votre appareil photo devant le code QR",
+      "Body": "",
+      "Back": "Précédent",
+      "Learn": ""
+    },
+    "CheckInView": {
+      "Title": "Lieu scanné",
+      "CTA1": "Ok",
+      "CTA2": "Annuler la visite",
+      "MoreInfo": "Annuler"
+    },
+    "Error": {
+      "Title": "Code QR non reconnu",
+      "Body": "Vérifiez qu’il s’agit bien d’un code QR officiel d’Alerte COVID. Si vous n’êtes pas certain, demandez l’aide d’un employé.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "CTA": "Réessayer",
+      "CTA2": "Retour à l’écran d’accueil"
+    },
+    "CameraPermissions" :{
+      "Title": "Autoriser l’accès à l’appareil photo",
+      "Body": "Pour scanner un lieu, l’application doit pouvoir utiliser l’appareil photo.",
+      "Title2": "Vous hésitez à autoriser l’accès?",
+      "Body2": "You can also use your phone’s camera app if you prefer not to let the app access your camera.",
+      "CTA": "Suivant",
+      "Cancel": "Pas maintenant"
+    },
+    "CameraPermissionDenied": {
+      "Title": "Autorisation refusée",
+      "Body": "Vous avez refusé qu’Alerte COVID utilise votre appareil photo.\n\nPour scanner un lieu, vous devez autoriser Alerte COVID à utiliser l’appareil photo dans les paramètres de votre téléphone.\n\nVous pouvez aussi utiliser directement votre appareil photo ou une application de lecture de codes QR.",
+      "CTA": "Autoriser l’accès dans les paramètres",
+      "CTA2": "En savoir plus sur Scanner un lieu"
+    },
+    "ScanAPlace": {
+      "Title": "Scanner un lieu",
+      "Body": "Vous pouvez être notifié si des personnes contagieuses ont visité le même lieu que vous. Lorsque vous scannez un code QR Alerte COVID à l’entrée d’un lieu, l’application l’enregistre sur votre téléphone.\n\nLes lieux que vous visitez",
+      "Body2": "ne seront pas communiqués à personne.",
+      "CTA": "Suivant"
+    }
+  },
+
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {

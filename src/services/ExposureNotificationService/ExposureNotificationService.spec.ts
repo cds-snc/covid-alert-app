@@ -152,8 +152,10 @@ describe('ExposureNotificationService', () => {
   let service: ExposureNotificationService;
 
   const OriginalDate = global.Date;
+  const realDateNow = Date.now.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
   const today = new OriginalDate('2020-05-18T04:10:00+0000');
+  global.Date.now = realDateNow;
 
   const testUpdateExposure = async (currentStatus: ExposureStatus, summaries: ExposureSummary[]) => {
     service.exposureStatus.append(currentStatus);
@@ -170,6 +172,7 @@ describe('ExposureNotificationService', () => {
       .calledWith(Key.OnboardedDatetime)
       .mockResolvedValue(today.getTime());
 
+    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
 
