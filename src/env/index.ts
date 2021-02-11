@@ -39,7 +39,7 @@ export const OUTBREAK_LOCATIONS_URL = Config.OUTBREAK_LOCATIONS_URL;
 
 export const QR_HOST = Config.QR_HOST || '';
 
-export const QR_ENABLED = Config.QR_ENABLED || false;
+export const QR_ENABLED = Config.QR_ENABLED === 'true' || false;
 
 export const METRICS_URL = Config.METRICS_URL || false;
 
