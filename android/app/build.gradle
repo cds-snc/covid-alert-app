@@ -7,6 +7,7 @@ project.ext.envConfigFiles = [
         release: ".env.production"
 ]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 
 import com.android.build.OutputFile
 
@@ -143,6 +144,7 @@ android {
 
     defaultConfig {
         applicationId project.env.get("APP_ID")
+        manifestPlaceholders = [QR_HOST: project.env.get("QR_HOST")]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode project.env.get("APP_VERSION_CODE") as Integer
@@ -225,6 +227,12 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesPlayServicesVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    addUnimodulesDependencies(
+      exclude: [
+        'unimodules-face-detector-interface',
+      ]
+    )
 
     debugImplementation("com.facebook.flipper:flipper:$facebookFlipperVersion") {
         exclude group: 'com.facebook.fbjni'

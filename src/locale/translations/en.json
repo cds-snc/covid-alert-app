@@ -354,6 +354,7 @@
       "Body": "You do not need to enter it again.",
       "CTA": "Next"
     },
+
     "ConsentView": {
       "Title": "Now you can upload your codes",
       "Body1": "Your phone will ask your permission to upload your most recent random codes or “random IDs”.",
@@ -411,7 +412,9 @@
     "PausedMessageBody": "The app is not recording exposures because you turned it off.",
     "OTKNotSharedTitle": "Not quite done",
     "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet.",
-    "AndroidChannelName": "COVID Alert"
+    "AndroidChannelName": "COVID Alert",
+    "OutbreakMessageTitle": "You have been exposed to an Outbreak",
+    "OutbreakMessageBody": "There was an outbreak at one of the locations you scanned"
   },
   "Partners": {
     "Label": "Developed in partnership with"
@@ -466,6 +469,55 @@
     "End": "List end",
     "Bullet": "Bullet"
   },
+  "QRCode": {
+    "CTA": "Scan a place",
+    "Reader": {
+      "Title": "Point the camera at the QR code",
+      "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",
+      "Back": "Back",
+      "Learn": "Learn more about QR codes and COVID Alert"
+    },
+    "CameraPermissions": {
+      "Title": "Give access to camera",
+      "Body": "To scan a place, the app needs to use your camera.",
+      "Title2": "Not sure about giving access?",
+      "Body2": "You can also use your phone’s camera directly if you prefer not to let the app access your camera.",
+      "CTA": "Next",
+      "Cancel": "Not now"
+    },
+    "CameraPermissionDenied": {
+      "Title": "Access denied",
+      "Body": "You said no to COVID Alert using your phone’s camera.\n\nTo scan a place, you’ll need to update your phone’s settings to let COVID Alert  use the camera.\n\nYou can also use your phone’s camera directly or a QR scanning app.",
+      "CTA": "Allow camera access in settings",
+      "CTA2": "About scanning a place"
+    },
+    "Error": {
+      "Title": "QR code not recognized",
+      "Body": "You may not have scanned an official COVID Alert QR code.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "CTA": "Try Again",
+      "CTA2": "Back to Home"
+    },
+    "CheckInView": {
+      "Title": "Scanned",
+      "CTA1": "Ok",
+      "CTA2": "Cancel",
+      "MoreInfo": "Learn more about QR codes and COVID alert"
+    },
+    "Exposed": {
+      "Title": "You've been Exposed"
+    },
+    "CancelCheckIn": {
+      "Title": "Successfully cancelled check in",
+      "Body": "You have successfully cancelled this check in, you may close this screen"
+    },
+    "ScanAPlace": {
+      "Title": "Scan a place",
+      "Body": "You can get notified if contagious people have visited the same place as you. When you scan COVID Alert QR codes at the places you go, the app saves them to your phone.\n\nThe places you visit",
+      "Body2": " will not be shared with anyone.",
+      "CTA": "Next"
+    }
+  },
+
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {
