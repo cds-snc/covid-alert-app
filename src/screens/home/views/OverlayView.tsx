@@ -17,9 +17,26 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
+import {QR_ENABLED} from 'env';
+
+import {PrimaryActionButton} from '../components/PrimaryActionButton';
 
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
+
+const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: BottomSheetBehavior}) => {
+  const navigation = useNavigation();
+  return (
+    <PrimaryActionButton
+      icon="qr-code"
+      text={i18n.translate('QRCode.CTA')}
+      onPress={() => {
+        bottomSheetBehavior.collapse();
+        navigation.navigate('QRCodeFlow');
+      }}
+    />
+  );
+};
 
 const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
@@ -98,20 +115,6 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
       variant="bigFlatNeutralGrey"
     />
   );
-
-  /*
-  return (
-    <InfoBlock
-      icon="icon-notifications"
-      title={i18n.translate('OverlayOpen.NotificationCardStatus')}
-      titleBolded={i18n.translate('OverlayOpen.NotificationCardStatusOff')}
-      text={i18n.translate('OverlayOpen.NotificationCardBody')}
-      button={{text: i18n.translate('OverlayOpen.NotificationCardAction'), action}}
-      backgroundColor="infoBlockNeutralBackground"
-      color="overlayBodyText"
-    />
-  );
-  */
 };
 
 const ShareDiagnosisCode = ({
@@ -315,6 +318,13 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
                 <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
               </Box>
             )}
+
+            {QR_ENABLED && (
+              <Box marginBottom="m" marginHorizontal="m">
+                <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
+              </Box>
+            )}
+
             <Box marginBottom="m" marginHorizontal="m">
               <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
             </Box>

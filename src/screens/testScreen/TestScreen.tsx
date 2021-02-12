@@ -11,12 +11,15 @@ import {
   useReportDiagnosis,
   useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
-import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
+import {APP_VERSION_NAME, APP_VERSION_CODE, QR_ENABLED} from 'env';
 import {captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
+import {OutbreakStatusType} from 'shared/qr';
+import {useOutbreakService} from 'shared/OutbreakProvider';
+import {getCurrentDate} from 'shared/date-fns';
 import {PollNotifications} from 'services/PollNotificationService';
 
 import {RadioButton} from './components/RadioButtons';
@@ -99,8 +102,23 @@ const SkipAllSetRadioSelector = () => {
 
 const Content = () => {
   const i18n = useI18n();
+  const navigation = useNavigation();
 
   const {reset} = useStorage();
+  const {checkForExposures, setOutbreakStatus} = useOutbreakService();
+
+  const onClearOutbreak = useCallback(async () => {
+    setOutbreakStatus({
+      type: OutbreakStatusType.Monitoring,
+      lastChecked: getCurrentDate().getTime(),
+    });
+  }, [setOutbreakStatus]);
+
+  const onCheckForOutbreak = useCallback(async () => {
+    checkForExposures();
+  }, [checkForExposures]);
+
+  const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 
   const onShowSampleNotification = useCallback(() => {
     PushNotification.presentLocalNotification({
@@ -156,6 +174,20 @@ const Content = () => {
           testID="ShowSampleNotification"
         />
       </Section>
+      {QR_ENABLED && (
+        <>
+          <Section>
+            <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
+          </Section>
+          <Section>
+            <Button text="Clear Outbreak Exposures" onPress={onClearOutbreak} variant="bigFlat" />
+          </Section>
+          <Section>
+            <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
+          </Section>
+        </>
+      )}
+
       <Section>
         <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
       </Section>

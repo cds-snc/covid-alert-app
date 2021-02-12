@@ -19,6 +19,10 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
+import {OutbreakStatusType} from 'shared/qr';
+import {useOutbreakService} from 'shared/OutbreakProvider';
+
+import {useDeepLinks} from '../qr/utils';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {CollapsedOverlayView} from './views/CollapsedOverlayView';
@@ -41,6 +45,7 @@ import {
   NotificationPermissionStatusProvider,
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
+import {OutbreakExposedView} from './views/OutbreakExposedView';
 
 interface ContentProps {
   isBottomSheetExpanded: boolean;
@@ -61,6 +66,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const exposureStatus = useExposureStatus();
   const [systemStatus] = useSystemStatus();
+  const {outbreakStatus} = useOutbreakService();
   const [, turnNotificationsOn] = useNotificationPermissionStatus();
   useEffect(() => {
     return turnNotificationsOn();
@@ -98,6 +104,10 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
       default:
         break;
     }
+  }
+
+  if (outbreakStatus.type === OutbreakStatusType.Exposed) {
+    return <OutbreakExposedView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
   if (userStopped && systemStatus !== SystemStatus.Active) {
@@ -184,6 +194,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 export const HomeScreen = () => {
   const navigation = useNavigation();
   const {userStopped} = useStorage();
+
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
       DevSettings.addMenuItem('Show Demo Menu', () => {
@@ -191,6 +202,8 @@ export const HomeScreen = () => {
       });
     }
   }, [navigation]);
+
+  useDeepLinks();
 
   // This only initiate system status updater.
   // The actual updates will be delivered in useSystemStatus().

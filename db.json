@@ -1,0 +1,8 @@
+{
+  "exposedLocations" : [
+    {"id": "150", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"},
+    {"id":"2", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"},
+    {"id":"3", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"},
+    {"id":"4", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"}
+  ]
+}
