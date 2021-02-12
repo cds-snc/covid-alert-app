@@ -35,9 +35,11 @@ interface ExposureStatusWrapperProps {
 export const ExposureStatusWrapper = ({children, iconName}: ExposureStatusWrapperProps) => {
   return (
     <>
-      <Box width="100%" justifyContent="flex-start" marginBottom="-l">
-        <Box style={{...styles.primaryIcon}}>
-          <Icon name={iconName} height={120} width={150} />
+      <Box style={styles.banner} marginBottom="-xxl">
+        <Box width="100%" justifyContent="flex-start" style={styles.banner}>
+          <Box style={{...styles.primaryIcon}}>
+            <Icon name={iconName} height={120} width={150} />
+          </Box>
         </Box>
       </Box>
       <Box
@@ -72,7 +74,13 @@ export const SystemStatusWrapper = ({children, iconName}: SystemStatusWrapperPro
 };
 
 const styles = StyleSheet.create({
-  primaryIcon: {marginLeft: -40, marginBottom: 30},
+  primaryIcon: {
+    marginLeft: -40,
+    marginBottom: 30,
+  },
+  banner: {
+    backgroundColor: '#573EC5',
+  },
   scrollContainerWithAnimation: {
     marginTop: -100,
   },
