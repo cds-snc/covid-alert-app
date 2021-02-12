@@ -155,12 +155,24 @@ const Content = () => {
   return (
     <Box marginHorizontal="m">
       <Section>
-        <Text paddingLeft="m" paddingRight="m" fontWeight="bold" paddingBottom="s" color="overlayBodyText">
+        <Text
+          testID="DemoMenu"
+          paddingLeft="m"
+          paddingRight="m"
+          fontWeight="bold"
+          paddingBottom="s"
+          color="overlayBodyText"
+        >
           Demo menu
         </Text>
       </Section>
       <Section>
-        <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
+        <Button
+          text="Show sample notification"
+          onPress={onShowSampleNotification}
+          variant="bigFlat"
+          testID="ShowSampleNotification"
+        />
       </Section>
       {QR_ENABLED && (
         <>
@@ -180,7 +192,12 @@ const Content = () => {
         <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
       </Section>
       <Section>
-        <Button text="Clear notification receipts" onPress={onClearReadReceipts} variant="bigFlat" />
+        <Button
+          text="Clear notification receipts"
+          onPress={onClearReadReceipts}
+          variant="bigFlat"
+          testID="ClearNotificationReceipts"
+        />
       </Section>
       <Section>
         <Item title="Force screen" />
