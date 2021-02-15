@@ -47,9 +47,10 @@ export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> 
   return data.exposedLocations;
 };
 
-export const getNewOutbreakStatus = async (checkInHistory: CheckInData[]): Promise<OutbreakStatus> => {
-  const outbreakEvents = await getOutbreakEvents();
-
+export const getNewOutbreakStatus = (
+  checkInHistory: CheckInData[],
+  outbreakEvents: covidshield.OutbreakEvent[],
+): OutbreakStatus => {
   log.debug({message: 'fetching outbreak locations', payload: {outbreakEvents}});
   const outbreakIds = outbreakEvents.map(event => event.locationId);
 

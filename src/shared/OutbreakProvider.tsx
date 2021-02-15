@@ -5,7 +5,7 @@ import PushNotification from 'bridge/PushNotification';
 import {useI18nRef, I18n} from 'locale';
 
 import {Observable} from './Observable';
-import {CheckInData, getNewOutbreakStatus, initialOutbreakStatus, OutbreakStatus} from './qr';
+import {CheckInData, getNewOutbreakStatus, getOutbreakEvents, initialOutbreakStatus, OutbreakStatus} from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
 
 class OutbreakService implements OutbreakService {
@@ -50,7 +50,8 @@ class OutbreakService implements OutbreakService {
   };
 
   checkForExposures = async () => {
-    const newOutbreakStatusType = await getNewOutbreakStatus(this.checkInHistory.get());
+    const outbreakEvents = await getOutbreakEvents();
+    const newOutbreakStatusType = getNewOutbreakStatus(this.checkInHistory.get(), outbreakEvents);
     this.setOutbreakStatus(newOutbreakStatusType);
     this.processOutbreakNotification(newOutbreakStatusType);
   };
