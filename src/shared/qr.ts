@@ -135,8 +135,8 @@ const processMatchData = (matchData: MatchData) => {
         end: checkIn.timestamp + ONE_HOUR_IN_MS,
       };
       const window2: TimeWindow = {
-        start: new Date(Number(outbreak.startTime)).getTime(),
-        end: new Date(Number(outbreak.endTime)).getTime(),
+        start: Number(outbreak.startTime),
+        end: Number(outbreak.endTime),
       };
       if (doTimeWindowsOverlap(window1, window2)) {
         matchCount += 1;
