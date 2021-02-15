@@ -19,30 +19,15 @@
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
 
 #ifdef FB_SONARKIT_ENABLED
-#import <FlipperKit/FlipperClient.h>
-#import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
-#import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
-#import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
-#import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
-
-static void InitializeFlipper(UIApplication *application) {
-  FlipperClient *client = [FlipperClient sharedClient];
-  SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
-  [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:application withDescriptorMapper:layoutDescriptorMapper]];
-  [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
-  [client addPlugin:[FlipperKitReactPlugin new]];
-  [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
-  [client start];
-}
 #endif
 
 static void patchBGTaskSubmission(void);
 
 @interface AppDelegate () <RCTBridgeDelegate>
- 
+
 @property (nonatomic, strong) UMModuleRegistryAdapter *moduleRegistryAdapter;
- 
+
 @end
 
 @implementation AppDelegate
@@ -101,10 +86,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#ifdef FB_SONARKIT_ENABLED
-  InitializeFlipper(application);
-#endif
-  
+
   self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
@@ -125,7 +107,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
+
   [super application:application didFinishLaunchingWithOptions:launchOptions];
 
   if([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground) {
@@ -135,7 +117,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     launchScreenView.frame = self.window.bounds;
     rootView.loadingView = launchScreenView;
   }
-  
+
   if ([ExposureNotification exposureNotificationSupportType] == ENSupportTypeVersion13dot5AndLater) {
     // [REQUIRED] Register BackgroundFetch
     patchBGTaskSubmission();
