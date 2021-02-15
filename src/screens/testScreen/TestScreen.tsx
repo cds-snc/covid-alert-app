@@ -162,7 +162,16 @@ const Content = () => {
       <Section>
         <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
       </Section>
-      {QR_ENABLED && (
+      <Section>
+        <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
+      </Section>
+      <Section>
+        <Button text="Clear Outbreak Exposures" onPress={onClearOutbreak} variant="bigFlat" />
+      </Section>
+      <Section>
+        <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
+      </Section>
+      {/* {QR_ENABLED && (
         <>
           <Section>
             <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
@@ -174,7 +183,7 @@ const Content = () => {
             <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
           </Section>
         </>
-      )}
+      )} */}
 
       <Section>
         <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />

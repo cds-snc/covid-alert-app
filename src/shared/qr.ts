@@ -46,7 +46,8 @@ const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 export const initialOutbreakStatus = {type: OutbreakStatusType.Monitoring, lastChecked: 0};
 
 export const getOutbreakLocations = async (): Promise<ExposedLocationData[]> => {
-  const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
+  const url = 'https://raw.githubusercontent.com/cds-snc/covid-alert-app/master/db.json'
+  const fetchedData = await fetch(url, {
     method: 'GET',
   });
   const data = await fetchedData.json();

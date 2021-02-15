@@ -192,6 +192,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 };
 
 export const HomeScreen = () => {
+  const {checkForExposures} = useOutbreakService();
   const navigation = useNavigation();
   const {userStopped} = useStorage();
 
@@ -218,10 +219,11 @@ export const HomeScreen = () => {
   const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
     const success = await startExposureNotificationService();
+    checkForExposures();
     if (success) {
       updateExposureStatus();
     }
-  }, [userStopped, updateExposureStatus, startExposureNotificationService]);
+  }, [userStopped, updateExposureStatus, startExposureNotificationService, checkForExposures]);
 
   useEffect(() => {
     startAndUpdate();

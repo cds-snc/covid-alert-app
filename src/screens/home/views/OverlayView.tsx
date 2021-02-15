@@ -319,11 +319,14 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn, b
               </Box>
             )}
 
-            {QR_ENABLED && (
+            {/* {QR_ENABLED && (
               <Box marginBottom="m" marginHorizontal="m">
                 <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
               </Box>
-            )}
+            )} */}
+            <Box marginBottom="m" marginHorizontal="m">
+              <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
+            </Box>
 
             <Box marginBottom="m" marginHorizontal="m">
               <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
