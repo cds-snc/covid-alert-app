@@ -18,10 +18,6 @@
 #import <UMReactNativeAdapter/UMNativeModulesProxy.h>
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
 
-#ifdef FB_SONARKIT_ENABLED
-#import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
-#endif
-
 static void patchBGTaskSubmission(void);
 
 @interface AppDelegate () <RCTBridgeDelegate>
