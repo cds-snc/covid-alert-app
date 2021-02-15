@@ -2,6 +2,7 @@
 import {OUTBREAK_LOCATIONS_URL} from 'env';
 // import {Key} from 'services/StorageService';
 import {log} from 'shared/logging/config';
+import {covidshield} from 'services/BackendService/covidshield';
 
 import {getCurrentDate} from './date-fns';
 
@@ -17,11 +18,6 @@ export enum OutbreakStatusType {
   Exposed = 'exposed',
 }
 
-export interface ExposedLocationData {
-  id: string;
-  startTime: string;
-  endTime: string;
-}
 export interface OutbreakStatus {
   type: OutbreakStatusType;
   lastChecked: number;
@@ -34,7 +30,7 @@ export interface TimeWindow {
 
 interface MatchData {
   id: string;
-  outbreakData: ExposedLocationData[];
+  outbreakData: covidshield.OutbreakEvent[];
   checkInData: CheckInData[];
   matchCount?: number;
   matchedCheckIns?: CheckInData[];
@@ -45,7 +41,7 @@ const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
 export const initialOutbreakStatus = {type: OutbreakStatusType.Monitoring, lastChecked: 0};
 
-export const getOutbreakLocations = async (): Promise<ExposedLocationData[]> => {
+export const getOutbreakLocations = async (): Promise<covidshield.OutbreakEvent[]> => {
   const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
     method: 'GET',
   });
@@ -57,7 +53,7 @@ export const getNewOutbreakStatus = async (checkInHistory: CheckInData[]): Promi
   const outbreakLocations = await getOutbreakLocations();
 
   log.debug({message: 'fetching outbreak locations', payload: {outbreakLocations}});
-  const outbreakIds = outbreakLocations.map(location => location.id);
+  const outbreakIds = outbreakLocations.map(location => location.locationId);
 
   const checkInLocationMatches = checkInHistory.filter(checkIn => {
     if (outbreakIds.indexOf(checkIn.id) > -1) {
@@ -108,17 +104,19 @@ export const getMatches = ({
   checkInHistory,
   matchedOutbreakIds,
 }: {
-  outbreakLocations: ExposedLocationData[];
+  outbreakLocations: covidshield.OutbreakEvent[];
   checkInHistory: CheckInData[];
   matchedOutbreakIds: string[];
 }): MatchData[] => {
-  const relevantOutbreakData = outbreakLocations.filter(location => matchedOutbreakIds.indexOf(location.id) > -1);
+  const relevantOutbreakData = outbreakLocations.filter(
+    location => matchedOutbreakIds.indexOf(location.locationId) > -1,
+  );
   const relevantCheckInData = checkInHistory.filter(data => matchedOutbreakIds.indexOf(data.id) > -1);
 
   const _matchData = matchedOutbreakIds.map(id => {
     return {
       id,
-      outbreakData: relevantOutbreakData.filter(data => data.id === id),
+      outbreakData: relevantOutbreakData.filter(data => data.locationId === id),
       checkInData: relevantCheckInData.filter(data => data.id === id),
     };
   });
