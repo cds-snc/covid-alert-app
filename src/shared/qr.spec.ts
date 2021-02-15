@@ -1,6 +1,3 @@
-import {covidshield} from '../services/BackendService/covidshield';
-
-import {getCurrentDate} from './date-fns';
 import {CheckInData, doTimeWindowsOverlap, getNewOutbreakStatus, OutbreakStatusType, TimeWindow} from './qr';
 
 describe('doTimeWindowsOverlap', () => {
