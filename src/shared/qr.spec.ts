@@ -1,7 +1,6 @@
-import { assert } from 'console';
 import {covidshield} from '../services/BackendService/covidshield';
-import { getCurrentDate } from './date-fns';
 
+import {getCurrentDate} from './date-fns';
 import {CheckInData, doTimeWindowsOverlap, getNewOutbreakStatus, OutbreakStatusType, TimeWindow} from './qr';
 
 describe('doTimeWindowsOverlap', () => {
@@ -32,38 +31,36 @@ describe('doTimeWindowsOverlap', () => {
 });
 
 describe('getNewOutbreakStatus', () => {
-  const now = getCurrentDate().getTime();
-  const oneHourAgo = now - 1000 * 60 * 60;
-  const twoHoursAgo = now - 1000 * 60 * 60 * 2;
-  const oneHourFromNow = now + 1000 * 60 * 60;
-  const outbreakEvents: covidshield.OutbreakEvent[] = [
-    {locationId: '1', startTime: oneHourAgo, endTime: oneHourFromNow},
-    {locationId: '2', startTime: oneHourAgo, endTime: oneHourFromNow},
+  const t1100 = new Date('2021-02-01T11:00Z').getTime();
+  const t1200 = new Date('2021-02-01T12:00Z').getTime();
+  const t1300 = new Date('2021-02-01T13:00Z').getTime();
+  const t1400 = new Date('2021-02-01T14:00Z').getTime();
+  const outbreakEvents = [
+    {locationId: '1', startTime: t1100, endTime: t1300},
+    {locationId: '2', startTime: t1100, endTime: t1300},
   ];
   it('returns exposed if there is a match', () => {
     const checkInHistory: CheckInData[] = [
-      {id: '1', timestamp: now, address: '', name: ''},
-      {id: '3', timestamp: now, address: '', name: ''},
+      {id: '1', timestamp: t1200, address: '', name: ''},
+      {id: '3', timestamp: t1200, address: '', name: ''},
     ];
     const newStatus = getNewOutbreakStatus(checkInHistory, outbreakEvents);
     expect(newStatus.type).toStrictEqual(OutbreakStatusType.Exposed);
   });
   it('returns monitoring if there is no match', () => {
     const checkInHistory: CheckInData[] = [
-      {id: '3', timestamp: now, address: '', name: ''},
-      {id: '4', timestamp: now, address: '', name: ''},
+      {id: '3', timestamp: t1200, address: '', name: ''},
+      {id: '4', timestamp: t1200, address: '', name: ''},
     ];
     const newStatus = getNewOutbreakStatus(checkInHistory, outbreakEvents);
     expect(newStatus.type).toStrictEqual(OutbreakStatusType.Monitoring);
   });
-  // currently failing
-  it.skip('returns monitoring if id matches but time does not', () => {
+  it('returns monitoring if id matches but time does not', () => {
     const checkInHistory: CheckInData[] = [
-      {id: '1', timestamp: twoHoursAgo, address: '', name: ''},
-      {id: '2', timestamp: twoHoursAgo, address: '', name: ''},
+      {id: '1', timestamp: t1400, address: '', name: ''},
+      {id: '2', timestamp: t1400, address: '', name: ''},
     ];
     const newStatus = getNewOutbreakStatus(checkInHistory, outbreakEvents);
-    console.log('newStatus', newStatus);
     expect(newStatus.type).toStrictEqual(OutbreakStatusType.Monitoring);
   });
 });
