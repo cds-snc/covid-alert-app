@@ -234,17 +234,6 @@ dependencies {
       ]
     )
 
-    debugImplementation("com.facebook.flipper:flipper:$facebookFlipperVersion") {
-        exclude group: 'com.facebook.fbjni'
-    }
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:$facebookFlipperVersion") {
-        exclude group: 'com.facebook.flipper'
-    }
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:$facebookFlipperVersion") {
-        exclude group: 'com.facebook.flipper'
-        exclude group:'com.squareup.okhttp3', module:'okhttp'
-    }
-
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

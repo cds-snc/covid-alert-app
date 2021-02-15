@@ -14,8 +14,6 @@ buildscript {
         coroutinesAndroidVersion = "1.3.6"
         coroutinesPlayServicesVersion = "1.3.6"
 
-        facebookFlipperVersion = "0.33.1"
-
         googlePlayServicesBaseVersion = "17.5.0"
         googlePlayServicesTasksVersion = "17.0.2"
 
