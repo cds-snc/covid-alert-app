@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState, useRef, useLayoutEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
-import {BottomSheet, BottomSheetBehavior, Box} from 'components';
+import {BottomSheet, BottomSheetBehavior, Box, FloatingActionButton} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
 import {TEST_MODE, QR_ENABLED} from 'env';
 import {
@@ -18,7 +18,7 @@ import {RegionCase} from 'shared/Region';
 import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
-import {useRegionalI18n} from 'locale';
+import {useRegionalI18n, useI18n} from 'locale';
 import {OutbreakStatusType} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
@@ -195,6 +195,7 @@ export const HomeScreen = () => {
   const {checkForExposures} = useOutbreakService();
   const navigation = useNavigation();
   const {userStopped} = useStorage();
+  const i18n = useI18n();
 
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
@@ -270,6 +271,12 @@ export const HomeScreen = () => {
             <Content isBottomSheetExpanded={isBottomSheetExpanded} />
           </Animated.View>
         </Box>
+
+        <FloatingActionButton
+          text={i18n.translate('QRCode.CTA')}
+          onPress={() => navigation.navigate('QRCodeFlow')}
+          icon="qr-scan-fab"
+        />
         <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
       </Box>
     </NotificationPermissionStatusProvider>
