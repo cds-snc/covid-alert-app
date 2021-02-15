@@ -199,10 +199,8 @@
     "Title": "Langue",
     "En": "English (Canada)",
     "Fr": "Français (Canada)",
-    "PtBR": "Portugais (Brésil)",
     "EnShort": "English",
     "FrShort": "Français",
-    "PtBRShort": "Portugais (Brésil)",
     "Close": "Fermer"
   },
   "Tutorial": {
@@ -486,7 +484,7 @@
       "CTA": "Réessayer",
       "CTA2": "Retour à l’écran d’accueil"
     },
-    "CameraPermissions" :{
+    "CameraPermissions": {
       "Title": "Autoriser l’accès à l’appareil photo",
       "Body": "Pour scanner un lieu, l’application doit pouvoir utiliser l’appareil photo.",
       "Title2": "Vous hésitez à autoriser l’accès?",
