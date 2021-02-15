@@ -1,3 +1,5 @@
+import {Buffer} from 'buffer';
+
 import {useEffect} from 'react';
 import {Linking} from 'react-native';
 import {log} from 'shared/logging/config';
@@ -5,18 +7,16 @@ import {useNavigation} from '@react-navigation/native';
 import {CheckInData} from 'shared/qr';
 import {getCurrentDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
-import {QR_HOST} from 'env';
+import {QR_HOST, QR_CODE_PUBLIC_KEY} from 'env';
 import base64 from 'react-native-base64';
 import nacl from 'tweetnacl';
-import {Buffer} from 'buffer';
-import {QR_CODE_PUBLIC_KEY} from 'env';
 
 interface EventURL {
   url: string;
 }
 
-const base64ToUint8Array = function(s: string) {
-  return new Uint8Array(Array.prototype.slice.call(Buffer.from(s, 'base64'), 0));
+const base64ToUint8Array = (str: string) => {
+  return new Uint8Array(Array.prototype.slice.call(Buffer.from(str, 'base64'), 0));
 };
 
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
