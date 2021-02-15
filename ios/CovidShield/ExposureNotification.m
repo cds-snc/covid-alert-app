@@ -66,10 +66,14 @@ RCT_REMAP_METHOD(activate, activateWithCompletionHandler:(RCTPromiseResolveBlock
   self.enManager = [ENManager new];
   
   if ([ExposureNotification exposureNotificationSupportType] == ENSupportTypeVersion12dot5) {
-    [self.enManager setLaunchActivityHandler:^() {
-      TSBackgroundFetch *fetchManager = [TSBackgroundFetch sharedInstance];
-      [fetchManager performFetchWithCompletionHandler:^void(UIBackgroundFetchResult r) {}
-                                     applicationState:UIApplicationStateBackground];
+    [self.enManager setLaunchActivityHandler:^(ENActivityFlags activityFlags) {
+      if (activityFlags & ENActivityFlagsPeriodicRun) {
+        // Your app now has 3.5 minutes to perform download and detection.
+        TSBackgroundFetch *fetchManager = [TSBackgroundFetch sharedInstance];
+        [fetchManager performFetchWithCompletionHandler:^void(UIBackgroundFetchResult r) {}
+                                       applicationState:UIApplicationStateBackground];
+      }
+      
     }];
   }
 

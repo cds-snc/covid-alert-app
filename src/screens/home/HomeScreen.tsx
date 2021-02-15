@@ -3,7 +3,7 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
 import {BottomSheet, BottomSheetBehavior, Box} from 'components';
 import {DevSettings, Linking, Animated} from 'react-native';
-import {TEST_MODE} from 'env';
+import {TEST_MODE, QR_ENABLED} from 'env';
 import {
   ExposureStatusType,
   SystemStatus,
@@ -192,6 +192,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 };
 
 export const HomeScreen = () => {
+  const {checkForExposures} = useOutbreakService();
   const navigation = useNavigation();
   const {userStopped} = useStorage();
 
@@ -218,10 +219,13 @@ export const HomeScreen = () => {
   const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
     const success = await startExposureNotificationService();
+    if (QR_ENABLED) {
+      checkForExposures();
+    }
     if (success) {
       updateExposureStatus();
     }
-  }, [userStopped, updateExposureStatus, startExposureNotificationService]);
+  }, [userStopped, updateExposureStatus, startExposureNotificationService, checkForExposures]);
 
   useEffect(() => {
     startAndUpdate();

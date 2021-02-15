@@ -35,11 +35,11 @@ export const LOGGLY_URL = Config.LOGGLY_URL || false;
 
 export const LOG_LEVEL = Config.LOG_LEVEL || 'debug';
 
-export const QR_CODE_PUBLIC_KEY = Config.QR_CODE_PUBLIC_KEY;
-
 export const OUTBREAK_LOCATIONS_URL = Config.OUTBREAK_LOCATIONS_URL;
 
 export const QR_HOST = Config.QR_HOST || '';
+
+export const QR_ENABLED = Config.QR_ENABLED === 'true' || false;
 
 export const METRICS_URL = Config.METRICS_URL || false;
 

@@ -55,11 +55,6 @@
 	<integer>1</integer>
 	<key>ENDeveloperRegion</key>
 	<string>CA</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>instagram</string>
-		<string>instagram-stories</string>
-	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

@@ -11,7 +11,7 @@ import {
   useReportDiagnosis,
   useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
-import {APP_VERSION_NAME, APP_VERSION_CODE, QR_HOST} from 'env';
+import {APP_VERSION_NAME, APP_VERSION_CODE, QR_ENABLED} from 'env';
 import {captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
@@ -155,14 +155,26 @@ const Content = () => {
   return (
     <Box marginHorizontal="m">
       <Section>
-        <Text paddingLeft="m" paddingRight="m" fontWeight="bold" paddingBottom="s" color="overlayBodyText">
+        <Text
+          testID="DemoMenu"
+          paddingLeft="m"
+          paddingRight="m"
+          fontWeight="bold"
+          paddingBottom="s"
+          color="overlayBodyText"
+        >
           Demo menu
         </Text>
       </Section>
       <Section>
-        <Button text="Show sample notification" onPress={onShowSampleNotification} variant="bigFlat" />
+        <Button
+          text="Show sample notification"
+          onPress={onShowSampleNotification}
+          variant="bigFlat"
+          testID="ShowSampleNotification"
+        />
       </Section>
-      {QR_HOST !== '' && (
+      {QR_ENABLED && (
         <>
           <Section>
             <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
@@ -180,7 +192,12 @@ const Content = () => {
         <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
       </Section>
       <Section>
-        <Button text="Clear notification receipts" onPress={onClearReadReceipts} variant="bigFlat" />
+        <Button
+          text="Clear notification receipts"
+          onPress={onClearReadReceipts}
+          variant="bigFlat"
+          testID="ClearNotificationReceipts"
+        />
       </Section>
       <Section>
         <Item title="Force screen" />

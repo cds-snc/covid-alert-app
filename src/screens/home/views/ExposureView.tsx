@@ -29,10 +29,18 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   return (
     <>
       <RoundedBox isFirstBox>
-        <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
+        <Text
+          focusRef={autoFocusRef}
+          testID="bodyTitle"
+          variant="bodyTitle"
+          marginBottom="m"
+          accessibilityRole="header"
+        >
           {i18n.translate('Home.ExposureDetected.Title')}
         </Text>
-        <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body1')}</Text>
+        <Text testID="bodyText" marginBottom="m">
+          {i18n.translate('Home.ExposureDetected.Body1')}
+        </Text>
         <ExposureDateView />
       </RoundedBox>
 
