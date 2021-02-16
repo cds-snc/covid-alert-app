@@ -438,6 +438,403 @@ export namespace covidshield {
         }
     }
 
+    /** Properties of an OutbreakEvent. */
+    interface IOutbreakEvent {
+
+        /** OutbreakEvent locationId */
+        locationId?: (string|null);
+
+        /** OutbreakEvent startTime */
+        startTime?: (google.protobuf.ITimestamp|null);
+
+        /** OutbreakEvent endTime */
+        endTime?: (google.protobuf.ITimestamp|null);
+    }
+
+    /** Represents an OutbreakEvent. */
+    class OutbreakEvent implements IOutbreakEvent {
+
+        /**
+         * Constructs a new OutbreakEvent.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: covidshield.IOutbreakEvent);
+
+        /** OutbreakEvent locationId. */
+        public locationId: string;
+
+        /** OutbreakEvent startTime. */
+        public startTime?: (google.protobuf.ITimestamp|null);
+
+        /** OutbreakEvent endTime. */
+        public endTime?: (google.protobuf.ITimestamp|null);
+
+        /**
+         * Creates a new OutbreakEvent instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns OutbreakEvent instance
+         */
+        public static create(properties?: covidshield.IOutbreakEvent): covidshield.OutbreakEvent;
+
+        /**
+         * Encodes the specified OutbreakEvent message. Does not implicitly {@link covidshield.OutbreakEvent.verify|verify} messages.
+         * @param message OutbreakEvent message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: covidshield.IOutbreakEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified OutbreakEvent message, length delimited. Does not implicitly {@link covidshield.OutbreakEvent.verify|verify} messages.
+         * @param message OutbreakEvent message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: covidshield.IOutbreakEvent, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an OutbreakEvent message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns OutbreakEvent
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.OutbreakEvent;
+
+        /**
+         * Decodes an OutbreakEvent message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns OutbreakEvent
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.OutbreakEvent;
+
+        /**
+         * Verifies an OutbreakEvent message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an OutbreakEvent message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns OutbreakEvent
+         */
+        public static fromObject(object: { [k: string]: any }): covidshield.OutbreakEvent;
+
+        /**
+         * Creates a plain object from an OutbreakEvent message. Also converts values to other types if specified.
+         * @param message OutbreakEvent
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: covidshield.OutbreakEvent, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this OutbreakEvent to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an OutbreakEventResponse. */
+    interface IOutbreakEventResponse {
+
+        /** OutbreakEventResponse error */
+        error?: (covidshield.OutbreakEventResponse.ErrorCode|null);
+    }
+
+    /** Represents an OutbreakEventResponse. */
+    class OutbreakEventResponse implements IOutbreakEventResponse {
+
+        /**
+         * Constructs a new OutbreakEventResponse.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: covidshield.IOutbreakEventResponse);
+
+        /** OutbreakEventResponse error. */
+        public error: covidshield.OutbreakEventResponse.ErrorCode;
+
+        /**
+         * Creates a new OutbreakEventResponse instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns OutbreakEventResponse instance
+         */
+        public static create(properties?: covidshield.IOutbreakEventResponse): covidshield.OutbreakEventResponse;
+
+        /**
+         * Encodes the specified OutbreakEventResponse message. Does not implicitly {@link covidshield.OutbreakEventResponse.verify|verify} messages.
+         * @param message OutbreakEventResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: covidshield.IOutbreakEventResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified OutbreakEventResponse message, length delimited. Does not implicitly {@link covidshield.OutbreakEventResponse.verify|verify} messages.
+         * @param message OutbreakEventResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: covidshield.IOutbreakEventResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an OutbreakEventResponse message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns OutbreakEventResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.OutbreakEventResponse;
+
+        /**
+         * Decodes an OutbreakEventResponse message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns OutbreakEventResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.OutbreakEventResponse;
+
+        /**
+         * Verifies an OutbreakEventResponse message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an OutbreakEventResponse message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns OutbreakEventResponse
+         */
+        public static fromObject(object: { [k: string]: any }): covidshield.OutbreakEventResponse;
+
+        /**
+         * Creates a plain object from an OutbreakEventResponse message. Also converts values to other types if specified.
+         * @param message OutbreakEventResponse
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: covidshield.OutbreakEventResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this OutbreakEventResponse to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace OutbreakEventResponse {
+
+        /** ErrorCode enum. */
+        enum ErrorCode {
+            NONE = 0,
+            UNKNOWN = 1,
+            INVALID_ID = 2,
+            MISSING_TIMESTAMP = 3,
+            PERIOD_INVALID = 4,
+            SERVER_ERROR = 5
+        }
+    }
+
+    /** Properties of an OutbreakEventExport. */
+    interface IOutbreakEventExport {
+
+        /** OutbreakEventExport startTimestamp */
+        startTimestamp?: (number|Long|null);
+
+        /** OutbreakEventExport endTimestamp */
+        endTimestamp?: (number|Long|null);
+
+        /** OutbreakEventExport locations */
+        locations?: (covidshield.IOutbreakEvent[]|null);
+    }
+
+    /** Represents an OutbreakEventExport. */
+    class OutbreakEventExport implements IOutbreakEventExport {
+
+        /**
+         * Constructs a new OutbreakEventExport.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: covidshield.IOutbreakEventExport);
+
+        /** OutbreakEventExport startTimestamp. */
+        public startTimestamp: (number|Long);
+
+        /** OutbreakEventExport endTimestamp. */
+        public endTimestamp: (number|Long);
+
+        /** OutbreakEventExport locations. */
+        public locations: covidshield.IOutbreakEvent[];
+
+        /**
+         * Creates a new OutbreakEventExport instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns OutbreakEventExport instance
+         */
+        public static create(properties?: covidshield.IOutbreakEventExport): covidshield.OutbreakEventExport;
+
+        /**
+         * Encodes the specified OutbreakEventExport message. Does not implicitly {@link covidshield.OutbreakEventExport.verify|verify} messages.
+         * @param message OutbreakEventExport message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: covidshield.IOutbreakEventExport, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified OutbreakEventExport message, length delimited. Does not implicitly {@link covidshield.OutbreakEventExport.verify|verify} messages.
+         * @param message OutbreakEventExport message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: covidshield.IOutbreakEventExport, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an OutbreakEventExport message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns OutbreakEventExport
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.OutbreakEventExport;
+
+        /**
+         * Decodes an OutbreakEventExport message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns OutbreakEventExport
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.OutbreakEventExport;
+
+        /**
+         * Verifies an OutbreakEventExport message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an OutbreakEventExport message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns OutbreakEventExport
+         */
+        public static fromObject(object: { [k: string]: any }): covidshield.OutbreakEventExport;
+
+        /**
+         * Creates a plain object from an OutbreakEventExport message. Also converts values to other types if specified.
+         * @param message OutbreakEventExport
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: covidshield.OutbreakEventExport, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this OutbreakEventExport to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an OutbreakEventExportSignature. */
+    interface IOutbreakEventExportSignature {
+
+        /** OutbreakEventExportSignature signature */
+        signature?: (Uint8Array|null);
+    }
+
+    /** Represents an OutbreakEventExportSignature. */
+    class OutbreakEventExportSignature implements IOutbreakEventExportSignature {
+
+        /**
+         * Constructs a new OutbreakEventExportSignature.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: covidshield.IOutbreakEventExportSignature);
+
+        /** OutbreakEventExportSignature signature. */
+        public signature: Uint8Array;
+
+        /**
+         * Creates a new OutbreakEventExportSignature instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns OutbreakEventExportSignature instance
+         */
+        public static create(properties?: covidshield.IOutbreakEventExportSignature): covidshield.OutbreakEventExportSignature;
+
+        /**
+         * Encodes the specified OutbreakEventExportSignature message. Does not implicitly {@link covidshield.OutbreakEventExportSignature.verify|verify} messages.
+         * @param message OutbreakEventExportSignature message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: covidshield.IOutbreakEventExportSignature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified OutbreakEventExportSignature message, length delimited. Does not implicitly {@link covidshield.OutbreakEventExportSignature.verify|verify} messages.
+         * @param message OutbreakEventExportSignature message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: covidshield.IOutbreakEventExportSignature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an OutbreakEventExportSignature message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns OutbreakEventExportSignature
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): covidshield.OutbreakEventExportSignature;
+
+        /**
+         * Decodes an OutbreakEventExportSignature message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns OutbreakEventExportSignature
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): covidshield.OutbreakEventExportSignature;
+
+        /**
+         * Verifies an OutbreakEventExportSignature message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an OutbreakEventExportSignature message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns OutbreakEventExportSignature
+         */
+        public static fromObject(object: { [k: string]: any }): covidshield.OutbreakEventExportSignature;
+
+        /**
+         * Creates a plain object from an OutbreakEventExportSignature message. Also converts values to other types if specified.
+         * @param message OutbreakEventExportSignature
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: covidshield.OutbreakEventExportSignature, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this OutbreakEventExportSignature to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Properties of an Upload. */
     interface IUpload {
 
