@@ -105,7 +105,7 @@ const Content = () => {
   const navigation = useNavigation();
 
   const {reset} = useStorage();
-  const {checkForExposures, setOutbreakStatus} = useOutbreakService();
+  const {checkForOutbreaks, setOutbreakStatus} = useOutbreakService();
 
   const onClearOutbreak = useCallback(async () => {
     setOutbreakStatus({
@@ -115,8 +115,8 @@ const Content = () => {
   }, [setOutbreakStatus]);
 
   const onCheckForOutbreak = useCallback(async () => {
-    checkForExposures();
-  }, [checkForExposures]);
+    checkForOutbreaks();
+  }, [checkForOutbreaks]);
 
   const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 
