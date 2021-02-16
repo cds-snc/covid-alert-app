@@ -1,8 +1,8 @@
 {
   "exposedLocations" : [
-    {"id": "150", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"},
-    {"id":"2", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"},
-    {"id":"3", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"},
-    {"id":"4", "startTime": "2021-02-04T00:00Z", "endTime": "2021-03-04T00:00Z"}
+    {"locationId": "150", "startTime": 1612396800000, "endTime": 1614816000000},
+    {"locationId":"2", "startTime": 1612396800000, "endTime": 1614816000000},
+    {"locationId":"3", "startTime": 1612396800000, "endTime": 1614816000000},
+    {"locationId":"4", "startTime": 1612396800000, "endTime": 1614816000000}
   ]
 }

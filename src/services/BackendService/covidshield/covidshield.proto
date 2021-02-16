@@ -95,6 +95,36 @@ message EncryptedUploadResponse {
   optional ErrorCode error = 1;
 }
 
+message OutbreakEvent {
+  // location ID references the ID in the portal
+  optional string location_id = 1;
+  optional google.protobuf.Timestamp start_time = 2;
+  optional google.protobuf.Timestamp end_time = 3;
+}
+
+message OutbreakEventResponse {
+  enum ErrorCode {
+    NONE = 0;
+    UNKNOWN = 1;
+    INVALID_ID = 2;
+    MISSING_TIMESTAMP = 3;
+    PERIOD_INVALID = 4;
+    SERVER_ERROR = 5;
+  }
+  optional ErrorCode error = 1;
+}
+
+message OutbreakEventExport {
+  optional fixed64 start_timestamp = 1;
+  optional fixed64 end_timestamp = 2;
+  repeated OutbreakEvent locations = 3;
+}
+
+message OutbreakEventExportSignature {
+  optional bytes signature = 1;
+}
+
+
 // Upload is the decrypted type of the `payload` field in EncryptedUploadRequest.
 message Upload {
   // timestamp is just the current device time at message generation.
