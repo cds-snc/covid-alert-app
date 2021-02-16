@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     right: 10,
-    bottom: 90,
+    bottom: -15,
   },
   textStyle: {
     textAlign: 'right',

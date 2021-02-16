@@ -249,7 +249,7 @@ export const HomeScreen = () => {
     () =>
       Animated.timing(fadeAnim, {
         toValue: 1,
-        delay: 1000,
+        delay: 500,
         duration: 10,
         useNativeDriver: false,
       }).start(),
@@ -269,14 +269,13 @@ export const HomeScreen = () => {
         >
           <Animated.View style={{opacity: fadeAnim}}>
             <Content isBottomSheetExpanded={isBottomSheetExpanded} />
+            <FloatingActionButton
+              text={i18n.translate('QRCode.CTA')}
+              onPress={() => navigation.navigate('QRCodeFlow')}
+              icon="qr-scan-fab"
+            />
           </Animated.View>
         </Box>
-
-        <FloatingActionButton
-          text={i18n.translate('QRCode.CTA')}
-          onPress={() => navigation.navigate('QRCodeFlow')}
-          icon="qr-scan-fab"
-        />
         <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
       </Box>
     </NotificationPermissionStatusProvider>
