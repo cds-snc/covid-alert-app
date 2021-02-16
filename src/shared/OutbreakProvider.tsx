@@ -49,7 +49,7 @@ class OutbreakService implements OutbreakService {
     this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 
-  checkForExposures = async () => {
+  checkForOutbreaks = async () => {
     const outbreakEvents = await getOutbreakEvents();
     const newOutbreakStatusType = getNewOutbreakStatus(this.checkInHistory.get(), outbreakEvents);
     this.setOutbreakStatus(newOutbreakStatusType);
@@ -101,7 +101,7 @@ export const useOutbreakService = () => {
   const [checkInHistory, addCheckInInternal] = useState(outbreakService.checkInHistory.get());
 
   const setOutbreakStatus = useMemo(() => outbreakService.setOutbreakStatus, [outbreakService.setOutbreakStatus]);
-  const checkForExposures = useMemo(() => outbreakService.checkForExposures, [outbreakService.checkForExposures]);
+  const checkForOutbreaks = useMemo(() => outbreakService.checkForOutbreaks, [outbreakService.checkForOutbreaks]);
   const addCheckIn = useMemo(
     () => (newCheckIn: CheckInData) => {
       outbreakService.addCheckIn(newCheckIn);
@@ -122,11 +122,11 @@ export const useOutbreakService = () => {
     () => ({
       outbreakStatus,
       setOutbreakStatus,
-      checkForExposures,
+      checkForOutbreaks,
       addCheckIn,
       removeCheckIn,
       checkInHistory,
     }),
-    [outbreakStatus, setOutbreakStatus, checkForExposures, addCheckIn, removeCheckIn, checkInHistory],
+    [outbreakStatus, setOutbreakStatus, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
   );
 };

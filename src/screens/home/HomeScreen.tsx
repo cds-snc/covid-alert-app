@@ -192,7 +192,7 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
 };
 
 export const HomeScreen = () => {
-  const {checkForExposures} = useOutbreakService();
+  const {checkForOutbreaks} = useOutbreakService();
   const navigation = useNavigation();
   const {userStopped} = useStorage();
 
@@ -220,12 +220,12 @@ export const HomeScreen = () => {
     if (userStopped) return;
     const success = await startExposureNotificationService();
     if (QR_ENABLED) {
-      checkForExposures();
+      checkForOutbreaks();
     }
     if (success) {
       updateExposureStatus();
     }
-  }, [userStopped, updateExposureStatus, startExposureNotificationService, checkForExposures]);
+  }, [userStopped, updateExposureStatus, startExposureNotificationService, checkForOutbreaks]);
 
   useEffect(() => {
     startAndUpdate();
