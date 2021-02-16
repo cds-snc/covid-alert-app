@@ -12,19 +12,14 @@ export interface FABProps {
 
 export const FloatingActionButton = ({text, onPress, icon}: FABProps) => {
   return (
-    <TouchableOpacity style={styles.touchableOpacityStyle} activeOpacity={0.7} onPress={onPress}>
-      <Box
-        alignItems="center"
-        flexDirection="row"
-        justifyContent="center"
-        marginBottom="xxl"
-        paddingRight="m"
-        style={styles.boxStyle}
-      >
-        <Icon size={40} name={icon} />
-        <Text style={styles.textStyle}>{text}</Text>
-      </Box>
-    </TouchableOpacity>
+    <Box marginBottom="xxl" style={styles.touchableOpacityStyle}>
+      <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
+        <Box alignItems="center" flexDirection="row" justifyContent="center" paddingRight="m" style={styles.boxStyle}>
+          <Icon size={40} name={icon} />
+          <Text style={styles.textStyle}>{text}</Text>
+        </Box>
+      </TouchableOpacity>
+    </Box>
   );
 };
 
