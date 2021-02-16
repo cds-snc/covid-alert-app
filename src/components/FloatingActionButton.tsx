@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
+import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 
 import {Icon, IconName} from './Icon';
 import {Box} from './Box';
