@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import {Alert} from 'react-native';
 import {Box, Button, Text, Icon, InfoBlock} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
@@ -18,11 +19,12 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const navigateHome = useCallback(() => navigation.navigate('Home'), [navigation]);
-  const navigateCancelCheckIn = useCallback(() => navigation.navigate('CheckInCancelScreen'), [navigation]);
+  const popAlert = useCallback(() => Alert.alert('', i18n.translate('QRCode.CancelCheckIn.Title')), [i18n]);
   const cancelCheckIn = useCallback(() => {
     removeCheckIn();
-    navigateCancelCheckIn();
-  }, [removeCheckIn, navigateCancelCheckIn]);
+    popAlert();
+    navigateHome();
+  }, [removeCheckIn, popAlert, navigateHome]);
 
   return (
     <BaseQRCodeScreen>
