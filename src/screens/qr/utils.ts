@@ -26,10 +26,8 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
     throw new Error('bad URL from QR code');
   }
 
-  const [, base64Str] = url.split('#');
+  let [, base64Str] = url.split('#');
   try {
-    let verifiedBase64 = base64Str;
-
     if (QR_CODE_PUBLIC_KEY) {
       // verify signed QR code
       const data = nacl.sign.open(base64ToUint8Array(base64Str), base64ToUint8Array(QR_CODE_PUBLIC_KEY));
@@ -38,12 +36,11 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
         throw new Error();
       }
 
-      // Note: package type definition is not up to date
       // @ts-ignore
-      verifiedBase64 = base64.encodeFromByteArray(data);
+      base64Str = base64.encodeFromByteArray(data);
     }
 
-    const _locationData = base64.decode(verifiedBase64);
+    const _locationData = base64.decode(base64Str);
     const locationData = JSON.parse(_locationData);
     log.debug({message: 'decoded and parsed location data', payload: {locationData}});
     const checkInData: CheckInData = {
