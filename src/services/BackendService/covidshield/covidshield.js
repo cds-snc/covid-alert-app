@@ -1155,6 +1155,968 @@
             return EncryptedUploadResponse;
         })();
     
+        covidshield.OutbreakEvent = (function() {
+    
+            /**
+             * Properties of an OutbreakEvent.
+             * @memberof covidshield
+             * @interface IOutbreakEvent
+             * @property {string|null} [locationId] OutbreakEvent locationId
+             * @property {google.protobuf.ITimestamp|null} [startTime] OutbreakEvent startTime
+             * @property {google.protobuf.ITimestamp|null} [endTime] OutbreakEvent endTime
+             */
+    
+            /**
+             * Constructs a new OutbreakEvent.
+             * @memberof covidshield
+             * @classdesc Represents an OutbreakEvent.
+             * @implements IOutbreakEvent
+             * @constructor
+             * @param {covidshield.IOutbreakEvent=} [properties] Properties to set
+             */
+            function OutbreakEvent(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * OutbreakEvent locationId.
+             * @member {string} locationId
+             * @memberof covidshield.OutbreakEvent
+             * @instance
+             */
+            OutbreakEvent.prototype.locationId = "";
+    
+            /**
+             * OutbreakEvent startTime.
+             * @member {google.protobuf.ITimestamp|null|undefined} startTime
+             * @memberof covidshield.OutbreakEvent
+             * @instance
+             */
+            OutbreakEvent.prototype.startTime = null;
+    
+            /**
+             * OutbreakEvent endTime.
+             * @member {google.protobuf.ITimestamp|null|undefined} endTime
+             * @memberof covidshield.OutbreakEvent
+             * @instance
+             */
+            OutbreakEvent.prototype.endTime = null;
+    
+            /**
+             * Creates a new OutbreakEvent instance using the specified properties.
+             * @function create
+             * @memberof covidshield.OutbreakEvent
+             * @static
+             * @param {covidshield.IOutbreakEvent=} [properties] Properties to set
+             * @returns {covidshield.OutbreakEvent} OutbreakEvent instance
+             */
+            OutbreakEvent.create = function create(properties) {
+                return new OutbreakEvent(properties);
+            };
+    
+            /**
+             * Encodes the specified OutbreakEvent message. Does not implicitly {@link covidshield.OutbreakEvent.verify|verify} messages.
+             * @function encode
+             * @memberof covidshield.OutbreakEvent
+             * @static
+             * @param {covidshield.IOutbreakEvent} message OutbreakEvent message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            OutbreakEvent.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.locationId != null && Object.hasOwnProperty.call(message, "locationId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.locationId);
+                if (message.startTime != null && Object.hasOwnProperty.call(message, "startTime"))
+                    $root.google.protobuf.Timestamp.encode(message.startTime, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.endTime != null && Object.hasOwnProperty.call(message, "endTime"))
+                    $root.google.protobuf.Timestamp.encode(message.endTime, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified OutbreakEvent message, length delimited. Does not implicitly {@link covidshield.OutbreakEvent.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof covidshield.OutbreakEvent
+             * @static
+             * @param {covidshield.IOutbreakEvent} message OutbreakEvent message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            OutbreakEvent.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes an OutbreakEvent message from the specified reader or buffer.
+             * @function decode
+             * @memberof covidshield.OutbreakEvent
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {covidshield.OutbreakEvent} OutbreakEvent
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            OutbreakEvent.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.OutbreakEvent();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.locationId = reader.string();
+                        break;
+                    case 2:
+                        message.startTime = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                        break;
+                    case 3:
+                        message.endTime = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes an OutbreakEvent message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof covidshield.OutbreakEvent
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {covidshield.OutbreakEvent} OutbreakEvent
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            OutbreakEvent.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies an OutbreakEvent message.
+             * @function verify
+             * @memberof covidshield.OutbreakEvent
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            OutbreakEvent.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.locationId != null && message.hasOwnProperty("locationId"))
+                    if (!$util.isString(message.locationId))
+                        return "locationId: string expected";
+                if (message.startTime != null && message.hasOwnProperty("startTime")) {
+                    var error = $root.google.protobuf.Timestamp.verify(message.startTime);
+                    if (error)
+                        return "startTime." + error;
+                }
+                if (message.endTime != null && message.hasOwnProperty("endTime")) {
+                    var error = $root.google.protobuf.Timestamp.verify(message.endTime);
+                    if (error)
+                        return "endTime." + error;
+                }
+                return null;
+            };
+    
+            /**
+             * Creates an OutbreakEvent message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof covidshield.OutbreakEvent
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {covidshield.OutbreakEvent} OutbreakEvent
+             */
+            OutbreakEvent.fromObject = function fromObject(object) {
+                if (object instanceof $root.covidshield.OutbreakEvent)
+                    return object;
+                var message = new $root.covidshield.OutbreakEvent();
+                if (object.locationId != null)
+                    message.locationId = String(object.locationId);
+                if (object.startTime != null) {
+                    if (typeof object.startTime !== "object")
+                        throw TypeError(".covidshield.OutbreakEvent.startTime: object expected");
+                    message.startTime = $root.google.protobuf.Timestamp.fromObject(object.startTime);
+                }
+                if (object.endTime != null) {
+                    if (typeof object.endTime !== "object")
+                        throw TypeError(".covidshield.OutbreakEvent.endTime: object expected");
+                    message.endTime = $root.google.protobuf.Timestamp.fromObject(object.endTime);
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from an OutbreakEvent message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof covidshield.OutbreakEvent
+             * @static
+             * @param {covidshield.OutbreakEvent} message OutbreakEvent
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            OutbreakEvent.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.locationId = "";
+                    object.startTime = null;
+                    object.endTime = null;
+                }
+                if (message.locationId != null && message.hasOwnProperty("locationId"))
+                    object.locationId = message.locationId;
+                if (message.startTime != null && message.hasOwnProperty("startTime"))
+                    object.startTime = $root.google.protobuf.Timestamp.toObject(message.startTime, options);
+                if (message.endTime != null && message.hasOwnProperty("endTime"))
+                    object.endTime = $root.google.protobuf.Timestamp.toObject(message.endTime, options);
+                return object;
+            };
+    
+            /**
+             * Converts this OutbreakEvent to JSON.
+             * @function toJSON
+             * @memberof covidshield.OutbreakEvent
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            OutbreakEvent.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return OutbreakEvent;
+        })();
+    
+        covidshield.OutbreakEventResponse = (function() {
+    
+            /**
+             * Properties of an OutbreakEventResponse.
+             * @memberof covidshield
+             * @interface IOutbreakEventResponse
+             * @property {covidshield.OutbreakEventResponse.ErrorCode|null} [error] OutbreakEventResponse error
+             */
+    
+            /**
+             * Constructs a new OutbreakEventResponse.
+             * @memberof covidshield
+             * @classdesc Represents an OutbreakEventResponse.
+             * @implements IOutbreakEventResponse
+             * @constructor
+             * @param {covidshield.IOutbreakEventResponse=} [properties] Properties to set
+             */
+            function OutbreakEventResponse(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * OutbreakEventResponse error.
+             * @member {covidshield.OutbreakEventResponse.ErrorCode} error
+             * @memberof covidshield.OutbreakEventResponse
+             * @instance
+             */
+            OutbreakEventResponse.prototype.error = 0;
+    
+            /**
+             * Creates a new OutbreakEventResponse instance using the specified properties.
+             * @function create
+             * @memberof covidshield.OutbreakEventResponse
+             * @static
+             * @param {covidshield.IOutbreakEventResponse=} [properties] Properties to set
+             * @returns {covidshield.OutbreakEventResponse} OutbreakEventResponse instance
+             */
+            OutbreakEventResponse.create = function create(properties) {
+                return new OutbreakEventResponse(properties);
+            };
+    
+            /**
+             * Encodes the specified OutbreakEventResponse message. Does not implicitly {@link covidshield.OutbreakEventResponse.verify|verify} messages.
+             * @function encode
+             * @memberof covidshield.OutbreakEventResponse
+             * @static
+             * @param {covidshield.IOutbreakEventResponse} message OutbreakEventResponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            OutbreakEventResponse.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.error != null && Object.hasOwnProperty.call(message, "error"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.error);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified OutbreakEventResponse message, length delimited. Does not implicitly {@link covidshield.OutbreakEventResponse.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof covidshield.OutbreakEventResponse
+             * @static
+             * @param {covidshield.IOutbreakEventResponse} message OutbreakEventResponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            OutbreakEventResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes an OutbreakEventResponse message from the specified reader or buffer.
+             * @function decode
+             * @memberof covidshield.OutbreakEventResponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {covidshield.OutbreakEventResponse} OutbreakEventResponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            OutbreakEventResponse.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.OutbreakEventResponse();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.error = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes an OutbreakEventResponse message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof covidshield.OutbreakEventResponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {covidshield.OutbreakEventResponse} OutbreakEventResponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            OutbreakEventResponse.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies an OutbreakEventResponse message.
+             * @function verify
+             * @memberof covidshield.OutbreakEventResponse
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            OutbreakEventResponse.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.error != null && message.hasOwnProperty("error"))
+                    switch (message.error) {
+                    default:
+                        return "error: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        break;
+                    }
+                return null;
+            };
+    
+            /**
+             * Creates an OutbreakEventResponse message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof covidshield.OutbreakEventResponse
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {covidshield.OutbreakEventResponse} OutbreakEventResponse
+             */
+            OutbreakEventResponse.fromObject = function fromObject(object) {
+                if (object instanceof $root.covidshield.OutbreakEventResponse)
+                    return object;
+                var message = new $root.covidshield.OutbreakEventResponse();
+                switch (object.error) {
+                case "NONE":
+                case 0:
+                    message.error = 0;
+                    break;
+                case "UNKNOWN":
+                case 1:
+                    message.error = 1;
+                    break;
+                case "INVALID_ID":
+                case 2:
+                    message.error = 2;
+                    break;
+                case "MISSING_TIMESTAMP":
+                case 3:
+                    message.error = 3;
+                    break;
+                case "PERIOD_INVALID":
+                case 4:
+                    message.error = 4;
+                    break;
+                case "SERVER_ERROR":
+                case 5:
+                    message.error = 5;
+                    break;
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from an OutbreakEventResponse message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof covidshield.OutbreakEventResponse
+             * @static
+             * @param {covidshield.OutbreakEventResponse} message OutbreakEventResponse
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            OutbreakEventResponse.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.error = options.enums === String ? "NONE" : 0;
+                if (message.error != null && message.hasOwnProperty("error"))
+                    object.error = options.enums === String ? $root.covidshield.OutbreakEventResponse.ErrorCode[message.error] : message.error;
+                return object;
+            };
+    
+            /**
+             * Converts this OutbreakEventResponse to JSON.
+             * @function toJSON
+             * @memberof covidshield.OutbreakEventResponse
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            OutbreakEventResponse.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            /**
+             * ErrorCode enum.
+             * @name covidshield.OutbreakEventResponse.ErrorCode
+             * @enum {number}
+             * @property {number} NONE=0 NONE value
+             * @property {number} UNKNOWN=1 UNKNOWN value
+             * @property {number} INVALID_ID=2 INVALID_ID value
+             * @property {number} MISSING_TIMESTAMP=3 MISSING_TIMESTAMP value
+             * @property {number} PERIOD_INVALID=4 PERIOD_INVALID value
+             * @property {number} SERVER_ERROR=5 SERVER_ERROR value
+             */
+            OutbreakEventResponse.ErrorCode = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "NONE"] = 0;
+                values[valuesById[1] = "UNKNOWN"] = 1;
+                values[valuesById[2] = "INVALID_ID"] = 2;
+                values[valuesById[3] = "MISSING_TIMESTAMP"] = 3;
+                values[valuesById[4] = "PERIOD_INVALID"] = 4;
+                values[valuesById[5] = "SERVER_ERROR"] = 5;
+                return values;
+            })();
+    
+            return OutbreakEventResponse;
+        })();
+    
+        covidshield.OutbreakEventExport = (function() {
+    
+            /**
+             * Properties of an OutbreakEventExport.
+             * @memberof covidshield
+             * @interface IOutbreakEventExport
+             * @property {number|Long|null} [startTimestamp] OutbreakEventExport startTimestamp
+             * @property {number|Long|null} [endTimestamp] OutbreakEventExport endTimestamp
+             * @property {Array.<covidshield.IOutbreakEvent>|null} [locations] OutbreakEventExport locations
+             */
+    
+            /**
+             * Constructs a new OutbreakEventExport.
+             * @memberof covidshield
+             * @classdesc Represents an OutbreakEventExport.
+             * @implements IOutbreakEventExport
+             * @constructor
+             * @param {covidshield.IOutbreakEventExport=} [properties] Properties to set
+             */
+            function OutbreakEventExport(properties) {
+                this.locations = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * OutbreakEventExport startTimestamp.
+             * @member {number|Long} startTimestamp
+             * @memberof covidshield.OutbreakEventExport
+             * @instance
+             */
+            OutbreakEventExport.prototype.startTimestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+            /**
+             * OutbreakEventExport endTimestamp.
+             * @member {number|Long} endTimestamp
+             * @memberof covidshield.OutbreakEventExport
+             * @instance
+             */
+            OutbreakEventExport.prototype.endTimestamp = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+            /**
+             * OutbreakEventExport locations.
+             * @member {Array.<covidshield.IOutbreakEvent>} locations
+             * @memberof covidshield.OutbreakEventExport
+             * @instance
+             */
+            OutbreakEventExport.prototype.locations = $util.emptyArray;
+    
+            /**
+             * Creates a new OutbreakEventExport instance using the specified properties.
+             * @function create
+             * @memberof covidshield.OutbreakEventExport
+             * @static
+             * @param {covidshield.IOutbreakEventExport=} [properties] Properties to set
+             * @returns {covidshield.OutbreakEventExport} OutbreakEventExport instance
+             */
+            OutbreakEventExport.create = function create(properties) {
+                return new OutbreakEventExport(properties);
+            };
+    
+            /**
+             * Encodes the specified OutbreakEventExport message. Does not implicitly {@link covidshield.OutbreakEventExport.verify|verify} messages.
+             * @function encode
+             * @memberof covidshield.OutbreakEventExport
+             * @static
+             * @param {covidshield.IOutbreakEventExport} message OutbreakEventExport message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            OutbreakEventExport.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.startTimestamp != null && Object.hasOwnProperty.call(message, "startTimestamp"))
+                    writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.startTimestamp);
+                if (message.endTimestamp != null && Object.hasOwnProperty.call(message, "endTimestamp"))
+                    writer.uint32(/* id 2, wireType 1 =*/17).fixed64(message.endTimestamp);
+                if (message.locations != null && message.locations.length)
+                    for (var i = 0; i < message.locations.length; ++i)
+                        $root.covidshield.OutbreakEvent.encode(message.locations[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified OutbreakEventExport message, length delimited. Does not implicitly {@link covidshield.OutbreakEventExport.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof covidshield.OutbreakEventExport
+             * @static
+             * @param {covidshield.IOutbreakEventExport} message OutbreakEventExport message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            OutbreakEventExport.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes an OutbreakEventExport message from the specified reader or buffer.
+             * @function decode
+             * @memberof covidshield.OutbreakEventExport
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {covidshield.OutbreakEventExport} OutbreakEventExport
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            OutbreakEventExport.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.OutbreakEventExport();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.startTimestamp = reader.fixed64();
+                        break;
+                    case 2:
+                        message.endTimestamp = reader.fixed64();
+                        break;
+                    case 3:
+                        if (!(message.locations && message.locations.length))
+                            message.locations = [];
+                        message.locations.push($root.covidshield.OutbreakEvent.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes an OutbreakEventExport message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof covidshield.OutbreakEventExport
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {covidshield.OutbreakEventExport} OutbreakEventExport
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            OutbreakEventExport.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies an OutbreakEventExport message.
+             * @function verify
+             * @memberof covidshield.OutbreakEventExport
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            OutbreakEventExport.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.startTimestamp != null && message.hasOwnProperty("startTimestamp"))
+                    if (!$util.isInteger(message.startTimestamp) && !(message.startTimestamp && $util.isInteger(message.startTimestamp.low) && $util.isInteger(message.startTimestamp.high)))
+                        return "startTimestamp: integer|Long expected";
+                if (message.endTimestamp != null && message.hasOwnProperty("endTimestamp"))
+                    if (!$util.isInteger(message.endTimestamp) && !(message.endTimestamp && $util.isInteger(message.endTimestamp.low) && $util.isInteger(message.endTimestamp.high)))
+                        return "endTimestamp: integer|Long expected";
+                if (message.locations != null && message.hasOwnProperty("locations")) {
+                    if (!Array.isArray(message.locations))
+                        return "locations: array expected";
+                    for (var i = 0; i < message.locations.length; ++i) {
+                        var error = $root.covidshield.OutbreakEvent.verify(message.locations[i]);
+                        if (error)
+                            return "locations." + error;
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates an OutbreakEventExport message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof covidshield.OutbreakEventExport
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {covidshield.OutbreakEventExport} OutbreakEventExport
+             */
+            OutbreakEventExport.fromObject = function fromObject(object) {
+                if (object instanceof $root.covidshield.OutbreakEventExport)
+                    return object;
+                var message = new $root.covidshield.OutbreakEventExport();
+                if (object.startTimestamp != null)
+                    if ($util.Long)
+                        (message.startTimestamp = $util.Long.fromValue(object.startTimestamp)).unsigned = false;
+                    else if (typeof object.startTimestamp === "string")
+                        message.startTimestamp = parseInt(object.startTimestamp, 10);
+                    else if (typeof object.startTimestamp === "number")
+                        message.startTimestamp = object.startTimestamp;
+                    else if (typeof object.startTimestamp === "object")
+                        message.startTimestamp = new $util.LongBits(object.startTimestamp.low >>> 0, object.startTimestamp.high >>> 0).toNumber();
+                if (object.endTimestamp != null)
+                    if ($util.Long)
+                        (message.endTimestamp = $util.Long.fromValue(object.endTimestamp)).unsigned = false;
+                    else if (typeof object.endTimestamp === "string")
+                        message.endTimestamp = parseInt(object.endTimestamp, 10);
+                    else if (typeof object.endTimestamp === "number")
+                        message.endTimestamp = object.endTimestamp;
+                    else if (typeof object.endTimestamp === "object")
+                        message.endTimestamp = new $util.LongBits(object.endTimestamp.low >>> 0, object.endTimestamp.high >>> 0).toNumber();
+                if (object.locations) {
+                    if (!Array.isArray(object.locations))
+                        throw TypeError(".covidshield.OutbreakEventExport.locations: array expected");
+                    message.locations = [];
+                    for (var i = 0; i < object.locations.length; ++i) {
+                        if (typeof object.locations[i] !== "object")
+                            throw TypeError(".covidshield.OutbreakEventExport.locations: object expected");
+                        message.locations[i] = $root.covidshield.OutbreakEvent.fromObject(object.locations[i]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from an OutbreakEventExport message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof covidshield.OutbreakEventExport
+             * @static
+             * @param {covidshield.OutbreakEventExport} message OutbreakEventExport
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            OutbreakEventExport.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.locations = [];
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.startTimestamp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.startTimestamp = options.longs === String ? "0" : 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.endTimestamp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.endTimestamp = options.longs === String ? "0" : 0;
+                }
+                if (message.startTimestamp != null && message.hasOwnProperty("startTimestamp"))
+                    if (typeof message.startTimestamp === "number")
+                        object.startTimestamp = options.longs === String ? String(message.startTimestamp) : message.startTimestamp;
+                    else
+                        object.startTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.startTimestamp) : options.longs === Number ? new $util.LongBits(message.startTimestamp.low >>> 0, message.startTimestamp.high >>> 0).toNumber() : message.startTimestamp;
+                if (message.endTimestamp != null && message.hasOwnProperty("endTimestamp"))
+                    if (typeof message.endTimestamp === "number")
+                        object.endTimestamp = options.longs === String ? String(message.endTimestamp) : message.endTimestamp;
+                    else
+                        object.endTimestamp = options.longs === String ? $util.Long.prototype.toString.call(message.endTimestamp) : options.longs === Number ? new $util.LongBits(message.endTimestamp.low >>> 0, message.endTimestamp.high >>> 0).toNumber() : message.endTimestamp;
+                if (message.locations && message.locations.length) {
+                    object.locations = [];
+                    for (var j = 0; j < message.locations.length; ++j)
+                        object.locations[j] = $root.covidshield.OutbreakEvent.toObject(message.locations[j], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this OutbreakEventExport to JSON.
+             * @function toJSON
+             * @memberof covidshield.OutbreakEventExport
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            OutbreakEventExport.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return OutbreakEventExport;
+        })();
+    
+        covidshield.OutbreakEventExportSignature = (function() {
+    
+            /**
+             * Properties of an OutbreakEventExportSignature.
+             * @memberof covidshield
+             * @interface IOutbreakEventExportSignature
+             * @property {Uint8Array|null} [signature] OutbreakEventExportSignature signature
+             */
+    
+            /**
+             * Constructs a new OutbreakEventExportSignature.
+             * @memberof covidshield
+             * @classdesc Represents an OutbreakEventExportSignature.
+             * @implements IOutbreakEventExportSignature
+             * @constructor
+             * @param {covidshield.IOutbreakEventExportSignature=} [properties] Properties to set
+             */
+            function OutbreakEventExportSignature(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * OutbreakEventExportSignature signature.
+             * @member {Uint8Array} signature
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @instance
+             */
+            OutbreakEventExportSignature.prototype.signature = $util.newBuffer([]);
+    
+            /**
+             * Creates a new OutbreakEventExportSignature instance using the specified properties.
+             * @function create
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @static
+             * @param {covidshield.IOutbreakEventExportSignature=} [properties] Properties to set
+             * @returns {covidshield.OutbreakEventExportSignature} OutbreakEventExportSignature instance
+             */
+            OutbreakEventExportSignature.create = function create(properties) {
+                return new OutbreakEventExportSignature(properties);
+            };
+    
+            /**
+             * Encodes the specified OutbreakEventExportSignature message. Does not implicitly {@link covidshield.OutbreakEventExportSignature.verify|verify} messages.
+             * @function encode
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @static
+             * @param {covidshield.IOutbreakEventExportSignature} message OutbreakEventExportSignature message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            OutbreakEventExportSignature.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.signature);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified OutbreakEventExportSignature message, length delimited. Does not implicitly {@link covidshield.OutbreakEventExportSignature.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @static
+             * @param {covidshield.IOutbreakEventExportSignature} message OutbreakEventExportSignature message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            OutbreakEventExportSignature.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes an OutbreakEventExportSignature message from the specified reader or buffer.
+             * @function decode
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {covidshield.OutbreakEventExportSignature} OutbreakEventExportSignature
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            OutbreakEventExportSignature.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.covidshield.OutbreakEventExportSignature();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.signature = reader.bytes();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes an OutbreakEventExportSignature message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {covidshield.OutbreakEventExportSignature} OutbreakEventExportSignature
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            OutbreakEventExportSignature.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies an OutbreakEventExportSignature message.
+             * @function verify
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            OutbreakEventExportSignature.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.signature != null && message.hasOwnProperty("signature"))
+                    if (!(message.signature && typeof message.signature.length === "number" || $util.isString(message.signature)))
+                        return "signature: buffer expected";
+                return null;
+            };
+    
+            /**
+             * Creates an OutbreakEventExportSignature message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {covidshield.OutbreakEventExportSignature} OutbreakEventExportSignature
+             */
+            OutbreakEventExportSignature.fromObject = function fromObject(object) {
+                if (object instanceof $root.covidshield.OutbreakEventExportSignature)
+                    return object;
+                var message = new $root.covidshield.OutbreakEventExportSignature();
+                if (object.signature != null)
+                    if (typeof object.signature === "string")
+                        $util.base64.decode(object.signature, message.signature = $util.newBuffer($util.base64.length(object.signature)), 0);
+                    else if (object.signature.length)
+                        message.signature = object.signature;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from an OutbreakEventExportSignature message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @static
+             * @param {covidshield.OutbreakEventExportSignature} message OutbreakEventExportSignature
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            OutbreakEventExportSignature.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    if (options.bytes === String)
+                        object.signature = "";
+                    else {
+                        object.signature = [];
+                        if (options.bytes !== Array)
+                            object.signature = $util.newBuffer(object.signature);
+                    }
+                if (message.signature != null && message.hasOwnProperty("signature"))
+                    object.signature = options.bytes === String ? $util.base64.encode(message.signature, 0, message.signature.length) : options.bytes === Array ? Array.prototype.slice.call(message.signature) : message.signature;
+                return object;
+            };
+    
+            /**
+             * Converts this OutbreakEventExportSignature to JSON.
+             * @function toJSON
+             * @memberof covidshield.OutbreakEventExportSignature
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            OutbreakEventExportSignature.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return OutbreakEventExportSignature;
+        })();
+    
         covidshield.Upload = (function() {
     
             /**

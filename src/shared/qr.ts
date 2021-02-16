@@ -1,7 +1,6 @@
-// import AsyncStorage from '@react-native-community/async-storage';
 import {OUTBREAK_LOCATIONS_URL} from 'env';
-// import {Key} from 'services/StorageService';
 import {log} from 'shared/logging/config';
+import {covidshield} from 'services/BackendService/covidshield';
 
 import {getCurrentDate} from './date-fns';
 
@@ -17,11 +16,6 @@ export enum OutbreakStatusType {
   Exposed = 'exposed',
 }
 
-export interface ExposedLocationData {
-  id: string;
-  startTime: string;
-  endTime: string;
-}
 export interface OutbreakStatus {
   type: OutbreakStatusType;
   lastChecked: number;
@@ -34,7 +28,7 @@ export interface TimeWindow {
 
 interface MatchData {
   id: string;
-  outbreakData: ExposedLocationData[];
+  outbreakEvents: covidshield.OutbreakEvent[];
   checkInData: CheckInData[];
   matchCount?: number;
   matchedCheckIns?: CheckInData[];
@@ -45,7 +39,7 @@ const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
 export const initialOutbreakStatus = {type: OutbreakStatusType.Monitoring, lastChecked: 0};
 
-export const getOutbreakLocations = async (): Promise<ExposedLocationData[]> => {
+export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> => {
   const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
     method: 'GET',
   });
@@ -53,11 +47,12 @@ export const getOutbreakLocations = async (): Promise<ExposedLocationData[]> => 
   return data.exposedLocations;
 };
 
-export const getNewOutbreakStatus = async (checkInHistory: CheckInData[]): Promise<OutbreakStatus> => {
-  const outbreakLocations = await getOutbreakLocations();
-
-  log.debug({message: 'fetching outbreak locations', payload: {outbreakLocations}});
-  const outbreakIds = outbreakLocations.map(location => location.id);
+export const getNewOutbreakStatus = (
+  checkInHistory: CheckInData[],
+  outbreakEvents: covidshield.OutbreakEvent[],
+): OutbreakStatus => {
+  log.debug({message: 'fetching outbreak locations', payload: {outbreakEvents}});
+  const outbreakIds = outbreakEvents.map(event => event.locationId);
 
   const checkInLocationMatches = checkInHistory.filter(checkIn => {
     if (outbreakIds.indexOf(checkIn.id) > -1) {
@@ -72,7 +67,7 @@ export const getNewOutbreakStatus = async (checkInHistory: CheckInData[]): Promi
   const matchedOutbreakIdsNotUnique = checkInLocationMatches.map(data => data.id);
   const matchedOutbreakIds = Array.from(new Set(matchedOutbreakIdsNotUnique));
 
-  const matches = getMatches({checkInHistory, outbreakLocations, matchedOutbreakIds});
+  const matches = getMatches({outbreakEvents, checkInHistory, matchedOutbreakIds});
 
   log.debug({message: 'outbreak matches', payload: {matches}});
 
@@ -104,21 +99,21 @@ export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) =
 };
 
 export const getMatches = ({
-  outbreakLocations,
+  outbreakEvents,
   checkInHistory,
   matchedOutbreakIds,
 }: {
-  outbreakLocations: ExposedLocationData[];
+  outbreakEvents: covidshield.OutbreakEvent[];
   checkInHistory: CheckInData[];
   matchedOutbreakIds: string[];
 }): MatchData[] => {
-  const relevantOutbreakData = outbreakLocations.filter(location => matchedOutbreakIds.indexOf(location.id) > -1);
+  const relevantOutbreakData = outbreakEvents.filter(location => matchedOutbreakIds.indexOf(location.locationId) > -1);
   const relevantCheckInData = checkInHistory.filter(data => matchedOutbreakIds.indexOf(data.id) > -1);
 
   const _matchData = matchedOutbreakIds.map(id => {
     return {
       id,
-      outbreakData: relevantOutbreakData.filter(data => data.id === id),
+      outbreakEvents: relevantOutbreakData.filter(data => data.locationId === id),
       checkInData: relevantCheckInData.filter(data => data.id === id),
     };
   });
@@ -132,14 +127,17 @@ const processMatchData = (matchData: MatchData) => {
   let matchCount = 0;
   const matchedCheckIns = [];
   for (const checkIn of matchData.checkInData) {
-    for (const outbreak of matchData.outbreakData) {
+    for (const outbreak of matchData.outbreakEvents) {
+      if (!outbreak.startTime || !outbreak.endTime) {
+        continue;
+      }
       const window1: TimeWindow = {
         start: checkIn.timestamp,
         end: checkIn.timestamp + ONE_HOUR_IN_MS,
       };
       const window2: TimeWindow = {
-        start: new Date(outbreak.startTime).getTime(),
-        end: new Date(outbreak.endTime).getTime(),
+        start: Number(outbreak.startTime),
+        end: Number(outbreak.endTime),
       };
       if (doTimeWindowsOverlap(window1, window2)) {
         matchCount += 1;

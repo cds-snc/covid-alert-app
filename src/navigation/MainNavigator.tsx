@@ -26,7 +26,6 @@ import {QRCodeReaderScreen} from 'screens/qr/QRCodeReaderScreen';
 import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
 import {CheckInSuccessfulScreen} from 'screens/qr/CheckInSuccessfulScreen';
-import {CheckInCancelScreen} from 'screens/qr/CheckInCancelScreen';
 import {InvalidQRCodeScreen} from 'screens/qr/InvalidQRCodeScreen';
 import {LearnAboutQRScreen} from 'screens/qr/LearnAboutQRScreen';
 import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
@@ -97,7 +96,6 @@ const ErrorScreenWithNavBar = withDarkNav(ErrorScreen);
 const DismissAlertScreenWithNavBar = withDarkNav(DismissAlertScreen);
 const QRCodeReaderScreenWithNavBar = withDarkNav(QRCodeReaderScreen);
 const CheckInSuccessfulScreenWithNavBar = withDarkNav(CheckInSuccessfulScreen);
-const CheckInCancelScreenWithNavBar = withDarkNav(CheckInCancelScreen);
 const InvalidQRCodeScreenWithNavBar = withDarkNav(InvalidQRCodeScreen);
 const LearnAboutQRScreenWithNavBar = withDarkNav(LearnAboutQRScreen);
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
@@ -152,7 +150,6 @@ const QRCodeNavigator = () => {
       <QRCodeStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
       <QRCodeStack.Screen name="InvalidQRCodeScreen" component={InvalidQRCodeScreenWithNavBar} />
       <QRCodeStack.Screen name="CheckInSuccessfulScreen" component={CheckInSuccessfulScreenWithNavBar} />
-      <QRCodeStack.Screen name="CheckInCancelScreen" component={CheckInCancelScreenWithNavBar} />
       <QRCodeStack.Screen name="LearnAboutQRScreen" component={LearnAboutQRScreenWithNavBar} />
       <QRCodeStack.Screen name="QRCodeIntroScreen" component={QRCodeIntroScreenWithNavBar} />
     </QRCodeStack.Navigator>

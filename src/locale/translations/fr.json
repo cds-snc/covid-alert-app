@@ -474,7 +474,7 @@
     },
     "CheckInView": {
       "Title": "Lieu scanné",
-      "CTA1": "Ok",
+      "CTA1": "OK",
       "CTA2": "Annuler la visite",
       "MoreInfo": "Annuler"
     },
@@ -497,6 +497,9 @@
       "Body": "Vous avez refusé qu’Alerte COVID utilise votre appareil photo.\n\nPour scanner un lieu, vous devez autoriser Alerte COVID à utiliser l’appareil photo dans les paramètres de votre téléphone.\n\nVous pouvez aussi utiliser directement votre appareil photo ou une application de lecture de codes QR.",
       "CTA": "Autoriser l’accès dans les paramètres",
       "CTA2": "En savoir plus sur Scanner un lieu"
+    },
+    "CancelCheckIn": {
+      "Title": "FR Scan cancelled"
     },
     "ScanAPlace": {
       "Title": "Scanner un lieu",

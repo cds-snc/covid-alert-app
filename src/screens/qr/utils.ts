@@ -1,3 +1,5 @@
+import {Buffer} from 'buffer';
+
 import {useEffect} from 'react';
 import {Linking} from 'react-native';
 import {log} from 'shared/logging/config';
@@ -5,12 +7,17 @@ import {useNavigation} from '@react-navigation/native';
 import {CheckInData} from 'shared/qr';
 import {getCurrentDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
-import {QR_HOST} from 'env';
+import {QR_HOST, QR_CODE_PUBLIC_KEY} from 'env';
 import base64 from 'react-native-base64';
+import nacl from 'tweetnacl';
 
 interface EventURL {
   url: string;
 }
+
+const base64ToUint8Array = (str: string) => {
+  return new Uint8Array(Array.prototype.slice.call(Buffer.from(str, 'base64'), 0));
+};
 
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
   const [scheme, , host] = url.split('/');
@@ -21,7 +28,17 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
 
   const [, base64Str] = url.split('#');
   try {
-    const _locationData = base64.decode(base64Str);
+    const data = nacl.sign.open(base64ToUint8Array(base64Str), base64ToUint8Array(QR_CODE_PUBLIC_KEY));
+
+    if (!data) {
+      throw new Error();
+    }
+
+    // Note: package type definition is not up to date
+    // @ts-ignore
+    const verifiedBase64 = base64.encodeFromByteArray(data);
+
+    const _locationData = base64.decode(verifiedBase64);
     const locationData = JSON.parse(_locationData);
     log.debug({message: 'decoded and parsed location data', payload: {locationData}});
     const checkInData: CheckInData = {

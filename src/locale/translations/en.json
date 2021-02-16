@@ -497,7 +497,7 @@
     },
     "CheckInView": {
       "Title": "Scanned",
-      "CTA1": "Ok",
+      "CTA1": "OK",
       "CTA2": "Cancel",
       "MoreInfo": "Learn more about QR codes and COVID alert"
     },
@@ -505,8 +505,7 @@
       "Title": "You've been Exposed"
     },
     "CancelCheckIn": {
-      "Title": "Successfully cancelled check in",
-      "Body": "You have successfully cancelled this check in, you may close this screen"
+      "Title": "Scan cancelled"
     },
     "ScanAPlace": {
       "Title": "Scan a place",
