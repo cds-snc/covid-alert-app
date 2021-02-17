@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const UUID_KEY = 'UUID_KEY';
 let currentUUID = '';
 
-export const getRandomString = (size: number) => {
+const getRandomString = (size: number) => {
   const chars = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'];
 
   return [...Array(size)].map(_ => chars[(Math.random() * chars.length) | 0]).join('');
