@@ -1,10 +1,11 @@
 import {OUTBREAK_LOCATIONS_URL} from 'env';
 import {log} from 'shared/logging/config';
 import {covidshield} from 'services/BackendService/covidshield';
-import {EXPOSURE_NOTIFICATION_CYCLE} from 'services/ExposureNotificationService';
 
 import {getCurrentDate, getHoursBetween} from './date-fns';
 import {getRandomString} from './logging/uuid';
+
+export const OUTBREAK_EXPOSURE_DURATION_DAYS = 14;
 
 export interface CheckInData {
   id: string;
@@ -64,7 +65,7 @@ export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): Outb
       return {...historyItem};
     }
     const hoursSinceCheckIn = getHoursBetween(new Date(historyItem.checkInTimestamp), getCurrentDate());
-    if (hoursSinceCheckIn > 24 * EXPOSURE_NOTIFICATION_CYCLE) {
+    if (hoursSinceCheckIn > 24 * OUTBREAK_EXPOSURE_DURATION_DAYS) {
       return {...historyItem, isExpired: true};
     }
     return {...historyItem};
