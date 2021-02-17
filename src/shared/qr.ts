@@ -3,7 +3,6 @@ import {log} from 'shared/logging/config';
 import {covidshield} from 'services/BackendService/covidshield';
 
 import {getCurrentDate, getHoursBetween} from './date-fns';
-import {getRandomString} from './logging/uuid';
 
 export const OUTBREAK_EXPOSURE_DURATION_DAYS = 14;
 
@@ -213,17 +212,31 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
 };
 
 export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistoryItem => {
+  const locationId = matchData.checkInData.id;
+  const checkInTimestamp = matchData.checkInData.timestamp;
   const newItem: OutbreakHistoryItem = {
-    outbreakId: getRandomString(10),
+    outbreakId: `${locationId}-${checkInTimestamp}`,
     isExpired: false,
     isIgnored: false,
-    locationId: matchData.checkInData.id,
+    locationId,
     locationAddress: matchData.checkInData.address,
     locationName: matchData.checkInData.name,
     outbreakStartTimestamp: Number(matchData.outbreakEvent.startTime),
     outbreakEndTimestamp: Number(matchData.outbreakEvent.endTime),
-    checkInTimestamp: matchData.checkInData.timestamp,
+    checkInTimestamp,
     notificationTimestamp: getCurrentDate().getTime() /* revisit */,
   };
   return newItem;
+};
+
+export const getNewOutbreakExposures = (
+  detectedExposures: OutbreakHistoryItem[],
+  outbreakHistory: OutbreakHistoryItem[],
+): OutbreakHistoryItem[] => {
+  const detectedIds = detectedExposures.map(item => item.outbreakId);
+  const oldIds = outbreakHistory.map(item => item.outbreakId);
+  // are there any Ids in detectedIds that are new?
+  const newIds = detectedIds.filter(id => oldIds.indexOf(id) === -1);
+  const newOutbreakExposures = detectedExposures.filter(item => newIds.indexOf(item.outbreakId) > -1);
+  return newOutbreakExposures;
 };

@@ -7,12 +7,14 @@ import {useI18nRef, I18n} from 'locale';
 import {Observable} from './Observable';
 import {
   CheckInData,
+  getNewOutbreakExposures,
   getNewOutbreakHistoryItems,
   getOutbreakEvents,
   isExposedToOutbreak,
   OutbreakHistoryItem,
 } from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
+import {log} from './logging/config';
 
 class OutbreakService implements OutbreakService {
   outbreakHistory: Observable<OutbreakHistoryItem[]>;
@@ -65,12 +67,19 @@ class OutbreakService implements OutbreakService {
 
   checkForOutbreaks = async () => {
     const outbreakEvents = await getOutbreakEvents();
-    const newOutbreakHistoryItems = getNewOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
-    if (newOutbreakHistoryItems.length === 0) {
+    const detectedOutbreakExposures = getNewOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
+    log.debug({payload: {detectedOutbreakExposures}});
+    if (detectedOutbreakExposures.length === 0) {
       return;
     }
-    await this.addToOutbreakHistory(newOutbreakHistoryItems);
-    this.processOutbreakNotification(this.outbreakHistory.get());
+    const newOutbreakExposures = getNewOutbreakExposures(detectedOutbreakExposures, this.outbreakHistory.get());
+    if (newOutbreakExposures.length === 0) {
+      return;
+    }
+    await this.addToOutbreakHistory(newOutbreakExposures);
+    const outbreakHistory = this.outbreakHistory.get();
+    log.debug({payload: {outbreakHistory}});
+    this.processOutbreakNotification(outbreakHistory);
   };
 
   processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {
@@ -115,7 +124,7 @@ export const OutbreakProvider = ({children}: OutbreakProviderProps) => {
 export const useOutbreakService = () => {
   const outbreakService = useContext(OutbreakContext)!.outbreakService!;
   const [checkInHistory, addCheckInInternal] = useState(outbreakService.checkInHistory.get());
-  const [outbreakHistory] = useState(outbreakService.outbreakHistory.get());
+  const [outbreakHistory, setOutbreakHistoryInternal] = useState(outbreakService.outbreakHistory.get());
 
   const checkForOutbreaks = useMemo(() => outbreakService.checkForOutbreaks, [outbreakService.checkForOutbreaks]);
   const addCheckIn = useMemo(
@@ -140,6 +149,9 @@ export const useOutbreakService = () => {
   );
 
   useEffect(() => outbreakService.checkInHistory.observe(addCheckInInternal), [outbreakService.checkInHistory]);
+  useEffect(() => outbreakService.outbreakHistory.observe(setOutbreakHistoryInternal), [
+    outbreakService.outbreakHistory,
+  ]);
 
   return useMemo(
     () => ({
