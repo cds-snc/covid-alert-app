@@ -2,7 +2,8 @@ import {OUTBREAK_LOCATIONS_URL} from 'env';
 import {log} from 'shared/logging/config';
 import {covidshield} from 'services/BackendService/covidshield';
 
-import {getCurrentDate} from './date-fns';
+import {getCurrentDate, hoursFromNow} from './date-fns';
+import { EXPOSURE_NOTIFICATION_CYCLE } from 'services/ExposureNotificationService';
 
 export interface CheckInData {
   id: string;
@@ -34,6 +35,60 @@ interface MatchData {
   matchedCheckIns?: CheckInData[];
   mostRecentCheckOut?: number;
 }
+
+interface OutbreakHistoryItem {
+  outbreakId: string /* unique to your checkin during the outbreak event */;
+  isExpired: boolean /* after 14 days the outbreak expires */;
+  isIgnored: boolean /* if user has a negative test result */;
+  locationId: string;
+  locationAddress: string;
+  locationName: string;
+  outbreakStartTimestamp: number;
+  outbreakEndTimestamp: number;
+  checkInTimestamp: number;
+  notificationTimestamp: number;
+}
+
+/** returns a new outbreakHistory with the `isExpired` property updated */
+export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
+  return outbreakHistory.map(historyItem => {
+    if (historyItem.isExpired) {
+      return {...historyItem};
+    }
+    const hoursSinceCheckIn = -1 * hoursFromNow(new Date(historyItem.checkInTimestamp));
+    if (hoursSinceCheckIn > 24 * EXPOSURE_NOTIFICATION_CYCLE) {
+      return {...historyItem, isExpired: true};
+    }
+    return {...historyItem};
+  });
+};
+
+/** returns a new outbreakHistory with the `isIgnored` property updated */
+export const updateIsIgnored = (
+  outbreakIds: string[],
+  outbreakHistory: OutbreakHistoryItem[],
+): OutbreakHistoryItem[] => {
+  return outbreakHistory.map(historyItem => {
+    if (outbreakIds.indexOf(historyItem.outbreakId) > -1) {
+      return {...historyItem, isIgnored: true};
+    }
+    return {...historyItem};
+  });
+};
+
+export const isExposed = (outbreakHistory: OutbreakHistoryItem[]) => {
+  const currentOutbreakHistory = outbreakHistory.filter(outbreak => {
+    if (outbreak.isExpired || outbreak.isIgnored) {
+      return false;
+    }
+    return true;
+  });
+
+  if (currentOutbreakHistory.length > 0) {
+    return true;
+  }
+  return false;
+};
 
 const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
