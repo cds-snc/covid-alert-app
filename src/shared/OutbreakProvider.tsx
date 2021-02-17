@@ -5,7 +5,13 @@ import PushNotification from 'bridge/PushNotification';
 import {useI18nRef, I18n} from 'locale';
 
 import {Observable} from './Observable';
-import {CheckInData, getNewOutbreakHistory, getOutbreakEvents, isExposedToOutbreak, OutbreakHistoryItem} from './qr';
+import {
+  CheckInData,
+  getNewOutbreakHistoryItems,
+  getOutbreakEvents,
+  isExposedToOutbreak,
+  OutbreakHistoryItem,
+} from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
 
 class OutbreakService implements OutbreakService {
@@ -19,9 +25,17 @@ class OutbreakService implements OutbreakService {
     this.i18n = i18n;
   }
 
-  setOutbreakHistory = async (value: OutbreakHistoryItem[]) => {
-    await AsyncStorage.setItem(Key.OutbreakHistory, JSON.stringify(value));
-    this.outbreakHistory.set(value);
+  clearOutbreakHistory = async () => {
+    await AsyncStorage.setItem(Key.OutbreakHistory, JSON.stringify([]));
+    this.outbreakHistory.set([]);
+  };
+
+  addToOutbreakHistory = async (value: OutbreakHistoryItem[]) => {
+    const _outbreakHistory = (await AsyncStorage.getItem(Key.OutbreakHistory)) || '[]';
+    const outbreakHistory = JSON.parse(_outbreakHistory);
+    const newOutbreakHistory = outbreakHistory.concat(value);
+    await AsyncStorage.setItem(Key.OutbreakHistory, JSON.stringify(newOutbreakHistory));
+    this.outbreakHistory.set(newOutbreakHistory);
   };
 
   addCheckIn = async (value: CheckInData) => {
@@ -51,9 +65,12 @@ class OutbreakService implements OutbreakService {
 
   checkForOutbreaks = async () => {
     const outbreakEvents = await getOutbreakEvents();
-    const newOutbreakHistory = getNewOutbreakHistory(this.checkInHistory.get(), outbreakEvents);
-    this.setOutbreakHistory(newOutbreakHistory);
-    this.processOutbreakNotification(newOutbreakHistory);
+    const newOutbreakHistoryItems = getNewOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
+    if (newOutbreakHistoryItems.length === 0) {
+      return;
+    }
+    await this.addToOutbreakHistory(newOutbreakHistoryItems);
+    this.processOutbreakNotification(this.outbreakHistory.get());
   };
 
   processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {
@@ -117,7 +134,7 @@ export const useOutbreakService = () => {
 
   const clearOutbreakHistory = useMemo(
     () => () => {
-      outbreakService.setOutbreakHistory([]);
+      outbreakService.clearOutbreakHistory();
     },
     [outbreakService],
   );

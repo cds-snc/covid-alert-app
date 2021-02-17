@@ -33,10 +33,6 @@ interface MatchCalculationData {
   id: string;
   outbreakEvents: covidshield.OutbreakEvent[];
   checkInData: CheckInData[];
-  matchCount?: number;
-  matchedCheckIns?: CheckInData[];
-  matchedOutbreakEvents?: covidshield.OutbreakEvent[];
-  mostRecentCheckOut?: number;
 }
 
 interface MatchData {
@@ -111,7 +107,7 @@ export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> 
   return data.exposedLocations;
 };
 
-export const getNewOutbreakHistory = (
+export const getNewOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
   outbreakEvents: covidshield.OutbreakEvent[],
 ): OutbreakHistoryItem[] => {
