@@ -36,7 +36,7 @@ interface MatchData {
   mostRecentCheckOut?: number;
 }
 
-interface OutbreakHistoryItem {
+export interface OutbreakHistoryItem {
   outbreakId: string /* unique to your checkin during the outbreak event */;
   isExpired: boolean /* after 14 days the outbreak expires */;
   isIgnored: boolean /* if user has a negative test result */;
@@ -64,7 +64,7 @@ export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): Outb
 };
 
 /** returns a new outbreakHistory with the `isIgnored` property updated */
-export const updateIsIgnored = (
+export const ignoreHistoryItems = (
   outbreakIds: string[],
   outbreakHistory: OutbreakHistoryItem[],
 ): OutbreakHistoryItem[] => {

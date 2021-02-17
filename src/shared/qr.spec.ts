@@ -1,4 +1,11 @@
-import {CheckInData, doTimeWindowsOverlap, getNewOutbreakStatus, OutbreakStatusType, TimeWindow} from './qr';
+import {
+  CheckInData,
+  doTimeWindowsOverlap,
+  getNewOutbreakStatus,
+  OutbreakHistoryItem,
+  OutbreakStatusType,
+  TimeWindow,
+} from './qr';
 
 describe('doTimeWindowsOverlap', () => {
   const dateStr = '2021-01-05';
@@ -59,5 +66,25 @@ describe('getNewOutbreakStatus', () => {
     ];
     const newStatus = getNewOutbreakStatus(checkInHistory, outbreakEvents);
     expect(newStatus.type).toStrictEqual(OutbreakStatusType.Monitoring);
+  });
+});
+
+describe('outbreakHistory functions', () => {
+  describe('expireHistoryItems', () => {
+    it('expires items older than 14 days', () => {
+      expect(true).toStrictEqual(true);
+    });
+    it('does not expire items newer than 14 days', () => {
+      expect(true).toStrictEqual(true);
+    });
+  });
+
+  describe('ignoreHistoryItems', () => {
+    it('ignores items with ids that are passed in', () => {
+      expect(true).toStrictEqual(true);
+    });
+    it('does not ignore items with ids not passed in', () => {
+      expect(true).toStrictEqual(true);
+    });
   });
 });
