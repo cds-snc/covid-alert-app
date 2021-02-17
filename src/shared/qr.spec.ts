@@ -1,11 +1,4 @@
-import {
-  CheckInData,
-  doTimeWindowsOverlap,
-  getNewOutbreakStatus,
-  OutbreakHistoryItem,
-  OutbreakStatusType,
-  TimeWindow,
-} from './qr';
+import {CheckInData, doTimeWindowsOverlap, getNewOutbreakStatus, OutbreakStatusType, TimeWindow} from './qr';
 
 describe('doTimeWindowsOverlap', () => {
   const dateStr = '2021-01-05';
