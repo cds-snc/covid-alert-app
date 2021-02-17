@@ -4,6 +4,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {EXPOSURE_NOTIFICATION_CYCLE} from 'services/ExposureNotificationService';
 
 import {getCurrentDate, getHoursBetween} from './date-fns';
+import {getRandomString} from './logging/uuid';
 
 export interface CheckInData {
   id: string;
@@ -27,13 +28,20 @@ export interface TimeWindow {
   end: number;
 }
 
-interface MatchData {
+interface MatchCalculationData {
   id: string;
   outbreakEvents: covidshield.OutbreakEvent[];
   checkInData: CheckInData[];
   matchCount?: number;
   matchedCheckIns?: CheckInData[];
+  matchedOutbreakEvents?: covidshield.OutbreakEvent[];
   mostRecentCheckOut?: number;
+}
+
+interface MatchData {
+  timestamp: number;
+  checkInData: CheckInData;
+  outbreakEvent: covidshield.OutbreakEvent;
 }
 
 export interface OutbreakHistoryItem {
@@ -102,10 +110,10 @@ export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> 
   return data.exposedLocations;
 };
 
-export const getNewOutbreakStatus = (
+export const getNewOutbreakHistory = (
   checkInHistory: CheckInData[],
   outbreakEvents: covidshield.OutbreakEvent[],
-): OutbreakStatus => {
+): OutbreakHistoryItem[] => {
   log.debug({message: 'fetching outbreak locations', payload: {outbreakEvents}});
   const outbreakIds = outbreakEvents.map(event => event.locationId);
 
@@ -117,7 +125,7 @@ export const getNewOutbreakStatus = (
   });
 
   if (checkInLocationMatches.length === 0) {
-    return createOutbreakStatus({exposed: false});
+    return [];
   }
   const matchedOutbreakIdsNotUnique = checkInLocationMatches.map(data => data.id);
   const matchedOutbreakIds = Array.from(new Set(matchedOutbreakIdsNotUnique));
@@ -126,7 +134,7 @@ export const getNewOutbreakStatus = (
 
   log.debug({message: 'outbreak matches', payload: {matches}});
 
-  return createOutbreakStatus({exposed: matches.length > 0});
+  return matches.map(match => createOutbreakHistoryItem(match));
 };
 
 export const createOutbreakStatus = ({exposed}: {exposed: boolean}) => {
@@ -173,16 +181,16 @@ export const getMatches = ({
     };
   });
 
-  const matchData = _matchData.map(data => processMatchData(data));
-  const matches = matchData.filter(data => data.matchCount > 0);
-  return matches;
+  const matchArrays = _matchData.map(data => processMatchData(data));
+  return flattened(matchArrays);
 };
 
-const processMatchData = (matchData: MatchData) => {
-  let matchCount = 0;
-  const matchedCheckIns = [];
-  for (const checkIn of matchData.checkInData) {
-    for (const outbreak of matchData.outbreakEvents) {
+const flattened = (arr: any[]) => [].concat(...arr);
+
+const processMatchData = (matchCalucationData: MatchCalculationData) => {
+  const matches: MatchData[] = [];
+  for (const checkIn of matchCalucationData.checkInData) {
+    for (const outbreak of matchCalucationData.outbreakEvents) {
       if (!outbreak.startTime || !outbreak.endTime) {
         continue;
       }
@@ -195,10 +203,30 @@ const processMatchData = (matchData: MatchData) => {
         end: Number(outbreak.endTime),
       };
       if (doTimeWindowsOverlap(window1, window2)) {
-        matchCount += 1;
-        matchedCheckIns.push(checkIn);
+        const match: MatchData = {
+          timestamp: checkIn.timestamp,
+          checkInData: checkIn,
+          outbreakEvent: outbreak,
+        };
+        matches.push(match);
       }
     }
   }
-  return {...matchData, matchCount, matchedCheckIns};
+  return matches;
+};
+
+export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistoryItem => {
+  const newItem: OutbreakHistoryItem = {
+    outbreakId: getRandomString(10),
+    isExpired: false,
+    isIgnored: false,
+    locationId: matchData.checkInData.id,
+    locationAddress: matchData.checkInData.address,
+    locationName: matchData.checkInData.name,
+    outbreakStartTimestamp: Number(matchData.outbreakEvent.startTime),
+    outbreakEndTimestamp: Number(matchData.outbreakEvent.endTime),
+    checkInTimestamp: matchData.checkInData.timestamp,
+    notificationTimestamp: getCurrentDate().getTime() /* revisit */,
+  };
+  return newItem;
 };

@@ -19,7 +19,7 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
-import {OutbreakStatusType} from 'shared/qr';
+import {isExposed} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {useDeepLinks} from '../qr/utils';
@@ -66,7 +66,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const exposureStatus = useExposureStatus();
   const [systemStatus] = useSystemStatus();
-  const {outbreakStatus} = useOutbreakService();
+  const {outbreakHistory} = useOutbreakService();
   const [, turnNotificationsOn] = useNotificationPermissionStatus();
   useEffect(() => {
     return turnNotificationsOn();
@@ -106,7 +106,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
     }
   }
 
-  if (outbreakStatus.type === OutbreakStatusType.Exposed) {
+  if (isExposed(outbreakHistory)) {
     return <OutbreakExposedView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 

@@ -5,23 +5,23 @@ import PushNotification from 'bridge/PushNotification';
 import {useI18nRef, I18n} from 'locale';
 
 import {Observable} from './Observable';
-import {CheckInData, getNewOutbreakStatus, getOutbreakEvents, initialOutbreakStatus, OutbreakStatus} from './qr';
+import {CheckInData, getNewOutbreakHistory, getOutbreakEvents, isExposed, OutbreakHistoryItem} from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
 
 class OutbreakService implements OutbreakService {
-  outbreakStatus: Observable<OutbreakStatus>;
+  outbreakHistory: Observable<OutbreakHistoryItem[]>;
   checkInHistory: Observable<CheckInData[]>;
   i18n: I18n;
 
   constructor(i18n: I18n) {
-    this.outbreakStatus = new Observable<OutbreakStatus>(initialOutbreakStatus);
+    this.outbreakHistory = new Observable<OutbreakHistoryItem[]>([]);
     this.checkInHistory = new Observable<CheckInData[]>([]);
     this.i18n = i18n;
   }
 
-  setOutbreakStatus = async (value: OutbreakStatus) => {
-    await AsyncStorage.setItem(Key.OutbreakStatus, JSON.stringify(value));
-    this.outbreakStatus.set(value);
+  setOutbreakHistory = async (value: OutbreakHistoryItem[]) => {
+    await AsyncStorage.setItem(Key.OutbreakHistory, JSON.stringify(value));
+    this.outbreakHistory.set(value);
   };
 
   addCheckIn = async (value: CheckInData) => {
@@ -42,8 +42,8 @@ class OutbreakService implements OutbreakService {
   };
 
   init = async () => {
-    const outbreakStatus = (await AsyncStorage.getItem(Key.OutbreakStatus)) || JSON.stringify(initialOutbreakStatus);
-    this.outbreakStatus.set(JSON.parse(outbreakStatus));
+    const outbreakHistory = (await AsyncStorage.getItem(Key.OutbreakHistory)) || '[]';
+    this.outbreakHistory.set(JSON.parse(outbreakHistory));
 
     const checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
     this.checkInHistory.set(JSON.parse(checkInHistory));
@@ -51,13 +51,13 @@ class OutbreakService implements OutbreakService {
 
   checkForOutbreaks = async () => {
     const outbreakEvents = await getOutbreakEvents();
-    const newOutbreakStatusType = getNewOutbreakStatus(this.checkInHistory.get(), outbreakEvents);
-    this.setOutbreakStatus(newOutbreakStatusType);
-    this.processOutbreakNotification(newOutbreakStatusType);
+    const newOutbreakHistory = getNewOutbreakHistory(this.checkInHistory.get(), outbreakEvents);
+    this.setOutbreakHistory(newOutbreakHistory);
+    this.processOutbreakNotification(newOutbreakHistory);
   };
 
-  processOutbreakNotification = (status: OutbreakStatus) => {
-    if (status.type === 'exposed') {
+  processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {
+    if (isExposed(outbreakHistory)) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
         alertBody: this.i18n.translate('Notification.OutbreakMessageBody'),
@@ -97,10 +97,9 @@ export const OutbreakProvider = ({children}: OutbreakProviderProps) => {
 
 export const useOutbreakService = () => {
   const outbreakService = useContext(OutbreakContext)!.outbreakService!;
-  const [outbreakStatus, setOutbreakStatusInternal] = useState(outbreakService.outbreakStatus.get());
   const [checkInHistory, addCheckInInternal] = useState(outbreakService.checkInHistory.get());
+  const [outbreakHistory] = useState(outbreakService.outbreakHistory.get());
 
-  const setOutbreakStatus = useMemo(() => outbreakService.setOutbreakStatus, [outbreakService.setOutbreakStatus]);
   const checkForOutbreaks = useMemo(() => outbreakService.checkForOutbreaks, [outbreakService.checkForOutbreaks]);
   const addCheckIn = useMemo(
     () => (newCheckIn: CheckInData) => {
@@ -115,18 +114,17 @@ export const useOutbreakService = () => {
     },
     [outbreakService],
   );
-  useEffect(() => outbreakService.outbreakStatus.observe(setOutbreakStatusInternal), [outbreakService.outbreakStatus]);
+
   useEffect(() => outbreakService.checkInHistory.observe(addCheckInInternal), [outbreakService.checkInHistory]);
 
   return useMemo(
     () => ({
-      outbreakStatus,
-      setOutbreakStatus,
+      outbreakHistory,
       checkForOutbreaks,
       addCheckIn,
       removeCheckIn,
       checkInHistory,
     }),
-    [outbreakStatus, setOutbreakStatus, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
+    [outbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
   );
 };
