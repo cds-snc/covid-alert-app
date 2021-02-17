@@ -73,7 +73,6 @@ const Content = ({ isBottomSheetExpanded }: ContentProps) => {
   }, [turnNotificationsOn]);
 
   const network = useNetInfo();
-  console.log('outbreakStatus', outbreakStatus.type);
 
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {

@@ -3,6 +3,7 @@ import { Box, Text, RoundedBox } from 'components';
 import { useAccessibilityAutoFocus } from 'shared/useAccessibilityAutoFocus';
 import { StyleSheet, Platform } from 'react-native';
 import { useI18n } from 'locale';
+import { NegativeOutbreakTestButton } from './ClearOutbreakExposureView';
 
 import { BaseHomeView } from '../components/BaseHomeView';
 
@@ -22,6 +23,8 @@ const ExposureText = ({ isBottomSheetExpanded }: { isBottomSheetExpanded: boolea
         <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.ExposureDetected.Title2')}
         </Text>
+        <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body2')}</Text>
+        <NegativeOutbreakTestButton />
       </RoundedBox>
     </>
   );
@@ -34,16 +37,3 @@ export const OutbreakExposedView = ({ isBottomSheetExpanded }: { isBottomSheetEx
     </BaseHomeView>
   );
 };
-
-const styles = StyleSheet.create({
-  roundedBox1: {
-    marginTop: Platform.OS === 'ios' ? 5 : -20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    zIndex: -1,
-  },
-  roundedBox2: {
-    borderRadius: 10,
-    backgroundColor: 'white',
-  },
-});
