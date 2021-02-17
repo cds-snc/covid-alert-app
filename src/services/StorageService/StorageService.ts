@@ -14,7 +14,6 @@ export enum Key {
   UserStopped = 'UserStopped',
   CheckInHistory = 'CheckInHistory',
   OutbreakHistory = 'OutbreakHistory',
-  OutbreakStatus = 'OutbreakStatus',
   HasViewedQrInstructions = 'HasViewedQRInstructions',
 }
 export class StorageService {

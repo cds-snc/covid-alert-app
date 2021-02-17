@@ -13,16 +13,6 @@ export interface CheckInData {
   timestamp: number;
 }
 
-export enum OutbreakStatusType {
-  Monitoring = 'monitoring',
-  Exposed = 'exposed',
-}
-
-export interface OutbreakStatus {
-  type: OutbreakStatusType;
-  lastChecked: number;
-}
-
 export interface TimeWindow {
   start: number;
   end: number;
@@ -96,8 +86,6 @@ export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
 
 const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
-export const initialOutbreakStatus = {type: OutbreakStatusType.Monitoring, lastChecked: 0};
-
 export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> => {
   const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
     method: 'GET',
@@ -131,14 +119,6 @@ export const getNewOutbreakHistoryItems = (
   log.debug({message: 'outbreak matches', payload: {matches}});
 
   return matches.map(match => createOutbreakHistoryItem(match));
-};
-
-export const createOutbreakStatus = ({exposed}: {exposed: boolean}) => {
-  const newOutbreakStatus: OutbreakStatus = {
-    type: exposed ? OutbreakStatusType.Exposed : OutbreakStatusType.Monitoring,
-    lastChecked: getCurrentDate().getTime(),
-  };
-  return newOutbreakStatus;
 };
 
 export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) => {
