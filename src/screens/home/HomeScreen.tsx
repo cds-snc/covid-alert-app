@@ -249,7 +249,7 @@ export const HomeScreen = () => {
     () =>
       Animated.timing(fadeAnim, {
         toValue: 1,
-        delay: 500,
+        delay: 1000,
         duration: 10,
         useNativeDriver: false,
       }).start(),
