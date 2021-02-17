@@ -17,9 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
-import {OutbreakStatusType} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
-import {getCurrentDate} from 'shared/date-fns';
 import {PollNotifications} from 'services/PollNotificationService';
 
 import {RadioButton} from './components/RadioButtons';

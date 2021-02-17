@@ -84,7 +84,7 @@ export const ignoreHistoryItems = (
   });
 };
 
-export const isExposed = (outbreakHistory: OutbreakHistoryItem[]) => {
+export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
   const currentOutbreakHistory = outbreakHistory.filter(outbreak => {
     if (outbreak.isExpired || outbreak.isIgnored) {
       return false;

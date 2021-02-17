@@ -19,7 +19,7 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
-import {isExposed} from 'shared/qr';
+import {isExposedToOutbreak} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {useDeepLinks} from '../qr/utils';
@@ -106,7 +106,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
     }
   }
 
-  if (isExposed(outbreakHistory)) {
+  if (isExposedToOutbreak(outbreakHistory)) {
     return <OutbreakExposedView isBottomSheetExpanded={isBottomSheetExpanded} />;
   }
 
