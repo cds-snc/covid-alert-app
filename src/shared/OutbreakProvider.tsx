@@ -115,16 +115,24 @@ export const useOutbreakService = () => {
     [outbreakService],
   );
 
+  const clearOutbreakHistory = useMemo(
+    () => () => {
+      outbreakService.setOutbreakHistory([]);
+    },
+    [outbreakService],
+  );
+
   useEffect(() => outbreakService.checkInHistory.observe(addCheckInInternal), [outbreakService.checkInHistory]);
 
   return useMemo(
     () => ({
       outbreakHistory,
+      clearOutbreakHistory,
       checkForOutbreaks,
       addCheckIn,
       removeCheckIn,
       checkInHistory,
     }),
-    [outbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
+    [outbreakHistory, clearOutbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
   );
 };

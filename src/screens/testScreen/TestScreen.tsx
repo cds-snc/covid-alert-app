@@ -105,14 +105,11 @@ const Content = () => {
   const navigation = useNavigation();
 
   const {reset} = useStorage();
-  const {checkForOutbreaks, setOutbreakStatus} = useOutbreakService();
+  const {checkForOutbreaks, clearOutbreakHistory} = useOutbreakService();
 
   const onClearOutbreak = useCallback(async () => {
-    setOutbreakStatus({
-      type: OutbreakStatusType.Monitoring,
-      lastChecked: getCurrentDate().getTime(),
-    });
-  }, [setOutbreakStatus]);
+    clearOutbreakHistory();
+  }, [clearOutbreakHistory]);
 
   const onCheckForOutbreak = useCallback(async () => {
     checkForOutbreaks();
