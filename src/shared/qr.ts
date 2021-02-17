@@ -19,14 +19,14 @@ export interface TimeWindow {
 }
 
 interface MatchCalculationData {
-  id: string;
+  locationId: string;
   outbreakEvents: covidshield.OutbreakEvent[];
-  checkInData: CheckInData[];
+  checkIns: CheckInData[];
 }
 
 interface MatchData {
   timestamp: number;
-  checkInData: CheckInData;
+  checkIn: CheckInData;
   outbreakEvent: covidshield.OutbreakEvent;
 }
 
@@ -151,9 +151,9 @@ export const getMatches = ({
 
   const _matchData = matchedOutbreakIds.map(id => {
     return {
-      id,
+      locationId: id,
       outbreakEvents: relevantOutbreakData.filter(data => data.locationId === id),
-      checkInData: relevantCheckInData.filter(data => data.id === id),
+      checkIns: relevantCheckInData.filter(data => data.id === id),
     };
   });
 
@@ -165,7 +165,7 @@ const flattened = (arr: any[]) => [].concat(...arr);
 
 const processMatchData = (matchCalucationData: MatchCalculationData) => {
   const matches: MatchData[] = [];
-  for (const checkIn of matchCalucationData.checkInData) {
+  for (const checkIn of matchCalucationData.checkIns) {
     for (const outbreak of matchCalucationData.outbreakEvents) {
       if (!outbreak.startTime || !outbreak.endTime) {
         continue;
@@ -181,7 +181,7 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
       if (doTimeWindowsOverlap(window1, window2)) {
         const match: MatchData = {
           timestamp: checkIn.timestamp,
-          checkInData: checkIn,
+          checkIn,
           outbreakEvent: outbreak,
         };
         matches.push(match);
@@ -192,15 +192,15 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
 };
 
 export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistoryItem => {
-  const locationId = matchData.checkInData.id;
-  const checkInTimestamp = matchData.checkInData.timestamp;
+  const locationId = matchData.checkIn.id;
+  const checkInTimestamp = matchData.checkIn.timestamp;
   const newItem: OutbreakHistoryItem = {
     outbreakId: `${locationId}-${checkInTimestamp}`,
     isExpired: false,
     isIgnored: false,
     locationId,
-    locationAddress: matchData.checkInData.address,
-    locationName: matchData.checkInData.name,
+    locationAddress: matchData.checkIn.address,
+    locationName: matchData.checkIn.name,
     outbreakStartTimestamp: Number(matchData.outbreakEvent.startTime),
     outbreakEndTimestamp: Number(matchData.outbreakEvent.endTime),
     checkInTimestamp,
