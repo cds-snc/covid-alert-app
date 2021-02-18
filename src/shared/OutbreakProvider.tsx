@@ -81,21 +81,21 @@ export class OutbreakService implements OutbreakService {
           const today = getCurrentDate();
           const minutesSinceLastOutbreaksCheck = minutesBetween(outbreaksLastCheckedDateTime, today);
           if (minutesSinceLastOutbreaksCheck > MIN_OUTBREAKS_CHECK_MINUTES) {
-            const outbreakEvents = await getOutbreakEvents();
-            const newOutbreakStatusType = getNewOutbreakStatus(this.checkInHistory.get(), outbreakEvents);
-            this.setOutbreakStatus(newOutbreakStatusType);
-            this.processOutbreakNotification(newOutbreakStatusType);
-            this.markOutbreaksLastCheckedDateTime(getCurrentDate());
+            await this.getOutbreaksFromServer();
           }
         } else {
-          const outbreakEvents = await getOutbreakEvents();
-          const newOutbreakStatusType = getNewOutbreakStatus(this.checkInHistory.get(), outbreakEvents);
-          this.setOutbreakStatus(newOutbreakStatusType);
-          this.processOutbreakNotification(newOutbreakStatusType);
-          this.markOutbreaksLastCheckedDateTime(getCurrentDate());
+          await this.getOutbreaksFromServer();
         }
       });
     });
+  };
+
+  getOutbreaksFromServer = async () => {
+    const outbreakEvents = await getOutbreakEvents();
+    const newOutbreakStatusType = getNewOutbreakStatus(this.checkInHistory.get(), outbreakEvents);
+    this.setOutbreakStatus(newOutbreakStatusType);
+    this.processOutbreakNotification(newOutbreakStatusType);
+    this.markOutbreaksLastCheckedDateTime(getCurrentDate());
   };
 
   processOutbreakNotification = (status: OutbreakStatus) => {
