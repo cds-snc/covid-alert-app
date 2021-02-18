@@ -1,14 +1,15 @@
 import React, { useCallback } from 'react';
-import { ScrollView, StyleSheet, Alert } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, Box, Button, ButtonSingleLine, Toolbar } from 'components';
 import { useNavigation } from '@react-navigation/native';
-import { useI18n } from 'locale';
 import { OutbreakStatusType } from 'shared/qr';
 import { useOutbreakService } from 'shared/OutbreakProvider'
 import { getCurrentDate } from 'shared/date-fns';
 
-export const NegativeOutbreakTestButton = () => {
+export const ClearOutbreakExposureScreen = () => {
+  const navigation = useNavigation();
+  const close = useCallback(() => navigation.goBack(), [navigation]);
   const { setOutbreakStatus } = useOutbreakService();
   const onClearOutbreak = useCallback(async () => {
     setOutbreakStatus({
@@ -25,6 +26,7 @@ export const NegativeOutbreakTestButton = () => {
           text: 'Confirm',
           onPress: () => {
             onClearOutbreak();
+            close();
           }
         },
         {
@@ -35,7 +37,42 @@ export const NegativeOutbreakTestButton = () => {
       ]
     )
   }, [onClearOutbreak]);
-  const i18n = useI18n();
+
+  return (
+    <Box backgroundColor="overlayBackground" flex={1}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Toolbar
+          title=""
+          navIcon="icon-back-arrow"
+          navText="Close"
+          navLabel="Close"
+          onIconClicked={close}
+        />
+        <ScrollView>
+          <Box paddingHorizontal="m" paddingBottom="l">
+            <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
+              Clear Outbreak Exposure History
+            </Text>
+            <Text marginBottom="m">If you have recieved a negative test result, you may clear your outbreak exposure history</Text>
+
+            <Button
+              text="Clear Exposure"
+              onPress={onClearOutbreakExposed}
+              variant="thinFlat" />
+          </Box>
+        </ScrollView>
+      </SafeAreaView>
+
+    </Box>
+  )
+}
+
+
+export const NegativeOutbreakTestButton = () => {
+
+  const navigation = useNavigation();
+
+  const toClearOutbreakExposure = useCallback(() => navigation.navigate('ClearOutbreakExposure'), [navigation]);
 
   return (
     <Box>
@@ -43,7 +80,7 @@ export const NegativeOutbreakTestButton = () => {
         <ButtonSingleLine
           iconName="icon-chevron"
           text="Clear Outbreak Exposure"
-          onPress={onClearOutbreakExposed}
+          onPress={toClearOutbreakExposure}
           variant="exposure25"
         />
       </Box>

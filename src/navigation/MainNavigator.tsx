@@ -13,25 +13,26 @@ import {
   TekUploadSubsequentDays,
   TestDateScreen,
 } from 'screens/datasharing';
-import {LanguageScreen} from 'screens/language';
-import {useStorage} from 'services/StorageService';
-import {RegionPickerSettingsScreen, RegionPickerExposedNoPTScreen} from 'screens/regionPicker';
-import {NoCodeScreen} from 'screens/nocode/NoCode';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {OnboardingScreen} from 'screens/onboarding';
-import {LandingScreen} from 'screens/landing';
-import {TestScreen} from 'screens/testScreen';
-import {ErrorScreen} from 'screens/errorScreen/ErrorScreen';
-import {QRCodeReaderScreen} from 'screens/qr/QRCodeReaderScreen';
-import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
-import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
-import {CheckInSuccessfulScreen} from 'screens/qr/CheckInSuccessfulScreen';
-import {InvalidQRCodeScreen} from 'screens/qr/InvalidQRCodeScreen';
-import {LearnAboutQRScreen} from 'screens/qr/LearnAboutQRScreen';
-import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
-import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
+import { LanguageScreen } from 'screens/language';
+import { useStorage } from 'services/StorageService';
+import { RegionPickerSettingsScreen, RegionPickerExposedNoPTScreen } from 'screens/regionPicker';
+import { NoCodeScreen } from 'screens/nocode/NoCode';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { OnboardingScreen } from 'screens/onboarding';
+import { LandingScreen } from 'screens/landing';
+import { TestScreen } from 'screens/testScreen';
+import { ErrorScreen } from 'screens/errorScreen/ErrorScreen';
+import { QRCodeReaderScreen } from 'screens/qr/QRCodeReaderScreen';
+import { DismissAlertScreen } from 'screens/home/views/ClearExposureView';
+import { FrameworkUnavailableView } from 'screens/home/views/FrameworkUnavailableView';
+import { CheckInSuccessfulScreen } from 'screens/qr/CheckInSuccessfulScreen';
+import { InvalidQRCodeScreen } from 'screens/qr/InvalidQRCodeScreen';
+import { LearnAboutQRScreen } from 'screens/qr/LearnAboutQRScreen';
+import { CheckInHistoryScreen } from 'screens/qr/CheckInHistoryScreen';
+import { QRCodeIntroScreen } from 'screens/qr/QRCodeIntroScreen';
+import { ClearOutbreakExposureScreen } from 'screens/home/views/ClearOutbreakExposureView';
 
-import {FormContext, FormContextDefaults} from '../shared/FormContext';
+import { FormContext, FormContextDefaults } from '../shared/FormContext';
 
 const MainStack = createStackNavigator<MainStackParamList>();
 
@@ -101,11 +102,12 @@ const LearnAboutQRScreenWithNavBar = withDarkNav(LearnAboutQRScreen);
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 const CheckInHistoryScreenWithNavBar = withDarkNavNonModal(CheckInHistoryScreen);
 const QRCodeIntroScreenWithNavBar = withDarkNav(QRCodeIntroScreen);
+const ClearOutbreakExposureScreenWithNavBar = withDarkNav(ClearOutbreakExposureScreen);
 
 const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
   return (
-    <OnboardingStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Onboarding">
+    <OnboardingStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Onboarding">
       <OnboardingStack.Screen name="Onboarding" component={OnboardingWithNavBar} />
     </OnboardingStack.Navigator>
   );
@@ -193,6 +195,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
       <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
+      <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };
