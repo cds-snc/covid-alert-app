@@ -80,12 +80,7 @@ export class OutbreakService implements OutbreakService {
         if (forceCheck === false && outbreaksLastCheckedDateTime) {
           const today = getCurrentDate();
           const minutesSinceLastOutbreaksCheck = minutesBetween(outbreaksLastCheckedDateTime, today);
-          // randomize the upload window, to stagger when phones are uploading the metrics
-          const randomMinutes = Math.floor(Math.random() * MIN_OUTBREAKS_CHECK_MINUTES);
-          log.debug({
-            category: 'debug',
-          });
-          if (minutesSinceLastOutbreaksCheck > MIN_OUTBREAKS_CHECK_MINUTES + randomMinutes) {
+          if (minutesSinceLastOutbreaksCheck > MIN_OUTBREAKS_CHECK_MINUTES) {
             const outbreakEvents = await getOutbreakEvents();
             const newOutbreakStatusType = getNewOutbreakStatus(this.checkInHistory.get(), outbreakEvents);
             this.setOutbreakStatus(newOutbreakStatusType);
