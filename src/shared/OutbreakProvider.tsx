@@ -15,7 +15,7 @@ import {createCancellableCallbackPromise} from './cancellablePromise';
 import {log} from './logging/config';
 import {getCurrentDate, minutesBetween} from './date-fns';
 
-const OutbreaksLastCheckedDateTime = 'A436ED42-707E-11EB-9439-0242AC130002';
+const OutbreaksLastCheckedStorageKey = 'A436ED42-707E-11EB-9439-0242AC130002';
 
 const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 
@@ -115,12 +115,12 @@ export class OutbreakService implements OutbreakService {
 
   private getOutbreaksLastCheckedDateTime(): Promise<Date | null> {
     return this.secureKeyValueStore
-      .retrieve(OutbreaksLastCheckedDateTime)
+      .retrieve(OutbreaksLastCheckedStorageKey)
       .then(value => (value ? new Date(Number(value)) : null));
   }
 
   private markOutbreaksLastCheckedDateTime(date: Date): Promise<void> {
-    return this.secureKeyValueStore.save(OutbreaksLastCheckedDateTime, `${date.getTime()}`);
+    return this.secureKeyValueStore.save(OutbreaksLastCheckedStorageKey, `${date.getTime()}`);
   }
 }
 
