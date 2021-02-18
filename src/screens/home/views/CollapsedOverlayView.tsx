@@ -18,7 +18,7 @@ export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
   const navigation = useNavigation();
 
   const menuPress = useCallback(() => {
-    navigation.navigate('menu');
+    navigation.navigate('Menu');
   }, [navigation]);
 
   return (

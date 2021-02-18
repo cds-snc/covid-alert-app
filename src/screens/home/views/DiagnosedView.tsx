@@ -5,7 +5,6 @@ import {ExposureStatusType, useExposureStatus} from 'services/ExposureNotificati
 import {getUploadDaysLeft} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {useStorage} from 'services/StorageService';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {TEST_MODE} from 'env';
@@ -13,12 +12,11 @@ import {TEST_MODE} from 'env';
 import {BaseHomeView} from '../components/BaseHomeView';
 import {Tip} from '../components/Tip';
 
-export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const DiagnosedView = () => {
   const i18n = useI18n();
   const regionalI18n = useRegionalI18n();
   const {region} = useStorage();
   const exposureStatus = useExposureStatus();
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   let daysLeft: number;
   if (TEST_MODE && exposureStatus.type !== ExposureStatusType.Diagnosed) {
@@ -31,14 +29,7 @@ export const DiagnosedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: b
   return (
     <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">
       <RoundedBox isFirstBox>
-        <Text
-          focusRef={autoFocusRef}
-          testID="bodyTitle"
-          variant="bodyTitle"
-          color="bodyText"
-          marginBottom="m"
-          accessibilityRole="header"
-        >
+        <Text testID="bodyTitle" variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.DiagnosedView.Title')}
           {/* No exposure detected */}
         </Text>

@@ -3,25 +3,17 @@ import {RoundedBox, Text, TextMultiline} from 'components';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {AllSetView} from '../components/AllSetView';
 
-const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+const TextContent = () => {
   const i18n = useI18n();
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+
   return (
     <>
-      <Text
-        testID="noRegionHeader"
-        focusRef={autoFocusRef}
-        variant="bodyTitle"
-        color="bodyText"
-        marginBottom="m"
-        accessibilityRole="header"
-      >
+      <Text testID="noRegionHeader" variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.NoExposureDetected.NoRegion.Title')}
       </Text>
 
@@ -35,7 +27,7 @@ const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) 
   );
 };
 
-export const NoExposureNoRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const NoExposureNoRegionView = () => {
   const i18n = useI18n();
   const {onboardedDatetime, skipAllSet} = useStorage();
 
@@ -44,7 +36,6 @@ export const NoExposureNoRegionView = ({isBottomSheetExpanded}: {isBottomSheetEx
       <BaseHomeView iconName="thumbs-up">
         <AllSetView
           testID="allSetNoRegionView"
-          isBottomSheetExpanded={isBottomSheetExpanded}
           titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
           bodyText={i18n.translate('Home.NoExposureDetected.NoRegion.AllSetBody')}
         />
@@ -56,10 +47,10 @@ export const NoExposureNoRegionView = ({isBottomSheetExpanded}: {isBottomSheetEx
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
       {Platform.OS === 'ios' ? (
-        <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+        <TextContent />
       ) : (
         <RoundedBox isFirstBox>
-          <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+          <TextContent />
         </RoundedBox>
       )}
     </BaseHomeView>

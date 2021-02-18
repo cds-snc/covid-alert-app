@@ -2,11 +2,10 @@ import {useI18n} from 'locale';
 import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 
-export const ExposureNotificationsUserStoppedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const ExposureNotificationsUserStoppedView = () => {
   const i18n = useI18n();
   const startExposureNotificationService = useStartExposureNotificationService();
 
@@ -17,10 +16,10 @@ export const ExposureNotificationsUserStoppedView = ({isBottomSheetExpanded}: {i
   const onPress = async () => {
     await startEn();
   };
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+
   return (
     <BaseHomeView iconName="icon-bluetooth-disabled" testID="exposureNotificationsDisabled">
-      <Text focusRef={autoFocusRef} variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
         {i18n.translate('Home.UserStopped.Title')}
       </Text>
       <Box alignSelf="stretch" marginBottom="m" marginTop="l">

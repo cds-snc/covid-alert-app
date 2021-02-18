@@ -1,7 +1,6 @@
 import React from 'react';
 import {useI18n} from 'locale';
 import {Text, RoundedBox} from 'components';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useStorage} from 'services/StorageService';
 import {useRegionalI18n} from 'locale/regional';
@@ -19,23 +18,16 @@ const ActiveContent = ({text}: {text: string}) => {
   return <Text marginBottom="m">{text}</Text>;
 };
 
-const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+const ExposureText = () => {
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
   const i18n = useI18n();
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 
   return (
     <>
       <RoundedBox isFirstBox>
-        <Text
-          focusRef={autoFocusRef}
-          testID="bodyTitle"
-          variant="bodyTitle"
-          marginBottom="m"
-          accessibilityRole="header"
-        >
+        <Text testID="bodyTitle" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
           {i18n.translate('Home.ExposureDetected.Title')}
         </Text>
         <Text testID="bodyText" marginBottom="m">
@@ -62,10 +54,10 @@ const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean})
   );
 };
 
-export const ExposureView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const ExposureView = () => {
   return (
     <BaseHomeView iconName="hand-caution" testID="exposure">
-      <ExposureText isBottomSheetExpanded={isBottomSheetExpanded} />
+      <ExposureText />
     </BaseHomeView>
   );
 };

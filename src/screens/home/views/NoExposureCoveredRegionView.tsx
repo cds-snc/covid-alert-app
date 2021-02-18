@@ -3,20 +3,18 @@ import {Text, TextMultiline, RoundedBox} from 'components';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {Platform} from 'react-native';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
 
-const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+const TextContent = () => {
   const i18n = useI18n();
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+
   return (
     <>
       <Text
         testID="coveredRegionHeader"
-        focusRef={autoFocusRef}
         variant="bodyTitle"
         color="bodyText"
         marginBottom="m"
@@ -35,7 +33,7 @@ const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) 
   );
 };
 
-export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const NoExposureCoveredRegionView = () => {
   const i18n = useI18n();
   const {onboardedDatetime, skipAllSet} = useStorage();
 
@@ -44,7 +42,6 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
       <BaseHomeView iconName="thumbs-up">
         <AllSetView
           testID="allSetCoveredRegionView"
-          isBottomSheetExpanded={isBottomSheetExpanded}
           titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
           bodyText={i18n.translate('Home.NoExposureDetected.RegionCovered.AllSetBody')}
         />
@@ -55,10 +52,10 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
       {Platform.OS === 'ios' ? (
-        <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+        <TextContent />
       ) : (
         <RoundedBox isFirstBox>
-          <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+          <TextContent />
         </RoundedBox>
       )}
     </BaseHomeView>

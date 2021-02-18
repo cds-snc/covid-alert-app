@@ -1,9 +1,8 @@
 import React, {useCallback} from 'react';
-import Animated, {sub, abs} from 'react-native-reanimated';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {Box, InfoBlock, BoxProps, InfoButton, BottomSheetBehavior, Icon} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton, Icon} from 'components';
 import {useI18n, I18n} from 'locale';
-import {Linking, Platform, TouchableOpacity, StyleSheet, View} from 'react-native';
+import {Linking, Platform, TouchableOpacity, StyleSheet} from 'react-native';
 import {
   ExposureStatusType,
   SystemStatus,
@@ -14,7 +13,6 @@ import {useNavigation} from '@react-navigation/native';
 import {getUploadDaysLeft} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useAccessibilityService} from 'services/AccessibilityService';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {QR_ENABLED} from 'env';
@@ -214,18 +212,6 @@ const TurnAppBackOn = ({i18n}: {i18n: I18n}) => {
   );
 };
 
-const AccessibleView = ({children}: {children: React.ReactNode}) => {
-  const accessibilityService = useAccessibilityService();
-
-  return accessibilityService.isScreenReaderEnabled ? (
-    <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-      {children}
-    </ScrollView>
-  ) : (
-    <View style={styles.content}>{children}</View>
-  );
-};
-
 interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
@@ -237,11 +223,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
   const {userStopped} = useStorage();
   const navigation = useNavigation();
   const close = useCallback(() => {
-    navigation.navigate('home');
+    navigation.navigate('Home');
   }, [navigation]);
   return (
-    <AccessibleView>
-      <SafeAreaView>
+    <SafeAreaView>
+      <ScrollView>
         <Box>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -299,8 +285,8 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
             <InfoShareView />
           </Box>
         </Box>
-      </SafeAreaView>
-    </AccessibleView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

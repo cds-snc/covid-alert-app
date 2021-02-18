@@ -8,8 +8,8 @@ import {useStorage} from 'services/StorageService';
 import {getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 
-import {OnOffButton} from '../home/components/OnOffButton';
-import {InfoShareItem} from '../home/components/InfoShareItem';
+import {OnOffButton} from './OnOffButton';
+import {InfoShareItem} from './InfoShareItem';
 
 export const InfoShareView = () => {
   const i18n = useI18n();
