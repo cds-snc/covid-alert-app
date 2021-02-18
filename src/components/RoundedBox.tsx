@@ -1,6 +1,6 @@
 import {Box} from 'components';
 import React from 'react';
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 interface RoundedBoxProp {
   children: React.ReactNode;
