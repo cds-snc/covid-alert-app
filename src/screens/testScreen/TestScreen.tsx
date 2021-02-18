@@ -110,7 +110,7 @@ const Content = () => {
   }, [clearOutbreakHistory]);
 
   const onCheckForOutbreak = useCallback(async () => {
-    checkForOutbreaks();
+    checkForOutbreaks(true);
   }, [checkForOutbreaks]);
 
   const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);

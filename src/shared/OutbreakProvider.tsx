@@ -1,8 +1,13 @@
+import {TEST_MODE} from 'env';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Key} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {useI18nRef, I18n} from 'locale';
+import PQueue from 'p-queue';
+
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {DefaultSecureKeyValueStore, SecureKeyValueStore} from '../services/MetricsService/SecureKeyValueStorage';
 
 import {Observable} from './Observable';
 import {
@@ -14,17 +19,36 @@ import {
   OutbreakHistoryItem,
 } from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
+import {getCurrentDate, minutesBetween} from './date-fns';
 import {log} from './logging/config';
 
-class OutbreakService implements OutbreakService {
+const OutbreaksLastCheckedStorageKey = 'A436ED42-707E-11EB-9439-0242AC130002';
+
+const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
+
+export class OutbreakService implements OutbreakService {
+  private static instance: OutbreakService;
+
+  static sharedInstance(i18n: I18n): OutbreakService {
+    if (!this.instance) {
+      this.instance = new this(i18n);
+    }
+    return this.instance;
+  }
+
   outbreakHistory: Observable<OutbreakHistoryItem[]>;
   checkInHistory: Observable<CheckInData[]>;
   i18n: I18n;
+  secureKeyValueStore: SecureKeyValueStore;
+
+  private serialPromiseQueue: PQueue;
 
   constructor(i18n: I18n) {
     this.outbreakHistory = new Observable<OutbreakHistoryItem[]>([]);
     this.checkInHistory = new Observable<CheckInData[]>([]);
     this.i18n = i18n;
+    this.secureKeyValueStore = new DefaultSecureKeyValueStore();
+    this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 
   clearOutbreakHistory = async () => {
@@ -65,7 +89,23 @@ class OutbreakService implements OutbreakService {
     this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 
-  checkForOutbreaks = async () => {
+  checkForOutbreaks = async (forceCheck?: boolean) => {
+    return this.serialPromiseQueue.add(() => {
+      return this.getOutbreaksLastCheckedDateTime().then(async outbreaksLastCheckedDateTime => {
+        if (forceCheck === false && outbreaksLastCheckedDateTime) {
+          const today = getCurrentDate();
+          const minutesSinceLastOutbreaksCheck = minutesBetween(outbreaksLastCheckedDateTime, today);
+          if (minutesSinceLastOutbreaksCheck > MIN_OUTBREAKS_CHECK_MINUTES) {
+            await this.getOutbreaksFromServer();
+          }
+        } else {
+          await this.getOutbreaksFromServer();
+        }
+      });
+    });
+  };
+
+  getOutbreaksFromServer = async () => {
     const outbreakEvents = await getOutbreakEvents();
     const detectedOutbreakExposures = getNewOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
     log.debug({payload: {detectedOutbreakExposures}});
@@ -80,6 +120,7 @@ class OutbreakService implements OutbreakService {
     const outbreakHistory = this.outbreakHistory.get();
     log.debug({payload: {outbreakHistory}});
     this.processOutbreakNotification(outbreakHistory);
+    this.markOutbreaksLastCheckedDateTime(getCurrentDate());
   };
 
   processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {
@@ -91,6 +132,16 @@ class OutbreakService implements OutbreakService {
       });
     }
   };
+
+  private getOutbreaksLastCheckedDateTime(): Promise<Date | null> {
+    return this.secureKeyValueStore
+      .retrieve(OutbreaksLastCheckedStorageKey)
+      .then(value => (value ? new Date(Number(value)) : null));
+  }
+
+  private markOutbreaksLastCheckedDateTime(date: Date): Promise<void> {
+    return this.secureKeyValueStore.save(OutbreaksLastCheckedStorageKey, `${date.getTime()}`);
+  }
 }
 
 export const createOutbreakService = async (i18n: I18n) => {
