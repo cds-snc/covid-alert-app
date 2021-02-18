@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {Box, InfoBlock, BoxProps, InfoButton, Icon} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton, Icon, Button} from 'components';
 import {useI18n, I18n} from 'locale';
 import {Linking, Platform, TouchableOpacity, StyleSheet} from 'react-native';
 import {
@@ -229,28 +229,19 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
     <SafeAreaView>
       <ScrollView>
         <Box>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={close}
-            style={styles.collapseButton}
-            accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
-            accessibilityRole="button"
-            testID="BottomSheet-Close"
-          >
-            <Icon name="sheet-handle-bar-close" size={36} />
-          </TouchableOpacity>
-
-          <Box marginBottom="s">
-            <StatusHeaderView enabled={status === SystemStatus.Active} />
+          <Box flexDirection="row" marginTop="m">
+            <Box marginVertical="m" flex={1}>
+              <StatusHeaderView enabled={status === SystemStatus.Active} />
+            </Box>
+            <Button text="Close" onPress={close} variant="text" />
           </Box>
-
           {userStopped && status !== SystemStatus.Active && (
-            <Box marginBottom="m" marginTop="xl" marginHorizontal="m">
+            <Box marginBottom="m" marginTop="l" marginHorizontal="m">
               <TurnAppBackOn i18n={i18n} />
             </Box>
           )}
 
-          <Box marginBottom="m" marginTop={userStopped ? 's' : 'xl'} marginHorizontal="m">
+          <Box marginBottom="m" marginTop="s" marginHorizontal="m">
             <ShareDiagnosisCode i18n={i18n} />
           </Box>
 
