@@ -19,19 +19,18 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {QR_ENABLED} from 'env';
 
-import {PrimaryActionButton} from '../components/PrimaryActionButton';
+import {StatusHeaderView} from '../home/views/StatusHeaderView';
 
 import {InfoShareView} from './InfoShareView';
-import {StatusHeaderView} from './StatusHeaderView';
+import {PrimaryActionButton} from './PrimaryActionButton';
 
-const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: BottomSheetBehavior}) => {
+const QRCode = ({i18n}: {i18n: I18n}) => {
   const navigation = useNavigation();
   return (
     <PrimaryActionButton
       icon="qr-code"
       text={i18n.translate('QRCode.CTA')}
       onPress={() => {
-        bottomSheetBehavior.collapse();
         navigation.navigate('QRCodeFlow');
       }}
     />
@@ -117,15 +116,7 @@ const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n})
   );
 };
 
-const ShareDiagnosisCode = ({
-  i18n,
-  isBottomSheetExpanded,
-  bottomSheetBehavior,
-}: {
-  i18n: I18n;
-  isBottomSheetExpanded: boolean;
-  bottomSheetBehavior: BottomSheetBehavior;
-}) => {
+const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
   const navigation = useNavigation();
   const exposureStatus = useExposureStatus();
 
@@ -158,7 +149,6 @@ const ShareDiagnosisCode = ({
 
     return exposureStatus.hasShared ? (
       <InfoBlock
-        focusOnTitle={isBottomSheetExpanded}
         titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
         text={bodyText}
         button={{
@@ -171,13 +161,11 @@ const ShareDiagnosisCode = ({
       />
     ) : (
       <InfoBlock
-        focusOnTitle={isBottomSheetExpanded}
         titleBolded={i18n.translate('OverlayOpen.CodeNotShared.Title')}
         text={i18n.translate('OverlayOpen.CodeNotShared.Body')}
         button={{
           text: i18n.translate('OverlayOpen.CodeNotShared.CTA'),
           action: () => {
-            bottomSheetBehavior.collapse();
             navigation.navigate('DataSharing', {screen: 'IntermediateScreen'});
           },
         }}
@@ -189,7 +177,6 @@ const ShareDiagnosisCode = ({
   }
   return (
     <InfoBlock
-      focusOnTitle={isBottomSheetExpanded}
       titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitle')}
       text={i18n.translate('OverlayOpen.EnterCodeCardBody')}
       button={{
@@ -203,25 +190,15 @@ const ShareDiagnosisCode = ({
   );
 };
 
-const TurnAppBackOn = ({
-  i18n,
-  isBottomSheetExpanded,
-  bottomSheetBehavior,
-}: {
-  i18n: I18n;
-  isBottomSheetExpanded: boolean;
-  bottomSheetBehavior: BottomSheetBehavior;
-}) => {
+const TurnAppBackOn = ({i18n}: {i18n: I18n}) => {
   const startExposureNotificationService = useStartExposureNotificationService();
 
   const onStart = useCallback(async () => {
-    bottomSheetBehavior.collapse();
     await startExposureNotificationService();
-  }, [bottomSheetBehavior, startExposureNotificationService]);
+  }, [startExposureNotificationService]);
 
   return (
     <InfoBlock
-      focusOnTitle={isBottomSheetExpanded}
       titleBolded={i18n.translate('OverlayOpen.TurnAppBackOn.Title')}
       text={i18n.translate('OverlayOpen.TurnAppBackOn.Body')}
       button={{
@@ -253,85 +230,77 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
   status: SystemStatus;
   notificationWarning: boolean;
   turnNotificationsOn: () => void;
-  bottomSheetBehavior: BottomSheetBehavior;
 }
 
-export const OverlayView = ({status, notificationWarning, turnNotificationsOn, bottomSheetBehavior}: Props) => {
+export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: Props) => {
   const i18n = useI18n();
   const {userStopped} = useStorage();
-
+  const navigation = useNavigation();
+  const close = useCallback(() => {
+    navigation.navigate('home');
+  }, [navigation]);
   return (
-    <Animated.View style={{opacity: abs(sub(bottomSheetBehavior.callbackNode, 1))}}>
-      <AccessibleView>
-        <SafeAreaView>
-          <Box>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={bottomSheetBehavior.collapse}
-              style={styles.collapseButton}
-              accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
-              accessibilityRole="button"
-              testID="BottomSheet-Close"
-            >
-              <Icon name="sheet-handle-bar-close" size={36} />
-            </TouchableOpacity>
+    <AccessibleView>
+      <SafeAreaView>
+        <Box>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={close}
+            style={styles.collapseButton}
+            accessibilityLabel={i18n.translate('BottomSheet.Collapse')}
+            accessibilityRole="button"
+            testID="BottomSheet-Close"
+          >
+            <Icon name="sheet-handle-bar-close" size={36} />
+          </TouchableOpacity>
 
-            <Box marginBottom="s">
-              <StatusHeaderView enabled={status === SystemStatus.Active} />
-            </Box>
-
-            {userStopped && status !== SystemStatus.Active && (
-              <Box marginBottom="m" marginTop="xl" marginHorizontal="m">
-                <TurnAppBackOn
-                  isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
-                  i18n={i18n}
-                  bottomSheetBehavior={bottomSheetBehavior}
-                />
-              </Box>
-            )}
-
-            <Box marginBottom="m" marginTop={userStopped ? 's' : 'xl'} marginHorizontal="m">
-              <ShareDiagnosisCode
-                isBottomSheetExpanded={bottomSheetBehavior.isExpanded}
-                i18n={i18n}
-                bottomSheetBehavior={bottomSheetBehavior}
-              />
-            </Box>
-
-            {!userStopped && (status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
-              <Box marginBottom="m" marginHorizontal="m">
-                <SystemStatusOff i18n={i18n} />
-              </Box>
-            )}
-            {!userStopped && status === SystemStatus.Unauthorized && (
-              <Box marginBottom="m" marginHorizontal="m">
-                <SystemStatusUnauthorized i18n={i18n} />
-              </Box>
-            )}
-            {status === SystemStatus.BluetoothOff && (
-              <Box marginBottom="m" marginHorizontal="m">
-                <BluetoothStatusOff i18n={i18n} />
-              </Box>
-            )}
-            {notificationWarning && (
-              <Box marginBottom="m" marginHorizontal="m">
-                <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
-              </Box>
-            )}
-
-            {QR_ENABLED && (
-              <Box marginBottom="m" marginHorizontal="m">
-                <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
-              </Box>
-            )}
-
-            <Box marginBottom="m" marginHorizontal="m">
-              <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
-            </Box>
+          <Box marginBottom="s">
+            <StatusHeaderView enabled={status === SystemStatus.Active} />
           </Box>
-        </SafeAreaView>
-      </AccessibleView>
-    </Animated.View>
+
+          {userStopped && status !== SystemStatus.Active && (
+            <Box marginBottom="m" marginTop="xl" marginHorizontal="m">
+              <TurnAppBackOn i18n={i18n} />
+            </Box>
+          )}
+
+          <Box marginBottom="m" marginTop={userStopped ? 's' : 'xl'} marginHorizontal="m">
+            <ShareDiagnosisCode i18n={i18n} />
+          </Box>
+
+          {!userStopped && (status === SystemStatus.Disabled || status === SystemStatus.Restricted) && (
+            <Box marginBottom="m" marginHorizontal="m">
+              <SystemStatusOff i18n={i18n} />
+            </Box>
+          )}
+          {!userStopped && status === SystemStatus.Unauthorized && (
+            <Box marginBottom="m" marginHorizontal="m">
+              <SystemStatusUnauthorized i18n={i18n} />
+            </Box>
+          )}
+          {status === SystemStatus.BluetoothOff && (
+            <Box marginBottom="m" marginHorizontal="m">
+              <BluetoothStatusOff i18n={i18n} />
+            </Box>
+          )}
+          {notificationWarning && (
+            <Box marginBottom="m" marginHorizontal="m">
+              <NotificationStatusOff action={turnNotificationsOn} i18n={i18n} />
+            </Box>
+          )}
+
+          {QR_ENABLED && (
+            <Box marginBottom="m" marginHorizontal="m">
+              <QRCode i18n={i18n} />
+            </Box>
+          )}
+
+          <Box marginBottom="m" marginHorizontal="m">
+            <InfoShareView />
+          </Box>
+        </Box>
+      </SafeAreaView>
+    </AccessibleView>
   );
 };
 

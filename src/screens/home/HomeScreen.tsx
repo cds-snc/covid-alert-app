@@ -36,7 +36,6 @@ import {NoExposureUncoveredRegionView} from './views/NoExposureUncoveredRegionVi
 import {NoExposureCoveredRegionView} from './views/NoExposureCoveredRegionView';
 import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
-import {OverlayView} from './views/OverlayView';
 import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
 import {ExposureNotificationsUserStoppedView} from './views/ExposureNotificationsUserStoppedView';
 import {UnknownProblemView} from './views/UnknownProblemView';
@@ -157,7 +156,7 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   }
 };
 
-const CollapsedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
+const CollapsedContent = () => {
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
@@ -167,26 +166,6 @@ const CollapsedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
       status={systemStatus}
       notificationWarning={showNotificationWarning}
       turnNotificationsOn={turnNotificationsOn}
-      bottomSheetBehavior={bottomSheetBehavior}
-    />
-  );
-};
-
-const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
-  const [systemStatus] = useSystemStatus();
-  const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-  const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
-
-  return (
-    <OverlayView
-      status={systemStatus}
-      notificationWarning={showNotificationWarning}
-      turnNotificationsOn={turnNotificationsOnFn}
-      bottomSheetBehavior={bottomSheetBehavior}
     />
   );
 };
@@ -270,7 +249,7 @@ export const HomeScreen = () => {
             <Content isBottomSheetExpanded={isBottomSheetExpanded} />
           </Animated.View>
         </Box>
-        <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
+        <CollapsedContent />
       </Box>
     </NotificationPermissionStatusProvider>
   );
