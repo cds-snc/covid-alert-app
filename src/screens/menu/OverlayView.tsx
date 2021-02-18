@@ -1,8 +1,8 @@
 import React, {useCallback} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {Box, InfoBlock, BoxProps, InfoButton, Icon, Button} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton, Button} from 'components';
 import {useI18n, I18n} from 'locale';
-import {Linking, Platform, TouchableOpacity, StyleSheet} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import {
   ExposureStatusType,
   SystemStatus,
@@ -280,16 +280,3 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  content: {
-    marginTop: -26,
-  },
-  collapseButton: {
-    height: 48,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginBottom: -10,
-  },
-});
