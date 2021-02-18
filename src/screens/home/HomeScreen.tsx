@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
 import {Box} from 'components';
-import {DevSettings, Animated} from 'react-native';
+import {DevSettings} from 'react-native';
 import {TEST_MODE, QR_ENABLED} from 'env';
 import {
   ExposureStatusType,
@@ -24,7 +24,6 @@ import {useOutbreakService} from 'shared/OutbreakProvider';
 import {useDeepLinks} from '../qr/utils';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
-import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
 import {DiagnosedView} from './views/DiagnosedView';
 import {DiagnosedShareUploadView} from './views/DiagnosedShareUploadView';
@@ -44,6 +43,7 @@ import {
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
 import {OutbreakExposedView} from './views/OutbreakExposedView';
+import {CollapsedMenuView} from './views/CollapsedMenuView';
 
 const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
   return hasShared ? <DiagnosedShareView /> : <DiagnosedShareUploadView />;
@@ -147,20 +147,6 @@ const Content = () => {
   }
 };
 
-const CollapsedContent = () => {
-  const [systemStatus] = useSystemStatus();
-  const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
-
-  return (
-    <CollapsedOverlayView
-      status={systemStatus}
-      notificationWarning={showNotificationWarning}
-      turnNotificationsOn={turnNotificationsOn}
-    />
-  );
-};
-
 export const HomeScreen = () => {
   const {checkForOutbreaks} = useOutbreakService();
   const navigation = useNavigation();
@@ -201,27 +187,13 @@ export const HomeScreen = () => {
     startAndUpdate();
   }, [startAndUpdate, startExposureNotificationService, updateExposureStatus]);
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  React.useEffect(
-    () =>
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        delay: 1000,
-        duration: 10,
-        useNativeDriver: false,
-      }).start(),
-    [fadeAnim],
-  );
-
   return (
     <NotificationPermissionStatusProvider>
       <Box flex={1} alignItems="center" backgroundColor="mainBackground">
         <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
-          <Animated.View style={{opacity: fadeAnim}}>
-            <Content />
-          </Animated.View>
+          <Content />
         </Box>
-        <CollapsedContent />
+        <CollapsedMenuView />
       </Box>
     </NotificationPermissionStatusProvider>
   );
