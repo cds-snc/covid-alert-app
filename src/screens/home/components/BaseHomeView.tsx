@@ -44,7 +44,7 @@ export const BaseHomeView = ({children, iconName, testID}: BaseHomeViewProps) =>
 };
 
 const styles = StyleSheet.create({
-  primaryIcon: {marginLeft: -35, marginBottom: 24},
+  primaryIcon: {marginLeft: -35, marginBottom: 32},
   scrollContainerWithAnimation: {
     marginTop: -100,
   },
