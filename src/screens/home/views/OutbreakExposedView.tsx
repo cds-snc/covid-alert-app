@@ -1,7 +1,6 @@
 import React from 'react';
-import {Box, Text, RoundedBox} from 'components';
+import {Text, RoundedBox} from 'components';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import {StyleSheet, Platform} from 'react-native';
 import {useI18n} from 'locale';
 
 import {BaseHomeView} from '../components/BaseHomeView';
