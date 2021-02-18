@@ -2,7 +2,9 @@ import {OUTBREAK_LOCATIONS_URL} from 'env';
 import {log} from 'shared/logging/config';
 import {covidshield} from 'services/BackendService/covidshield';
 
-import {getCurrentDate} from './date-fns';
+import {getCurrentDate, getHoursBetween} from './date-fns';
+
+export const OUTBREAK_EXPOSURE_DURATION_DAYS = 14;
 
 export interface CheckInData {
   id: string;
@@ -11,33 +13,78 @@ export interface CheckInData {
   timestamp: number;
 }
 
-export enum OutbreakStatusType {
-  Monitoring = 'monitoring',
-  Exposed = 'exposed',
-}
-
-export interface OutbreakStatus {
-  type: OutbreakStatusType;
-  lastChecked: number;
-}
-
 export interface TimeWindow {
   start: number;
   end: number;
 }
 
-interface MatchData {
-  id: string;
+interface MatchCalculationData {
+  locationId: string;
   outbreakEvents: covidshield.OutbreakEvent[];
-  checkInData: CheckInData[];
-  matchCount?: number;
-  matchedCheckIns?: CheckInData[];
-  mostRecentCheckOut?: number;
+  checkIns: CheckInData[];
 }
 
-const ONE_HOUR_IN_MS = 60 * 60 * 1000;
+interface MatchData {
+  timestamp: number;
+  checkIn: CheckInData;
+  outbreakEvent: covidshield.OutbreakEvent;
+}
 
-export const initialOutbreakStatus = {type: OutbreakStatusType.Monitoring, lastChecked: 0};
+export interface OutbreakHistoryItem {
+  outbreakId: string /* unique to your checkin during the outbreak event */;
+  isExpired: boolean /* after 14 days the outbreak expires */;
+  isIgnored: boolean /* if user has a negative test result */;
+  locationId: string;
+  locationAddress: string;
+  locationName: string;
+  outbreakStartTimestamp: number;
+  outbreakEndTimestamp: number;
+  checkInTimestamp: number;
+  notificationTimestamp: number;
+}
+
+/** returns a new outbreakHistory with the `isExpired` property updated */
+export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
+  return outbreakHistory.map(historyItem => {
+    if (historyItem.isExpired) {
+      return {...historyItem};
+    }
+    const hoursSinceCheckIn = getHoursBetween(new Date(historyItem.checkInTimestamp), getCurrentDate());
+    if (hoursSinceCheckIn > 24 * OUTBREAK_EXPOSURE_DURATION_DAYS) {
+      return {...historyItem, isExpired: true};
+    }
+    return {...historyItem};
+  });
+};
+
+/** returns a new outbreakHistory with the `isIgnored` property updated */
+export const ignoreHistoryItems = (
+  outbreakIds: string[],
+  outbreakHistory: OutbreakHistoryItem[],
+): OutbreakHistoryItem[] => {
+  return outbreakHistory.map(historyItem => {
+    if (outbreakIds.indexOf(historyItem.outbreakId) > -1) {
+      return {...historyItem, isIgnored: true};
+    }
+    return {...historyItem};
+  });
+};
+
+export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
+  const currentOutbreakHistory = outbreakHistory.filter(outbreak => {
+    if (outbreak.isExpired || outbreak.isIgnored) {
+      return false;
+    }
+    return true;
+  });
+
+  if (currentOutbreakHistory.length > 0) {
+    return true;
+  }
+  return false;
+};
+
+const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
 export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> => {
   const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
@@ -47,10 +94,10 @@ export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> 
   return data.exposedLocations;
 };
 
-export const getNewOutbreakStatus = (
+export const getNewOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
   outbreakEvents: covidshield.OutbreakEvent[],
-): OutbreakStatus => {
+): OutbreakHistoryItem[] => {
   log.debug({message: 'fetching outbreak locations', payload: {outbreakEvents}});
   const outbreakIds = outbreakEvents.map(event => event.locationId);
 
@@ -62,7 +109,7 @@ export const getNewOutbreakStatus = (
   });
 
   if (checkInLocationMatches.length === 0) {
-    return createOutbreakStatus({exposed: false});
+    return [];
   }
   const matchedOutbreakIdsNotUnique = checkInLocationMatches.map(data => data.id);
   const matchedOutbreakIds = Array.from(new Set(matchedOutbreakIdsNotUnique));
@@ -71,15 +118,7 @@ export const getNewOutbreakStatus = (
 
   log.debug({message: 'outbreak matches', payload: {matches}});
 
-  return createOutbreakStatus({exposed: matches.length > 0});
-};
-
-export const createOutbreakStatus = ({exposed}: {exposed: boolean}) => {
-  const newOutbreakStatus: OutbreakStatus = {
-    type: exposed ? OutbreakStatusType.Exposed : OutbreakStatusType.Monitoring,
-    lastChecked: getCurrentDate().getTime(),
-  };
-  return newOutbreakStatus;
+  return matches.map(match => createOutbreakHistoryItem(match));
 };
 
 export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) => {
@@ -112,22 +151,22 @@ export const getMatches = ({
 
   const _matchData = matchedOutbreakIds.map(id => {
     return {
-      id,
+      locationId: id,
       outbreakEvents: relevantOutbreakData.filter(data => data.locationId === id),
-      checkInData: relevantCheckInData.filter(data => data.id === id),
+      checkIns: relevantCheckInData.filter(data => data.id === id),
     };
   });
 
-  const matchData = _matchData.map(data => processMatchData(data));
-  const matches = matchData.filter(data => data.matchCount > 0);
-  return matches;
+  const matchArrays = _matchData.map(data => processMatchData(data));
+  return flattened(matchArrays);
 };
 
-const processMatchData = (matchData: MatchData) => {
-  let matchCount = 0;
-  const matchedCheckIns = [];
-  for (const checkIn of matchData.checkInData) {
-    for (const outbreak of matchData.outbreakEvents) {
+const flattened = (arr: any[]) => [].concat(...arr);
+
+const processMatchData = (matchCalucationData: MatchCalculationData) => {
+  const matches: MatchData[] = [];
+  for (const checkIn of matchCalucationData.checkIns) {
+    for (const outbreak of matchCalucationData.outbreakEvents) {
       if (!outbreak.startTime || !outbreak.endTime) {
         continue;
       }
@@ -140,10 +179,44 @@ const processMatchData = (matchData: MatchData) => {
         end: Number(outbreak.endTime),
       };
       if (doTimeWindowsOverlap(window1, window2)) {
-        matchCount += 1;
-        matchedCheckIns.push(checkIn);
+        const match: MatchData = {
+          timestamp: checkIn.timestamp,
+          checkIn,
+          outbreakEvent: outbreak,
+        };
+        matches.push(match);
       }
     }
   }
-  return {...matchData, matchCount, matchedCheckIns};
+  return matches;
+};
+
+export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistoryItem => {
+  const locationId = matchData.checkIn.id;
+  const checkInTimestamp = matchData.checkIn.timestamp;
+  const newItem: OutbreakHistoryItem = {
+    outbreakId: `${locationId}-${checkInTimestamp}`,
+    isExpired: false,
+    isIgnored: false,
+    locationId,
+    locationAddress: matchData.checkIn.address,
+    locationName: matchData.checkIn.name,
+    outbreakStartTimestamp: Number(matchData.outbreakEvent.startTime),
+    outbreakEndTimestamp: Number(matchData.outbreakEvent.endTime),
+    checkInTimestamp,
+    notificationTimestamp: getCurrentDate().getTime() /* revisit */,
+  };
+  return newItem;
+};
+
+export const getNewOutbreakExposures = (
+  detectedExposures: OutbreakHistoryItem[],
+  outbreakHistory: OutbreakHistoryItem[],
+): OutbreakHistoryItem[] => {
+  const detectedIds = detectedExposures.map(item => item.outbreakId);
+  const oldIds = outbreakHistory.map(item => item.outbreakId);
+  // are there any Ids in detectedIds that are new?
+  const newIds = detectedIds.filter(id => oldIds.indexOf(id) === -1);
+  const newOutbreakExposures = detectedExposures.filter(item => newIds.indexOf(item.outbreakId) > -1);
+  return newOutbreakExposures;
 };

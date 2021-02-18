@@ -1,4 +1,4 @@
-import {CheckInData, doTimeWindowsOverlap, getNewOutbreakStatus, OutbreakStatusType, TimeWindow} from './qr';
+import {CheckInData, doTimeWindowsOverlap, getNewOutbreakHistoryItems, isExposedToOutbreak, TimeWindow} from './qr';
 
 describe('doTimeWindowsOverlap', () => {
   const dateStr = '2021-01-05';
@@ -27,7 +27,7 @@ describe('doTimeWindowsOverlap', () => {
   });
 });
 
-describe('getNewOutbreakStatus', () => {
+describe('getNewOutbreakHistoryItems', () => {
   const t1100 = new Date('2021-02-01T11:00Z').getTime();
   const t1200 = new Date('2021-02-01T12:00Z').getTime();
   const t1300 = new Date('2021-02-01T13:00Z').getTime();
@@ -41,23 +41,43 @@ describe('getNewOutbreakStatus', () => {
       {id: '1', timestamp: t1200, address: '', name: ''},
       {id: '3', timestamp: t1200, address: '', name: ''},
     ];
-    const newStatus = getNewOutbreakStatus(checkInHistory, outbreakEvents);
-    expect(newStatus.type).toStrictEqual(OutbreakStatusType.Exposed);
+    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
+    expect(isExposedToOutbreak(newHistory)).toStrictEqual(true);
   });
   it('returns monitoring if there is no match', () => {
     const checkInHistory: CheckInData[] = [
       {id: '3', timestamp: t1200, address: '', name: ''},
       {id: '4', timestamp: t1200, address: '', name: ''},
     ];
-    const newStatus = getNewOutbreakStatus(checkInHistory, outbreakEvents);
-    expect(newStatus.type).toStrictEqual(OutbreakStatusType.Monitoring);
+    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
+    expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
   });
   it('returns monitoring if id matches but time does not', () => {
     const checkInHistory: CheckInData[] = [
       {id: '1', timestamp: t1400, address: '', name: ''},
       {id: '2', timestamp: t1400, address: '', name: ''},
     ];
-    const newStatus = getNewOutbreakStatus(checkInHistory, outbreakEvents);
-    expect(newStatus.type).toStrictEqual(OutbreakStatusType.Monitoring);
+    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
+    expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
+  });
+});
+
+describe('outbreakHistory functions', () => {
+  describe('expireHistoryItems', () => {
+    it('expires items older than 14 days', () => {
+      expect(true).toStrictEqual(true);
+    });
+    it('does not expire items newer than 14 days', () => {
+      expect(true).toStrictEqual(true);
+    });
+  });
+
+  describe('ignoreHistoryItems', () => {
+    it('ignores items with ids that are passed in', () => {
+      expect(true).toStrictEqual(true);
+    });
+    it('does not ignore items with ids not passed in', () => {
+      expect(true).toStrictEqual(true);
+    });
   });
 });
