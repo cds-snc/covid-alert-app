@@ -12,7 +12,6 @@ import {DefaultSecureKeyValueStore, SecureKeyValueStore} from '../services/Metri
 import {Observable} from './Observable';
 import {CheckInData, getNewOutbreakStatus, getOutbreakEvents, initialOutbreakStatus, OutbreakStatus} from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
-import {log} from './logging/config';
 import {getCurrentDate, minutesBetween} from './date-fns';
 
 const OutbreaksLastCheckedStorageKey = 'A436ED42-707E-11EB-9439-0242AC130002';
