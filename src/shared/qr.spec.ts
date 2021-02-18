@@ -1,4 +1,4 @@
-import {CheckInData, doTimeWindowsOverlap, getNewOutbreakHistory, isExposedToOutbreak, TimeWindow} from './qr';
+import {CheckInData, doTimeWindowsOverlap, getNewOutbreakHistoryItems, isExposedToOutbreak, TimeWindow} from './qr';
 
 describe('doTimeWindowsOverlap', () => {
   const dateStr = '2021-01-05';
@@ -27,7 +27,7 @@ describe('doTimeWindowsOverlap', () => {
   });
 });
 
-describe('getNewOutbreakHistory', () => {
+describe('getNewOutbreakHistoryItems', () => {
   const t1100 = new Date('2021-02-01T11:00Z').getTime();
   const t1200 = new Date('2021-02-01T12:00Z').getTime();
   const t1300 = new Date('2021-02-01T13:00Z').getTime();
@@ -41,7 +41,7 @@ describe('getNewOutbreakHistory', () => {
       {id: '1', timestamp: t1200, address: '', name: ''},
       {id: '3', timestamp: t1200, address: '', name: ''},
     ];
-    const newHistory = getNewOutbreakHistory(checkInHistory, outbreakEvents);
+    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(true);
   });
   it('returns monitoring if there is no match', () => {
@@ -49,7 +49,7 @@ describe('getNewOutbreakHistory', () => {
       {id: '3', timestamp: t1200, address: '', name: ''},
       {id: '4', timestamp: t1200, address: '', name: ''},
     ];
-    const newHistory = getNewOutbreakHistory(checkInHistory, outbreakEvents);
+    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
   });
   it('returns monitoring if id matches but time does not', () => {
@@ -57,7 +57,7 @@ describe('getNewOutbreakHistory', () => {
       {id: '1', timestamp: t1400, address: '', name: ''},
       {id: '2', timestamp: t1400, address: '', name: ''},
     ];
-    const newHistory = getNewOutbreakHistory(checkInHistory, outbreakEvents);
+    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
   });
 });
