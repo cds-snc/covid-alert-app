@@ -32,6 +32,8 @@ import ScanQRCodeWhiteArrow from 'assets/scan-qr-code-white-arrow.svg';
 import Camera from 'assets/camera.svg';
 import GreenCircleCheck from 'assets/green-circle-check.svg';
 import RedCircleExclamation from 'assets/red-circle-exclamation.svg';
+import QRCodeIcon from 'assets/qr-code-icon.svg';
+import HamburgerMenu from 'assets/hamburger-menu.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -67,6 +69,8 @@ const ICONS = {
   'camera-permission': Camera,
   'green-circle-check': GreenCircleCheck,
   'red-circle-exclamation': RedCircleExclamation,
+  'qr-code-icon': QRCodeIcon,
+  'hamburger-menu': HamburgerMenu,
 };
 
 export type IconName = keyof typeof ICONS;
@@ -78,7 +82,7 @@ export interface IconProps {
   height?: number;
 }
 
-export const Icon = ({name, size = 24, width, height}: IconProps) => {
+export const Icon = ({ name, size = 24, width, height }: IconProps) => {
   const IconImpl = name !== undefined ? ICONS[name] : null; // eslint-disable-line no-negated-condition
   return IconImpl ? <IconImpl width={width ? width : size} height={height ? height : size} /> : null;
 };
