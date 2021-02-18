@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {ScrollView, Alert} from 'react-native';
+import {ScrollView, Alert, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
@@ -35,8 +35,8 @@ export const ClearOutbreakExposureScreen = () => {
   }, [close, onClearOutbreak]);
 
   return (
-    <Box backgroundColor="overlayBackground" flex={1}>
-      <SafeAreaView style={{flex: 1}}>
+    <Box backgroundColor="overlayBackground" style={styles.flex}>
+      <SafeAreaView style={styles.flex}>
         <Toolbar title="" navIcon="icon-back-arrow" navText="Close" navLabel="Close" onIconClicked={close} />
         <ScrollView>
           <Box paddingHorizontal="m" paddingBottom="l">
@@ -47,8 +47,7 @@ export const ClearOutbreakExposureScreen = () => {
               If you have recieved a negative test result, you may clear your outbreak exposure history
             </Text>
 
-            <Button
-text="Clear Exposure" onPress={onClearOutbreakExposed} variant="thinFlat" />
+            <Button text="Clear Exposure" onPress={onClearOutbreakExposed} variant="thinFlat" />
           </Box>
         </ScrollView>
       </SafeAreaView>
@@ -74,3 +73,8 @@ export const NegativeOutbreakTestButton = () => {
     </Box>
   );
 };
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+});
