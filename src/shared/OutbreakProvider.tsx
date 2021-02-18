@@ -108,6 +108,7 @@ export class OutbreakService implements OutbreakService {
   getOutbreaksFromServer = async () => {
     const outbreakEvents = await getOutbreakEvents();
     const detectedOutbreakExposures = getNewOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
+    this.markOutbreaksLastCheckedDateTime(getCurrentDate());
     log.debug({payload: {detectedOutbreakExposures}});
     if (detectedOutbreakExposures.length === 0) {
       return;
@@ -120,7 +121,6 @@ export class OutbreakService implements OutbreakService {
     const outbreakHistory = this.outbreakHistory.get();
     log.debug({payload: {outbreakHistory}});
     this.processOutbreakNotification(outbreakHistory);
-    this.markOutbreaksLastCheckedDateTime(getCurrentDate());
   };
 
   processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {
