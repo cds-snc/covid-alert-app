@@ -1,13 +1,14 @@
 import React from 'react';
-import { Box, Text, RoundedBox } from 'components';
-import { useAccessibilityAutoFocus } from 'shared/useAccessibilityAutoFocus';
-import { StyleSheet, Platform } from 'react-native';
-import { useI18n } from 'locale';
-import { NegativeOutbreakTestButton } from './ClearOutbreakExposureView';
+import {Box, Text, RoundedBox} from 'components';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
+import {StyleSheet, Platform} from 'react-native';
+import {useI18n} from 'locale';
 
-import { BaseHomeView } from '../components/BaseHomeView';
+import {BaseHomeView} from '../components/BaseHomeView';
 
-const ExposureText = ({ isBottomSheetExpanded }: { isBottomSheetExpanded: boolean }) => {
+import {NegativeOutbreakTestButton} from './ClearOutbreakExposureView';
+
+const ExposureText = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
   const i18n = useI18n();
   return (
@@ -15,7 +16,7 @@ const ExposureText = ({ isBottomSheetExpanded }: { isBottomSheetExpanded: boolea
       <RoundedBox isFirstBox>
         <Text focusRef={autoFocusRef} variant="bodyTitle" marginBottom="m" accessibilityRole="header">
           You have been exposed to an Outbreak
-          </Text>
+        </Text>
         <Text marginBottom="m">[Placeholder] There was an outbreak at one of the locations you scanned.</Text>
       </RoundedBox>
 
@@ -30,7 +31,7 @@ const ExposureText = ({ isBottomSheetExpanded }: { isBottomSheetExpanded: boolea
   );
 };
 
-export const OutbreakExposedView = ({ isBottomSheetExpanded }: { isBottomSheetExpanded: boolean }) => {
+export const OutbreakExposedView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
   return (
     <BaseHomeView iconName="hand-caution" testID="outbreakExposure">
       <ExposureText isBottomSheetExpanded={isBottomSheetExpanded} />
