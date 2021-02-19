@@ -54,13 +54,9 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
-      {Platform.OS === 'ios' ? (
+      <RoundedBox isFirstBox>
         <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
-      ) : (
-        <RoundedBox isFirstBox>
-          <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
-        </RoundedBox>
-      )}
+      </RoundedBox>
     </BaseHomeView>
   );
 };
