@@ -233,7 +233,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
             <Box marginVertical="m" flex={1}>
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
-            <ButtonWrapper onPress={close} color="greyCanada25">
+            <ButtonWrapper onPress={close} color="infoBlockNeutralBackground">
               <Box padding="s">
                 <Icon name="close" size={20} />
               </Box>
