@@ -45,7 +45,26 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
 
   return (
     <>
+      <Box marginTop="l" marginBottom="m">
+        <Text variant="settingTitle" fontWeight="normal">
+          {i18n.translate('Info.SettingsTitle')}
+        </Text>
+      </Box>
+      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
+        <InfoShareItem
+          onPress={onRegion}
+          text={i18n.translate('Info.ChangeRegion')}
+          icon="icon-chevron"
+          testID="changeRegion"
+        />
+        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
+      </Box>
       <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m" testID="InfoShareViewID">
+        <Box marginTop="l" marginBottom="m">
+          <Text variant="settingTitle" fontWeight="normal">
+            Placeholder
+          </Text>
+        </Box>
         <InfoShareItem
           testID="getCodeButton"
           onPress={onGetCode}
@@ -70,21 +89,7 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
           lastItem
         />
       </Box>
-      <Box marginTop="l" marginBottom="m">
-        <Text variant="settingTitle" fontWeight="normal">
-          {i18n.translate('Info.SettingsTitle')}
-        </Text>
-      </Box>
-      <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
-        <InfoShareItem
-          onPress={onRegion}
-          text={i18n.translate('Info.ChangeRegion')}
-          icon="icon-chevron"
-          testID="changeRegion"
-        />
-        <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
-        <OnOffButton bottomSheetBehavior={bottomSheetBehavior} />
-      </Box>
+
       <Box marginTop="l" marginBottom="m">
         <Text variant="settingTitle" fontWeight="normal">
           {i18n.translate('Info.InformationTitle')}

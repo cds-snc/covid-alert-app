@@ -38,6 +38,7 @@ import {NoExposureCoveredRegionView} from './views/NoExposureCoveredRegionView';
 import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
 import {OverlayView} from './views/OverlayView';
+import {ExpandedMenuView} from './views/ExpandedMenuView';
 import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
 import {ExposureNotificationsUserStoppedView} from './views/ExposureNotificationsUserStoppedView';
 import {UnknownProblemView} from './views/UnknownProblemView';
@@ -173,8 +174,8 @@ const CollapsedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
   );
 };
 
-const CollapsedMenu = () => {
-  return <CollapsedMenuView />;
+const CollapsedMenu = (bottomSheetBehavior: BottomSheetBehavior) => {
+  return <CollapsedMenuView bottomSheetBehavior={bottomSheetBehavior} />;
 };
 
 const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
@@ -194,6 +195,11 @@ const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
       bottomSheetBehavior={bottomSheetBehavior}
     />
   );
+};
+
+const ExpandedMenu = (bottomSheetBehaviour: BottomSheetBehavior) => {
+  const [systemStatus] = useSystemStatus();
+  return <ExpandedMenuView bottomSheetBehavior={bottomSheetBehaviour} status={systemStatus} />;
 };
 
 export const HomeScreen = () => {
@@ -275,7 +281,7 @@ export const HomeScreen = () => {
             <Content isBottomSheetExpanded={isBottomSheetExpanded} />
           </Animated.View>
         </Box>
-        <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedMenu} />
+        <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedMenu} collapsedComponent={CollapsedMenu} />
       </Box>
     </NotificationPermissionStatusProvider>
   );

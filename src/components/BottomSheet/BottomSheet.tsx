@@ -98,8 +98,8 @@ const BottomSheetInternal = (
     <>
       <BottomSheetRaw
         ref={bottomSheetRef}
-        borderRadius={32}
-        enabledContentGestureInteraction
+        borderRadius={22}
+        enabledContentGestureInteraction={false}
         renderContent={renderContent}
         onOpenEnd={onOpenEnd}
         onCloseEnd={onCloseEnd}

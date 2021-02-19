@@ -24,7 +24,12 @@ import {PrimaryActionButton} from '../components/PrimaryActionButton';
 import {InfoShareView} from './InfoShareView';
 import {StatusHeaderView} from './StatusHeaderView';
 
-const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: BottomSheetBehavior}) => {
+interface PrimaryBtnProps {
+  bottomSheetBehavior: BottomSheetBehavior;
+  i18n: I18n;
+}
+
+const QRCode = ({i18n, bottomSheetBehavior}: PrimaryBtnProps) => {
   const navigation = useNavigation();
   return (
     <PrimaryActionButton
@@ -36,6 +41,14 @@ const QRCode = ({i18n, bottomSheetBehavior}: {i18n: I18n; bottomSheetBehavior: B
       }}
     />
   );
+};
+
+const ReportPositiveTest = ({i18n, bottomSheetBehavior}: PrimaryBtnProps) => {
+  return <PrimaryActionButton icon="report-positive-test" text="Report your positive test" onPress={() => {}} />;
+};
+
+const TurnOffCovid = ({i18n, bottomSheetBehavior}: PrimaryBtnProps) => {
+  return <PrimaryActionButton icon="turn-off-covid" text="Turn off COVID Alert" onPress={() => {}} />;
 };
 
 interface Props extends Pick<BoxProps, 'maxWidth'> {
@@ -59,12 +72,21 @@ export const ExpandedMenuView = ({status, bottomSheetBehavior}: Props) => {
             </TouchableOpacity>
           </Box>
         </Box>
-        <Box>
-          {QR_ENABLED && (
-            <Box marginBottom="m" marginHorizontal="m">
-              <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
-            </Box>
-          )}
+
+        {QR_ENABLED && (
+          <Box marginBottom="s" marginHorizontal="m">
+            <QRCode bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
+          </Box>
+        )}
+        <Box marginBottom="s" marginHorizontal="m">
+          <ReportPositiveTest bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
+        </Box>
+        <Box marginBottom="s" marginHorizontal="m">
+          <TurnOffCovid bottomSheetBehavior={bottomSheetBehavior} i18n={i18n} />
+        </Box>
+
+        <Box marginBottom="m" marginHorizontal="m">
+          <InfoShareView bottomSheetBehavior={bottomSheetBehavior} />
         </Box>
       </Box>
     </Animated.View>
@@ -92,4 +114,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: 'space-between',
   },
+  primaryActionButtonBox: {},
 });

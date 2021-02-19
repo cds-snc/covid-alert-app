@@ -35,6 +35,8 @@ import RedCircleExclamation from 'assets/red-circle-exclamation.svg';
 import QRCodeIcon from 'assets/qr-code-icon.svg';
 import HamburgerMenu from 'assets/hamburger-menu.svg';
 import ExpandedMenuClose from 'assets/expanded-menu-close-icon.svg';
+import ReportPositiveTest from 'assets/report-positive-test.svg';
+import TurnOffCovid from 'assets/turn-off-covid.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -73,6 +75,8 @@ const ICONS = {
   'qr-code-icon': QRCodeIcon,
   'hamburger-menu': HamburgerMenu,
   'expanded-menu-close': ExpandedMenuClose,
+  'report-positive-test': ReportPositiveTest,
+  'turn-off-covid': TurnOffCovid,
 };
 
 export type IconName = keyof typeof ICONS;
