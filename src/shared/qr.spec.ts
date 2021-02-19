@@ -5,6 +5,7 @@ import {
   getNewOutbreakHistoryItems,
   isExposedToOutbreak,
   TimeWindow,
+  ignoreHistoryItems,
 } from './qr';
 
 describe('doTimeWindowsOverlap', () => {
@@ -71,8 +72,20 @@ describe('getNewOutbreakHistoryItems', () => {
 
 const checkIns = [
   {
-    id: '3',
+    id: '123',
     timestamp: new Date('2021-02-01T12:00Z').getTime(),
+    address: '123 King St.',
+    name: 'Location name',
+  },
+  {
+    id: '123',
+    timestamp: new Date('2021-02-01T14:00Z').getTime(),
+    address: '123 King St.',
+    name: 'Location name',
+  },
+  {
+    id: '123',
+    timestamp: new Date('2021-02-04T12:00Z').getTime(),
     address: '123 King St.',
     name: 'Location name',
   },
@@ -89,55 +102,62 @@ const outbreaks = [
     startTime: null,
     endTime: null,
   },
+  {
+    locationId: '123',
+    startTime: new Date('2021-03-01T09:00Z').getTime(),
+    endTime: new Date('2021-03-01T16:00Z').getTime(),
+  },
 ];
 
-describe('outbreak history item', () => {
-  it('creates history item', () => {
-    const checkIn = checkIns[0];
-    const outbreak = outbreaks[0];
-
-    const historyItem = createOutbreakHistoryItem({
-      timestamp: new Date().getTime(),
-      checkIn,
-      outbreakEvent: outbreak,
-    });
-
-    expect(historyItem).toEqual(
-      expect.objectContaining({
-        outbreakId: `${checkIn.id}-${checkIn.timestamp}`,
-        isExpired: false,
-        isIgnored: false,
-        locationId: checkIn.id,
-        locationAddress: checkIn.address,
-        locationName: checkIn.name,
-        outbreakStartTimestamp: outbreak.startTime,
-        outbreakEndTimestamp: outbreak.endTime,
-        checkInTimestamp: checkIn.timestamp,
-      }),
-    );
-  });
-
-  it('creates history item with null values', () => {
-    const checkIn = checkIns[0];
-    const outbreak = outbreaks[1];
-
-    const historyItem = createOutbreakHistoryItem({
-      timestamp: new Date().getTime(),
-      checkIn,
-      outbreakEvent: outbreak,
-    });
-
-    expect(historyItem).toEqual(
-      expect.objectContaining({
-        outbreakId: `${checkIn.id}-${checkIn.timestamp}`,
-        outbreakStartTimestamp: 0,
-        outbreakEndTimestamp: 0,
-      }),
-    );
-  });
-});
-
 describe('outbreakHistory functions', () => {
+  /* Create */
+  describe('create outbreak history item', () => {
+    it('creates history item', () => {
+      const checkIn = checkIns[0];
+      const outbreak = outbreaks[0];
+
+      const historyItem = createOutbreakHistoryItem({
+        timestamp: new Date().getTime(),
+        checkIn,
+        outbreakEvent: outbreak,
+      });
+
+      expect(historyItem).toEqual(
+        expect.objectContaining({
+          outbreakId: `${checkIn.id}-${checkIn.timestamp}`,
+          isExpired: false,
+          isIgnored: false,
+          locationId: checkIn.id,
+          locationAddress: checkIn.address,
+          locationName: checkIn.name,
+          outbreakStartTimestamp: outbreak.startTime,
+          outbreakEndTimestamp: outbreak.endTime,
+          checkInTimestamp: checkIn.timestamp,
+        }),
+      );
+    });
+
+    it('creates history item with null values', () => {
+      const checkIn = checkIns[0];
+      const outbreak = outbreaks[1];
+
+      const historyItem = createOutbreakHistoryItem({
+        timestamp: new Date().getTime(),
+        checkIn,
+        outbreakEvent: outbreak,
+      });
+
+      expect(historyItem).toEqual(
+        expect.objectContaining({
+          outbreakId: `${checkIn.id}-${checkIn.timestamp}`,
+          outbreakStartTimestamp: 0,
+          outbreakEndTimestamp: 0,
+        }),
+      );
+    });
+  });
+
+  /* Expire */
   describe('expireHistoryItems', () => {
     it('expires items older than 14 days', () => {
       expect(true).toStrictEqual(true);
@@ -147,12 +167,33 @@ describe('outbreakHistory functions', () => {
     });
   });
 
+  /* Ignore */
   describe('ignoreHistoryItems', () => {
     it('ignores items with ids that are passed in', () => {
-      expect(true).toStrictEqual(true);
+      const history = getNewOutbreakHistoryItems(checkIns, outbreaks);
+      const updatedHistory = ignoreHistoryItems(
+        ['123-1612180800000', '123-1612188000000'],
+        ignoreHistoryItems([], history),
+      );
+
+      expect(updatedHistory[0]).toEqual(
+        expect.objectContaining({
+          outbreakId: '123-1612180800000',
+          isIgnored: true,
+        }),
+      );
+
+      expect(updatedHistory[1]).toEqual(
+        expect.objectContaining({
+          outbreakId: '123-1612188000000',
+          isIgnored: true,
+        }),
+      );
     });
     it('does not ignore items with ids not passed in', () => {
       expect(true).toStrictEqual(true);
     });
   });
+
+  //end
 });
