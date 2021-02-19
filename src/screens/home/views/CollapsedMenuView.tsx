@@ -4,11 +4,11 @@ import {Box, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useSystemStatus} from 'services/ExposureNotificationService';
-
-import {CollapsedOverlayView} from './CollapsedOverlayView';
+import {QR_ENABLED} from 'env';
 
 import {useNotificationPermissionStatus} from '../components/NotificationPermissionStatus';
-import {QR_ENABLED} from 'env';
+
+import {CollapsedOverlayView} from './CollapsedOverlayView';
 
 const borderRadius = 16;
 
