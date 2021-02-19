@@ -6,6 +6,7 @@ import {
   isExposedToOutbreak,
   TimeWindow,
   ignoreHistoryItems,
+  getNewOutbreakExposures,
 } from './qr';
 
 describe('doTimeWindowsOverlap', () => {
@@ -164,6 +165,7 @@ describe('outbreakHistory functions', () => {
   /* Expire */
   describe('expireHistoryItems', () => {
     it('expires items older than 14 days', () => {
+      //
       expect(true).toStrictEqual(true);
     });
     it('does not expire items newer than 14 days', () => {
