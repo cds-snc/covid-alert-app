@@ -15,7 +15,6 @@ import {pluralizeKey} from 'shared/pluralization';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
-import {QR_ENABLED} from 'env';
 
 import {StatusHeaderView} from '../../home/views/StatusHeaderView';
 
@@ -220,7 +219,7 @@ interface Props extends Pick<BoxProps, 'maxWidth'> {
 
 export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: Props) => {
   const i18n = useI18n();
-  const {userStopped} = useStorage();
+  const {userStopped, qrEnabled} = useStorage();
   const navigation = useNavigation();
   const close = useCallback(() => {
     navigation.navigate('Home');
@@ -270,7 +269,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
             </Box>
           )}
 
-          {QR_ENABLED && (
+          {qrEnabled && (
             <Box marginBottom="m" marginHorizontal="m">
               <QRCode i18n={i18n} />
             </Box>

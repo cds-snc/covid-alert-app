@@ -4,7 +4,7 @@ import {Box, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useSystemStatus} from 'services/ExposureNotificationService';
-import {QR_ENABLED} from 'env';
+import {useStorage} from 'services/StorageService';
 
 import {useNotificationPermissionStatus} from '../components/NotificationPermissionStatus';
 
@@ -13,6 +13,7 @@ import {CollapsedOverlayView} from './CollapsedOverlayView';
 const borderRadius = 16;
 
 export const CollapsedMenuView = () => {
+  const {qrEnabled} = useStorage();
   const i18n = useI18n();
   const navigation = useNavigation();
   const openMenu = useCallback(() => {
@@ -50,7 +51,7 @@ export const CollapsedMenuView = () => {
   const oldMenuBar = <CollapsedOverlayView status={systemStatus} notificationWarning={showNotificationWarning} />;
   return (
     <Box style={styles.content} paddingVertical="s">
-      {QR_ENABLED ? newMenuBar : oldMenuBar}
+      {qrEnabled ? newMenuBar : oldMenuBar}
     </Box>
   );
 };
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
       height: 5,
     },
     shadowOpacity: 0.3,
-    shadowRadius: 10,
+    shadowRadius: borderRadius,
     elevation: 10,
   },
   box: {

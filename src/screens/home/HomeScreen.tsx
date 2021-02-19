@@ -3,7 +3,7 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
 import {Box} from 'components';
 import {DevSettings} from 'react-native';
-import {TEST_MODE, QR_ENABLED} from 'env';
+import {TEST_MODE} from 'env';
 import {
   ExposureStatusType,
   SystemStatus,
@@ -150,7 +150,7 @@ const Content = () => {
 export const HomeScreen = () => {
   const {checkForOutbreaks} = useOutbreakService();
   const navigation = useNavigation();
-  const {userStopped} = useStorage();
+  const {userStopped, qrEnabled} = useStorage();
 
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
@@ -175,13 +175,13 @@ export const HomeScreen = () => {
   const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
     const success = await startExposureNotificationService();
-    if (QR_ENABLED) {
+    if (qrEnabled) {
       checkForOutbreaks();
     }
     if (success) {
       updateExposureStatus();
     }
-  }, [userStopped, updateExposureStatus, startExposureNotificationService, checkForOutbreaks]);
+  }, [userStopped, startExposureNotificationService, qrEnabled, checkForOutbreaks, updateExposureStatus]);
 
   useEffect(() => {
     startAndUpdate();

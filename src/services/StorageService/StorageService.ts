@@ -15,6 +15,7 @@ export enum Key {
   CheckInHistory = 'CheckInHistory',
   OutbreakStatus = 'OutbreakStatus',
   HasViewedQrInstructions = 'HasViewedQRInstructions',
+  QrEnabled = 'QrEnabled',
 }
 export class StorageService {
   isOnboarding: Observable<boolean>;
@@ -25,6 +26,7 @@ export class StorageService {
   skipAllSet: Observable<boolean>;
   userStopped: Observable<boolean>;
   hasViewedQrInstructions: Observable<boolean>;
+  qrEnabled: Observable<boolean>;
 
   constructor() {
     this.isOnboarding = new Observable<boolean>(true);
@@ -35,6 +37,7 @@ export class StorageService {
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
     this.hasViewedQrInstructions = new Observable<boolean>(false);
+    this.qrEnabled = new Observable<boolean>(false);
   }
 
   setOnboarded = async (value: boolean) => {
@@ -77,6 +80,11 @@ export class StorageService {
     this.hasViewedQrInstructions.set(value);
   };
 
+  setQrEnabled = async (value: boolean) => {
+    await AsyncStorage.setItem(Key.QrEnabled, value ? '1' : '0');
+    this.qrEnabled.set(value);
+  };
+
   init = async () => {
     const isOnboarded = (await AsyncStorage.getItem(Key.IsOnboarded)) === '1';
     this.isOnboarding.set(!isOnboarded);
@@ -103,6 +111,9 @@ export class StorageService {
 
     const hasViewedQrInstructions = (await AsyncStorage.getItem(Key.HasViewedQrInstructions)) === '1';
     this.hasViewedQrInstructions.set(hasViewedQrInstructions);
+
+    const qrEnabled = (await AsyncStorage.getItem(Key.QrEnabled)) === '1';
+    this.qrEnabled.set(qrEnabled);
   };
 }
 
