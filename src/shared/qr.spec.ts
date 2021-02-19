@@ -12,8 +12,8 @@ import {
 } from './qr';
 
 const getTimes = (startTimestamp, durationInMinutes: number) => {
-  let endTime = new Date(startTimestamp);
-  endTime.setMinutes(endTime.getMinutes() + durationInMinutes); // timestamp
+  const endTime = new Date(startTimestamp);
+  endTime.setMinutes(endTime.getMinutes() + durationInMinutes);
   return {start: startTimestamp, end: endTime.getTime()};
 };
 
@@ -144,7 +144,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
 });
 
 describe('outbreakHistory functions', () => {
-  /* Create */
+  // Create
   describe('create outbreak history item', () => {
     it('creates history item', () => {
       const checkIn = checkIns[0];
@@ -156,7 +156,7 @@ describe('outbreakHistory functions', () => {
         outbreakEvent: outbreak,
       });
 
-      expect(historyItem).toEqual(
+      expect(historyItem).toStrictEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIn),
           isExpired: false,
@@ -181,7 +181,7 @@ describe('outbreakHistory functions', () => {
         outbreakEvent: outbreak,
       });
 
-      expect(historyItem).toEqual(
+      expect(historyItem).toStrictEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIn),
           outbreakStartTimestamp: 0,
@@ -191,7 +191,7 @@ describe('outbreakHistory functions', () => {
     });
   });
 
-  /* Expire */
+  // Expire
   describe('expireHistoryItems', () => {
     it('expires items older than 14 days', () => {
       const OriginalDate = global.Date;
@@ -223,8 +223,8 @@ describe('outbreakHistory functions', () => {
         },
       ];
 
-      let outbreak1 = getTimes(today.getTime() - 15 * 3600 * 24 * 1000, 20);
-      let outbreak2 = getTimes(today.getTime() - 2 * 3600 * 24 * 1000, 20);
+      const outbreak1 = getTimes(today.getTime() - 15 * 3600 * 24 * 1000, 20);
+      const outbreak2 = getTimes(today.getTime() - 2 * 3600 * 24 * 1000, 20);
 
       const outbreaks = [
         {
@@ -243,14 +243,14 @@ describe('outbreakHistory functions', () => {
 
       const history = expireHistoryItems(matchedHistory);
 
-      expect(history[0]).toEqual(
+      expect(history[0]).toStrictEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIns[0]),
           isExpired: true,
         }),
       );
 
-      expect(history[1]).toEqual(
+      expect(history[1]).toStrictEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIns[2]),
           isExpired: false,
@@ -259,7 +259,7 @@ describe('outbreakHistory functions', () => {
     });
   });
 
-  /* Ignore */
+  // Ignore
   describe('ignoreHistoryItems', () => {
     it('ignores items with ids that are passed in', () => {
       const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
@@ -268,14 +268,14 @@ describe('outbreakHistory functions', () => {
         ignoreHistoryItems([], history),
       );
 
-      expect(updatedHistory[0]).toEqual(
+      expect(updatedHistory[0]).toStrictEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIns[0]),
           isIgnored: true,
         }),
       );
 
-      expect(updatedHistory[1]).toEqual(
+      expect(updatedHistory[1]).toStrictEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIns[1]),
           isIgnored: true,
@@ -287,14 +287,14 @@ describe('outbreakHistory functions', () => {
       const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
       const updatedHistory = ignoreHistoryItems([getOutbreakId(checkIns[0])], history);
 
-      expect(updatedHistory[0]).toEqual(
+      expect(updatedHistory[0]).toStrictEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIns[0]),
           isIgnored: true,
         }),
       );
 
-      expect(updatedHistory[1]).toEqual(
+      expect(updatedHistory[1]).toStrictEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIns[1]),
           isIgnored: false,
@@ -303,7 +303,7 @@ describe('outbreakHistory functions', () => {
     });
   });
 
-  /* New Outbreaks */
+  // New Outbreaks
   describe('getNewOutbreakExposures', () => {
     it('returns only new exposure', () => {
       const item: OutbreakHistoryItem = {
@@ -323,12 +323,12 @@ describe('outbreakHistory functions', () => {
 
       // should return 0 items
       const items = getNewOutbreakExposures([history[0]], history);
-      expect(items.length).toStrictEqual(0);
+      expect(items).toHaveLength(0);
 
       // should return only new item
       const newItems = getNewOutbreakExposures([item], history);
-      expect(newItems.length).toStrictEqual(1);
-      expect(newItems[0]).toEqual(
+      expect(newItems).toHaveLength(1);
+      expect(newItems[0]).toStrictEqual(
         expect.objectContaining({
           outbreakId: '123-1612180800001',
         }),
@@ -336,5 +336,5 @@ describe('outbreakHistory functions', () => {
     });
   });
 
-  //end
+  // end
 });
