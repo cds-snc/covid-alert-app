@@ -8,12 +8,17 @@ import {
   ignoreHistoryItems,
   getNewOutbreakExposures,
   expireHistoryItems,
+  OutbreakHistoryItem,
 } from './qr';
 
-const getTimes = (startTimestamp, amount: number) => {
+const getTimes = (startTimestamp, durationInMinutes: number) => {
   let endTime = new Date(startTimestamp);
-  endTime.setMinutes(endTime.getMinutes() + amount); // timestamp
+  endTime.setMinutes(endTime.getMinutes() + durationInMinutes); // timestamp
   return {start: startTimestamp, end: endTime.getTime()};
+};
+
+const getOutbreakId = checkIn => {
+  return `${checkIn.id}-${checkIn.timestamp}`;
 };
 
 const checkIns = [
@@ -100,8 +105,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
     expect(isExposedToOutbreak(history)).toStrictEqual(true);
   });
 
-  //
-  it('skips check if item is expired', () => {
+  it('returns not exposed if isIgnored or expired', () => {
     const history = {
       outbreakId: '123-1612180800000',
       isExpired: false,
@@ -128,7 +132,6 @@ describe('getMatchedOutbreakHistoryItems', () => {
     ];
     const newHistory = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
-    //
   });
   it('returns monitoring if id matches but time does not', () => {
     const checkInHistory: CheckInData[] = [
@@ -139,10 +142,6 @@ describe('getMatchedOutbreakHistoryItems', () => {
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
   });
 });
-
-const getOutbreakId = checkIn => {
-  return `${checkIn.id}-${checkIn.timestamp}`;
-};
 
 describe('outbreakHistory functions', () => {
   /* Create */
@@ -195,8 +194,6 @@ describe('outbreakHistory functions', () => {
   /* Expire */
   describe('expireHistoryItems', () => {
     it('expires items older than 14 days', () => {
-      //
-
       const OriginalDate = global.Date;
       const realDateNow = Date.now.bind(global.Date);
       const today = new OriginalDate('2021-02-01T12:00Z');
@@ -242,9 +239,16 @@ describe('outbreakHistory functions', () => {
         },
       ];
 
-      const myHistory = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
+      const matchedHistory = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
 
-      const history = expireHistoryItems(myHistory);
+      const history = expireHistoryItems(matchedHistory);
+
+      expect(history[0]).toEqual(
+        expect.objectContaining({
+          outbreakId: getOutbreakId(checkIns[0]),
+          isExpired: true,
+        }),
+      );
 
       expect(history[1]).toEqual(
         expect.objectContaining({
@@ -252,9 +256,6 @@ describe('outbreakHistory functions', () => {
           isExpired: false,
         }),
       );
-    });
-    it('does not expire items newer than 14 days', () => {
-      expect(true).toStrictEqual(true);
     });
   });
 
@@ -305,7 +306,7 @@ describe('outbreakHistory functions', () => {
   /* New Outbreaks */
   describe('getNewOutbreakExposures', () => {
     it('returns only new exposure', () => {
-      const item = {
+      const item: OutbreakHistoryItem = {
         outbreakId: '123-1612180800001',
         isExpired: false,
         isIgnored: false,
@@ -318,7 +319,14 @@ describe('outbreakHistory functions', () => {
         notificationTimestamp: 1613758680944,
       };
 
-      const newItems = getNewOutbreakExposures([item], getMatchedOutbreakHistoryItems(checkIns, outbreaks));
+      const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
+
+      // should return 0 items
+      const items = getNewOutbreakExposures([history[0]], history);
+      expect(items.length).toStrictEqual(0);
+
+      // should return only new item
+      const newItems = getNewOutbreakExposures([item], history);
       expect(newItems.length).toStrictEqual(1);
       expect(newItems[0]).toEqual(
         expect.objectContaining({
