@@ -94,7 +94,7 @@ export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> 
   return data.exposedLocations;
 };
 
-export const getNewOutbreakHistoryItems = (
+export const getMatchedOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
   outbreakEvents: covidshield.OutbreakEvent[],
 ): OutbreakHistoryItem[] => {

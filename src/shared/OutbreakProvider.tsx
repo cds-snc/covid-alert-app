@@ -13,7 +13,7 @@ import {Observable} from './Observable';
 import {
   CheckInData,
   getNewOutbreakExposures,
-  getNewOutbreakHistoryItems,
+  getMatchedOutbreakHistoryItems,
   getOutbreakEvents,
   isExposedToOutbreak,
   OutbreakHistoryItem,
@@ -107,7 +107,7 @@ export class OutbreakService implements OutbreakService {
 
   getOutbreaksFromServer = async () => {
     const outbreakEvents = await getOutbreakEvents();
-    const detectedOutbreakExposures = getNewOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
+    const detectedOutbreakExposures = getMatchedOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
     this.markOutbreaksLastCheckedDateTime(getCurrentDate());
     log.debug({payload: {detectedOutbreakExposures}});
     if (detectedOutbreakExposures.length === 0) {

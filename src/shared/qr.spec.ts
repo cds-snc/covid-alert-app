@@ -2,13 +2,58 @@ import {
   CheckInData,
   createOutbreakHistoryItem,
   doTimeWindowsOverlap,
-  getNewOutbreakHistoryItems,
+  getMatchedOutbreakHistoryItems,
   isExposedToOutbreak,
   TimeWindow,
   ignoreHistoryItems,
   getNewOutbreakExposures,
   expireHistoryItems,
 } from './qr';
+
+const getTimes = (startTimestamp, amount: number) => {
+  let endTime = new Date(startTimestamp);
+  endTime.setMinutes(endTime.getMinutes() + amount); // timestamp
+  return {start: startTimestamp, end: endTime.getTime()};
+};
+
+const checkIns = [
+  {
+    id: '123',
+    timestamp: new Date('2021-02-01T12:00Z').getTime(),
+    address: '123 King St.',
+    name: 'Location name',
+  },
+  {
+    id: '123',
+    timestamp: new Date('2021-02-01T14:00Z').getTime(),
+    address: '123 King St.',
+    name: 'Location name',
+  },
+  {
+    id: '123',
+    timestamp: new Date('2021-02-04T12:00Z').getTime(),
+    address: '123 King St.',
+    name: 'Location name',
+  },
+];
+
+const outbreaks = [
+  {
+    locationId: '123',
+    startTime: new Date('2021-02-01T09:00Z').getTime(),
+    endTime: new Date('2021-02-01T16:00Z').getTime(),
+  },
+  {
+    locationId: '456',
+    startTime: null,
+    endTime: null,
+  },
+  {
+    locationId: '123',
+    startTime: new Date('2021-03-01T09:00Z').getTime(),
+    endTime: new Date('2021-03-01T16:00Z').getTime(),
+  },
+];
 
 describe('doTimeWindowsOverlap', () => {
   const dateStr = '2021-01-05';
@@ -37,7 +82,7 @@ describe('doTimeWindowsOverlap', () => {
   });
 });
 
-describe('getNewOutbreakHistoryItems', () => {
+describe('getMatchedOutbreakHistoryItems', () => {
   const t1100 = new Date('2021-02-01T11:00Z').getTime();
   const t1200 = new Date('2021-02-01T12:00Z').getTime();
   const t1300 = new Date('2021-02-01T13:00Z').getTime();
@@ -51,15 +96,37 @@ describe('getNewOutbreakHistoryItems', () => {
       {id: '1', timestamp: t1200, address: '', name: ''},
       {id: '3', timestamp: t1200, address: '', name: ''},
     ];
-    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
-    expect(isExposedToOutbreak(newHistory)).toStrictEqual(true);
+    const history = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents);
+    expect(isExposedToOutbreak(history)).toStrictEqual(true);
   });
+
+  //
+  it('skips check if item is expired', () => {
+    const history = {
+      outbreakId: '123-1612180800000',
+      isExpired: false,
+      isIgnored: false,
+      locationId: '123',
+      locationAddress: '123 King St.',
+      locationName: 'Location name',
+      outbreakStartTimestamp: 1612170000000,
+      outbreakEndTimestamp: 1612195200000,
+      checkInTimestamp: 1612180800000,
+      notificationTimestamp: 1613758680944,
+    };
+
+    expect(isExposedToOutbreak([history])).toStrictEqual(true);
+    expect(isExposedToOutbreak([{...history, isExpired: true}])).toStrictEqual(false);
+    expect(isExposedToOutbreak([{...history, isIgnored: true}])).toStrictEqual(false);
+  });
+  //
+
   it('returns monitoring if there is no match', () => {
     const checkInHistory: CheckInData[] = [
       {id: '3', timestamp: t1200, address: '', name: ''},
       {id: '4', timestamp: t1200, address: '', name: ''},
     ];
-    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
+    const newHistory = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
   });
   it('returns monitoring if id matches but time does not', () => {
@@ -67,55 +134,10 @@ describe('getNewOutbreakHistoryItems', () => {
       {id: '1', timestamp: t1400, address: '', name: ''},
       {id: '2', timestamp: t1400, address: '', name: ''},
     ];
-    const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
+    const newHistory = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
   });
 });
-
-const checkIns = [
-  {
-    id: '123',
-    timestamp: new Date('2021-02-01T12:00Z').getTime(),
-    address: '123 King St.',
-    name: 'Location name',
-  },
-  {
-    id: '123',
-    timestamp: new Date('2021-02-01T14:00Z').getTime(),
-    address: '123 King St.',
-    name: 'Location name',
-  },
-  {
-    id: '123',
-    timestamp: new Date('2021-02-04T12:00Z').getTime(),
-    address: '123 King St.',
-    name: 'Location name',
-  },
-];
-
-const getTimes = (startTimestamp, amount: number) => {
-  let endTime = new Date(startTimestamp);
-  endTime.setMinutes(endTime.getMinutes() + amount); // timestamp
-  return {start: startTimestamp, end: endTime.getTime()};
-};
-
-const outbreaks = [
-  {
-    locationId: '123',
-    startTime: new Date('2021-02-01T09:00Z').getTime(),
-    endTime: new Date('2021-02-01T16:00Z').getTime(),
-  },
-  {
-    locationId: '456',
-    startTime: null,
-    endTime: null,
-  },
-  {
-    locationId: '123',
-    startTime: new Date('2021-03-01T09:00Z').getTime(),
-    endTime: new Date('2021-03-01T16:00Z').getTime(),
-  },
-];
 
 const getOutbreakId = checkIn => {
   return `${checkIn.id}-${checkIn.timestamp}`;
@@ -177,6 +199,8 @@ describe('outbreakHistory functions', () => {
       const OriginalDate = global.Date;
       const realDateNow = Date.now.bind(global.Date);
       const today = new OriginalDate('2021-02-01T12:00Z');
+      const dateSpy = jest.spyOn(global, 'Date');
+      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       global.Date.now = realDateNow;
 
       const checkIns = [
@@ -216,8 +240,10 @@ describe('outbreakHistory functions', () => {
         },
       ];
 
-      const history = expireHistoryItems(getNewOutbreakHistoryItems(checkIns, outbreaks));
-      console.log(history);
+      const myHistory = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
+
+      const history = expireHistoryItems(myHistory);
+
       expect(history[1]).toEqual(
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIns[2]),
@@ -233,7 +259,7 @@ describe('outbreakHistory functions', () => {
   /* Ignore */
   describe('ignoreHistoryItems', () => {
     it('ignores items with ids that are passed in', () => {
-      const history = getNewOutbreakHistoryItems(checkIns, outbreaks);
+      const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
       const updatedHistory = ignoreHistoryItems(
         [getOutbreakId(checkIns[0]), getOutbreakId(checkIns[1])],
         ignoreHistoryItems([], history),
@@ -255,7 +281,7 @@ describe('outbreakHistory functions', () => {
     });
 
     it('does not ignore items with ids not passed in', () => {
-      const history = getNewOutbreakHistoryItems(checkIns, outbreaks);
+      const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
       const updatedHistory = ignoreHistoryItems([getOutbreakId(checkIns[0])], history);
 
       expect(updatedHistory[0]).toEqual(
