@@ -7,6 +7,7 @@ import {
   TimeWindow,
   ignoreHistoryItems,
   getNewOutbreakExposures,
+  expireHistoryItems,
 } from './qr';
 
 describe('doTimeWindowsOverlap', () => {
@@ -92,6 +93,12 @@ const checkIns = [
   },
 ];
 
+const getTimes = (startTimestamp, amount: number) => {
+  let endTime = new Date(startTimestamp);
+  endTime.setMinutes(endTime.getMinutes() + amount); // timestamp
+  return {start: startTimestamp, end: endTime.getTime()};
+};
+
 const outbreaks = [
   {
     locationId: '123',
@@ -166,7 +173,57 @@ describe('outbreakHistory functions', () => {
   describe('expireHistoryItems', () => {
     it('expires items older than 14 days', () => {
       //
-      expect(true).toStrictEqual(true);
+
+      const OriginalDate = global.Date;
+      const realDateNow = Date.now.bind(global.Date);
+      const today = new OriginalDate('2021-02-01T12:00Z');
+      global.Date.now = realDateNow;
+
+      const checkIns = [
+        {
+          id: '123',
+          timestamp: today.getTime() - 15 * 3600 * 24 * 1000,
+          address: '123 King St.',
+          name: 'Location name',
+        },
+        {
+          id: '123',
+          timestamp: today.getTime() - 14 * 3600 * 24 * 1000,
+          address: '123 King St.',
+          name: 'Location name',
+        },
+        {
+          id: '123',
+          timestamp: today.getTime() - 2 * 3600 * 24 * 1000,
+          address: '123 King St.',
+          name: 'Location name 3',
+        },
+      ];
+
+      let outbreak1 = getTimes(today.getTime() - 15 * 3600 * 24 * 1000, 20);
+      let outbreak2 = getTimes(today.getTime() - 2 * 3600 * 24 * 1000, 20);
+
+      const outbreaks = [
+        {
+          locationId: '123',
+          startTime: outbreak1.start,
+          endTime: outbreak1.end,
+        },
+        {
+          locationId: '123',
+          startTime: outbreak2.start,
+          endTime: outbreak2.end,
+        },
+      ];
+
+      const history = expireHistoryItems(getNewOutbreakHistoryItems(checkIns, outbreaks));
+      console.log(history);
+      expect(history[1]).toEqual(
+        expect.objectContaining({
+          outbreakId: getOutbreakId(checkIns[2]),
+          isExpired: false,
+        }),
+      );
     });
     it('does not expire items newer than 14 days', () => {
       expect(true).toStrictEqual(true);
