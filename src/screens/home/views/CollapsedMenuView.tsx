@@ -7,6 +7,9 @@ import {useSystemStatus} from 'services/ExposureNotificationService';
 
 import {CollapsedOverlayView} from './CollapsedOverlayView';
 
+import {useNotificationPermissionStatus} from '../components/NotificationPermissionStatus';
+import {QR_ENABLED} from 'env';
+
 const borderRadius = 16;
 
 export const CollapsedMenuView = () => {
@@ -19,8 +22,10 @@ export const CollapsedMenuView = () => {
     navigation.navigate('QRCodeFlow');
   }, [navigation]);
   const [systemStatus] = useSystemStatus();
+  const [notificationStatus] = useNotificationPermissionStatus();
+  const showNotificationWarning = notificationStatus !== 'granted';
 
-  const content1 = (
+  const newMenuBar = (
     <Box style={styles.box}>
       <Box marginHorizontal="m">
         <Button
@@ -42,10 +47,10 @@ export const CollapsedMenuView = () => {
       </Box>
     </Box>
   );
-  const content2 = <CollapsedOverlayView status={systemStatus} notificationWarning={false} />;
+  const oldMenuBar = <CollapsedOverlayView status={systemStatus} notificationWarning={showNotificationWarning} />;
   return (
     <Box style={styles.content} paddingVertical="s">
-      {content2}
+      {QR_ENABLED ? newMenuBar : oldMenuBar}
     </Box>
   );
 };
