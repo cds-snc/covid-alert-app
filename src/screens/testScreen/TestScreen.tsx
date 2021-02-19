@@ -107,7 +107,7 @@ const Content = () => {
 
   const {reset, qrEnabled, setQrEnabled} = useStorage();
   const {checkForOutbreaks, setOutbreakStatus} = useOutbreakService();
-  const [toggleState, setToggleState] = useState<boolean>(false);
+  const [toggleState, setToggleState] = useState<boolean>(qrEnabled);
   const onClearOutbreak = useCallback(async () => {
     setOutbreakStatus({
       type: OutbreakStatusType.Monitoring,

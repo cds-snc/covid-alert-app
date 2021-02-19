@@ -43,7 +43,7 @@ import {
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
 import {OutbreakExposedView} from './views/OutbreakExposedView';
-import {CollapsedMenuView} from './views/CollapsedMenuView';
+import {MenuBar} from './views/MenuBar';
 
 const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
   return hasShared ? <DiagnosedShareView /> : <DiagnosedShareUploadView />;
@@ -193,7 +193,7 @@ export const HomeScreen = () => {
         <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
           <Content />
         </Box>
-        <CollapsedMenuView />
+        <MenuBar />
       </Box>
     </NotificationPermissionStatusProvider>
   );

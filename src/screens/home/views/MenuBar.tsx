@@ -8,11 +8,11 @@ import {useStorage} from 'services/StorageService';
 
 import {useNotificationPermissionStatus} from '../components/NotificationPermissionStatus';
 
-import {CollapsedOverlayView} from './CollapsedOverlayView';
+import {MenuBarNoQr} from './MenuBarNoQr';
 
 const borderRadius = 16;
 
-export const CollapsedMenuView = () => {
+export const MenuBar = () => {
   const {qrEnabled} = useStorage();
   const i18n = useI18n();
   const navigation = useNavigation();
@@ -26,8 +26,8 @@ export const CollapsedMenuView = () => {
   const [notificationStatus] = useNotificationPermissionStatus();
   const showNotificationWarning = notificationStatus !== 'granted';
 
-  const newMenuBar = (
-    <Box style={styles.box}>
+  const menuBarQr = (
+    <Box style={styles.box} marginVertical="s">
       <Box marginHorizontal="m">
         <Button
           text={i18n.translate('QRCode.CTA')}
@@ -48,10 +48,10 @@ export const CollapsedMenuView = () => {
       </Box>
     </Box>
   );
-  const oldMenuBar = <CollapsedOverlayView status={systemStatus} notificationWarning={showNotificationWarning} />;
+  const menuBarNoQr = <MenuBarNoQr status={systemStatus} notificationWarning={showNotificationWarning} />;
   return (
     <Box style={styles.content} paddingVertical="s">
-      {qrEnabled ? newMenuBar : oldMenuBar}
+      {qrEnabled ? menuBarQr : menuBarNoQr}
     </Box>
   );
 };

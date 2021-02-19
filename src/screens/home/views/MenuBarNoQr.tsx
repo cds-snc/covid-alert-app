@@ -12,7 +12,7 @@ interface Props {
   notificationWarning: boolean;
 }
 
-export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
+export const MenuBarNoQr = ({status, notificationWarning}: Props) => {
   const i18n = useI18n();
   const navigation = useNavigation();
 

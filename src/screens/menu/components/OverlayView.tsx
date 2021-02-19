@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {Box, InfoBlock, BoxProps, InfoButton, ButtonWrapper, Icon} from 'components';
+import {Box, ButtonWrapper, InfoBlock, BoxProps, InfoButton, Icon} from 'components';
 import {useI18n, I18n} from 'locale';
 import {Linking, Platform} from 'react-native';
 import {
