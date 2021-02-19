@@ -7,6 +7,7 @@ export * from './BulletPointPurple';
 export * from './ButtonMultiline';
 export * from './ButtonSingleLine';
 export * from './ButtonSelect';
+export * from './ButtonWrapper';
 export * from './CodeInput';
 export * from './Header';
 export * from './Icon';

@@ -44,6 +44,7 @@ import {
 import {LocationOffView} from './views/LocationOffView';
 import {OutbreakExposedView} from './views/OutbreakExposedView';
 import {CollapsedMenuView} from './views/CollapsedMenuView';
+import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 
 const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
   return hasShared ? <DiagnosedShareView /> : <DiagnosedShareUploadView />;

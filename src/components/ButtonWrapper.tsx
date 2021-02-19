@@ -1,12 +1,13 @@
 import React from 'react';
 import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
+import {useTheme} from '@shopify/restyle';
 import {Theme} from 'shared/theme';
-import { Box } from './Box';
 
+import {Box, BoxProps} from './Box';
 import {Ripple} from './Ripple';
 
-export interface RawButtonProps {
-  color?: keyof Theme['colors'];
+export interface ButtonWrapperProps {
+  color: keyof Theme['colors'];
   disabled?: boolean;
   borderRadius?: number;
   onPress: () => void;
@@ -15,16 +16,17 @@ export interface RawButtonProps {
 }
 
 export interface ContentWrapperProps {
+  color: string;
+  borderRadius?: number;
   children?: React.ReactElement;
 }
 
-
-const ContentWrapper = ({children}: ContentWrapperProps) => {
+const ContentWrapper = ({color, borderRadius, children}: ContentWrapperProps) => {
   const boxStyles: BoxProps['style'] = {
     backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
-    minHeight: height,
-    borderBottomWidth,
-    borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
+    // minHeight: height,
+    // borderBottomWidth,
+    // borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
   };
   return (
     <Box
@@ -36,11 +38,20 @@ const ContentWrapper = ({children}: ContentWrapperProps) => {
       paddingHorizontal="m"
       paddingVertical="m"
       flexDirection="row"
-    >;
+    >
+      {children}
+    </Box>
   );
 };
 
-export const RawButton = ({color, disabled, borderRadius, onPress, testID, children}: RawButtonProps) => {
+export const ButtonWrapper = ({color, disabled, borderRadius = 8, onPress, testID, children}: ButtonWrapperProps) => {
+  const theme = useTheme<Theme>();
+  const buttonColor = color && theme.colors[color];
+  const content = (
+    <ContentWrapper color={buttonColor} borderRadius={borderRadius}>
+      {children}
+    </ContentWrapper>
+  );
 
   const accessibilityProps = {
     accessibilityRole: 'button' as 'button',
@@ -51,12 +62,12 @@ export const RawButton = ({color, disabled, borderRadius, onPress, testID, child
       <Ripple
         disabled={disabled}
         onPress={onPress}
-        backgroundColor={color}
+        backgroundColor={buttonColor}
         borderRadius={borderRadius}
         testID={testID}
         {...accessibilityProps}
       >
-        {children}
+        {content}
       </Ripple>
     );
   }
@@ -69,7 +80,7 @@ export const RawButton = ({color, disabled, borderRadius, onPress, testID, child
       testID={testID}
       {...accessibilityProps}
     >
-      {children}
+      {content}
     </TouchableOpacity>
   );
 };

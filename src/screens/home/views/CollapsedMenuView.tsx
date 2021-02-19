@@ -3,6 +3,9 @@ import {StyleSheet} from 'react-native';
 import {Box, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import {useSystemStatus} from 'services/ExposureNotificationService';
+
+import {CollapsedOverlayView} from './CollapsedOverlayView';
 
 const borderRadius = 16;
 
@@ -15,8 +18,10 @@ export const CollapsedMenuView = () => {
   const openScan = useCallback(() => {
     navigation.navigate('QRCodeFlow');
   }, [navigation]);
-  return (
-    <Box style={styles.content} paddingVertical="s">
+  const [systemStatus] = useSystemStatus();
+
+  const content1 = (
+    <Box style={styles.box}>
       <Box marginHorizontal="m">
         <Button
           text={i18n.translate('QRCode.CTA')}
@@ -37,11 +42,15 @@ export const CollapsedMenuView = () => {
       </Box>
     </Box>
   );
+  const content2 = <CollapsedOverlayView status={systemStatus} notificationWarning={false} />;
+  return (
+    <Box style={styles.content} paddingVertical="s">
+      {content2}
+    </Box>
+  );
 };
 const styles = StyleSheet.create({
   content: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     width: '100%',
     borderTopLeftRadius: borderRadius,
     borderTopRightRadius: borderRadius,
@@ -54,5 +63,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 10,
+  },
+  box: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

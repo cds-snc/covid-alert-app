@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {TouchableOpacity, View, StyleSheet} from 'react-native';
-import {Box, Text, Icon} from 'components';
+import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {SystemStatus} from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
@@ -10,7 +10,6 @@ import {StatusHeaderView} from './StatusHeaderView';
 interface Props {
   status: SystemStatus;
   notificationWarning: boolean;
-  turnNotificationsOn(): void;
 }
 
 export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
@@ -24,9 +23,6 @@ export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
   return (
     <TouchableOpacity activeOpacity={0.6} onPress={menuPress}>
       <View style={styles.content}>
-        <View style={styles.collapseContentHandleBar}>
-          <Icon name="sheet-handle-bar" size={36} />
-        </View>
         <Box>
           <Box marginBottom="s">
             <StatusHeaderView enabled={status === SystemStatus.Active} />
@@ -61,13 +57,7 @@ export const CollapsedOverlayView = ({status, notificationWarning}: Props) => {
 
 const styles = StyleSheet.create({
   content: {
-    paddingTop: 10,
+    paddingTop: 15,
     paddingBottom: 10,
-  },
-  collapseContentHandleBar: {
-    position: 'absolute',
-    width: '100%',
-    alignItems: 'center',
-    top: -24,
   },
 });

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {Box, InfoBlock, BoxProps, InfoButton, Button} from 'components';
+import {Box, InfoBlock, BoxProps, InfoButton, ButtonWrapper, Icon} from 'components';
 import {useI18n, I18n} from 'locale';
 import {Linking, Platform} from 'react-native';
 import {
@@ -21,7 +21,6 @@ import {StatusHeaderView} from '../../home/views/StatusHeaderView';
 
 import {InfoShareView} from './InfoShareView';
 import {PrimaryActionButton} from './PrimaryActionButton';
-import {CloseButton} from './CloseButton';
 
 const QRCode = ({i18n}: {i18n: I18n}) => {
   const navigation = useNavigation();
@@ -234,7 +233,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
             <Box marginVertical="m" flex={1}>
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
-            <CloseButton onPress={close} />
+            <ButtonWrapper onPress={close} color="greyCanada25">
+              <Box padding="s">
+                <Icon name="close" size={20} />
+              </Box>
+            </ButtonWrapper>
           </Box>
           {userStopped && status !== SystemStatus.Active && (
             <Box marginBottom="m" marginTop="l" marginHorizontal="m">
