@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
   },
   content: {
     textAlign: 'left',
+    marginRight: 20,
   },
   chevronOffset: {
     position: 'absolute',
