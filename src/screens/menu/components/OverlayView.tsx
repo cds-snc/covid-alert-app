@@ -229,7 +229,7 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
   return (
     <SafeAreaView>
       <ScrollView>
-        <Box>
+        <Box backgroundColor="overlayBackground">
           <Box flexDirection="row" marginTop="m" marginHorizontal="m">
             <Box marginVertical="m" flex={1}>
               <StatusHeaderView enabled={status === SystemStatus.Active} />
