@@ -1,4 +1,11 @@
-import {CheckInData, doTimeWindowsOverlap, getNewOutbreakHistoryItems, isExposedToOutbreak, TimeWindow} from './qr';
+import {
+  CheckInData,
+  createOutbreakHistoryItem,
+  doTimeWindowsOverlap,
+  getNewOutbreakHistoryItems,
+  isExposedToOutbreak,
+  TimeWindow,
+} from './qr';
 
 describe('doTimeWindowsOverlap', () => {
   const dateStr = '2021-01-05';
@@ -59,6 +66,74 @@ describe('getNewOutbreakHistoryItems', () => {
     ];
     const newHistory = getNewOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
+  });
+});
+
+const checkIns = [
+  {
+    id: '3',
+    timestamp: new Date('2021-02-01T12:00Z').getTime(),
+    address: '123 King St.',
+    name: 'Location name',
+  },
+];
+
+const outbreaks = [
+  {
+    locationId: '123',
+    startTime: new Date('2021-02-01T09:00Z').getTime(),
+    endTime: new Date('2021-02-01T16:00Z').getTime(),
+  },
+  {
+    locationId: '456',
+    startTime: null,
+    endTime: null,
+  },
+];
+
+describe('outbreak history item', () => {
+  it('creates history item', () => {
+    const checkIn = checkIns[0];
+    const outbreak = outbreaks[0];
+
+    const historyItem = createOutbreakHistoryItem({
+      timestamp: new Date().getTime(),
+      checkIn,
+      outbreakEvent: outbreak,
+    });
+
+    expect(historyItem).toEqual(
+      expect.objectContaining({
+        outbreakId: `${checkIn.id}-${checkIn.timestamp}`,
+        isExpired: false,
+        isIgnored: false,
+        locationId: checkIn.id,
+        locationAddress: checkIn.address,
+        locationName: checkIn.name,
+        outbreakStartTimestamp: outbreak.startTime,
+        outbreakEndTimestamp: outbreak.endTime,
+        checkInTimestamp: checkIn.timestamp,
+      }),
+    );
+  });
+
+  it('creates history item with null values', () => {
+    const checkIn = checkIns[0];
+    const outbreak = outbreaks[1];
+
+    const historyItem = createOutbreakHistoryItem({
+      timestamp: new Date().getTime(),
+      checkIn,
+      outbreakEvent: outbreak,
+    });
+
+    expect(historyItem).toEqual(
+      expect.objectContaining({
+        outbreakId: `${checkIn.id}-${checkIn.timestamp}`,
+        outbreakStartTimestamp: 0,
+        outbreakEndTimestamp: 0,
+      }),
+    );
   });
 });
 
