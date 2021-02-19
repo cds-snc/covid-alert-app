@@ -34,6 +34,7 @@ import GreenCircleCheck from 'assets/green-circle-check.svg';
 import RedCircleExclamation from 'assets/red-circle-exclamation.svg';
 import QRCodeIcon from 'assets/qr-code-icon.svg';
 import HamburgerMenu from 'assets/hamburger-menu.svg';
+import Close from 'assets/close.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -71,6 +72,7 @@ const ICONS = {
   'red-circle-exclamation': RedCircleExclamation,
   'qr-code-icon': QRCodeIcon,
   'hamburger-menu': HamburgerMenu,
+  close: Close,
 };
 
 export type IconName = keyof typeof ICONS;

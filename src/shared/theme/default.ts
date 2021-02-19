@@ -44,6 +44,7 @@ export const palette = {
   info100: '#005B99',
   focus: '#44BBEE',
   exposure25: '#DED8FB',
+  greyCanada25: '#D0D7DE',
 };
 
 const theme = {
@@ -90,6 +91,7 @@ const theme = {
     gray3: palette.gray3,
     gray4: palette.gray4,
     gray5: palette.neutralGrey,
+    greyCanada25: palette.greyCanada25,
     green2: palette.green2,
   },
   spacing: {

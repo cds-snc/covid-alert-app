@@ -17,10 +17,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useStorage} from 'services/StorageService';
 import {QR_ENABLED} from 'env';
 
-import {StatusHeaderView} from '../home/views/StatusHeaderView';
+import {StatusHeaderView} from '../../home/views/StatusHeaderView';
 
 import {InfoShareView} from './InfoShareView';
 import {PrimaryActionButton} from './PrimaryActionButton';
+import {CloseButton} from './CloseButton';
 
 const QRCode = ({i18n}: {i18n: I18n}) => {
   const navigation = useNavigation();
@@ -229,11 +230,11 @@ export const OverlayView = ({status, notificationWarning, turnNotificationsOn}: 
     <SafeAreaView>
       <ScrollView>
         <Box>
-          <Box flexDirection="row" marginTop="m">
+          <Box flexDirection="row" marginTop="m" marginHorizontal="m">
             <Box marginVertical="m" flex={1}>
               <StatusHeaderView enabled={status === SystemStatus.Active} />
             </Box>
-            <Button text="Close" onPress={close} variant="text" />
+            <CloseButton onPress={close} />
           </Box>
           {userStopped && status !== SystemStatus.Active && (
             <Box marginBottom="m" marginTop="l" marginHorizontal="m">

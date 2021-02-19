@@ -3,7 +3,7 @@ import {Linking} from 'react-native';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
 import {useSystemStatus} from 'services/ExposureNotificationService';
 
-import {OverlayView} from './OverlayView';
+import {OverlayView} from './components/OverlayView';
 
 export const MenuScreen = () => {
   const [systemStatus] = useSystemStatus();
