@@ -128,6 +128,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
     ];
     const newHistory = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
+    //
   });
   it('returns monitoring if id matches but time does not', () => {
     const checkInHistory: CheckInData[] = [
@@ -200,6 +201,7 @@ describe('outbreakHistory functions', () => {
       const realDateNow = Date.now.bind(global.Date);
       const today = new OriginalDate('2021-02-01T12:00Z');
       const dateSpy = jest.spyOn(global, 'Date');
+      // @ts-ignore
       dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
       global.Date.now = realDateNow;
 
@@ -295,6 +297,32 @@ describe('outbreakHistory functions', () => {
         expect.objectContaining({
           outbreakId: getOutbreakId(checkIns[1]),
           isIgnored: false,
+        }),
+      );
+    });
+  });
+
+  /* New Outbreaks */
+  describe('getNewOutbreakExposures', () => {
+    it('returns only new exposure', () => {
+      const item = {
+        outbreakId: '123-1612180800001',
+        isExpired: false,
+        isIgnored: false,
+        locationId: '123',
+        locationAddress: '123 King St.',
+        locationName: 'Location name',
+        outbreakStartTimestamp: 1612170000000,
+        outbreakEndTimestamp: 1612195200000,
+        checkInTimestamp: 1612180800001,
+        notificationTimestamp: 1613758680944,
+      };
+
+      const newItems = getNewOutbreakExposures([item], getMatchedOutbreakHistoryItems(checkIns, outbreaks));
+      expect(newItems.length).toStrictEqual(1);
+      expect(newItems[0]).toEqual(
+        expect.objectContaining({
+          outbreakId: '123-1612180800001',
         }),
       );
     });
