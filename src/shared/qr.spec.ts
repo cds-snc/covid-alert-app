@@ -109,6 +109,10 @@ const outbreaks = [
   },
 ];
 
+const getOutbreakId = checkIn => {
+  return `${checkIn.id}-${checkIn.timestamp}`;
+};
+
 describe('outbreakHistory functions', () => {
   /* Create */
   describe('create outbreak history item', () => {
@@ -124,7 +128,7 @@ describe('outbreakHistory functions', () => {
 
       expect(historyItem).toEqual(
         expect.objectContaining({
-          outbreakId: `${checkIn.id}-${checkIn.timestamp}`,
+          outbreakId: getOutbreakId(checkIn),
           isExpired: false,
           isIgnored: false,
           locationId: checkIn.id,
@@ -149,7 +153,7 @@ describe('outbreakHistory functions', () => {
 
       expect(historyItem).toEqual(
         expect.objectContaining({
-          outbreakId: `${checkIn.id}-${checkIn.timestamp}`,
+          outbreakId: getOutbreakId(checkIn),
           outbreakStartTimestamp: 0,
           outbreakEndTimestamp: 0,
         }),
@@ -172,26 +176,42 @@ describe('outbreakHistory functions', () => {
     it('ignores items with ids that are passed in', () => {
       const history = getNewOutbreakHistoryItems(checkIns, outbreaks);
       const updatedHistory = ignoreHistoryItems(
-        ['123-1612180800000', '123-1612188000000'],
+        [getOutbreakId(checkIns[0]), getOutbreakId(checkIns[1])],
         ignoreHistoryItems([], history),
       );
 
       expect(updatedHistory[0]).toEqual(
         expect.objectContaining({
-          outbreakId: '123-1612180800000',
+          outbreakId: getOutbreakId(checkIns[0]),
           isIgnored: true,
         }),
       );
 
       expect(updatedHistory[1]).toEqual(
         expect.objectContaining({
-          outbreakId: '123-1612188000000',
+          outbreakId: getOutbreakId(checkIns[1]),
           isIgnored: true,
         }),
       );
     });
+
     it('does not ignore items with ids not passed in', () => {
-      expect(true).toStrictEqual(true);
+      const history = getNewOutbreakHistoryItems(checkIns, outbreaks);
+      const updatedHistory = ignoreHistoryItems([getOutbreakId(checkIns[0])], history);
+
+      expect(updatedHistory[0]).toEqual(
+        expect.objectContaining({
+          outbreakId: getOutbreakId(checkIns[0]),
+          isIgnored: true,
+        }),
+      );
+
+      expect(updatedHistory[1]).toEqual(
+        expect.objectContaining({
+          outbreakId: getOutbreakId(checkIns[1]),
+          isIgnored: false,
+        }),
+      );
     });
   });
 
