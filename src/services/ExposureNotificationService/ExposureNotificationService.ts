@@ -270,6 +270,7 @@ export class ExposureNotificationService {
 
       const filteredMetricsService = FilteredMetricsService.sharedInstance();
 
+      await filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
       await filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
 
       const notificationStatus: Status = await checkNotifications()
