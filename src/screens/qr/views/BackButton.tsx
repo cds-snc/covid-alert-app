@@ -18,10 +18,10 @@ export const BackButton = ({text, textStyles, onPress, disabled, iconName}: Butt
     <Box
       alignItems="center"
       justifyContent="flex-start"
-      paddingHorizontal="m"
+      paddingHorizontal="s"
       paddingVertical="m"
       flexDirection="row"
-      marginBottom="m"
+      marginTop="-s"
     >
       <Box style={{...styles.iconOffset}}>{iconName && <Icon size={16} name={iconName} />}</Box>
       <Text style={{...textStyles}}>{text}</Text>
@@ -54,6 +54,6 @@ const styles = StyleSheet.create({
   },
   iconOffset: {
     position: 'absolute',
-    left: 0,
+    left: -8,
   },
 });

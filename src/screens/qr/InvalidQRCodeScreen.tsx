@@ -13,7 +13,7 @@ export const InvalidQRCodeScreen = () => {
   const goHome = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
     <BaseQRCodeScreen showBackButton={false} showCloseButton={false}>
-      <Box paddingHorizontal="m" marginTop="-xl">
+      <Box paddingHorizontal="m" marginTop="-xxl">
         <Icon name="red-circle-exclamation" height={75} width={75} />
       </Box>
       <Box paddingHorizontal="m" marginTop="l" style={styles.flex}>
@@ -24,7 +24,7 @@ export const InvalidQRCodeScreen = () => {
           <Text marginBottom="l">{i18n.translate('QRCode.Error.Body')}</Text>
         </Box>
 
-        <Box alignSelf="stretch" marginTop="xl">
+        <Box alignSelf="stretch" marginTop="m">
           <Button variant="thinFlat" text={i18n.translate('QRCode.Error.CTA2')} onPress={goHome} />
         </Box>
         <Box alignSelf="stretch" marginTop="s" marginBottom="l">

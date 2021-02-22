@@ -36,7 +36,7 @@ export const QRCodeScanner = () => {
       style={{...StyleSheet.absoluteFillObject}}
     >
       <View style={styles.layerTop} />
-      <Box style={styles.back} paddingHorizontal="m" paddingBottom="m">
+      <Box style={styles.back} paddingHorizontal="m" paddingBottom="xl">
         <Toolbar useWhiteText showBackButton />
       </Box>
       <View style={styles.layerCenter}>
@@ -50,7 +50,6 @@ export const QRCodeScanner = () => {
         </Text>
         <Icon size={175} name="scan-qr-code-white-arrow" />
       </Box>
-      <View style={styles.layerBottom} />
     </BarCodeScanner>
   );
 };
@@ -81,18 +80,18 @@ const styles = StyleSheet.create({
     backgroundColor: opacity,
   },
   layerCenter: {
-    flex: 10,
+    flex: 20,
     flexDirection: 'row',
   },
   layerLeft: {
-    flex: 1,
+    flex: 0.5,
     backgroundColor: opacity,
   },
   focused: {
     flex: 20,
   },
   layerRight: {
-    flex: 1,
+    flex: 0.5,
     backgroundColor: opacity,
   },
   layerBottom: {

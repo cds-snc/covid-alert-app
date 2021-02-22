@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box} from 'components';
 import {useI18n} from 'locale';
@@ -17,15 +17,17 @@ export const BaseQRCodeScreen = ({children, showBackButton, showCloseButton}: Ba
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Box marginBottom="m">
-          <Toolbar
-            navText={i18n.translate('DataUpload.Close')}
-            showBackButton={showBackButton}
-            showCloseButton={showCloseButton}
-            useWhiteText={false}
-          />
-        </Box>
-        <View style={styles.flex}>{children}</View>
+        <ScrollView>
+          <Box marginBottom="m">
+            <Toolbar
+              navText={i18n.translate('DataUpload.Close')}
+              showBackButton={showBackButton}
+              showCloseButton={showCloseButton}
+              useWhiteText={false}
+            />
+          </Box>
+          <View style={styles.flex}>{children}</View>
+        </ScrollView>
       </SafeAreaView>
     </Box>
   );
