@@ -37,8 +37,8 @@ export function daysBetween(date1: Date, date2: Date): number {
 }
 
 export function daysBetweenUTC(date1: Date, date2: Date): number {
-  const startDate1 = new Date(date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate());
-  const startDate2 = new Date(date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate());
+  const startDate1 = new Date(Date.UTC(date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate()));
+  const startDate2 = new Date(Date.UTC(date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate()));
   return (startDate2.getTime() - startDate1.getTime()) / (1000 * 3600 * 24);
 }
 
