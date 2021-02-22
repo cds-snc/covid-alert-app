@@ -14,13 +14,13 @@ export function periodSinceEpoch(date: Date, hoursPerPeriod: number) {
 }
 
 export function hoursFromNow(date: Date) {
-  const currentTime = Date.now();
+  const currentTime = getCurrentDate().getTime();
   const oneHourMs = 1000 * 60 * 60;
   return Math.round((currentTime - date.getTime()) / oneHourMs);
 }
 
 export function minutesFromNow(date: Date) {
-  const currentTime = Date.now();
+  const currentTime = getCurrentDate().getTime();
   const oneMinuteMs = 1000 * 60;
   return Math.round((currentTime - date.getTime()) / oneMinuteMs);
 }

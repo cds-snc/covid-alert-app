@@ -20,6 +20,11 @@ import {StatusHeaderView} from '../../home/views/StatusHeaderView';
 
 import {InfoShareView} from './InfoShareView';
 import {PrimaryActionButton} from './PrimaryActionButton';
+import {TurnAppBackOn} from '../views/TurnAppBackOn';
+import {NotificationStatusOff} from '../views/NotificationStatusOff';
+import {BluetoothStatusOff} from '../views/BluetoothStatusOff';
+import {SystemStatusOff} from '../views/SystemStatusOff';
+import {SystemStatusUnauthorized} from '../views/SystemStatusUnauthorized';
 
 const QRCode = ({i18n}: {i18n: I18n}) => {
   const navigation = useNavigation();
@@ -30,85 +35,6 @@ const QRCode = ({i18n}: {i18n: I18n}) => {
       onPress={() => {
         navigation.navigate('QRCodeFlow');
       }}
-    />
-  );
-};
-
-const SystemStatusOff = ({i18n}: {i18n: I18n}) => {
-  const startExposureNotificationService = useStartExposureNotificationService();
-  const onPress = async () => {
-    if (Platform.OS === 'android') {
-      await startExposureNotificationService();
-      return;
-    }
-    return toSettings();
-  };
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-
-  return (
-    <InfoButton
-      title={i18n.translate('OverlayOpen.ExposureNotificationCardAction')}
-      text={i18n.translate('OverlayOpen.ExposureNotificationCardBody')}
-      color="danger25Background"
-      variant="danger50Flat"
-      internalLink
-      onPress={onPress}
-    />
-  );
-};
-
-const SystemStatusUnauthorized = ({i18n}: {i18n: I18n}) => {
-  const startExposureNotificationService = useStartExposureNotificationService();
-  const onPress = async () => {
-    if (Platform.OS === 'android') {
-      await startExposureNotificationService();
-      return;
-    }
-    return toSettings();
-  };
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-
-  return (
-    <InfoButton
-      title={i18n.translate('OverlayOpen.EnUnauthorizedCardAction')}
-      text={i18n.translate('OverlayOpen.EnUnauthorizedCardBody')}
-      color="danger25Background"
-      variant="danger50Flat"
-      internalLink
-      onPress={onPress}
-    />
-  );
-};
-
-const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
-  return (
-    <InfoBlock
-      titleBolded={i18n.translate('OverlayOpen.BluetoothCardAction')}
-      backgroundColor="danger25Background"
-      color="bodyText"
-      button={{
-        text: '',
-        action: () => {},
-      }}
-      text={i18n.translate('OverlayOpen.BluetoothCardBody')}
-      showButton={false}
-    />
-  );
-};
-
-const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
-  return (
-    <InfoButton
-      title={i18n.translate('OverlayOpen.NotificationCardStatus')}
-      color="mainBackground"
-      internalLink
-      text={i18n.translate('OverlayOpen.NotificationCardBody')}
-      onPress={action}
-      variant="bigFlatNeutralGrey"
     />
   );
 };
@@ -181,30 +107,6 @@ const ShareDiagnosisCode = ({i18n}: {i18n: I18n}) => {
         action: () => navigation.navigate('DataSharing'),
       }}
       backgroundColor="infoBlockNeutralBackground"
-      color="bodyText"
-      showButton
-    />
-  );
-};
-
-const TurnAppBackOn = ({i18n}: {i18n: I18n}) => {
-  const startExposureNotificationService = useStartExposureNotificationService();
-
-  const onStart = useCallback(async () => {
-    await startExposureNotificationService();
-  }, [startExposureNotificationService]);
-
-  return (
-    <InfoBlock
-      titleBolded={i18n.translate('OverlayOpen.TurnAppBackOn.Title')}
-      text={i18n.translate('OverlayOpen.TurnAppBackOn.Body')}
-      button={{
-        text: i18n.translate('OverlayOpen.TurnAppBackOn.CTA'),
-        action: () => {
-          onStart();
-        },
-      }}
-      backgroundColor="danger25Background"
       color="bodyText"
       showButton
     />
