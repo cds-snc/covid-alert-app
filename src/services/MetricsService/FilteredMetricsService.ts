@@ -5,7 +5,7 @@ import {Platform} from 'react-native';
 import {Status} from 'screens/home/components/NotificationPermissionStatus';
 import {ExposureStatus, ExposureStatusType, SystemStatus} from 'services/ExposureNotificationService';
 import {Key} from 'services/StorageService';
-import {getHoursBetween, getCurrentDate, daysBetweenUTC} from 'shared/date-fns';
+import {getHoursBetween, getCurrentDate, daysBetweenUTC, getUTCMidnight} from 'shared/date-fns';
 import {log} from 'shared/logging/config';
 
 import {DefaultFilteredMetricsStateStorage, FilteredMetricsStateStorage} from './FilteredMetricsStateStorage';
@@ -176,10 +176,12 @@ export class FilteredMetricsService {
   private publishBackgroundCheckEventIfNecessary(): Promise<void> {
     const publishAndSave = (
       numberOfBackgroundCheckForPreviousDay: number,
+      day: number,
       newBackgroundCheckEvent: Date,
     ): Promise<void> => {
       return this.publishEvent(EventTypeMetric.BackgroundCheck, [
         ['count', String(numberOfBackgroundCheckForPreviousDay)],
+        ['utcDay', String(day)],
       ]).then(() => this.stateStorage.saveBackgroundCheckEvents([newBackgroundCheckEvent]));
     };
 
@@ -191,7 +193,7 @@ export class FilteredMetricsService {
         if (daysBetweenUTC(lastBackgroundCheckEvent, newBackgroundCheckEvent) === 0) {
           return this.stateStorage.saveBackgroundCheckEvents(events.concat(newBackgroundCheckEvent));
         } else {
-          return publishAndSave(events.length, newBackgroundCheckEvent);
+          return publishAndSave(events.length, getUTCMidnight(events[0]), newBackgroundCheckEvent);
         }
       } else {
         return this.stateStorage.saveBackgroundCheckEvents([newBackgroundCheckEvent]);

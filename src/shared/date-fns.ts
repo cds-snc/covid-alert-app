@@ -116,3 +116,8 @@ export const getFirstThreeUniqueDates = (formattedDates: string[]) => {
 export const parseSavedTimestamps = (savedTimestamps: string) => {
   return savedTimestamps.split(',').map(x => Number(x));
 };
+
+export const getUTCMidnight = (date: Date) => {
+  const midnight = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  return midnight.getTime();
+}
