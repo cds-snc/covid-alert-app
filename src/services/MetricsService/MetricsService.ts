@@ -1,7 +1,7 @@
-import {METRICS_API_KEY, METRICS_URL, TEST_MODE} from 'env';
+import {METRICS_API_KEY, METRICS_URL} from 'env';
 import PQueue from 'p-queue';
 import {log} from 'shared/logging/config';
-import {getCurrentDate, minutesBetween} from 'shared/date-fns';
+import {datesAreOnSameDay, getCurrentDate} from 'shared/date-fns';
 
 import {Metric} from './Metric';
 import {MetricsJsonSerializer} from './MetricsJsonSerializer';
@@ -14,10 +14,6 @@ import {InactiveMetricsService} from './InactiveMetricsService';
 
 const LastMetricTimestampSentToTheServerUniqueIdentifier = '3FFE2346-1910-4FD7-A23F-52D83CFF083A';
 const MetricsLastUploadedDateTime = 'C0663511-3718-4D85-B165-A38155DED2F3';
-
-// eslint-disable-next-line line-comment-position
-const MIN_UPLOAD_MINUTES = TEST_MODE ? 60 : 60 * 24; // 24 hours
-
 export interface MetricsService {
   publishMetric(metric: Metric, forcePush?: boolean): Promise<void>;
   publishMetrics(metrics: Metric[], forcePush?: boolean): Promise<void>;
@@ -112,12 +108,7 @@ export class DefaultMetricsService implements MetricsService {
       return this.getMetricsLastUploadedDateTime().then(metricsLastUploadedDateTime => {
         if (metricsLastUploadedDateTime) {
           const today = getCurrentDate();
-          const minutesSinceLastUpload = minutesBetween(metricsLastUploadedDateTime, today);
-          log.debug({
-            category: 'metrics',
-            message: `MinutesSinceLastUpload: ${minutesSinceLastUpload}, MinimumUploadMinutes: ${MIN_UPLOAD_MINUTES}`,
-          });
-          if (minutesSinceLastUpload > MIN_UPLOAD_MINUTES) {
+          if (datesAreOnSameDay(metricsLastUploadedDateTime, today) === false) {
             return pushAndMarkLastUploadedDateTime();
           }
         } else {
