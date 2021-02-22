@@ -1,7 +1,7 @@
 import {METRICS_API_KEY, METRICS_URL} from 'env';
 import PQueue from 'p-queue';
 import {log} from 'shared/logging/config';
-import {datesAreOnSameDay, getCurrentDate} from 'shared/date-fns';
+import {datesAreOnSameDay, daysBetweenUTC, getCurrentDate} from 'shared/date-fns';
 
 import {Metric} from './Metric';
 import {MetricsJsonSerializer} from './MetricsJsonSerializer';
@@ -108,7 +108,7 @@ export class DefaultMetricsService implements MetricsService {
       return this.getMetricsLastUploadedDateTime().then(metricsLastUploadedDateTime => {
         if (metricsLastUploadedDateTime) {
           const today = getCurrentDate();
-          if (datesAreOnSameDay(metricsLastUploadedDateTime, today) === false) {
+          if (daysBetweenUTC(metricsLastUploadedDateTime, today) > 0) {
             return pushAndMarkLastUploadedDateTime();
           }
         } else {
