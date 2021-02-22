@@ -24,10 +24,10 @@ export const InvalidQRCodeScreen = () => {
           <Text marginBottom="l">{i18n.translate('QRCode.Error.Body')}</Text>
         </Box>
 
-        <Box alignSelf="stretch" marginTop="m">
+        <Box alignSelf="stretch" marginTop="s">
           <Button variant="thinFlat" text={i18n.translate('QRCode.Error.CTA2')} onPress={goHome} />
         </Box>
-        <Box alignSelf="stretch" marginTop="s" marginBottom="l">
+        <Box alignSelf="stretch" marginTop="s" marginBottom="m">
           <Button variant="thinFlatNeutralGrey" text={i18n.translate('QRCode.Error.CTA')} onPress={tryAgain} />
         </Box>
       </Box>
