@@ -5,7 +5,7 @@ import {Platform} from 'react-native';
 import {Status} from 'screens/home/components/NotificationPermissionStatus';
 import {ExposureStatus, ExposureStatusType, SystemStatus} from 'services/ExposureNotificationService';
 import {Key} from 'services/StorageService';
-import {getHoursBetween, getCurrentDate, datesAreOnSameDay} from 'shared/date-fns';
+import {getHoursBetween, getCurrentDate, daysBetweenUTC} from 'shared/date-fns';
 import {log} from 'shared/logging/config';
 
 import {DefaultFilteredMetricsStateStorage, FilteredMetricsStateStorage} from './FilteredMetricsStateStorage';
@@ -188,7 +188,7 @@ export class FilteredMetricsService {
     return this.stateStorage.getBackgroundCheckEvents().then(events => {
       if (events.length > 0) {
         const lastBackgroundCheckEvent = events[events.length - 1];
-        if (datesAreOnSameDay(lastBackgroundCheckEvent, newBackgroundCheckEvent)) {
+        if (daysBetweenUTC(lastBackgroundCheckEvent, newBackgroundCheckEvent) === 0) {
           return this.stateStorage.saveBackgroundCheckEvents(events.concat(newBackgroundCheckEvent));
         } else {
           return publishAndSave(events.length, newBackgroundCheckEvent);
