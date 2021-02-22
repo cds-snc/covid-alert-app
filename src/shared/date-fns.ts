@@ -118,6 +118,6 @@ export const parseSavedTimestamps = (savedTimestamps: string) => {
 };
 
 export const getUTCMidnight = (date: Date) => {
-  const midnight = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  const midnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   return midnight.getTime();
-}
+};

@@ -12,6 +12,7 @@ import {
   parseSavedTimestamps,
   getFirstThreeUniqueDates,
   getHoursBetween,
+  getUTCMidnight,
 } from './date-fns';
 
 /**
@@ -259,6 +260,17 @@ describe('date-fns', () => {
       const twoDaysFromNow = new Date(Number(now));
       twoDaysFromNow.setDate(now.getDate() + 2);
       expect(getHoursBetween(now, twoDaysFromNow)).toStrictEqual(48);
+    });
+  });
+
+  describe('getUTCMidnight', () => {
+    it.each([
+      [new Date('2021-01-01T12:00Z'), new Date('2021-01-01T00:00Z').getTime()],
+      [new Date('2021-01-01T01:00Z'), new Date('2021-01-01T00:00Z').getTime()],
+      [new Date('2021-01-01T23:59Z'), new Date('2021-01-01T00:00Z').getTime()],
+      [new Date('2021-01-02T01:00Z'), new Date('2021-01-02T00:00Z').getTime()],
+    ])('for %p, midnight has the timestamp %p', (date, midnight) => {
+      expect(getUTCMidnight(date)).toStrictEqual(midnight);
     });
   });
 
