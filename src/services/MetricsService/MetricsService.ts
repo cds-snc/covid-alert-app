@@ -1,7 +1,7 @@
 import {METRICS_API_KEY, METRICS_URL} from 'env';
 import PQueue from 'p-queue';
 import {log} from 'shared/logging/config';
-import {datesAreOnSameDay, daysBetweenUTC, getCurrentDate} from 'shared/date-fns';
+import {daysBetweenUTC, getCurrentDate} from 'shared/date-fns';
 
 import {Metric} from './Metric';
 import {MetricsJsonSerializer} from './MetricsJsonSerializer';
