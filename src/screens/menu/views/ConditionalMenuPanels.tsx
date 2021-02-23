@@ -7,10 +7,8 @@ import {useNotificationPermissionStatus} from 'screens/home/components/Notificat
 
 import {BluetoothStatusOff} from './BluetoothStatusOff';
 import {NotificationStatusOff} from './NotificationStatusOff';
-import {ShareDiagnosisCode} from './ShareDiagnosisCode';
 import {SystemStatusOff} from './SystemStatusOff';
 import {SystemStatusUnauthorized} from './SystemStatusUnauthorized';
-import {TurnAppBackOn} from './TurnAppBackOn';
 
 export const ConditionalMenuPanels = () => {
   const {userStopped} = useStorage();
@@ -28,22 +26,22 @@ export const ConditionalMenuPanels = () => {
       </Box> */}
 
       {!userStopped && (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) && (
-        <Box marginBottom="m">
+        <Box marginBottom="s">
           <SystemStatusOff />
         </Box>
       )}
       {!userStopped && systemStatus === SystemStatus.Unauthorized && (
-        <Box marginBottom="m">
+        <Box marginBottom="s">
           <SystemStatusUnauthorized />
         </Box>
       )}
       {systemStatus === SystemStatus.BluetoothOff && (
-        <Box marginBottom="m">
+        <Box marginBottom="s">
           <BluetoothStatusOff />
         </Box>
       )}
       {showNotificationWarning && (
-        <Box marginBottom="m">
+        <Box marginBottom="s">
           <NotificationStatusOff action={turnNotificationsOnFn} />
         </Box>
       )}
