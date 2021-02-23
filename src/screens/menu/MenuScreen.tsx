@@ -1,20 +1,18 @@
 import React, {useCallback} from 'react';
-import {useI18n} from 'locale';
+import {useI18n, useRegionalI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Box, ButtonWrapper, Icon, Text} from 'components';
 import {Linking, SafeAreaView, ScrollView} from 'react-native';
 import {StatusHeaderView} from 'screens/home/views/StatusHeaderView';
 import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
+import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
+import {useStorage} from 'services/StorageService';
+import {getExposedHelpMenuURL} from 'shared/RegionLogic';
+import {captureException} from 'shared/log';
 
 import {ConditionalMenuPanels} from './views/ConditionalMenuPanels';
 import {PrimaryMenuButtons} from './views/PrimaryMenuButtons';
-import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
-import {captureException} from 'shared/log';
-import {getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {InfoShareItem} from './components/InfoShareItem';
-import {OnOffButton} from './components/OnOffButton';
-import {useRegionalI18n} from 'locale';
-import {useStorage} from 'services/StorageService';
 
 export const MenuScreen = () => {
   const [systemStatus] = useSystemStatus();
