@@ -24,32 +24,32 @@ export const ConditionalMenuPanels = () => {
   return (
     <>
       {userStopped && systemStatus !== SystemStatus.Active && (
-        <Box marginBottom="m" marginTop="l" marginHorizontal="m">
+        <Box marginBottom="m" marginTop="l">
           <TurnAppBackOn />
         </Box>
       )}
 
-      <Box marginBottom="m" marginTop="s" marginHorizontal="m">
+      <Box marginBottom="m" marginTop="s">
         <ShareDiagnosisCode />
       </Box>
 
       {!userStopped && (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) && (
-        <Box marginBottom="m" marginHorizontal="m">
+        <Box marginBottom="m">
           <SystemStatusOff />
         </Box>
       )}
       {!userStopped && systemStatus === SystemStatus.Unauthorized && (
-        <Box marginBottom="m" marginHorizontal="m">
+        <Box marginBottom="m">
           <SystemStatusUnauthorized />
         </Box>
       )}
       {systemStatus === SystemStatus.BluetoothOff && (
-        <Box marginBottom="m" marginHorizontal="m">
+        <Box marginBottom="m">
           <BluetoothStatusOff />
         </Box>
       )}
       {showNotificationWarning && (
-        <Box marginBottom="m" marginHorizontal="m">
+        <Box marginBottom="m">
           <NotificationStatusOff action={turnNotificationsOnFn} />
         </Box>
       )}

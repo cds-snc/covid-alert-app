@@ -12,7 +12,7 @@ export const PrimaryMenuButtons = () => {
   const navigation = useNavigation();
   return (
     <>
-      <Box marginBottom="m" marginHorizontal="m">
+      <Box marginBottom="m">
         <PrimaryActionButton
           icon="qr-code"
           text="Finish sharing exposures"
@@ -22,7 +22,7 @@ export const PrimaryMenuButtons = () => {
         />
       </Box>
       {qrEnabled && (
-        <Box marginBottom="m" marginHorizontal="m">
+        <Box marginBottom="m">
           <PrimaryActionButton
             icon="qr-code"
             text={i18n.translate('QRCode.CTA')}
@@ -32,7 +32,7 @@ export const PrimaryMenuButtons = () => {
           />
         </Box>
       )}
-      <Box marginBottom="m" marginHorizontal="m">
+      <Box marginBottom="m">
         <PrimaryActionButton
           icon="qr-code"
           text="Turn off COVID Alert"

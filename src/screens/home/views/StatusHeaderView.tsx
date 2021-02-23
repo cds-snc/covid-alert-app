@@ -9,7 +9,7 @@ export const StatusHeaderView = ({enabled}: Props) => {
   const i18n = useI18n();
   const color = enabled ? 'statusSuccess' : 'statusError';
   return (
-    <Box justifyContent="center" flexDirection="row" alignItems="flex-start" paddingHorizontal="m">
+    <Box flexDirection="row" alignItems="flex-start">
       <Text>
         <Text variant="overlayTitle" color={color}>
           {i18n.translate('OverlayClosed.SystemStatus')}
