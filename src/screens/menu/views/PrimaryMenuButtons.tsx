@@ -11,10 +11,10 @@ export const PrimaryMenuButtons = () => {
   const {qrEnabled} = useStorage();
   const navigation = useNavigation();
   return (
-    <>
-      <Box marginBottom="m">
+    <Box marginBottom="m">
+      <Box marginBottom="s">
         <PrimaryActionButton
-          icon="qr-code"
+          icon="otk-entry"
           text="Finish sharing exposures"
           onPress={() => {
             navigation.navigate('');
@@ -22,7 +22,7 @@ export const PrimaryMenuButtons = () => {
         />
       </Box>
       {qrEnabled && (
-        <Box marginBottom="m">
+        <Box marginBottom="s">
           <PrimaryActionButton
             icon="qr-code"
             text={i18n.translate('QRCode.CTA')}
@@ -32,15 +32,16 @@ export const PrimaryMenuButtons = () => {
           />
         </Box>
       )}
-      <Box marginBottom="m">
+      <Box marginBottom="s">
         <PrimaryActionButton
-          icon="qr-code"
+          icon="turn-off"
           text="Turn off COVID Alert"
           onPress={() => {
             navigation.navigate('');
           }}
+          showChevron={false}
         />
       </Box>
-    </>
+    </Box>
   );
 };

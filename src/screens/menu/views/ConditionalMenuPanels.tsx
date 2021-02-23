@@ -29,9 +29,9 @@ export const ConditionalMenuPanels = () => {
         </Box>
       )}
 
-      <Box marginBottom="m" marginTop="s">
+      {/* <Box marginBottom="m" marginTop="s">
         <ShareDiagnosisCode />
-      </Box>
+      </Box> */}
 
       {!userStopped && (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) && (
         <Box marginBottom="m">

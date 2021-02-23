@@ -6,10 +6,16 @@ interface PrimaryActionButtonProps extends TouchableOpacityProps {
   onPress: () => void;
   text: string;
   icon: IconProps['name'];
-  lastItem?: boolean;
+  showChevron?: boolean;
 }
 
-export const PrimaryActionButton = ({onPress, text, icon, lastItem, ...touchableProps}: PrimaryActionButtonProps) => (
+export const PrimaryActionButton = ({
+  onPress,
+  text,
+  icon,
+  showChevron = true,
+  ...touchableProps
+}: PrimaryActionButtonProps) => (
   <>
     <TouchableOpacity activeOpacity={0.6} onPress={onPress} accessibilityRole="button" {...touchableProps}>
       <Box
@@ -28,10 +34,11 @@ export const PrimaryActionButton = ({onPress, text, icon, lastItem, ...touchable
             {text}
           </Text>
         </Box>
-
-        <Box alignSelf="center">
-          <Icon size={25} name="icon-chevron" />
-        </Box>
+        {showChevron ? (
+          <Box alignSelf="center">
+            <Icon size={25} name="icon-chevron" />
+          </Box>
+        ) : null}
       </Box>
     </TouchableOpacity>
   </>
