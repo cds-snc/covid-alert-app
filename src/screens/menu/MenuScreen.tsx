@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useI18n, useRegionalI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Box, ButtonWrapper, Icon, Text} from 'components';
-import {Linking, SafeAreaView, ScrollView} from 'react-native';
+import {Linking, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {StatusHeaderView} from 'screens/home/views/StatusHeaderView';
 import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
@@ -60,9 +60,11 @@ export const MenuScreen = () => {
               <StatusHeaderView enabled={systemStatus === SystemStatus.Active} autoFocus />
             </Box>
             <ButtonWrapper onPress={close} color="infoBlockNeutralBackground">
-              <Box padding="xs">
-                <Icon name="close" size={20} />
-              </Box>
+              <Text accessibilityLabel={i18n.translate('BottomSheet.Collapse')}>
+                <Box padding="xs">
+                  <Icon name="close" size={20} />
+                </Box>
+              </Text>
             </ButtonWrapper>
           </Box>
 
@@ -142,3 +144,9 @@ export const MenuScreen = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  closeButton: {
+    display: 'none',
+  },
+});
