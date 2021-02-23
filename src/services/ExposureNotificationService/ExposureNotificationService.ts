@@ -16,6 +16,7 @@ import {
   daysBetweenUTC,
   daysBetween,
   parseSavedTimestamps,
+  secondsBetween,
 } from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
@@ -256,8 +257,22 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
+    const backgroundTaskStartDate = getCurrentDate();
+
+    const logBackgroundTaskDuration = (taskResult: string, backgroundTaskEndDate: Date) => {
+      const backgroundTaskDurationInSeconds = secondsBetween(backgroundTaskStartDate, backgroundTaskEndDate);
+      log.debug({
+        category: 'background',
+        message: 'backgoundTaskDuration',
+        payload: {taskResult, backgroundTaskDurationInSeconds},
+      });
+    };
+
     // @todo: maybe remove this gets called in updateExposureStatus
-    if (!(await this.shouldPerformExposureCheck())) return;
+    if (!(await this.shouldPerformExposureCheck())) {
+      logBackgroundTaskDuration('failure#1', getCurrentDate());
+      return;
+    }
     try {
       await this.loadExposureStatus();
       await this.loadExposureHistory();
@@ -285,7 +300,10 @@ export class ExposureNotificationService {
         payload: {exposureStatus},
       });
       PollNotifications.checkForNotifications(this.i18n);
+
+      logBackgroundTaskDuration('success', getCurrentDate());
     } catch (error) {
+      logBackgroundTaskDuration('failure#2', getCurrentDate());
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
   }
