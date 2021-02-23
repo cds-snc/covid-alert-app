@@ -132,12 +132,15 @@ export class ExposureNotificationService {
   private storage: PersistencyProvider;
   private secureStorage: SecurePersistencyProvider;
 
+  private filteredMetricsService: FilteredMetricsService;
+
   constructor(
     backendInterface: BackendInterface,
     i18n: I18n,
     storage: PersistencyProvider,
     secureStorage: SecurePersistencyProvider,
     exposureNotification: typeof ExposureNotification,
+    filteredMetricsService: FilteredMetricsService,
   ) {
     this.i18n = i18n;
     this.exposureNotification = exposureNotification;
@@ -147,6 +150,7 @@ export class ExposureNotificationService {
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
+    this.filteredMetricsService = filteredMetricsService;
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
@@ -274,15 +278,13 @@ export class ExposureNotificationService {
       return;
     }
 
-    const filteredMetricsService = FilteredMetricsService.sharedInstance();
-
     try {
       await this.loadExposureStatus();
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
 
-      await filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
+      await this.filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
 
       if (QR_ENABLED) {
         OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
@@ -302,13 +304,13 @@ export class ExposureNotificationService {
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
 
-    await filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
-    await filteredMetricsService.addEvent({type: EventTypeMetric.PushToServerFromBackground});
+    await this.filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
+    await this.filteredMetricsService.addEvent({type: EventTypeMetric.PushToServerFromBackground});
 
     const notificationStatus: Status = await checkNotifications()
       .then(({status}) => status)
       .catch(() => 'unavailable');
-    await filteredMetricsService.sendDailyMetrics(this.systemStatus.get(), notificationStatus);
+    await this.filteredMetricsService.sendDailyMetrics(this.systemStatus.get(), notificationStatus);
   }
 
   /*
@@ -888,7 +890,7 @@ export class ExposureNotificationService {
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
 
-    FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.Exposed});
+    this.filteredMetricsService.addEvent({type: EventTypeMetric.Exposed});
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {

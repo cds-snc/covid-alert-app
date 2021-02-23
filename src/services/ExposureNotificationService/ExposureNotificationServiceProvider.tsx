@@ -51,6 +51,7 @@ export const ExposureNotificationServiceProvider = ({
         storage || AsyncStorage,
         secureStorage || RNSecureKeyStore,
         exposureNotification || ExposureNotification,
+        FilteredMetricsService.sharedInstance(),
       ),
     [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );
