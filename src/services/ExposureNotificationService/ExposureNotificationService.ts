@@ -273,25 +273,20 @@ export class ExposureNotificationService {
       logBackgroundTaskDuration('failure#1', getCurrentDate());
       return;
     }
+
+    const filteredMetricsService = FilteredMetricsService.sharedInstance();
+
     try {
       await this.loadExposureStatus();
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
 
+      await filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
+
       if (QR_ENABLED) {
         OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
       }
-
-      const filteredMetricsService = FilteredMetricsService.sharedInstance();
-
-      await filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
-      await filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
-
-      const notificationStatus: Status = await checkNotifications()
-        .then(({status}) => status)
-        .catch(() => 'unavailable');
-      await filteredMetricsService.sendDailyMetrics(this.systemStatus.get(), notificationStatus);
 
       const exposureStatus = this.exposureStatus.get();
       log.debug({
@@ -306,6 +301,14 @@ export class ExposureNotificationService {
       logBackgroundTaskDuration('failure#2', getCurrentDate());
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
+
+    await filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
+    await filteredMetricsService.addEvent({type: EventTypeMetric.PushToServerFromBackground});
+
+    const notificationStatus: Status = await checkNotifications()
+      .then(({status}) => status)
+      .catch(() => 'unavailable');
+    await filteredMetricsService.sendDailyMetrics(this.systemStatus.get(), notificationStatus);
   }
 
   /*
