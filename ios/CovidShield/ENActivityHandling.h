@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import <ExposureNotification/ExposureNotification.h>
 
+typedef void (^ENActivityHandler)(void);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ENManager (ENActivityHandling)

@@ -32,7 +32,7 @@ export const MenuBar = () => {
   );
 
   const appStatus = (
-    <Box paddingTop="m">
+    <Box paddingRight="m" maxWidth={240}>
       <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
     </Box>
   );

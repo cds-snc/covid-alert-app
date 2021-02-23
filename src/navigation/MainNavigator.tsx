@@ -170,7 +170,7 @@ const MainNavigator = () => {
     <MainStack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName={isOnboarding ? 'Landing' : 'Home'}
-      // mode="modal"
+      mode="modal"
     >
       <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />

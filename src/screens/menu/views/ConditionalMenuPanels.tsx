@@ -19,6 +19,7 @@ export const ConditionalMenuPanels = () => {
   }, []);
   const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
   const showNotificationWarning = notificationStatus !== 'granted';
+  console.log('notificationStatus', notificationStatus);
   return (
     <>
       {/* <Box marginBottom="m" marginTop="s">
@@ -40,11 +41,11 @@ export const ConditionalMenuPanels = () => {
           <BluetoothStatusOff />
         </Box>
       )}
-      {showNotificationWarning && (
+      {/* {showNotificationWarning && (
         <Box marginBottom="s">
           <NotificationStatusOff action={turnNotificationsOnFn} />
         </Box>
-      )}
+      )} */}
     </>
   );
 };
