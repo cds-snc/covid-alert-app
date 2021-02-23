@@ -1,8 +1,11 @@
+import {getCurrentDate} from 'shared/date-fns';
+
 import {SecureKeyValueStore} from './SecureKeyValueStorage';
 
 const InstalledEventMarkerKeyValueUniqueIdentifier = 'A607DDBD-D592-4927-8861-DD1CCEDA8E76';
 const OnboardedEventMarkerKeyValueUniqueIdentifier = '0429518A-9D4D-4EB2-A5A8-AEA985DEB1D7';
 const BackgroundCheckEventMarkerKeyValueUniqueIdentifier = 'AB398409-D8A9-4BC2-91F0-63E4CEFCD89A';
+const ActiveUserEventMarkerKeyValueUniqueIdentifier = 'B678D2BD-1596-4650-B28C-4606E34DC4CA';
 
 export interface FilteredMetricsStateStorage {
   markInstalledEventAsPublished(): Promise<void>;
@@ -14,6 +17,9 @@ export interface FilteredMetricsStateStorage {
 
   getBackgroundCheckEvents(): Promise<Date[]>;
   saveBackgroundCheckEvents(events: Date[]): Promise<void>;
+
+  getLastActiveUserEventSentDate(): Promise<Date | null>;
+  updateLastActiveUserSentDateToNow(): Promise<void>;
 }
 
 export class DefaultFilteredMetricsStateStorage implements FilteredMetricsStateStorage {
@@ -65,5 +71,15 @@ export class DefaultFilteredMetricsStateStorage implements FilteredMetricsStateS
       BackgroundCheckEventMarkerKeyValueUniqueIdentifier,
       eventsAsListOfTimestamps.join(','),
     );
+  }
+
+  getLastActiveUserEventSentDate(): Promise<Date | null> {
+    return this.keyValueStore
+      .retrieve(ActiveUserEventMarkerKeyValueUniqueIdentifier)
+      .then(value => (value ? new Date(Number(value)) : null));
+  }
+
+  updateLastActiveUserSentDateToNow(): Promise<void> {
+    return this.keyValueStore.save(ActiveUserEventMarkerKeyValueUniqueIdentifier, `${getCurrentDate().getTime()}`);
   }
 }

@@ -23,6 +23,7 @@ export enum EventTypeMetric {
   EnToggle = 'en-toggle',
   ExposedClear = 'exposed-clear',
   BackgroundCheck = 'background-check',
+  ActiveUser = 'active-user',
 }
 
 export type EventWithContext =
@@ -53,6 +54,9 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.BackgroundCheck;
+    }
+  | {
+      type: EventTypeMetric.ActiveUser;
     };
 
 export class FilteredMetricsService {
@@ -112,6 +116,8 @@ export class FilteredMetricsService {
           break;
         case EventTypeMetric.BackgroundCheck:
           return this.publishBackgroundCheckEventIfNecessary();
+        case EventTypeMetric.ActiveUser:
+          return this.publishActiveUserEventIfNecessary();
         default:
           break;
       }
@@ -197,6 +203,24 @@ export class FilteredMetricsService {
         }
       } else {
         return this.stateStorage.saveBackgroundCheckEvents([newBackgroundCheckEvent]);
+      }
+    });
+  }
+
+  private publishActiveUserEventIfNecessary(): Promise<void> {
+    const publishAndMark = (): Promise<void> => {
+      return this.publishEvent(EventTypeMetric.ActiveUser, []).then(() =>
+        this.stateStorage.updateLastActiveUserSentDateToNow(),
+      );
+    };
+
+    return this.stateStorage.getLastActiveUserEventSentDate().then(lastActiveUserEventSentDate => {
+      if (lastActiveUserEventSentDate) {
+        if (daysBetweenUTC(lastActiveUserEventSentDate, getCurrentDate()) > 0) {
+          return publishAndMark();
+        }
+      } else {
+        return publishAndMark();
       }
     });
   }
