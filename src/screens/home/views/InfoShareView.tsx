@@ -7,6 +7,7 @@ import {captureException} from 'shared/log';
 import {useStorage} from 'services/StorageService';
 import {getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
+import {getLogUUID} from 'shared/logging/uuid';
 
 import {OnOffButton} from '../components/OnOffButton';
 import {InfoShareItem} from '../components/InfoShareItem';
@@ -102,7 +103,9 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
         />
       </Box>
       <Box paddingBottom="l">
-        <Text variant="smallText">{versionNumber}</Text>
+        <Text variant="smallText">
+          {versionNumber} {getLogUUID()}
+        </Text>
       </Box>
     </>
   );
