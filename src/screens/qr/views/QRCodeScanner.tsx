@@ -31,24 +31,22 @@ export const QRCodeScanner = () => {
   };
 
   return (
-    <BarCodeScanner
-      onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
-      style={{...StyleSheet.absoluteFillObject}}
-    >
+    <BarCodeScanner onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned} style={styles.barcodeScanner}>
       <View style={styles.layerTop} />
       <Box style={styles.back} paddingHorizontal="m" paddingBottom="xl">
         <Toolbar useWhiteText showBackButton />
       </Box>
+
       <View style={styles.layerCenter}>
         <View style={styles.layerLeft} />
         <View style={styles.focused} />
         <View style={styles.layerRight} />
       </View>
-      <Box style={styles.info} alignSelf="stretch" paddingVertical="m" paddingHorizontal="m">
-        <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" color="bodyTitleWhite">
+      <Box style={styles.info} paddingVertical="s" paddingHorizontal="m">
+        <Text variant="bodyTitle" accessibilityRole="header" color="bodyTitleWhite">
           {i18n.translate(`QRCode.Reader.Title`)}
         </Text>
-        <Icon size={175} name="scan-qr-code-white-arrow" />
+        <Icon size={170} name="scan-qr-code-white-arrow" />
       </Box>
     </BarCodeScanner>
   );
@@ -58,13 +56,17 @@ const opacity = 'rgba(0, 0, 0, .8)';
 
 const styles = StyleSheet.create({
   info: {
-    backgroundColor: opacity,
+    backgroundColor: 'black',
   },
   back: {
-    backgroundColor: opacity,
+    backgroundColor: 'black',
     flex: 1,
     flexDirection: 'column',
     alignContent: 'flex-start',
+  },
+  barcodeScanner: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'black',
   },
   backText: {
     color: 'white',
@@ -72,15 +74,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   container: {
-    flex: 1,
+    flex: 10,
     flexDirection: 'column',
   },
   layerTop: {
     flex: 1,
-    backgroundColor: opacity,
+    backgroundColor: 'black',
   },
   layerCenter: {
-    flex: 20,
+    flex: 10,
     flexDirection: 'row',
   },
   layerLeft: {
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: opacity,
   },
   focused: {
-    flex: 20,
+    flex: 25,
   },
   layerRight: {
     flex: 0.5,
