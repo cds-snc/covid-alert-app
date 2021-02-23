@@ -120,22 +120,24 @@ export class DefaultMetricsService implements MetricsService {
 
   private triggerPush(): Promise<TriggerPushResult> {
     const pushAndClearMetrics = (metrics: Metric[]): Promise<TriggerPushResult> => {
-      const jsonAsString = this.metricsJsonSerializer.serializeToJson(getCurrentDate().getTime(), metrics);
-      return Promise.all([this.metricsPusher.push(jsonAsString), Promise.resolve(metrics.pop())])
-        .then(([pushResult, lastPushedMetric]) => {
-          switch (pushResult) {
-            case MetricsPusherResult.Success:
-              return Promise.all([
-                this.markLastMetricTimestampSentToTheServer(lastPushedMetric!.timestamp),
-                this.metricsStorageCleaner.deleteUntilTimestamp(lastPushedMetric!.timestamp),
-                Promise.resolve(TriggerPushResult.Success),
-              ]);
-            case MetricsPusherResult.Error:
-            default:
-              return Promise.all([Promise.resolve(), Promise.resolve(), Promise.resolve(TriggerPushResult.Error)]);
-          }
-        })
-        .then(([, , result]) => result);
+      return this.metricsJsonSerializer.serializeToJson(getCurrentDate().getTime(), metrics).then(jsonAsString => {
+        // eslint-disable-next-line promise/no-nesting
+        return Promise.all([this.metricsPusher.push(jsonAsString), Promise.resolve(metrics.pop())])
+          .then(([pushResult, lastPushedMetric]) => {
+            switch (pushResult) {
+              case MetricsPusherResult.Success:
+                return Promise.all([
+                  this.markLastMetricTimestampSentToTheServer(lastPushedMetric!.timestamp),
+                  this.metricsStorageCleaner.deleteUntilTimestamp(lastPushedMetric!.timestamp),
+                  Promise.resolve(TriggerPushResult.Success),
+                ]);
+              case MetricsPusherResult.Error:
+              default:
+                return Promise.all([Promise.resolve(), Promise.resolve(), Promise.resolve(TriggerPushResult.Error)]);
+            }
+          })
+          .then(([, , result]) => result);
+      });
     };
     return this.getLastMetricTimestampSentToTheServer()
       .then(lastTimestamp => {
