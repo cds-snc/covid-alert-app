@@ -80,7 +80,7 @@ export class FilteredMetricsService {
 
   private constructor() {
     this.metricsService = DefaultMetricsService.initialize(
-      new DefaultMetricsJsonSerializer(String(APP_VERSION_CODE), Platform.OS),
+      new DefaultMetricsJsonSerializer(String(APP_VERSION_CODE), Platform.OS, String(Platform.Version)),
     );
     this.stateStorage = new DefaultFilteredMetricsStateStorage(new DefaultSecureKeyValueStore());
     this.serialPromiseQueue = new PQueue({concurrency: 1});
