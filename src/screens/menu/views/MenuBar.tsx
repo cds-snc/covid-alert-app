@@ -3,12 +3,9 @@ import {StyleSheet} from 'react-native';
 import {Box, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-import {useSystemStatus} from 'services/ExposureNotificationService';
+import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
-
-import {useNotificationPermissionStatus} from '../components/NotificationPermissionStatus';
-
-import {MenuBarNoQr} from './MenuBarNoQr';
+import {StatusHeaderView} from 'screens/home/views/StatusHeaderView';
 
 const borderRadius = 16;
 
@@ -23,21 +20,26 @@ export const MenuBar = () => {
     navigation.navigate('QRCodeFlow');
   }, [navigation]);
   const [systemStatus] = useSystemStatus();
-  const [notificationStatus] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
 
-  const menuBarQr = (
-    <Box style={styles.box} marginVertical="s">
-      <Box marginHorizontal="m">
-        <Button
-          text={i18n.translate('QRCode.CTA')}
-          variant="bigFlatNeutralGrey"
-          onPress={openScan}
-          iconNameLeft="qr-code-icon"
-          borderRadius={8}
-        />
-      </Box>
-      <Box marginHorizontal="m">
+  const qrButton = (
+    <Button
+      text={i18n.translate('QRCode.CTA')}
+      variant="bigFlatNeutralGrey"
+      onPress={openScan}
+      iconNameLeft="qr-code-icon"
+      borderRadius={8}
+    />
+  );
+
+  const appStatus = (
+    <Box paddingTop="m">
+      <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
+    </Box>
+  );
+  return (
+    <Box style={styles.content} paddingVertical="m" paddingHorizontal="m">
+      <Box style={styles.box}>
+        {qrEnabled ? qrButton : appStatus}
         <Button
           text="Menu"
           variant="bigFlatNeutralGrey"
@@ -46,12 +48,6 @@ export const MenuBar = () => {
           borderRadius={8}
         />
       </Box>
-    </Box>
-  );
-  const menuBarNoQr = <MenuBarNoQr status={systemStatus} notificationWarning={showNotificationWarning} />;
-  return (
-    <Box style={styles.content} paddingVertical="s">
-      {qrEnabled ? menuBarQr : menuBarNoQr}
     </Box>
   );
 };

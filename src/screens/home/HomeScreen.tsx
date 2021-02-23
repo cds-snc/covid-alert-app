@@ -22,6 +22,7 @@ import {OutbreakStatusType} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {useDeepLinks} from '../qr/utils';
+import {MenuBar} from '../menu/views/MenuBar';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
@@ -43,7 +44,6 @@ import {
 } from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
 import {OutbreakExposedView} from './views/OutbreakExposedView';
-import {MenuBar} from './views/MenuBar';
 
 const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
   return hasShared ? <DiagnosedShareView /> : <DiagnosedShareUploadView />;

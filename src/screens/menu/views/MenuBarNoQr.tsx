@@ -5,7 +5,7 @@ import {useI18n} from 'locale';
 import {SystemStatus} from 'services/ExposureNotificationService';
 import {useNavigation} from '@react-navigation/native';
 
-import {StatusHeaderView} from './StatusHeaderView';
+import {StatusHeaderView} from '../../home/views/StatusHeaderView';
 
 interface Props {
   status: SystemStatus;
