@@ -5,6 +5,7 @@ import {captureException} from 'shared/log';
 import {Linking} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 export const UnknownProblemView = () => {
   const i18n = useI18n();
@@ -15,9 +16,7 @@ export const UnknownProblemView = () => {
 
   return (
     <BaseHomeView iconName="icon-bluetooth-disabled" testID="unknownProblem">
-      <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate('Home.UnknownProblem.Title')}
-      </Text>
+      <HomeScreenTitle>{i18n.translate('Home.UnknownProblem.Title')}</HomeScreenTitle>
       <Text marginBottom="m">{i18n.translate('Home.UnknownProblem.Body')}</Text>
       <Box alignSelf="stretch" marginBottom="m" marginTop="l">
         <ButtonSingleLine

@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 export const DiagnosedShareView = () => {
   const i18n = useI18n();
@@ -18,9 +19,7 @@ export const DiagnosedShareView = () => {
   return (
     <BaseHomeView iconName="hand-reminder" testID="diagnosedShare">
       <RoundedBox isFirstBox>
-        <Text variant="bodyTitle" testID="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
-          {i18n.translate('Home.DiagnosedShareView.Title')}
-        </Text>
+        <HomeScreenTitle>{i18n.translate('Home.DiagnosedShareView.Title')}</HomeScreenTitle>
         <Text variant="bodyText" color="bodyText" marginBottom="m">
           {i18n.translate('Home.DiagnosedShareView.Body1')}
         </Text>

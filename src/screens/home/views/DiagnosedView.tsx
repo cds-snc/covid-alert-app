@@ -11,6 +11,7 @@ import {TEST_MODE} from 'env';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {Tip} from '../components/Tip';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 export const DiagnosedView = () => {
   const i18n = useI18n();
@@ -29,10 +30,10 @@ export const DiagnosedView = () => {
   return (
     <BaseHomeView iconName="hand-thank-you-with-love" testID="diagnosed">
       <RoundedBox isFirstBox>
-        <Text testID="bodyTitle" variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
+        <HomeScreenTitle>
           {i18n.translate('Home.DiagnosedView.Title')}
           {/* No exposure detected */}
-        </Text>
+        </HomeScreenTitle>
         {daysLeft < 1 ? null : (
           <>
             <Text testID="bodyText" variant="bodyText" color="bodyText" marginBottom="m">

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TextMultiline, RoundedBox} from 'components';
+import {TextMultiline, RoundedBox} from 'components';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
@@ -7,22 +7,16 @@ import {Platform} from 'react-native';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 const TextContent = () => {
   const i18n = useI18n();
 
   return (
     <>
-      <Text
-        testID="coveredRegionHeader"
-        variant="bodyTitle"
-        color="bodyText"
-        marginBottom="m"
-        accessibilityRole="header"
-        accessibilityAutoFocus
-      >
+      <HomeScreenTitle testID="coveredRegionHeader">
         {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
-      </Text>
+      </HomeScreenTitle>
       <TextMultiline
         variant="bodyText"
         color="bodyText"

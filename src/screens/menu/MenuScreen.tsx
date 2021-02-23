@@ -87,7 +87,7 @@ export const MenuScreen = () => {
 
           <Box marginTop="l" marginBottom="m">
             <Text variant="settingTitle" fontWeight="normal">
-              Support
+              {i18n.translate('Info.Support')}
             </Text>
           </Box>
           <Box marginBottom="m">

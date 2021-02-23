@@ -5,6 +5,7 @@ import {Linking, Platform} from 'react-native';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 export const ExposureNotificationsUnauthorizedView = () => {
   const i18n = useI18n();
@@ -24,12 +25,9 @@ export const ExposureNotificationsUnauthorizedView = () => {
     }
     return toSettings();
   };
-
   return (
     <BaseHomeView iconName="icon-bluetooth-disabled" testID="exposureNotificationsDisabled">
-      <Text variant="bodyTitle" color="bodyText" marginBottom="m" accessibilityRole="header">
-        {i18n.translate('Home.EnDisabled.Title')}
-      </Text>
+      <HomeScreenTitle>{i18n.translate('Home.EnDisabled.Title')}</HomeScreenTitle>
       <Text variant="bodyText" color="bodyText">
         {i18n.translate('Home.EnUnauthorized.Body1')}
       </Text>

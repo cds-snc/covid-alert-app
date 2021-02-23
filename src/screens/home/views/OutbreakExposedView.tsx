@@ -3,15 +3,14 @@ import {Box, Text} from 'components';
 import {StyleSheet, Platform} from 'react-native';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 const ExposureText = () => {
   return (
     <>
       <Box alignSelf="stretch" style={styles.roundedBox1}>
         <Box paddingHorizontal="m" paddingVertical="m">
-          <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-            You have been exposed to an Outbreak
-          </Text>
+          <HomeScreenTitle>You have been exposed to an Outbreak</HomeScreenTitle>
           <Text marginBottom="m">[Placeholder] There was an outbreak at one of the locations you scanned.</Text>
         </Box>
       </Box>

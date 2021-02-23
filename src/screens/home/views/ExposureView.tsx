@@ -7,6 +7,7 @@ import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 import {ExposureDateView} from './ExposureDateView';
 import {NegativeTestButton} from './ClearExposureView';
@@ -27,9 +28,7 @@ const ExposureText = () => {
   return (
     <>
       <RoundedBox isFirstBox>
-        <Text testID="bodyTitle" variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-          {i18n.translate('Home.ExposureDetected.Title')}
-        </Text>
+        <HomeScreenTitle>{i18n.translate('Home.ExposureDetected.Title')}</HomeScreenTitle>
         <Text testID="bodyText" marginBottom="m">
           {i18n.translate('Home.ExposureDetected.Body1')}
         </Text>

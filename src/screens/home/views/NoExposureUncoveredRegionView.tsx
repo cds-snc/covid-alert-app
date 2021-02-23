@@ -1,11 +1,12 @@
 import React from 'react';
-import {Text, TextMultiline} from 'components';
+import {TextMultiline} from 'components';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {AllSetView} from '../components/AllSetView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 export const NoExposureUncoveredRegionView = () => {
   const i18n = useI18n();
@@ -25,16 +26,9 @@ export const NoExposureUncoveredRegionView = () => {
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="hand-no-province-yet">
-      <Text
-        testID="uncoveredRegionHeader"
-        variant="bodyTitle"
-        color="bodyText"
-        marginBottom="m"
-        accessibilityRole="header"
-        accessibilityAutoFocus
-      >
+      <HomeScreenTitle testID="uncoveredRegionHeader">
         {i18n.translate('Home.NoExposureDetected.RegionNotCovered.Title')}
-      </Text>
+      </HomeScreenTitle>
       <TextMultiline
         variant="bodyText"
         color="bodyText"
