@@ -1,7 +1,12 @@
 import React, {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {Box} from 'components';
-import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
+import {
+  ExposureStatusType,
+  SystemStatus,
+  useExposureStatus,
+  useSystemStatus,
+} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
 
@@ -9,9 +14,11 @@ import {BluetoothStatusOff} from './BluetoothStatusOff';
 import {NotificationStatusOff} from './NotificationStatusOff';
 import {SystemStatusOff} from './SystemStatusOff';
 import {SystemStatusUnauthorized} from './SystemStatusUnauthorized';
+import {DiagnosedThankYou} from './DiagnosedThankYou';
 
 export const ConditionalMenuPanels = () => {
   const {userStopped} = useStorage();
+  const exposureStatus = useExposureStatus();
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
   const toSettings = useCallback(() => {
@@ -41,6 +48,7 @@ export const ConditionalMenuPanels = () => {
           <BluetoothStatusOff />
         </Box>
       )}
+      {exposureStatus.type === ExposureStatusType.Diagnosed && exposureStatus.hasShared && <DiagnosedThankYou />}
       {/* {showNotificationWarning && (
         <Box marginBottom="s">
           <NotificationStatusOff action={turnNotificationsOnFn} />

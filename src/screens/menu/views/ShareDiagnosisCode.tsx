@@ -4,8 +4,6 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
 import {InfoBlock} from 'components';
 import {useExposureStatus, ExposureStatusType} from 'services/ExposureNotificationService';
-import {getUploadDaysLeft} from 'shared/date-fns';
-import {pluralizeKey} from 'shared/pluralization';
 
 export const ShareDiagnosisCode = () => {
   const i18n = useI18n();
@@ -31,27 +29,7 @@ export const ShareDiagnosisCode = () => {
   }
 
   if (exposureStatus.type === ExposureStatusType.Diagnosed) {
-    const daysLeft = getUploadDaysLeft(exposureStatus.cycleEndsAt);
-    let bodyText = i18n.translate('OverlayOpen.EnterCodeCardBodyDiagnosed');
-    if (daysLeft > 0) {
-      bodyText += i18n.translate(pluralizeKey('OverlayOpen.EnterCodeCardDiagnosedCountdown', daysLeft), {
-        number: daysLeft,
-      });
-    }
-
-    return exposureStatus.hasShared ? (
-      <InfoBlock
-        titleBolded={i18n.translate('OverlayOpen.EnterCodeCardTitleDiagnosed')}
-        text={bodyText}
-        button={{
-          text: '',
-          action: () => {},
-        }}
-        backgroundColor="infoBlockNeutralBackground"
-        color="bodyText"
-        showButton={false}
-      />
-    ) : (
+    return exposureStatus.hasShared ? null : (
       <InfoBlock
         titleBolded={i18n.translate('OverlayOpen.CodeNotShared.Title')}
         text={i18n.translate('OverlayOpen.CodeNotShared.Body')}

@@ -87,7 +87,7 @@ export const MenuScreen = () => {
 
           <Box marginTop="l" marginBottom="m">
             <Text variant="settingTitle" fontWeight="normal">
-              Help
+              Support
             </Text>
           </Box>
           <Box marginBottom="m">
@@ -111,7 +111,7 @@ export const MenuScreen = () => {
 
               <InfoShareItem
                 onPress={onHelp}
-                text="Help and common issues"
+                text={i18n.translate('Info.Help')}
                 icon="icon-external-arrow"
                 accessibilityRole="link"
                 accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
