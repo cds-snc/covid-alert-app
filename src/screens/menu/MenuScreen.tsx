@@ -57,7 +57,7 @@ export const MenuScreen = () => {
         <Box backgroundColor="overlayBackground" paddingHorizontal="m" paddingTop="xl">
           <Box flexDirection="row" marginBottom="l">
             <Box marginVertical="m" flex={1}>
-              <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
+              <StatusHeaderView enabled={systemStatus === SystemStatus.Active} autoFocus />
             </Box>
             <ButtonWrapper onPress={close} color="infoBlockNeutralBackground">
               <Box padding="xs">
