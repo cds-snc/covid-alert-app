@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {Linking} from 'react-native';
 import {BottomSheetBehavior, Box, Text} from 'components';
 import {useNavigation} from '@react-navigation/native';
@@ -17,6 +17,14 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
   const navigation = useNavigation();
+
+  const [UUID, setUUID] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      setUUID(await getLogUUID());
+    })();
+  }, []);
 
   const onPrivacy = useCallback(() => {
     Linking.openURL(i18n.translate('Info.PrivacyUrl')).catch(error => captureException('An error occurred', error));
@@ -104,7 +112,7 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
       </Box>
       <Box paddingBottom="l">
         <Text variant="smallText">
-          {versionNumber} {getLogUUID()}
+          {versionNumber} - {UUID}
         </Text>
       </Box>
     </>
