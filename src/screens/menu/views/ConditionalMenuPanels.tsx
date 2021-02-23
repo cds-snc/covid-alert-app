@@ -8,6 +8,7 @@ import {
   useSystemStatus,
 } from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
+import {useNetInfo} from '@react-native-community/netinfo';
 import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
 
 import {BluetoothStatusOff} from './BluetoothStatusOff';
@@ -15,6 +16,7 @@ import {NotificationStatusOff} from './NotificationStatusOff';
 import {SystemStatusOff} from './SystemStatusOff';
 import {SystemStatusUnauthorized} from './SystemStatusUnauthorized';
 import {DiagnosedThankYou} from './DiagnosedThankYou';
+import {OfflineWarning} from './OfflineWarning';
 
 export const ConditionalMenuPanels = () => {
   const {userStopped} = useStorage();
@@ -26,6 +28,7 @@ export const ConditionalMenuPanels = () => {
   }, []);
   const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
   const showNotificationWarning = notificationStatus !== 'granted';
+  const network = useNetInfo();
   console.log('notificationStatus', notificationStatus);
   return (
     <>
@@ -49,6 +52,8 @@ export const ConditionalMenuPanels = () => {
         </Box>
       )}
       {exposureStatus.type === ExposureStatusType.Diagnosed && exposureStatus.hasShared && <DiagnosedThankYou />}
+
+      {!network.isConnected && exposureStatus.type !== ExposureStatusType.Diagnosed && <OfflineWarning />}
       {/* {showNotificationWarning && (
         <Box marginBottom="s">
           <NotificationStatusOff action={turnNotificationsOnFn} />

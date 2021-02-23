@@ -162,7 +162,11 @@
     "NoConnectivityCardAction": "Alerte COVID est hors ligne",
     "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé.",
     "EnUnauthorizedCardAction": "Activer Alerte COVID",
-    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions »."
+    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions ».",
+    "ShareDiagnosisCode": {
+      "CtaReport": "[FR] Report your positive test",
+      "CtaFinish": "[FR] Finish sharing exposures"
+    }
   },
   "Info": {
     "CheckSymptoms": "Vérifier vos symptômes",

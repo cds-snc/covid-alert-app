@@ -7,6 +7,8 @@ import {useStorage} from 'services/StorageService';
 import {PrimaryActionButton} from '../components/PrimaryActionButton';
 import {OnOffButton} from '../components/OnOffButton';
 
+import {ShareDiagnosisCode} from './ShareDiagnosisCode';
+
 export const PrimaryMenuButtons = () => {
   const i18n = useI18n();
   const {qrEnabled} = useStorage();
@@ -14,13 +16,7 @@ export const PrimaryMenuButtons = () => {
   return (
     <Box marginBottom="m">
       <Box marginBottom="s">
-        <PrimaryActionButton
-          icon="otk-entry"
-          text="Report your positive test"
-          onPress={() => {
-            navigation.navigate('DataSharing');
-          }}
-        />
+        <ShareDiagnosisCode />
       </Box>
       {qrEnabled && (
         <Box marginBottom="s">

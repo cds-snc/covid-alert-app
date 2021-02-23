@@ -162,7 +162,11 @@
     "NoConnectivityCardAction": "COVID Alert is offline",
     "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures.",
     "EnUnauthorizedCardAction": "Enable COVID Alert",
-    "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\"."
+    "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\".",
+    "ShareDiagnosisCode": {
+      "CtaReport": "Report your positive test",
+      "CtaFinish": "Finish sharing exposures"
+    }
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",
