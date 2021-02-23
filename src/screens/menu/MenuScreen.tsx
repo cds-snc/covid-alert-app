@@ -77,7 +77,7 @@ export const MenuScreen = () => {
               {i18n.translate('Info.SettingsTitle')}
             </Text>
           </Box>
-          <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m">
+          <Box marginBottom="m">
             <InfoShareItem
               onPress={onRegion}
               text={i18n.translate('Info.ChangeRegion')}
@@ -94,7 +94,7 @@ export const MenuScreen = () => {
             </Text>
           </Box>
           <Box marginBottom="m">
-            <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="m" testID="InfoShareViewID">
+            <Box marginBottom="m" testID="InfoShareViewID">
               <InfoShareItem
                 testID="getCodeButton"
                 onPress={onGetCode}
@@ -118,7 +118,6 @@ export const MenuScreen = () => {
                 icon="icon-external-arrow"
                 accessibilityRole="link"
                 accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
-                lastItem
               />
             </Box>
 
@@ -127,7 +126,7 @@ export const MenuScreen = () => {
                 {i18n.translate('Info.InformationTitle')}
               </Text>
             </Box>
-            <Box paddingHorizontal="m" borderRadius={10} overflow="hidden" marginBottom="l">
+            <Box marginBottom="l">
               <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
               <InfoShareItem
                 icon="icon-external-arrow"
@@ -135,7 +134,6 @@ export const MenuScreen = () => {
                 onPress={onPrivacy}
                 accessibilityHint={`${i18n.translate('Info.Privacy')} . ${i18n.translate('Home.ExternalLinkHint')}`}
                 text={i18n.translate('Info.Privacy')}
-                lastItem
               />
             </Box>
             <Box paddingBottom="l">
