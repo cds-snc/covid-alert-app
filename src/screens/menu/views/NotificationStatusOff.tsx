@@ -1,8 +1,9 @@
-import {I18n} from '@shopify/react-i18n';
-import {InfoButton} from 'components';
 import React from 'react';
+import {useI18n} from 'locale';
+import {InfoButton} from 'components';
 
-export const NotificationStatusOff = ({action, i18n}: {action: () => void; i18n: I18n}) => {
+export const NotificationStatusOff = ({action}: {action: () => void}) => {
+  const i18n = useI18n();
   return (
     <InfoButton
       title={i18n.translate('OverlayOpen.NotificationCardStatus')}

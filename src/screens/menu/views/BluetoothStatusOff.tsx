@@ -1,8 +1,9 @@
 import React from 'react';
-import {I18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {InfoBlock} from 'components';
 
-export const BluetoothStatusOff = ({i18n}: {i18n: I18n}) => {
+export const BluetoothStatusOff = () => {
+  const i18n = useI18n();
   return (
     <InfoBlock
       titleBolded={i18n.translate('OverlayOpen.BluetoothCardAction')}

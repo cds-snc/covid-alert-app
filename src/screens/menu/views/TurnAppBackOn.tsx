@@ -1,9 +1,10 @@
 import React, {useCallback} from 'react';
-import {I18n} from '@shopify/react-i18n';
+import {useI18n} from 'locale';
 import {InfoBlock} from 'components';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 
-export const TurnAppBackOn = ({i18n}: {i18n: I18n}) => {
+export const TurnAppBackOn = () => {
+  const i18n = useI18n();
   const startExposureNotificationService = useStartExposureNotificationService();
 
   const onStart = useCallback(async () => {

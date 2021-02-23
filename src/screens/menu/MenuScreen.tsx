@@ -1,24 +1,44 @@
 import React, {useCallback} from 'react';
-import {Linking} from 'react-native';
-import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
-import {useSystemStatus} from 'services/ExposureNotificationService';
+import {useNavigation} from '@react-navigation/native';
+import {Box, ButtonWrapper, Icon} from 'components';
+import {SafeAreaView, ScrollView} from 'react-native';
+import {StatusHeaderView} from 'screens/home/views/StatusHeaderView';
+import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
+import {InfoShareView} from './components/InfoShareView';
 
-import {OverlayView} from './components/OverlayView';
+import {ConditionalMenuPanels} from './views/ConditionalMenuPanels';
+import {PrimaryMenuButtons} from './views/PrimaryMenuButtons';
 
 export const MenuScreen = () => {
   const [systemStatus] = useSystemStatus();
-  const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-  const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
-
+  const navigation = useNavigation();
+  const close = useCallback(() => {
+    navigation.navigate('Home');
+  }, [navigation]);
   return (
-    <OverlayView
-      status={systemStatus}
-      notificationWarning={showNotificationWarning}
-      turnNotificationsOn={turnNotificationsOnFn}
-    />
+    <SafeAreaView>
+      <ScrollView>
+        <Box backgroundColor="overlayBackground">
+          <Box flexDirection="row" marginTop="m" marginHorizontal="m">
+            <Box marginVertical="m" flex={1}>
+              <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
+            </Box>
+            <ButtonWrapper onPress={close} color="infoBlockNeutralBackground">
+              <Box padding="s">
+                <Icon name="close" size={20} />
+              </Box>
+            </ButtonWrapper>
+          </Box>
+
+          <PrimaryMenuButtons />
+
+          <ConditionalMenuPanels />
+
+          <Box marginBottom="m" marginHorizontal="m">
+            <InfoShareView />
+          </Box>
+        </Box>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
