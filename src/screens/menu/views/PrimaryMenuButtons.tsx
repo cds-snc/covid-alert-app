@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 
 import {PrimaryActionButton} from '../components/PrimaryActionButton';
+import {OnOffButton} from '../components/OnOffButton';
 
 export const PrimaryMenuButtons = () => {
   const i18n = useI18n();
@@ -15,9 +16,9 @@ export const PrimaryMenuButtons = () => {
       <Box marginBottom="s">
         <PrimaryActionButton
           icon="otk-entry"
-          text="Finish sharing exposures"
+          text="Report your positive test"
           onPress={() => {
-            navigation.navigate('');
+            navigation.navigate('DataSharing');
           }}
         />
       </Box>
@@ -33,14 +34,7 @@ export const PrimaryMenuButtons = () => {
         </Box>
       )}
       <Box marginBottom="s">
-        <PrimaryActionButton
-          icon="turn-off"
-          text="Turn off COVID Alert"
-          onPress={() => {
-            navigation.navigate('');
-          }}
-          showChevron={false}
-        />
+        <OnOffButton />
       </Box>
     </Box>
   );

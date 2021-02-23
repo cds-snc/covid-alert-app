@@ -85,7 +85,6 @@ export const MenuScreen = () => {
               testID="changeRegion"
             />
             <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
-            <OnOffButton />
           </Box>
 
           <Box marginTop="l" marginBottom="m">

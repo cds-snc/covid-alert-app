@@ -23,12 +23,6 @@ export const ConditionalMenuPanels = () => {
   const showNotificationWarning = notificationStatus !== 'granted';
   return (
     <>
-      {userStopped && systemStatus !== SystemStatus.Active && (
-        <Box marginBottom="m" marginTop="l">
-          <TurnAppBackOn />
-        </Box>
-      )}
-
       {/* <Box marginBottom="m" marginTop="s">
         <ShareDiagnosisCode />
       </Box> */}

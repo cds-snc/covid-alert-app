@@ -10,7 +10,7 @@ import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 
-import {InfoShareItem} from './InfoShareItem';
+import {PrimaryActionButton} from './PrimaryActionButton';
 
 export const OnOffButton = () => {
   const i18n = useI18n();
@@ -52,11 +52,11 @@ export const OnOffButton = () => {
 
   if (systemStatus === SystemStatus.Active) {
     return (
-      <InfoShareItem
+      <PrimaryActionButton
         onPress={onStop}
         text={i18n.translate('Info.ToggleCovidAlert.TurnOff')}
-        icon="icon-chevron"
-        lastItem
+        icon="turn-off"
+        showChevron={false}
       />
     );
   }
@@ -64,11 +64,11 @@ export const OnOffButton = () => {
     return null;
   }
   return (
-    <InfoShareItem
+    <PrimaryActionButton
       onPress={onStart}
       text={i18n.translate('Info.ToggleCovidAlert.TurnOn')}
-      icon="icon-chevron"
-      lastItem
+      icon="turn-off"
+      showChevron={false}
     />
   );
 };
