@@ -153,9 +153,11 @@ describe('ExposureNotificationService', () => {
 
   const OriginalDate = global.Date;
   const realDateNow = Date.now.bind(global.Date);
+  const realDateUTC = Date.UTC.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
   const today = new OriginalDate('2020-05-18T04:10:00+0000');
   global.Date.now = realDateNow;
+  global.Date.UTC = realDateUTC;
 
   const testUpdateExposure = async (currentStatus: ExposureStatus, summaries: ExposureSummary[]) => {
     service.exposureStatus.append(currentStatus);

@@ -12,7 +12,7 @@ import {
   parseSavedTimestamps,
   getFirstThreeUniqueDates,
   getHoursBetween,
-  datesAreOnSameDay,
+  getUTCMidnight,
 } from './date-fns';
 
 /**
@@ -263,17 +263,14 @@ describe('date-fns', () => {
     });
   });
 
-  describe('datesAreOnSameDay', () => {
-    it('validates two dates are on same day', () => {
-      const now = new Date(Number(1612539273));
-      const plusFiveHours = new Date(now.getTime() + 5 * 60 * 60 * 1000);
-      expect(datesAreOnSameDay(now, plusFiveHours)).toStrictEqual(true);
-    });
-
-    it('validates two dates are not on same day', () => {
-      const now = new Date(Number(1612539273));
-      const plusTwentyFiveHours = new Date(now.getTime() + 25 * 60 * 60 * 1000);
-      expect(datesAreOnSameDay(now, plusTwentyFiveHours)).toStrictEqual(false);
+  describe('getUTCMidnight', () => {
+    it.each([
+      [new Date('2021-01-01T12:00Z'), new Date('2021-01-01T00:00Z').getTime()],
+      [new Date('2021-01-01T01:00Z'), new Date('2021-01-01T00:00Z').getTime()],
+      [new Date('2021-01-01T23:59Z'), new Date('2021-01-01T00:00Z').getTime()],
+      [new Date('2021-01-02T01:00Z'), new Date('2021-01-02T00:00Z').getTime()],
+    ])('for %p, midnight has the timestamp %p', (date, midnight) => {
+      expect(getUTCMidnight(date)).toStrictEqual(midnight);
     });
   });
 

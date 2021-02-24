@@ -1,27 +1,67 @@
+import {TEST_MODE} from 'env';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Key} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {useI18nRef, I18n} from 'locale';
+import PQueue from 'p-queue';
+
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {DefaultSecureKeyValueStore, SecureKeyValueStore} from '../services/MetricsService/SecureKeyValueStorage';
 
 import {Observable} from './Observable';
-import {CheckInData, getNewOutbreakStatus, getOutbreakEvents, initialOutbreakStatus, OutbreakStatus} from './qr';
+import {
+  CheckInData,
+  getNewOutbreakExposures,
+  getMatchedOutbreakHistoryItems,
+  getOutbreakEvents,
+  isExposedToOutbreak,
+  OutbreakHistoryItem,
+} from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
+import {getCurrentDate, minutesBetween} from './date-fns';
+import {log} from './logging/config';
 
-class OutbreakService implements OutbreakService {
-  outbreakStatus: Observable<OutbreakStatus>;
-  checkInHistory: Observable<CheckInData[]>;
-  i18n: I18n;
+const OutbreaksLastCheckedStorageKey = 'A436ED42-707E-11EB-9439-0242AC130002';
 
-  constructor(i18n: I18n) {
-    this.outbreakStatus = new Observable<OutbreakStatus>(initialOutbreakStatus);
-    this.checkInHistory = new Observable<CheckInData[]>([]);
-    this.i18n = i18n;
+const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
+
+export class OutbreakService implements OutbreakService {
+  private static instance: OutbreakService;
+
+  static sharedInstance(i18n: I18n): OutbreakService {
+    if (!this.instance) {
+      this.instance = new this(i18n);
+    }
+    return this.instance;
   }
 
-  setOutbreakStatus = async (value: OutbreakStatus) => {
-    await AsyncStorage.setItem(Key.OutbreakStatus, JSON.stringify(value));
-    this.outbreakStatus.set(value);
+  outbreakHistory: Observable<OutbreakHistoryItem[]>;
+  checkInHistory: Observable<CheckInData[]>;
+  i18n: I18n;
+  secureKeyValueStore: SecureKeyValueStore;
+
+  private serialPromiseQueue: PQueue;
+
+  constructor(i18n: I18n) {
+    this.outbreakHistory = new Observable<OutbreakHistoryItem[]>([]);
+    this.checkInHistory = new Observable<CheckInData[]>([]);
+    this.i18n = i18n;
+    this.secureKeyValueStore = new DefaultSecureKeyValueStore();
+    this.serialPromiseQueue = new PQueue({concurrency: 1});
+  }
+
+  clearOutbreakHistory = async () => {
+    await AsyncStorage.setItem(Key.OutbreakHistory, JSON.stringify([]));
+    this.outbreakHistory.set([]);
+  };
+
+  addToOutbreakHistory = async (value: OutbreakHistoryItem[]) => {
+    const _outbreakHistory = (await AsyncStorage.getItem(Key.OutbreakHistory)) || '[]';
+    const outbreakHistory = JSON.parse(_outbreakHistory);
+    const newOutbreakHistory = outbreakHistory.concat(value);
+    await AsyncStorage.setItem(Key.OutbreakHistory, JSON.stringify(newOutbreakHistory));
+    this.outbreakHistory.set(newOutbreakHistory);
   };
 
   addCheckIn = async (value: CheckInData) => {
@@ -42,22 +82,49 @@ class OutbreakService implements OutbreakService {
   };
 
   init = async () => {
-    const outbreakStatus = (await AsyncStorage.getItem(Key.OutbreakStatus)) || JSON.stringify(initialOutbreakStatus);
-    this.outbreakStatus.set(JSON.parse(outbreakStatus));
+    const outbreakHistory = (await AsyncStorage.getItem(Key.OutbreakHistory)) || '[]';
+    this.outbreakHistory.set(JSON.parse(outbreakHistory));
 
     const checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
     this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 
-  checkForOutbreaks = async () => {
-    const outbreakEvents = await getOutbreakEvents();
-    const newOutbreakStatusType = getNewOutbreakStatus(this.checkInHistory.get(), outbreakEvents);
-    this.setOutbreakStatus(newOutbreakStatusType);
-    this.processOutbreakNotification(newOutbreakStatusType);
+  checkForOutbreaks = async (forceCheck?: boolean) => {
+    return this.serialPromiseQueue.add(() => {
+      return this.getOutbreaksLastCheckedDateTime().then(async outbreaksLastCheckedDateTime => {
+        if (forceCheck === false && outbreaksLastCheckedDateTime) {
+          const today = getCurrentDate();
+          const minutesSinceLastOutbreaksCheck = minutesBetween(outbreaksLastCheckedDateTime, today);
+          if (minutesSinceLastOutbreaksCheck > MIN_OUTBREAKS_CHECK_MINUTES) {
+            await this.getOutbreaksFromServer();
+          }
+        } else {
+          await this.getOutbreaksFromServer();
+        }
+      });
+    });
   };
 
-  processOutbreakNotification = (status: OutbreakStatus) => {
-    if (status.type === 'exposed') {
+  getOutbreaksFromServer = async () => {
+    const outbreakEvents = await getOutbreakEvents();
+    const detectedOutbreakExposures = getMatchedOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
+    this.markOutbreaksLastCheckedDateTime(getCurrentDate());
+    log.debug({payload: {detectedOutbreakExposures}});
+    if (detectedOutbreakExposures.length === 0) {
+      return;
+    }
+    const newOutbreakExposures = getNewOutbreakExposures(detectedOutbreakExposures, this.outbreakHistory.get());
+    if (newOutbreakExposures.length === 0) {
+      return;
+    }
+    await this.addToOutbreakHistory(newOutbreakExposures);
+    const outbreakHistory = this.outbreakHistory.get();
+    log.debug({payload: {outbreakHistory}});
+    this.processOutbreakNotification(outbreakHistory);
+  };
+
+  processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {
+    if (isExposedToOutbreak(outbreakHistory)) {
       PushNotification.presentLocalNotification({
         alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
         alertBody: this.i18n.translate('Notification.OutbreakMessageBody'),
@@ -65,6 +132,16 @@ class OutbreakService implements OutbreakService {
       });
     }
   };
+
+  private getOutbreaksLastCheckedDateTime(): Promise<Date | null> {
+    return this.secureKeyValueStore
+      .retrieve(OutbreaksLastCheckedStorageKey)
+      .then(value => (value ? new Date(Number(value)) : null));
+  }
+
+  private markOutbreaksLastCheckedDateTime(date: Date): Promise<void> {
+    return this.secureKeyValueStore.save(OutbreaksLastCheckedStorageKey, `${date.getTime()}`);
+  }
 }
 
 export const createOutbreakService = async (i18n: I18n) => {
@@ -97,10 +174,9 @@ export const OutbreakProvider = ({children}: OutbreakProviderProps) => {
 
 export const useOutbreakService = () => {
   const outbreakService = useContext(OutbreakContext)!.outbreakService!;
-  const [outbreakStatus, setOutbreakStatusInternal] = useState(outbreakService.outbreakStatus.get());
   const [checkInHistory, addCheckInInternal] = useState(outbreakService.checkInHistory.get());
+  const [outbreakHistory, setOutbreakHistoryInternal] = useState(outbreakService.outbreakHistory.get());
 
-  const setOutbreakStatus = useMemo(() => outbreakService.setOutbreakStatus, [outbreakService.setOutbreakStatus]);
   const checkForOutbreaks = useMemo(() => outbreakService.checkForOutbreaks, [outbreakService.checkForOutbreaks]);
   const addCheckIn = useMemo(
     () => (newCheckIn: CheckInData) => {
@@ -115,18 +191,28 @@ export const useOutbreakService = () => {
     },
     [outbreakService],
   );
-  useEffect(() => outbreakService.outbreakStatus.observe(setOutbreakStatusInternal), [outbreakService.outbreakStatus]);
+
+  const clearOutbreakHistory = useMemo(
+    () => () => {
+      outbreakService.clearOutbreakHistory();
+    },
+    [outbreakService],
+  );
+
   useEffect(() => outbreakService.checkInHistory.observe(addCheckInInternal), [outbreakService.checkInHistory]);
+  useEffect(() => outbreakService.outbreakHistory.observe(setOutbreakHistoryInternal), [
+    outbreakService.outbreakHistory,
+  ]);
 
   return useMemo(
     () => ({
-      outbreakStatus,
-      setOutbreakStatus,
+      outbreakHistory,
+      clearOutbreakHistory,
       checkForOutbreaks,
       addCheckIn,
       removeCheckIn,
       checkInHistory,
     }),
-    [outbreakStatus, setOutbreakStatus, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
+    [outbreakHistory, clearOutbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
   );
 };
