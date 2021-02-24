@@ -19,6 +19,8 @@ import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 import {PollNotifications} from 'services/PollNotificationService';
+import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {log} from 'shared/logging/config';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -131,6 +133,15 @@ const Content = () => {
     await PollNotifications.checkForNotifications(i18n);
   }, [i18n]);
 
+  const onDebugMetrics = useCallback(async () => {
+    const payload = await FilteredMetricsService.sharedInstance().retrieveAllMetricsInStorage();
+    log.debug({
+      category: 'metrics',
+      message: 'backgoundTaskDuration',
+      payload,
+    });
+  }, []);
+
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
 
@@ -160,6 +171,10 @@ const Content = () => {
         >
           Demo menu
         </Text>
+      </Section>
+
+      <Section>
+        <Button text="Debug Metrics" onPress={onDebugMetrics} variant="bigFlat" />
       </Section>
       <Section>
         <Button
