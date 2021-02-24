@@ -137,7 +137,7 @@ const Content = () => {
     const payload = await FilteredMetricsService.sharedInstance().retrieveAllMetricsInStorage();
     log.debug({
       category: 'metrics',
-      message: 'backgoundTaskDuration',
+      message: 'debug metrics',
       payload,
     });
   }, []);
