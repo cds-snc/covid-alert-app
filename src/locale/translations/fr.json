@@ -121,6 +121,12 @@
       "Other": "Dernière vérification il y a {number} jours"
     }
   },
+  "ScannedPlaces": {
+    "Title": "Lieux scannés",
+    "Body1":"Voici les lieux que vous avez visités et scannés au cours des 28 derniers jours.",
+    "Body2":"Ces informations existent uniquement sur votre téléphone.",
+    "BodyNoScan": "Vous n’avez pas encore scanné de lieux. La liste des lieux visités apparaîtra dès que vous scannez un lieu."
+  },
   "OverlayClosed": {
     "SystemStatus": "Alerte COVID est ",
     "SystemStatusOn": "activée",
@@ -187,7 +193,8 @@
     "Privacy": "Confidentialité",
     "PrivacyUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/politique-confidentialite.html",
     "SettingsTitle": "Paramètres",
-    "InformationTitle": "À propos d’Alerte COVID"
+    "InformationTitle": "À propos d’Alerte COVID",
+    "ScannedPlaces": "Liste des lieux scannés"
   },
   "Landing": {
     "En": "English",
@@ -394,6 +401,7 @@
         "Body4": "Prendre soin de vous."
       }
     }
+
   },
   "Notification": {
     "ExposedMessageTitle": "Vous avez été exposé",

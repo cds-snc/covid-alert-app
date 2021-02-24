@@ -121,6 +121,12 @@
       "Other": "Last checked {number} days ago"
     }
   },
+  "ScannedPlaces":{
+    "Title": "Scanned places",
+      "Body1":"These are the places you’ve scanned and visited in the past 28 days.",
+      "Body2":"This data only exists on your phone.",
+      "BodyNoScan": "You have not scanned any places yet. A list of your visits will appear once you start scanning places."
+  },
   "OverlayClosed": {
     "SystemStatus": "COVID Alert is ",
     "SystemStatusOn": "active",
@@ -187,7 +193,8 @@
     "Privacy": "Privacy",
     "PrivacyUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/privacy-policy.html",
     "SettingsTitle": "Settings",
-    "InformationTitle": "About COVID Alert"
+    "InformationTitle": "About COVID Alert",
+    "ScannedPlaces": "Scanned Places"
   },
   "Landing": {
     "En": "English",

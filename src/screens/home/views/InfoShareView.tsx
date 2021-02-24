@@ -6,7 +6,7 @@ import {useI18n, useRegionalI18n} from 'locale';
 import {captureException} from 'shared/log';
 import {useStorage} from 'services/StorageService';
 import {getExposedHelpMenuURL} from 'shared/RegionLogic';
-import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
+import {APP_VERSION_NAME, APP_VERSION_CODE, QR_ENABLED} from 'env';
 
 import {OnOffButton} from '../components/OnOffButton';
 import {InfoShareItem} from '../components/InfoShareItem';
@@ -30,6 +30,7 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
   }, [i18n]);
 
   const regionIcon = region !== undefined && region !== 'None' ? 'icon-external-arrow' : 'icon-chevron';
+  const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 
   const onExposedHelp = useCallback(() => {
     if (region !== undefined && region !== 'None') {
@@ -83,6 +84,9 @@ export const InfoShareView = ({bottomSheetBehavior}: {bottomSheetBehavior: Botto
           testID="changeRegion"
         />
         <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
+        {QR_ENABLED && (
+          <InfoShareItem onPress={goToCheckInHistory} text={i18n.translate('Info.ScannedPlaces')} icon="icon-chevron" />
+        )}
         <OnOffButton bottomSheetBehavior={bottomSheetBehavior} />
       </Box>
       <Box marginTop="l" marginBottom="m">

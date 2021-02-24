@@ -1,4 +1,5 @@
 import React from 'react';
+import {useI18n, useRegionalI18n} from 'locale';
 import {Box, Text} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {CheckInData} from 'shared/qr';
@@ -27,11 +28,12 @@ const CheckInList = ({checkIns}: {checkIns: CheckInData[]}) => {
 
 export const CheckInHistoryScreen = () => {
   const {checkInHistory} = useOutbreakService();
+  const i18n = useI18n();
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
-          Check-in History
+          {i18n.translate('ScannedPlaces.Title')}
         </Text>
         <Box>
           <CheckInList checkIns={checkInHistory} />
