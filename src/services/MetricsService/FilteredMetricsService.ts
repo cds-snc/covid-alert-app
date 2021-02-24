@@ -147,6 +147,12 @@ export class FilteredMetricsService {
     });
   }
 
+  retrieveAllMetricsInStorage(): Promise<Metric[]> {
+    return this.serialPromiseQueue.add(() => {
+      return this.metricsService.retrieveAllMetricsInStorage();
+    });
+  }
+
   private publishInstalledEventIfNecessary(): Promise<void> {
     const publishAndMark = (): Promise<void> => {
       return this.publishEvent(EventTypeMetric.Installed, [], true).then(() =>
