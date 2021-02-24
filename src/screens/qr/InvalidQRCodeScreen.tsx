@@ -12,7 +12,7 @@ export const InvalidQRCodeScreen = () => {
   const tryAgain = useCallback(() => navigation.navigate('QRCodeReaderScreen'), [navigation]);
   const goHome = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
-    <BaseQRCodeScreen showBackButton={false} showCloseButton={false}>
+    <BaseQRCodeScreen showBackButton={false}>
       <Box paddingHorizontal="m" marginTop="-xxl">
         <Icon name="red-circle-exclamation" height={75} width={75} />
       </Box>

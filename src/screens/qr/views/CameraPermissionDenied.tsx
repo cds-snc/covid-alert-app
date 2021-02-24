@@ -27,7 +27,7 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
   }, [updatePermissions]);
 
   return (
-    <BaseQRCodeScreen showBackButton showCloseButton={false}>
+    <BaseQRCodeScreen>
       <Box paddingHorizontal="m" style={styles.flex}>
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.CameraPermissionDenied.Title')}
