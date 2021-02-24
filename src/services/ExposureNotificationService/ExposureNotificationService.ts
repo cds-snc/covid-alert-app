@@ -272,6 +272,8 @@ export class ExposureNotificationService {
       });
     };
 
+    await this.filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
+
     // @todo: maybe remove this gets called in updateExposureStatus
     if (!(await this.shouldPerformExposureCheck())) {
       logBackgroundTaskDuration('failure#1', getCurrentDate());
@@ -284,8 +286,6 @@ export class ExposureNotificationService {
       await this.updateExposureStatus();
       await this.processNotification();
 
-      await this.filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
-
       if (QR_ENABLED) {
         OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
       }
@@ -296,6 +296,7 @@ export class ExposureNotificationService {
         message: 'updatedExposureStatusInBackground',
         payload: {exposureStatus},
       });
+
       PollNotifications.checkForNotifications(this.i18n);
 
       logBackgroundTaskDuration('success', getCurrentDate());
@@ -303,8 +304,6 @@ export class ExposureNotificationService {
       logBackgroundTaskDuration('failure#2', getCurrentDate());
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
-
-    await this.filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
 
     const notificationStatus: Status = await checkNotifications()
       .then(({status}) => status)
@@ -637,6 +636,9 @@ export class ExposureNotificationService {
       } else {
         exposureWindows = await this.exposureNotification.getExposureWindowsIos(exposureConfiguration, keysFileUrls);
       }
+
+      await this.filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
+
       log.debug({
         category: 'exposure-check',
         message: 'performExposureStatusUpdateV2',
@@ -805,6 +807,9 @@ export class ExposureNotificationService {
 
     try {
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+
+      await this.filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
+
       log.debug({
         category: 'exposure-check',
         message: 'detectExposure',
