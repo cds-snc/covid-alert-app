@@ -61,7 +61,7 @@ export class DefaultMetricsService implements MetricsService {
 
   private serialPromiseQueue: PQueue;
 
-  private constructor(
+  constructor(
     secureKeyValueStore: SecureKeyValueStore,
     metricsPublisher: MetricsPublisher,
     metricsProvider: MetricsProvider,
