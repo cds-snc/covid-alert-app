@@ -72,10 +72,6 @@ export class FilteredMetricsService {
 
   static sharedInstance(): FilteredMetricsService {
     if (!this.instance) {
-      log.debug({
-        category: 'metrics',
-        message: 'FilteredMetricsService shared instance initialized',
-      });
       this.instance = new this();
     }
     return this.instance;
