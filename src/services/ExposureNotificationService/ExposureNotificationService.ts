@@ -305,7 +305,6 @@ export class ExposureNotificationService {
     }
 
     await this.filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
-    await this.filteredMetricsService.addEvent({type: EventTypeMetric.PushToServerFromBackground});
 
     const notificationStatus: Status = await checkNotifications()
       .then(({status}) => status)

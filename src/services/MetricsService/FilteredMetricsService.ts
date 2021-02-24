@@ -59,12 +59,6 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.ActiveUser;
-    }
-  | {
-      type: EventTypeMetric.PushToServerFromForeground;
-    }
-  | {
-      type: EventTypeMetric.PushToServerFromBackground;
     };
 
 export class FilteredMetricsService {
@@ -122,10 +116,6 @@ export class FilteredMetricsService {
           return this.publishBackgroundCheckEventIfNecessary();
         case EventTypeMetric.ActiveUser:
           return this.publishActiveUserEventIfNecessary();
-        case EventTypeMetric.PushToServerFromForeground:
-          return this.publishEvent(EventTypeMetric.PushToServerFromForeground, []);
-        case EventTypeMetric.PushToServerFromBackground:
-          return this.publishEvent(EventTypeMetric.PushToServerFromBackground, []);
         default:
           break;
       }
