@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
@@ -78,22 +78,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   layerTop: {
-    flex: 1,
+    flex: 0.5,
     backgroundColor: 'black',
   },
   layerCenter: {
-    flex: 10,
     flexDirection: 'row',
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').height / 2,
   },
   layerLeft: {
-    flex: 0.5,
     backgroundColor: opacity,
+    width: 10,
   },
   focused: {
-    flex: 25,
+    flex: 1,
   },
   layerRight: {
-    flex: 0.5,
+    width: 10,
     backgroundColor: opacity,
   },
   layerBottom: {
