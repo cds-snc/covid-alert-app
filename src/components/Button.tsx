@@ -28,6 +28,7 @@ export interface ButtonProps {
   internalLink?: boolean;
   backButton?: boolean;
   iconName?: IconName;
+  useWhiteText?: boolean;
   testID?: string;
 }
 
@@ -42,6 +43,7 @@ export const Button = ({
   internalLink,
   backButton,
   iconName,
+  useWhiteText = false,
   testID,
 }: ButtonProps) => {
   const i18n = useI18n();
@@ -95,7 +97,7 @@ export const Button = ({
         <>
           {backButton && (
             <Box style={styles.backIcon} marginRight="s">
-              <Icon size={14} name="icon-chevron-back" />
+              <Icon size={14} name={useWhiteText ? 'icon-chevron-back-white' : 'icon-chevron-back'} />
             </Box>
           )}
           <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>

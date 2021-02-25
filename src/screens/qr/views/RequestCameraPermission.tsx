@@ -19,7 +19,7 @@ export const RequestCameraPermission = ({updatePermissions}: {updatePermissions:
     updatePermissions();
   }, [updatePermissions]);
   return (
-    <BaseQRCodeScreen showBackButton showCloseButton={false}>
+    <BaseQRCodeScreen showBackButton>
       <Box paddingHorizontal="m" style={styles.flex}>
         <Icon size={50} name="camera-permission" />
         <Text variant="bodyTitle" marginVertical="m" accessibilityRole="header" accessibilityAutoFocus>

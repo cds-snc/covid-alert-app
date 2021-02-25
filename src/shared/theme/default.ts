@@ -395,6 +395,15 @@ const theme = {
       borderWidth: undefined,
       disabled: {},
     },
+    whiteText: {
+      color: 'transparent',
+      height: 52,
+      textColor: palette.white,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {},
+    },
     buttonSelect: {
       color: 'bodyText',
       height: 52,
