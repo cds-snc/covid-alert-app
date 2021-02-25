@@ -71,6 +71,19 @@ export class OutbreakService implements OutbreakService {
     await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(checkInHistory));
     this.checkInHistory.set(checkInHistory);
   };
+  deleteScannedPlaces = async (value: string) => {
+    const _checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
+    const checkInHistory = JSON.parse(_checkInHistory);
+    // console.log('checkIn', checkInHistory);
+    const index = checkInHistory.findIndex((item: {id: string}) => item.id === value);
+    let newCheckInHistory = checkInHistory;
+    if (index !== -1) {
+      newCheckInHistory.splice(index, 1);
+    }
+
+    await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(newCheckInHistory));
+    this.checkInHistory.set(newCheckInHistory);
+  };
 
   removeCheckIn = async () => {
     // removes most recent Check In
@@ -192,6 +205,13 @@ export const useOutbreakService = () => {
     [outbreakService],
   );
 
+  const deleteScannedPlaces = useMemo(
+    () => (id: string) => {
+      outbreakService.deleteScannedPlaces(id);
+    },
+    [outbreakService],
+  );
+
   const clearOutbreakHistory = useMemo(
     () => () => {
       outbreakService.clearOutbreakHistory();
@@ -211,8 +231,17 @@ export const useOutbreakService = () => {
       checkForOutbreaks,
       addCheckIn,
       removeCheckIn,
+      deleteScannedPlaces,
       checkInHistory,
     }),
-    [outbreakHistory, clearOutbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
+    [
+      outbreakHistory,
+      clearOutbreakHistory,
+      checkForOutbreaks,
+      addCheckIn,
+      removeCheckIn,
+      deleteScannedPlaces,
+      checkInHistory,
+    ],
   );
 };

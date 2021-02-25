@@ -7,29 +7,24 @@ import {CheckInData} from 'shared/qr';
 import {formatCheckInDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
-interface DeleteProp {
-  onPress: () => void;
-  id: string;
-}
-
 const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing: boolean}) => {
-  const [checkInData, setCheckInData] = useState(checkIns);
+  const {deleteScannedPlaces} = useOutbreakService();
+  const sortedCheckIn = checkIns.sort(function(a, b) {
+    return b.timestamp - a.timestamp;
+  });
+
   if (checkIns.length === 0) {
     return <Text>No Check-ins yet</Text>;
   }
-  const deleteIconPressed = (id: string) => {
-    const filteredData = checkInData.filter(item => item.id !== id);
-    setCheckInData(filteredData);
-  };
   return (
     <>
-      {checkInData.map((checkIn, index) => {
+      {sortedCheckIn.map((checkIn, index) => {
         return (
           <>
             <Box style={styles.boxStyle}>
               <TouchableOpacity
                 onPress={() => {
-                  deleteIconPressed(checkIn.id);
+                  deleteScannedPlaces(checkIn.id);
                 }}
               >
                 {isEditing && <Icon size={20} name="places-delete" />}
