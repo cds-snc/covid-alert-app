@@ -23,6 +23,7 @@ export enum EventTypeMetric {
   ExposedClear = 'exposed-clear',
   BackgroundCheck = 'background-check',
   ActiveUser = 'active-user',
+  BackgroundProcess = 'background-process',
 }
 
 export type EventWithContext =
@@ -56,6 +57,11 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.ActiveUser;
+    }
+  | {
+      type: EventTypeMetric.BackgroundProcess;
+      succeeded: boolean;
+      durationInSeconds: number;
     };
 
 export class FilteredMetricsService {
@@ -113,6 +119,11 @@ export class FilteredMetricsService {
           return this.publishBackgroundCheckEventIfNecessary();
         case EventTypeMetric.ActiveUser:
           return this.publishActiveUserEventIfNecessary();
+        case EventTypeMetric.BackgroundProcess:
+          return this.publishEvent(EventTypeMetric.BackgroundProcess, [
+            ['status', eventWithContext.succeeded ? 'success' : 'fail'],
+            ['durationInSeconds', String(eventWithContext.durationInSeconds)],
+          ]);
         default:
           break;
       }
