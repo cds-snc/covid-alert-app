@@ -7,7 +7,6 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {log} from 'shared/logging/config';
 import {useOutbreakService} from 'shared/OutbreakProvider';
-import {Icon} from 'components/Icon';
 
 import {handleOpenURL} from '../utils';
 
