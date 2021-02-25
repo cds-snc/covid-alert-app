@@ -33,6 +33,7 @@ export const QRCodeScanner = () => {
 
   return (
     <BarCodeScanner onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned} style={styles.barcodeScanner}>
+      <Box style={styles.top} />
       <SafeAreaView style={styles.flex}>
         <Box marginBottom="m" style={styles.toolbar}>
           <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} />
@@ -51,6 +52,12 @@ export const QRCodeScanner = () => {
 // const opacity = 'rgba(0, 0, 0, .8)';
 
 const styles = StyleSheet.create({
+  top: {
+    position: 'absolute',
+    height: 30,
+    backgroundColor: 'black',
+    width: '100%',
+  },
   info: {
     backgroundColor: 'black',
     bottom: 0,
