@@ -34,7 +34,7 @@ export const QRCodeScanner = () => {
   return (
     <BarCodeScanner onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned} style={styles.barcodeScanner}>
       <SafeAreaView style={styles.flex}>
-        <Box marginBottom="m">
+        <Box marginBottom="m" style={styles.toolbar}>
           <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} />
         </Box>
         <Box style={styles.info} paddingVertical="s" paddingHorizontal="m">
