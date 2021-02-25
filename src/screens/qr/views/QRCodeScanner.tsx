@@ -37,11 +37,11 @@ export const QRCodeScanner = () => {
         <Box marginBottom="m" style={styles.toolbar}>
           <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} />
         </Box>
-        <Box style={styles.info} paddingVertical="s" paddingHorizontal="m">
-          <Text variant="bodyTitle" accessibilityRole="header" color="bodyTitleWhite">
+        <Box style={styles.info} paddingTop="s" paddingHorizontal="m">
+          <Text variant="bodyText" accessibilityRole="header" color="bodyTitleWhite">
             {i18n.translate(`QRCode.Reader.Title`)}
           </Text>
-          <Icon size={170} name="scan-qr-code-white-arrow" />
+          {/* <Icon size={170} name="scan-qr-code-white-arrow" /> */}
         </Box>
       </SafeAreaView>
     </BarCodeScanner>
@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+    width: '100%',
+    paddingBottom: '40%',
   },
   toolbar: {
     backgroundColor: 'black',
