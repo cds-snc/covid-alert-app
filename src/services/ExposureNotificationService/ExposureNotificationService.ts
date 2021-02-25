@@ -263,12 +263,18 @@ export class ExposureNotificationService {
   async updateExposureStatusInBackground() {
     const backgroundTaskStartDate = getCurrentDate();
 
-    const logBackgroundTaskDuration = (taskResult: string, backgroundTaskEndDate: Date) => {
-      const backgroundTaskDurationInSeconds = secondsBetween(backgroundTaskStartDate, backgroundTaskEndDate);
+    const logEndOfBackgroundTask = async (succeeded: boolean) => {
+      const backgroundTaskDurationInSeconds = secondsBetween(backgroundTaskStartDate, getCurrentDate());
       log.debug({
         category: 'background',
         message: 'backgoundTaskDuration',
-        payload: {taskResult, backgroundTaskDurationInSeconds},
+        payload: {succeeded, backgroundTaskDurationInSeconds},
+      });
+
+      await this.filteredMetricsService.addEvent({
+        type: EventTypeMetric.BackgroundProcess,
+        succeeded,
+        durationInSeconds: backgroundTaskDurationInSeconds,
       });
     };
 
@@ -296,9 +302,9 @@ export class ExposureNotificationService {
 
       PollNotifications.checkForNotifications(this.i18n);
 
-      logBackgroundTaskDuration('success', getCurrentDate());
+      await logEndOfBackgroundTask(true);
     } catch (error) {
-      logBackgroundTaskDuration('failure', getCurrentDate());
+      await logEndOfBackgroundTask(false);
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
 
