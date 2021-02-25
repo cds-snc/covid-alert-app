@@ -275,10 +275,7 @@ export class ExposureNotificationService {
     await this.filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
 
     // @todo: maybe remove this gets called in updateExposureStatus
-    if (!(await this.shouldPerformExposureCheck())) {
-      logBackgroundTaskDuration('failure#1', getCurrentDate());
-      return;
-    }
+    if (!(await this.shouldPerformExposureCheck())) return;
 
     try {
       await this.loadExposureStatus();
@@ -301,7 +298,7 @@ export class ExposureNotificationService {
 
       logBackgroundTaskDuration('success', getCurrentDate());
     } catch (error) {
-      logBackgroundTaskDuration('failure#2', getCurrentDate());
+      logBackgroundTaskDuration('failure', getCurrentDate());
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
 
