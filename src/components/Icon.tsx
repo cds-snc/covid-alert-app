@@ -32,6 +32,7 @@ import ScanQRCodeWhiteArrow from 'assets/scan-qr-code-white-arrow.svg';
 import Camera from 'assets/camera.svg';
 import GreenCircleCheck from 'assets/green-circle-check.svg';
 import RedCircleExclamation from 'assets/red-circle-exclamation.svg';
+import PlacesDelete from 'assets/places-delete-icon.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -67,6 +68,7 @@ const ICONS = {
   'camera-permission': Camera,
   'green-circle-check': GreenCircleCheck,
   'red-circle-exclamation': RedCircleExclamation,
+  'places-delete': PlacesDelete,
 };
 
 export type IconName = keyof typeof ICONS;
