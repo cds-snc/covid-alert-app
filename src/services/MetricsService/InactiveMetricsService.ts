@@ -13,4 +13,8 @@ export class InactiveMetricsService implements MetricsService {
   sendDailyMetrics(): Promise<void> {
     return Promise.resolve();
   }
+
+  retrieveAllMetricsInStorage(): Promise<Metric[]> {
+    return Promise.resolve([]);
+  }
 }

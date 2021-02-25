@@ -12,9 +12,9 @@ export class MetricFactory {
 
   static createTestMetrics(): Metric[] {
     return [
-      this.createTestMetricWithEmptyPayload(),
-      this.createTestMetricWithCustomPayload(),
-      this.createTestMetricWithEmptyPayload(),
+      this.createTestMetricWithEmptyPayload(1611324024314),
+      this.createTestMetricWithCustomPayload(1611324024315),
+      this.createTestMetricWithEmptyPayload(1611324024316),
     ];
   }
 }
