@@ -23,8 +23,6 @@ export enum EventTypeMetric {
   ExposedClear = 'exposed-clear',
   BackgroundCheck = 'background-check',
   ActiveUser = 'active-user',
-  PushToServerFromForeground = 'foreground-push',
-  PushToServerFromBackground = 'background-push',
 }
 
 export type EventWithContext =
