@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useI18n} from 'locale';
 import {Box, Text, Icon, Button} from 'components';
@@ -50,6 +50,9 @@ const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing:
 
 export const CheckInHistoryScreen = () => {
   const {checkInHistory} = useOutbreakService();
+  useEffect(() => {
+    checkInHistory;
+  }, [checkInHistory]);
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingText, setIsEditingText] = useState('Edit');
   const onPressEdit = () => {
