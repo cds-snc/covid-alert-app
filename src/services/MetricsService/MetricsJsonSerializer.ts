@@ -1,9 +1,7 @@
-import {getLogUUID} from 'shared/logging/uuid';
-
 import {Metric} from './Metric';
 
 export interface MetricsJsonSerializer {
-  serializeToJson(timestamp: number, metrics: Metric[]): Promise<string>;
+  serializeToJson(timestamp: number, metrics: Metric[]): string;
 }
 
 export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
@@ -17,7 +15,7 @@ export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
     this.osVersion = osVersion;
   }
 
-  serializeToJson(timestamp: number, metrics: Metric[]): Promise<string> {
+  serializeToJson(timestamp: number, metrics: Metric[]): string {
     function serializeDynamicPayload(map: [string, string][]): any {
       return Array.from(map).reduce((acc, [key, value]) => {
         // @ts-ignore
@@ -25,21 +23,19 @@ export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
         return acc;
       }, {});
     }
-    return getLogUUID().then(uuid => {
-      const jsonStructure = {
-        metricstimestamp: timestamp,
-        appversion: this.appVersion,
-        appos: this.appOs,
-        osversion: this.osVersion,
-        deviceuuid: uuid,
-        payload: metrics.map(metric => {
-          return {
-            ...{identifier: metric.identifier, region: metric.region, timestamp: metric.timestamp},
-            ...serializeDynamicPayload(metric.payload),
-          };
-        }),
-      };
-      return JSON.stringify(jsonStructure);
-    });
+
+    const jsonStructure = {
+      metricstimestamp: timestamp,
+      appversion: this.appVersion,
+      appos: this.appOs,
+      osversion: this.osVersion,
+      payload: metrics.map(metric => {
+        return {
+          ...{identifier: metric.identifier, region: metric.region, timestamp: metric.timestamp},
+          ...serializeDynamicPayload(metric.payload),
+        };
+      }),
+    };
+    return JSON.stringify(jsonStructure);
   }
 }
