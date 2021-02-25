@@ -7,17 +7,33 @@ import {CheckInData} from 'shared/qr';
 import {formatCheckInDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
+interface DeleteProp {
+  onPress: () => void;
+  id: string;
+}
+
 const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing: boolean}) => {
+  const [checkInData, setCheckInData] = useState(checkIns);
   if (checkIns.length === 0) {
     return <Text>No Check-ins yet</Text>;
   }
+  const deleteIconPressed = (id: string) => {
+    const filteredData = checkInData.filter(item => item.id !== id);
+    setCheckInData(filteredData);
+  };
   return (
     <>
-      {checkIns.map((checkIn, index) => {
+      {checkInData.map((checkIn, index) => {
         return (
           <>
             <Box style={styles.boxStyle}>
-              <TouchableOpacity>{isEditing && <Icon size={20} name="places-delete" />}</TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  deleteIconPressed(checkIn.id);
+                }}
+              >
+                {isEditing && <Icon size={20} name="places-delete" />}
+              </TouchableOpacity>
 
               <Box
                 padding="m"
@@ -58,10 +74,12 @@ export const CheckInHistoryScreen = () => {
         </Text>
       </Box>
       <Box>
-        <Box style={isEditing ? styles.textBoxEditing : styles.textBoxNoEdit}>
-          {isEditing && <Button text="Delete All" variant="buttonSelect" onPress={onPressEdit} />}
+        <Box style={styles.textBox}>
+          <Box>{isEditing && <Button text="Delete All" variant="buttonSelect" onPress={onPressEdit} />}</Box>
 
-          <Button text={isEditingText} variant="buttonSelect" onPress={onPressEdit} />
+          <Box>
+            <Button text={isEditingText} variant="buttonSelect" onPress={onPressEdit} />
+          </Box>
         </Box>
 
         <Box paddingHorizontal="s" marginLeft="m" marginRight="m" style={styles.placesBox} backgroundColor="gray5">
@@ -82,15 +100,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  textBoxEditing: {
+  textBox: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  textBoxNoEdit: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
   },
   placesBox: {
     borderRadius: 10,
