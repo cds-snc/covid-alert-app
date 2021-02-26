@@ -123,9 +123,19 @@
   },
   "ScannedPlaces":{
     "Title": "Scanned places",
-      "Body1":"These are the places you’ve scanned and visited in the past 28 days.",
-      "Body2":"This data only exists on your phone.",
-      "BodyNoScan": "You have not scanned any places yet. A list of your visits will appear once you start scanning places."
+      "Body":"These are the places you’ve scanned and visited in the past 28 days.\n\n This data only exists on your phone.",
+      "BodyNoScan": "You have not scanned any places yet. A list of your visits will appear once you start scanning places.",
+      "Edit": "Edit",
+      "Done": "Done",
+      "DeleteAll": "Delete All",
+      "Alert": {
+        "Title": "Are you sure you want to delete this place?",
+        "TitleDeleteAll":"Are you sure you want to delete all the places?",
+        "Subtitle": "If there’s a possible exposure at this place, you will not be notified.",
+        "Cancel":"Cancel",
+        "Confirm": "Yes, delete"
+      }
+
   },
   "OverlayClosed": {
     "SystemStatus": "COVID Alert is ",

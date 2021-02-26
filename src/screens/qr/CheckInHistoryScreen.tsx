@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {useI18n} from 'locale';
 import {Box, Text, Icon, Button} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
@@ -9,13 +9,27 @@ import {useOutbreakService} from 'shared/OutbreakProvider';
 
 const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing: boolean}) => {
   const {deleteScannedPlaces} = useOutbreakService();
+  const i18n = useI18n();
   const sortedCheckIn = checkIns.sort(function(a, b) {
     return b.timestamp - a.timestamp;
   });
+  const deleteConfirmationAlert = (id: string) => {
+    Alert.alert(i18n.translate('ScannedPlaces.Alert.Title'), i18n.translate('ScannedPlaces.Alert.Subtitle'), [
+      {
+        text: i18n.translate('ScannedPlaces.Alert.Cancel'),
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: i18n.translate('ScannedPlaces.Alert.Confirm'),
+        onPress: () => {
+          deleteScannedPlaces(id);
+        },
+        style: 'default',
+      },
+    ]);
+  };
 
-  if (checkIns.length === 0) {
-    return <Text>No Check-ins yet</Text>;
-  }
   return (
     <>
       {sortedCheckIn.map((checkIn, index) => {
@@ -24,7 +38,7 @@ const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing:
             <Box style={styles.boxStyle}>
               <TouchableOpacity
                 onPress={() => {
-                  deleteScannedPlaces(checkIn.id);
+                  deleteConfirmationAlert(checkIn.id);
                 }}
               >
                 {isEditing && <Icon size={20} name="places-delete" />}
@@ -49,36 +63,58 @@ const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing:
 };
 
 export const CheckInHistoryScreen = () => {
-  const {checkInHistory} = useOutbreakService();
+  const i18n = useI18n();
+  const {checkInHistory, deleteAllScannedPlaces} = useOutbreakService();
+
   useEffect(() => {
     checkInHistory;
   }, [checkInHistory]);
   const [isEditing, setIsEditing] = useState(false);
-  const [isEditingText, setIsEditingText] = useState('Edit');
+  const [isEditingText, setIsEditingText] = useState(i18n.translate('ScannedPlaces.Edit'));
   const onPressEdit = () => {
     setIsEditing(!isEditing);
-    setIsEditingText(isEditing ? 'Edit' : 'Done');
+    setIsEditingText(isEditing ? i18n.translate('ScannedPlaces.Edit') : i18n.translate('ScannedPlaces.Done'));
   };
-  const i18n = useI18n();
+
+  const deleteAllPlaces = () => {
+    Alert.alert(i18n.translate('ScannedPlaces.Alert.TitleDeleteAll'), i18n.translate('ScannedPlaces.Alert.Subtitle'), [
+      {
+        text: i18n.translate('ScannedPlaces.Alert.Cancel'),
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: i18n.translate('ScannedPlaces.Alert.Confirm'),
+        onPress: () => {
+          deleteAllScannedPlaces();
+        },
+        style: 'default',
+      },
+    ]);
+  };
+
   return (
     <BaseDataSharingView showBackButton={false}>
       <Box paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
           {i18n.translate('ScannedPlaces.Title')}
         </Text>
-        <Text>{i18n.translate('ScannedPlaces.Body1')}</Text>
-        <Text marginTop="s" marginBottom="xl">
-          {i18n.translate('ScannedPlaces.Body2')}
+        <Text>
+          {checkInHistory.length === 0
+            ? i18n.translate('ScannedPlaces.BodyNoScan')
+            : i18n.translate('ScannedPlaces.Body')}
         </Text>
       </Box>
       <Box>
-        <Box style={styles.textBox}>
-          <Box>{isEditing && <Button text="Delete All" variant="buttonSelect" onPress={onPressEdit} />}</Box>
+        {checkInHistory.length === 0 ? null : (
+          <Box style={styles.textBox}>
+            <Box>{isEditing && <Button text="Delete All" variant="buttonSelect" onPress={deleteAllPlaces} />}</Box>
 
-          <Box>
-            <Button text={isEditingText} variant="buttonSelect" onPress={onPressEdit} />
+            <Box>
+              <Button text={isEditingText} variant="buttonSelect" onPress={onPressEdit} />
+            </Box>
           </Box>
-        </Box>
+        )}
 
         <Box paddingHorizontal="s" marginLeft="m" marginRight="m" style={styles.placesBox} backgroundColor="gray5">
           <CheckInList checkIns={checkInHistory} isEditing={isEditing} />

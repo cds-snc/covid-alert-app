@@ -123,9 +123,18 @@
   },
   "ScannedPlaces": {
     "Title": "Lieux scannés",
-    "Body1":"Voici les lieux que vous avez visités et scannés au cours des 28 derniers jours.",
-    "Body2":"Ces informations existent uniquement sur votre téléphone.",
-    "BodyNoScan": "Vous n’avez pas encore scanné de lieux. La liste des lieux visités apparaîtra dès que vous scannez un lieu."
+    "Body":"Voici les lieux que vous avez visités et scannés au cours des 28 derniers jours. \n\n Ces informations existent uniquement sur votre téléphone.",
+    "BodyNoScan": "Vous n’avez pas encore scanné de lieux. La liste des lieux visités apparaîtra dès que vous scannez un lieu.",
+    "Edit": "Modifier",
+    "Done": "Done",
+    "DeleteAll": "Tout supprimer",
+    "Alert": {
+      "Title": "Voulez-vous vraiment supprimer ce lieu?",
+      "TitleDeleteAll":"Are you sure you want to delete all the places?",
+      "Subtitle": "S’il y a une exposition potentielle dans ce lieu, vous n’en serez pas notifié.",
+      "Cancel":"Annuler",
+      "Confirm": "Oui, supprimer"
+    }
   },
   "OverlayClosed": {
     "SystemStatus": "Alerte COVID est ",
