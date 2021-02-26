@@ -1,15 +1,15 @@
-import {TEST_MODE} from 'env';
-import AsyncStorage from '@react-native-community/async-storage';
-import React, {useContext, useEffect, useMemo, useState} from 'react';
-import {Key} from 'services/StorageService';
+import { TEST_MODE } from 'env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Key } from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
-import {useI18nRef, I18n} from 'locale';
+import { useI18nRef, I18n } from 'locale';
 import PQueue from 'p-queue';
 
 // eslint-disable-next-line @shopify/strict-component-boundaries
-import {DefaultSecureKeyValueStore, SecureKeyValueStore} from '../services/MetricsService/SecureKeyValueStorage';
+import { DefaultSecureKeyValueStore, SecureKeyValueStore } from '../services/MetricsService/SecureKeyValueStorage';
 
-import {Observable} from './Observable';
+import { Observable } from './Observable';
 import {
   CheckInData,
   getNewOutbreakExposures,
@@ -18,9 +18,9 @@ import {
   isExposedToOutbreak,
   OutbreakHistoryItem,
 } from './qr';
-import {createCancellableCallbackPromise} from './cancellablePromise';
-import {getCurrentDate, minutesBetween} from './date-fns';
-import {log} from './logging/config';
+import { createCancellableCallbackPromise } from './cancellablePromise';
+import { getCurrentDate, minutesBetween } from './date-fns';
+import { log } from './logging/config';
 
 const OutbreaksLastCheckedStorageKey = 'A436ED42-707E-11EB-9439-0242AC130002';
 
@@ -48,7 +48,7 @@ export class OutbreakService implements OutbreakService {
     this.checkInHistory = new Observable<CheckInData[]>([]);
     this.i18n = i18n;
     this.secureKeyValueStore = new DefaultSecureKeyValueStore();
-    this.serialPromiseQueue = new PQueue({concurrency: 1});
+    this.serialPromiseQueue = new PQueue({ concurrency: 1 });
   }
 
   clearOutbreakHistory = async () => {
@@ -109,7 +109,7 @@ export class OutbreakService implements OutbreakService {
     const outbreakEvents = await getOutbreakEvents();
     const detectedOutbreakExposures = getMatchedOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
     this.markOutbreaksLastCheckedDateTime(getCurrentDate());
-    log.debug({payload: {detectedOutbreakExposures}});
+    log.debug({ payload: { detectedOutbreakExposures } });
     if (detectedOutbreakExposures.length === 0) {
       return;
     }
@@ -119,7 +119,7 @@ export class OutbreakService implements OutbreakService {
     }
     await this.addToOutbreakHistory(newOutbreakExposures);
     const outbreakHistory = this.outbreakHistory.get();
-    log.debug({payload: {outbreakHistory}});
+    log.debug({ payload: { outbreakHistory } });
     this.processOutbreakNotification(outbreakHistory);
   };
 
@@ -157,11 +157,11 @@ interface OutbreakProviderProps {
 
 export const OutbreakContext = React.createContext<OutbreakProviderProps | undefined>(undefined);
 
-export const OutbreakProvider = ({children}: OutbreakProviderProps) => {
+export const OutbreakProvider = ({ children }: OutbreakProviderProps) => {
   const [outbreakService, setOutbreakService] = useState<OutbreakService>();
   const i18n = useI18nRef();
   useEffect(() => {
-    const {callable, cancelable} = createCancellableCallbackPromise(
+    const { callable, cancelable } = createCancellableCallbackPromise(
       () => createOutbreakService(i18n),
       setOutbreakService,
     );
@@ -169,7 +169,7 @@ export const OutbreakProvider = ({children}: OutbreakProviderProps) => {
     return cancelable;
   }, [i18n]);
 
-  return <OutbreakContext.Provider value={{outbreakService}}>{outbreakService && children}</OutbreakContext.Provider>;
+  return <OutbreakContext.Provider value={{ outbreakService }}>{outbreakService && children}</OutbreakContext.Provider>;
 };
 
 export const useOutbreakService = () => {

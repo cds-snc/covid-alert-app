@@ -1,20 +1,20 @@
-import React, {useCallback} from 'react';
-import {useI18n} from 'locale';
-import {useNavigation} from '@react-navigation/native';
-import {Text, ButtonSingleLine, RoundedBox} from 'components';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import AsyncStorage from '@react-native-community/async-storage';
-import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
+import React, { useCallback } from 'react';
+import { useI18n } from 'locale';
+import { useNavigation } from '@react-navigation/native';
+import { Text, ButtonSingleLine, RoundedBox } from 'components';
+import { useAccessibilityAutoFocus } from 'shared/useAccessibilityAutoFocus';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { INITIAL_TEK_UPLOAD_COMPLETE } from 'shared/DataSharing';
 
-import {BaseHomeView} from '../components/BaseHomeView';
+import { BaseHomeView } from '../components/BaseHomeView';
 
-export const DiagnosedShareUploadView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const DiagnosedShareUploadView = ({ isBottomSheetExpanded }: { isBottomSheetExpanded: boolean }) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const toDataShare = useCallback(async () => {
     const initialTekUploadComplete = await AsyncStorage.getItem(INITIAL_TEK_UPLOAD_COMPLETE);
     const screen = initialTekUploadComplete === 'false' ? 'IntermediateScreen' : 'TekUploadSubsequentDays';
-    return navigation.navigate('DataSharing', {screen});
+    return navigation.navigate('DataSharing', { screen });
   }, [navigation]);
   const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
 

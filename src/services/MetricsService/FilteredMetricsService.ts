@@ -1,17 +1,17 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import {APP_VERSION_CODE} from 'env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { APP_VERSION_CODE } from 'env';
 import PQueue from 'p-queue';
-import {Platform} from 'react-native';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
-import {ExposureStatus, ExposureStatusType, SystemStatus} from 'services/ExposureNotificationService';
-import {Key} from 'services/StorageService';
-import {getHoursBetween, getCurrentDate, daysBetweenUTC, getUTCMidnight} from 'shared/date-fns';
+import { Platform } from 'react-native';
+import { Status } from 'screens/home/components/NotificationPermissionStatus';
+import { ExposureStatus, ExposureStatusType, SystemStatus } from 'services/ExposureNotificationService';
+import { Key } from 'services/StorageService';
+import { getHoursBetween, getCurrentDate, daysBetweenUTC, getUTCMidnight } from 'shared/date-fns';
 
-import {DefaultFilteredMetricsStateStorage, FilteredMetricsStateStorage} from './FilteredMetricsStateStorage';
-import {Metric} from './Metric';
-import {DefaultMetricsJsonSerializer} from './MetricsJsonSerializer';
-import {DefaultMetricsService, MetricsService} from './MetricsService';
-import {DefaultSecureKeyValueStore} from './SecureKeyValueStorage';
+import { DefaultFilteredMetricsStateStorage, FilteredMetricsStateStorage } from './FilteredMetricsStateStorage';
+import { Metric } from './Metric';
+import { DefaultMetricsJsonSerializer } from './MetricsJsonSerializer';
+import { DefaultMetricsService, MetricsService } from './MetricsService';
+import { DefaultSecureKeyValueStore } from './SecureKeyValueStorage';
 
 export enum EventTypeMetric {
   Installed = 'installed',
@@ -28,41 +28,41 @@ export enum EventTypeMetric {
 
 export type EventWithContext =
   | {
-      type: EventTypeMetric.Installed;
-    }
+    type: EventTypeMetric.Installed;
+  }
   | {
-      type: EventTypeMetric.Onboarded;
-    }
+    type: EventTypeMetric.Onboarded;
+  }
   | {
-      type: EventTypeMetric.Exposed;
-    }
+    type: EventTypeMetric.Exposed;
+  }
   | {
-      type: EventTypeMetric.OtkNoDate;
-      exposureHistory: number[];
-    }
+    type: EventTypeMetric.OtkNoDate;
+    exposureHistory: number[];
+  }
   | {
-      type: EventTypeMetric.OtkWithDate;
-    }
+    type: EventTypeMetric.OtkWithDate;
+  }
   | {
-      type: EventTypeMetric.EnToggle;
-      state: boolean;
-      onboardedDate: Date | undefined;
-    }
+    type: EventTypeMetric.EnToggle;
+    state: boolean;
+    onboardedDate: Date | undefined;
+  }
   | {
-      type: EventTypeMetric.ExposedClear;
-      exposureStatus: ExposureStatus;
-    }
+    type: EventTypeMetric.ExposedClear;
+    exposureStatus: ExposureStatus;
+  }
   | {
-      type: EventTypeMetric.BackgroundCheck;
-    }
+    type: EventTypeMetric.BackgroundCheck;
+  }
   | {
-      type: EventTypeMetric.ActiveUser;
-    }
+    type: EventTypeMetric.ActiveUser;
+  }
   | {
-      type: EventTypeMetric.BackgroundProcess;
-      succeeded: boolean;
-      durationInSeconds: number;
-    };
+    type: EventTypeMetric.BackgroundProcess;
+    succeeded: boolean;
+    durationInSeconds: number;
+  };
 
 export class FilteredMetricsService {
   private static instance: FilteredMetricsService;
@@ -84,7 +84,7 @@ export class FilteredMetricsService {
       new DefaultMetricsJsonSerializer(String(APP_VERSION_CODE), Platform.OS, String(Platform.Version)),
     );
     this.stateStorage = new DefaultFilteredMetricsStateStorage(new DefaultSecureKeyValueStore());
-    this.serialPromiseQueue = new PQueue({concurrency: 1});
+    this.serialPromiseQueue = new PQueue({ concurrency: 1 });
   }
 
   addEvent(eventWithContext: EventWithContext): Promise<void> {

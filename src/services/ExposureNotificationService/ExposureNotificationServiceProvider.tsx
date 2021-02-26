@@ -1,19 +1,19 @@
-import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
-import {useI18nRef} from 'locale';
-import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotification';
-import {AppState, AppStateStatus, Platform} from 'react-native';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useI18nRef } from 'locale';
+import ExposureNotification, { Status as SystemStatus } from 'bridge/ExposureNotification';
+import { AppState, AppStateStatus, Platform } from 'react-native';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
-import {ContagiousDateInfo} from 'shared/DataSharing';
-import {useStorage} from 'services/StorageService';
-import {log} from 'shared/logging/config';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
-import {checkNotifications} from 'react-native-permissions';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import { ContagiousDateInfo } from 'shared/DataSharing';
+import { useStorage } from 'services/StorageService';
+import { log } from 'shared/logging/config';
+import { EventTypeMetric, FilteredMetricsService } from 'services/MetricsService/FilteredMetricsService';
+import { checkNotifications } from 'react-native-permissions';
+import { Status } from 'screens/home/components/NotificationPermissionStatus';
 
-import {BackendInterface} from '../BackendService';
-import {BackgroundScheduler} from '../BackgroundSchedulerService';
+import { BackendInterface } from '../BackendService';
+import { BackgroundScheduler } from '../BackgroundSchedulerService';
 
 import {
   ExposureNotificationService,
@@ -42,7 +42,7 @@ export const ExposureNotificationServiceProvider = ({
   children,
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
-  const {setUserStopped} = useStorage();
+  const { setUserStopped } = useStorage();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
@@ -74,7 +74,7 @@ export const ExposureNotificationServiceProvider = ({
       await exposureNotificationService.updateExposureStatus();
 
       const notificationStatus: Status = await checkNotifications()
-        .then(({status}) => status)
+        .then(({ status }) => status)
         .catch(() => 'unavailable');
       await filteredMetricsService.sendDailyMetrics(exposureNotificationService.systemStatus.get(), notificationStatus);
 
@@ -92,7 +92,7 @@ export const ExposureNotificationServiceProvider = ({
     exposureNotificationService.updateExposureStatus();
 
     checkNotifications()
-      .then(({status}) => status)
+      .then(({ status }) => status)
       .catch(() => 'unavailable')
       .then(notificationStatus => {
         filteredMetricsService.sendDailyMetrics(
@@ -100,7 +100,7 @@ export const ExposureNotificationServiceProvider = ({
           notificationStatus as Status,
         );
       })
-      .catch(() => {});
+      .catch(() => { });
 
     AppState.addEventListener('change', onAppStateChange);
     return () => {
@@ -119,14 +119,14 @@ export function useExposureNotificationService() {
   return useContext(ExposureNotificationServiceContext)!;
 }
 
-export function useStartExposureNotificationService(): () => Promise<boolean | {success: boolean; error?: string}> {
+export function useStartExposureNotificationService(): () => Promise<boolean | { success: boolean; error?: string }> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped, onboardedDatetime} = useStorage();
+  const { setUserStopped, onboardedDatetime } = useStorage();
 
   return useCallback(async () => {
     const start = await exposureNotificationService.start();
 
-    log.debug({message: 'exposureNotificationService.start()', payload: start});
+    log.debug({ message: 'exposureNotificationService.start()', payload: start });
     FilteredMetricsService.sharedInstance().addEvent({
       type: EventTypeMetric.EnToggle,
       state: true,
@@ -145,7 +145,7 @@ export function useStartExposureNotificationService(): () => Promise<boolean | {
     }
 
     if (start?.error === 'API_NOT_CONNECTED') {
-      return {success: false, error: 'API_NOT_CONNECTED'};
+      return { success: false, error: 'API_NOT_CONNECTED' };
     }
 
     return false;
@@ -154,11 +154,11 @@ export function useStartExposureNotificationService(): () => Promise<boolean | {
 
 export function useStopExposureNotificationService(): () => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped, onboardedDatetime} = useStorage();
+  const { setUserStopped, onboardedDatetime } = useStorage();
   return useCallback(async () => {
     setUserStopped(true);
     const stopped = await exposureNotificationService.stop();
-    log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
+    log.debug({ message: 'exposureNotificationService.stop()', payload: stopped });
     FilteredMetricsService.sharedInstance().addEvent({
       type: EventTypeMetric.EnToggle,
       state: false,
@@ -255,14 +255,14 @@ export function useExposureNotificationSystemStatusAutomaticUpdater() {
     const locationListenerPromise =
       Platform.OS === 'android'
         ? SystemSetting.addLocationListener(() => {
-            exposureNotificationService.updateSystemStatus();
-          })
+          exposureNotificationService.updateSystemStatus();
+        })
         : undefined;
 
     return () => {
       AppState.removeEventListener('change', updateStatus);
-      bluetoothListenerPromise.then(listener => listener.remove()).catch(() => {});
-      locationListenerPromise?.then(listener => listener.remove()).catch(() => {});
+      bluetoothListenerPromise.then(listener => listener.remove()).catch(() => { });
+      locationListenerPromise?.then(listener => listener.remove()).catch(() => { });
     };
   }, [exposureNotificationService]);
 }

@@ -2,19 +2,19 @@
 import crypto from 'crypto';
 
 import nacl from 'tweetnacl';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as envs from '../../env';
-import {ContagiousDateInfo, ContagiousDateType} from '../../shared/DataSharing';
+import { ContagiousDateInfo, ContagiousDateType } from '../../shared/DataSharing';
 import * as DateFns from '../../shared/date-fns';
-import {blobFetch} from '../../shared/fetch';
-import {captureMessage} from '../../shared/log';
+import { blobFetch } from '../../shared/fetch';
+import { captureMessage } from '../../shared/log';
 import JsonSchemaValidator from '../../shared/JsonSchemaValidator';
-import {getRandomBytes, downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
-import {TemporaryExposureKey} from '../../bridge/ExposureNotification';
+import { getRandomBytes, downloadDiagnosisKeysFile } from '../../bridge/CovidShield';
+import { TemporaryExposureKey } from '../../bridge/ExposureNotification';
 
-import {BackendService} from './BackendService';
-import {covidshield} from './covidshield';
+import { BackendService } from './BackendService';
+import { covidshield } from './covidshield';
 
 jest.mock('tweetnacl', () => ({
   __esModule: true,
@@ -117,7 +117,7 @@ describe('BackendService', () => {
     jest.clearAllMocks();
     jest.resetAllMocks();
 
-    blobFetch.mockImplementation(() => Promise.resolve({buffer: new Uint8Array(0), error: false}));
+    blobFetch.mockImplementation(() => Promise.resolve({ buffer: new Uint8Array(0), error: false }));
   });
 
   describe('reportDiagnosisKeys', () => {
@@ -131,7 +131,7 @@ describe('BackendService', () => {
           serverPublicKey: 'mock',
         },
         keys,
-        {dateType: ContagiousDateType.None, date: null},
+        { dateType: ContagiousDateType.None, date: null },
       );
 
       expect(covidshield.Upload.create).toHaveBeenCalledWith(
@@ -142,7 +142,7 @@ describe('BackendService', () => {
       keys
         .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
         .splice(0, 28)
-        .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}))
+        .map(({ rollingStartIntervalNumber, rollingPeriod }) => ({ rollingStartIntervalNumber, rollingPeriod }))
         .forEach(value => {
           expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
         });
@@ -159,7 +159,7 @@ describe('BackendService', () => {
       getRandomBytes.mockRejectedValueOnce('I cannot randomize');
 
       await expect(
-        backendService.reportDiagnosisKeys(submissionKeys, keys, {dateType: ContagiousDateType.None, date: null}),
+        backendService.reportDiagnosisKeys(submissionKeys, keys, { dateType: ContagiousDateType.None, date: null }),
       ).rejects.toThrow('I cannot randomize');
     });
 
@@ -184,7 +184,7 @@ describe('BackendService', () => {
             serverPublicKey: 'mock',
           },
           keys,
-          {dateType: ContagiousDateType.None, date: null},
+          { dateType: ContagiousDateType.None, date: null },
         ),
       ).rejects.toThrow('314');
     });
@@ -208,7 +208,7 @@ describe('BackendService', () => {
             serverPublicKey: 'mock',
           },
           keys,
-          {dateType: ContagiousDateType.None, date: null},
+          { dateType: ContagiousDateType.None, date: null },
         ),
       ).rejects.toThrow('Code Unknown');
     });
@@ -223,7 +223,7 @@ describe('BackendService', () => {
           serverPublicKey: 'mock',
         },
         keys,
-        {dateType: ContagiousDateType.SymptomOnsetDate, date: new Date()},
+        { dateType: ContagiousDateType.SymptomOnsetDate, date: new Date() },
       );
 
       expect(covidshield.Upload.create).toHaveBeenCalledWith(
@@ -234,7 +234,7 @@ describe('BackendService', () => {
       const sortedKeys = keys
         .sort((first, second) => second.rollingStartIntervalNumber - first.rollingStartIntervalNumber)
         .splice(0, 3)
-        .map(({rollingStartIntervalNumber, rollingPeriod}) => ({rollingStartIntervalNumber, rollingPeriod}));
+        .map(({ rollingStartIntervalNumber, rollingPeriod }) => ({ rollingStartIntervalNumber, rollingPeriod }));
       sortedKeys.forEach(value => {
         expect(covidshield.TemporaryExposureKey.create).toHaveBeenCalledWith(expect.objectContaining(value));
       });
@@ -257,7 +257,7 @@ describe('BackendService', () => {
           serverPublicKey: 'mock',
         },
         keys,
-        {dateType: ContagiousDateType.None, date: null},
+        { dateType: ContagiousDateType.None, date: null },
       );
       expect(covidshield.Upload.create).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -310,7 +310,7 @@ describe('BackendService', () => {
     beforeEach(() => {
       backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
       const bytes = new Uint8Array(34);
-      nacl.box.keyPair = () => ({publicKey: bytes, secretKey: bytes});
+      nacl.box.keyPair = () => ({ publicKey: bytes, secretKey: bytes });
       covidshield.KeyClaimResponse.decode.mockImplementation(() => ({
         serverPublicKey: Uint8Array.from('QUJD'),
       }));
@@ -333,7 +333,7 @@ describe('BackendService', () => {
         // decode mock will override this with error
         buffer: new Uint8Array(0),
       }));
-      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({error: new Error('1')}));
+      covidshield.KeyClaimResponse.decode.mockImplementation(() => ({ error: new Error('1') }));
       await expect(backendService.claimOneTimeCode('THISWILLNOTWORK')).rejects.toThrow('1');
     });
 
@@ -353,11 +353,11 @@ describe('BackendService', () => {
       const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
 
       // eslint-disable-next-line no-global-assign
-      fetch = jest.fn(() => Promise.resolve({json: () => ({})}));
+      fetch = jest.fn(() => Promise.resolve({ json: () => ({}) }));
 
       await backendService.getExposureConfiguration();
       const anticipatedURL = 'http://localhost/exposure-configuration/CA.json';
-      expect(fetch).toHaveBeenCalledWith(anticipatedURL, {headers: {'Cache-Control': 'no-store'}});
+      expect(fetch).toHaveBeenCalledWith(anticipatedURL, { headers: { 'Cache-Control': 'no-store' } });
     });
   });
 
@@ -385,7 +385,7 @@ describe('BackendService', () => {
 
     it('returns true if content.status is 200 and payload is valid', () => {
       jest.spyOn(JsonSchemaValidator.prototype, 'validateJson').mockImplementation(() => true);
-      const content = {status: 200, payload: null};
+      const content = { status: 200, payload: null };
       const result = backendService.isValidRegionContent(content);
       expect(result).toStrictEqual(true);
       expect(JsonSchemaValidator.prototype.validateJson).toHaveBeenCalled();
@@ -393,14 +393,14 @@ describe('BackendService', () => {
 
     it('returns true if content.status is 304 and payload is valid', () => {
       jest.spyOn(JsonSchemaValidator.prototype, 'validateJson').mockImplementation(() => true);
-      const content = {status: 304, payload: null};
+      const content = { status: 304, payload: null };
       const result = backendService.isValidRegionContent(content);
       expect(result).toStrictEqual(true);
       expect(JsonSchemaValidator.prototype.validateJson).toHaveBeenCalled();
     });
 
     it('throws error if content.status is not 200 or 304', () => {
-      const content = {status: 400, payload: null};
+      const content = { status: 400, payload: null };
       expect(() => {
         backendService.isValidRegionContent(content);
       }).toThrow("Region content didn't validate");
@@ -414,7 +414,7 @@ describe('BackendService', () => {
           // eslint-disable-next-line no-template-curly-in-string
           throw new Error('Invalid JSON. ${validatorResult.errors.toString()}');
         });
-      const content = {status: 200, payload: null};
+      const content = { status: 200, payload: null };
       expect(() => {
         backendService.isValidRegionContent(content);
         // eslint-disable-next-line no-template-curly-in-string
@@ -428,16 +428,16 @@ describe('BackendService', () => {
     it('returns {status: 400, payload: null} if there is not storage item', async () => {
       const result = await backendService.getStoredRegionContent();
       expect(AsyncStorage.getItem).toHaveBeenCalledWith('http://localhost/exposure-configuration/region.json');
-      expect(result).toStrictEqual({status: 400, payload: null});
+      expect(result).toStrictEqual({ status: 400, payload: null });
     });
 
     it('returns {status: 200, payload: content} if there is a storage item', async () => {
       const key = 'http://localhost/exposure-configuration/region.json';
-      const payload = {foo: 'bar'};
+      const payload = { foo: 'bar' };
       AsyncStorage.getItem.mockReturnValue(JSON.stringify(payload));
       const result = await backendService.getStoredRegionContent();
       expect(AsyncStorage.getItem).toHaveBeenCalledWith(key);
-      expect(result).toStrictEqual({status: 200, payload});
+      expect(result).toStrictEqual({ status: 200, payload });
     });
   });
 
@@ -453,14 +453,14 @@ describe('BackendService', () => {
       const call = jest.spyOn(backendService, 'getStoredRegionContent');
 
       await backendService.getRegionContent();
-      expect(captureMessage).toHaveBeenCalledWith('getRegionContent - fetch error', {err: 'fetch'});
+      expect(captureMessage).toHaveBeenCalledWith('getRegionContent - fetch error', { err: 'fetch' });
       expect(backendService.getStoredRegionContent).toHaveBeenCalled();
       call.mockReset();
     });
 
     it('returns stored content if isValidRegionContent throws an error', async () => {
       // eslint-disable-next-line no-global-assign
-      fetch = jest.fn(() => Promise.resolve({json: () => ({})}));
+      fetch = jest.fn(() => Promise.resolve({ json: () => ({}) }));
 
       const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => {
         throw new Error('isValidRegionContent');
@@ -468,7 +468,7 @@ describe('BackendService', () => {
       const call = jest.spyOn(backendService, 'getStoredRegionContent');
 
       await backendService.getRegionContent();
-      expect(captureMessage).toHaveBeenCalledWith('getRegionContent - fetch error', {err: 'isValidRegionContent'});
+      expect(captureMessage).toHaveBeenCalledWith('getRegionContent - fetch error', { err: 'isValidRegionContent' });
       expect(backendService.getStoredRegionContent).toHaveBeenCalled();
 
       spy.mockReset();
@@ -476,12 +476,12 @@ describe('BackendService', () => {
     });
 
     it('saves the content to AsyncStorage and returns it as {status: 200, payload}', async () => {
-      const payload = {foo: 'bar'};
+      const payload = { foo: 'bar' };
       // eslint-disable-next-line no-global-assign
-      fetch = jest.fn(() => Promise.resolve({json: () => payload}));
+      fetch = jest.fn(() => Promise.resolve({ json: () => payload }));
       const spy = jest.spyOn(backendService, 'isValidRegionContent').mockImplementation(() => true);
 
-      expect(await backendService.getRegionContent()).toStrictEqual({status: 200, payload});
+      expect(await backendService.getRegionContent()).toStrictEqual({ status: 200, payload });
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         'http://localhost/exposure-configuration/region.json',
         JSON.stringify(payload),

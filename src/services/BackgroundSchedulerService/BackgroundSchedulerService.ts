@@ -1,18 +1,18 @@
 import BackgroundFetch from 'react-native-background-fetch';
-import {AppRegistry, Platform} from 'react-native';
-import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
-import AsyncStorage from '@react-native-community/async-storage';
+import { AppRegistry, Platform } from 'react-native';
+import { HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE } from 'env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNSecureKeyStore from 'react-native-secure-key-store';
-import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import { FilteredMetricsService } from 'services/MetricsService/FilteredMetricsService';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
-import {PeriodicWorkPayload} from '../../bridge/PushNotification';
-import {log} from '../../shared/logging/config';
-import {ExposureNotificationService} from '../ExposureNotificationService';
-import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
-import {createStorageService} from '../StorageService';
-import {BackendService} from '../BackendService';
-import {createBackgroundI18n} from '../../locale';
+import { PeriodicWorkPayload } from '../../bridge/PushNotification';
+import { log } from '../../shared/logging/config';
+import { ExposureNotificationService } from '../ExposureNotificationService';
+import { getCurrentDate, minutesBetween } from '../../shared/date-fns';
+import { createStorageService } from '../StorageService';
+import { BackendService } from '../BackendService';
+import { createBackgroundI18n } from '../../locale';
 import ExposureNotification from '../../bridge/ExposureNotification';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
@@ -57,7 +57,7 @@ const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationServ
         BackgroundFetch.finish(taskId);
       },
     );
-    const result = await BackgroundFetch.scheduleTask({taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true}).catch(
+    const result = await BackgroundFetch.scheduleTask({ taskId: BACKGROUND_TASK_ID, delay: 0, periodic: true }).catch(
       () => false,
     );
     log.debug({
@@ -108,7 +108,7 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
   }
   // BackgroundFetch is still used, only to register the headless task.
   // Scheduling the periodic task itself handled by ExposureCheckScheduler
-  BackgroundFetch.registerHeadlessTask(async ({taskId}) => {
+  BackgroundFetch.registerHeadlessTask(async ({ taskId }) => {
     log.debug({
       category: 'background',
       message: `runAndroidHeadlessPeriodicTask: ${taskId}`,

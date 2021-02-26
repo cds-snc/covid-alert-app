@@ -1,10 +1,10 @@
-import {Platform} from 'react-native';
-import {APP_VERSION_CODE, APP_VERSION_NAME, LOGGLY_URL, EN_API_VERSION} from 'env';
-import {transportFunctionType} from 'react-native-logs';
-import AsyncStorage from '@react-native-community/async-storage';
-import {getCurrentDate, minutesBetween} from 'shared/date-fns';
+import { Platform } from 'react-native';
+import { APP_VERSION_CODE, APP_VERSION_NAME, LOGGLY_URL, EN_API_VERSION } from 'env';
+import { transportFunctionType } from 'react-native-logs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getCurrentDate, minutesBetween } from 'shared/date-fns';
 
-import {getLogUUID} from '../uuid';
+import { getLogUUID } from '../uuid';
 
 const logglyTransport: transportFunctionType = async (msg, level, _options) => {
   const uuid = await getLogUUID();
@@ -51,4 +51,4 @@ const logglyTransport: transportFunctionType = async (msg, level, _options) => {
   }
 };
 
-export {logglyTransport};
+export { logglyTransport };

@@ -1,20 +1,20 @@
-import {InitialState, NavigationContainerRef, NavigationContainer} from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { InitialState, NavigationContainerRef, NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
-import {InteractionManager} from 'react-native';
-import {captureException} from 'shared/log';
+import { InteractionManager } from 'react-native';
+import { captureException } from 'shared/log';
 
 interface DevPersistedNavigationContainerProps extends React.ComponentProps<typeof NavigationContainer> {
   persistKey: string;
 }
 
 function DevPersistedNavigationContainerImpl(
-  {persistKey, onStateChange, ...others}: DevPersistedNavigationContainerProps,
+  { persistKey, onStateChange, ...others }: DevPersistedNavigationContainerProps,
   forwardedRef: React.Ref<NavigationContainerRef>,
 ) {
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState<InitialState | undefined>();
-  const persistInteractionRef = React.useRef<{cancel: () => void} | null>(null);
+  const persistInteractionRef = React.useRef<{ cancel: () => void } | null>(null);
   const onStateChangeInternal = React.useCallback(
     state => {
       const persistState = async () => {

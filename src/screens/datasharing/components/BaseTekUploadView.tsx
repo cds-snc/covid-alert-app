@@ -1,16 +1,16 @@
-import React, {useCallback, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {ActivityIndicator, ScrollView, StyleSheet, Alert} from 'react-native';
-import {Box, Button} from 'components';
-import {useI18n} from 'locale';
-import {useReportDiagnosis, cannotGetTEKsError, useExposureHistory} from 'services/ExposureNotificationService';
-import {covidshield} from 'services/BackendService/covidshield';
-import {xhrError} from 'shared/fetch';
-import AsyncStorage from '@react-native-community/async-storage';
-import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import React, { useCallback, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { ActivityIndicator, ScrollView, StyleSheet, Alert } from 'react-native';
+import { Box, Button } from 'components';
+import { useI18n } from 'locale';
+import { useReportDiagnosis, cannotGetTEKsError, useExposureHistory } from 'services/ExposureNotificationService';
+import { covidshield } from 'services/BackendService/covidshield';
+import { xhrError } from 'shared/fetch';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType } from 'shared/DataSharing';
+import { EventTypeMetric, FilteredMetricsService } from 'services/MetricsService/FilteredMetricsService';
 
-import {BaseDataSharingView} from './BaseDataSharingView';
+import { BaseDataSharingView } from './BaseDataSharingView';
 
 interface BaseTekUploadViewProps {
   buttonText: string;
@@ -32,7 +32,7 @@ export const BaseTekUploadView = ({
   const navigation = useNavigation();
   const i18n = useI18n();
   const [loading, setLoading] = useState(false);
-  const {fetchAndSubmitKeys, setIsUploading} = useReportDiagnosis();
+  const { fetchAndSubmitKeys, setIsUploading } = useReportDiagnosis();
   const exposureHistory = useExposureHistory();
 
   const onSuccess = useCallback(() => {
@@ -57,7 +57,7 @@ export const BaseTekUploadView = ({
     (error: any) => {
       const translationKey = getTranslationKey(error);
       Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
-        {text: i18n.translate(`Errors.Action`)},
+        { text: i18n.translate(`Errors.Action`) },
       ]);
     },
     [i18n],
@@ -65,7 +65,7 @@ export const BaseTekUploadView = ({
   const validateInput = () => {
     if (contagiousDateInfo.dateType !== ContagiousDateType.None && !contagiousDateInfo.date) {
       Alert.alert(i18n.translate(`Errors.TekUploadNoDate.Title`), i18n.translate(`Errors.TekUploadNoDate.Body`), [
-        {text: i18n.translate(`Errors.Action`)},
+        { text: i18n.translate(`Errors.Action`) },
       ]);
       return false;
     }
@@ -81,9 +81,9 @@ export const BaseTekUploadView = ({
       setIsUploading(false);
 
       if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
-        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkNoDate, exposureHistory});
+        FilteredMetricsService.sharedInstance().addEvent({ type: EventTypeMetric.OtkNoDate, exposureHistory });
       } else {
-        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkWithDate});
+        FilteredMetricsService.sharedInstance().addEvent({ type: EventTypeMetric.OtkWithDate });
       }
 
       onSuccess();

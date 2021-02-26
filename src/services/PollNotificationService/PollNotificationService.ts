@@ -1,13 +1,13 @@
 import PushNotification from 'bridge/PushNotification';
-import AsyncStorage from '@react-native-community/async-storage';
-import {APP_VERSION_NAME, NOTIFICATION_FEED_URL, TEST_MODE} from 'env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { APP_VERSION_NAME, NOTIFICATION_FEED_URL, TEST_MODE } from 'env';
 import semver from 'semver';
-import {log} from 'shared/logging/config';
-import RNSecureKeyStore, {ACCESSIBLE} from 'react-native-secure-key-store';
-import {getCurrentDate, minutesBetween} from 'shared/date-fns';
-import {I18n} from 'locale';
+import { log } from 'shared/logging/config';
+import RNSecureKeyStore, { ACCESSIBLE } from 'react-native-secure-key-store';
+import { getCurrentDate, minutesBetween } from 'shared/date-fns';
+import { I18n } from 'locale';
 
-import {NotificationMessage} from './types';
+import { NotificationMessage } from './types';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
 const ETAG_STORAGE_KEY = 'NotificationsEtag';
@@ -142,7 +142,7 @@ const fetchNotifications = async (): Promise<NotificationMessage[]> => {
     log.debug({
       category: 'debug',
       message: 'fetchNotifications() response status',
-      payload: {status: response.status},
+      payload: { status: response.status },
     });
 
     if (response.status === 304) {

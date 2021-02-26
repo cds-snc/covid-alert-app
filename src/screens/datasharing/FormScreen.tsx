@@ -1,16 +1,16 @@
-import React, {useCallback, useState} from 'react';
-import {Box, CodeInput, Text, Button} from 'components';
-import {useI18n} from 'locale';
-import {useReportDiagnosis, ExposureStatusType, useExposureStatus} from 'services/ExposureNotificationService';
-import {Alert} from 'react-native';
-import {covidshield} from 'services/BackendService/covidshield';
-import {xhrError} from 'shared/fetch';
-import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
-import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
+import React, { useCallback, useState } from 'react';
+import { Box, CodeInput, Text, Button } from 'components';
+import { useI18n } from 'locale';
+import { useReportDiagnosis, ExposureStatusType, useExposureStatus } from 'services/ExposureNotificationService';
+import { Alert } from 'react-native';
+import { covidshield } from 'services/BackendService/covidshield';
+import { xhrError } from 'shared/fetch';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { INITIAL_TEK_UPLOAD_COMPLETE } from 'shared/DataSharing';
 
-import {BaseDataSharingView, StepXofY} from './components';
-import {FormDiagnosedView} from './views/FormDiagnosedView';
+import { BaseDataSharingView, StepXofY } from './components';
+import { FormDiagnosedView } from './views/FormDiagnosedView';
 
 export const FormScreen = () => {
   const i18n = useI18n();
@@ -19,7 +19,7 @@ export const FormScreen = () => {
   const navigation = useNavigation();
   const exposureStatus = useExposureStatus();
   const [loading, setLoading] = useState(false);
-  const {startSubmission} = useReportDiagnosis();
+  const { startSubmission } = useReportDiagnosis();
   const onSuccess = useCallback(() => {
     AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'false');
     navigation.navigate('Step2');
@@ -42,7 +42,7 @@ export const FormScreen = () => {
     (error: any) => {
       const translationKey = getTranslationKey(error);
       Alert.alert(i18n.translate(`Errors.${translationKey}.Title`), i18n.translate(`Errors.${translationKey}.Body`), [
-        {text: i18n.translate(`Errors.Action`)},
+        { text: i18n.translate(`Errors.Action`) },
       ]);
     },
     [i18n],
@@ -50,7 +50,7 @@ export const FormScreen = () => {
   const validateInput = () => {
     if (codeValue.length < 1) {
       Alert.alert(i18n.translate(`Errors.OtcCodeNotEntered.Title`), i18n.translate(`Errors.OtcCodeNotEntered.Body`), [
-        {text: i18n.translate(`Errors.Action`)},
+        { text: i18n.translate(`Errors.Action`) },
       ]);
       return false;
     }

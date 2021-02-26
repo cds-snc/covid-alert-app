@@ -1,10 +1,10 @@
-import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
-import {DevSettings} from 'react-native';
-import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
-import {getSystemLocale} from 'locale/utils';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DevSettings } from 'react-native';
+import { createCancellableCallbackPromise } from 'shared/cancellablePromise';
+import { getSystemLocale } from 'locale/utils';
 
-import {StorageService, createStorageService} from './StorageService';
+import { StorageService, createStorageService } from './StorageService';
 
 const StorageServiceContext = createContext<StorageService | undefined>(undefined);
 
@@ -12,11 +12,11 @@ export interface StorageServiceProviderProps {
   children?: React.ReactElement;
 }
 
-export const StorageServiceProvider = ({children}: StorageServiceProviderProps) => {
+export const StorageServiceProvider = ({ children }: StorageServiceProviderProps) => {
   const [storageService, setStorageService] = useState<StorageService>();
 
   useEffect(() => {
-    const {callable, cancelable} = createCancellableCallbackPromise(() => createStorageService(), setStorageService);
+    const { callable, cancelable } = createCancellableCallbackPromise(() => createStorageService(), setStorageService);
     callable();
     return cancelable;
   }, []);
