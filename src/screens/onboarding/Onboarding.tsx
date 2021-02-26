@@ -9,7 +9,8 @@ import {useStorage} from 'services/StorageService';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {getCurrentDate} from 'shared/date-fns';
 import {useAccessibilityService} from 'services/AccessibilityService';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {EventTypeMetric} from 'services/MetricsService/MetricsFilter';
 
 import {OnboardingContent, onboardingData, OnboardingKey} from './OnboardingContent';
 
