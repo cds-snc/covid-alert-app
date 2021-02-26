@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {Text, ButtonSingleLine, Box, RoundedBox} from 'components';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
 
 import {BaseHomeView} from '../components/BaseHomeView';

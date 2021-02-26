@@ -1,5 +1,5 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DevSettings} from 'react-native';
 import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
 import {getSystemLocale} from 'locale/utils';

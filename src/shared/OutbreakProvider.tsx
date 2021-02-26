@@ -1,5 +1,5 @@
 import {TEST_MODE} from 'env';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Key} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
