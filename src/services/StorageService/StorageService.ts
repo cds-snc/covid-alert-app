@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Observable} from 'shared/Observable';
 import {ForceScreen} from 'shared/ForceScreen';
 import {Region} from 'shared/Region';

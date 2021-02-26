@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {APP_VERSION_CODE} from 'env';
 import PQueue from 'p-queue';
 import {Platform} from 'react-native';

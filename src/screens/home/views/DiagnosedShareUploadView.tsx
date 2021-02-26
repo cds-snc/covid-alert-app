@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Text, ButtonSingleLine, RoundedBox} from 'components';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
 
 import {BaseHomeView} from '../components/BaseHomeView';

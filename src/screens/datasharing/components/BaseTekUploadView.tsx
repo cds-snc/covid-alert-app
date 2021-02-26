@@ -6,7 +6,7 @@ import {useI18n} from 'locale';
 import {useReportDiagnosis, cannotGetTEKsError, useExposureHistory} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 

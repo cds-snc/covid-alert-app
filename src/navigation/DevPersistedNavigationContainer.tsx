@@ -1,5 +1,5 @@
 import {InitialState, NavigationContainerRef, NavigationContainer} from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 import {InteractionManager} from 'react-native';
 import {captureException} from 'shared/log';
