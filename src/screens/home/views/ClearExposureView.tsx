@@ -5,8 +5,7 @@ import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {useI18n} from 'locale';
-import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
-import {EventTypeMetric} from 'services/MetricsService/MetricsFilter';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 export const DismissAlertScreen = () => {
   const i18n = useI18n();
