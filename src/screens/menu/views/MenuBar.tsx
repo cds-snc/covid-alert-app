@@ -24,7 +24,7 @@ export const MenuBar = () => {
   const qrButton = (
     <Button
       text={i18n.translate('QRCode.CTA')}
-      variant="bigFlatNeutralGrey"
+      variant="qrButton"
       onPress={openScan}
       iconNameLeft="qr-code-icon"
       borderRadius={8}
@@ -54,8 +54,6 @@ export const MenuBar = () => {
 const styles = StyleSheet.create({
   content: {
     width: '100%',
-    borderTopLeftRadius: borderRadius,
-    borderTopRightRadius: borderRadius,
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {

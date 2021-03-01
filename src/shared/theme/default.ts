@@ -45,6 +45,7 @@ export const palette = {
   focus: '#44BBEE',
   exposure25: '#DED8FB',
   greyCanada25: '#D0D7DE',
+  qrYellow: '#F5D547',
 };
 
 const theme = {
@@ -294,6 +295,15 @@ const theme = {
     },
     bigFlatNeutralGrey: {
       color: palette.neutralGrey,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'notosans',
+      fontSize: 16,
+      borderBottomWidth: undefined,
+      disabled: {},
+    },
+    qrButton: {
+      color: palette.qrYellow,
       height: 52,
       textColor: palette.black,
       fontFamily: 'notosans',
