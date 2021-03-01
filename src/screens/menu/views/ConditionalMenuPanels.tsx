@@ -32,10 +32,6 @@ export const ConditionalMenuPanels = () => {
   console.log('notificationStatus', notificationStatus);
   return (
     <>
-      {/* <Box marginBottom="m" marginTop="s">
-        <ShareDiagnosisCode />
-      </Box> */}
-
       {!userStopped && (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) && (
         <Box marginBottom="s">
           <SystemStatusOff />
@@ -54,11 +50,11 @@ export const ConditionalMenuPanels = () => {
       {exposureStatus.type === ExposureStatusType.Diagnosed && exposureStatus.hasShared && <DiagnosedThankYou />}
 
       {!network.isConnected && exposureStatus.type !== ExposureStatusType.Diagnosed && <OfflineWarning />}
-      {/* {showNotificationWarning && (
+      {showNotificationWarning && (
         <Box marginBottom="s">
           <NotificationStatusOff action={turnNotificationsOnFn} />
         </Box>
-      )} */}
+      )}
     </>
   );
 };
