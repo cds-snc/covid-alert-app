@@ -53,7 +53,7 @@ export const MenuScreen = () => {
     <SafeAreaView style={styles.flex}>
       <Box backgroundColor="overlayBackground" paddingHorizontal="m" flex={1}>
         <Box flexDirection="row" marginVertical="m">
-          <Box marginVertical="m" flex={1}>
+          <Box flex={1} style={styles.title} paddingRight="m">
             <StatusHeaderView enabled={systemStatus === SystemStatus.Active} autoFocus />
           </Box>
           <CloseButton />
@@ -139,5 +139,8 @@ export const MenuScreen = () => {
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+  },
+  title: {
+    justifyContent: 'center',
   },
 });
