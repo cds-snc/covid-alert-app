@@ -1,8 +1,9 @@
 import React, {useCallback} from 'react';
 import {useI18n, useRegionalI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-import {Box, ButtonWrapper, Icon, Text} from 'components';
-import {Linking, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Box, Text} from 'components';
+import {Linking, ScrollView, StyleSheet} from 'react-native';
 import {StatusHeaderView} from 'screens/home/views/StatusHeaderView';
 import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
@@ -13,6 +14,7 @@ import {captureException} from 'shared/log';
 import {ConditionalMenuPanels} from './views/ConditionalMenuPanels';
 import {PrimaryMenuButtons} from './views/PrimaryMenuButtons';
 import {InfoShareItem} from './components/InfoShareItem';
+import {CloseButton} from './components/CloseButton';
 
 export const MenuScreen = () => {
   const [systemStatus] = useSystemStatus();
@@ -20,10 +22,6 @@ export const MenuScreen = () => {
   const i18n = useI18n();
   const {region} = useStorage();
   const regionalI18n = useRegionalI18n();
-
-  const close = useCallback(() => {
-    navigation.navigate('Home');
-  }, [navigation]);
 
   const onPrivacy = useCallback(() => {
     Linking.openURL(i18n.translate('Info.PrivacyUrl')).catch(error => captureException('An error occurred', error));
@@ -52,22 +50,15 @@ export const MenuScreen = () => {
   const versionNumber = `${i18n.translate('OverlayOpen.Version')}: ${APP_VERSION_NAME} (${APP_VERSION_CODE})`;
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <Box backgroundColor="overlayBackground" paddingHorizontal="m" paddingTop="xl">
-          <Box flexDirection="row" marginBottom="l">
-            <Box marginVertical="m" flex={1}>
-              <StatusHeaderView enabled={systemStatus === SystemStatus.Active} autoFocus />
-            </Box>
-            <ButtonWrapper onPress={close} color="infoBlockNeutralBackground">
-              <Text accessibilityLabel={i18n.translate('BottomSheet.Collapse')}>
-                <Box padding="xs">
-                  <Icon name="close" size={20} />
-                </Box>
-              </Text>
-            </ButtonWrapper>
+    <SafeAreaView style={styles.flex}>
+      <Box backgroundColor="overlayBackground" paddingHorizontal="m" flex={1}>
+        <Box flexDirection="row" marginVertical="m">
+          <Box marginVertical="m" flex={1}>
+            <StatusHeaderView enabled={systemStatus === SystemStatus.Active} autoFocus />
           </Box>
-
+          <CloseButton />
+        </Box>
+        <ScrollView style={styles.flex}>
           <PrimaryMenuButtons />
 
           <ConditionalMenuPanels />
@@ -139,14 +130,14 @@ export const MenuScreen = () => {
               <Text variant="smallText">{versionNumber}</Text>
             </Box>
           </Box>
-        </Box>
-      </ScrollView>
+        </ScrollView>
+      </Box>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  closeButton: {
-    display: 'none',
+  flex: {
+    flex: 1,
   },
 });

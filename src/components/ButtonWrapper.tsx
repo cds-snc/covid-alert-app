@@ -12,6 +12,7 @@ export interface ButtonWrapperProps {
   borderRadius?: number;
   onPress: () => void;
   testID?: string;
+  accessibilityLabel?: string;
   children?: React.ReactElement;
 }
 
@@ -24,9 +25,6 @@ export interface ContentWrapperProps {
 const ContentWrapper = ({color, borderRadius, children}: ContentWrapperProps) => {
   const boxStyles: BoxProps['style'] = {
     backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
-    // minHeight: height,
-    // borderBottomWidth,
-    // borderBottomColor: Platform.OS === 'ios' ? palette.fadedWhiteDark : borderBottomColor,
   };
   return (
     <Box
@@ -44,7 +42,15 @@ const ContentWrapper = ({color, borderRadius, children}: ContentWrapperProps) =>
   );
 };
 
-export const ButtonWrapper = ({color, disabled, borderRadius = 8, onPress, testID, children}: ButtonWrapperProps) => {
+export const ButtonWrapper = ({
+  color,
+  disabled,
+  borderRadius = 8,
+  onPress,
+  testID,
+  accessibilityLabel,
+  children,
+}: ButtonWrapperProps) => {
   const theme = useTheme<Theme>();
   const buttonColor = color && theme.colors[color];
   const content = (
@@ -56,6 +62,7 @@ export const ButtonWrapper = ({color, disabled, borderRadius = 8, onPress, testI
   const accessibilityProps = {
     accessibilityRole: 'button' as 'button',
     accessibilityState: {disabled},
+    accessibilityLabel,
   };
   if (Platform.OS === 'android') {
     return (
