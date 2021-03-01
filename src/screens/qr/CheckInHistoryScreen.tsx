@@ -3,7 +3,6 @@ import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {useI18n} from 'locale';
 import {Box, Text, Icon, Button} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
-
 import {CheckInData} from 'shared/qr';
 import {formatCheckInDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
@@ -39,7 +38,7 @@ const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing:
             <Box
               style={[
                 styles.boxStyle,
-                sortedCheckIn[lastItem] ? {borderBottomColor: '#8a8a8a', borderBottomWidth: 1} : null,
+                sortedCheckIn[lastItem] === checkIn ? null : {borderBottomColor: '#8a8a8a', borderBottomWidth: 1},
               ]}
               key={checkIn.id.concat(index.toString())}
             >
@@ -130,6 +129,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    // borderBottomColor: '#8a8a8a',
+    // borderBottomWidth: 1,
   },
   textBox: {
     flex: 1,
