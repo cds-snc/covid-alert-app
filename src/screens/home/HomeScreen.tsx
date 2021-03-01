@@ -20,6 +20,7 @@ import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
 import {OutbreakStatusType} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useNotificationPermissionStatus} from 'shared/NotificationPermissionStatus';
 
 import {useDeepLinks} from '../qr/utils';
 import {MenuBar} from '../menu/views/MenuBar';
@@ -38,10 +39,6 @@ import {NetworkDisabledView} from './views/NetworkDisabledView';
 import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
 import {ExposureNotificationsUserStoppedView} from './views/ExposureNotificationsUserStoppedView';
 import {UnknownProblemView} from './views/UnknownProblemView';
-import {
-  useNotificationPermissionStatus,
-  NotificationPermissionStatusProvider,
-} from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
 import {OutbreakExposedView} from './views/OutbreakExposedView';
 
@@ -188,13 +185,11 @@ export const HomeScreen = () => {
   }, [startAndUpdate, startExposureNotificationService, updateExposureStatus]);
 
   return (
-    <NotificationPermissionStatusProvider>
-      <Box flex={1} alignItems="center" backgroundColor="mainBackground">
-        <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
-          <Content />
-        </Box>
-        <MenuBar />
+    <Box flex={1} alignItems="center" backgroundColor="mainBackground">
+      <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
+        <Content />
       </Box>
-    </NotificationPermissionStatusProvider>
+      <MenuBar />
+    </Box>
   );
 };

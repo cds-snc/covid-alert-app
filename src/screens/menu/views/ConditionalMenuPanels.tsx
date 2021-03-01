@@ -9,7 +9,7 @@ import {
 } from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {useNotificationPermissionStatus} from 'screens/home/components/NotificationPermissionStatus';
+import {useNotificationPermissionStatus} from 'shared/NotificationPermissionStatus';
 
 import {BluetoothStatusOff} from './BluetoothStatusOff';
 import {NotificationStatusOff} from './NotificationStatusOff';
@@ -29,7 +29,7 @@ export const ConditionalMenuPanels = () => {
   const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
   const showNotificationWarning = notificationStatus !== 'granted';
   const network = useNetInfo();
-  console.log('notificationStatus', notificationStatus);
+
   return (
     <>
       {!userStopped && (systemStatus === SystemStatus.Disabled || systemStatus === SystemStatus.Restricted) && (

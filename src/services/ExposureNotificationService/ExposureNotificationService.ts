@@ -26,7 +26,7 @@ import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 import {checkNotifications} from 'react-native-permissions';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {Status} from 'shared/NotificationPermissionStatus';
 import {PollNotifications} from 'services/PollNotificationService';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
