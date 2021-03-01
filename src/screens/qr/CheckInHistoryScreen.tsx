@@ -36,10 +36,7 @@ const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing:
         return (
           <>
             <Box
-              style={[
-                styles.boxStyle,
-                sortedCheckIn[lastItem] === checkIn ? null : {borderBottomColor: '#8a8a8a', borderBottomWidth: 1},
-              ]}
+              style={[styles.boxStyle, sortedCheckIn[lastItem] !== checkIn && styles.bottomBorder]}
               key={checkIn.id.concat(index.toString())}
             >
               <TouchableOpacity
@@ -104,9 +101,17 @@ export const CheckInHistoryScreen = () => {
             ? i18n.translate('ScannedPlaces.BodyNoScan')
             : i18n.translate('ScannedPlaces.Body')}
         </Text>
+        {checkInHistory.length !== 0 && (
+          <>
+            <Text variant="bodyTitle" accessibilityRole="header" marginTop="l">
+              {i18n.translate('ScannedPlaces.Title2')}
+            </Text>
+            <Text marginTop="s">{i18n.translate('ScannedPlaces.Body2')}</Text>
+          </>
+        )}
       </Box>
       <Box>
-        {checkInHistory.length === 0 ? null : (
+        {checkInHistory.length !== 0 && (
           <Box style={styles.textBox}>
             <Box>{isEditing && <Button text="Delete All" variant="text" onPress={deleteAllPlaces} />}</Box>
 
@@ -129,8 +134,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    // borderBottomColor: '#8a8a8a',
-    // borderBottomWidth: 1,
+  },
+  bottomBorder: {
+    borderBottomColor: '#8a8a8a',
+    borderBottomWidth: 1,
   },
   textBox: {
     flex: 1,

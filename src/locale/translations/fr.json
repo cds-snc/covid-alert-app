@@ -123,7 +123,9 @@
   },
   "ScannedPlaces": {
     "Title": "Lieux scannés",
+    "Title2": "You can delete your places",
     "Body":"Voici les lieux que vous avez visités et scannés au cours des 28 derniers jours. \n\n Ces informations existent uniquement sur votre téléphone.",
+    "Body2": "If you delete a scanned place, you will not receive any notifications for that place and time.",
     "BodyNoScan": "Vous n’avez pas encore scanné de lieux. La liste des lieux visités apparaîtra dès que vous scannez un lieu.",
     "Edit": "Modifier",
     "Done": "Done",
