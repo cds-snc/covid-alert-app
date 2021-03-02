@@ -118,6 +118,11 @@ fastlane ios build_and_deploy
 fastlane ios devices_file_exists
 ```
 
+### ios ensure_nsapptransportsecurity_is_not_set
+```
+fastlane ios ensure_nsapptransportsecurity_is_not_set
+```
+Ensure that there are no NSAppTransportSecurity keys in the Info.plist
 ### ios adhoc
 ```
 fastlane ios adhoc

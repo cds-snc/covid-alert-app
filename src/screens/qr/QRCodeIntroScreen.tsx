@@ -1,9 +1,10 @@
 import React, {useCallback} from 'react';
 import {Box, Text, Button} from 'components';
-import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {useNavigation} from '@react-navigation/native';
 import {useStorage} from 'services/StorageService';
 import {useI18n} from 'locale';
+
+import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
 export const QRCodeIntroScreen = () => {
   const navigation = useNavigation();
@@ -14,7 +15,7 @@ export const QRCodeIntroScreen = () => {
     navigation.navigate('QRCodeReaderScreen');
   }, [setHasViewedQr, navigation]);
   return (
-    <BaseDataSharingView>
+    <BaseQRCodeScreen>
       <Box paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
           {i18n.translate('QRCode.ScanAPlace.Title')}
@@ -27,6 +28,6 @@ export const QRCodeIntroScreen = () => {
 
         <Button text="Next" variant="thinFlat" onPress={toQRScreen} />
       </Box>
-    </BaseDataSharingView>
+    </BaseQRCodeScreen>
   );
 };

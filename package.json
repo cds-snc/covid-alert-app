@@ -74,10 +74,10 @@
     "react-native-unimodules": "^0.12.0",
     "react-native-zip-archive": "^5.0.2",
     "rn-faded-scrollview": "^1.0.8",
-    "semver": "^7.3.2",
+    "semver": "^7.3.4",
     "tweetnacl": "^1.0.3",
     "url": "^0.11.0",
-    "yarn": "^1.22.4"
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

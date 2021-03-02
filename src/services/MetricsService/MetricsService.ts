@@ -14,7 +14,12 @@ import {InactiveMetricsService} from './InactiveMetricsService';
 
 const LastMetricTimestampSentToTheServerUniqueIdentifier = '3FFE2346-1910-4FD7-A23F-52D83CFF083A';
 const MetricsLastUploadedDateTime = 'C0663511-3718-4D85-B165-A38155DED2F3';
-export interface MetricsService {
+
+export interface MetricsServiceDebug {
+  retrieveAllMetricsInStorage(): Promise<Metric[]>;
+}
+
+export interface MetricsService extends MetricsServiceDebug {
   publishMetric(metric: Metric, forcePush?: boolean): Promise<void>;
   publishMetrics(metrics: Metric[], forcePush?: boolean): Promise<void>;
   sendDailyMetrics(): Promise<void>;
@@ -56,7 +61,7 @@ export class DefaultMetricsService implements MetricsService {
 
   private serialPromiseQueue: PQueue;
 
-  private constructor(
+  constructor(
     secureKeyValueStore: SecureKeyValueStore,
     metricsPublisher: MetricsPublisher,
     metricsProvider: MetricsProvider,
@@ -115,6 +120,12 @@ export class DefaultMetricsService implements MetricsService {
           return pushAndMarkLastUploadedDateTime();
         }
       });
+    });
+  }
+
+  retrieveAllMetricsInStorage(): Promise<Metric[]> {
+    return this.serialPromiseQueue.add(() => {
+      return this.metricsProvider.retrieveAll();
     });
   }
 
