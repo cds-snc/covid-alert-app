@@ -10,7 +10,7 @@ import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 import {checkNotifications} from 'react-native-permissions';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {Status} from 'shared/NotificationPermissionStatus';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
