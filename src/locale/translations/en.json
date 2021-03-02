@@ -124,6 +124,8 @@
   "ScannedPlaces":{
     "Title": "Scanned places",
     "Title2": "You can delete your places",
+    "NoScan": "No scanned places yet",
+    "NoScanBoxBody": "When you’ll start scanning places, they will appear here and stay here for 28 days",
     "Body2": "If you delete a scanned place, you will not receive any notifications for that place and time.",
     "Body":"These are the places you’ve scanned and visited in the past 28 days.\n\n This data only exists on your phone.",
     "BodyNoScan": "You have not scanned any places yet. A list of your visits will appear once you start scanning places.",

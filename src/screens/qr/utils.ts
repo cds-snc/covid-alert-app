@@ -10,6 +10,7 @@ import {useOutbreakService} from 'shared/OutbreakProvider';
 import {QR_HOST, QR_CODE_PUBLIC_KEY} from 'env';
 import base64 from 'react-native-base64';
 import nacl from 'tweetnacl';
+import { timing } from 'react-native-reanimated';
 
 interface EventURL {
   url: string;
@@ -28,17 +29,17 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
 
   let [, base64Str] = url.split('#');
   try {
-    if (QR_CODE_PUBLIC_KEY) {
-      // verify signed QR code
-      const data = nacl.sign.open(base64ToUint8Array(base64Str), base64ToUint8Array(QR_CODE_PUBLIC_KEY));
+    // if (QR_CODE_PUBLIC_KEY) {
+    //   // verify signed QR code
+    //   const data = nacl.sign.open(base64ToUint8Array(base64Str), base64ToUint8Array(QR_CODE_PUBLIC_KEY));
 
-      if (!data) {
-        throw new Error();
-      }
+    //   if (!data) {
+    //     throw new Error();
+    //   }
 
-      // @ts-ignore
-      base64Str = base64.encodeFromByteArray(data);
-    }
+    //   // @ts-ignore
+    //   base64Str = base64.encodeFromByteArray(data);
+    // }
 
     const _locationData = base64.decode(base64Str);
     const locationData = JSON.parse(_locationData);
@@ -92,4 +93,52 @@ export const useDeepLinks = () => {
       Linking.removeEventListener('url', handleOpenURL);
     };
   }, [navigation, addCheckIn]);
+};
+
+
+interface GroupedCheckInData {
+  date: string;
+  id: string;
+  name: string;
+  address: string;
+  timestamp: number;
+}
+export const sortedCheckInArray = (checkIns: CheckInData[]) => {
+  let newArr: GroupedCheckInData[] = [];
+  checkIns.map((checkIn) => {
+    let date = new Date(checkIn.timestamp);
+    const similarDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    newArr.push({date: similarDate, id: checkIn.id, name: checkIn.name, address: checkIn.address, timestamp: checkIn.timestamp})
+
+  });
+  console.log(groupBy(newArr, "date"));
+  return groupBy(newArr, "date");
+
+}
+// interface GroupedCheckInData {
+//   date: string;
+//   id: string;
+//   name: string;
+//   address: string;
+//   timestamp: number;
+// }
+// const groupedByDate = (checkIns: CheckInData[]) => {
+
+//   let newArr: GroupedCheckInData[] = [];
+//   checkIns.map((checkIn) => {
+//     let date = new Date(checkIn.timestamp);
+//     const similarDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+//     newArr.push({date: similarDate, id: checkIn.id, name: checkIn.name, address: checkIn.address, timestamp: checkIn.timestamp})
+
+//   });
+//   return groupBy(newArr, "date");
+
+// }
+const groupBy = (array: GroupedCheckInData[], key: string) => {
+  return array.reduce((result: any, currentValue: any) => {
+    (result[currentValue[key]] = result[currentValue[key]] || []).push(
+      currentValue
+    );
+    return result;
+  }, {});
 };
