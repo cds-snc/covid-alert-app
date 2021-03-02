@@ -47,6 +47,8 @@ export const METRICS_URL = Config.METRICS_URL || false;
 
 export const METRICS_API_KEY = Config.METRICS_API_KEY;
 
+export const SERVER_TIME_URL = Config.SERVER_TIME_URL;
+
 /**
  * Set reachability check url to empty to prevent
  * unnecessary background network activity
