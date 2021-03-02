@@ -12,7 +12,13 @@ import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
 
 import {Observable} from '../../shared/Observable';
-import {CheckInData, getMatchedOutbreakHistoryItems, getNewOutbreakExposures, isExposedToOutbreak, OutbreakHistoryItem} from '../../shared/qr';
+import {
+  CheckInData,
+  getMatchedOutbreakHistoryItems,
+  getNewOutbreakExposures,
+  isExposedToOutbreak,
+  OutbreakHistoryItem,
+} from '../../shared/qr';
 import {getCurrentDate, minutesBetween, periodSinceEpoch} from '../../shared/date-fns';
 import {log} from '../../shared/logging/config';
 
