@@ -21,7 +21,8 @@ export const PrimaryMenuButtons = () => {
       {qrEnabled && (
         <Box marginBottom="s">
           <PrimaryActionButton
-            icon="qr-code"
+            icon="qr-code-icon"
+            iconBackgroundColor="qrButton"
             text={i18n.translate('QRCode.CTA')}
             onPress={() => {
               navigation.navigate('QRCodeFlow');

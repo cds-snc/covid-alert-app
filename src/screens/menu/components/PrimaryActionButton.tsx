@@ -1,10 +1,12 @@
 import React from 'react';
 import {TouchableOpacity, TouchableOpacityProps, StyleSheet} from 'react-native';
 import {Box, Text, Icon, IconProps} from 'components';
+import {Theme} from 'shared/theme';
 
 interface PrimaryActionButtonProps extends TouchableOpacityProps {
   onPress: () => void;
   text: string;
+  iconBackgroundColor: keyof Theme['colors'];
   icon: IconProps['name'];
   showChevron?: boolean;
 }
@@ -13,6 +15,7 @@ export const PrimaryActionButton = ({
   onPress,
   text,
   icon,
+  iconBackgroundColor,
   showChevron = true,
   ...touchableProps
 }: PrimaryActionButtonProps) => (
@@ -26,11 +29,11 @@ export const PrimaryActionButton = ({
         backgroundColor="infoBlockNeutralBackground"
         borderRadius={10}
       >
-        <Box paddingRight="s">
-          <Icon name={icon} size={50} />
+        <Box backgroundColor={iconBackgroundColor} borderRadius={8} marginRight="s" justifyContent="center" padding="s">
+          <Icon name={icon} size={35} />
         </Box>
         <Box flex={1} justifyContent="center">
-          <Text variant="bodyText" color="overlayBodyText">
+          <Text variant="bodyText" color="overlayBodyText" marginVertical="s">
             {text}
           </Text>
         </Box>

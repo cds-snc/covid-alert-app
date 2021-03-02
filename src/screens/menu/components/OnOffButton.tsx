@@ -49,26 +49,17 @@ export const OnOffButton = () => {
   }, [startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
+  const props = {
+    icon: 'icon-exclamation',
+    iconBackgroundColor: 'danger25Background',
+    showChevron: false,
+  };
 
   if (systemStatus === SystemStatus.Active) {
-    return (
-      <PrimaryActionButton
-        onPress={onStop}
-        text={i18n.translate('Info.ToggleCovidAlert.TurnOff')}
-        icon="turn-off"
-        showChevron={false}
-      />
-    );
+    return <PrimaryActionButton onPress={onStop} text={i18n.translate('Info.ToggleCovidAlert.TurnOff')} {...props} />;
   }
   if (!userStopped) {
     return null;
   }
-  return (
-    <PrimaryActionButton
-      onPress={onStart}
-      text={i18n.translate('Info.ToggleCovidAlert.TurnOn')}
-      icon="turn-off"
-      showChevron={false}
-    />
-  );
+  return <PrimaryActionButton onPress={onStart} text={i18n.translate('Info.ToggleCovidAlert.TurnOn')} {...props} />;
 };
