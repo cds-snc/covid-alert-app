@@ -38,7 +38,7 @@ export const MenuBar = () => {
     </Box>
   );
   return (
-    <Box style={styles.content} paddingVertical="s" paddingHorizontal="m">
+    <Box style={styles.content} paddingVertical="m" paddingHorizontal="m">
       <Box style={styles.box}>
         <Box flex={3} marginRight="m">
           {qrEnabled ? qrButton : appStatus}

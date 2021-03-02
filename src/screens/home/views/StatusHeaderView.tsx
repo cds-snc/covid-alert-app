@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Box} from 'components';
+import {Text} from 'components';
 import {useI18n} from 'locale';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
