@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
-import {Box, Text} from 'components';
+import {Box, Text, Toolbar2} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {log} from 'shared/logging/config';
 import {useOutbreakService} from 'shared/OutbreakProvider';
-import {Icon} from 'components/Icon';
 
-import {Toolbar} from '../components/Toolbar';
 import {handleOpenURL} from '../utils';
 
 export const QRCodeScanner = () => {
@@ -29,74 +28,51 @@ export const QRCodeScanner = () => {
       navigation.navigate('InvalidQRCodeScreen');
     }
   };
+  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
 
   return (
-    <BarCodeScanner
-      onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
-      style={{...StyleSheet.absoluteFillObject}}
-    >
-      <View style={styles.layerTop} />
-      <Box style={styles.back} paddingHorizontal="m" paddingBottom="m">
-        <Toolbar useWhiteText showBackButton />
-      </Box>
-      <View style={styles.layerCenter}>
-        <View style={styles.layerLeft} />
-        <View style={styles.focused} />
-        <View style={styles.layerRight} />
-      </View>
-      <Box style={styles.info} alignSelf="stretch" paddingVertical="m" paddingHorizontal="m">
-        <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" color="bodyTitleWhite">
-          {i18n.translate(`QRCode.Reader.Title`)}
-        </Text>
-        <Icon size={175} name="scan-qr-code-white-arrow" />
-      </Box>
-      <View style={styles.layerBottom} />
+    <BarCodeScanner onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned} style={styles.barcodeScanner}>
+      <Box style={styles.top} />
+      <SafeAreaView style={styles.flex}>
+        <Box marginBottom="m" style={styles.toolbar}>
+          <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} />
+        </Box>
+        <Box style={styles.info} paddingTop="s" paddingHorizontal="m">
+          <Text variant="bodyText" accessibilityRole="header" color="bodyTitleWhite">
+            {i18n.translate(`QRCode.Reader.Title`)}
+          </Text>
+          {/* <Icon size={170} name="scan-qr-code-white-arrow" /> */}
+        </Box>
+      </SafeAreaView>
     </BarCodeScanner>
   );
 };
 
-const opacity = 'rgba(0, 0, 0, .8)';
+// const opacity = 'rgba(0, 0, 0, .8)';
 
 const styles = StyleSheet.create({
+  top: {
+    position: 'absolute',
+    height: 30,
+    backgroundColor: 'black',
+    width: '100%',
+  },
   info: {
-    backgroundColor: opacity,
+    backgroundColor: 'black',
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    width: '100%',
+    paddingBottom: '40%',
   },
-  back: {
-    backgroundColor: opacity,
+  toolbar: {
+    backgroundColor: 'black',
+  },
+  flex: {
     flex: 1,
-    flexDirection: 'column',
-    alignContent: 'flex-start',
   },
-  backText: {
-    color: 'white',
-    marginLeft: 5,
-    fontSize: 18,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  layerTop: {
-    flex: 1,
-    backgroundColor: opacity,
-  },
-  layerCenter: {
-    flex: 10,
-    flexDirection: 'row',
-  },
-  layerLeft: {
-    flex: 1,
-    backgroundColor: opacity,
-  },
-  focused: {
-    flex: 20,
-  },
-  layerRight: {
-    flex: 1,
-    backgroundColor: opacity,
-  },
-  layerBottom: {
-    flex: 1,
-    backgroundColor: opacity,
+  barcodeScanner: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'black',
   },
 });

@@ -31,6 +31,7 @@ import {LearnAboutQRScreen} from 'screens/qr/LearnAboutQRScreen';
 import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
 import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
 import {MenuScreen} from 'screens/menu/MenuScreen';
+import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -103,6 +104,7 @@ const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 const CheckInHistoryScreenWithNavBar = withDarkNav(CheckInHistoryScreen);
 const QRCodeIntroScreenWithNavBar = withDarkNav(QRCodeIntroScreen);
 const MenuScreenWithNavBar = withDarkNav(MenuScreen);
+const ClearOutbreakExposureScreenWithNavBar = withDarkNav(ClearOutbreakExposureScreen);
 
 const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
@@ -196,6 +198,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
       <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
       <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
+      <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };

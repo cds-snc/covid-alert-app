@@ -30,6 +30,7 @@ export interface ButtonProps {
   iconName?: IconName;
   iconNameLeft?: IconName;
   borderRadius?: number;
+  useWhiteText?: boolean;
   testID?: string;
 }
 
@@ -46,6 +47,7 @@ export const Button = ({
   iconName,
   iconNameLeft,
   borderRadius = 5,
+  useWhiteText = false,
   testID,
 }: ButtonProps) => {
   const i18n = useI18n();
@@ -98,7 +100,7 @@ export const Button = ({
         <>
           {backButton && (
             <Box style={styles.backIcon} marginRight="s">
-              <Icon size={14} name="icon-chevron-back" />
+              <Icon size={14} name={useWhiteText ? 'icon-chevron-back-white' : 'icon-chevron-back'} />
             </Box>
           )}
           {iconNameLeft && (

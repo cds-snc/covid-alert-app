@@ -16,6 +16,7 @@ import {
   daysBetweenUTC,
   daysBetween,
   parseSavedTimestamps,
+  secondsBetween,
 } from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
@@ -23,11 +24,12 @@ import {captureException, captureMessage} from 'shared/log';
 import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
-import {EN_API_VERSION} from 'env';
+import {EN_API_VERSION, QR_ENABLED} from 'env';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'shared/NotificationPermissionStatus';
 import {PollNotifications} from 'services/PollNotificationService';
+import {OutbreakService} from 'shared/OutbreakProvider';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -130,12 +132,15 @@ export class ExposureNotificationService {
   private storage: PersistencyProvider;
   private secureStorage: SecurePersistencyProvider;
 
+  private filteredMetricsService: FilteredMetricsService;
+
   constructor(
     backendInterface: BackendInterface,
     i18n: I18n,
     storage: PersistencyProvider,
     secureStorage: SecurePersistencyProvider,
     exposureNotification: typeof ExposureNotification,
+    filteredMetricsService: FilteredMetricsService,
   ) {
     this.i18n = i18n;
     this.exposureNotification = exposureNotification;
@@ -145,6 +150,7 @@ export class ExposureNotificationService {
     this.backendInterface = backendInterface;
     this.storage = storage;
     this.secureStorage = secureStorage;
+    this.filteredMetricsService = filteredMetricsService;
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
@@ -255,22 +261,37 @@ export class ExposureNotificationService {
   }
 
   async updateExposureStatusInBackground() {
+    const backgroundTaskStartDate = getCurrentDate();
+
+    const logEndOfBackgroundTask = async (succeeded: boolean) => {
+      const backgroundTaskDurationInSeconds = secondsBetween(backgroundTaskStartDate, getCurrentDate());
+      log.debug({
+        category: 'background',
+        message: 'backgoundTaskDuration',
+        payload: {succeeded, backgroundTaskDurationInSeconds},
+      });
+
+      await this.filteredMetricsService.addEvent({
+        type: EventTypeMetric.BackgroundProcess,
+        succeeded,
+        durationInSeconds: backgroundTaskDurationInSeconds,
+      });
+    };
+
+    await this.filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
+
     // @todo: maybe remove this gets called in updateExposureStatus
     if (!(await this.shouldPerformExposureCheck())) return;
+
     try {
       await this.loadExposureStatus();
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
 
-      const filteredMetricsService = FilteredMetricsService.sharedInstance();
-
-      await filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
-
-      const notificationStatus: Status = await checkNotifications()
-        .then(({status}) => status)
-        .catch(() => 'unavailable');
-      await filteredMetricsService.sendDailyMetrics(this.systemStatus.get(), notificationStatus);
+      if (QR_ENABLED) {
+        OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
+      }
 
       const exposureStatus = this.exposureStatus.get();
       log.debug({
@@ -278,10 +299,19 @@ export class ExposureNotificationService {
         message: 'updatedExposureStatusInBackground',
         payload: {exposureStatus},
       });
+
       PollNotifications.checkForNotifications(this.i18n);
+
+      await logEndOfBackgroundTask(true);
     } catch (error) {
+      await logEndOfBackgroundTask(false);
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
+
+    const notificationStatus: Status = await checkNotifications()
+      .then(({status}) => status)
+      .catch(() => 'unavailable');
+    await this.filteredMetricsService.sendDailyMetrics(this.systemStatus.get(), notificationStatus);
   }
 
   /*
@@ -609,6 +639,9 @@ export class ExposureNotificationService {
       } else {
         exposureWindows = await this.exposureNotification.getExposureWindowsIos(exposureConfiguration, keysFileUrls);
       }
+
+      await this.filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
+
       log.debug({
         category: 'exposure-check',
         message: 'performExposureStatusUpdateV2',
@@ -777,6 +810,9 @@ export class ExposureNotificationService {
 
     try {
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
+
+      await this.filteredMetricsService.addEvent({type: EventTypeMetric.BackgroundCheck});
+
       log.debug({
         category: 'exposure-check',
         message: 'detectExposure',
@@ -861,7 +897,7 @@ export class ExposureNotificationService {
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
 
-    FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.Exposed});
+    this.filteredMetricsService.addEvent({type: EventTypeMetric.Exposed});
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {

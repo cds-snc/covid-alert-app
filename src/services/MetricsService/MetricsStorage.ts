@@ -18,7 +18,7 @@ export interface MetricsStorageCleaner {
   deleteUntilTimestamp(timestamp: number): Promise<void>;
 }
 
-export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStorageReader {
+export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStorageReader, MetricsStorageCleaner {
   private keyValueStore: SecureKeyValueStore;
   private serialPromiseQueue: PQueue;
 

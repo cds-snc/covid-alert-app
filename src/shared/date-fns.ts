@@ -25,6 +25,11 @@ export function minutesFromNow(date: Date) {
   return Math.round((currentTime - date.getTime()) / oneMinuteMs);
 }
 
+export function secondsBetween(date1: Date, date2: Date): number {
+  const oneSecondMs = 1000;
+  return (date2.getTime() - date1.getTime()) / oneSecondMs;
+}
+
 export function minutesBetween(date1: Date, date2: Date): number {
   const oneMinuteMs = 1000 * 60;
   return (date2.getTime() - date1.getTime()) / oneMinuteMs;
@@ -37,17 +42,9 @@ export function daysBetween(date1: Date, date2: Date): number {
 }
 
 export function daysBetweenUTC(date1: Date, date2: Date): number {
-  const startDate1 = new Date(date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate());
-  const startDate2 = new Date(date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate());
+  const startDate1 = new Date(Date.UTC(date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate()));
+  const startDate2 = new Date(Date.UTC(date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate()));
   return (startDate2.getTime() - startDate1.getTime()) / (1000 * 3600 * 24);
-}
-
-export function datesAreOnSameDay(date1: Date, date2: Date): boolean {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
 }
 
 export function getCurrentDate(): Date {
@@ -123,4 +120,9 @@ export const getFirstThreeUniqueDates = (formattedDates: string[]) => {
 
 export const parseSavedTimestamps = (savedTimestamps: string) => {
   return savedTimestamps.split(',').map(x => Number(x));
+};
+
+export const getUTCMidnight = (date: Date) => {
+  const midnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  return midnight.getTime();
 };

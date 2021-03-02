@@ -18,10 +18,10 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
-import {OutbreakStatusType} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
-import {getCurrentDate} from 'shared/date-fns';
 import {PollNotifications} from 'services/PollNotificationService';
+import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {log} from 'shared/logging/config';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -106,17 +106,14 @@ const Content = () => {
   const navigation = useNavigation();
 
   const {reset, qrEnabled, setQrEnabled} = useStorage();
-  const {checkForOutbreaks, setOutbreakStatus} = useOutbreakService();
+  const {checkForOutbreaks, clearOutbreakHistory} = useOutbreakService();
   const [toggleState, setToggleState] = useState<boolean>(qrEnabled);
   const onClearOutbreak = useCallback(async () => {
-    setOutbreakStatus({
-      type: OutbreakStatusType.Monitoring,
-      lastChecked: getCurrentDate().getTime(),
-    });
-  }, [setOutbreakStatus]);
+    clearOutbreakHistory();
+  }, [clearOutbreakHistory]);
 
   const onCheckForOutbreak = useCallback(async () => {
-    checkForOutbreaks();
+    checkForOutbreaks(true);
   }, [checkForOutbreaks]);
 
   const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
@@ -136,6 +133,15 @@ const Content = () => {
   const onPollNotifications = useCallback(async () => {
     await PollNotifications.checkForNotifications(i18n);
   }, [i18n]);
+
+  const onDebugMetrics = useCallback(async () => {
+    const payload = await FilteredMetricsService.sharedInstance().retrieveAllMetricsInStorage();
+    log.debug({
+      category: 'metrics',
+      message: 'debug metrics',
+      payload,
+    });
+  }, []);
 
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
@@ -166,6 +172,10 @@ const Content = () => {
         >
           Demo menu
         </Text>
+      </Section>
+
+      <Section>
+        <Button text="Debug Metrics" onPress={onDebugMetrics} variant="bigFlat" />
       </Section>
       <Section>
         <Button

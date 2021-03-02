@@ -13,7 +13,7 @@ export enum Key {
   SkipAllSet = 'SkipAllSet',
   UserStopped = 'UserStopped',
   CheckInHistory = 'CheckInHistory',
-  OutbreakStatus = 'OutbreakStatus',
+  OutbreakHistory = 'OutbreakHistory',
   HasViewedQrInstructions = 'HasViewedQRInstructions',
   QrEnabled = 'QrEnabled',
 }

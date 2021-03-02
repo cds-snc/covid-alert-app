@@ -5,8 +5,7 @@ import {Platform} from 'react-native';
 import {Status} from 'shared/NotificationPermissionStatus';
 import {ExposureStatus, ExposureStatusType, SystemStatus} from 'services/ExposureNotificationService';
 import {Key} from 'services/StorageService';
-import {getHoursBetween, getCurrentDate, datesAreOnSameDay} from 'shared/date-fns';
-import {log} from 'shared/logging/config';
+import {getHoursBetween, getCurrentDate, daysBetweenUTC, getUTCMidnight} from 'shared/date-fns';
 
 import {DefaultFilteredMetricsStateStorage, FilteredMetricsStateStorage} from './FilteredMetricsStateStorage';
 import {Metric} from './Metric';
@@ -23,6 +22,8 @@ export enum EventTypeMetric {
   EnToggle = 'en-toggle',
   ExposedClear = 'exposed-clear',
   BackgroundCheck = 'background-check',
+  ActiveUser = 'active-user',
+  BackgroundProcess = 'background-process',
 }
 
 export type EventWithContext =
@@ -53,6 +54,14 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.BackgroundCheck;
+    }
+  | {
+      type: EventTypeMetric.ActiveUser;
+    }
+  | {
+      type: EventTypeMetric.BackgroundProcess;
+      succeeded: boolean;
+      durationInSeconds: number;
     };
 
 export class FilteredMetricsService {
@@ -60,10 +69,6 @@ export class FilteredMetricsService {
 
   static sharedInstance(): FilteredMetricsService {
     if (!this.instance) {
-      log.debug({
-        category: 'metrics',
-        message: 'FilteredMetricsService shared instance initialized',
-      });
       this.instance = new this();
     }
     return this.instance;
@@ -76,7 +81,7 @@ export class FilteredMetricsService {
 
   private constructor() {
     this.metricsService = DefaultMetricsService.initialize(
-      new DefaultMetricsJsonSerializer(String(APP_VERSION_CODE), Platform.OS),
+      new DefaultMetricsJsonSerializer(String(APP_VERSION_CODE), Platform.OS, String(Platform.Version)),
     );
     this.stateStorage = new DefaultFilteredMetricsStateStorage(new DefaultSecureKeyValueStore());
     this.serialPromiseQueue = new PQueue({concurrency: 1});
@@ -112,6 +117,13 @@ export class FilteredMetricsService {
           break;
         case EventTypeMetric.BackgroundCheck:
           return this.publishBackgroundCheckEventIfNecessary();
+        case EventTypeMetric.ActiveUser:
+          return this.publishActiveUserEventIfNecessary();
+        case EventTypeMetric.BackgroundProcess:
+          return this.publishEvent(EventTypeMetric.BackgroundProcess, [
+            ['status', eventWithContext.succeeded ? 'success' : 'fail'],
+            ['durationInSeconds', String(eventWithContext.durationInSeconds)],
+          ]);
         default:
           break;
       }
@@ -126,6 +138,12 @@ export class FilteredMetricsService {
         String(notificationStatus),
         String(systemStatus === SystemStatus.Active),
       ).then(() => this.metricsService.sendDailyMetrics());
+    });
+  }
+
+  retrieveAllMetricsInStorage(): Promise<Metric[]> {
+    return this.serialPromiseQueue.add(() => {
+      return this.metricsService.retrieveAllMetricsInStorage();
     });
   }
 
@@ -176,10 +194,12 @@ export class FilteredMetricsService {
   private publishBackgroundCheckEventIfNecessary(): Promise<void> {
     const publishAndSave = (
       numberOfBackgroundCheckForPreviousDay: number,
+      day: number,
       newBackgroundCheckEvent: Date,
     ): Promise<void> => {
       return this.publishEvent(EventTypeMetric.BackgroundCheck, [
         ['count', String(numberOfBackgroundCheckForPreviousDay)],
+        ['utcDay', String(day)],
       ]).then(() => this.stateStorage.saveBackgroundCheckEvents([newBackgroundCheckEvent]));
     };
 
@@ -188,13 +208,31 @@ export class FilteredMetricsService {
     return this.stateStorage.getBackgroundCheckEvents().then(events => {
       if (events.length > 0) {
         const lastBackgroundCheckEvent = events[events.length - 1];
-        if (datesAreOnSameDay(lastBackgroundCheckEvent, newBackgroundCheckEvent)) {
+        if (daysBetweenUTC(lastBackgroundCheckEvent, newBackgroundCheckEvent) === 0) {
           return this.stateStorage.saveBackgroundCheckEvents(events.concat(newBackgroundCheckEvent));
         } else {
-          return publishAndSave(events.length, newBackgroundCheckEvent);
+          return publishAndSave(events.length, getUTCMidnight(events[0]), newBackgroundCheckEvent);
         }
       } else {
         return this.stateStorage.saveBackgroundCheckEvents([newBackgroundCheckEvent]);
+      }
+    });
+  }
+
+  private publishActiveUserEventIfNecessary(): Promise<void> {
+    const publishAndMark = (): Promise<void> => {
+      return this.publishEvent(EventTypeMetric.ActiveUser, []).then(() =>
+        this.stateStorage.updateLastActiveUserSentDateToNow(),
+      );
+    };
+
+    return this.stateStorage.getLastActiveUserEventSentDate().then(lastActiveUserEventSentDate => {
+      if (lastActiveUserEventSentDate) {
+        if (daysBetweenUTC(lastActiveUserEventSentDate, getCurrentDate()) > 0) {
+          return publishAndMark();
+        }
+      } else {
+        return publishAndMark();
       }
     });
   }

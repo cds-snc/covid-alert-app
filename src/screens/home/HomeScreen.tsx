@@ -18,7 +18,7 @@ import {RegionCase} from 'shared/Region';
 import {getRegionCase} from 'shared/RegionLogic';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
-import {OutbreakStatusType} from 'shared/qr';
+import {isExposedToOutbreak} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 import {useNotificationPermissionStatus} from 'shared/NotificationPermissionStatus';
 
@@ -53,7 +53,7 @@ const Content = () => {
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   const exposureStatus = useExposureStatus();
   const [systemStatus] = useSystemStatus();
-  const {outbreakStatus} = useOutbreakService();
+  const {outbreakHistory} = useOutbreakService();
   const [, turnNotificationsOn] = useNotificationPermissionStatus();
   useEffect(() => {
     return turnNotificationsOn();
@@ -93,7 +93,7 @@ const Content = () => {
     }
   }
 
-  if (outbreakStatus.type === OutbreakStatusType.Exposed) {
+  if (isExposedToOutbreak(outbreakHistory)) {
     return <OutbreakExposedView />;
   }
 

@@ -7,6 +7,8 @@ import {ExposureSummary} from '../../bridge/ExposureNotification';
 import PushNotification from '../../bridge/PushNotification';
 import {Key} from '../StorageService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {FilteredMetricsService} from '../MetricsService/FilteredMetricsService';
 
 import {
   ExposureNotificationService,
@@ -18,7 +20,7 @@ import {
 } from './ExposureNotificationService';
 
 jest.mock('react-native-permissions', () => {
-  return {checkNotifications: jest.fn(), requestNotifications: jest.fn()};
+  return {checkNotifications: jest.fn().mockReturnValue(Promise.reject()), requestNotifications: jest.fn()};
 });
 
 const ONE_DAY = 3600 * 24 * 1000;
@@ -80,6 +82,11 @@ const bridge: any = {
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
   getStatus: jest.fn().mockResolvedValue('active'),
   getPendingExposureSummary: jest.fn().mockResolvedValue(undefined),
+};
+
+const filteredMetricsService: FilteredMetricsService = {
+  addEvent: jest.fn().mockReturnValue(Promise.resolve()),
+  sendDailyMetrics: jest.fn().mockReturnValue(Promise.resolve()),
 };
 
 const getSummary = ({
@@ -153,9 +160,11 @@ describe('ExposureNotificationService', () => {
 
   const OriginalDate = global.Date;
   const realDateNow = Date.now.bind(global.Date);
+  const realDateUTC = Date.UTC.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
   const today = new OriginalDate('2020-05-18T04:10:00+0000');
   global.Date.now = realDateNow;
+  global.Date.UTC = realDateUTC;
 
   const testUpdateExposure = async (currentStatus: ExposureStatus, summaries: ExposureSummary[]) => {
     service.exposureStatus.append(currentStatus);
@@ -165,7 +174,7 @@ describe('ExposureNotificationService', () => {
   };
 
   beforeEach(() => {
-    service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge);
+    service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge, filteredMetricsService);
     Platform.OS = 'ios';
     service.systemStatus.set(SystemStatus.Active);
     when(storage.getItem)

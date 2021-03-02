@@ -1,7 +1,7 @@
-import {METRICS_API_KEY, METRICS_URL, TEST_MODE} from 'env';
+import {METRICS_API_KEY, METRICS_URL} from 'env';
 import PQueue from 'p-queue';
 import {log} from 'shared/logging/config';
-import {getCurrentDate, minutesBetween} from 'shared/date-fns';
+import {daysBetweenUTC, getCurrentDate} from 'shared/date-fns';
 
 import {Metric} from './Metric';
 import {MetricsJsonSerializer} from './MetricsJsonSerializer';
@@ -15,10 +15,11 @@ import {InactiveMetricsService} from './InactiveMetricsService';
 const LastMetricTimestampSentToTheServerUniqueIdentifier = '3FFE2346-1910-4FD7-A23F-52D83CFF083A';
 const MetricsLastUploadedDateTime = 'C0663511-3718-4D85-B165-A38155DED2F3';
 
-// eslint-disable-next-line line-comment-position
-const MIN_UPLOAD_MINUTES = TEST_MODE ? 60 : 60 * 24; // 24 hours
+export interface MetricsServiceDebug {
+  retrieveAllMetricsInStorage(): Promise<Metric[]>;
+}
 
-export interface MetricsService {
+export interface MetricsService extends MetricsServiceDebug {
   publishMetric(metric: Metric, forcePush?: boolean): Promise<void>;
   publishMetrics(metrics: Metric[], forcePush?: boolean): Promise<void>;
   sendDailyMetrics(): Promise<void>;
@@ -60,7 +61,7 @@ export class DefaultMetricsService implements MetricsService {
 
   private serialPromiseQueue: PQueue;
 
-  private constructor(
+  constructor(
     secureKeyValueStore: SecureKeyValueStore,
     metricsPublisher: MetricsPublisher,
     metricsProvider: MetricsProvider,
@@ -112,20 +113,19 @@ export class DefaultMetricsService implements MetricsService {
       return this.getMetricsLastUploadedDateTime().then(metricsLastUploadedDateTime => {
         if (metricsLastUploadedDateTime) {
           const today = getCurrentDate();
-          const minutesSinceLastUpload = minutesBetween(metricsLastUploadedDateTime, today);
-          // randomize the upload window, to stagger when phones are uploading the metrics
-          const randomMinutes = Math.floor(Math.random() * MIN_UPLOAD_MINUTES);
-          log.debug({
-            category: 'metrics',
-            message: `MinutesSinceLastUpload: ${minutesSinceLastUpload}, MinimumUploadMinutes: ${MIN_UPLOAD_MINUTES}, RandomMinutes: ${randomMinutes}`,
-          });
-          if (minutesSinceLastUpload > MIN_UPLOAD_MINUTES + randomMinutes) {
+          if (daysBetweenUTC(metricsLastUploadedDateTime, today) > 0) {
             return pushAndMarkLastUploadedDateTime();
           }
         } else {
           return pushAndMarkLastUploadedDateTime();
         }
       });
+    });
+  }
+
+  retrieveAllMetricsInStorage(): Promise<Metric[]> {
+    return this.serialPromiseQueue.add(() => {
+      return this.metricsProvider.retrieveAll();
     });
   }
 

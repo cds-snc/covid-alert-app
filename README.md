@@ -158,7 +158,7 @@ yarn generate-translations
 ## Testing
 
 - [Manual Testing Plan](./TEST_PLAN.md)
-- [End to end testing with Detox](./e2e/DETOX_DOC.md)
+- [End to end testing with Detox](./e2e/README.md)
 
 ## Who built COVID Alert?
 
