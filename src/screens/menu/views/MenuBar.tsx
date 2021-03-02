@@ -28,25 +28,31 @@ export const MenuBar = () => {
       onPress={openScan}
       iconNameLeft="qr-code-icon"
       borderRadius={8}
+      alignLeft
     />
   );
 
   const appStatus = (
-    <Box paddingRight="m" maxWidth={240}>
+    <Box paddingRight="m">
       <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
     </Box>
   );
   return (
-    <Box style={styles.content} paddingVertical="m" paddingHorizontal="m">
+    <Box style={styles.content} paddingVertical="s" paddingHorizontal="m">
       <Box style={styles.box}>
-        {qrEnabled ? qrButton : appStatus}
-        <Button
-          text="Menu"
-          variant="bigFlatNeutralGrey"
-          onPress={openMenu}
-          iconNameLeft="hamburger-menu"
-          borderRadius={8}
-        />
+        <Box flex={3} marginRight="m">
+          {qrEnabled ? qrButton : appStatus}
+        </Box>
+        <Box flex={2}>
+          <Button
+            text="Menu"
+            variant="bigFlatNeutralGrey"
+            onPress={openMenu}
+            iconNameLeft="hamburger-menu"
+            borderRadius={8}
+            alignLeft
+          />
+        </Box>
       </Box>
     </Box>
   );
@@ -65,7 +71,10 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   box: {
+    display: 'flex',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

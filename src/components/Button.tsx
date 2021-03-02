@@ -31,6 +31,7 @@ export interface ButtonProps {
   iconNameLeft?: IconName;
   borderRadius?: number;
   useWhiteText?: boolean;
+  alignLeft?: boolean;
   testID?: string;
 }
 
@@ -48,6 +49,7 @@ export const Button = ({
   iconNameLeft,
   borderRadius = 5,
   useWhiteText = false,
+  alignLeft = false,
   testID,
 }: ButtonProps) => {
   const i18n = useI18n();
@@ -87,7 +89,7 @@ export const Button = ({
     <Box
       borderRadius={borderRadius}
       alignItems="center"
-      justifyContent="center"
+      justifyContent={alignLeft ? 'flex-start' : 'center'}
       shadowColor="bodyText"
       style={boxStyles}
       paddingHorizontal="m"
