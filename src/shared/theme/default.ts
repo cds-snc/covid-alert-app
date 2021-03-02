@@ -305,7 +305,7 @@ const theme = {
       disabled: {},
     },
     qrButton: {
-      color: palette.qrYellow,
+      color: palette.loudYellow,
       height: 52,
       textColor: palette.black,
       fontFamily: 'notosans',

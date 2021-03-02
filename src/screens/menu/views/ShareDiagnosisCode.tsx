@@ -26,21 +26,22 @@ export const ShareDiagnosisCode = () => {
     return null;
   }
 
-  // if (exposureStatus.type === ExposureStatusType.Diagnosed) {
+  if (exposureStatus.type === ExposureStatusType.Diagnosed) {
+    return (
+      <PrimaryActionButton
+        text={i18n.translate('OverlayOpen.ShareDiagnosisCode.CtaFinish')}
+        onPress={navFinishSharing}
+        icon="icon-three-dots"
+        iconBackgroundColor="otkButton"
+      />
+    );
+  }
   return (
     <PrimaryActionButton
+      text={i18n.translate('OverlayOpen.ShareDiagnosisCode.CtaReport')}
+      onPress={navDataSharing}
       icon="icon-three-dots"
       iconBackgroundColor="otkButton"
-      text={i18n.translate('OverlayOpen.ShareDiagnosisCode.CtaFinish')}
-      onPress={navFinishSharing}
     />
   );
-  // }
-  // return (
-  //   <PrimaryActionButton
-  //     icon="otk-entry"
-  //     text={i18n.translate('OverlayOpen.ShareDiagnosisCode.CtaReport')}
-  //     onPress={navDataSharing}
-  //   />
-  // );
 };

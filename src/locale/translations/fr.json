@@ -165,7 +165,7 @@
     "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions ».",
     "ShareDiagnosisCode": {
       "CtaReport": "Résulta positif ?",
-      "CtaFinish": "Finir le partage d’expositions asdfa asdfasdf asdfasdf"
+      "CtaFinish": "Finir le partage d’expositions"
     }
   },
   "Info": {
