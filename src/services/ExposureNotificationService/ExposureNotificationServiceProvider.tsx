@@ -11,8 +11,9 @@ import {log} from 'shared/logging/config';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'screens/home/components/NotificationPermissionStatus';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+import {SERVER_TIME_URL} from 'env';
 
-import {BackendInterface} from '../BackendService';
+import {BackendInterface, DefaultServerTimeService} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
 
 import {
@@ -21,6 +22,7 @@ import {
   PersistencyProvider,
   SecurePersistencyProvider,
 } from './ExposureNotificationService';
+import {DefaultServerTimeBasedExposureCheckTrigger} from './ServerTimeBasedExposureCheckTrigger';
 
 const ExposureNotificationServiceContext = createContext<ExposureNotificationService | undefined>(undefined);
 
@@ -52,6 +54,7 @@ export const ExposureNotificationServiceProvider = ({
         secureStorage || RNSecureKeyStore,
         exposureNotification || ExposureNotification,
         FilteredMetricsService.sharedInstance(),
+        new DefaultServerTimeBasedExposureCheckTrigger(new DefaultServerTimeService(SERVER_TIME_URL)),
       ),
     [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );

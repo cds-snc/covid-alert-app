@@ -18,6 +18,7 @@ import {
   HOURS_PER_PERIOD,
   SystemStatus,
 } from './ExposureNotificationService';
+import {ServerTimeBasedExposureCheckTrigger} from './ServerTimeBasedExposureCheckTrigger';
 
 jest.mock('react-native-permissions', () => {
   return {checkNotifications: jest.fn().mockReturnValue(Promise.reject()), requestNotifications: jest.fn()};
@@ -87,6 +88,10 @@ const bridge: any = {
 const filteredMetricsService: FilteredMetricsService = {
   addEvent: jest.fn().mockReturnValue(Promise.resolve()),
   sendDailyMetrics: jest.fn().mockReturnValue(Promise.resolve()),
+};
+
+const serverTimeBasedExposureCheckTrigger: ServerTimeBasedExposureCheckTrigger = {
+  shouldPerformExposureCheck: jest.fn().mockReturnValue(Promise.resolve(false)),
 };
 
 const getSummary = ({
@@ -174,7 +179,15 @@ describe('ExposureNotificationService', () => {
   };
 
   beforeEach(() => {
-    service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge, filteredMetricsService);
+    service = new ExposureNotificationService(
+      server,
+      i18n,
+      storage,
+      secureStorage,
+      bridge,
+      filteredMetricsService,
+      serverTimeBasedExposureCheckTrigger,
+    );
     Platform.OS = 'ios';
     service.systemStatus.set(SystemStatus.Active);
     when(storage.getItem)

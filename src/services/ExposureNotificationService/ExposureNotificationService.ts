@@ -40,6 +40,7 @@ import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 import {doesPlatformSupportV2} from './ExposureNotificationServiceUtils';
+import {ServerTimeBasedExposureCheckTrigger} from './ServerTimeBasedExposureCheckTrigger';
 
 const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
@@ -133,6 +134,7 @@ export class ExposureNotificationService {
   private secureStorage: SecurePersistencyProvider;
 
   private filteredMetricsService: FilteredMetricsService;
+  private serverTimeBasedExposureCheckTrigger: ServerTimeBasedExposureCheckTrigger;
 
   constructor(
     backendInterface: BackendInterface,
@@ -141,6 +143,7 @@ export class ExposureNotificationService {
     secureStorage: SecurePersistencyProvider,
     exposureNotification: typeof ExposureNotification,
     filteredMetricsService: FilteredMetricsService,
+    serverTimeBasedExposureCheckTrigger: ServerTimeBasedExposureCheckTrigger,
   ) {
     this.i18n = i18n;
     this.exposureNotification = exposureNotification;
@@ -151,6 +154,7 @@ export class ExposureNotificationService {
     this.storage = storage;
     this.secureStorage = secureStorage;
     this.filteredMetricsService = filteredMetricsService;
+    this.serverTimeBasedExposureCheckTrigger = serverTimeBasedExposureCheckTrigger;
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
@@ -680,6 +684,9 @@ export class ExposureNotificationService {
       });
       return false;
     }
+
+    const serverTimeBasedTrigger = await this.serverTimeBasedExposureCheckTrigger.shouldPerformExposureCheck();
+    if (serverTimeBasedTrigger) return true;
 
     const lastCheckedTimestamp = exposureStatus.lastChecked?.timestamp;
     if (lastCheckedTimestamp) {

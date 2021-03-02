@@ -6,13 +6,14 @@ import 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import ExposureNotification from 'bridge/ExposureNotification';
-import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL} from 'env';
+import {HMAC_KEY, RETRIEVE_URL, SERVER_TIME_URL, SUBMIT_URL} from 'env';
 import {AppRegistry, LogBox, Platform} from 'react-native';
-import {BackendService} from 'services/BackendService';
+import {BackendService, DefaultServerTimeService} from 'services/BackendService';
 import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
 import {ExposureNotificationService} from 'services/ExposureNotificationService';
 import {createBackgroundI18n} from 'locale';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
+import {DefaultServerTimeBasedExposureCheckTrigger} from 'services/ExposureNotificationService/ServerTimeBasedExposureCheckTrigger';
 
 import {name as appName} from '../app.json';
 
@@ -35,6 +36,7 @@ if (Platform.OS === 'android') {
       RNSecureKeyStore,
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
+      new DefaultServerTimeBasedExposureCheckTrigger(new DefaultServerTimeService(SERVER_TIME_URL)),
     );
 
     await exposureNotificationService.updateExposureStatusInBackground();
@@ -53,6 +55,7 @@ if (Platform.OS === 'android') {
       RNSecureKeyStore,
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
+      new DefaultServerTimeBasedExposureCheckTrigger(new DefaultServerTimeService(SERVER_TIME_URL)),
     );
     if (await exposureNotificationService.shouldPerformExposureCheck()) {
       await exposureNotificationService.initiateExposureCheckHeadless();

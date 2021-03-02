@@ -1,10 +1,11 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {AppRegistry, Platform} from 'react-native';
-import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
+import {HMAC_KEY, RETRIEVE_URL, SERVER_TIME_URL, SUBMIT_URL, TEST_MODE} from 'env';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import ExposureNotification from 'bridge/ExposureNotification';
+import {DefaultServerTimeBasedExposureCheckTrigger} from 'services/ExposureNotificationService/ServerTimeBasedExposureCheckTrigger';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
@@ -12,7 +13,7 @@ import {log} from '../../shared/logging/config';
 import {ExposureNotificationService} from '../ExposureNotificationService';
 import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
 import {createStorageService} from '../StorageService';
-import {BackendService} from '../BackendService';
+import {BackendService, DefaultServerTimeService} from '../BackendService';
 import {createBackgroundI18n} from '../../locale';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
@@ -132,6 +133,7 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
         RNSecureKeyStore,
         ExposureNotification,
         FilteredMetricsService.sharedInstance(),
+        new DefaultServerTimeBasedExposureCheckTrigger(new DefaultServerTimeService(SERVER_TIME_URL)),
       );
       registerPeriodicTask(async () => {
         await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
