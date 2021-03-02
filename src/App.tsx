@@ -23,7 +23,7 @@ import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
-import {OutbreakProvider} from './shared/OutbreakProvider';
+import {OutbreakProvider} from './services/OutbreakService';
 
 // this allows us to use new Date().toLocaleString() for date formatting on android
 // https://github.com/facebook/react-native/issues/19410#issuecomment-482804142
@@ -81,7 +81,7 @@ const App = () => {
     <I18nProvider>
       <RegionalProvider activeRegions={[]} translate={id => id} regionContent={regionContent.payload}>
         <ExposureNotificationServiceProvider backendInterface={backendService}>
-          <OutbreakProvider>
+          <OutbreakProvider backendService={backendService}>
             <DevPersistedNavigationContainer persistKey="navigationState">
               <AccessibilityServiceProvider>
                 <MainNavigator />

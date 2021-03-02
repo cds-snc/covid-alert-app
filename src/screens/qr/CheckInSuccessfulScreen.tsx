@@ -4,7 +4,7 @@ import {Box, Button, Text, Icon, InfoBlock} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {CheckInData} from 'shared/qr';
-import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useOutbreakService} from 'services/OutbreakService';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 

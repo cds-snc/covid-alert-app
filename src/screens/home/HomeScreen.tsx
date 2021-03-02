@@ -20,7 +20,7 @@ import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
 import {isExposedToOutbreak} from 'shared/qr';
-import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useOutbreakService} from 'services/OutbreakService';
 
 import {useDeepLinks} from '../qr/utils';
 

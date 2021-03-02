@@ -28,7 +28,7 @@ import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/F
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'screens/home/components/NotificationPermissionStatus';
 import {PollNotifications} from 'services/PollNotificationService';
-import {OutbreakService} from 'shared/OutbreakProvider';
+import {OutbreakService} from 'services/OutbreakService';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -265,7 +265,7 @@ export class ExposureNotificationService {
       await this.processNotification();
 
       if (QR_ENABLED) {
-        OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
+        OutbreakService.sharedInstance(this.i18n, this.backendInterface).checkForOutbreaks();
       }
 
       const filteredMetricsService = FilteredMetricsService.sharedInstance();

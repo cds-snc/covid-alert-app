@@ -56,6 +56,17 @@ export class BackendService implements BackendInterface {
     const message = `${MCC_CODE}:${periodStr}:${Math.floor(getMillisSinceUTCEpoch() / 1000 / 3600)}`;
     const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
     const url = `${this.retrieveUrl}/retrieve/${MCC_CODE}/${periodStr}/${hmac}`;
+
+    return downloadDiagnosisKeysFile(url);
+  }
+
+  async retrieveOutbreakEvents(period: number) {
+    const periodStr = `${period > 0 ? period : LAST_14_DAYS_PERIOD}`;
+    const message = `${MCC_CODE}:${periodStr}:${Math.floor(getMillisSinceUTCEpoch() / 1000 / 3600)}`;
+    const hmac = hmac256(message, encHex.parse(this.hmacKey)).toString(encHex);
+    const url = `${this.retrieveUrl}/qr/${MCC_CODE}/${periodStr}/${hmac}`;
+
+    // although this is called `downloadDiagnosisKeysFile`, the functionality is the same to download Outbreak files.
     return downloadDiagnosisKeysFile(url);
   }
 

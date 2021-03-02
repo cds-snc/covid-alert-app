@@ -3,7 +3,7 @@ import {Box, Text} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {CheckInData} from 'shared/qr';
 import {formatCheckInDate} from 'shared/date-fns';
-import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useOutbreakService} from 'services/OutbreakService';
 
 const CheckInList = ({checkIns}: {checkIns: CheckInData[]}) => {
   if (checkIns.length === 0) {

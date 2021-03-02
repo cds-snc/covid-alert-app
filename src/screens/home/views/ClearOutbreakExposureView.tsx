@@ -3,7 +3,7 @@ import {ScrollView, Alert, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
-import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useOutbreakService} from 'services/OutbreakService';
 
 export const ClearOutbreakExposureScreen = () => {
   const navigation = useNavigation();

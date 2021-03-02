@@ -1,4 +1,3 @@
-import {OUTBREAK_LOCATIONS_URL} from 'env';
 import {log} from 'shared/logging/config';
 import {covidshield} from 'services/BackendService/covidshield';
 
@@ -85,14 +84,6 @@ export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
 };
 
 const ONE_HOUR_IN_MS = 60 * 60 * 1000;
-
-export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> => {
-  const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
-    method: 'GET',
-  });
-  const data = await fetchedData.json();
-  return data.exposedLocations;
-};
 
 export const getMatchedOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
