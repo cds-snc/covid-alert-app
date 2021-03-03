@@ -191,7 +191,7 @@ const shouldPollNotifications = (lastPollNotificationDateTime: Date | null): boo
 
   log.debug({
     category: 'debug',
-    message: `Minutes Since Last Poll Notification: ${minutesSinceLastPollNotification}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}, RandomMinutes: ${randomMinutes}`,
+    message: `Minutes Since Last Poll Notification: ${minutesSinceLastPollNotification}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}`,
   });
 
   return minutesSinceLastPollNotification > MIN_POLL_NOTIFICATION_MINUTES;
