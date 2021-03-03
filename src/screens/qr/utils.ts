@@ -103,42 +103,29 @@ interface GroupedCheckInData {
   address: string;
   timestamp: number;
 }
-export const sortedCheckInArray = (checkIns: CheckInData[]) => {
-  let newArr: GroupedCheckInData[] = [];
-  checkIns.map((checkIn) => {
-    let date = new Date(checkIn.timestamp);
-    const similarDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-    newArr.push({date: similarDate, id: checkIn.id, name: checkIn.name, address: checkIn.address, timestamp: checkIn.timestamp})
 
+export const sortedCheckInArray = (checkIns: CheckInData[])=> {
+  let sortedArray: GroupedCheckInData[] = [];
+    const sortedCheckIn = checkIns.sort(function(a, b) {
+    return b.timestamp - a.timestamp;
   });
-  console.log(groupBy(newArr, "date"));
-  return groupBy(newArr, "date");
+  sortedCheckIn.map((checkIn) => {
+    let date = new Date(checkIn.timestamp);
+    const timestampToDateString = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    sortedArray.push({date: timestampToDateString, id: checkIn.id, name: checkIn.name, address: checkIn.address, timestamp: checkIn.timestamp})
+  });
+
+  return combine(sortedArray);
 
 }
-// interface GroupedCheckInData {
-//   date: string;
-//   id: string;
-//   name: string;
-//   address: string;
-//   timestamp: number;
-// }
-// const groupedByDate = (checkIns: CheckInData[]) => {
 
-//   let newArr: GroupedCheckInData[] = [];
-//   checkIns.map((checkIn) => {
-//     let date = new Date(checkIn.timestamp);
-//     const similarDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-//     newArr.push({date: similarDate, id: checkIn.id, name: checkIn.name, address: checkIn.address, timestamp: checkIn.timestamp})
 
-//   });
-//   return groupBy(newArr, "date");
+const combine = (array: GroupedCheckInData[]) => {
+  let groupedArray = array.reduce(function(arr: any, obj){
+    arr[obj.date] = arr[obj.date] || [];
+    arr[obj.date].push(obj);
+    return arr;
+  }, {})
+  return groupedArray;
 
-// }
-const groupBy = (array: GroupedCheckInData[], key: string) => {
-  return array.reduce((result: any, currentValue: any) => {
-    (result[currentValue[key]] = result[currentValue[key]] || []).push(
-      currentValue
-    );
-    return result;
-  }, {});
-};
+}
