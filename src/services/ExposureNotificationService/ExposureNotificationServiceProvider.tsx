@@ -8,9 +8,9 @@ import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
