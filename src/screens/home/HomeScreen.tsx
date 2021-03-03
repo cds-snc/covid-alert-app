@@ -186,7 +186,7 @@ export const HomeScreen = () => {
 
   return (
     <Box flex={1} alignItems="center" backgroundColor="mainBackground">
-      <Box flex={1} paddingTop="m" paddingBottom="m" alignSelf="stretch">
+      <Box flex={1} paddingTop="m" alignSelf="stretch">
         <Content />
       </Box>
       <MenuBar />
