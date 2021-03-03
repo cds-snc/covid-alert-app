@@ -29,6 +29,10 @@ jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
 
+jest.mock('react-native-fs', () => ({
+  readFile: jest.fn(),
+}));
+
 jest.mock('../../bridge/CovidShield', () => ({
   getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
   downloadDiagnosisKeysFile: jest.fn(x => ''),

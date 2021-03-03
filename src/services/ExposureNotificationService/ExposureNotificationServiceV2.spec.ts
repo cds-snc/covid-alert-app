@@ -21,6 +21,10 @@ jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
 }));
 
+jest.mock('react-native-fs', () => ({
+  readFile: jest.fn(),
+}));
+
 jest.mock('react-native-background-fetch', () => {
   return {
     configure: jest.fn(),
