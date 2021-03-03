@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box, Text} from 'components';
 import {Linking, ScrollView, StyleSheet} from 'react-native';
-import {StatusHeaderView} from 'screens/home/views/StatusHeaderView';
+import {StatusHeaderView} from 'screens/menu/views/StatusHeaderView';
 import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 import {useStorage} from 'services/StorageService';
@@ -52,11 +52,15 @@ export const MenuScreen = () => {
   return (
     <SafeAreaView style={styles.flex}>
       <Box backgroundColor="overlayBackground" paddingHorizontal="m" flex={1}>
-        <Box flexDirection="row" marginVertical="m">
+        <Box flexDirection="row">
           <Box flex={1} style={styles.title} paddingRight="m">
-            <StatusHeaderView enabled={systemStatus === SystemStatus.Active} autoFocus />
+            <Text paddingVertical="m">
+              <StatusHeaderView enabled={systemStatus === SystemStatus.Active} autoFocus />
+            </Text>
           </Box>
-          <CloseButton />
+          <Box marginVertical="m">
+            <CloseButton />
+          </Box>
         </Box>
         <ScrollView style={styles.flex}>
           <PrimaryMenuButtons />
