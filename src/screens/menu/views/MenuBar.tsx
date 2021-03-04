@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
 import {StyleSheet} from 'react-native';
 import {Box, Button} from 'components';
-import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 
-import {StatusHeaderView} from './StatusHeaderView';
 import {QrButton} from '../components/QrButton';
+
+import {StatusHeaderView} from './StatusHeaderView';
 
 const borderRadius = 16;
 
