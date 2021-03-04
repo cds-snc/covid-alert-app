@@ -74,7 +74,7 @@ const theme = {
     bodyTextSubdued: palette.bodySubdued,
     statusSuccess: palette.success,
     successBackground: palette.successLight,
-    statusError: palette.error,
+    statusError: palette.danger,
     errorBackground: palette.errorLight,
     errorText: palette.error,
     infoBlockBrightBackground: palette.lightBlue,
