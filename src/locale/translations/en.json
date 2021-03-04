@@ -122,7 +122,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "COVID Alert is ",
+    "SystemStatus": "COVID Alert is\u00a0",
     "SystemStatusOn": "active",
     "SystemStatusOff": "off",
     "NotificationStatus": "Notifications are ",
