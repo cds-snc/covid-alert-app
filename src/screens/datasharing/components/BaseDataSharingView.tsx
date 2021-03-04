@@ -17,11 +17,10 @@ interface BaseDataSharingViewProps {
 export const BaseDataSharingView = ({children, showBackButton = true}: BaseDataSharingViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
-  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
+  const close = useCallback(() => {
+    navigation.navigate('Menu');
+  }, [navigation]);
   const {data} = useContext(FormContext);
-
-  // Note: we can now make back buttons in this flow!
-  // const back = useCallback(() => navigation.goBack(), [navigation]);
 
   const wrapperStyle = data.modalVisible ? styles.overlay : styles.invisible;
 
