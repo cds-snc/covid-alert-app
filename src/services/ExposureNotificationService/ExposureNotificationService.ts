@@ -192,6 +192,8 @@ export class ExposureNotificationService {
   };
 
   executeExposureCheckEvent = async () => {
+    await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
+
     if (Platform.OS !== 'android') return;
     log.debug({category: 'background', message: 'executeExposureCheckEvent'});
     try {
@@ -277,8 +279,6 @@ export class ExposureNotificationService {
         durationInSeconds: backgroundTaskDurationInSeconds,
       });
     };
-
-    await this.filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
 
     // @todo: maybe remove this gets called in updateExposureStatus
     if (!(await this.shouldPerformExposureCheck())) return;

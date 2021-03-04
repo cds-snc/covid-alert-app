@@ -58,6 +58,7 @@ export const ExposureNotificationServiceProvider = ({
 
   useEffect(() => {
     backgroundScheduler.registerPeriodicTask(async () => {
+      await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
       await exposureNotificationService.updateExposureStatusInBackground();
     }, exposureNotificationService);
   }, [backgroundScheduler, exposureNotificationService]);
@@ -83,6 +84,7 @@ export const ExposureNotificationServiceProvider = ({
       }
       // re-register the background tasks upon app launch
       backgroundScheduler.registerPeriodicTask(async () => {
+        await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
         await exposureNotificationService.updateExposureStatusInBackground();
       }, exposureNotificationService);
     };
