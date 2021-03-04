@@ -29,8 +29,15 @@ export class FilteredMetricsService {
   private serialPromiseQueue: PQueue;
 
   private constructor() {
+    const [manufacturer, androidReleaseVersion] = getManufacturerAndAndroidReleaseVersion();
     this.metricsService = DefaultMetricsService.initialize(
-      new DefaultMetricsJsonSerializer(String(APP_VERSION_CODE), Platform.OS, String(Platform.Version)),
+      new DefaultMetricsJsonSerializer(
+        String(APP_VERSION_CODE),
+        Platform.OS,
+        String(Platform.Version),
+        manufacturer,
+        androidReleaseVersion,
+      ),
     );
     this.metricsFilter = new DefaultMetricsFilter(new DefaultSecureKeyValueStore());
     this.serialPromiseQueue = new PQueue({concurrency: 1});
@@ -88,5 +95,22 @@ export class FilteredMetricsService {
   private async getRegion(): Promise<string> {
     const regionOpt = await AsyncStorage.getItem(Key.Region);
     return regionOpt ? regionOpt : 'None';
+  }
+}
+
+function getManufacturerAndAndroidReleaseVersion(): [string, string] {
+  try {
+    if (Platform.OS === 'android') {
+      // @ts-ignore
+      const fingerprintFromPlatformConstants = String(Platform.constants.Fingerprint);
+      const manufacturer = fingerprintFromPlatformConstants.split('/')[0];
+      // @ts-ignore
+      const androidReleaseVersion = String(Platform.constants.Release);
+      return [manufacturer, androidReleaseVersion];
+    } else {
+      return ['Apple', 'unavailable'];
+    }
+  } catch (error) {
+    return ['unavailable', 'unavailable'];
   }
 }
