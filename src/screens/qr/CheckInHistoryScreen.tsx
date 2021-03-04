@@ -6,6 +6,7 @@ import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharin
 import {CheckInData} from 'shared/qr';
 import {formatExposedDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+
 import {sortedCheckInArray} from './utils';
 
 const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: CheckInData[]; isEditing: boolean}) => {
@@ -42,7 +43,7 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
               <Text variant="bodyTitle">{formatExposedDate(new Date(item), dateLocale)}</Text>
             </Box>
 
-            <Box style={{borderRadius: 10}} backgroundColor="gray5">
+            <Box style={styles.radius} backgroundColor="gray5">
               {checkIns[item].map((data: any, index: number) => {
                 return (
                   <>
@@ -93,9 +94,6 @@ export const CheckInHistoryScreen = () => {
   const i18n = useI18n();
   const {checkInHistory, deleteAllScannedPlaces} = useOutbreakService();
 
-  useEffect(() => {
-    checkInHistory;
-  }, [checkInHistory]);
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingText, setIsEditingText] = useState(i18n.translate('ScannedPlaces.Edit'));
   const onPressEdit = () => {
@@ -170,5 +168,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  radius: {
+    borderRadius: 10,
   },
 });

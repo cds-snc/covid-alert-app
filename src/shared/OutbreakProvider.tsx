@@ -71,11 +71,12 @@ export class OutbreakService implements OutbreakService {
     await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(checkInHistory));
     this.checkInHistory.set(checkInHistory);
   };
+
   deleteScannedPlaces = async (value: string) => {
     const _checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
     const checkInHistory = JSON.parse(_checkInHistory);
     const index = checkInHistory.findIndex((item: {id: string}) => item.id === value);
-    let newCheckInHistory = checkInHistory;
+    const newCheckInHistory = checkInHistory;
     if (index !== -1) {
       newCheckInHistory.splice(index, 1);
     }
@@ -83,6 +84,7 @@ export class OutbreakService implements OutbreakService {
     await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(newCheckInHistory));
     this.checkInHistory.set(newCheckInHistory);
   };
+
   deleteAllScannedPlaces = async () => {
     await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify([]));
     this.checkInHistory.set([]);

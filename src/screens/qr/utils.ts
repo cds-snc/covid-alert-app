@@ -10,7 +10,7 @@ import {useOutbreakService} from 'shared/OutbreakProvider';
 import {QR_HOST, QR_CODE_PUBLIC_KEY} from 'env';
 import base64 from 'react-native-base64';
 import nacl from 'tweetnacl';
-import { timing } from 'react-native-reanimated';
+import {timing} from 'react-native-reanimated';
 
 interface EventURL {
   url: string;
@@ -27,7 +27,7 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
     throw new Error('bad URL from QR code');
   }
 
-  let [, base64Str] = url.split('#');
+  const [, base64Str] = url.split('#');
   try {
     // if (QR_CODE_PUBLIC_KEY) {
     //   // verify signed QR code
@@ -95,33 +95,30 @@ export const useDeepLinks = () => {
   }, [navigation, addCheckIn]);
 };
 
-
 interface GroupedCheckInData {
   date: string;
   checkIns: CheckInData;
 }
 
-
-export const sortedCheckInArray = (checkIns: CheckInData[])=> {
-  let sortedArray: GroupedCheckInData[] = [];
-    const sortedCheckIn = checkIns.sort(function(a, b) {
-    return b.timestamp - a.timestamp;
+export const sortedCheckInArray = (checkIns: CheckInData[]) => {
+  const sortedArray: GroupedCheckInData[] = [];
+  const sortedCheckIn = checkIns.sort(function(first, second) {
+    return second.timestamp - first.timestamp;
   });
-  sortedCheckIn.map((checkIn) => {
-    let date = new Date(checkIn.timestamp);
-    const timestampToDateString =  (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
-    sortedArray.push({date: timestampToDateString, checkIns: checkIn})
+  sortedCheckIn.map(checkIn => {
+    const date = new Date(checkIn.timestamp);
+    const timestampToDateString = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    sortedArray.push({date: timestampToDateString, checkIns: checkIn});
   });
 
   return combine(sortedArray);
-
-}
+};
 
 const combine = (array: GroupedCheckInData[]) => {
-  let groupedArray = array.reduce(function(arr: any, obj: any){
+  const groupedArray = array.reduce(function(arr: any, obj) {
     arr[obj.date] = arr[obj.date] || [];
     arr[obj.date].push(obj);
     return arr;
-  }, {})
+  }, {});
   return groupedArray;
-}
+};
