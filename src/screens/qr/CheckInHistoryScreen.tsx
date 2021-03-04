@@ -35,10 +35,11 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
       {Object.keys(checkIns).map(item => {
         const dateSplit = item.split('/');
         const formattedDate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);
+
         return (
           <>
             <Box marginTop="m" paddingBottom="m" key={item}>
-              <Text variant="bodyTitle">{formatExposedDate(formattedDate, dateLocale)}</Text>
+              <Text variant="bodyTitle">{formatExposedDate(new Date(item), dateLocale)}</Text>
             </Box>
 
             <Box style={{borderRadius: 10}} backgroundColor="gray5">
@@ -48,20 +49,20 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
                     <Box
                       paddingLeft="s"
                       style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
-                      key={data.id.concat(index.toString())}
+                      key={data.checkIns.id.concat(index.toString())}
                     >
                       <TouchableOpacity
                         onPress={() => {
-                          deleteConfirmationAlert(data.id);
+                          deleteConfirmationAlert(data.checkIns.id);
                         }}
                       >
                         {isEditing && <Icon size={20} name="places-delete" />}
                       </TouchableOpacity>
                       <Box padding="m">
-                        <Text variant="bodySubTitle">{data.name}</Text>
-                        <Text paddingVertical="s">{data.address}</Text>
+                        <Text variant="bodySubTitle">{data.checkIns.name}</Text>
+                        <Text paddingVertical="s">{data.checkIns.address}</Text>
                         <Text>
-                          {new Date(data.timestamp).toLocaleString('default', {
+                          {new Date(data.checkIns.timestamp).toLocaleString('default', {
                             hour: 'numeric',
                             minute: 'numeric',
                             hour12: true,

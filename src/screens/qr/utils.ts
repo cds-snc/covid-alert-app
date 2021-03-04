@@ -98,11 +98,9 @@ export const useDeepLinks = () => {
 
 interface GroupedCheckInData {
   date: string;
-  id: string;
-  name: string;
-  address: string;
-  timestamp: number;
+  checkIns: CheckInData;
 }
+
 
 export const sortedCheckInArray = (checkIns: CheckInData[])=> {
   let sortedArray: GroupedCheckInData[] = [];
@@ -112,20 +110,18 @@ export const sortedCheckInArray = (checkIns: CheckInData[])=> {
   sortedCheckIn.map((checkIn) => {
     let date = new Date(checkIn.timestamp);
     const timestampToDateString =  (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
-    sortedArray.push({date: timestampToDateString, id: checkIn.id, name: checkIn.name, address: checkIn.address, timestamp: checkIn.timestamp})
+    sortedArray.push({date: timestampToDateString, checkIns: checkIn})
   });
 
   return combine(sortedArray);
 
 }
 
-
 const combine = (array: GroupedCheckInData[]) => {
-  let groupedArray = array.reduce(function(arr: any, obj){
+  let groupedArray = array.reduce(function(arr: any, obj: any){
     arr[obj.date] = arr[obj.date] || [];
     arr[obj.date].push(obj);
     return arr;
   }, {})
   return groupedArray;
-
 }
