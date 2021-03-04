@@ -188,13 +188,13 @@ const shouldPollNotifications = (lastPollNotificationDateTime: Date | null): boo
 
   const today = getCurrentDate();
   const minutesSinceLastPollNotification = minutesBetween(new Date(Number(lastPollNotificationDateTime)), today);
-  // randomize the upload window, to stagger when phones are uploading the metrics
-  const randomMinutes = Math.floor(Math.random() * MIN_POLL_NOTIFICATION_MINUTES);
+
   log.debug({
     category: 'debug',
-    message: `Minutes Since Last Poll Notification: ${minutesSinceLastPollNotification}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}, RandomMinutes: ${randomMinutes}`,
+    message: `Minutes Since Last Poll Notification: ${minutesSinceLastPollNotification}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}`,
   });
-  return minutesSinceLastPollNotification > MIN_POLL_NOTIFICATION_MINUTES + randomMinutes;
+
+  return minutesSinceLastPollNotification > MIN_POLL_NOTIFICATION_MINUTES;
 };
 
 const getLastPollNotificationDateTime = async (): Promise<any> => {
