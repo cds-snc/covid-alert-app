@@ -3,6 +3,7 @@ import {useI18n} from 'locale';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
 import {useExposureStatus, ExposureStatusType} from 'services/ExposureNotificationService';
+import {Box} from 'components';
 
 import {PrimaryActionButton} from '../components/PrimaryActionButton';
 
@@ -28,20 +29,24 @@ export const ShareDiagnosisCode = () => {
 
   if (exposureStatus.type === ExposureStatusType.Diagnosed) {
     return (
-      <PrimaryActionButton
-        text={i18n.translate('OverlayOpen.ShareDiagnosisCode.CtaFinish')}
-        onPress={navFinishSharing}
-        icon="icon-three-dots"
-        iconBackgroundColor="otkButton"
-      />
+      <Box marginBottom="s">
+        <PrimaryActionButton
+          text={i18n.translate('OverlayOpen.ShareDiagnosisCode.CtaFinish')}
+          onPress={navFinishSharing}
+          icon="icon-three-dots"
+          iconBackgroundColor="otkButton"
+        />
+      </Box>
     );
   }
   return (
-    <PrimaryActionButton
-      text={i18n.translate('OverlayOpen.ShareDiagnosisCode.CtaReport')}
-      onPress={navDataSharing}
-      icon="icon-three-dots"
-      iconBackgroundColor="otkButton"
-    />
+    <Box marginBottom="s">
+      <PrimaryActionButton
+        text={i18n.translate('OverlayOpen.ShareDiagnosisCode.CtaReport')}
+        onPress={navDataSharing}
+        icon="icon-three-dots"
+        iconBackgroundColor="otkButton"
+      />
+    </Box>
   );
 };

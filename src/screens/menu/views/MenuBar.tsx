@@ -20,7 +20,7 @@ export const MenuBar = () => {
   const [systemStatus] = useSystemStatus();
 
   const appStatus = (
-    <Box paddingRight="m">
+    <Box>
       <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
     </Box>
   );

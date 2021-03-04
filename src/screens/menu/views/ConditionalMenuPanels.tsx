@@ -47,9 +47,17 @@ export const ConditionalMenuPanels = () => {
           <BluetoothStatusOff />
         </Box>
       )}
-      {exposureStatus.type === ExposureStatusType.Diagnosed && exposureStatus.hasShared && <DiagnosedThankYou />}
+      {exposureStatus.type === ExposureStatusType.Diagnosed && exposureStatus.hasShared && (
+        <Box marginBottom="s">
+          <DiagnosedThankYou />
+        </Box>
+      )}
 
-      {!network.isConnected && exposureStatus.type !== ExposureStatusType.Diagnosed && <OfflineWarning />}
+      {!network.isConnected && exposureStatus.type !== ExposureStatusType.Diagnosed && (
+        <Box marginBottom="s">
+          <OfflineWarning />
+        </Box>
+      )}
       {showNotificationWarning && (
         <Box marginBottom="s">
           <NotificationStatusOff action={turnNotificationsOnFn} />

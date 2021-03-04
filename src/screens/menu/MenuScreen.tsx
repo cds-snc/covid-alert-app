@@ -63,11 +63,42 @@ export const MenuScreen = () => {
           </Box>
         </Box>
         <ScrollView style={styles.flex}>
-          <PrimaryMenuButtons />
+          <Box marginBottom="m">
+            <PrimaryMenuButtons />
+          </Box>
 
-          <ConditionalMenuPanels />
+          <Box marginBottom="m">
+            <ConditionalMenuPanels />
+          </Box>
 
-          <Box marginTop="l" marginBottom="m">
+          <Box marginBottom="m" testID="InfoShareViewID">
+            <InfoShareItem
+              testID="getCodeButton"
+              onPress={onGetCode}
+              text={i18n.translate('Info.GetCode')}
+              icon="icon-chevron"
+            />
+
+            <InfoShareItem
+              onPress={onExposedHelp}
+              text={i18n.translate('Home.ExposedHelpCTA')}
+              icon={regionIcon}
+              accessibilityRole="link"
+              accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate(
+                'Home.ExternalLinkHint',
+              )}`}
+            />
+
+            <InfoShareItem
+              onPress={onHelp}
+              text={i18n.translate('Info.Help')}
+              icon="icon-external-arrow"
+              accessibilityRole="link"
+              accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+            />
+          </Box>
+
+          <Box marginTop="m" marginBottom="s">
             <Text variant="settingTitle" fontWeight="normal">
               {i18n.translate('Info.SettingsTitle')}
             </Text>
@@ -82,57 +113,23 @@ export const MenuScreen = () => {
             <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
           </Box>
 
-          <Box marginTop="l" marginBottom="m">
+          <Box marginTop="m" marginBottom="s">
             <Text variant="settingTitle" fontWeight="normal">
-              {i18n.translate('Info.Support')}
+              {i18n.translate('Info.InformationTitle')}
             </Text>
           </Box>
-          <Box marginBottom="m">
-            <Box marginBottom="m" testID="InfoShareViewID">
-              <InfoShareItem
-                testID="getCodeButton"
-                onPress={onGetCode}
-                text={i18n.translate('Info.GetCode')}
-                icon="icon-chevron"
-              />
-
-              <InfoShareItem
-                onPress={onExposedHelp}
-                text={i18n.translate('Home.ExposedHelpCTA')}
-                icon={regionIcon}
-                accessibilityRole="link"
-                accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate(
-                  'Home.ExternalLinkHint',
-                )}`}
-              />
-
-              <InfoShareItem
-                onPress={onHelp}
-                text={i18n.translate('Info.Help')}
-                icon="icon-external-arrow"
-                accessibilityRole="link"
-                accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
-              />
-            </Box>
-
-            <Box marginTop="l" marginBottom="m">
-              <Text variant="settingTitle" fontWeight="normal">
-                {i18n.translate('Info.InformationTitle')}
-              </Text>
-            </Box>
-            <Box marginBottom="l">
-              <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
-              <InfoShareItem
-                icon="icon-external-arrow"
-                accessibilityRole="link"
-                onPress={onPrivacy}
-                accessibilityHint={`${i18n.translate('Info.Privacy')} . ${i18n.translate('Home.ExternalLinkHint')}`}
-                text={i18n.translate('Info.Privacy')}
-              />
-            </Box>
-            <Box paddingBottom="l">
-              <Text variant="smallText">{versionNumber}</Text>
-            </Box>
+          <Box marginBottom="l">
+            <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
+            <InfoShareItem
+              icon="icon-external-arrow"
+              accessibilityRole="link"
+              onPress={onPrivacy}
+              accessibilityHint={`${i18n.translate('Info.Privacy')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+              text={i18n.translate('Info.Privacy')}
+            />
+          </Box>
+          <Box paddingBottom="l">
+            <Text variant="smallText">{versionNumber}</Text>
           </Box>
         </ScrollView>
       </Box>

@@ -9,6 +9,7 @@ import {
 import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
+import {Box} from 'components';
 
 import {PrimaryActionButton} from './PrimaryActionButton';
 
@@ -52,25 +53,29 @@ export const OnOffButton = () => {
 
   if (systemStatus === SystemStatus.Active) {
     return (
-      <PrimaryActionButton
-        onPress={onStop}
-        text={i18n.translate('Info.ToggleCovidAlert.TurnOff')}
-        iconBackgroundColor="danger25Background"
-        icon="icon-exclamation"
-        showChevron={false}
-      />
+      <Box marginBottom="s">
+        <PrimaryActionButton
+          onPress={onStop}
+          text={i18n.translate('Info.ToggleCovidAlert.TurnOff')}
+          iconBackgroundColor="danger25Background"
+          icon="icon-exclamation"
+          showChevron={false}
+        />
+      </Box>
     );
   }
   if (!userStopped) {
     return null;
   }
   return (
-    <PrimaryActionButton
-      onPress={onStart}
-      text={i18n.translate('Info.ToggleCovidAlert.TurnOn')}
-      iconBackgroundColor="danger25Background"
-      icon="icon-exclamation"
-      showChevron={false}
-    />
+    <Box marginBottom="s">
+      <PrimaryActionButton
+        onPress={onStart}
+        text={i18n.translate('Info.ToggleCovidAlert.TurnOn')}
+        iconBackgroundColor="danger25Background"
+        icon="icon-exclamation"
+        showChevron={false}
+      />
+    </Box>
   );
 };

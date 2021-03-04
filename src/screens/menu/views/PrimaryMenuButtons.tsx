@@ -14,10 +14,8 @@ export const PrimaryMenuButtons = () => {
   const {qrEnabled} = useStorage();
   const navigation = useNavigation();
   return (
-    <Box marginBottom="m">
-      <Box marginBottom="s">
-        <ShareDiagnosisCode />
-      </Box>
+    <>
+      <ShareDiagnosisCode />
       {qrEnabled && (
         <Box marginBottom="s">
           <PrimaryActionButton
@@ -30,9 +28,7 @@ export const PrimaryMenuButtons = () => {
           />
         </Box>
       )}
-      <Box marginBottom="s">
-        <OnOffButton />
-      </Box>
-    </Box>
+      <OnOffButton />
+    </>
   );
 };
