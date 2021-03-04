@@ -111,7 +111,7 @@ export const sortedCheckInArray = (checkIns: CheckInData[])=> {
   });
   sortedCheckIn.map((checkIn) => {
     let date = new Date(checkIn.timestamp);
-    const timestampToDateString = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    const timestampToDateString =  (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
     sortedArray.push({date: timestampToDateString, id: checkIn.id, name: checkIn.name, address: checkIn.address, timestamp: checkIn.timestamp})
   });
 

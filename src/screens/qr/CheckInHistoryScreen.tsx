@@ -4,64 +4,11 @@ import {useI18n} from 'locale';
 import {Box, Text, Icon, Button} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {CheckInData} from 'shared/qr';
-import {formatCheckInDate, formatExposedDate} from 'shared/date-fns';
+import {formatExposedDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 import {sortedCheckInArray} from './utils';
 
-// const CheckInList = ({checkIns, isEditing}: {checkIns: CheckInData[]; isEditing: boolean}) => {
-//   const {deleteScannedPlaces} = useOutbreakService();
-//   const i18n = useI18n();
-//   const sortedCheckIn = checkIns.sort(function(a, b) {
-//     return b.timestamp - a.timestamp;
-//   });
-//   const lastItem = sortedCheckIn.length - 1;
-// const deleteConfirmationAlert = (id: string) => {
-//   Alert.alert(i18n.translate('ScannedPlaces.Alert.Title'), i18n.translate('ScannedPlaces.Alert.Subtitle'), [
-//     {
-//       text: i18n.translate('ScannedPlaces.Alert.Cancel'),
-//       onPress: () => {},
-//     },
-//     {
-//       text: i18n.translate('ScannedPlaces.Alert.Confirm'),
-//       onPress: () => {
-//         deleteScannedPlaces(id);
-//       },
-//       style: 'cancel',
-//     },
-//   ]);
-// };
-
-//   return (
-//     <>
-//       {sortedCheckIn.map((checkIn, index) => {
-//         return (
-//           <>
-//             <Box
-//               style={[styles.boxStyle, sortedCheckIn[lastItem] !== checkIn && styles.bottomBorder]}
-//               key={checkIn.id.concat(index.toString())}
-//             >
-// <TouchableOpacity
-//   onPress={() => {
-//     deleteConfirmationAlert(checkIn.id);
-//   }}
-// >
-//   {isEditing && <Icon size={20} name="places-delete" />}
-// </TouchableOpacity>
-
-//               <Box padding="m" key={checkIn.id.concat(index.toString())}>
-//                 <Text variant="bodyTitle2">{checkIn.name}</Text>
-//                 <Text paddingTop="s">{checkIn.address}</Text>
-//                 <Text paddingTop="s">{formatCheckInDate(new Date(checkIn.timestamp))}</Text>
-//               </Box>
-//             </Box>
-//           </>
-//         );
-//       })}
-//     </>
-//   );
-// };
-
-const ScannedCheckIn = ({scannedCheckInData, isEditing}: {scannedCheckInData: CheckInData[]; isEditing: boolean}) => {
+const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: CheckInData[]; isEditing: boolean}) => {
   const i18n = useI18n();
   const {deleteScannedPlaces} = useOutbreakService();
   const checkIns = sortedCheckInArray(scannedCheckInData);
@@ -86,11 +33,12 @@ const ScannedCheckIn = ({scannedCheckInData, isEditing}: {scannedCheckInData: Ch
   return (
     <>
       {Object.keys(checkIns).map(item => {
-        let date = item.split('/');
+        const dateSplit = item.split('/');
+        const formattedDate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);
         return (
           <>
-            <Box marginTop="m" paddingBottom="m">
-              <Text variant="bodyTitle">{item}</Text>
+            <Box marginTop="m" paddingBottom="m" key={item}>
+              <Text variant="bodyTitle">{formatExposedDate(formattedDate, dateLocale)}</Text>
             </Box>
 
             <Box style={{borderRadius: 10}} backgroundColor="gray5">
@@ -100,6 +48,7 @@ const ScannedCheckIn = ({scannedCheckInData, isEditing}: {scannedCheckInData: Ch
                     <Box
                       paddingLeft="s"
                       style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
+                      key={data.id.concat(index.toString())}
                     >
                       <TouchableOpacity
                         onPress={() => {
@@ -111,8 +60,13 @@ const ScannedCheckIn = ({scannedCheckInData, isEditing}: {scannedCheckInData: Ch
                       <Box padding="m">
                         <Text variant="bodySubTitle">{data.name}</Text>
                         <Text paddingVertical="s">{data.address}</Text>
-                        {/* <Text>{formatCheckInDate(new Date(data.timestamp))}</Text> */}
-                        <Text>{formatExposedDate(new Date(data.timestamp), dateLocale)}</Text>
+                        <Text>
+                          {new Date(data.timestamp).toLocaleString('default', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: true,
+                          })}
+                        </Text>
                       </Box>
                     </Box>
                   </>
@@ -129,7 +83,7 @@ const NoScannedBox = () => {
   const i18n = useI18n();
 
   return (
-    <Box paddingHorizontal="xxs" marginTop="m" style={styles.placesBox} backgroundColor="gray5">
+    <Box paddingHorizontal="xxs" marginTop="m" backgroundColor="gray5">
       <Text padding="s">{i18n.translate('ScannedPlaces.NoScanBoxBody')}</Text>
     </Box>
   );
@@ -165,41 +119,39 @@ export const CheckInHistoryScreen = () => {
   };
 
   return (
-    <BaseDataSharingView showBackButton={true}>
-      <Box paddingHorizontal="m">
-        <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
-          {i18n.translate('ScannedPlaces.Title')}
-        </Text>
-        <Text>
-          {checkInHistory.length === 0
-            ? i18n.translate('ScannedPlaces.BodyNoScan')
-            : i18n.translate('ScannedPlaces.Body')}
-        </Text>
-        <Text variant="bodyTitle" accessibilityRole="header" marginTop="l">
-          {i18n.translate('ScannedPlaces.Title2')}
-        </Text>
-        <Text marginTop="s">{i18n.translate('ScannedPlaces.Body2')}</Text>
-
-        {checkInHistory.length === 0 && <NoScannedBox />}
-      </Box>
-      <Box>
-        {checkInHistory.length !== 0 && (
-          <Box style={styles.textBox}>
-            <Box>{isEditing && <Button text="Delete All" variant="text" onPress={deleteAllPlaces} />}</Box>
-
-            <Box>
-              <Button text={isEditingText} variant="text" onPress={onPressEdit} />
-            </Box>
-          </Box>
-        )}
-
-        <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" style={styles.placesBox}>
-          {/* <CheckInList checkIns={checkInHistory} isEditing={isEditing} /> */}
-
-          <ScannedCheckIn scannedCheckInData={checkInHistory} isEditing={isEditing} />
+    <>
+      <BaseDataSharingView showCloseButton={false}>
+        <Box paddingHorizontal="m">
+          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+            {i18n.translate('ScannedPlaces.Title')}
+          </Text>
+          <Text>
+            {checkInHistory.length === 0
+              ? i18n.translate('ScannedPlaces.BodyNoScan')
+              : i18n.translate('ScannedPlaces.Body')}
+          </Text>
+          <Text variant="bodyTitle" accessibilityRole="header" marginTop="l">
+            {i18n.translate('ScannedPlaces.Title2')}
+          </Text>
+          <Text marginTop="s">{i18n.translate('ScannedPlaces.Body2')}</Text>
         </Box>
-      </Box>
-    </BaseDataSharingView>
+        <Box>
+          {checkInHistory.length !== 0 && (
+            <Box style={styles.textBox}>
+              <Box>{isEditing && <Button text="Delete All" variant="text" onPress={deleteAllPlaces} />}</Box>
+
+              <Box>
+                <Button text={isEditingText} variant="text" onPress={onPressEdit} />
+              </Box>
+            </Box>
+          )}
+
+          <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
+            <CheckInList scannedCheckInData={checkInHistory} isEditing={isEditing} />
+          </Box>
+        </Box>
+      </BaseDataSharingView>
+    </>
   );
 };
 
@@ -208,7 +160,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    // borderRadius: 10,
   },
   bottomBorder: {
     borderBottomColor: '#8a8a8a',
@@ -218,8 +169,5 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  placesBox: {
-    borderRadius: 10,
   },
 });
