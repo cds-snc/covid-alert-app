@@ -74,6 +74,7 @@ export const ExposureNotificationServiceProvider = ({
       exposureNotificationService.updateExposure();
       await exposureNotificationService.updateExposureStatus();
 
+      await filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
       const notificationStatus: Status = await checkNotifications()
         .then(({status}) => status)
         .catch(() => 'unavailable');
@@ -93,14 +94,20 @@ export const ExposureNotificationServiceProvider = ({
     exposureNotificationService.updateExposure();
     exposureNotificationService.updateExposureStatus();
 
-    checkNotifications()
-      .then(({status}) => status)
-      .catch(() => 'unavailable')
-      .then(notificationStatus => {
-        filteredMetricsService.sendDailyMetrics(
-          exposureNotificationService.systemStatus.get(),
-          notificationStatus as Status,
-        );
+    filteredMetricsService
+      .addEvent({type: EventTypeMetric.ActiveUser})
+      .then(() => {
+        // eslint-disable-next-line promise/no-nesting
+        checkNotifications()
+          .then(({status}) => status)
+          .catch(() => 'unavailable')
+          .then(notificationStatus => {
+            filteredMetricsService.sendDailyMetrics(
+              exposureNotificationService.systemStatus.get(),
+              notificationStatus as Status,
+            );
+          })
+          .catch(() => {});
       })
       .catch(() => {});
 
