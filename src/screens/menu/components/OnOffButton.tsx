@@ -9,12 +9,14 @@ import {
 import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
+import {useNavigation} from '@react-navigation/native';
 import {Box} from 'components';
 
 import {PrimaryActionButton} from './PrimaryActionButton';
 
 export const OnOffButton = () => {
   const i18n = useI18n();
+  const navigation = useNavigation();
   const {userStopped} = useStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
   const stopExposureNotificationService = useStopExposureNotificationService();
@@ -38,16 +40,18 @@ export const OnOffButton = () => {
               alertBody: i18n.translate('Notification.PausedMessageBody'),
               channelName: i18n.translate('Notification.AndroidChannelName'),
             });
+            navigation.navigate('Home');
           },
           style: 'default',
         },
       ],
     );
-  }, [i18n, stopExposureNotificationService]);
+  }, [i18n, navigation, stopExposureNotificationService]);
 
   const onStart = useCallback(async () => {
     await startExposureNotificationService();
-  }, [startExposureNotificationService]);
+    navigation.navigate('Home');
+  }, [navigation, startExposureNotificationService]);
 
   const [systemStatus] = useSystemStatus();
 

@@ -12,14 +12,15 @@ import {Toolbar} from './Toolbar';
 interface BaseDataSharingViewProps {
   children?: React.ReactNode;
   showBackButton?: boolean;
+  closeRoute?: string;
 }
 
-export const BaseDataSharingView = ({children, showBackButton = true}: BaseDataSharingViewProps) => {
+export const BaseDataSharingView = ({children, showBackButton = true, closeRoute = ''}: BaseDataSharingViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const close = useCallback(() => {
-    navigation.navigate('Menu');
-  }, [navigation]);
+    navigation.navigate(closeRoute ? closeRoute : 'Menu');
+  }, [closeRoute, navigation]);
   const {data} = useContext(FormContext);
 
   const wrapperStyle = data.modalVisible ? styles.overlay : styles.invisible;
