@@ -227,7 +227,7 @@ export class DefaultMetricsFilter implements MetricsFilter {
         return {
           eventType: EventTypeMetric.ActiveUser,
           payload: [],
-          shouldBePushedToServerRightAway: false,
+          shouldBePushedToServerRightAway: true,
         };
       });
     };
