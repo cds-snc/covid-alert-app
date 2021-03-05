@@ -35,12 +35,12 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
     <>
       {Object.keys(checkIns).map(item => {
         const dateSplit = item.split('/');
-        const formattedDate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);
+        const formattedDate = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1]);
 
         return (
           <>
             <Box marginTop="m" paddingBottom="m" key={item}>
-              <Text variant="bodyTitle">{formatExposedDate(new Date(item), dateLocale)}</Text>
+              <Text variant="bodyTitle">{formatExposedDate(formattedDate, dateLocale)}</Text>
             </Box>
 
             <Box style={styles.radius} backgroundColor="gray5">
