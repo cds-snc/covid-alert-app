@@ -10,6 +10,7 @@ import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 import {useStorage} from 'services/StorageService';
 import {getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {captureException} from 'shared/log';
+import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {ConditionalMenuPanels} from './views/ConditionalMenuPanels';
 import {PrimaryMenuButtons} from './views/PrimaryMenuButtons';
@@ -48,14 +49,15 @@ export const MenuScreen = () => {
   }, [navigation, region, regionalI18n]);
 
   const versionNumber = `${i18n.translate('OverlayOpen.Version')}: ${APP_VERSION_NAME} (${APP_VERSION_CODE})`;
+  const autoFocusRef = useAccessibilityAutoFocus(true);
 
   return (
     <SafeAreaView style={styles.flex}>
       <Box backgroundColor="overlayBackground" paddingHorizontal="m" flex={1}>
         <Box flexDirection="row">
           <Box flex={1} style={styles.title} paddingRight="m">
-            <Text paddingVertical="m">
-              <StatusHeaderView enabled={systemStatus === SystemStatus.Active} autoFocus />
+            <Text paddingVertical="m" focusRef={autoFocusRef}>
+              <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
             </Text>
           </Box>
           <Box marginVertical="m">
