@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {StyleSheet} from 'react-native';
-import {Box, Button} from 'components';
+import {Box, Button, Text} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
@@ -20,17 +20,22 @@ export const MenuBar = () => {
   const [systemStatus] = useSystemStatus();
 
   const appStatus = (
-    <Box>
+    <Text paddingVertical="m">
       <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
+    </Text>
+  );
+  const qrButtonBox = (
+    <Box marginVertical="m">
+      <QrButton />
     </Box>
   );
   return (
-    <Box style={styles.content} paddingVertical="m" paddingHorizontal="m">
+    <Box style={styles.content} paddingHorizontal="m">
       <Box style={styles.box}>
         <Box flex={3} marginRight="m">
-          {qrEnabled ? <QrButton /> : appStatus}
+          {qrEnabled ? qrButtonBox : appStatus}
         </Box>
-        <Box flex={2}>
+        <Box flex={2} marginVertical="m">
           <Button
             text="Menu"
             variant="bigFlatNeutralGrey"
