@@ -25,7 +25,13 @@ describe('MetricsService', () => {
     metricsStorage = new DefaultMetricsStorage(secureKeyValueStore);
     const metricsPublisher: MetricsPublisher = new DefaultMetricsPublisher(metricsStorage);
     metricsProvider = new DefaultMetricsProvider(metricsStorage);
-    const metricsJsonSerializer: MetricsJsonSerializer = new DefaultMetricsJsonSerializer('1.0.0', 'ios', '12.5');
+    const metricsJsonSerializer: MetricsJsonSerializer = new DefaultMetricsJsonSerializer(
+      '1.0.0',
+      'ios',
+      '12.5',
+      'samsung',
+      '11',
+    );
     sut = new DefaultMetricsService(
       secureKeyValueStore,
       metricsPublisher,
