@@ -2,6 +2,12 @@ import {KeyDefinition, StorageType} from './FutureStorageService';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class StorageDirectory {
+  // OutbreakProvider.tsx
+  static readonly OutbreakProviderOutbreaksLastCheckedStorageKey: KeyDefinition = {
+    keyIdentifier: 'A436ED42-707E-11EB-9439-0242AC130002',
+    storageType: StorageType.Secure,
+  };
+
   // MetricsStorage.ts
   static readonly MetricsStorageKey: KeyDefinition = {
     keyIdentifier: 'AE6AE306-523B-4D92-871E-9D13D5CA9B23',
