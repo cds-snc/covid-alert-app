@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {useI18n} from 'locale';
 import {Box, Text, Icon, Button} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {CheckInData} from 'shared/qr';
-import {formatExposedDate} from 'shared/date-fns';
+import {formatExposedDate, formateScannedDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {sortedCheckInArray} from './utils';
@@ -34,13 +34,10 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
   return (
     <>
       {Object.keys(checkIns).map(item => {
-        const dateSplit = item.split('/');
-        const formattedDate = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1]);
-
         return (
           <>
             <Box marginTop="m" paddingBottom="m" key={item}>
-              <Text variant="bodyTitle">{formatExposedDate(formattedDate, dateLocale)}</Text>
+              <Text variant="bodyTitle">{formatExposedDate(formateScannedDate(item), dateLocale)}</Text>
             </Box>
 
             <Box style={styles.radius} backgroundColor="gray5">
@@ -48,7 +45,7 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
                 return (
                   <>
                     <Box
-                      paddingLeft="s"
+                      paddingLeft="m"
                       style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
                       key={data.checkIns.id.concat(index.toString())}
                     >
@@ -119,7 +116,7 @@ export const CheckInHistoryScreen = () => {
 
   return (
     <>
-      <BaseDataSharingView showCloseButton={false}>
+      <BaseDataSharingView>
         <Box paddingHorizontal="m">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
             {i18n.translate('ScannedPlaces.Title')}
@@ -152,6 +149,49 @@ export const CheckInHistoryScreen = () => {
       </BaseDataSharingView>
     </>
   );
+};
+
+const deleteConfirmationAlert = (deleteAll: boolean, id: string) => {
+  const i18n = useI18n();
+  const {deleteScannedPlaces, deleteAllScannedPlaces} = useOutbreakService();
+
+  const deleteSinglePlace = Alert.alert(
+    i18n.translate('ScannedPlaces.Alert.Title'),
+    i18n.translate('ScannedPlaces.Alert.Subtitle'),
+    [
+      {
+        text: i18n.translate('ScannedPlaces.Alert.Cancel'),
+        onPress: () => {},
+      },
+      {
+        text: i18n.translate('ScannedPlaces.Alert.Confirm'),
+        onPress: () => {
+          deleteScannedPlaces(id);
+        },
+        style: 'cancel',
+      },
+    ],
+  );
+
+  const deleteAllPlaces = Alert.alert(
+    i18n.translate('ScannedPlaces.Alert.TitleDeleteAll'),
+    i18n.translate('ScannedPlaces.Alert.Subtitle'),
+    [
+      {
+        text: i18n.translate('ScannedPlaces.Alert.Cancel'),
+        onPress: () => {},
+      },
+      {
+        text: i18n.translate('ScannedPlaces.Alert.Confirm'),
+        onPress: () => {
+          deleteAllScannedPlaces();
+        },
+        style: 'cancel',
+      },
+    ],
+  );
+
+  return deleteAll ? deleteAllPlaces : deleteSinglePlace;
 };
 
 const styles = StyleSheet.create({
