@@ -18,7 +18,19 @@ export class FilteredMetricsService {
 
   static sharedInstance(): FilteredMetricsService {
     if (!this.instance) {
-      this.instance = new this();
+      const [manufacturer, androidReleaseVersion] = getManufacturerAndAndroidReleaseVersion();
+      this.instance = new this(
+        DefaultMetricsService.initialize(
+          new DefaultMetricsJsonSerializer(
+            String(APP_VERSION_CODE),
+            Platform.OS,
+            String(Platform.Version),
+            manufacturer,
+            androidReleaseVersion,
+          ),
+        ),
+        new DefaultMetricsFilter(new DefaultSecureKeyValueStore()),
+      );
     }
     return this.instance;
   }
@@ -28,18 +40,10 @@ export class FilteredMetricsService {
 
   private serialPromiseQueue: PQueue;
 
-  private constructor() {
-    const [manufacturer, androidReleaseVersion] = getManufacturerAndAndroidReleaseVersion();
-    this.metricsService = DefaultMetricsService.initialize(
-      new DefaultMetricsJsonSerializer(
-        String(APP_VERSION_CODE),
-        Platform.OS,
-        String(Platform.Version),
-        manufacturer,
-        androidReleaseVersion,
-      ),
-    );
-    this.metricsFilter = new DefaultMetricsFilter(new DefaultSecureKeyValueStore());
+  constructor(metricsService: MetricsService, metricsFilter: MetricsFilter) {
+    this.metricsService = metricsService;
+    this.metricsFilter = metricsFilter;
+
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 

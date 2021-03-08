@@ -9,6 +9,7 @@ import {Key} from '../StorageService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {FilteredMetricsService} from '../MetricsService/FilteredMetricsService';
+import {EventTypeMetric} from '../MetricsService';
 
 import {
   ExposureNotificationService,
@@ -1144,6 +1145,62 @@ describe('ExposureNotificationService', () => {
       service.exposureHistory.set([may18.getTime(), may19.getTime(), may20.getTime()]);
       const dates = service.getExposureDetectedAt();
       expect(dates).toStrictEqual([may20, may19, may18]);
+    });
+  });
+
+  describe('testing metrics component', () => {
+    it('updateExposureStatusInBackground publishes BackgroundProcess metric with succeeded state set to true if process has finished successfully', async () => {
+      await service.updateExposureStatusInBackground();
+      expect(filteredMetricsService.addEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EventTypeMetric.BackgroundProcess,
+          succeeded: true,
+        }),
+      );
+    });
+
+    it('updateExposureStatusInBackground publishes BackgroundProcess metric with succeeded state set to false if process has failed', async () => {
+      when(storage.getItem)
+        .calledWith(EXPOSURE_STATUS)
+        .mockRejectedValue(new Error('Async error'));
+
+      await service.updateExposureStatusInBackground();
+
+      expect(filteredMetricsService.addEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EventTypeMetric.BackgroundProcess,
+          succeeded: false,
+        }),
+      );
+    });
+
+    it('updateExposureStatusInBackground pushes metrics to the server if process has finished successfully', async () => {
+      await service.updateExposureStatusInBackground();
+      expect(filteredMetricsService.sendDailyMetrics).toHaveBeenCalled();
+    });
+
+    it('updateExposureStatusInBackground pushes metrics to the server if process has failed', async () => {
+      await service.updateExposureStatusInBackground();
+      expect(filteredMetricsService.sendDailyMetrics).toHaveBeenCalled();
+    });
+
+    it('performExposureStatusUpdate publishes BackgroundCheck event', async () => {
+      await service.performExposureStatusUpdate();
+      expect(filteredMetricsService.addEvent).toHaveBeenCalledWith({type: EventTypeMetric.BackgroundCheck});
+    });
+
+    it('setExposureDetectedAt publishes Exposed event', async () => {
+      await service.setExposureDetectedAt(
+        {
+          attenuationDurations: [],
+          daysSinceLastExposure: 0,
+          lastExposureTimestamp: 0,
+          matchedKeyCount: 0,
+          maximumRiskScore: 0,
+        },
+        0,
+      );
+      expect(filteredMetricsService.addEvent).toHaveBeenCalledWith({type: EventTypeMetric.Exposed});
     });
   });
 });
