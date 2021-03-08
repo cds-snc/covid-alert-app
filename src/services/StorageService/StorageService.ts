@@ -17,6 +17,7 @@ export enum Key {
   HasViewedQrInstructions = 'HasViewedQRInstructions',
   QrEnabled = 'QrEnabled',
 }
+
 export class StorageService {
   isOnboarding: Observable<boolean>;
   locale: Observable<string>;
