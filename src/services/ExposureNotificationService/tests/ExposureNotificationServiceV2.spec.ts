@@ -6,9 +6,10 @@ import {
   Infectiousness,
   ReportType,
   ScanInstance,
-} from '../../bridge/ExposureNotification';
-
-import {ExposureNotificationService} from './ExposureNotificationService';
+} from '../../../bridge/ExposureNotification';
+import {FilteredMetricsService} from '../../MetricsService';
+import {FutureStorageService} from '../../StorageService';
+import {ExposureNotificationService} from '../ExposureNotificationService';
 
 jest.mock('react-native-system-setting', () => {
   return {
@@ -32,12 +33,12 @@ jest.mock('react-native-permissions', () => {
   return {checkNotifications: jest.fn(), requestNotifications: jest.fn()};
 });
 
-jest.mock('../../bridge/CovidShield', () => ({
+jest.mock('../../../bridge/CovidShield', () => ({
   getRandomBytes: jest.fn().mockResolvedValue(new Uint8Array(32)),
   downloadDiagnosisKeysFile: jest.fn(),
 }));
 
-jest.mock('../../bridge/ExposureCheckScheduler', () => ({
+jest.mock('../../../bridge/ExposureCheckScheduler', () => ({
   scheduleExposureCheck: jest.fn(),
   executeExposureCheck: jest.fn(),
 }));
@@ -48,16 +49,25 @@ const server: any = {
   claimOneTimeCode: jest.fn(),
   reportDiagnosisKeys: jest.fn(),
 };
+
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
 };
+
 const storage: any = {
   getItem: jest.fn().mockResolvedValue(null),
   setItem: jest.fn().mockResolvedValueOnce(undefined),
 };
-const secureStorage: any = {
-  get: jest.fn().mockResolvedValue(null),
-  set: jest.fn().mockResolvedValueOnce(undefined),
+
+const storageService: FutureStorageService = {
+  retrieve: jest.fn().mockResolvedValue(null),
+  save: jest.fn().mockResolvedValueOnce(undefined),
+  delete: jest.fn(),
+};
+
+const filteredMetricsService: FilteredMetricsService = {
+  addEvent: jest.fn().mockReturnValue(Promise.resolve()),
+  sendDailyMetrics: jest.fn().mockReturnValue(Promise.resolve()),
 };
 
 const getScanInstance = (typicalAttenuation = 60, seconds = 120) => {
@@ -91,7 +101,7 @@ describe('ExposureNotificationService', () => {
   let service: ExposureNotificationService;
 
   beforeEach(() => {
-    service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge);
+    service = new ExposureNotificationService(server, i18n, storage, storageService, bridge, filteredMetricsService);
     Platform.OS = 'ios';
   });
 

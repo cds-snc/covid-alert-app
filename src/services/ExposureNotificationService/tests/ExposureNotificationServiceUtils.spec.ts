@@ -1,6 +1,6 @@
 import {PlatformAndroidStatic, PlatformIOSStatic} from 'react-native';
 
-import {doesPlatformSupportV2} from './ExposureNotificationServiceUtils';
+import {doesPlatformSupportV2} from '../ExposureNotificationServiceUtils';
 
 describe('ExposureNotificationServiceUtils', () => {
   describe('doesPlatformSupportV2', () => {

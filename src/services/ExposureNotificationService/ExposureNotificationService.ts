@@ -34,7 +34,7 @@ import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
-import {Key} from '../StorageService';
+import {FutureStorageService, Key, StorageDirectory} from '../StorageService';
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
@@ -42,10 +42,7 @@ import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 import {doesPlatformSupportV2} from './ExposureNotificationServiceUtils';
 
-const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
 const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
-
-export const EXPOSURE_HISTORY = 'exposureHistory';
 
 export const EXPOSURE_STATUS = 'exposureStatus';
 
@@ -102,15 +99,6 @@ export interface PersistencyProvider {
   getItem(key: string): Promise<string | null>;
 }
 
-export interface SecurePersistencyProvider {
-  set(key: string, value: string, options: SecureStorageOptions): Promise<null>;
-  get(key: string): Promise<string | null>;
-}
-
-export interface SecureStorageOptions {
-  accessible?: string;
-}
-
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: MapObservable<ExposureStatus>;
@@ -131,7 +119,7 @@ export class ExposureNotificationService {
 
   private i18n: I18n;
   private storage: PersistencyProvider;
-  private secureStorage: SecurePersistencyProvider;
+  private storageService: FutureStorageService;
 
   private filteredMetricsService: FilteredMetricsService;
 
@@ -139,7 +127,7 @@ export class ExposureNotificationService {
     backendInterface: BackendInterface,
     i18n: I18n,
     storage: PersistencyProvider,
-    secureStorage: SecurePersistencyProvider,
+    storageService: FutureStorageService,
     exposureNotification: typeof ExposureNotification,
     filteredMetricsService: FilteredMetricsService,
   ) {
@@ -150,13 +138,13 @@ export class ExposureNotificationService {
     this.exposureHistory = new Observable<number[]>([]);
     this.backendInterface = backendInterface;
     this.storage = storage;
-    this.secureStorage = secureStorage;
+    this.storageService = storageService;
     this.filteredMetricsService = filteredMetricsService;
     this.exposureStatus.observe(status => {
       this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
     });
     this.exposureHistory.observe(history => {
-      this.secureStorage.set(EXPOSURE_HISTORY, history.join(','), {});
+      this.storageService.save(StorageDirectory.ExposureNotificationServiceExposureHistoryKey, history.join(','));
     });
 
     if (Platform.OS === 'android') {
@@ -424,7 +412,7 @@ export class ExposureNotificationService {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
     try {
-      await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
+      await this.storageService.save(StorageDirectory.ExposureNotificationServiceSubmissionAuthKeysKey, serialized);
     } catch (error) {
       captureException('Unable to store SUBMISSION_AUTH_KEYS', error);
     }
@@ -439,7 +427,9 @@ export class ExposureNotificationService {
   }
 
   async fetchAndSubmitKeys(contagiousDateInfo: ContagiousDateInfo): Promise<void> {
-    const submissionKeysStr = await this.secureStorage.get(SUBMISSION_AUTH_KEYS);
+    const submissionKeysStr = await this.storageService.retrieve(
+      StorageDirectory.ExposureNotificationServiceSubmissionAuthKeysKey,
+    );
     if (!submissionKeysStr) {
       throw new Error('Submission keys: bad certificate');
     }
@@ -950,7 +940,9 @@ export class ExposureNotificationService {
 
   private async loadExposureHistory() {
     try {
-      const _exposureHistory = await this.secureStorage.get(EXPOSURE_HISTORY);
+      const _exposureHistory = await this.storageService.retrieve(
+        StorageDirectory.ExposureNotificationServiceExposureHistoryKey,
+      );
       if (!_exposureHistory) {
         log.debug({message: "'Unable to retrieve EXPOSURE_HISTORY"});
         return;

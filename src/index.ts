@@ -4,7 +4,6 @@
 import 'react-native-gesture-handler';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RNSecureKeyStore from 'react-native-secure-key-store';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL} from 'env';
 import {AppRegistry, LogBox, Platform} from 'react-native';
@@ -15,7 +14,7 @@ import {createBackgroundI18n} from 'locale';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 
-import {createStorageService} from './services/StorageService';
+import {createStorageService, DefaultFutureStorageService} from './services/StorageService';
 import App from './App';
 
 AppRegistry.registerComponent('CovidShield', () => App);
@@ -31,7 +30,7 @@ if (Platform.OS === 'android') {
       backendService,
       i18n,
       AsyncStorage,
-      RNSecureKeyStore,
+      DefaultFutureStorageService.sharedInstance(),
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
     );
@@ -50,7 +49,7 @@ if (Platform.OS === 'android') {
       backendService,
       i18n,
       AsyncStorage,
-      RNSecureKeyStore,
+      DefaultFutureStorageService.sharedInstance(),
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
     );
