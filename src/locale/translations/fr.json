@@ -164,7 +164,7 @@
     "EnUnauthorizedCardAction": "Activer Alerte COVID",
     "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions ».",
     "ShareDiagnosisCode": {
-      "CtaReport": "Signaler un test positif",
+      "CtaReport": "Entrer une clé à usage unique",
       "CtaFinish": "Finir le partage d’expositions"
     }
   },
@@ -176,7 +176,7 @@
     "LearnMore": "Fonctionnement",
     "Help": "Aide et questions fréquentes",
     "HelpUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html",
-    "GetCode": "Comment obtenir une clé",
+    "GetCode": "Obtenir une clé à usage unique",
     "ChangeLanguage": "Modifier la langue",
     "ToggleCovidAlert": {
       "TurnOff": "Désactiver Alerte COVID",

@@ -164,7 +164,7 @@
     "EnUnauthorizedCardAction": "Enable COVID Alert",
     "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\".",
     "ShareDiagnosisCode": {
-      "CtaReport": "Report your positive test",
+      "CtaReport": "Enter your one-time key",
       "CtaFinish": "Finish sharing exposures"
     }
   },
@@ -176,7 +176,7 @@
     "LearnMore": "How it works",
     "Help": "Help",
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
-    "GetCode": "How to get a one-time key",
+    "GetCode": "Get a one-time key",
     "ChangeLanguage": "Change language",
     "ToggleCovidAlert": {
       "TurnOff": "Turn off COVID Alert",
