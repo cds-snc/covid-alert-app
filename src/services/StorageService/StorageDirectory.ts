@@ -19,6 +19,12 @@ export class StorageDirectory {
     storageType: StorageType.Secure,
   };
 
+  // PollNotificationService.ts
+  static readonly PollNotificationServiceLastPollNotificationDateTimeKey: KeyDefinition = {
+    keyIdentifier: 'LastPollNotificationDateTimeKey',
+    storageType: StorageType.Secure,
+  };
+
   // MetricsStorage.ts
   static readonly MetricsStorageKey: KeyDefinition = {
     keyIdentifier: 'AE6AE306-523B-4D92-871E-9D13D5CA9B23',

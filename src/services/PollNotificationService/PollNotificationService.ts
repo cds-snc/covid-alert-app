@@ -3,15 +3,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {APP_VERSION_NAME, NOTIFICATION_FEED_URL, TEST_MODE} from 'env';
 import semver from 'semver';
 import {log} from 'shared/logging/config';
-import RNSecureKeyStore, {ACCESSIBLE} from 'react-native-secure-key-store';
 import {getCurrentDate, minutesBetween} from 'shared/date-fns';
 import {I18n} from 'locale';
+import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
 
 import {NotificationMessage} from './types';
 
 const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
 const ETAG_STORAGE_KEY = 'NotificationsEtag';
-const LastPollNotificationDateTime = 'LastPollNotificationDateTimeKey';
 
 // 24 hours
 const MIN_POLL_NOTIFICATION_MINUTES = TEST_MODE ? 2 : 60 * 24;
@@ -197,14 +196,17 @@ const shouldPollNotifications = (lastPollNotificationDateTime: Date | null): boo
   return minutesSinceLastPollNotification > MIN_POLL_NOTIFICATION_MINUTES;
 };
 
-const getLastPollNotificationDateTime = async (): Promise<any> => {
-  return RNSecureKeyStore.get(LastPollNotificationDateTime).catch(() => null);
+const getLastPollNotificationDateTime = async (): Promise<Date | null> => {
+  return DefaultFutureStorageService.sharedInstance()
+    .retrieve(StorageDirectory.PollNotificationServiceLastPollNotificationDateTimeKey)
+    .then(value => (value ? new Date(Number(value)) : null));
 };
 
 const markLastPollDateTime = async (date: Date): Promise<void> => {
-  return RNSecureKeyStore.set(LastPollNotificationDateTime, `${date.getTime()}`, {
-    accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
-  }).catch(() => null);
+  return DefaultFutureStorageService.sharedInstance().save(
+    StorageDirectory.PollNotificationServiceLastPollNotificationDateTimeKey,
+    `${date.getTime()}`,
+  );
 };
 
 export const PollNotifications = {
