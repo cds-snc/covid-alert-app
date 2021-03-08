@@ -75,15 +75,15 @@ export const MenuScreen = () => {
 
           <Box marginBottom="m" testID="InfoShareViewID">
             <InfoShareItem
+              text={i18n.translate('Info.GetCode')}
               testID="getCodeButton"
               onPress={onGetCode}
-              text={i18n.translate('Info.GetCode')}
               icon="icon-chevron"
             />
 
             <InfoShareItem
-              onPress={onExposedHelp}
               text={i18n.translate('Home.ExposedHelpCTA')}
+              onPress={onExposedHelp}
               icon={regionIcon}
               accessibilityRole="link"
               accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate(
@@ -92,8 +92,8 @@ export const MenuScreen = () => {
             />
 
             <InfoShareItem
-              onPress={onHelp}
               text={i18n.translate('Info.Help')}
+              onPress={onHelp}
               icon="icon-external-arrow"
               accessibilityRole="link"
               accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
@@ -107,12 +107,12 @@ export const MenuScreen = () => {
           </Box>
           <Box marginBottom="m">
             <InfoShareItem
-              onPress={onRegion}
               text={i18n.translate('Info.ChangeRegion')}
+              onPress={onRegion}
               icon="icon-chevron"
               testID="changeRegion"
             />
-            <InfoShareItem onPress={onLanguage} text={i18n.translate('Info.ChangeLanguage')} icon="icon-chevron" />
+            <InfoShareItem text={i18n.translate('Info.ChangeLanguage')} onPress={onLanguage} icon="icon-chevron" />
           </Box>
 
           <Box marginTop="m" marginBottom="s">
@@ -121,13 +121,13 @@ export const MenuScreen = () => {
             </Text>
           </Box>
           <Box marginBottom="l">
-            <InfoShareItem onPress={onLearnMore} text={i18n.translate('Info.LearnMore')} icon="icon-chevron" />
+            <InfoShareItem text={i18n.translate('Info.LearnMore')} onPress={onLearnMore} icon="icon-chevron" />
             <InfoShareItem
+              text={i18n.translate('Info.Privacy')}
               icon="icon-external-arrow"
               accessibilityRole="link"
               onPress={onPrivacy}
               accessibilityHint={`${i18n.translate('Info.Privacy')} . ${i18n.translate('Home.ExternalLinkHint')}`}
-              text={i18n.translate('Info.Privacy')}
             />
           </Box>
           <Box paddingBottom="l">
