@@ -4,9 +4,8 @@ import PQueue from 'p-queue';
 import {Platform} from 'react-native';
 import {Status} from 'shared/NotificationPermissionStatus';
 import {SystemStatus} from 'services/ExposureNotificationService';
-import {Key} from 'services/StorageService';
+import {DefaultFutureStorageService, Key} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';
-import {SecureKeyValueStore} from 'services/StorageService/KeyValueStore';
 
 import {Metric} from './Metric';
 import {DefaultMetricsFilter, EventTypeMetric, EventWithContext, MetricsFilter} from './MetricsFilter';
@@ -30,7 +29,7 @@ export class FilteredMetricsService {
             androidReleaseVersion,
           ),
         ),
-        new DefaultMetricsFilter(new SecureKeyValueStore()),
+        new DefaultMetricsFilter(DefaultFutureStorageService.sharedInstance()),
       );
     }
     return this.instance;

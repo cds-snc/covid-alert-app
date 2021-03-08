@@ -8,7 +8,8 @@ import {DefaultMetricsJsonSerializer, MetricsJsonSerializer} from '../MetricsJso
 import {MetricsPusher, MetricsPusherResult} from '../MetricsPusher';
 import {Metric} from '../Metric';
 // eslint-disable-next-line @shopify/strict-component-boundaries
-import {KeyValueStoreMock} from '../../StorageService/tests/KeyValueStoreMock';
+import {StorageServiceMock} from '../../StorageService/tests/StorageServiceMock';
+import {FutureStorageService} from '../../StorageService';
 
 import {MetricFactory} from './MetricFactory';
 
@@ -23,8 +24,8 @@ describe('MetricsService', () => {
   let metricsProvider: MetricsProvider;
 
   beforeEach(() => {
-    const secureKeyValueStore: SecureKeyValueStore = new KeyValueStoreMock();
-    metricsStorage = new DefaultMetricsStorage(secureKeyValueStore);
+    const storageService: FutureStorageService = new StorageServiceMock();
+    metricsStorage = new DefaultMetricsStorage(storageService);
     const metricsPublisher: MetricsPublisher = new DefaultMetricsPublisher(metricsStorage);
     metricsProvider = new DefaultMetricsProvider(metricsStorage);
     const metricsJsonSerializer: MetricsJsonSerializer = new DefaultMetricsJsonSerializer(
@@ -36,7 +37,7 @@ describe('MetricsService', () => {
       '11',
     );
     sut = new DefaultMetricsService(
-      secureKeyValueStore,
+      storageService,
       metricsPublisher,
       metricsProvider,
       metricsStorage,
