@@ -5,9 +5,7 @@ import {Key} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {useI18nRef, I18n} from 'locale';
 import PQueue from 'p-queue';
-
-// eslint-disable-next-line @shopify/strict-component-boundaries
-import {DefaultSecureKeyValueStore, SecureKeyValueStore} from '../services/MetricsService/SecureKeyValueStorage';
+import {KeyValueStore, SecureKeyValueStore} from 'services/StorageService/KeyValueStore';
 
 import {Observable} from './Observable';
 import {
@@ -39,7 +37,7 @@ export class OutbreakService implements OutbreakService {
   outbreakHistory: Observable<OutbreakHistoryItem[]>;
   checkInHistory: Observable<CheckInData[]>;
   i18n: I18n;
-  secureKeyValueStore: SecureKeyValueStore;
+  keyValueStore: KeyValueStore;
 
   private serialPromiseQueue: PQueue;
 
@@ -47,7 +45,7 @@ export class OutbreakService implements OutbreakService {
     this.outbreakHistory = new Observable<OutbreakHistoryItem[]>([]);
     this.checkInHistory = new Observable<CheckInData[]>([]);
     this.i18n = i18n;
-    this.secureKeyValueStore = new DefaultSecureKeyValueStore();
+    this.keyValueStore = new SecureKeyValueStore();
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 
@@ -134,13 +132,13 @@ export class OutbreakService implements OutbreakService {
   };
 
   private getOutbreaksLastCheckedDateTime(): Promise<Date | null> {
-    return this.secureKeyValueStore
+    return this.keyValueStore
       .retrieve(OutbreaksLastCheckedStorageKey)
       .then(value => (value ? new Date(Number(value)) : null));
   }
 
   private markOutbreaksLastCheckedDateTime(date: Date): Promise<void> {
-    return this.secureKeyValueStore.save(OutbreaksLastCheckedStorageKey, `${date.getTime()}`);
+    return this.keyValueStore.save(OutbreaksLastCheckedStorageKey, `${date.getTime()}`);
   }
 }
 

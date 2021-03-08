@@ -1,8 +1,8 @@
 import PQueue from 'p-queue';
 import {log} from 'shared/logging/config';
+import {KeyValueStore} from 'services/StorageService/KeyValueStore';
 
 import {Metric} from './Metric';
-import {SecureKeyValueStore} from './SecureKeyValueStorage';
 
 const MetricsStorageKeyValueUniqueIdentifier = 'AE6AE306-523B-4D92-871E-9D13D5CA9B23';
 
@@ -19,11 +19,11 @@ export interface MetricsStorageCleaner {
 }
 
 export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStorageReader, MetricsStorageCleaner {
-  private keyValueStore: SecureKeyValueStore;
+  private keyValueStore: KeyValueStore;
   private serialPromiseQueue: PQueue;
 
-  constructor(secureKeyValueStore: SecureKeyValueStore) {
-    this.keyValueStore = secureKeyValueStore;
+  constructor(keyValueStore: KeyValueStore) {
+    this.keyValueStore = keyValueStore;
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 

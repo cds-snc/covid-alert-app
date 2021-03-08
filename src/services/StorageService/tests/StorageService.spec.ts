@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {StorageService, Key, createStorageService} from './StorageService';
+import {StorageService, Key, createStorageService} from '../StorageService';
 
 jest.mock('react-native-localize', () => ({
   getLocales: () => [{countryCode: 'US', languageTag: 'en-US', langaugeCode: 'en', isRTL: false}],

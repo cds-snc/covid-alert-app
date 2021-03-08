@@ -6,12 +6,12 @@ import {Status} from 'shared/NotificationPermissionStatus';
 import {SystemStatus} from 'services/ExposureNotificationService';
 import {Key} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';
+import {SecureKeyValueStore} from 'services/StorageService/KeyValueStore';
 
 import {Metric} from './Metric';
 import {DefaultMetricsFilter, EventTypeMetric, EventWithContext, MetricsFilter} from './MetricsFilter';
 import {DefaultMetricsJsonSerializer} from './MetricsJsonSerializer';
 import {DefaultMetricsService, MetricsService} from './MetricsService';
-import {DefaultSecureKeyValueStore} from './SecureKeyValueStorage';
 
 export class FilteredMetricsService {
   private static instance: FilteredMetricsService;
@@ -30,7 +30,7 @@ export class FilteredMetricsService {
             androidReleaseVersion,
           ),
         ),
-        new DefaultMetricsFilter(new DefaultSecureKeyValueStore()),
+        new DefaultMetricsFilter(new SecureKeyValueStore()),
       );
     }
     return this.instance;

@@ -1,6 +1,5 @@
 import {getCurrentDate} from 'shared/date-fns';
-
-import {SecureKeyValueStore} from './SecureKeyValueStorage';
+import {KeyValueStore} from 'services/StorageService/KeyValueStore';
 
 const InstalledEventMarkerKeyValueUniqueIdentifier = 'A607DDBD-D592-4927-8861-DD1CCEDA8E76';
 const OnboardedEventMarkerKeyValueUniqueIdentifier = '0429518A-9D4D-4EB2-A5A8-AEA985DEB1D7';
@@ -23,10 +22,10 @@ export interface MetricsFilterStateStorage {
 }
 
 export class DefaultMetricsFilterStateStorage implements MetricsFilterStateStorage {
-  private keyValueStore: SecureKeyValueStore;
+  private keyValueStore: KeyValueStore;
 
-  constructor(secureKeyValueStore: SecureKeyValueStore) {
-    this.keyValueStore = secureKeyValueStore;
+  constructor(keyValueStore: KeyValueStore) {
+    this.keyValueStore = keyValueStore;
   }
 
   markInstalledEventAsPublished(): Promise<void> {

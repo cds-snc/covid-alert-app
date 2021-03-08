@@ -2,6 +2,7 @@ import {METRICS_API_KEY, METRICS_URL} from 'env';
 import PQueue from 'p-queue';
 import {log} from 'shared/logging/config';
 import {daysBetweenUTC, getCurrentDate} from 'shared/date-fns';
+import {KeyValueStore, SecureKeyValueStore} from 'services/StorageService/KeyValueStore';
 
 import {Metric} from './Metric';
 import {MetricsJsonSerializer} from './MetricsJsonSerializer';
@@ -9,7 +10,6 @@ import {DefaultMetricsProvider, MetricsProvider} from './MetricsProvider';
 import {DefaultMetricsPublisher, MetricsPublisher} from './MetricsPublisher';
 import {DefaultMetricsPusher, MetricsPusher, MetricsPusherResult} from './MetricsPusher';
 import {DefaultMetricsStorage, MetricsStorageCleaner} from './MetricsStorage';
-import {DefaultSecureKeyValueStore, SecureKeyValueStore} from './SecureKeyValueStorage';
 import {InactiveMetricsService} from './InactiveMetricsService';
 
 const LastMetricTimestampSentToTheServerUniqueIdentifier = '3FFE2346-1910-4FD7-A23F-52D83CFF083A';
@@ -34,7 +34,7 @@ enum TriggerPushResult {
 export class DefaultMetricsService implements MetricsService {
   static initialize(metricsJsonSerializer: MetricsJsonSerializer): MetricsService {
     if (METRICS_URL) {
-      const secureKeyValueStore = new DefaultSecureKeyValueStore();
+      const secureKeyValueStore = new SecureKeyValueStore();
       const metricsStorage = new DefaultMetricsStorage(secureKeyValueStore);
       const metricsPublisher = new DefaultMetricsPublisher(metricsStorage);
       const metricsProvider = new DefaultMetricsProvider(metricsStorage);
@@ -52,7 +52,7 @@ export class DefaultMetricsService implements MetricsService {
     }
   }
 
-  private secureKeyValueStore: SecureKeyValueStore;
+  private keyValueStore: KeyValueStore;
   private metricsPublisher: MetricsPublisher;
   private metricsProvider: MetricsProvider;
   private metricsStorageCleaner: MetricsStorageCleaner;
@@ -62,14 +62,14 @@ export class DefaultMetricsService implements MetricsService {
   private serialPromiseQueue: PQueue;
 
   constructor(
-    secureKeyValueStore: SecureKeyValueStore,
+    keyValueStore: KeyValueStore,
     metricsPublisher: MetricsPublisher,
     metricsProvider: MetricsProvider,
     metricsStorageCleaner: MetricsStorageCleaner,
     metricsJsonSerializer: MetricsJsonSerializer,
     metricsPusher: MetricsPusher,
   ) {
-    this.secureKeyValueStore = secureKeyValueStore;
+    this.keyValueStore = keyValueStore;
     this.metricsPublisher = metricsPublisher;
     this.metricsProvider = metricsProvider;
     this.metricsStorageCleaner = metricsStorageCleaner;
@@ -166,22 +166,22 @@ export class DefaultMetricsService implements MetricsService {
   }
 
   private getLastMetricTimestampSentToTheServer(): Promise<number | null> {
-    return this.secureKeyValueStore
+    return this.keyValueStore
       .retrieve(LastMetricTimestampSentToTheServerUniqueIdentifier)
       .then(value => (value ? Number(value) : null));
   }
 
   private markLastMetricTimestampSentToTheServer(timestamp: number): Promise<void> {
-    return this.secureKeyValueStore.save(LastMetricTimestampSentToTheServerUniqueIdentifier, `${timestamp}`);
+    return this.keyValueStore.save(LastMetricTimestampSentToTheServerUniqueIdentifier, `${timestamp}`);
   }
 
   private getMetricsLastUploadedDateTime(): Promise<Date | null> {
-    return this.secureKeyValueStore
+    return this.keyValueStore
       .retrieve(MetricsLastUploadedDateTime)
       .then(value => (value ? new Date(Number(value)) : null));
   }
 
   private markMetricsLastUploadedDateTime(date: Date): Promise<void> {
-    return this.secureKeyValueStore.save(MetricsLastUploadedDateTime, `${date.getTime()}`);
+    return this.keyValueStore.save(MetricsLastUploadedDateTime, `${date.getTime()}`);
   }
 }
