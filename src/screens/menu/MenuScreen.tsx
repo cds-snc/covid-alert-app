@@ -37,6 +37,7 @@ export const MenuScreen = () => {
   }, [i18n]);
 
   const regionIcon = region !== undefined && region !== 'None' ? 'icon-external-arrow' : 'icon-chevron';
+  const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 
   const onExposedHelp = useCallback(() => {
     if (region !== undefined && region !== 'None') {
@@ -113,6 +114,11 @@ export const MenuScreen = () => {
               testID="changeRegion"
             />
             <InfoShareItem text={i18n.translate('Info.ChangeLanguage')} onPress={onLanguage} icon="icon-chevron" />
+            <InfoShareItem
+              onPress={goToCheckInHistory}
+              text={i18n.translate('Info.ScannedPlaces')}
+              icon="icon-chevron"
+            />
           </Box>
 
           <Box marginTop="m" marginBottom="s">
