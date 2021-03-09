@@ -71,6 +71,16 @@ export class StorageDirectory {
   };
 
   // OutbreakProvider.tsx
+  static readonly OutbreakServiceOutbreakHistoryKey: KeyDefinition = {
+    keyIdentifier: 'OutbreakHistory',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly OutbreakServiceCheckInHistoryKey: KeyDefinition = {
+    keyIdentifier: 'CheckInHistory',
+    storageType: StorageType.Unsecure,
+  };
+
   static readonly OutbreakProviderOutbreaksLastCheckedStorageKey: KeyDefinition = {
     keyIdentifier: 'A436ED42-707E-11EB-9439-0242AC130002',
     storageType: StorageType.Secure,

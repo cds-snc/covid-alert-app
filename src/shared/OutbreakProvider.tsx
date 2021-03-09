@@ -1,5 +1,4 @@
 import {TEST_MODE} from 'env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {DefaultFutureStorageService, FutureStorageService, StorageDirectory} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
@@ -18,9 +17,6 @@ import {
 import {createCancellableCallbackPromise} from './cancellablePromise';
 import {getCurrentDate, minutesBetween} from './date-fns';
 import {log} from './logging/config';
-
-const CheckInHistory = 'CheckInHistory';
-const OutbreakHistory = 'OutbreakHistory';
 
 const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 
@@ -50,40 +46,51 @@ export class OutbreakService implements OutbreakService {
   }
 
   clearOutbreakHistory = async () => {
-    await AsyncStorage.setItem(OutbreakHistory, JSON.stringify([]));
+    await this.storageService.save(StorageDirectory.OutbreakServiceOutbreakHistoryKey, JSON.stringify([]));
     this.outbreakHistory.set([]);
   };
 
   addToOutbreakHistory = async (value: OutbreakHistoryItem[]) => {
-    const _outbreakHistory = (await AsyncStorage.getItem(OutbreakHistory)) || '[]';
+    const _outbreakHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';
     const outbreakHistory = JSON.parse(_outbreakHistory);
     const newOutbreakHistory = outbreakHistory.concat(value);
-    await AsyncStorage.setItem(OutbreakHistory, JSON.stringify(newOutbreakHistory));
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
+      JSON.stringify(newOutbreakHistory),
+    );
     this.outbreakHistory.set(newOutbreakHistory);
   };
 
   addCheckIn = async (value: CheckInData) => {
-    const _checkInHistory = (await AsyncStorage.getItem(CheckInHistory)) || '[]';
+    const _checkInHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     const checkInHistory = JSON.parse(_checkInHistory);
     checkInHistory.push(value);
-    await AsyncStorage.setItem(CheckInHistory, JSON.stringify(checkInHistory));
+    await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify(checkInHistory));
     this.checkInHistory.set(checkInHistory);
   };
 
   removeCheckIn = async () => {
     // removes most recent Check In
-    const _checkInHistory = (await AsyncStorage.getItem(CheckInHistory)) || '[]';
+    const _checkInHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     const checkInHistory = JSON.parse(_checkInHistory);
     const newCheckInHistory = checkInHistory.slice(0, -1);
-    await AsyncStorage.setItem(CheckInHistory, JSON.stringify(newCheckInHistory));
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceCheckInHistoryKey,
+      JSON.stringify(newCheckInHistory),
+    );
     this.checkInHistory.set(newCheckInHistory);
   };
 
   init = async () => {
-    const outbreakHistory = (await AsyncStorage.getItem(OutbreakHistory)) || '[]';
+    const outbreakHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';
     this.outbreakHistory.set(JSON.parse(outbreakHistory));
 
-    const checkInHistory = (await AsyncStorage.getItem(CheckInHistory)) || '[]';
+    const checkInHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 
