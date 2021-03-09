@@ -14,7 +14,6 @@ import {
   ExposureNotificationService,
   ExposureStatus,
   ExposureStatusType,
-  EXPOSURE_STATUS,
   HOURS_PER_PERIOD,
   SystemStatus,
 } from '../ExposureNotificationService';
@@ -71,11 +70,6 @@ const server: any = {
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
-};
-
-const storage: any = {
-  getItem: jest.fn().mockResolvedValue(null),
-  setItem: jest.fn().mockResolvedValueOnce(undefined),
 };
 
 const bridge: any = {
@@ -183,11 +177,11 @@ describe('ExposureNotificationService', () => {
   };
 
   beforeEach(() => {
-    service = new ExposureNotificationService(server, i18n, storage, storageService, bridge, filteredMetricsService);
+    service = new ExposureNotificationService(server, i18n, storageService, bridge, filteredMetricsService);
     Platform.OS = 'ios';
     service.systemStatus.set(SystemStatus.Active);
-    when(storage.getItem)
-      .calledWith(StorageDirectory.GlobalOnboardedDatetimeKey.keyIdentifier)
+    when(storageService.retrieve)
+      .calledWith(StorageDirectory.GlobalOnboardedDatetimeKey)
       .mockResolvedValue(today.getTime());
 
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
@@ -446,8 +440,7 @@ describe('ExposureNotificationService', () => {
     expect(server.getExposureConfiguration).toHaveBeenCalledTimes(1);
   });
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('stores last update timestamp', async () => {
+  it('stores last update timestamp', async () => {
     const currentDatetime = new OriginalDate('2020-05-19T07:10:00+0000');
     dateSpy.mockImplementation((args: any) => {
       if (args === undefined) return currentDatetime;
@@ -466,8 +459,8 @@ describe('ExposureNotificationService', () => {
 
     await service.updateExposureStatus();
 
-    expect(storage.setItem).toHaveBeenCalledWith(
-      EXPOSURE_STATUS,
+    expect(storageService.save).toHaveBeenCalledWith(
+      StorageDirectory.ExposureNotificationServiceExposureStatusKey,
       expect.jsonStringContaining({
         lastChecked: {
           timestamp: currentDatetime.getTime(),
@@ -495,8 +488,8 @@ describe('ExposureNotificationService', () => {
   });
 
   it('restores "diagnosed" status from storage', async () => {
-    when(storage.getItem)
-      .calledWith(EXPOSURE_STATUS)
+    when(storageService.retrieve)
+      .calledWith(StorageDirectory.ExposureNotificationServiceExposureStatusKey)
       .mockResolvedValueOnce(
         JSON.stringify({
           type: ExposureStatusType.Diagnosed,
@@ -540,8 +533,8 @@ describe('ExposureNotificationService', () => {
       .mockResolvedValueOnce('{}');
     await service.fetchAndSubmitKeys({dateType: 'noDate', date: null});
 
-    expect(storage.setItem).toHaveBeenCalledWith(
-      EXPOSURE_STATUS,
+    expect(storageService.save).toHaveBeenCalledWith(
+      StorageDirectory.ExposureNotificationServiceExposureStatusKey,
       expect.jsonStringContaining({
         submissionLastCompletedAt: new OriginalDate(currentDateString).getTime(),
       }),
@@ -946,8 +939,8 @@ describe('ExposureNotificationService', () => {
 
   describe('shouldPerformExposureCheck', () => {
     it('returns false if not onboarded', async () => {
-      when(storage.getItem)
-        .calledWith(StorageDirectory.GlobalOnboardedDatetimeKey.keyIdentifier)
+      when(storageService.retrieve)
+        .calledWith(StorageDirectory.GlobalOnboardedDatetimeKey)
         .mockResolvedValueOnce(false);
 
       const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
@@ -1178,8 +1171,8 @@ describe('ExposureNotificationService', () => {
     });
 
     it('updateExposureStatusInBackground publishes BackgroundProcess metric with succeeded state set to false if process has failed', async () => {
-      when(storage.getItem)
-        .calledWith(EXPOSURE_STATUS)
+      when(storageService.retrieve)
+        .calledWith(StorageDirectory.ExposureNotificationServiceExposureStatusKey)
         .mockRejectedValue(new Error('Async error'));
 
       await service.updateExposureStatusInBackground();

@@ -60,6 +60,16 @@ export class StorageDirectory {
     storageType: StorageType.Secure,
   };
 
+  static readonly ExposureNotificationServiceExposureStatusKey: KeyDefinition = {
+    keyIdentifier: 'exposureStatus',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly ExposureNotificationServiceExposureConfigurationKey: KeyDefinition = {
+    keyIdentifier: 'exposureConfiguration',
+    storageType: StorageType.Unsecure,
+  };
+
   // OutbreakProvider.tsx
   static readonly OutbreakProviderOutbreaksLastCheckedStorageKey: KeyDefinition = {
     keyIdentifier: 'A436ED42-707E-11EB-9439-0242AC130002',

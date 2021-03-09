@@ -54,11 +54,6 @@ const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
 };
 
-const storage: any = {
-  getItem: jest.fn().mockResolvedValue(null),
-  setItem: jest.fn().mockResolvedValueOnce(undefined),
-};
-
 const storageService: FutureStorageService = {
   retrieve: jest.fn().mockResolvedValue(null),
   save: jest.fn().mockResolvedValueOnce(undefined),
@@ -101,7 +96,7 @@ describe('ExposureNotificationService', () => {
   let service: ExposureNotificationService;
 
   beforeEach(() => {
-    service = new ExposureNotificationService(server, i18n, storage, storageService, bridge, filteredMetricsService);
+    service = new ExposureNotificationService(server, i18n, storageService, bridge, filteredMetricsService);
     Platform.OS = 'ios';
   });
 

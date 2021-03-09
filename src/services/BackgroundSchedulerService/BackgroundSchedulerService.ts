@@ -1,7 +1,6 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {AppRegistry, Platform} from 'react-native';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
@@ -133,7 +132,6 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
       const exposureNotificationService = new ExposureNotificationService(
         backendService,
         i18n,
-        AsyncStorage,
         DefaultFutureStorageService.sharedInstance(),
         ExposureNotification,
         FilteredMetricsService.sharedInstance(),

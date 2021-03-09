@@ -1,5 +1,4 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useI18nRef} from 'locale';
 import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotification';
 import {AppState, AppStateStatus, Platform} from 'react-native';
@@ -14,7 +13,7 @@ import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
 
-import {ExposureNotificationService, ExposureStatus, PersistencyProvider} from './ExposureNotificationService';
+import {ExposureNotificationService, ExposureStatus} from './ExposureNotificationService';
 
 const ExposureNotificationServiceContext = createContext<ExposureNotificationService | undefined>(undefined);
 
@@ -22,7 +21,6 @@ export interface ExposureNotificationServiceProviderProps {
   backendInterface: BackendInterface;
   backgroundScheduler?: typeof BackgroundScheduler;
   exposureNotification?: typeof ExposureNotification;
-  storage?: PersistencyProvider;
   storageService?: FutureStorageService;
   children?: React.ReactElement;
 }
@@ -31,7 +29,6 @@ export const ExposureNotificationServiceProvider = ({
   backendInterface,
   backgroundScheduler = BackgroundScheduler,
   exposureNotification,
-  storage,
   children,
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
@@ -41,12 +38,11 @@ export const ExposureNotificationServiceProvider = ({
       new ExposureNotificationService(
         backendInterface,
         i18n,
-        storage || AsyncStorage,
         DefaultFutureStorageService.sharedInstance(),
         exposureNotification || ExposureNotification,
         FilteredMetricsService.sharedInstance(),
       ),
-    [backendInterface, exposureNotification, i18n, storage],
+    [backendInterface, exposureNotification, i18n],
   );
 
   useEffect(() => {
