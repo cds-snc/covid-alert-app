@@ -1,5 +1,6 @@
 import React, {useCallback, useState, useEffect} from 'react';
 import {TextInput, StyleSheet, ScrollView} from 'react-native';
+import {Switch} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import PushNotification from 'bridge/PushNotification';
@@ -11,7 +12,7 @@ import {
   useReportDiagnosis,
   useUpdateExposureStatus,
 } from 'services/ExposureNotificationService';
-import {APP_VERSION_NAME, APP_VERSION_CODE, QR_ENABLED} from 'env';
+import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 import {captureMessage} from 'shared/log';
 import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
@@ -19,6 +20,8 @@ import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 import {PollNotifications} from 'services/PollNotificationService';
+import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {log} from 'shared/logging/config';
 
 import {RadioButton} from './components/RadioButtons';
 import {MockProvider} from './MockProvider';
@@ -102,9 +105,9 @@ const Content = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
 
-  const {reset} = useStorage();
+  const {reset, qrEnabled, setQrEnabled} = useStorage();
   const {checkForOutbreaks, clearOutbreakHistory} = useOutbreakService();
-
+  const [toggleState, setToggleState] = useState<boolean>(qrEnabled);
   const onClearOutbreak = useCallback(async () => {
     clearOutbreakHistory();
   }, [clearOutbreakHistory]);
@@ -130,6 +133,15 @@ const Content = () => {
   const onPollNotifications = useCallback(async () => {
     await PollNotifications.checkForNotifications(i18n);
   }, [i18n]);
+
+  const onDebugMetrics = useCallback(async () => {
+    const payload = await FilteredMetricsService.sharedInstance().retrieveAllMetricsInStorage();
+    log.debug({
+      category: 'metrics',
+      message: 'debug metrics',
+      payload,
+    });
+  }, []);
 
   const exposureNotificationService = useExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
@@ -161,6 +173,10 @@ const Content = () => {
           Demo menu
         </Text>
       </Section>
+
+      <Section>
+        <Button text="Debug Metrics" onPress={onDebugMetrics} variant="bigFlat" />
+      </Section>
       <Section>
         <Button
           text="Show sample notification"
@@ -169,7 +185,34 @@ const Content = () => {
           testID="ShowSampleNotification"
         />
       </Section>
-      {QR_ENABLED && (
+      <Section>
+        <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
+      </Section>
+      <Section>
+        <Button
+          text="Clear notification receipts"
+          onPress={onClearReadReceipts}
+          variant="bigFlat"
+          testID="ClearNotificationReceipts"
+        />
+      </Section>
+      <Section>
+        <Box flexDirection="row">
+          <Box flex={1}>
+            <Text paddingLeft="m" paddingRight="m" paddingBottom="s" color="overlayBodyText">
+              QR Feature
+            </Text>
+          </Box>
+          <Switch
+            onValueChange={() => {
+              setQrEnabled(!toggleState);
+              setToggleState(!toggleState);
+            }}
+            value={toggleState}
+          />
+        </Box>
+      </Section>
+      {qrEnabled && (
         <>
           <Section>
             <Button text="Check for Outbreak Exposures" onPress={onCheckForOutbreak} variant="bigFlat" />
@@ -182,18 +225,6 @@ const Content = () => {
           </Section>
         </>
       )}
-
-      <Section>
-        <Button text="Poll for notifications" onPress={onPollNotifications} variant="bigFlat" />
-      </Section>
-      <Section>
-        <Button
-          text="Clear notification receipts"
-          onPress={onClearReadReceipts}
-          variant="bigFlat"
-          testID="ClearNotificationReceipts"
-        />
-      </Section>
       <Section>
         <Item title="Force screen" />
         <ScreenRadioSelector />

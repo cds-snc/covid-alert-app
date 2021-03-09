@@ -25,6 +25,11 @@ export function minutesFromNow(date: Date) {
   return Math.round((currentTime - date.getTime()) / oneMinuteMs);
 }
 
+export function secondsBetween(date1: Date, date2: Date): number {
+  const oneSecondMs = 1000;
+  return (date2.getTime() - date1.getTime()) / oneSecondMs;
+}
+
 export function minutesBetween(date1: Date, date2: Date): number {
   const oneMinuteMs = 1000 * 60;
   return (date2.getTime() - date1.getTime()) / oneMinuteMs;

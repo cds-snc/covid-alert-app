@@ -2,13 +2,13 @@ import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {Text, ButtonSingleLine, Box, RoundedBox} from 'components';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE} from 'shared/DataSharing';
 
 import {BaseHomeView} from '../components/BaseHomeView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
-export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const DiagnosedShareView = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const toDataShare = useCallback(async () => {
@@ -16,21 +16,10 @@ export const DiagnosedShareView = ({isBottomSheetExpanded}: {isBottomSheetExpand
     const screen = initialTekUploadComplete === 'false' ? 'Step2' : 'TekUploadSubsequentDays';
     return navigation.navigate('DataSharing', {screen});
   }, [navigation]);
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
-
   return (
     <BaseHomeView iconName="hand-reminder" testID="diagnosedShare">
       <RoundedBox isFirstBox>
-        <Text
-          focusRef={autoFocusRef}
-          variant="bodyTitle"
-          testID="bodyTitle"
-          color="bodyText"
-          marginBottom="m"
-          accessibilityRole="header"
-        >
-          {i18n.translate('Home.DiagnosedShareView.Title')}
-        </Text>
+        <HomeScreenTitle>{i18n.translate('Home.DiagnosedShareView.Title')}</HomeScreenTitle>
         <Text variant="bodyText" color="bodyText" marginBottom="m">
           {i18n.translate('Home.DiagnosedShareView.Body1')}
         </Text>

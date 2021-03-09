@@ -3,6 +3,8 @@ import {AppRegistry, Platform} from 'react-native';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNSecureKeyStore from 'react-native-secure-key-store';
+import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
+import ExposureNotification from 'bridge/ExposureNotification';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
@@ -12,7 +14,6 @@ import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
 import {createStorageService} from '../StorageService';
 import {BackendService} from '../BackendService';
 import {createBackgroundI18n} from '../../locale';
-import ExposureNotification from '../../bridge/ExposureNotification';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
@@ -130,8 +131,10 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
         AsyncStorage,
         RNSecureKeyStore,
         ExposureNotification,
+        FilteredMetricsService.sharedInstance(),
       );
       registerPeriodicTask(async () => {
+        await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
         await exposureNotificationService.updateExposureStatusInBackground();
       }, exposureNotificationService);
     } catch (error) {

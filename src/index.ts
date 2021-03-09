@@ -12,6 +12,7 @@ import {BackendService} from 'services/BackendService';
 import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
 import {ExposureNotificationService} from 'services/ExposureNotificationService';
 import {createBackgroundI18n} from 'locale';
+import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 
 import {name as appName} from '../app.json';
 
@@ -22,6 +23,8 @@ AppRegistry.registerComponent(appName, () => App);
 
 if (Platform.OS === 'android') {
   BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
+    await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
+
     const storageService = await createStorageService();
     const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
     const i18n = await createBackgroundI18n();
@@ -31,11 +34,15 @@ if (Platform.OS === 'android') {
       AsyncStorage,
       RNSecureKeyStore,
       ExposureNotification,
+      FilteredMetricsService.sharedInstance(),
     );
+
     await exposureNotificationService.updateExposureStatusInBackground();
   });
 
   BackgroundScheduler.registerAndroidHeadlessExposureCheckPeriodicTask(async () => {
+    await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
+
     const storageService = await createStorageService();
     const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
     const i18n = await createBackgroundI18n();
@@ -45,6 +52,7 @@ if (Platform.OS === 'android') {
       AsyncStorage,
       RNSecureKeyStore,
       ExposureNotification,
+      FilteredMetricsService.sharedInstance(),
     );
     if (await exposureNotificationService.shouldPerformExposureCheck()) {
       await exposureNotificationService.initiateExposureCheckHeadless();

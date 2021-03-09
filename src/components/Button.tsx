@@ -28,6 +28,10 @@ export interface ButtonProps {
   internalLink?: boolean;
   backButton?: boolean;
   iconName?: IconName;
+  iconNameLeft?: IconName;
+  borderRadius?: number;
+  useWhiteText?: boolean;
+  alignLeft?: boolean;
   testID?: string;
 }
 
@@ -42,6 +46,10 @@ export const Button = ({
   internalLink,
   backButton,
   iconName,
+  iconNameLeft,
+  borderRadius = 5,
+  useWhiteText = false,
+  alignLeft = false,
   testID,
 }: ButtonProps) => {
   const i18n = useI18n();
@@ -71,7 +79,6 @@ export const Button = ({
     : {};
   const externalArrowIcon = textColor === palette.white ? 'icon-external-arrow-light' : 'icon-external-arrow';
 
-  const borderRadius = 5;
   const boxStyles: BoxProps['style'] = {
     backgroundColor: Platform.OS === 'ios' ? color : 'transparent',
     minHeight: height,
@@ -82,7 +89,7 @@ export const Button = ({
     <Box
       borderRadius={borderRadius}
       alignItems="center"
-      justifyContent="center"
+      justifyContent={alignLeft ? 'flex-start' : 'center'}
       shadowColor="bodyText"
       style={boxStyles}
       paddingHorizontal="m"
@@ -95,9 +102,15 @@ export const Button = ({
         <>
           {backButton && (
             <Box style={styles.backIcon} marginRight="s">
-              <Icon size={14} name="icon-chevron-back" />
+              <Icon size={14} name={useWhiteText ? 'icon-chevron-back-white' : 'icon-chevron-back'} />
             </Box>
           )}
+          {iconNameLeft && (
+            <Box marginRight="s">
+              <Icon size={25} name={iconNameLeft} />
+            </Box>
+          )}
+
           <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
             {text}
           </Text>

@@ -7,7 +7,7 @@ const OnboardedEventMarkerKeyValueUniqueIdentifier = '0429518A-9D4D-4EB2-A5A8-AE
 const BackgroundCheckEventMarkerKeyValueUniqueIdentifier = 'AB398409-D8A9-4BC2-91F0-63E4CEFCD89A';
 const ActiveUserEventMarkerKeyValueUniqueIdentifier = 'B678D2BD-1596-4650-B28C-4606E34DC4CA';
 
-export interface FilteredMetricsStateStorage {
+export interface MetricsFilterStateStorage {
   markInstalledEventAsPublished(): Promise<void>;
   isInstalledEventPublished(): Promise<boolean>;
 
@@ -22,7 +22,7 @@ export interface FilteredMetricsStateStorage {
   updateLastActiveUserSentDateToNow(): Promise<void>;
 }
 
-export class DefaultFilteredMetricsStateStorage implements FilteredMetricsStateStorage {
+export class DefaultMetricsFilterStateStorage implements MetricsFilterStateStorage {
   private keyValueStore: SecureKeyValueStore;
 
   constructor(secureKeyValueStore: SecureKeyValueStore) {

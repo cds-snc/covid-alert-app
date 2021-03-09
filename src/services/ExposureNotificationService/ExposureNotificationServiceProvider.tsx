@@ -8,7 +8,9 @@ import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 import {useStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {checkNotifications} from 'react-native-permissions';
+import {Status} from 'shared/NotificationPermissionStatus';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -49,17 +51,20 @@ export const ExposureNotificationServiceProvider = ({
         storage || AsyncStorage,
         secureStorage || RNSecureKeyStore,
         exposureNotification || ExposureNotification,
+        FilteredMetricsService.sharedInstance(),
       ),
     [backendInterface, exposureNotification, i18n, secureStorage, storage],
   );
 
   useEffect(() => {
     backgroundScheduler.registerPeriodicTask(async () => {
+      await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
       await exposureNotificationService.updateExposureStatusInBackground();
     }, exposureNotificationService);
   }, [backgroundScheduler, exposureNotificationService]);
 
   useEffect(() => {
+    const filteredMetricsService = FilteredMetricsService.sharedInstance();
     const onAppStateChange = async (newState: AppStateStatus) => {
       if (newState === 'background' && !(await exposureNotificationService.isUploading())) {
         exposureNotificationService.processOTKNotSharedNotification();
@@ -68,11 +73,19 @@ export const ExposureNotificationServiceProvider = ({
       }
       exposureNotificationService.updateExposure();
       await exposureNotificationService.updateExposureStatus();
+
+      await filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
+      const notificationStatus: Status = await checkNotifications()
+        .then(({status}) => status)
+        .catch(() => 'unavailable');
+      await filteredMetricsService.sendDailyMetrics(exposureNotificationService.systemStatus.get(), notificationStatus);
+
       if (exposureNotificationService.systemStatus.get() === SystemStatus.Active) {
         setUserStopped(false);
       }
       // re-register the background tasks upon app launch
       backgroundScheduler.registerPeriodicTask(async () => {
+        await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
         await exposureNotificationService.updateExposureStatusInBackground();
       }, exposureNotificationService);
     };
@@ -80,6 +93,23 @@ export const ExposureNotificationServiceProvider = ({
     // Note: The next two lines, calling updateExposure() and startExposureCheck() happen on app launch.
     exposureNotificationService.updateExposure();
     exposureNotificationService.updateExposureStatus();
+
+    filteredMetricsService
+      .addEvent({type: EventTypeMetric.ActiveUser})
+      .then(() => {
+        // eslint-disable-next-line promise/no-nesting
+        checkNotifications()
+          .then(({status}) => status)
+          .catch(() => 'unavailable')
+          .then(notificationStatus => {
+            filteredMetricsService.sendDailyMetrics(
+              exposureNotificationService.systemStatus.get(),
+              notificationStatus as Status,
+            );
+          })
+          .catch(() => {});
+      })
+      .catch(() => {});
 
     AppState.addEventListener('change', onAppStateChange);
     return () => {
