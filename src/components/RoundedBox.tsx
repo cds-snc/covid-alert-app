@@ -13,7 +13,6 @@ export const RoundedBox = ({children, isFirstBox}: RoundedBoxProp) => {
       style={isFirstBox ? [styles.roundedBox, styles.firstBox] : styles.roundedBox}
       marginBottom="m"
       alignSelf="stretch"
-      paddingTop="l"
     >
       <Box paddingHorizontal="m" paddingVertical="m">
         {children}
@@ -29,6 +28,7 @@ const styles = StyleSheet.create({
   },
   firstBox: {
     marginTop: -32,
+    paddingTop: 32,
     zIndex: -1,
   },
 });
