@@ -1,5 +1,4 @@
 import PushNotification from 'bridge/PushNotification';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {APP_VERSION_NAME, NOTIFICATION_FEED_URL, TEST_MODE} from 'env';
 import semver from 'semver';
 import {log} from 'shared/logging/config';
@@ -8,9 +7,6 @@ import {I18n} from 'locale';
 import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
 
 import {NotificationMessage} from './types';
-
-const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
-const ETAG_STORAGE_KEY = 'NotificationsEtag';
 
 // 24 hours
 const MIN_POLL_NOTIFICATION_MINUTES = TEST_MODE ? 2 : 60 * 24;
@@ -26,8 +22,10 @@ const checkForNotifications = async (i18n: I18n) => {
 
   const readReceipts: string[] = await getReadReceipts();
 
-  const selectedRegion: string = (await AsyncStorage.getItem('Region')) || 'CA';
-  const selectedLocale: string = (await AsyncStorage.getItem('Locale')) || 'en';
+  const selectedRegion: string =
+    (await DefaultFutureStorageService.sharedInstance().retrieve(StorageDirectory.GlobalRegionKey)) || 'CA';
+  const selectedLocale: string =
+    (await DefaultFutureStorageService.sharedInstance().retrieve(StorageDirectory.GlobalLocaleKey)) || 'en';
   const messageToDisplay = messages.find(message =>
     shouldDisplayNotification(message, selectedRegion, selectedLocale, readReceipts),
   );
@@ -50,7 +48,9 @@ const checkForNotifications = async (i18n: I18n) => {
 };
 
 const getReadReceipts = async (): Promise<string[]> => {
-  const readReceipts = await AsyncStorage.getItem(READ_RECEIPTS_KEY);
+  const readReceipts = await DefaultFutureStorageService.sharedInstance().retrieve(
+    StorageDirectory.PollNotificationServiceReadReceiptsKey,
+  );
 
   if (readReceipts) {
     return JSON.parse(readReceipts);
@@ -60,11 +60,14 @@ const getReadReceipts = async (): Promise<string[]> => {
 };
 
 const saveReadReceipts = async (receipts: string[]) => {
-  await AsyncStorage.setItem(READ_RECEIPTS_KEY, JSON.stringify(receipts));
+  await DefaultFutureStorageService.sharedInstance().save(
+    StorageDirectory.PollNotificationServiceReadReceiptsKey,
+    JSON.stringify(receipts),
+  );
 };
 
 const clearNotificationReceipts = async () => {
-  await AsyncStorage.removeItem(READ_RECEIPTS_KEY);
+  await DefaultFutureStorageService.sharedInstance().delete(StorageDirectory.PollNotificationServiceReadReceiptsKey);
 };
 
 const shouldDisplayNotification = (
@@ -112,7 +115,9 @@ const checkRegion = (target: string[], selected: string): boolean => {
 
 // Fetch notifications from the endpoint
 const fetchNotifications = async (): Promise<NotificationMessage[]> => {
-  const etag = await AsyncStorage.getItem(ETAG_STORAGE_KEY);
+  const etag = await DefaultFutureStorageService.sharedInstance().retrieve(
+    StorageDirectory.PollNotificationServiceEtagStorageKey,
+  );
   const headers: any = {};
 
   try {
@@ -162,7 +167,10 @@ const fetchNotifications = async (): Promise<NotificationMessage[]> => {
         category: 'debug',
         message: 'Storing etag',
       });
-      await AsyncStorage.setItem(ETAG_STORAGE_KEY, newEtag);
+      await DefaultFutureStorageService.sharedInstance().save(
+        StorageDirectory.PollNotificationServiceEtagStorageKey,
+        newEtag,
+      );
     }
 
     const json = await response.json();

@@ -77,6 +77,16 @@ export class StorageDirectory {
   };
 
   // PollNotificationService.ts
+  static readonly PollNotificationServiceReadReceiptsKey: KeyDefinition = {
+    keyIdentifier: 'NotificationReadReceipts',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly PollNotificationServiceEtagStorageKey: KeyDefinition = {
+    keyIdentifier: 'NotificationsEtag',
+    storageType: StorageType.Unsecure,
+  };
+
   static readonly PollNotificationServiceLastPollNotificationDateTimeKey: KeyDefinition = {
     keyIdentifier: 'LastPollNotificationDateTimeKey',
     storageType: StorageType.Secure,
