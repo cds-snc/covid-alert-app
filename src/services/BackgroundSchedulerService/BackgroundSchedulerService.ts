@@ -11,7 +11,7 @@ import {PeriodicWorkPayload} from '../../bridge/PushNotification';
 import {log} from '../../shared/logging/config';
 import {ExposureNotificationService} from '../ExposureNotificationService';
 import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
-import {createStorageService, DefaultFutureStorageService} from '../StorageService';
+import {DefaultFutureStorageService} from '../StorageService';
 import {BackendService} from '../BackendService';
 import {createBackgroundI18n} from '../../locale';
 
@@ -123,8 +123,12 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
       await BackgroundFetch.stop('react-native-background-fetch');
 
       // Setup new periodic task to use WorkManager
-      const storageService = await createStorageService();
-      const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+      const backendService = new BackendService(
+        RETRIEVE_URL,
+        SUBMIT_URL,
+        HMAC_KEY,
+        DefaultFutureStorageService.sharedInstance(),
+      );
       const i18n = await createBackgroundI18n();
       const exposureNotificationService = new ExposureNotificationService(
         backendService,

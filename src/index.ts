@@ -14,7 +14,7 @@ import {createBackgroundI18n} from 'locale';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 
-import {createStorageService, DefaultFutureStorageService} from './services/StorageService';
+import {DefaultFutureStorageService} from './services/StorageService';
 import App from './App';
 
 AppRegistry.registerComponent('CovidShield', () => App);
@@ -23,8 +23,12 @@ if (Platform.OS === 'android') {
   BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
     await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
-    const storageService = await createStorageService();
-    const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+    const backendService = new BackendService(
+      RETRIEVE_URL,
+      SUBMIT_URL,
+      HMAC_KEY,
+      DefaultFutureStorageService.sharedInstance(),
+    );
     const i18n = await createBackgroundI18n();
     const exposureNotificationService = new ExposureNotificationService(
       backendService,
@@ -42,8 +46,12 @@ if (Platform.OS === 'android') {
     publishDebugMetric(4.3);
     await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
-    const storageService = await createStorageService();
-    const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+    const backendService = new BackendService(
+      RETRIEVE_URL,
+      SUBMIT_URL,
+      HMAC_KEY,
+      DefaultFutureStorageService.sharedInstance(),
+    );
     const i18n = await createBackgroundI18n();
     const exposureNotificationService = new ExposureNotificationService(
       backendService,

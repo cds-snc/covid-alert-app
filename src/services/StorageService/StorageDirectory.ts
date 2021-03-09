@@ -109,4 +109,15 @@ export class StorageDirectory {
     keyIdentifier: 'B678D2BD-1596-4650-B28C-4606E34DC4CA',
     storageType: StorageType.Secure,
   };
+
+  // BackendService.ts
+  static readonly BackendServiceRegionContentKey: KeyDefinition = {
+    keyIdentifier: '30F6F699-43F7-44A1-B138-89278C25A1AB',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly BackendServiceLastUploadedTekStartTimeKey: KeyDefinition = {
+    keyIdentifier: 'LAST_UPLOADED_TEK_START_TIME',
+    storageType: StorageType.Unsecure,
+  };
 }
