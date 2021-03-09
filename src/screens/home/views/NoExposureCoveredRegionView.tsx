@@ -4,7 +4,6 @@ import {useI18n} from 'locale';
 import {useStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
-import {Platform} from 'react-native';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -54,13 +53,9 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
   return (
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
-      {Platform.OS === 'ios' ? (
+      <RoundedBox isFirstBox>
         <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
-      ) : (
-        <RoundedBox isFirstBox>
-          <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
-        </RoundedBox>
-      )}
+      </RoundedBox>
     </BaseHomeView>
   );
 };
