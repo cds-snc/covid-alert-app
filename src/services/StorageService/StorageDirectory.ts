@@ -2,6 +2,53 @@ import {KeyDefinition, StorageType} from './FutureStorageService';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class StorageDirectory {
+  // Global
+  static readonly GlobalOnboardedDatetimeKey: KeyDefinition = {
+    keyIdentifier: 'OnboardedDatetime',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly GlobalRegionKey: KeyDefinition = {
+    keyIdentifier: 'Region',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly GlobalLocaleKey: KeyDefinition = {
+    keyIdentifier: 'Locale',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly GlobalQrEnabledKey: KeyDefinition = {
+    keyIdentifier: 'QrEnabled',
+    storageType: StorageType.Unsecure,
+  };
+
+  // StorageService.ts
+  static readonly StorageServiceIsOnboardedKey: KeyDefinition = {
+    keyIdentifier: 'IsOnboarded',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly StorageServiceForceScreenKey: KeyDefinition = {
+    keyIdentifier: 'ForceScreen',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly StorageServiceSkipAllSetKey: KeyDefinition = {
+    keyIdentifier: 'SkipAllSet',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly StorageServiceUserStoppedKey: KeyDefinition = {
+    keyIdentifier: 'UserStopped',
+    storageType: StorageType.Unsecure,
+  };
+
+  static readonly StorageServiceHasViewedQRInstructionsKey: KeyDefinition = {
+    keyIdentifier: 'HasViewedQRInstructions',
+    storageType: StorageType.Unsecure,
+  };
+
   // ExposureNotificationService.ts
   static readonly ExposureNotificationServiceExposureHistoryKey: KeyDefinition = {
     keyIdentifier: 'exposureHistory',

@@ -34,7 +34,7 @@ import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
-import {FutureStorageService, Key, StorageDirectory} from '../StorageService';
+import {FutureStorageService, StorageDirectory} from '../StorageService';
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
@@ -281,7 +281,7 @@ export class ExposureNotificationService {
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
-      const qrEnabled = (await this.storage.getItem(Key.QrEnabled)) === '1';
+      const qrEnabled = (await this.storage.getItem(StorageDirectory.GlobalQrEnabledKey.keyIdentifier)) === '1';
       if (qrEnabled) {
         OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
       }
@@ -662,7 +662,7 @@ export class ExposureNotificationService {
   public shouldPerformExposureCheck = async () => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
-    const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
+    const onboardedDatetime = await this.storage.getItem(StorageDirectory.GlobalOnboardedDatetimeKey.keyIdentifier);
 
     if (!onboardedDatetime) {
       log.debug({

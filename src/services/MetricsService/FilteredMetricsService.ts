@@ -4,7 +4,7 @@ import PQueue from 'p-queue';
 import {Platform} from 'react-native';
 import {Status} from 'shared/NotificationPermissionStatus';
 import {SystemStatus} from 'services/ExposureNotificationService';
-import {DefaultFutureStorageService, Key} from 'services/StorageService';
+import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';
 
 import {Metric} from './Metric';
@@ -97,7 +97,7 @@ export class FilteredMetricsService {
   }
 
   private async getRegion(): Promise<string> {
-    const regionOpt = await AsyncStorage.getItem(Key.Region);
+    const regionOpt = await AsyncStorage.getItem(StorageDirectory.GlobalRegionKey.keyIdentifier);
     return regionOpt ? regionOpt : 'None';
   }
 }

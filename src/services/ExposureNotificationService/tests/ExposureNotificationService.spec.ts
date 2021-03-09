@@ -5,7 +5,7 @@ import {Platform} from 'react-native';
 import {periodSinceEpoch} from '../../../shared/date-fns';
 import {ExposureSummary} from '../../../bridge/ExposureNotification';
 import PushNotification from '../../../bridge/PushNotification';
-import {FutureStorageService, Key, StorageDirectory} from '../../StorageService';
+import {FutureStorageService, StorageDirectory} from '../../StorageService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../../BackgroundSchedulerService';
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {FilteredMetricsService} from '../../MetricsService/FilteredMetricsService';
@@ -187,7 +187,7 @@ describe('ExposureNotificationService', () => {
     Platform.OS = 'ios';
     service.systemStatus.set(SystemStatus.Active);
     when(storage.getItem)
-      .calledWith(Key.OnboardedDatetime)
+      .calledWith(StorageDirectory.GlobalOnboardedDatetimeKey.keyIdentifier)
       .mockResolvedValue(today.getTime());
 
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
@@ -947,7 +947,7 @@ describe('ExposureNotificationService', () => {
   describe('shouldPerformExposureCheck', () => {
     it('returns false if not onboarded', async () => {
       when(storage.getItem)
-        .calledWith(Key.OnboardedDatetime)
+        .calledWith(StorageDirectory.GlobalOnboardedDatetimeKey.keyIdentifier)
         .mockResolvedValueOnce(false);
 
       const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
