@@ -122,7 +122,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "COVID Alert is ",
+    "SystemStatus": "COVID Alert is\u00a0",
     "SystemStatusOn": "active",
     "SystemStatusOff": "off",
     "NotificationStatus": "Notifications are ",
@@ -162,12 +162,17 @@
     "NoConnectivityCardAction": "COVID Alert is offline",
     "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures.",
     "EnUnauthorizedCardAction": "Enable COVID Alert",
-    "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\"."
+    "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\".",
+    "ShareDiagnosisCode": {
+      "CtaReport": "Enter your one-time key",
+      "CtaFinish": "Finish sharing exposures"
+    }
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
+    "Support": "Support",
     "LearnMore": "How it works",
     "Help": "Help",
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",

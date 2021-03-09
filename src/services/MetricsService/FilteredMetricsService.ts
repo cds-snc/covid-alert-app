@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_CODE} from 'env';
 import PQueue from 'p-queue';
 import {Platform} from 'react-native';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {Status} from 'shared/NotificationPermissionStatus';
 import {SystemStatus} from 'services/ExposureNotificationService';
 import {Key} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';

@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useState, useRef, useLayoutEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
-import {BottomSheet, BottomSheetBehavior, Box} from 'components';
-import {DevSettings, Linking, Animated} from 'react-native';
-import {TEST_MODE, QR_ENABLED} from 'env';
+import {Box} from 'components';
+import {DevSettings} from 'react-native';
+import {TEST_MODE} from 'env';
 import {
   ExposureStatusType,
   SystemStatus,
@@ -16,16 +16,16 @@ import {
 import {useStorage} from 'services/StorageService';
 import {RegionCase} from 'shared/Region';
 import {getRegionCase} from 'shared/RegionLogic';
-import {usePrevious} from 'shared/usePrevious';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
 import {isExposedToOutbreak} from 'shared/qr';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useNotificationPermissionStatus} from 'shared/NotificationPermissionStatus';
 
 import {useDeepLinks} from '../qr/utils';
+import {MenuBar} from '../menu/views/MenuBar';
 
 import {BluetoothDisabledView} from './views/BluetoothDisabledView';
-import {CollapsedOverlayView} from './views/CollapsedOverlayView';
 import {DiagnosedShareView} from './views/DiagnosedShareView';
 import {DiagnosedView} from './views/DiagnosedView';
 import {DiagnosedShareUploadView} from './views/DiagnosedShareUploadView';
@@ -36,30 +36,17 @@ import {NoExposureUncoveredRegionView} from './views/NoExposureUncoveredRegionVi
 import {NoExposureCoveredRegionView} from './views/NoExposureCoveredRegionView';
 import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
 import {NetworkDisabledView} from './views/NetworkDisabledView';
-import {OverlayView} from './views/OverlayView';
 import {FrameworkUnavailableView} from './views/FrameworkUnavailableView';
 import {ExposureNotificationsUserStoppedView} from './views/ExposureNotificationsUserStoppedView';
 import {UnknownProblemView} from './views/UnknownProblemView';
-import {
-  useNotificationPermissionStatus,
-  NotificationPermissionStatusProvider,
-} from './components/NotificationPermissionStatus';
 import {LocationOffView} from './views/LocationOffView';
 import {OutbreakExposedView} from './views/OutbreakExposedView';
 
-interface ContentProps {
-  isBottomSheetExpanded: boolean;
-}
-
-const UploadShareView = ({hasShared, isBottomSheetExpanded}: {hasShared?: boolean; isBottomSheetExpanded: boolean}) => {
-  return hasShared ? (
-    <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />
-  ) : (
-    <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />
-  );
+const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
+  return hasShared ? <DiagnosedShareView /> : <DiagnosedShareUploadView />;
 };
 
-const Content = ({isBottomSheetExpanded}: ContentProps) => {
+const Content = () => {
   const {region, userStopped} = useStorage();
 
   const regionalI18n = useRegionalI18n();
@@ -77,11 +64,11 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
   const getNoExposureView = (_regionCase: RegionCase) => {
     switch (_regionCase) {
       case 'noRegionSet':
-        return <NoExposureNoRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
+        return <NoExposureNoRegionView />;
       case 'regionActive':
-        return <NoExposureCoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
+        return <NoExposureCoveredRegionView />;
       case 'regionNotActive':
-        return <NoExposureUncoveredRegionView isBottomSheetExpanded={isBottomSheetExpanded} />;
+        return <NoExposureUncoveredRegionView />;
     }
   };
 
@@ -92,42 +79,42 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
       case ForceScreen.NoExposureView:
         return getNoExposureView(regionCase);
       case ForceScreen.ExposureView:
-        return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
+        return <ExposureView />;
       case ForceScreen.DiagnosedShareView:
-        return <DiagnosedShareView isBottomSheetExpanded={isBottomSheetExpanded} />;
+        return <DiagnosedShareView />;
       case ForceScreen.DiagnosedView:
-        return <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />;
+        return <DiagnosedView />;
       case ForceScreen.DiagnosedShareUploadView:
-        return <DiagnosedShareUploadView isBottomSheetExpanded={isBottomSheetExpanded} />;
+        return <DiagnosedShareUploadView />;
       case ForceScreen.FrameworkUnavailableView:
-        return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
+        return <FrameworkUnavailableView />;
       default:
         break;
     }
   }
 
   if (isExposedToOutbreak(outbreakHistory)) {
-    return <OutbreakExposedView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    return <OutbreakExposedView />;
   }
 
   if (userStopped && systemStatus !== SystemStatus.Active) {
-    return <ExposureNotificationsUserStoppedView isBottomSheetExpanded={isBottomSheetExpanded} />;
+    return <ExposureNotificationsUserStoppedView />;
   }
 
   switch (systemStatus) {
     case SystemStatus.Undefined:
     case SystemStatus.Unauthorized:
-      return <ExposureNotificationsUnauthorizedView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      return <ExposureNotificationsUnauthorizedView />;
     case SystemStatus.Disabled:
     case SystemStatus.Restricted:
-      return <ExposureNotificationsDisabledView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      return <ExposureNotificationsDisabledView />;
     case SystemStatus.PlayServicesNotAvailable:
-      return <FrameworkUnavailableView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      return <FrameworkUnavailableView />;
   }
 
   switch (exposureStatus.type) {
     case ExposureStatusType.Exposed:
-      return <ExposureView isBottomSheetExpanded={isBottomSheetExpanded} />;
+      return <ExposureView />;
     case ExposureStatusType.Diagnosed:
       if (!network.isConnected) {
         return <NetworkDisabledView />;
@@ -135,9 +122,9 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
 
       /* @todo UploadShareView pass hasShared from ExposureStatus */
       return exposureStatus.needsSubmission ? (
-        <UploadShareView isBottomSheetExpanded={isBottomSheetExpanded} hasShared={exposureStatus.hasShared} />
+        <UploadShareView hasShared={exposureStatus.hasShared} />
       ) : (
-        <DiagnosedView isBottomSheetExpanded={isBottomSheetExpanded} />
+        <DiagnosedView />
       );
     case ExposureStatusType.Monitoring:
     default:
@@ -148,53 +135,19 @@ const Content = ({isBottomSheetExpanded}: ContentProps) => {
         case SystemStatus.BluetoothOff:
           return <BluetoothDisabledView />;
         case SystemStatus.LocationOff:
-          return <LocationOffView isBottomSheetExpanded={isBottomSheetExpanded} />;
+          return <LocationOffView />;
         case SystemStatus.Active:
           return getNoExposureView(regionCase);
         default:
-          return <UnknownProblemView isBottomSheetExpanded={isBottomSheetExpanded} />;
+          return <UnknownProblemView />;
       }
   }
-};
-
-const CollapsedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
-  const [systemStatus] = useSystemStatus();
-  const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
-
-  return (
-    <CollapsedOverlayView
-      status={systemStatus}
-      notificationWarning={showNotificationWarning}
-      turnNotificationsOn={turnNotificationsOn}
-      bottomSheetBehavior={bottomSheetBehavior}
-    />
-  );
-};
-
-const ExpandedContent = (bottomSheetBehavior: BottomSheetBehavior) => {
-  const [systemStatus] = useSystemStatus();
-  const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();
-  const showNotificationWarning = notificationStatus !== 'granted';
-  const toSettings = useCallback(() => {
-    Linking.openSettings();
-  }, []);
-  const turnNotificationsOnFn = notificationStatus === 'blocked' ? toSettings : turnNotificationsOn;
-
-  return (
-    <OverlayView
-      status={systemStatus}
-      notificationWarning={showNotificationWarning}
-      turnNotificationsOn={turnNotificationsOnFn}
-      bottomSheetBehavior={bottomSheetBehavior}
-    />
-  );
 };
 
 export const HomeScreen = () => {
   const {checkForOutbreaks} = useOutbreakService();
   const navigation = useNavigation();
-  const {userStopped} = useStorage();
+  const {userStopped, qrEnabled} = useStorage();
 
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
@@ -219,59 +172,24 @@ export const HomeScreen = () => {
   const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
     const success = await startExposureNotificationService();
-    if (QR_ENABLED) {
+    if (qrEnabled) {
       checkForOutbreaks();
     }
     if (success) {
       updateExposureStatus();
     }
-  }, [userStopped, updateExposureStatus, startExposureNotificationService, checkForOutbreaks]);
+  }, [userStopped, startExposureNotificationService, qrEnabled, checkForOutbreaks, updateExposureStatus]);
 
   useEffect(() => {
     startAndUpdate();
   }, [startAndUpdate, startExposureNotificationService, updateExposureStatus]);
 
-  const bottomSheetRef = useRef<BottomSheetBehavior>(null);
-  const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);
-  const currentStatus = useExposureStatus().type;
-  const previousStatus = usePrevious(currentStatus);
-  useLayoutEffect(() => {
-    if (previousStatus === ExposureStatusType.Monitoring && currentStatus === ExposureStatusType.Diagnosed) {
-      bottomSheetRef.current?.collapse();
-    }
-  }, [currentStatus, previousStatus]);
-  useLayoutEffect(() => {
-    bottomSheetRef.current?.setOnStateChange(setIsBottomSheetExpanded);
-  }, []);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  React.useEffect(
-    () =>
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        delay: 1000,
-        duration: 10,
-        useNativeDriver: false,
-      }).start(),
-    [fadeAnim],
-  );
-
   return (
-    <NotificationPermissionStatusProvider>
-      <Box flex={1} alignItems="center" backgroundColor="mainBackground">
-        <Box
-          flex={1}
-          paddingTop="m"
-          paddingBottom="m"
-          alignSelf="stretch"
-          accessibilityElementsHidden={isBottomSheetExpanded}
-          importantForAccessibility={isBottomSheetExpanded ? 'no-hide-descendants' : undefined}
-        >
-          <Animated.View style={{opacity: fadeAnim}}>
-            <Content isBottomSheetExpanded={isBottomSheetExpanded} />
-          </Animated.View>
-        </Box>
-        <BottomSheet ref={bottomSheetRef} expandedComponent={ExpandedContent} collapsedComponent={CollapsedContent} />
+    <Box flex={1} alignItems="center" backgroundColor="mainBackground">
+      <Box flex={1} paddingTop="m" alignSelf="stretch">
+        <Content />
       </Box>
-    </NotificationPermissionStatusProvider>
+      <MenuBar />
+    </Box>
   );
 };

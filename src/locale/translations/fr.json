@@ -122,7 +122,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "Alerte COVID est ",
+    "SystemStatus": "Alerte COVID est\u00a0",
     "SystemStatusOn": "activée",
     "SystemStatusOff": "désactivée",
     "NotificationStatus": "Notifications ",
@@ -162,14 +162,19 @@
     "NoConnectivityCardAction": "Alerte COVID est hors ligne",
     "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé.",
     "EnUnauthorizedCardAction": "Activer Alerte COVID",
-    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions »."
+    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions ».",
+    "ShareDiagnosisCode": {
+      "CtaReport": "Entrer une clé à usage unique",
+      "CtaFinish": "Finir le partage d’expositions"
+    }
   },
   "Info": {
     "CheckSymptoms": "Vérifier vos symptômes",
     "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
     "TellAFriend": "Partager l’application",
+    "Support": "Aide",
     "LearnMore": "Fonctionnement",
-    "Help": "Aide",
+    "Help": "Aide et questions fréquentes",
     "HelpUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html",
     "GetCode": "Obtenir une clé à usage unique",
     "ChangeLanguage": "Modifier la langue",

@@ -6,21 +6,19 @@ interface InfoShareItemProps extends TouchableOpacityProps {
   onPress: () => void;
   text: string;
   icon: IconProps['name'];
-  lastItem?: boolean;
 }
 
-export const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}: InfoShareItemProps) => (
-  <>
+export const InfoShareItem = ({onPress, text, icon, ...touchableProps}: InfoShareItemProps) => (
+  <Box marginBottom="s">
     <TouchableOpacity activeOpacity={0.6} onPress={onPress} accessibilityRole="button" {...touchableProps}>
       <Box
         paddingVertical="s"
-        marginHorizontal="-m"
         paddingHorizontal="m"
         flexDirection="row"
         alignContent="center"
         justifyContent="space-between"
         backgroundColor="infoBlockNeutralBackground"
-        borderRadius={5}
+        borderRadius={8}
       >
         <Box flex={1}>
           <Text variant="bodyText" marginVertical="s" color="overlayBodyText">
@@ -33,6 +31,5 @@ export const InfoShareItem = ({onPress, text, icon, lastItem, ...touchableProps}
         </Box>
       </Box>
     </TouchableOpacity>
-    {!lastItem && <Box height={5} marginHorizontal="-m" backgroundColor="overlayBackground" />}
-  </>
+  </Box>
 );

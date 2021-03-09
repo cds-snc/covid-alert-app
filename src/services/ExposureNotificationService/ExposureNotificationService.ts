@@ -24,9 +24,9 @@ import {captureException, captureMessage} from 'shared/log';
 import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
-import {EN_API_VERSION, QR_ENABLED} from 'env';
+import {EN_API_VERSION} from 'env';
 import {checkNotifications} from 'react-native-permissions';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {Status} from 'shared/NotificationPermissionStatus';
 import {PollNotifications} from 'services/PollNotificationService';
 import {OutbreakService} from 'shared/OutbreakProvider';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
@@ -288,8 +288,8 @@ export class ExposureNotificationService {
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
-
-      if (QR_ENABLED) {
+      const qrEnabled = (await this.storage.getItem(Key.QrEnabled)) === '1';
+      if (qrEnabled) {
         OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
       }
 

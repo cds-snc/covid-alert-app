@@ -11,6 +11,7 @@ export const TekUploadNoDate = () => {
     <BaseTekUploadView
       buttonText={i18n.translate('DataUpload.TekUploadNoDate.CTA')}
       contagiousDateInfo={{dateType: ContagiousDateType.None, date: null}}
+      closeRoute="Home"
     >
       <Box paddingHorizontal="m">
         <StepXofY currentStep={3} />
