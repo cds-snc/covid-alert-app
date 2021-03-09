@@ -18,7 +18,7 @@ export class FilteredMetricsService {
 
   static sharedInstance(): FilteredMetricsService {
     if (!this.instance) {
-      const [manufacturer, androidReleaseVersion] = getManufacturerAndAndroidReleaseVersion();
+      const [manufacturer, model, androidReleaseVersion] = getManufacturerWithModelAndAndroidReleaseVersion();
       this.instance = new this(
         DefaultMetricsService.initialize(
           new DefaultMetricsJsonSerializer(
@@ -26,6 +26,7 @@ export class FilteredMetricsService {
             Platform.OS,
             String(Platform.Version),
             manufacturer,
+            model,
             androidReleaseVersion,
           ),
         ),
@@ -102,19 +103,21 @@ export class FilteredMetricsService {
   }
 }
 
-function getManufacturerAndAndroidReleaseVersion(): [string, string] {
+function getManufacturerWithModelAndAndroidReleaseVersion(): [string, string, string] {
   try {
     if (Platform.OS === 'android') {
       // @ts-ignore
       const fingerprintFromPlatformConstants = String(Platform.constants.Fingerprint);
       const manufacturer = fingerprintFromPlatformConstants.split('/')[0];
       // @ts-ignore
+      const model = String(Platform.constants.Model);
+      // @ts-ignore
       const androidReleaseVersion = String(Platform.constants.Release);
-      return [manufacturer, androidReleaseVersion];
+      return [manufacturer, model, androidReleaseVersion];
     } else {
-      return ['Apple', 'unavailable'];
+      return ['Apple', 'unavailable', 'unavailable'];
     }
   } catch (error) {
-    return ['unavailable', 'unavailable'];
+    return ['unavailable', 'unavailable', 'unavailable'];
   }
 }

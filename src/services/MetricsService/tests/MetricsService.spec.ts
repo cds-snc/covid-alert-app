@@ -30,6 +30,7 @@ describe('MetricsService', () => {
       'ios',
       '12.5',
       'samsung',
+      'Pixel 3',
       '11',
     );
     sut = new DefaultMetricsService(

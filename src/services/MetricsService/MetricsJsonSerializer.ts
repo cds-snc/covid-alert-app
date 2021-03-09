@@ -9,6 +9,7 @@ export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
   private appOs: string;
   private osVersion: string;
   private manufacturer: string;
+  private model: string;
   private androidReleaseVersion: string;
 
   constructor(
@@ -16,12 +17,14 @@ export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
     appOs: string,
     osVersion: string,
     manufacturer: string,
+    model: string,
     androidReleaseVersion: string,
   ) {
     this.appVersion = appVersion;
     this.appOs = appOs;
     this.osVersion = osVersion;
     this.manufacturer = manufacturer;
+    this.model = model;
     this.androidReleaseVersion = androidReleaseVersion;
   }
 
@@ -40,6 +43,7 @@ export class DefaultMetricsJsonSerializer implements MetricsJsonSerializer {
       appos: this.appOs,
       osversion: this.osVersion,
       manufacturer: this.manufacturer,
+      model: this.model,
       androidreleaseversion: this.androidReleaseVersion,
       payload: metrics.map(metric => {
         return {
