@@ -78,6 +78,7 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
     </>
   );
 };
+
 const NoScannedBox = () => {
   const i18n = useI18n();
 
@@ -149,49 +150,6 @@ export const CheckInHistoryScreen = () => {
       </BaseDataSharingView>
     </>
   );
-};
-
-const deleteConfirmationAlert = (deleteAll: boolean, id: string) => {
-  const i18n = useI18n();
-  const {deleteScannedPlaces, deleteAllScannedPlaces} = useOutbreakService();
-
-  const deleteSinglePlace = Alert.alert(
-    i18n.translate('ScannedPlaces.Alert.Title'),
-    i18n.translate('ScannedPlaces.Alert.Subtitle'),
-    [
-      {
-        text: i18n.translate('ScannedPlaces.Alert.Cancel'),
-        onPress: () => {},
-      },
-      {
-        text: i18n.translate('ScannedPlaces.Alert.Confirm'),
-        onPress: () => {
-          deleteScannedPlaces(id);
-        },
-        style: 'cancel',
-      },
-    ],
-  );
-
-  const deleteAllPlaces = Alert.alert(
-    i18n.translate('ScannedPlaces.Alert.TitleDeleteAll'),
-    i18n.translate('ScannedPlaces.Alert.Subtitle'),
-    [
-      {
-        text: i18n.translate('ScannedPlaces.Alert.Cancel'),
-        onPress: () => {},
-      },
-      {
-        text: i18n.translate('ScannedPlaces.Alert.Confirm'),
-        onPress: () => {
-          deleteAllScannedPlaces();
-        },
-        style: 'cancel',
-      },
-    ],
-  );
-
-  return deleteAll ? deleteAllPlaces : deleteSinglePlace;
 };
 
 const styles = StyleSheet.create({
