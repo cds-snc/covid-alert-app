@@ -23,6 +23,17 @@ export class StorageDirectory {
     storageType: StorageType.Unsecure,
   };
 
+  static readonly GlobalInitialTekUploadCompleteKey: KeyDefinition = {
+    keyIdentifier: 'INITIAL_TEK_UPLOAD_COMPLETE',
+    storageType: StorageType.Unsecure,
+  };
+
+  // uuid.ts
+  static readonly UUIDKey: KeyDefinition = {
+    keyIdentifier: 'UUID_KEY',
+    storageType: StorageType.Unsecure,
+  };
+
   // StorageService.ts
   static readonly StorageServiceIsOnboardedKey: KeyDefinition = {
     keyIdentifier: 'IsOnboarded',
@@ -46,6 +57,12 @@ export class StorageDirectory {
 
   static readonly StorageServiceHasViewedQRInstructionsKey: KeyDefinition = {
     keyIdentifier: 'HasViewedQRInstructions',
+    storageType: StorageType.Unsecure,
+  };
+
+  // DevPersistedNavigationContainer.tsx
+  static readonly DevPersistedNavigationContainerNavigationStateKey: KeyDefinition = {
+    keyIdentifier: 'navigationState',
     storageType: StorageType.Unsecure,
   };
 

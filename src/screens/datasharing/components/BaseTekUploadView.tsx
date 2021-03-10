@@ -6,9 +6,9 @@ import {useI18n} from 'locale';
 import {useReportDiagnosis, cannotGetTEKsError, useExposureHistory} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
+import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -40,7 +40,7 @@ export const BaseTekUploadView = ({
   const exposureHistory = useExposureHistory();
 
   const onSuccess = useCallback(() => {
-    AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
+    DefaultFutureStorageService.sharedInstance().save(StorageDirectory.GlobalInitialTekUploadCompleteKey, 'true');
     navigation.navigate('Home');
   }, [navigation]);
   // TEK = Temporary Exposure Key

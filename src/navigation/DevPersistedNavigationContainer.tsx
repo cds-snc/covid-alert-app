@@ -1,15 +1,13 @@
 import {InitialState, NavigationContainerRef, NavigationContainer} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 import {InteractionManager} from 'react-native';
+import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
 import {captureException} from 'shared/log';
 
-interface DevPersistedNavigationContainerProps extends React.ComponentProps<typeof NavigationContainer> {
-  persistKey: string;
-}
+interface DevPersistedNavigationContainerProps extends React.ComponentProps<typeof NavigationContainer> {}
 
 function DevPersistedNavigationContainerImpl(
-  {persistKey, onStateChange, ...others}: DevPersistedNavigationContainerProps,
+  {onStateChange, ...others}: DevPersistedNavigationContainerProps,
   forwardedRef: React.Ref<NavigationContainerRef>,
 ) {
   const [isReady, setIsReady] = React.useState(false);
@@ -20,7 +18,10 @@ function DevPersistedNavigationContainerImpl(
       const persistState = async () => {
         persistInteractionRef.current = null;
         try {
-          await AsyncStorage.setItem(persistKey, JSON.stringify(state));
+          await DefaultFutureStorageService.sharedInstance().save(
+            StorageDirectory.DevPersistedNavigationContainerNavigationStateKey,
+            JSON.stringify(state),
+          );
         } catch (error) {
           captureException(`Failed to persist state.`, error);
         }
@@ -38,13 +39,15 @@ function DevPersistedNavigationContainerImpl(
         onStateChange(state);
       }
     },
-    [onStateChange, persistKey],
+    [onStateChange],
   );
 
   React.useEffect(() => {
     const loadPersistedState = async () => {
       try {
-        const jsonString = await AsyncStorage.getItem(persistKey);
+        const jsonString = await DefaultFutureStorageService.sharedInstance().retrieve(
+          StorageDirectory.DevPersistedNavigationContainerNavigationStateKey,
+        );
         if (jsonString != null) {
           setInitialState(JSON.parse(jsonString));
         }
@@ -55,7 +58,7 @@ function DevPersistedNavigationContainerImpl(
       }
     };
     loadPersistedState();
-  }, [persistKey]);
+  }, []);
 
   if (!isReady) {
     return null;
@@ -63,7 +66,6 @@ function DevPersistedNavigationContainerImpl(
 
   return (
     <NavigationContainer
-      key={persistKey}
       {...others}
       ref={forwardedRef}
       initialState={initialState}

@@ -83,7 +83,7 @@ const App = () => {
       <RegionalProvider activeRegions={[]} translate={id => id} regionContent={regionContent.payload}>
         <ExposureNotificationServiceProvider backendInterface={backendService}>
           <OutbreakProvider>
-            <DevPersistedNavigationContainer persistKey="navigationState">
+            <DevPersistedNavigationContainer>
               <AccessibilityServiceProvider>
                 <NotificationPermissionStatusProvider>
                   <MainNavigator />
