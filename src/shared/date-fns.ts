@@ -116,7 +116,7 @@ export const formatCheckInDate = (date: Date) => {
 
 export const formateScannedDate = (dateString: string) => {
   const dateSplit = dateString.split('/');
-  const formattedDate = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1]);
+  const formattedDate = new Date(Number(dateSplit[2]), Number(dateSplit[0]) - 1, Number(dateSplit[1]));
 
   return formattedDate;
 };

@@ -79,15 +79,6 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
   );
 };
 
-const NoScannedBox = () => {
-  const i18n = useI18n();
-
-  return (
-    <Box paddingHorizontal="xxs" marginTop="m" backgroundColor="gray5">
-      <Text padding="s">{i18n.translate('ScannedPlaces.NoScanBoxBody')}</Text>
-    </Box>
-  );
-};
 export const CheckInHistoryScreen = () => {
   const i18n = useI18n();
   const {checkInHistory, deleteAllScannedPlaces} = useOutbreakService();
