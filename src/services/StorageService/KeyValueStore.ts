@@ -5,6 +5,7 @@ export interface KeyValueStore {
   save(key: string, value: string): Promise<void>;
   retrieve(key: string): Promise<string | null>;
   delete(key: string): Promise<void>;
+  deleteAll(): Promise<void>;
 }
 
 export class UnsecureKeyValueStore implements KeyValueStore {
@@ -19,6 +20,10 @@ export class UnsecureKeyValueStore implements KeyValueStore {
   delete(key: string): Promise<void> {
     return AsyncStorage.removeItem(key);
   }
+
+  deleteAll(): Promise<void> {
+    return AsyncStorage.clear();
+  }
 }
 
 export class SecureKeyValueStore implements KeyValueStore {
@@ -32,5 +37,9 @@ export class SecureKeyValueStore implements KeyValueStore {
 
   delete(key: string): Promise<void> {
     return RNSecureKeyStore.remove(key);
+  }
+
+  deleteAll(): Promise<void> {
+    throw new Error('Not implemented because of missing API on RNSecureKeyStore');
   }
 }

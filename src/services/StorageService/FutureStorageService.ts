@@ -16,6 +16,8 @@ export interface FutureStorageService {
   save(keyDefinition: KeyDefinition, value: string): Promise<void>;
   retrieve(keyDefinition: KeyDefinition): Promise<string | null>;
   delete(keyDefinition: KeyDefinition): Promise<void>;
+  // Deletes all data from unsecure store only
+  deteleAll(): Promise<void>;
 }
 
 export class DefaultFutureStorageService implements FutureStorageService {
@@ -69,6 +71,12 @@ export class DefaultFutureStorageService implements FutureStorageService {
         case StorageType.Secure:
           return this.secureKeyValueStore.delete(keyDefinition.keyIdentifier);
       }
+    });
+  }
+
+  deteleAll(): Promise<void> {
+    return this.serialPromiseQueue.add(() => {
+      return this.unsecureKeyValueStore.deleteAll();
     });
   }
 }

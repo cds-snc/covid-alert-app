@@ -1,10 +1,10 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DevSettings} from 'react-native';
 import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
 import {getSystemLocale} from 'locale/utils';
 
 import {StorageService, createStorageService} from './StorageService';
+import {DefaultFutureStorageService} from './FutureStorageService';
 
 const StorageServiceContext = createContext<StorageService | undefined>(undefined);
 
@@ -96,7 +96,7 @@ export const useStorage = () => {
     setSkipAllSet(false);
     setUserStopped(false);
     setHasViewedQr(false);
-    await AsyncStorage.clear();
+    await DefaultFutureStorageService.sharedInstance().deteleAll();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }

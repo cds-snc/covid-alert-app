@@ -25,4 +25,9 @@ export class StorageServiceMock implements FutureStorageService {
     this.store.delete(keyDefinition.keyIdentifier);
     return Promise.resolve();
   }
+
+  deteleAll(): Promise<void> {
+    this.store.clear();
+    return Promise.resolve();
+  }
 }
