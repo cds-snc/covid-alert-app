@@ -29,17 +29,17 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
 
   const [, base64Str] = url.split('#');
   try {
-    // if (QR_CODE_PUBLIC_KEY) {
-    //   // verify signed QR code
-    //   const data = nacl.sign.open(base64ToUint8Array(base64Str), base64ToUint8Array(QR_CODE_PUBLIC_KEY));
+    if (QR_CODE_PUBLIC_KEY) {
+      // verify signed QR code
+      const data = nacl.sign.open(base64ToUint8Array(base64Str), base64ToUint8Array(QR_CODE_PUBLIC_KEY));
 
-    //   if (!data) {
-    //     throw new Error();
-    //   }
+      if (!data) {
+        throw new Error();
+      }
 
-    //   // @ts-ignore
-    //   base64Str = base64.encodeFromByteArray(data);
-    // }
+      // @ts-ignore
+      base64Str = base64.encodeFromByteArray(data);
+    }
 
     const _locationData = base64.decode(base64Str);
     const locationData = JSON.parse(_locationData);
