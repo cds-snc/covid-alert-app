@@ -10,7 +10,6 @@ import {useOutbreakService} from 'shared/OutbreakProvider';
 import {QR_HOST, QR_CODE_PUBLIC_KEY} from 'env';
 import base64 from 'react-native-base64';
 import nacl from 'tweetnacl';
-import {timing} from 'react-native-reanimated';
 
 interface EventURL {
   url: string;
