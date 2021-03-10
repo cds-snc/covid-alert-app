@@ -34,28 +34,28 @@ export class StorageDirectory {
     storageType: StorageType.Unsecure,
   };
 
-  // StorageService.ts
-  static readonly StorageServiceIsOnboardedKey: KeyDefinition = {
+  // CachedStorageService.ts
+  static readonly CachedStorageServiceIsOnboardedKey: KeyDefinition = {
     keyIdentifier: 'IsOnboarded',
     storageType: StorageType.Unsecure,
   };
 
-  static readonly StorageServiceForceScreenKey: KeyDefinition = {
+  static readonly CachedStorageServiceForceScreenKey: KeyDefinition = {
     keyIdentifier: 'ForceScreen',
     storageType: StorageType.Unsecure,
   };
 
-  static readonly StorageServiceSkipAllSetKey: KeyDefinition = {
+  static readonly CachedStorageServiceSkipAllSetKey: KeyDefinition = {
     keyIdentifier: 'SkipAllSet',
     storageType: StorageType.Unsecure,
   };
 
-  static readonly StorageServiceUserStoppedKey: KeyDefinition = {
+  static readonly CachedStorageServiceUserStoppedKey: KeyDefinition = {
     keyIdentifier: 'UserStopped',
     storageType: StorageType.Unsecure,
   };
 
-  static readonly StorageServiceHasViewedQRInstructionsKey: KeyDefinition = {
+  static readonly CachedStorageServiceHasViewedQRInstructionsKey: KeyDefinition = {
     keyIdentifier: 'HasViewedQRInstructions',
     storageType: StorageType.Unsecure,
   };

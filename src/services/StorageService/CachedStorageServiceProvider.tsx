@@ -3,35 +3,36 @@ import {DevSettings} from 'react-native';
 import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
 import {getSystemLocale} from 'locale/utils';
 
-import {StorageService, createStorageService} from './StorageService';
+import {CachedStorageService, createCachedStorageService} from './CachedStorageService';
 import {DefaultFutureStorageService} from './FutureStorageService';
 
-const StorageServiceContext = createContext<StorageService | undefined>(undefined);
+const CachedStorageServiceContext = createContext<CachedStorageService | undefined>(undefined);
 
-export interface StorageServiceProviderProps {
+export interface CachedStorageServiceProviderProps {
   children?: React.ReactElement;
 }
 
-export const StorageServiceProvider = ({children}: StorageServiceProviderProps) => {
-  const [storageService, setStorageService] = useState<StorageService>();
+export const CachedStorageServiceProvider = ({children}: CachedStorageServiceProviderProps) => {
+  const [storageService, setStorageService] = useState<CachedStorageService>();
 
   useEffect(() => {
-    const {callable, cancelable} = createCancellableCallbackPromise(() => createStorageService(), setStorageService);
+    const {callable, cancelable} = createCancellableCallbackPromise(
+      () => createCachedStorageService(),
+      setStorageService,
+    );
     callable();
     return cancelable;
   }, []);
 
   return (
-    <StorageServiceContext.Provider value={storageService}>{storageService && children}</StorageServiceContext.Provider>
+    <CachedStorageServiceContext.Provider value={storageService}>
+      {storageService && children}
+    </CachedStorageServiceContext.Provider>
   );
 };
 
-export const useStorageService = () => {
-  return useContext(StorageServiceContext)!!;
-};
-
-export const useStorage = () => {
-  const storageService = useContext(StorageServiceContext)!;
+export const useCachedStorage = () => {
+  const storageService = useContext(CachedStorageServiceContext)!;
 
   const [isOnboarding, setIsOnboarding] = useState(storageService.isOnboarding.get());
   const setOnboarded = useMemo(() => storageService.setOnboarded, [storageService.setOnboarded]);

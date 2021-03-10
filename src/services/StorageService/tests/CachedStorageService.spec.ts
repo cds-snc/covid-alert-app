@@ -1,4 +1,4 @@
-import {StorageService, createStorageService} from '../StorageService';
+import {CachedStorageService, createCachedStorageService} from '../CachedStorageService';
 import {FutureStorageService, StorageDirectory} from '../index';
 
 jest.mock('react-native-localize', () => ({
@@ -12,17 +12,17 @@ const futureStorageService: FutureStorageService = {
 };
 
 describe('StorageService', () => {
-  let storageService: StorageService;
+  let storageService: CachedStorageService;
 
   beforeEach(async () => {
     jest.clearAllMocks();
     jest.resetAllMocks();
-    storageService = await createStorageService(futureStorageService);
+    storageService = await createCachedStorageService(futureStorageService);
   });
 
   describe('createStorageService', () => {
     it('initializes onboarding status from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.StorageServiceIsOnboardedKey);
+      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey);
     });
 
     it('initializes locale from persistent storage', async () => {
@@ -38,21 +38,21 @@ describe('StorageService', () => {
     });
 
     it('initializes forceScreen from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.StorageServiceForceScreenKey);
+      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceForceScreenKey);
     });
 
     it('initializes skipAllSet from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.StorageServiceSkipAllSetKey);
+      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey);
     });
   });
 
   describe('setOnboarded', () => {
     it('stores the onboarded status to permanent storage', async () => {
       await storageService.setOnboarded(true);
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.StorageServiceIsOnboardedKey, '1');
+      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey, '1');
 
       await storageService.setOnboarded(false);
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.StorageServiceIsOnboardedKey, '0');
+      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey, '0');
     });
 
     it('exposes set value as StorageService attribute', async () => {
@@ -131,10 +131,16 @@ describe('StorageService', () => {
   describe('setForceScreen', () => {
     it('stores the forceScreen flag to permanent storage', async () => {
       await storageService.setForceScreen('testing');
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.StorageServiceForceScreenKey, 'testing');
+      expect(futureStorageService.save).toHaveBeenCalledWith(
+        StorageDirectory.CachedStorageServiceForceScreenKey,
+        'testing',
+      );
 
       await storageService.setForceScreen('xaz');
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.StorageServiceForceScreenKey, 'xaz');
+      expect(futureStorageService.save).toHaveBeenCalledWith(
+        StorageDirectory.CachedStorageServiceForceScreenKey,
+        'xaz',
+      );
     });
 
     it('exposes set value as StorageService attribute', async () => {
@@ -149,10 +155,10 @@ describe('StorageService', () => {
   describe('setSkipAllSet', () => {
     it('stores the SkipAllSet flag to permanent storage', async () => {
       await storageService.setSkipAllSet(true);
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.StorageServiceSkipAllSetKey, '1');
+      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey, '1');
 
       await storageService.setSkipAllSet(false);
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.StorageServiceSkipAllSetKey, '0');
+      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey, '0');
     });
 
     it('exposes set value as StorageService attribute', async () => {

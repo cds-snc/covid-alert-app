@@ -2,7 +2,7 @@ import React from 'react';
 import {useI18n} from 'locale';
 import {Text, RoundedBox} from 'components';
 import {isRegionActive} from 'shared/RegionLogic';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {useRegionalI18n} from 'locale/regional';
 import {ExposedHelpButton} from 'components/ExposedHelpButton';
 
@@ -20,7 +20,7 @@ const ActiveContent = ({text}: {text: string}) => {
 };
 
 const ExposureText = () => {
-  const {region} = useStorage();
+  const {region} = useCachedStorage();
   const regionalI18n = useRegionalI18n();
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
   const i18n = useI18n();

@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Box, Button, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
 import {getCurrentDate} from 'shared/date-fns';
 import {useAccessibilityService} from 'services/AccessibilityService';
@@ -19,7 +19,7 @@ export const OnboardingScreen = () => {
   const carouselRef = useRef<Carousel<OnboardingKey>>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const i18n = useI18n();
-  const {setOnboarded, setOnboardedDatetime, setRegion} = useStorage();
+  const {setOnboarded, setOnboardedDatetime, setRegion} = useCachedStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
   const isStart = currentStep === 0;
   const isEnd = currentStep === onboardingData.length - 1;

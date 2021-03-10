@@ -1,6 +1,6 @@
 import React, {createContext, useMemo, useContext, useRef, useEffect} from 'react';
 import {I18n as ReactI18n, I18nManager} from '@shopify/react-i18n';
-import {createStorageService, useStorage} from 'services/StorageService';
+import {createCachedStorageService, useCachedStorage} from 'services/StorageService';
 import {captureException} from 'shared/log';
 
 import LOCALES from './translations';
@@ -22,7 +22,7 @@ export const createI18n = (locale: string) => {
 };
 
 export const createBackgroundI18n = async (forceLocale?: string) => {
-  const storageService = await createStorageService();
+  const storageService = await createCachedStorageService();
   const locale = forceLocale || storageService.locale.get();
   return createI18n(locale);
 };
@@ -33,7 +33,7 @@ export interface I18nProviderProps {
 }
 
 export const I18nProvider = ({locale: forceLocale, children}: I18nProviderProps) => {
-  const {locale: persistedLocale} = useStorage();
+  const {locale: persistedLocale} = useCachedStorage();
   const locale = forceLocale || persistedLocale;
   const i18n = useMemo(() => createI18n(locale), [locale]);
   return <I18nContext.Provider value={i18n}>{children}</I18nContext.Provider>;

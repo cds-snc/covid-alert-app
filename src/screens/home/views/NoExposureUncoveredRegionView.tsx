@@ -1,7 +1,7 @@
 import React from 'react';
 import {TextMultiline} from 'components';
 import {useI18n} from 'locale';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -10,7 +10,7 @@ import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 export const NoExposureUncoveredRegionView = () => {
   const i18n = useI18n();
-  const {onboardedDatetime, skipAllSet} = useStorage();
+  const {onboardedDatetime, skipAllSet} = useCachedStorage();
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (

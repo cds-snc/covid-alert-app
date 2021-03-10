@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Icon, Toolbar} from 'components';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
@@ -48,7 +48,7 @@ export const LanguageScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
-  const {setLocale} = useStorage();
+  const {setLocale} = useCachedStorage();
   const toggle = useCallback(
     (newLocale: 'en' | 'fr') => () => {
       setLocale(newLocale);

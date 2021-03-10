@@ -2,9 +2,7 @@ import {Observable} from 'shared/Observable';
 import {ForceScreen} from 'shared/ForceScreen';
 import {Region} from 'shared/Region';
 import {getSystemLocale} from 'locale/utils';
-import {FutureStorageService, StorageDirectory} from 'services/StorageService';
-
-import {DefaultFutureStorageService} from './FutureStorageService';
+import {FutureStorageService, DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
 
 export enum Key {
   IsOnboarded = 'IsOnboarded',
@@ -20,7 +18,7 @@ export enum Key {
   QrEnabled = 'QrEnabled',
 }
 
-export class StorageService {
+export class CachedStorageService {
   isOnboarding: Observable<boolean>;
   locale: Observable<string>;
   region: Observable<Region | undefined>;
@@ -47,7 +45,7 @@ export class StorageService {
   }
 
   setOnboarded = async (value: boolean) => {
-    await this.storageService.save(StorageDirectory.StorageServiceIsOnboardedKey, value ? '1' : '0');
+    await this.storageService.save(StorageDirectory.CachedStorageServiceIsOnboardedKey, value ? '1' : '0');
     this.isOnboarding.set(!value);
   };
 
@@ -67,22 +65,22 @@ export class StorageService {
   };
 
   setForceScreen = async (value: ForceScreen | undefined) => {
-    await this.storageService.save(StorageDirectory.StorageServiceForceScreenKey, value ? value : '');
+    await this.storageService.save(StorageDirectory.CachedStorageServiceForceScreenKey, value ? value : '');
     this.forceScreen.set(value);
   };
 
   setSkipAllSet = async (value: boolean) => {
-    await this.storageService.save(StorageDirectory.StorageServiceSkipAllSetKey, value ? '1' : '0');
+    await this.storageService.save(StorageDirectory.CachedStorageServiceSkipAllSetKey, value ? '1' : '0');
     this.skipAllSet.set(value);
   };
 
   setUserStopped = async (value: boolean) => {
-    await this.storageService.save(StorageDirectory.StorageServiceUserStoppedKey, value ? '1' : '0');
+    await this.storageService.save(StorageDirectory.CachedStorageServiceUserStoppedKey, value ? '1' : '0');
     this.userStopped.set(value);
   };
 
   setHasViewedQrInstructions = async (value: boolean) => {
-    await this.storageService.save(StorageDirectory.StorageServiceHasViewedQRInstructionsKey, value ? '1' : '0');
+    await this.storageService.save(StorageDirectory.CachedStorageServiceHasViewedQRInstructionsKey, value ? '1' : '0');
     this.hasViewedQrInstructions.set(value);
   };
 
@@ -92,7 +90,8 @@ export class StorageService {
   };
 
   init = async () => {
-    const isOnboarded = (await this.storageService.retrieve(StorageDirectory.StorageServiceIsOnboardedKey)) === '1';
+    const isOnboarded =
+      (await this.storageService.retrieve(StorageDirectory.CachedStorageServiceIsOnboardedKey)) === '1';
     this.isOnboarding.set(!isOnboarded);
 
     const locale = (await this.storageService.retrieve(StorageDirectory.GlobalLocaleKey)) || this.locale.get();
@@ -109,19 +108,20 @@ export class StorageService {
     this.onboardedDatetime.set(onboardedDatetime);
 
     const forceScreen =
-      ((await this.storageService.retrieve(StorageDirectory.StorageServiceForceScreenKey)) as
+      ((await this.storageService.retrieve(StorageDirectory.CachedStorageServiceForceScreenKey)) as
         | ForceScreen
         | undefined) || undefined;
     this.forceScreen.set(forceScreen);
 
-    const skipAllSet = (await this.storageService.retrieve(StorageDirectory.StorageServiceSkipAllSetKey)) === '1';
+    const skipAllSet = (await this.storageService.retrieve(StorageDirectory.CachedStorageServiceSkipAllSetKey)) === '1';
     this.skipAllSet.set(skipAllSet);
 
-    const userStopped = (await this.storageService.retrieve(StorageDirectory.StorageServiceUserStoppedKey)) === '1';
+    const userStopped =
+      (await this.storageService.retrieve(StorageDirectory.CachedStorageServiceUserStoppedKey)) === '1';
     this.userStopped.set(userStopped);
 
     const hasViewedQrInstructions =
-      (await this.storageService.retrieve(StorageDirectory.StorageServiceHasViewedQRInstructionsKey)) === '1';
+      (await this.storageService.retrieve(StorageDirectory.CachedStorageServiceHasViewedQRInstructionsKey)) === '1';
     this.hasViewedQrInstructions.set(hasViewedQrInstructions);
 
     const qrEnabled = (await this.storageService.retrieve(StorageDirectory.GlobalQrEnabledKey)) === '1';
@@ -129,10 +129,10 @@ export class StorageService {
   };
 }
 
-export const createStorageService = async (
+export const createCachedStorageService = async (
   futureStorageService: FutureStorageService = DefaultFutureStorageService.sharedInstance(),
 ) => {
-  const storageService = new StorageService(futureStorageService);
-  await storageService.init();
-  return storageService;
+  const cachedStorageService = new CachedStorageService(futureStorageService);
+  await cachedStorageService.init();
+  return cachedStorageService;
 };

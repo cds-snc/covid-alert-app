@@ -8,7 +8,7 @@ import {
 } from 'services/ExposureNotificationService';
 import NativePushNotification from 'bridge/PushNotification';
 import {useI18n} from 'locale';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
 import {Box} from 'components';
 
@@ -17,7 +17,7 @@ import {PrimaryActionButton} from './PrimaryActionButton';
 export const OnOffButton = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
-  const {userStopped} = useStorage();
+  const {userStopped} = useCachedStorage();
   const startExposureNotificationService = useStartExposureNotificationService();
   const stopExposureNotificationService = useStopExposureNotificationService();
 

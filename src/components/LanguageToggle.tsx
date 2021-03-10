@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
 import {Button} from 'components/Button';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {useI18n} from 'locale';
 
 export const LanguageToggle = () => {
   const i18n = useI18n();
-  const {setLocale} = useStorage();
+  const {setLocale} = useCachedStorage();
   const toggle = useCallback(() => {
     setLocale(i18n.locale === 'en' ? 'fr' : 'en');
   }, [i18n.locale, setLocale]);

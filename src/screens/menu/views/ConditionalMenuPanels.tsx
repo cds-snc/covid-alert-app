@@ -7,7 +7,7 @@ import {
   useExposureStatus,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNotificationPermissionStatus} from 'shared/NotificationPermissionStatus';
 
@@ -19,7 +19,7 @@ import {DiagnosedThankYou} from './DiagnosedThankYou';
 import {OfflineWarning} from './OfflineWarning';
 
 export const ConditionalMenuPanels = () => {
-  const {userStopped} = useStorage();
+  const {userStopped} = useCachedStorage();
   const exposureStatus = useExposureStatus();
   const [systemStatus] = useSystemStatus();
   const [notificationStatus, turnNotificationsOn] = useNotificationPermissionStatus();

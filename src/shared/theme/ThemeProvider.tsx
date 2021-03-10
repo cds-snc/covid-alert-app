@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {ThemeProvider as ThemeProviderRS} from '@shopify/restyle';
 import {Region} from 'shared/Region';
 
@@ -11,7 +11,7 @@ interface ThemeProviderProps {
 
 export const ThemeProvider = ({children}: ThemeProviderProps) => {
   // Need to also get value for light/dark theme from storage
-  const {region} = useStorage();
+  const {region} = useCachedStorage();
   const [theme, setTheme] = useState<Theme>(getThemeWithDefault(region));
 
   useEffect(() => setTheme(getThemeWithDefault(region)), [region]);

@@ -4,7 +4,7 @@ import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotif
 import {AppState, AppStateStatus, Platform} from 'react-native';
 import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
-import {DefaultFutureStorageService, FutureStorageService, useStorage} from 'services/StorageService';
+import {DefaultFutureStorageService, FutureStorageService, useCachedStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'shared/NotificationPermissionStatus';
@@ -32,7 +32,7 @@ export const ExposureNotificationServiceProvider = ({
   children,
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped} = useCachedStorage();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
@@ -121,7 +121,7 @@ export function useStartExposureNotificationService(): (
   manualTrigger: boolean,
 ) => Promise<boolean | {success: boolean; error?: string}> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped} = useCachedStorage();
 
   return useCallback(
     async (manualTrigger: boolean) => {
@@ -159,7 +159,7 @@ export function useStartExposureNotificationService(): (
 
 export function useStopExposureNotificationService(): (manualTrigger: boolean) => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped} = useCachedStorage();
   return useCallback(
     async (manualTrigger: boolean) => {
       setUserStopped(true);
