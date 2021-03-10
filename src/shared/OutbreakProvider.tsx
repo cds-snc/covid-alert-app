@@ -1,6 +1,6 @@
 import {TEST_MODE} from 'env';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
-import {DefaultFutureStorageService, FutureStorageService, StorageDirectory} from 'services/StorageService';
+import {DefaultStorageService, StorageService, StorageDirectory} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {useI18nRef, I18n} from 'locale';
 import PQueue from 'p-queue';
@@ -33,7 +33,7 @@ export class OutbreakService implements OutbreakService {
   outbreakHistory: Observable<OutbreakHistoryItem[]>;
   checkInHistory: Observable<CheckInData[]>;
   i18n: I18n;
-  storageService: FutureStorageService;
+  storageService: StorageService;
 
   private serialPromiseQueue: PQueue;
 
@@ -41,7 +41,7 @@ export class OutbreakService implements OutbreakService {
     this.outbreakHistory = new Observable<OutbreakHistoryItem[]>([]);
     this.checkInHistory = new Observable<CheckInData[]>([]);
     this.i18n = i18n;
-    this.storageService = DefaultFutureStorageService.sharedInstance();
+    this.storageService = DefaultStorageService.sharedInstance();
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 

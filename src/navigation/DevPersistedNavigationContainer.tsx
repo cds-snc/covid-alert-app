@@ -1,7 +1,7 @@
 import {InitialState, NavigationContainerRef, NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
 import {InteractionManager} from 'react-native';
-import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 import {captureException} from 'shared/log';
 
 interface DevPersistedNavigationContainerProps extends React.ComponentProps<typeof NavigationContainer> {}
@@ -18,7 +18,7 @@ function DevPersistedNavigationContainerImpl(
       const persistState = async () => {
         persistInteractionRef.current = null;
         try {
-          await DefaultFutureStorageService.sharedInstance().save(
+          await DefaultStorageService.sharedInstance().save(
             StorageDirectory.DevPersistedNavigationContainerNavigationStateKey,
             JSON.stringify(state),
           );
@@ -45,7 +45,7 @@ function DevPersistedNavigationContainerImpl(
   React.useEffect(() => {
     const loadPersistedState = async () => {
       try {
-        const jsonString = await DefaultFutureStorageService.sharedInstance().retrieve(
+        const jsonString = await DefaultStorageService.sharedInstance().retrieve(
           StorageDirectory.DevPersistedNavigationContainerNavigationStateKey,
         );
         if (jsonString != null) {

@@ -4,7 +4,7 @@ import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotif
 import {AppState, AppStateStatus, Platform} from 'react-native';
 import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
-import {DefaultFutureStorageService, FutureStorageService, useCachedStorage} from 'services/StorageService';
+import {DefaultStorageService, StorageService, useCachedStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'shared/NotificationPermissionStatus';
@@ -21,7 +21,7 @@ export interface ExposureNotificationServiceProviderProps {
   backendInterface: BackendInterface;
   backgroundScheduler?: typeof BackgroundScheduler;
   exposureNotification?: typeof ExposureNotification;
-  storageService?: FutureStorageService;
+  storageService?: StorageService;
   children?: React.ReactElement;
 }
 
@@ -38,7 +38,7 @@ export const ExposureNotificationServiceProvider = ({
       new ExposureNotificationService(
         backendInterface,
         i18n,
-        DefaultFutureStorageService.sharedInstance(),
+        DefaultStorageService.sharedInstance(),
         exposureNotification || ExposureNotification,
         FilteredMetricsService.sharedInstance(),
       ),

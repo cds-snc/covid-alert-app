@@ -12,7 +12,7 @@ export interface KeyDefinition {
   storageType: StorageType;
 }
 
-export interface FutureStorageService {
+export interface StorageService {
   save(keyDefinition: KeyDefinition, value: string): Promise<void>;
   retrieve(keyDefinition: KeyDefinition): Promise<string | null>;
   delete(keyDefinition: KeyDefinition): Promise<void>;
@@ -20,10 +20,10 @@ export interface FutureStorageService {
   deteleAll(): Promise<void>;
 }
 
-export class DefaultFutureStorageService implements FutureStorageService {
-  private static instance: FutureStorageService;
+export class DefaultStorageService implements StorageService {
+  private static instance: StorageService;
 
-  static sharedInstance(): FutureStorageService {
+  static sharedInstance(): StorageService {
     if (!this.instance) {
       this.instance = new this(new UnsecureKeyValueStore(), new SecureKeyValueStore());
     }

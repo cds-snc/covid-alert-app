@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Text, ButtonSingleLine, RoundedBox} from 'components';
-import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
@@ -11,7 +11,7 @@ export const DiagnosedShareUploadView = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const toDataShare = useCallback(async () => {
-    const initialTekUploadComplete = await DefaultFutureStorageService.sharedInstance().retrieve(
+    const initialTekUploadComplete = await DefaultStorageService.sharedInstance().retrieve(
       StorageDirectory.GlobalInitialTekUploadCompleteKey,
     );
     const screen = initialTekUploadComplete === 'false' ? 'IntermediateScreen' : 'TekUploadSubsequentDays';

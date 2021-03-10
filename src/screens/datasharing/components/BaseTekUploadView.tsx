@@ -8,7 +8,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
-import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -40,7 +40,7 @@ export const BaseTekUploadView = ({
   const exposureHistory = useExposureHistory();
 
   const onSuccess = useCallback(() => {
-    DefaultFutureStorageService.sharedInstance().save(StorageDirectory.GlobalInitialTekUploadCompleteKey, 'true');
+    DefaultStorageService.sharedInstance().save(StorageDirectory.GlobalInitialTekUploadCompleteKey, 'true');
     navigation.navigate('Home');
   }, [navigation]);
   // TEK = Temporary Exposure Key

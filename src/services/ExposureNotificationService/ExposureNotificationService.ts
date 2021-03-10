@@ -34,7 +34,7 @@ import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
-import {FutureStorageService, StorageDirectory} from '../StorageService';
+import {StorageService, StorageDirectory} from '../StorageService';
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
@@ -109,14 +109,14 @@ export class ExposureNotificationService {
   private backendInterface: BackendInterface;
 
   private i18n: I18n;
-  private storageService: FutureStorageService;
+  private storageService: StorageService;
 
   private filteredMetricsService: FilteredMetricsService;
 
   constructor(
     backendInterface: BackendInterface,
     i18n: I18n,
-    storageService: FutureStorageService,
+    storageService: StorageService,
     exposureNotification: typeof ExposureNotification,
     filteredMetricsService: FilteredMetricsService,
   ) {

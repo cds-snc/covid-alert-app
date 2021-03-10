@@ -4,7 +4,7 @@ import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
 import {getSystemLocale} from 'locale/utils';
 
 import {CachedStorageService, createCachedStorageService} from './CachedStorageService';
-import {DefaultFutureStorageService} from './FutureStorageService';
+import {DefaultStorageService} from './StorageService';
 
 const CachedStorageServiceContext = createContext<CachedStorageService | undefined>(undefined);
 
@@ -97,7 +97,7 @@ export const useCachedStorage = () => {
     setSkipAllSet(false);
     setUserStopped(false);
     setHasViewedQr(false);
-    await DefaultFutureStorageService.sharedInstance().deteleAll();
+    await DefaultStorageService.sharedInstance().deteleAll();
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }

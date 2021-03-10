@@ -5,7 +5,7 @@ import {Platform} from 'react-native';
 import {periodSinceEpoch} from '../../../shared/date-fns';
 import {ExposureSummary} from '../../../bridge/ExposureNotification';
 import PushNotification from '../../../bridge/PushNotification';
-import {FutureStorageService, StorageDirectory} from '../../StorageService';
+import {StorageService, StorageDirectory} from '../../StorageService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../../BackgroundSchedulerService';
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {FilteredMetricsService} from '../../MetricsService/FilteredMetricsService';
@@ -81,7 +81,7 @@ const bridge: any = {
   getPendingExposureSummary: jest.fn().mockResolvedValue(undefined),
 };
 
-const storageService: FutureStorageService = {
+const storageService: StorageService = {
   retrieve: jest.fn().mockResolvedValue(null),
   save: jest.fn().mockResolvedValueOnce(undefined),
   delete: jest.fn(),

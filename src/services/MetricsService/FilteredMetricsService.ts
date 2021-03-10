@@ -3,7 +3,7 @@ import PQueue from 'p-queue';
 import {Platform} from 'react-native';
 import {Status} from 'shared/NotificationPermissionStatus';
 import {SystemStatus} from 'services/ExposureNotificationService';
-import {DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';
 
 import {Metric} from './Metric';
@@ -28,7 +28,7 @@ export class FilteredMetricsService {
             androidReleaseVersion,
           ),
         ),
-        new DefaultMetricsFilter(DefaultFutureStorageService.sharedInstance()),
+        new DefaultMetricsFilter(DefaultStorageService.sharedInstance()),
       );
     }
     return this.instance;
@@ -96,7 +96,7 @@ export class FilteredMetricsService {
   }
 
   private async getRegion(): Promise<string> {
-    const regionOpt = await DefaultFutureStorageService.sharedInstance().retrieve(StorageDirectory.GlobalRegionKey);
+    const regionOpt = await DefaultStorageService.sharedInstance().retrieve(StorageDirectory.GlobalRegionKey);
     return regionOpt ? regionOpt : 'None';
   }
 }

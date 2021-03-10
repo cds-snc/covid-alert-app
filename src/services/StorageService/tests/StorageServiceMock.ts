@@ -1,6 +1,6 @@
-import {FutureStorageService, KeyDefinition} from '../FutureStorageService';
+import {StorageService, KeyDefinition} from '../StorageService';
 
-export class StorageServiceMock implements FutureStorageService {
+export class StorageServiceMock implements StorageService {
   private store: Map<string, string>;
 
   constructor() {

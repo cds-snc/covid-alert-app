@@ -11,7 +11,7 @@ import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {DefaultFutureStorageService, CachedStorageServiceProvider} from 'services/StorageService';
+import {DefaultStorageService, CachedStorageServiceProvider} from 'services/StorageService';
 import {AppState, AppStateStatus, Platform, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
@@ -45,7 +45,7 @@ const appInit = async () => {
 const App = () => {
   const initialRegionContent: RegionContent = regionContentDefault as RegionContent;
   const backendService = useMemo(
-    () => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, DefaultFutureStorageService.sharedInstance()),
+    () => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, DefaultStorageService.sharedInstance()),
     [],
   );
 

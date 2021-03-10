@@ -10,7 +10,7 @@ import {PeriodicWorkPayload} from '../../bridge/PushNotification';
 import {log} from '../../shared/logging/config';
 import {ExposureNotificationService} from '../ExposureNotificationService';
 import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
-import {DefaultFutureStorageService} from '../StorageService';
+import {DefaultStorageService} from '../StorageService';
 import {BackendService} from '../BackendService';
 import {createBackgroundI18n} from '../../locale';
 
@@ -126,13 +126,13 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
         RETRIEVE_URL,
         SUBMIT_URL,
         HMAC_KEY,
-        DefaultFutureStorageService.sharedInstance(),
+        DefaultStorageService.sharedInstance(),
       );
       const i18n = await createBackgroundI18n();
       const exposureNotificationService = new ExposureNotificationService(
         backendService,
         i18n,
-        DefaultFutureStorageService.sharedInstance(),
+        DefaultStorageService.sharedInstance(),
         ExposureNotification,
         FilteredMetricsService.sharedInstance(),
       );

@@ -1,5 +1,5 @@
 import PQueue from 'p-queue';
-import {FutureStorageService, StorageDirectory} from 'services/StorageService';
+import {StorageService, StorageDirectory} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
 import {Metric} from './Metric';
@@ -17,10 +17,10 @@ export interface MetricsStorageCleaner {
 }
 
 export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStorageReader, MetricsStorageCleaner {
-  private storageService: FutureStorageService;
+  private storageService: StorageService;
   private serialPromiseQueue: PQueue;
 
-  constructor(storageService: FutureStorageService) {
+  constructor(storageService: StorageService) {
     this.storageService = storageService;
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }

@@ -8,7 +8,7 @@ import {
   ScanInstance,
 } from '../../../bridge/ExposureNotification';
 import {FilteredMetricsService} from '../../MetricsService';
-import {FutureStorageService} from '../../StorageService';
+import {StorageService} from '../../StorageService';
 import {ExposureNotificationService} from '../ExposureNotificationService';
 
 jest.mock('react-native-system-setting', () => {
@@ -54,7 +54,7 @@ const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
 };
 
-const storageService: FutureStorageService = {
+const storageService: StorageService = {
   retrieve: jest.fn().mockResolvedValue(null),
   save: jest.fn().mockResolvedValueOnce(undefined),
   delete: jest.fn(),

@@ -13,7 +13,7 @@ import {createBackgroundI18n} from 'locale';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 
-import {DefaultFutureStorageService} from './services/StorageService';
+import {DefaultStorageService} from './services/StorageService';
 import App from './App';
 
 AppRegistry.registerComponent('CovidShield', () => App);
@@ -26,13 +26,13 @@ if (Platform.OS === 'android') {
       RETRIEVE_URL,
       SUBMIT_URL,
       HMAC_KEY,
-      DefaultFutureStorageService.sharedInstance(),
+      DefaultStorageService.sharedInstance(),
     );
     const i18n = await createBackgroundI18n();
     const exposureNotificationService = new ExposureNotificationService(
       backendService,
       i18n,
-      DefaultFutureStorageService.sharedInstance(),
+      DefaultStorageService.sharedInstance(),
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
     );
@@ -48,13 +48,13 @@ if (Platform.OS === 'android') {
       RETRIEVE_URL,
       SUBMIT_URL,
       HMAC_KEY,
-      DefaultFutureStorageService.sharedInstance(),
+      DefaultStorageService.sharedInstance(),
     );
     const i18n = await createBackgroundI18n();
     const exposureNotificationService = new ExposureNotificationService(
       backendService,
       i18n,
-      DefaultFutureStorageService.sharedInstance(),
+      DefaultStorageService.sharedInstance(),
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
     );

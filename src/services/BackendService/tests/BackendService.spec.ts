@@ -13,7 +13,7 @@ import {getRandomBytes, downloadDiagnosisKeysFile} from '../../../bridge/CovidSh
 import {TemporaryExposureKey} from '../../../bridge/ExposureNotification';
 import {BackendService} from '../BackendService';
 import {covidshield} from '../covidshield';
-import {FutureStorageService, StorageDirectory} from '../../StorageService';
+import {StorageService, StorageDirectory} from '../../StorageService';
 
 jest.mock('tweetnacl', () => ({
   __esModule: true,
@@ -69,7 +69,7 @@ jest.mock('../../../shared/log', () => ({
   captureMessage: jest.fn(),
 }));
 
-const storageService: FutureStorageService = {
+const storageService: StorageService = {
   save: jest.fn(),
   retrieve: jest.fn(),
   delete: jest.fn(),

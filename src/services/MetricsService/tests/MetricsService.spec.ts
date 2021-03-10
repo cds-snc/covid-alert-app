@@ -9,7 +9,7 @@ import {MetricsPusher, MetricsPusherResult} from '../MetricsPusher';
 import {Metric} from '../Metric';
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {StorageServiceMock} from '../../StorageService/tests/StorageServiceMock';
-import {FutureStorageService} from '../../StorageService';
+import {StorageService} from '../../StorageService';
 
 import {MetricFactory} from './MetricFactory';
 
@@ -24,7 +24,7 @@ describe('MetricsService', () => {
   let metricsProvider: MetricsProvider;
 
   beforeEach(() => {
-    const storageService: FutureStorageService = new StorageServiceMock();
+    const storageService: StorageService = new StorageServiceMock();
     metricsStorage = new DefaultMetricsStorage(storageService);
     const metricsPublisher: MetricsPublisher = new DefaultMetricsPublisher(metricsStorage);
     metricsProvider = new DefaultMetricsProvider(metricsStorage);

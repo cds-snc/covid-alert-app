@@ -2,7 +2,7 @@ import {Observable} from 'shared/Observable';
 import {ForceScreen} from 'shared/ForceScreen';
 import {Region} from 'shared/Region';
 import {getSystemLocale} from 'locale/utils';
-import {FutureStorageService, DefaultFutureStorageService, StorageDirectory} from 'services/StorageService';
+import {StorageService, DefaultStorageService, StorageDirectory} from 'services/StorageService';
 
 export enum Key {
   IsOnboarded = 'IsOnboarded',
@@ -29,9 +29,9 @@ export class CachedStorageService {
   hasViewedQrInstructions: Observable<boolean>;
   qrEnabled: Observable<boolean>;
 
-  private storageService: FutureStorageService;
+  private storageService: StorageService;
 
-  constructor(storageService: FutureStorageService) {
+  constructor(storageService: StorageService) {
     this.isOnboarding = new Observable<boolean>(true);
     this.locale = new Observable<string>(getSystemLocale());
     this.region = new Observable<Region | undefined>(undefined);
@@ -130,9 +130,9 @@ export class CachedStorageService {
 }
 
 export const createCachedStorageService = async (
-  futureStorageService: FutureStorageService = DefaultFutureStorageService.sharedInstance(),
+  storageService: StorageService = DefaultStorageService.sharedInstance(),
 ) => {
-  const cachedStorageService = new CachedStorageService(futureStorageService);
+  const cachedStorageService = new CachedStorageService(storageService);
   await cachedStorageService.init();
   return cachedStorageService;
 };

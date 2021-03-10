@@ -1,172 +1,160 @@
 import {CachedStorageService, createCachedStorageService} from '../CachedStorageService';
-import {FutureStorageService, StorageDirectory} from '../index';
+import {StorageService, StorageDirectory} from '../index';
 
 jest.mock('react-native-localize', () => ({
   getLocales: () => [{countryCode: 'US', languageTag: 'en-US', langaugeCode: 'en', isRTL: false}],
 }));
 
-const futureStorageService: FutureStorageService = {
+const storageService: StorageService = {
   save: jest.fn(),
   retrieve: jest.fn(),
   delete: jest.fn(),
 };
 
-describe('StorageService', () => {
-  let storageService: CachedStorageService;
+describe('CachedStorageService', () => {
+  let cachedStorageService: CachedStorageService;
 
   beforeEach(async () => {
     jest.clearAllMocks();
     jest.resetAllMocks();
-    storageService = await createCachedStorageService(futureStorageService);
+    cachedStorageService = await createCachedStorageService(storageService);
   });
 
   describe('createStorageService', () => {
     it('initializes onboarding status from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey);
+      expect(storageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey);
     });
 
     it('initializes locale from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.GlobalLocaleKey);
+      expect(storageService.retrieve).toHaveBeenCalledWith(StorageDirectory.GlobalLocaleKey);
     });
 
     it('initalizes region from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.GlobalRegionKey);
+      expect(storageService.retrieve).toHaveBeenCalledWith(StorageDirectory.GlobalRegionKey);
     });
 
     it('initializes onboardedDateTime from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.GlobalOnboardedDatetimeKey);
+      expect(storageService.retrieve).toHaveBeenCalledWith(StorageDirectory.GlobalOnboardedDatetimeKey);
     });
 
     it('initializes forceScreen from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceForceScreenKey);
+      expect(storageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceForceScreenKey);
     });
 
     it('initializes skipAllSet from persistent storage', async () => {
-      expect(futureStorageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey);
+      expect(storageService.retrieve).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey);
     });
   });
 
   describe('setOnboarded', () => {
     it('stores the onboarded status to permanent storage', async () => {
-      await storageService.setOnboarded(true);
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey, '1');
+      await cachedStorageService.setOnboarded(true);
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey, '1');
 
-      await storageService.setOnboarded(false);
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey, '0');
+      await cachedStorageService.setOnboarded(false);
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceIsOnboardedKey, '0');
     });
 
     it('exposes set value as StorageService attribute', async () => {
-      await storageService.setOnboarded(true);
-      expect(storageService.isOnboarding.get()).toStrictEqual(false);
+      await cachedStorageService.setOnboarded(true);
+      expect(cachedStorageService.isOnboarding.get()).toStrictEqual(false);
 
-      await storageService.setOnboarded(false);
-      expect(storageService.isOnboarding.get()).toStrictEqual(true);
+      await cachedStorageService.setOnboarded(false);
+      expect(cachedStorageService.isOnboarding.get()).toStrictEqual(true);
     });
   });
 
   describe('setLocale', () => {
     it('stores the locale to permanent storage', async () => {
-      await storageService.setLocale('en');
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalLocaleKey, 'en');
+      await cachedStorageService.setLocale('en');
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalLocaleKey, 'en');
 
-      await storageService.setLocale('fr_CA');
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalLocaleKey, 'fr_CA');
+      await cachedStorageService.setLocale('fr_CA');
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalLocaleKey, 'fr_CA');
     });
 
     it('exposes set value as StorageService attribute', async () => {
-      await storageService.setLocale('en_US');
-      expect(storageService.locale.get()).toStrictEqual('en_US');
+      await cachedStorageService.setLocale('en_US');
+      expect(cachedStorageService.locale.get()).toStrictEqual('en_US');
 
-      await storageService.setLocale('fr');
-      expect(storageService.locale.get()).toStrictEqual('fr');
+      await cachedStorageService.setLocale('fr');
+      expect(cachedStorageService.locale.get()).toStrictEqual('fr');
     });
   });
 
   describe('setRegion', () => {
     it('stores the region to permanent storage', async () => {
-      await storageService.setRegion('ABC');
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalRegionKey, 'ABC');
+      await cachedStorageService.setRegion('ABC');
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalRegionKey, 'ABC');
 
-      await storageService.setRegion('asd');
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalRegionKey, 'asd');
+      await cachedStorageService.setRegion('asd');
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalRegionKey, 'asd');
     });
 
     it('exposes set value as StorageService attribute', async () => {
-      await storageService.setRegion('qwe');
-      expect(storageService.region.get()).toStrictEqual('qwe');
+      await cachedStorageService.setRegion('qwe');
+      expect(cachedStorageService.region.get()).toStrictEqual('qwe');
 
-      await storageService.setRegion('fddd');
-      expect(storageService.region.get()).toStrictEqual('fddd');
+      await cachedStorageService.setRegion('fddd');
+      expect(cachedStorageService.region.get()).toStrictEqual('fddd');
     });
   });
 
   describe('setOnboardedDatetime', () => {
     it('stores the onboarded date to permanent storage', async () => {
       const d1 = new Date();
-      await storageService.setOnboardedDatetime(d1);
-      expect(futureStorageService.save).toHaveBeenCalledWith(
-        StorageDirectory.GlobalOnboardedDatetimeKey,
-        d1.toISOString(),
-      );
+      await cachedStorageService.setOnboardedDatetime(d1);
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalOnboardedDatetimeKey, d1.toISOString());
 
       const d2 = new Date();
-      await storageService.setOnboardedDatetime(d2);
-      expect(futureStorageService.save).toHaveBeenCalledWith(
-        StorageDirectory.GlobalOnboardedDatetimeKey,
-        d2.toISOString(),
-      );
+      await cachedStorageService.setOnboardedDatetime(d2);
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.GlobalOnboardedDatetimeKey, d2.toISOString());
     });
 
     it('exposes set value as StorageService attribute', async () => {
       const d1 = new Date();
-      await storageService.setOnboardedDatetime(d1);
-      expect(storageService.onboardedDatetime.get()).toStrictEqual(d1);
+      await cachedStorageService.setOnboardedDatetime(d1);
+      expect(cachedStorageService.onboardedDatetime.get()).toStrictEqual(d1);
 
       const d2 = new Date();
-      await storageService.setOnboardedDatetime(d2);
-      expect(storageService.onboardedDatetime.get()).toStrictEqual(d2);
+      await cachedStorageService.setOnboardedDatetime(d2);
+      expect(cachedStorageService.onboardedDatetime.get()).toStrictEqual(d2);
     });
   });
 
   describe('setForceScreen', () => {
     it('stores the forceScreen flag to permanent storage', async () => {
-      await storageService.setForceScreen('testing');
-      expect(futureStorageService.save).toHaveBeenCalledWith(
-        StorageDirectory.CachedStorageServiceForceScreenKey,
-        'testing',
-      );
+      await cachedStorageService.setForceScreen('testing');
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceForceScreenKey, 'testing');
 
-      await storageService.setForceScreen('xaz');
-      expect(futureStorageService.save).toHaveBeenCalledWith(
-        StorageDirectory.CachedStorageServiceForceScreenKey,
-        'xaz',
-      );
+      await cachedStorageService.setForceScreen('xaz');
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceForceScreenKey, 'xaz');
     });
 
     it('exposes set value as StorageService attribute', async () => {
-      await storageService.setForceScreen('testing');
-      expect(storageService.forceScreen.get()).toStrictEqual('testing');
+      await cachedStorageService.setForceScreen('testing');
+      expect(cachedStorageService.forceScreen.get()).toStrictEqual('testing');
 
-      await storageService.setForceScreen('xaz');
-      expect(storageService.forceScreen.get()).toStrictEqual('xaz');
+      await cachedStorageService.setForceScreen('xaz');
+      expect(cachedStorageService.forceScreen.get()).toStrictEqual('xaz');
     });
   });
 
   describe('setSkipAllSet', () => {
     it('stores the SkipAllSet flag to permanent storage', async () => {
-      await storageService.setSkipAllSet(true);
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey, '1');
+      await cachedStorageService.setSkipAllSet(true);
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey, '1');
 
-      await storageService.setSkipAllSet(false);
-      expect(futureStorageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey, '0');
+      await cachedStorageService.setSkipAllSet(false);
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageServiceSkipAllSetKey, '0');
     });
 
     it('exposes set value as StorageService attribute', async () => {
-      await storageService.setSkipAllSet(false);
-      expect(storageService.skipAllSet.get()).toStrictEqual(false);
+      await cachedStorageService.setSkipAllSet(false);
+      expect(cachedStorageService.skipAllSet.get()).toStrictEqual(false);
 
-      await storageService.setSkipAllSet(true);
-      expect(storageService.skipAllSet.get()).toStrictEqual(true);
+      await cachedStorageService.setSkipAllSet(true);
+      expect(cachedStorageService.skipAllSet.get()).toStrictEqual(true);
     });
   });
 });

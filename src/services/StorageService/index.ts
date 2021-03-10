@@ -1,4 +1,4 @@
 export * from './CachedStorageService';
 export * from './CachedStorageServiceProvider';
-export * from './FutureStorageService';
+export * from './StorageService';
 export * from './StorageDirectory';

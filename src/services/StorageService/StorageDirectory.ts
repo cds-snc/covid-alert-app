@@ -1,4 +1,4 @@
-import {KeyDefinition, StorageType} from './FutureStorageService';
+import {KeyDefinition, StorageType} from './StorageService';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class StorageDirectory {

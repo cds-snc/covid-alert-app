@@ -1,7 +1,7 @@
 /* eslint-disable promise/no-nesting */
 import {getHoursBetween, getCurrentDate, daysBetweenUTC, getUTCMidnight} from 'shared/date-fns';
 import {ExposureStatus, ExposureStatusType} from 'services/ExposureNotificationService';
-import {FutureStorageService} from 'services/StorageService';
+import {StorageService} from 'services/StorageService';
 
 import {DefaultMetricsFilterStateStorage, MetricsFilterStateStorage} from './MetricsFilterStateStorage';
 
@@ -70,7 +70,7 @@ export interface MetricsFilter {
 export class DefaultMetricsFilter implements MetricsFilter {
   private stateStorage: MetricsFilterStateStorage;
 
-  constructor(storageService: FutureStorageService) {
+  constructor(storageService: StorageService) {
     this.stateStorage = new DefaultMetricsFilterStateStorage(storageService);
   }
 

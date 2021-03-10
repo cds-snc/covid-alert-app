@@ -1,5 +1,5 @@
 import {getCurrentDate} from 'shared/date-fns';
-import {FutureStorageService, StorageDirectory} from 'services/StorageService';
+import {StorageService, StorageDirectory} from 'services/StorageService';
 
 export interface MetricsFilterStateStorage {
   markInstalledEventAsPublished(): Promise<void>;
@@ -17,9 +17,9 @@ export interface MetricsFilterStateStorage {
 }
 
 export class DefaultMetricsFilterStateStorage implements MetricsFilterStateStorage {
-  private storageService: FutureStorageService;
+  private storageService: StorageService;
 
-  constructor(storageService: FutureStorageService) {
+  constructor(storageService: StorageService) {
     this.storageService = storageService;
   }
 
