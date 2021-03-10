@@ -11,10 +11,10 @@ export type TextProps = RestyleTextProps<Theme> &
     focusRef?: React.LegacyRef<any>;
   };
 
-export const Text = ({accessibilityAutoFocus = false, focusRef, ...props}: TextProps) => {
+export const Text = ({accessibilityAutoFocus = false, focusRef, allowFontScaling = false, ...props}: TextProps) => {
   const styledProps = useRestyle(textRestyleFunctions, props);
   const autoFocusRef = useAccessibilityAutoFocus(accessibilityAutoFocus);
-  return <RNText accessible ref={focusRef ? focusRef : autoFocusRef} {...styledProps} />;
+  return <RNText accessible ref={focusRef ? focusRef : autoFocusRef} {...styledProps} maxFontSizeMultiplier={2} />;
 };
 
 Text.defaultProps = {

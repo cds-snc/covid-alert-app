@@ -6,6 +6,7 @@ import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationServic
 import {useStorage} from 'services/StorageService';
 
 import {QrButton} from '../components/QrButton';
+import {MenuButton} from '../components/MenuButton';
 
 import {StatusHeaderView} from './StatusHeaderView';
 
@@ -29,6 +30,11 @@ export const MenuBar = () => {
       <QrButton />
     </Box>
   );
+  const menuButtonBox = (
+    <Box marginVertical="m">
+      <MenuButton />
+    </Box>
+  );
   return (
     <Box style={styles.content} paddingHorizontal="m">
       <Box style={styles.box}>
@@ -36,14 +42,15 @@ export const MenuBar = () => {
           {qrEnabled ? qrButtonBox : appStatus}
         </Box>
         <Box flex={2} marginVertical="m">
-          <Button
+          {menuButtonBox}
+          {/* <Button
             text="Menu"
             variant="bigFlatNeutralGrey"
             onPress={openMenu}
             iconNameLeft="hamburger-menu"
             borderRadius={8}
             alignLeft
-          />
+          /> */}
         </Box>
       </Box>
     </Box>
