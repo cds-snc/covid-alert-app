@@ -14,10 +14,6 @@ const borderRadius = 16;
 
 export const MenuBar = () => {
   const {qrEnabled} = useStorage();
-  const navigation = useNavigation();
-  const openMenu = useCallback(() => {
-    navigation.navigate('Menu');
-  }, [navigation]);
   const [systemStatus] = useSystemStatus();
 
   const appStatus = (
@@ -43,14 +39,6 @@ export const MenuBar = () => {
         </Box>
         <Box flex={2} marginVertical="m">
           {menuButtonBox}
-          {/* <Button
-            text="Menu"
-            variant="bigFlatNeutralGrey"
-            onPress={openMenu}
-            iconNameLeft="hamburger-menu"
-            borderRadius={8}
-            alignLeft
-          /> */}
         </Box>
       </Box>
     </Box>
