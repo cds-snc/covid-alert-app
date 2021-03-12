@@ -71,6 +71,9 @@ export const useStorage = () => {
     storageService.setHasViewedQrInstructions,
   ]);
 
+  const [qrEnabled, setQrEnabledInternal] = useState(storageService.qrEnabled.get());
+  const setQrEnabled = useMemo(() => storageService.setQrEnabled, [storageService.setQrEnabled]);
+
   useEffect(() => storageService.isOnboarding.observe(setIsOnboarding), [storageService.isOnboarding]);
   useEffect(() => storageService.locale.observe(setLocaleInternal), [storageService.locale]);
   useEffect(() => storageService.region.observe(setRegionInternal), [storageService.region]);
@@ -83,6 +86,7 @@ export const useStorage = () => {
   useEffect(() => storageService.hasViewedQrInstructions.observe(setHasViewedQrInstructions), [
     storageService.hasViewedQrInstructions,
   ]);
+  useEffect(() => storageService.qrEnabled.observe(setQrEnabledInternal), [storageService.qrEnabled]);
 
   const reset = useCallback(async () => {
     setOnboarded(false);
@@ -117,6 +121,8 @@ export const useStorage = () => {
       setUserStopped,
       hasViewedQrInstructions,
       setHasViewedQr,
+      qrEnabled,
+      setQrEnabled,
     }),
     [
       isOnboarding,
@@ -136,6 +142,8 @@ export const useStorage = () => {
       setUserStopped,
       hasViewedQrInstructions,
       setHasViewedQr,
+      qrEnabled,
+      setQrEnabled,
     ],
   );
 };

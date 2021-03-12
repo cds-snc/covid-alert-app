@@ -22,6 +22,7 @@ export const TestDateScreen = () => {
       contagiousDateInfo={{dateType: ContagiousDateType.TestDate, date: parseDateString(data.testDate)}}
       secondaryButtonText={i18n.translate('DataUpload.TestDate.CTA2')}
       secondaryButtonOnPress={secondaryButtonOnPress}
+      closeRoute="Home"
     >
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="m">

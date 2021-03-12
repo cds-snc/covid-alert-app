@@ -20,6 +20,7 @@ import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
+import {NotificationPermissionStatusProvider} from 'shared/NotificationPermissionStatus';
 
 import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
@@ -84,7 +85,9 @@ const App = () => {
           <OutbreakProvider backendService={backendService}>
             <DevPersistedNavigationContainer persistKey="navigationState">
               <AccessibilityServiceProvider>
-                <MainNavigator />
+                <NotificationPermissionStatusProvider>
+                  <MainNavigator />
+                </NotificationPermissionStatusProvider>
               </AccessibilityServiceProvider>
             </DevPersistedNavigationContainer>
           </OutbreakProvider>

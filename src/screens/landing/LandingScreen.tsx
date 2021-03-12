@@ -5,7 +5,7 @@ import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 export const LandingScreen = () => {
   const i18n = useI18n();

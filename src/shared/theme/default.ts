@@ -19,7 +19,7 @@ export const palette = {
   errorDark: '#923534',
   brandRed: '#AF3C43',
   brandGreen: '#333000',
-  lightBlue: '#CCEFFF',
+  lightBlue: '#89CDFB',
   neutralGrey: '#EEEEEE',
   darkGrey: '#cecece',
   fadedYellow: '#FFF5D9',
@@ -30,7 +30,7 @@ export const palette = {
   lighterBlue: '#B3CAE5',
   buttonGrey: '#EEEEEE',
   danger10: '#FEE9E6',
-  danger25: '#FFC1B3',
+  danger25: '#FEA88E',
   danger50: '#F7635D',
   pink: '#FFC1B3',
   purple: '#573EC5',
@@ -44,6 +44,8 @@ export const palette = {
   info100: '#005B99',
   focus: '#44BBEE',
   exposure25: '#DED8FB',
+  greyCanada25: '#D0D7DE',
+  loudYellow: '#F5D547',
 };
 
 const theme = {
@@ -72,7 +74,7 @@ const theme = {
     bodyTextSubdued: palette.bodySubdued,
     statusSuccess: palette.success,
     successBackground: palette.successLight,
-    statusError: palette.error,
+    statusError: palette.danger,
     errorBackground: palette.errorLight,
     errorText: palette.error,
     infoBlockBrightBackground: palette.lightBlue,
@@ -90,7 +92,10 @@ const theme = {
     gray3: palette.gray3,
     gray4: palette.gray4,
     gray5: palette.neutralGrey,
+    greyCanada25: palette.greyCanada25,
     green2: palette.green2,
+    otkButton: palette.lightBlue,
+    qrButton: palette.loudYellow,
   },
   spacing: {
     /* eslint-disable id-length */
@@ -292,6 +297,15 @@ const theme = {
     },
     bigFlatNeutralGrey: {
       color: palette.neutralGrey,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'notosans',
+      fontSize: 16,
+      borderBottomWidth: undefined,
+      disabled: {},
+    },
+    qrButton: {
+      color: palette.loudYellow,
       height: 52,
       textColor: palette.black,
       fontFamily: 'notosans',

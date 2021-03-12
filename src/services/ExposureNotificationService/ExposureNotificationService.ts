@@ -24,12 +24,16 @@ import {captureException, captureMessage} from 'shared/log';
 import {log} from 'shared/logging/config';
 import {DeviceEventEmitter, Platform} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
-import {EN_API_VERSION, QR_ENABLED} from 'env';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {EN_API_VERSION} from 'env';
 import {checkNotifications} from 'react-native-permissions';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {Status} from 'shared/NotificationPermissionStatus';
 import {PollNotifications} from 'services/PollNotificationService';
+<<<<<<< HEAD
 import {OutbreakService} from 'services/OutbreakService';
+=======
+import {OutbreakService} from 'shared/OutbreakProvider';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+>>>>>>> master
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -192,6 +196,8 @@ export class ExposureNotificationService {
   };
 
   executeExposureCheckEvent = async () => {
+    await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
+
     if (Platform.OS !== 'android') return;
     log.debug({category: 'background', message: 'executeExposureCheckEvent'});
     try {
@@ -278,8 +284,6 @@ export class ExposureNotificationService {
       });
     };
 
-    await this.filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
-
     // @todo: maybe remove this gets called in updateExposureStatus
     if (!(await this.shouldPerformExposureCheck())) return;
 
@@ -288,9 +292,15 @@ export class ExposureNotificationService {
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
+<<<<<<< HEAD
 
       if (QR_ENABLED) {
         OutbreakService.sharedInstance(this.i18n, this.backendInterface).checkForOutbreaks();
+=======
+      const qrEnabled = (await this.storage.getItem(Key.QrEnabled)) === '1';
+      if (qrEnabled) {
+        OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
+>>>>>>> master
       }
 
       const exposureStatus = this.exposureStatus.get();

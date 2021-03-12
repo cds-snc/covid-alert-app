@@ -30,6 +30,7 @@ import {InvalidQRCodeScreen} from 'screens/qr/InvalidQRCodeScreen';
 import {LearnAboutQRScreen} from 'screens/qr/LearnAboutQRScreen';
 import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
 import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
+import {MenuScreen} from 'screens/menu/MenuScreen';
 import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
@@ -100,8 +101,9 @@ const CheckInSuccessfulScreenWithNavBar = withDarkNav(CheckInSuccessfulScreen);
 const InvalidQRCodeScreenWithNavBar = withDarkNav(InvalidQRCodeScreen);
 const LearnAboutQRScreenWithNavBar = withDarkNav(LearnAboutQRScreen);
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
-const CheckInHistoryScreenWithNavBar = withDarkNavNonModal(CheckInHistoryScreen);
+const CheckInHistoryScreenWithNavBar = withDarkNav(CheckInHistoryScreen);
 const QRCodeIntroScreenWithNavBar = withDarkNav(QRCodeIntroScreen);
+const MenuScreenWithNavBar = withDarkNav(MenuScreen);
 const ClearOutbreakExposureScreenWithNavBar = withDarkNav(ClearOutbreakExposureScreen);
 
 const OnboardingStack = createStackNavigator();
@@ -195,6 +197,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
       <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
+      <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
       <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
     </MainStack.Navigator>
   );

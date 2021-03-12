@@ -8,7 +8,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
 import AsyncStorage from '@react-native-community/async-storage';
 import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -19,6 +19,7 @@ interface BaseTekUploadViewProps {
   secondaryButtonText?: string;
   secondaryButtonOnPress?(): void;
   showBackButton?: boolean;
+  closeRoute?: string;
 }
 
 export const BaseTekUploadView = ({
@@ -28,6 +29,7 @@ export const BaseTekUploadView = ({
   secondaryButtonText,
   secondaryButtonOnPress,
   showBackButton = true,
+  closeRoute = '',
 }: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
@@ -102,7 +104,7 @@ export const BaseTekUploadView = ({
     );
   }
   return (
-    <BaseDataSharingView showBackButton={showBackButton}>
+    <BaseDataSharingView showBackButton={showBackButton} closeRoute={closeRoute}>
       <ScrollView style={styles.flex}>{children}</ScrollView>
       <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
         <Button
