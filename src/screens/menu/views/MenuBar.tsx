@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, PixelRatio} from 'react-native';
 import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
@@ -14,6 +14,7 @@ const borderRadius = 16;
 export const MenuBar = () => {
   const {qrEnabled} = useStorage();
   const [systemStatus] = useSystemStatus();
+  const pixelRatio = PixelRatio.getFontScale();
 
   const appStatus = (
     <Text paddingVertical="m">
@@ -30,15 +31,26 @@ export const MenuBar = () => {
       <MenuButton />
     </Box>
   );
+
   return (
     <Box style={styles.content} paddingHorizontal="m">
       <Box style={styles.box}>
-        <Box flex={3} marginRight="m">
-          {qrEnabled ? qrButtonBox : appStatus}
-        </Box>
-        <Box flex={2} marginVertical="m">
-          {menuButtonBox}
-        </Box>
+        {pixelRatio > 1.35 ? (
+          <Box>
+            {qrEnabled ? qrButtonBox : appStatus}
+            {menuButtonBox}
+          </Box>
+        ) : (
+          <>
+            <Box flex={3} marginRight="m">
+              {qrEnabled ? qrButtonBox : appStatus}
+            </Box>
+
+            <Box flex={2} marginVertical="m">
+              {menuButtonBox}
+            </Box>
+          </>
+        )}
       </Box>
     </Box>
   );
