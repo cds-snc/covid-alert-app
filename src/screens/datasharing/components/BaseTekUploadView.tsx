@@ -82,11 +82,11 @@ export const BaseTekUploadView = ({
       setLoading(false);
       setIsUploading(false);
 
-      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
-        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkNoDate, exposureHistory});
-      } else {
-        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkWithDate});
-      }
+      FilteredMetricsService.sharedInstance().addEvent({
+        type: EventTypeMetric.OtkEntered,
+        withDate: contagiousDateInfo.dateType !== ContagiousDateType.None,
+        isUserExposed: exposureHistory.length > 0,
+      });
 
       onSuccess();
     } catch (error) {
@@ -94,7 +94,7 @@ export const BaseTekUploadView = ({
       setIsUploading(false);
       onError(error);
     }
-  }, [contagiousDateInfo, exposureHistory, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
+  }, [contagiousDateInfo, exposureHistory.length, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
 
   if (loading) {
     return (

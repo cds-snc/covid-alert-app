@@ -9,8 +9,7 @@ export enum EventTypeMetric {
   Installed = 'installed',
   Onboarded = 'onboarded',
   Exposed = 'exposed',
-  OtkNoDate = 'otk-no-date',
-  OtkWithDate = 'otk-with-date',
+  OtkEntered = 'otk-entered',
   EnToggle = 'en-toggle',
   ExposedClear = 'exposed-clear',
   BackgroundCheck = 'background-check',
@@ -29,11 +28,9 @@ export type EventWithContext =
       type: EventTypeMetric.Exposed;
     }
   | {
-      type: EventTypeMetric.OtkNoDate;
-      exposureHistory: number[];
-    }
-  | {
-      type: EventTypeMetric.OtkWithDate;
+      type: EventTypeMetric.OtkEntered;
+      withDate: boolean;
+      isUserExposed: boolean;
     }
   | {
       type: EventTypeMetric.EnToggle;
@@ -89,19 +86,13 @@ export class DefaultMetricsFilter implements MetricsFilter {
           payload: [],
           shouldBePushedToServerRightAway: false,
         });
-      case EventTypeMetric.OtkNoDate:
-        if (eventWithContext.exposureHistory.length > 0) {
-          return Promise.resolve({
-            eventType: EventTypeMetric.OtkNoDate,
-            payload: [],
-            shouldBePushedToServerRightAway: false,
-          });
-        }
-        break;
-      case EventTypeMetric.OtkWithDate:
+      case EventTypeMetric.OtkEntered:
         return Promise.resolve({
-          eventType: EventTypeMetric.OtkWithDate,
-          payload: [],
+          eventType: EventTypeMetric.OtkEntered,
+          payload: [
+            ['withDate', String(eventWithContext.withDate)],
+            ['isUserExposed', String(eventWithContext.isUserExposed)],
+          ],
           shouldBePushedToServerRightAway: false,
         });
       case EventTypeMetric.EnToggle:

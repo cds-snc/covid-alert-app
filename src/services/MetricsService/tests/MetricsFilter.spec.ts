@@ -70,14 +70,6 @@ describe('MetricsFilter', () => {
     expect(filteredEvent3).toBeNull();
   });
 
-  it('otk-no-date event is only published if in exposed state', async () => {
-    const filteredEvent1 = await sut.filterEvent({type: EventTypeMetric.OtkNoDate, exposureHistory: []});
-    expect(filteredEvent1).toBeNull();
-
-    const filteredEvent2 = await sut.filterEvent({type: EventTypeMetric.OtkNoDate, exposureHistory: [1]});
-    expect(filteredEvent2).not.toBeNull();
-  });
-
   it('en-toggle event (set to enabled) is only published if user is 24 hours after onboarding date', async () => {
     today = new OriginalDate('2019-01-02T23:00:00.000Z');
 
