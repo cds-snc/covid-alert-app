@@ -61,10 +61,10 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
   <!-- uncomment the next 4 lines to use the QR feature -->
-	<!-- <key>NSCameraUsageDescription</key>
+	<key>NSCameraUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to use the camera</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to use the microphone</string> -->
+	<string>Allow $(PRODUCT_NAME) to use the microphone</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
