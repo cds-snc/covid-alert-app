@@ -1200,7 +1200,9 @@ describe('ExposureNotificationService', () => {
         },
         0,
       );
-      expect(filteredMetricsService.addEvent).toHaveBeenCalledWith({type: EventTypeMetric.Exposed});
+      expect(filteredMetricsService.addEvent).toHaveBeenCalledWith(
+        expect.objectContaining({type: EventTypeMetric.Exposed}),
+      );
     });
   });
 });

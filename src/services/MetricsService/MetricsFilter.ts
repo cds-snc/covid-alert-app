@@ -26,6 +26,7 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.Exposed;
+      isUserExposed: boolean;
     }
   | {
       type: EventTypeMetric.OtkEntered;
@@ -83,7 +84,7 @@ export class DefaultMetricsFilter implements MetricsFilter {
       case EventTypeMetric.Exposed:
         return Promise.resolve({
           eventType: EventTypeMetric.Exposed,
-          payload: [],
+          payload: [['isUserExposed', String(eventWithContext.isUserExposed)]],
           shouldBePushedToServerRightAway: false,
         });
       case EventTypeMetric.OtkEntered:
