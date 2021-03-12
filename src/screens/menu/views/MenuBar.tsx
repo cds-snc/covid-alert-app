@@ -1,7 +1,6 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Box, Button, Text} from 'components';
-import {useNavigation} from '@react-navigation/native';
+import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 
