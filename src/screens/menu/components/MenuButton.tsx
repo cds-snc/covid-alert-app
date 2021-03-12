@@ -18,7 +18,7 @@ export const MenuButton = () => {
           <Icon name="hamburger-menu" size={25} />
         </Box>
         <Box flex={1}>
-          <Text>Menu</Text>
+          <Text>{i18n.translate('MenuButton')}</Text>
         </Box>
       </Box>
     </ButtonWrapper>
