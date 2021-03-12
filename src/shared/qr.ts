@@ -166,8 +166,8 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
         end: checkIn.timestamp + ONE_HOUR_IN_MS,
       };
       const window2: TimeWindow = {
-        start: Number(outbreak.startTime),
-        end: Number(outbreak.endTime),
+        start: Number(outbreak.startTime.seconds) * 1000,
+        end: Number(outbreak.endTime.seconds) * 1000,
       };
       if (doTimeWindowsOverlap(window1, window2)) {
         const match: MatchData = {
