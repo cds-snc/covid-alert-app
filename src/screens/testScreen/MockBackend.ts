@@ -41,6 +41,10 @@ class MockBackend implements BackendInterface {
     return {status: 200, payload: REGION_CONTENT as RegionContent};
   };
 
+  retrieveOutbreakEvents = async (): Promise<string> => {
+    return '';
+  };
+
   getExposureConfiguration = async () => {
     return DefaultConfiguration;
   };

@@ -1,6 +1,6 @@
 import {Buffer} from 'buffer';
 
-import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
+import {TEST_MODE} from 'env';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Key} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
