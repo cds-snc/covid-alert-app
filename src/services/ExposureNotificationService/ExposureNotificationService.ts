@@ -30,6 +30,7 @@ import {Status} from 'shared/NotificationPermissionStatus';
 import {PollNotifications} from 'services/PollNotificationService';
 import {OutbreakService} from 'shared/OutbreakProvider';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -167,6 +168,7 @@ export class ExposureNotificationService {
   }
 
   initiateExposureCheckEvent = async () => {
+    publishDebugMetric(4.1);
     if (Platform.OS !== 'android') return;
     log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
     await this.initiateExposureCheck();
@@ -179,6 +181,7 @@ export class ExposureNotificationService {
   };
 
   initiateExposureCheck = async () => {
+    publishDebugMetric(5.0);
     if (Platform.OS !== 'android') return;
     if (!(await this.shouldPerformExposureCheck())) return;
 
@@ -188,6 +191,8 @@ export class ExposureNotificationService {
       channelName: this.i18n.translate('Notification.ExposureChecksAndroidChannelName'),
       disableSound: true,
     };
+
+    publishDebugMetric(6.0);
     await ExposureCheckScheduler.executeExposureCheck(payload);
   };
 
