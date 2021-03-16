@@ -9,6 +9,7 @@ import app.covidshield.extensions.parse
 import app.covidshield.extensions.toJson
 import app.covidshield.receiver.worker.ExposureCheckNotificationWorker
 import app.covidshield.receiver.worker.ExposureCheckSchedulerWorker
+import app.covidshield.services.metrics.MetricsService
 import com.facebook.react.bridge.*
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.CoroutineScope
@@ -34,10 +35,11 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
 
     @ReactMethod
     fun scheduleExposureCheck(data: ReadableMap, promise: Promise) {
-
         Log.d("background", "scheduleExposureCheck")
-        val config = data.toHashMap().toJson().parse(PeriodicWorkPayload::class.java)
 
+        MetricsService.publishDebugMetric(1.0, context);
+
+        val config = data.toHashMap().toJson().parse(PeriodicWorkPayload::class.java)
         Log.d("Minimum Repeat Interval", MIN_PERIODIC_INTERVAL_MILLIS.toString())
         Log.d("Config Repeat Interval", config.repeatInterval.toString())
         Log.d("Minimum Flex Time", MIN_PERIODIC_FLEX_MILLIS.toString())
@@ -52,6 +54,9 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
     @ReactMethod
     fun executeExposureCheck(data: ReadableMap, promise: Promise) {
         Log.d("background", "executeExposureCheck")
+
+        MetricsService.publishDebugMetric(7.0, context);
+
         val config = data.toHashMap().toJson().parse(NotificationPayload::class.java)
 
         val workerData = Data.Builder()

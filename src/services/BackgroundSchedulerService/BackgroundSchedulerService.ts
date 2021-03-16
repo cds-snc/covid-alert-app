@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import ExposureNotification from 'bridge/ExposureNotification';
+import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
@@ -25,6 +26,7 @@ export const PERIODIC_TASK_INTERVAL_IN_MINUTES = TEST_MODE ? 15 : 240;
 export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 1 : PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
 
 const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationService?: ExposureNotificationService) => {
+  publishDebugMetric(0);
   if (Platform.OS === 'ios') {
     // iOS only
     BackgroundFetch.configure(
@@ -152,6 +154,7 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
 };
 
 const registerAndroidHeadlessExposureCheckPeriodicTask = (task: PeriodicTask) => {
+  publishDebugMetric(4.2);
   if (Platform.OS !== 'android') return;
 
   AppRegistry.registerHeadlessTask('EXPOSURE_CHECK_HEADLESS_TASK', () => async () => {
