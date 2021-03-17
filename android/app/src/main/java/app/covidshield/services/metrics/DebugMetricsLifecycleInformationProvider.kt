@@ -2,6 +2,8 @@ package app.covidshield.services.metrics
 
 import android.content.Context
 import android.text.format.DateUtils
+import com.facebook.react.modules.storage.AsyncLocalStorageUtil
+import com.facebook.react.modules.storage.ReactDatabaseSupplier
 import java.util.*
 
 object DebugMetricsLifecycleInformationProvider {
@@ -12,6 +14,7 @@ object DebugMetricsLifecycleInformationProvider {
 
     private var cachedLifecycleIdentifier: String? = null
     private var cachedLifecycleDailyCount: Number? = null
+    private var cachedDeviceIdentifier: String? = null
 
     fun getLifecycleIdentifier(): String {
 
@@ -69,6 +72,21 @@ object DebugMetricsLifecycleInformationProvider {
             incrementedDailyCount
         } else {
             cachedLifecycleDailyCount!!
+        }
+    }
+
+    fun getDeviceIdentifier(context: Context): String {
+        return if (cachedDeviceIdentifier == null) {
+            val retrievedDeviceIdentifier = AsyncLocalStorageUtil.getItemImpl(ReactDatabaseSupplier.getInstance(context).get(), "UUID_KEY")
+
+            if (retrievedDeviceIdentifier.isNullOrEmpty()) {
+                "n/a"
+            } else {
+                cachedDeviceIdentifier = retrievedDeviceIdentifier
+                retrievedDeviceIdentifier
+            }
+        } else {
+            cachedDeviceIdentifier!!
         }
     }
 
