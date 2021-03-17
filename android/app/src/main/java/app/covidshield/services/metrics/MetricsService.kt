@@ -28,7 +28,9 @@ object MetricsService {
         this.push(serializedGlobalMetricsPayload, context)
     }
 
-    fun publishDebugMetric(stepNumber: Double, context: Context) {
+    @JvmStatic
+    @JvmOverloads
+    fun publishDebugMetric(stepNumber: Double, context: Context, message: String = "n/a") {
 
         if (!DebugMetricsHelper.canPublishDebugMetrics(context)) return
 
@@ -41,6 +43,7 @@ object MetricsService {
             jsonObject.put("step", stepNumber.toString())
             jsonObject.put("lifecycleId", lifecycleId)
             jsonObject.put("lifeCycleDailyCount", lifeCycleDailyCount.toString())
+            jsonObject.put("message", message)
 
             if (BuildConfig.TEST_MODE == "true") {
                 val deviceIdentifier = DebugMetricsHelper.getDeviceIdentifier(context)

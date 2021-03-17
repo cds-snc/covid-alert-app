@@ -59,6 +59,10 @@ jest.mock('../../bridge/ExposureCheckScheduler', () => ({
   executeExposureCheck: jest.fn(),
 }));
 
+jest.mock('../../bridge/DebugMetrics', () => ({
+  publishDebugMetric: jest.fn(),
+}));
+
 const server: any = {
   retrieveDiagnosisKeys: jest.fn().mockResolvedValue(null),
   getExposureConfiguration: jest.fn().mockResolvedValue({}),
