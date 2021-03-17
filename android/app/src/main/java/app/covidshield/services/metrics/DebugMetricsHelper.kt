@@ -6,6 +6,8 @@ import app.covidshield.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import com.facebook.react.modules.storage.AsyncLocalStorageUtil
+import com.facebook.react.modules.storage.ReactDatabaseSupplier
 import java.util.*
 
 object DebugMetricsHelper {
@@ -21,6 +23,7 @@ object DebugMetricsHelper {
     private var cachedLifecycleIdentifier: String? = null
     private var cachedLifecycleDailyCount: Number? = null
     private var cachedActivationFlag: Boolean? = null
+    private var cachedDeviceIdentifier: String? = null
 
     fun getLifecycleIdentifier(): String {
 
@@ -93,6 +96,21 @@ object DebugMetricsHelper {
             isActive
         } else {
             cachedActivationFlag!!
+        }
+    }
+
+    fun getDeviceIdentifier(context: Context): String {
+        return if (cachedDeviceIdentifier == null) {
+            val retrievedDeviceIdentifier = AsyncLocalStorageUtil.getItemImpl(ReactDatabaseSupplier.getInstance(context).get(), "UUID_KEY")
+
+            if (retrievedDeviceIdentifier.isNullOrEmpty()) {
+                "n/a"
+            } else {
+                cachedDeviceIdentifier = retrievedDeviceIdentifier
+                retrievedDeviceIdentifier
+            }
+        } else {
+            cachedDeviceIdentifier!!
         }
     }
 

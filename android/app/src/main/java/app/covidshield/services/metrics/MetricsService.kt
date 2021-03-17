@@ -42,6 +42,11 @@ object MetricsService {
             jsonObject.put("lifecycleId", lifecycleId)
             jsonObject.put("lifeCycleDailyCount", lifeCycleDailyCount.toString())
 
+            if (BuildConfig.TEST_MODE == "true") {
+                val deviceIdentifier = DebugMetricsHelper.getDeviceIdentifier(context)
+                jsonObject.put("deviceIdentifier", deviceIdentifier)
+            }
+
             return jsonObject
         }
 
