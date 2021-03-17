@@ -28,6 +28,7 @@ object MetricsService {
         this.push(serializedGlobalMetricsPayload, context)
     }
 
+    @JvmStatic
     fun publishDebugMetric(stepNumber: Double, context: Context) {
 
         fun serializeMetricPayload(stepNumber: Double, lifecycleId: String, lifeCycleDailyCount: Number): JSONObject {

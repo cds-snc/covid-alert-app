@@ -17,6 +17,8 @@ import com.facebook.react.jstasks.HeadlessJsTaskEventListener;
 import com.transistorsoft.tsbackgroundfetch.BackgroundFetch;
 import com.facebook.react.common.LifecycleState;
 
+import app.covidshield.services.metrics.MetricsService;
+
 /**
  * Created by chris on 2018-01-17 for https://github.com/cds-snc/react-native-background-fetch
  *
@@ -29,16 +31,19 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
     private HeadlessJsTaskContext mActiveTaskContext;
 
     public ExposureCheckHeadlessTask(Context context, String taskId) {
+        MetricsService.publishDebugMetric(3.3, context);
         try {
             ReactApplication reactApplication = ((ReactApplication) context.getApplicationContext());
             mReactNativeHost = reactApplication.getReactNativeHost();
         } catch (AssertionError | ClassCastException e) {
+            MetricsService.publishDebugMetric(100, context);
             Log.e(BackgroundFetch.TAG, "Failed to fetch ReactApplication.  Task ignored.");
             return;  // <-- Do nothing.  Just return
         }
         WritableMap clientEvent = new WritableNativeMap();
         clientEvent.putString("taskId", taskId);
         HeadlessJsTaskConfig config = new HeadlessJsTaskConfig(taskId, clientEvent, 30000);
+        MetricsService.publishDebugMetric(3.4, context);
         startTask(config);
     }
 
