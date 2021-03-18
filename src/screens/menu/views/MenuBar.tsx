@@ -35,7 +35,7 @@ export const MenuBar = () => {
   return (
     <Box style={styles.content} paddingHorizontal="m">
       <Box style={styles.box}>
-        {pixelRatio > 1.35 ? (
+        {pixelRatio > 1.25 ? (
           <Box>
             {qrEnabled ? qrButtonBox : appStatus}
             {menuButtonBox}
