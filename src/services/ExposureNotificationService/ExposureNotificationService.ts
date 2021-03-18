@@ -897,7 +897,10 @@ export class ExposureNotificationService {
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
 
-    this.filteredMetricsService.addEvent({type: EventTypeMetric.Exposed});
+    this.filteredMetricsService.addEvent({
+      type: EventTypeMetric.Exposed,
+      isUserExposed: this.exposureStatus.get().type === ExposureStatusType.Exposed,
+    });
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {
