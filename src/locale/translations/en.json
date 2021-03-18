@@ -472,6 +472,7 @@
     "End": "List end",
     "Bullet": "Bullet"
   },
+  "MenuButton": "Menu",
   "QRCode": {
     "CTA": "Scan a place",
     "Reader": {
