@@ -15,9 +15,10 @@ export const MenuBar = () => {
   const {qrEnabled} = useStorage();
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
+  const paddingBottom = pixelRatio > 1.0 ? 'none' : 'm';
 
   const appStatus = (
-    <Text paddingVertical="m">
+    <Text paddingTop="m" paddingBottom={paddingBottom}>
       <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
     </Text>
   );
@@ -35,7 +36,7 @@ export const MenuBar = () => {
   return (
     <Box style={styles.content} paddingHorizontal="m">
       <Box style={styles.box}>
-        {pixelRatio > 1.25 ? (
+        {pixelRatio > 1.0 ? (
           <Box>
             {qrEnabled ? qrButtonBox : appStatus}
             {menuButtonBox}
