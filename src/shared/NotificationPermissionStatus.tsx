@@ -59,7 +59,9 @@ export const NotificationPermissionStatusProvider = ({children}: NotificationPer
     };
   }, []);
 
-  const props = useMemo(() => request && {status, request}, [status, request]);
+  const props = useMemo(() => {
+    return {status, request};
+  }, [status, request]);
 
   return (
     <NotificationPermissionStatusContext.Provider value={props}>
