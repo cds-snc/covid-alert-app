@@ -12,7 +12,7 @@ interface RegionItemProps {
   testID?: string;
 }
 
-export const regionData: Array<Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>> = [
+export const regionData: Omit<RegionItemProps, 'onPress' | 'selected' | 'name'>[] = [
   {code: 'AB'},
   {code: 'BC'},
   {code: 'MB'},

@@ -28,6 +28,7 @@ module.exports = {
     'max-params': 'off',
     'eslint-comments/no-unlimited-disable': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
+    '@typescript-eslint/ban-types': 'off',
     'max-len': [
       'error',
       {

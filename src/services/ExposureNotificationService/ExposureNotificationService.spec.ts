@@ -968,6 +968,7 @@ describe('ExposureNotificationService', () => {
       expect(shouldPerformExposureCheck).toStrictEqual(true);
     });
   });
+
   describe('performExposureStatusUpdate', () => {
     const may18 = new OriginalDate('2020-05-18T04:10:00+0000');
     const may19 = new OriginalDate('2020-05-19T04:10:00+0000');
@@ -985,6 +986,7 @@ describe('ExposureNotificationService', () => {
       daysSinceLastExposure: 1,
       attenuationDurations: [20, 0, 0],
     });
+
     beforeEach(() => {
       service.exposureStatus.set({
         type: ExposureStatusType.Monitoring,
@@ -1015,6 +1017,7 @@ describe('ExposureNotificationService', () => {
         }),
       );
     });
+
     it('saves the exposure notification time to the history correctly - 2 exposures same day', async () => {
       bridge.detectExposure.mockResolvedValueOnce([summary1]);
       await service.performExposureStatusUpdate();
@@ -1025,6 +1028,7 @@ describe('ExposureNotificationService', () => {
       await service.performExposureStatusUpdate();
       expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may18.getTime()]);
     });
+
     it('saves the exposure notification time to the history correctly - 2 exposures different days', async () => {
       bridge.detectExposure.mockResolvedValueOnce([summary1]);
       await service.performExposureStatusUpdate();
@@ -1034,6 +1038,7 @@ describe('ExposureNotificationService', () => {
       await service.performExposureStatusUpdate();
       expect(service.exposureHistory.get()).toStrictEqual([may18.getTime(), may19.getTime()]);
     });
+
     it('erases exposure history when the state returns to monitoring', async () => {
       bridge.detectExposure.mockResolvedValueOnce([summary1]);
       await service.performExposureStatusUpdate();
@@ -1059,6 +1064,7 @@ describe('ExposureNotificationService', () => {
       daysSinceLastExposure: 2,
       attenuationDurations: [20, 0, 0],
     });
+
     it('selects the next Exposure Summary if state is monitoring', () => {
       service.exposureStatus.set({
         type: ExposureStatusType.Monitoring,
@@ -1067,6 +1073,7 @@ describe('ExposureNotificationService', () => {
       expect(summary).toStrictEqual(summary1);
       expect(isNext).toStrictEqual(true);
     });
+
     it('selects the current summary if the next one is older', () => {
       const currentStatus: ExposureStatus = {
         type: ExposureStatusType.Exposed,
@@ -1078,6 +1085,7 @@ describe('ExposureNotificationService', () => {
       expect(summary).toStrictEqual(summary1);
       expect(isNext).toStrictEqual(false);
     });
+
     it('selects the next summary if the next one is newer', () => {
       const currentStatus: ExposureStatus = {
         type: ExposureStatusType.Exposed,
@@ -1090,6 +1098,7 @@ describe('ExposureNotificationService', () => {
       expect(isNext).toStrictEqual(true);
     });
   });
+
   describe('getExposureDetectedAt', () => {
     const may18 = new OriginalDate('2020-05-18T04:10:00+0000');
     const may19 = new OriginalDate('2020-05-19T04:10:00+0000');
@@ -1100,10 +1109,12 @@ describe('ExposureNotificationService', () => {
       daysSinceLastExposure: 1,
       attenuationDurations: [20, 0, 0],
     });
+
     it('returns an empty array if status = monitoring', () => {
       const dates = service.getExposureDetectedAt();
       expect(dates).toStrictEqual([]);
     });
+
     it('returns exposureDetectedAt if there is no exposure history', () => {
       const currentStatus: ExposureStatus = {
         type: ExposureStatusType.Exposed,
@@ -1114,6 +1125,7 @@ describe('ExposureNotificationService', () => {
       const dates = service.getExposureDetectedAt();
       expect(dates).toStrictEqual([may18]);
     });
+
     it('returns the exposure history if it exists', () => {
       const currentStatus: ExposureStatus = {
         type: ExposureStatusType.Exposed,
@@ -1125,6 +1137,7 @@ describe('ExposureNotificationService', () => {
       const dates = service.getExposureDetectedAt();
       expect(dates).toStrictEqual([may20, may19, may18]);
     });
+
     it('returns and sorts the exposure history if it exists', () => {
       const currentStatus: ExposureStatus = {
         type: ExposureStatusType.Exposed,

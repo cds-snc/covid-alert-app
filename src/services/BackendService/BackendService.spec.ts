@@ -490,6 +490,7 @@ describe('BackendService', () => {
       spy.mockReset();
     });
   });
+
   describe('filterNonContagiousTEKs', () => {
     const backendService = new BackendService('http://localhost', 'https://localhost', 'mock', 'region');
 

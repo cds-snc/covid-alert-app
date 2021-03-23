@@ -24,7 +24,7 @@ const getThemeWithDefault = (region?: Region, mode: 'light' | 'dark' = 'light'):
 };
 
 // Add different themes into this map
-const themes: Record<Region, {light: Theme; dark: Theme}> = {
+const themes: {[key: Region]: {light: Theme; dark: Theme}} = {
   None: {
     light: defaultTheme,
     dark: defaultTheme,

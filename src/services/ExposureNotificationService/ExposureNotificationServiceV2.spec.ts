@@ -117,6 +117,7 @@ describe('ExposureNotificationService', () => {
       expect(summary.attenuationDurations).toStrictEqual([4 * 300, 0, 0]);
       expect(summary.matchedKeyCount).toStrictEqual(1);
     });
+
     it('triggers an exposure if 20 minutes in near', async () => {
       const scanInstances = [
         getScanInstance(60, 300),
@@ -135,6 +136,7 @@ describe('ExposureNotificationService', () => {
       expect(summary.attenuationDurations).toStrictEqual([0, 4 * 300, 0]);
       expect(summary.matchedKeyCount).toStrictEqual(1);
     });
+
     it('does not trigger an exposure if 20 minutes in far', async () => {
       const scanInstances = [
         getScanInstance(70, 300),
@@ -152,6 +154,7 @@ describe('ExposureNotificationService', () => {
       expect(isExposed).toStrictEqual(false);
       expect(summary).toBeUndefined();
     });
+
     it('does not trigger an exposure if 10 minutes in immidiate', async () => {
       const scanInstances = [getScanInstance(40, 300), getScanInstance(40, 300)];
       const window = getExposureWindow(scanInstances);
@@ -163,6 +166,7 @@ describe('ExposureNotificationService', () => {
       expect(isExposed).toStrictEqual(false);
       expect(summary).toBeUndefined();
     });
+
     it('does trigger an exposure if 2 different 10 minute exposures @ immidiate on same day', async () => {
       const scanInstances = [getScanInstance(40, 600)];
       const window1 = getExposureWindow(scanInstances);
@@ -177,6 +181,7 @@ describe('ExposureNotificationService', () => {
       expect(summary.matchedKeyCount).toStrictEqual(2);
       expect(summary.lastExposureTimestamp).toStrictEqual(0);
     });
+
     it('does not trigger an exposure if 2 different 10 minute exposures @ immidiate on different days', async () => {
       const scanInstances = [getScanInstance(40, 600)];
       const window1 = getExposureWindow(scanInstances, 0);
@@ -189,6 +194,7 @@ describe('ExposureNotificationService', () => {
       expect(isExposed).toStrictEqual(false);
       expect(summary).toBeUndefined();
     });
+
     it('returns a summary for the most recent exposure if there are more than one occurring on different days', async () => {
       const scanInstances = [getScanInstance(40, 600), getScanInstance(40, 600)];
       const window1 = getExposureWindow(scanInstances, 6);
