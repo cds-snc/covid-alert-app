@@ -79,7 +79,7 @@ export function parseDateString(dateString: string) {
 }
 
 export const formatExposedDate = (date: Date, locale: string) => {
-  const dateFormatOptions = {
+  const dateFormatOptions: Intl.DateTimeFormatOptions = {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
