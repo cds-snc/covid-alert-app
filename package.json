@@ -3,7 +3,7 @@
   "version": "1.2.4",
   "private": true,
   "engines": {
-    "node": ">=12.13.1"
+    "node": ">=12.13.1 || ^10"
   },
   "scripts": {
     "postinstall": "patch-package",
