@@ -13,7 +13,7 @@ module.exports = {
   moduleDirectories: [path.join('<rootDir>', 'node_modules'), path.join('<rootDir>', 'src')],
   modulePaths: ['<rootDir>/src/'],
   transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!(jest-)?react-native|react-clone-referenced-element|react-native-reanimated|@react-native-community|@react-navigation|react-navigation.*|static-container|lodash-es|expo-.*)',
+    'node_modules/(?!(@react-native|react-native|@react-native-community|react-native-config|react-native-secure-key-store)/)',
   ],
   testPathIgnorePatterns: [],
   testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js|jsx)$',
