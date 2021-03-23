@@ -25,6 +25,7 @@ module.exports = {
     '@typescript-eslint/class-name-casing': 'off',
     '@typescript-eslint/camelcase': 'off',
     'no-extend-native': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
     'max-params': 'off',
     'eslint-comments/no-unlimited-disable': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
