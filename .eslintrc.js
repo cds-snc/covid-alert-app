@@ -29,6 +29,9 @@ module.exports = {
     'eslint-comments/no-unlimited-disable': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    'jest/no-conditional-expect': 'off',
+    'react/no-unused-prop-types': 'off',
     'max-len': [
       'error',
       {

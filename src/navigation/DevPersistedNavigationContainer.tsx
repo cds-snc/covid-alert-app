@@ -63,8 +63,8 @@ function DevPersistedNavigationContainerImpl(
 
   return (
     <NavigationContainer
-      {...others}
       key={persistKey}
+      {...others}
       ref={forwardedRef}
       initialState={initialState}
       onStateChange={onStateChangeInternal}
