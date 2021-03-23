@@ -82,7 +82,7 @@ describe('doTimeWindowsOverlap', () => {
     [windowC, windowA, false],
     [windowB, windowC, true],
     [windowC, windowB, true],
-  ])('Does %p overlap with %p? Result=%p', (window1, window2, result) => {
+  ])('does %p overlap with %p? Result=%p', (window1, window2, result) => {
     expect(doTimeWindowsOverlap(window1, window2)).toStrictEqual(result);
   });
 });

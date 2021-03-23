@@ -7,12 +7,12 @@ export function blobFetch(
 ): Promise<{buffer: ArrayBuffer; error: boolean}> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.onload = function() {
+    xhr.onload = function () {
       const error = !(xhr.status >= 200 && xhr.status <= 299);
       resolve({error, buffer: xhr.response});
     };
 
-    xhr.onerror = function() {
+    xhr.onerror = function () {
       // something went wrong
       reject(xhrError);
     };

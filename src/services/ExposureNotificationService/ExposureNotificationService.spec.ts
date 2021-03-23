@@ -178,9 +178,7 @@ describe('ExposureNotificationService', () => {
     service = new ExposureNotificationService(server, i18n, storage, secureStorage, bridge, filteredMetricsService);
     Platform.OS = 'ios';
     service.systemStatus.set(SystemStatus.Active);
-    when(storage.getItem)
-      .calledWith(Key.OnboardedDatetime)
-      .mockResolvedValue(today.getTime());
+    when(storage.getItem).calledWith(Key.OnboardedDatetime).mockResolvedValue(today.getTime());
 
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
@@ -453,9 +451,7 @@ describe('ExposureNotificationService', () => {
     });
 
     const currentPeriod = periodSinceEpoch(currentDatetime, HOURS_PER_PERIOD);
-    when(server.retrieveDiagnosisKeys)
-      .calledWith(currentPeriod)
-      .mockRejectedValue(null);
+    when(server.retrieveDiagnosisKeys).calledWith(currentPeriod).mockRejectedValue(null);
 
     await service.updateExposureStatus();
 
@@ -471,13 +467,11 @@ describe('ExposureNotificationService', () => {
   });
 
   it('enters Diagnosed flow when start keys submission process', async () => {
-    when(server.claimOneTimeCode)
-      .calledWith('12345678')
-      .mockResolvedValue({
-        serverPublicKey: 'serverPublicKey',
-        clientPrivateKey: 'clientPrivateKey',
-        clientPublicKey: 'clientPublicKey',
-      });
+    when(server.claimOneTimeCode).calledWith('12345678').mockResolvedValue({
+      serverPublicKey: 'serverPublicKey',
+      clientPrivateKey: 'clientPrivateKey',
+      clientPublicKey: 'clientPublicKey',
+    });
 
     await service.startKeysSubmission('12345678');
     expect(service.exposureStatus.get()).toStrictEqual(
@@ -530,9 +524,7 @@ describe('ExposureNotificationService', () => {
     );
 
     currentDateString = '2020-05-20T04:10:00+0000';
-    when(secureStorage.get)
-      .calledWith('submissionAuthKeys')
-      .mockResolvedValueOnce('{}');
+    when(secureStorage.get).calledWith('submissionAuthKeys').mockResolvedValueOnce('{}');
     await service.fetchAndSubmitKeys({dateType: 'noDate', date: null});
 
     expect(storage.setItem).toHaveBeenCalledWith(
@@ -941,9 +933,7 @@ describe('ExposureNotificationService', () => {
 
   describe('shouldPerformExposureCheck', () => {
     it('returns false if not onboarded', async () => {
-      when(storage.getItem)
-        .calledWith(Key.OnboardedDatetime)
-        .mockResolvedValueOnce(false);
+      when(storage.getItem).calledWith(Key.OnboardedDatetime).mockResolvedValueOnce(false);
 
       const shouldPerformExposureCheck = await service.shouldPerformExposureCheck();
 
@@ -1160,9 +1150,7 @@ describe('ExposureNotificationService', () => {
     });
 
     it('updateExposureStatusInBackground publishes BackgroundProcess metric with succeeded state set to false if process has failed', async () => {
-      when(storage.getItem)
-        .calledWith(EXPOSURE_STATUS)
-        .mockRejectedValue(new Error('Async error'));
+      when(storage.getItem).calledWith(EXPOSURE_STATUS).mockRejectedValue(new Error('Async error'));
 
       await service.updateExposureStatusInBackground();
 

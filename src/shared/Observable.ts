@@ -27,7 +27,7 @@ type SubscriptionCleanup = () => void;
 type CycleEndAction = () => void;
 
 class Subscriptions<T> {
-  subscriptions: Subscription<T>[] = [];
+  subscriptions: Array<Subscription<T>> = [];
   state: {type: 'idle'} | {type: 'propagation'; cycleEndActions: CycleEndAction[]; value: T} = {
     type: 'idle',
   };
