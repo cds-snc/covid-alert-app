@@ -21,6 +21,9 @@ module.exports = {
     '@shopify/jest/no-snapshots': 'off',
     'no-console': 'error',
     camelcase: 'off',
+    'jest/no-test-callback': 'off',
+    '@typescript-eslint/class-name-casing': 'off',
+    '@typescript-eslint/camelcase': 'off',
     'no-extend-native': 'off',
     'max-params': 'off',
     'eslint-comments/no-unlimited-disable': 'off',
@@ -41,6 +44,6 @@ module.exports = {
     '**/services/BackendService/covidshield/*.d.ts',
     '**/services/BackendService/covidshield/*.js',
     '**/translations/index.js',
-    '**/translations/regional/index.js'
+    '**/translations/regional/index.js',
   ],
 };
