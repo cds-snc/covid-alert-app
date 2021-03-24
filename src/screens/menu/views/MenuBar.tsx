@@ -28,7 +28,7 @@ export const MenuBar = () => {
     </Box>
   );
   const menuButtonBox = (
-    <Box marginVertical="m">
+    <Box marginVertical="s">
       <MenuButton />
     </Box>
   );
