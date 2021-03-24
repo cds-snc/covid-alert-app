@@ -15,20 +15,17 @@ export const MenuBar = () => {
   const {qrEnabled} = useStorage();
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
-  const paddingBottom = pixelRatio > 1.0 ? 'none' : 'm';
+  const statusHeaderPadding = pixelRatio > 1.0 ? 'none' : 'm';
+  const menuButtonPadding = pixelRatio > 1.0 ? 'm' : 'none';
 
   const appStatus = (
-    <Text paddingTop="m" paddingBottom={paddingBottom}>
+    <Text paddingTop="m" paddingBottom={statusHeaderPadding}>
       <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
     </Text>
   );
-  const qrButtonBox = (
-    <Box marginVertical="m">
-      <QrButton />
-    </Box>
-  );
+
   const menuButtonBox = (
-    <Box marginVertical="s">
+    <Box paddingBottom={menuButtonPadding}>
       <MenuButton />
     </Box>
   );
@@ -38,13 +35,13 @@ export const MenuBar = () => {
       <Box style={styles.box}>
         {pixelRatio > 1.0 ? (
           <Box>
-            {qrEnabled ? qrButtonBox : appStatus}
+            {qrEnabled ? <QrButton /> : appStatus}
             {menuButtonBox}
           </Box>
         ) : (
           <>
             <Box flex={3} marginRight="m">
-              {qrEnabled ? qrButtonBox : appStatus}
+              {qrEnabled ? <QrButton /> : appStatus}
             </Box>
 
             <Box flex={2} marginVertical="m">

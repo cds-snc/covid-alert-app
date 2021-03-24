@@ -14,10 +14,10 @@ export const MenuButton = () => {
   return (
     <ButtonWrapper color="gray5" borderRadius={8} onPress={openMenu}>
       <Box style={styles.box}>
-        <Box marginRight="s">
+        <Box flex={1} marginRight="s">
           <Icon name="hamburger-menu" size={25} />
         </Box>
-        <Box flex={1}>
+        <Box flex={3}>
           <Text>{i18n.translate('MenuButton')}</Text>
         </Box>
       </Box>
