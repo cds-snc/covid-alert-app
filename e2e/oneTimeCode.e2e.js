@@ -12,7 +12,6 @@ describe('Test one time code flow', () => {
     await element(by.id('Step0Body')).swipe('up');
     await element(by.id('Step0Body')).swipe('up');
 
-    // eslint-disable-next-line jest/no-if
     if (device.getPlatform() === 'ios') {
       // no idea why iOS needs an additional tap
       await element(by.text('Next')).tap();

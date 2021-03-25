@@ -44,7 +44,7 @@ const writeFile = content => {
   html += content;
   html += '</body></html>';
 
-  fs.writeFile(fileName, html, function(err) {
+  fs.writeFile(fileName, html, function (err) {
     if (err) return console.log(err); // eslint-disable-line no-console
   });
 };

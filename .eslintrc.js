@@ -21,10 +21,18 @@ module.exports = {
     '@shopify/jest/no-snapshots': 'off',
     'no-console': 'error',
     camelcase: 'off',
+    'jest/no-test-callback': 'off',
+    '@typescript-eslint/class-name-casing': 'off',
+    '@typescript-eslint/camelcase': 'off',
     'no-extend-native': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
     'max-params': 'off',
     'eslint-comments/no-unlimited-disable': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    'jest/no-conditional-expect': 'off',
+    'react/no-unused-prop-types': 'off',
     'max-len': [
       'error',
       {
@@ -41,6 +49,6 @@ module.exports = {
     '**/services/BackendService/covidshield/*.d.ts',
     '**/services/BackendService/covidshield/*.js',
     '**/translations/index.js',
-    '**/translations/regional/index.js'
+    '**/translations/regional/index.js',
   ],
 };
