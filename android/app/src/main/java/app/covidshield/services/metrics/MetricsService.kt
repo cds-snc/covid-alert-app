@@ -28,6 +28,8 @@ object MetricsService {
         this.push(serializedGlobalMetricsPayload, context)
     }
 
+    @JvmStatic
+    @JvmOverloads
     fun publishDebugMetric(stepNumber: Double, context: Context, message: String = "n/a") {
 
         if (!DebugMetricsHelper.canPublishDebugMetrics(context)) return

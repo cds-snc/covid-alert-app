@@ -16,6 +16,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import app.covidshield.MainActivity
 import app.covidshield.R
+import app.covidshield.services.metrics.MetricsService
 import com.facebook.react.ReactApplication
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
 import com.google.android.gms.nearby.Nearby
@@ -39,13 +40,14 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
 
         val enIsEnabled = exposureNotificationClient.isEnabled.await()
         val enStatus = exposureNotificationClient.status.await()
-        if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)){
+        if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
+            MetricsService.publishDebugMetric(5.1, context)
             Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
             return Result.success()
         }
 
-        val reactApplication = applicationContext as? ReactApplication
-                ?: return Result.success()
+        val reactApplication = applicationContext as? ReactApplication ?: return Result.success()
+        MetricsService.publishDebugMetric(5.2, context)
         val reactInstanceManager = reactApplication.reactNativeHost.reactInstanceManager
         reactInstanceManager.currentReactContext?.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
 

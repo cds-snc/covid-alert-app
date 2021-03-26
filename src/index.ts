@@ -13,6 +13,7 @@ import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
 import {ExposureNotificationService} from 'services/ExposureNotificationService';
 import {createBackgroundI18n} from 'locale';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
+import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import {name as appName} from '../app.json';
 
@@ -41,6 +42,7 @@ if (Platform.OS === 'android') {
   });
 
   BackgroundScheduler.registerAndroidHeadlessExposureCheckPeriodicTask(async () => {
+    publishDebugMetric(4.3);
     await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
     const storageService = await createStorageService();
