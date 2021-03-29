@@ -235,8 +235,8 @@ PODS:
     - React-Core
   - react-native-netinfo (5.9.5):
     - React
-  - react-native-safe-area-context (3.1.6):
-    - React
+  - react-native-safe-area-context (3.2.0):
+    - React-Core
   - react-native-splash-screen (3.2.0):
     - React
   - React-perflogger (0.64.0)
@@ -309,8 +309,8 @@ PODS:
     - React
   - RNCMaskedView (0.1.10):
     - React
-  - RNCPicker (1.6.6):
-    - React
+  - RNCPicker (1.8.1):
+    - React-Core
   - RNCPushNotificationIOS (1.7.3):
     - React-Core
   - RNGestureHandler (1.10.3):
@@ -321,8 +321,8 @@ PODS:
     - React
   - RNReanimated (1.8.0):
     - React
-  - RNScreens (2.7.0):
-    - React
+  - RNScreens (2.18.1):
+    - React-Core
   - RNSecureKeyStore (1.0.0):
     - React
   - RNSVG (12.1.0):
@@ -592,7 +592,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
   react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
   react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
-  react-native-safe-area-context: 4fb3cdeb4a405ec19f18aca80ef2144381ffc761
+  react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
@@ -609,13 +609,13 @@ SPEC CHECKSUMS:
   RNBackgroundFetch: 8dbb63141792f1473e863a0797ffbd5d987af2fc
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
-  RNCPicker: 494015f2b7ec4bee5484b6f235aa19691426dcdb
+  RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
   RNCPushNotificationIOS: edeeea93b7210d2f918fc0e46e1a2a189b5fdacc
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNLocalize: b6df30cc25ae736d37874f9bce13351db2f56796
   RNPermissions: 3635b407c15f2fe591bd2101c8f20aa0912caba8
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
-  RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
+  RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNSecureKeyStore: f1ad870e53806453039f650720d2845c678d89c8
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNZipArchive: ab51bc004a31657f34010254a9182014c6a81217
