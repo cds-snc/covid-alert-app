@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import app.covidshield.extensions.log
+import app.covidshield.services.metrics.MetricsService
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
@@ -25,6 +26,9 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
 
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
+
+        MetricsService.publishDebugMetric(2.0, context);
+
         try {
             val enIsEnabled = exposureNotificationClient.isEnabled.await()
             val enStatus = exposureNotificationClient.status.await()
@@ -34,23 +38,28 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
             }
             val currentReactContext = getCurrentReactContext(context)
             if (currentReactContext != null) {
+                MetricsService.publishDebugMetric(3.1, context);
                 currentReactContext.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("initiateExposureCheckEvent", "data")
             } else {
                 try {
                     withTimeout(HEADLESS_JS_TASK_TIMEOUT_MS) {
                         withContext(Dispatchers.Main) {
+                            MetricsService.publishDebugMetric(3.2, context);
                             val completer = CompletableDeferred<Unit>()
                             CustomHeadlessTask(applicationContext, HEADLESS_JS_TASK_NAME) { completer.complete(Unit) }
                             completer.await()
                         }
                     }
                 } catch (_: TimeoutCancellationException) {
+                    MetricsService.publishDebugMetric(101.0, context);
                     log("doWork exception", mapOf("message" to "Timeout"))
                 } catch (exception: Exception) {
+                    MetricsService.publishDebugMetric(102.0, context, exception.message ?: "Unknown");
                     log("doWork exception", mapOf("message" to (exception.message ?: "Unknown")))
                 }
             }
-        } catch (exception: Exception){
+        } catch (exception: Exception) {
+            MetricsService.publishDebugMetric(103.0, context);
             Log.d("exception", "exception")
         }
 
