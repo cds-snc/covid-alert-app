@@ -48,6 +48,9 @@ allprojects {
             // Android JSC is installed from npm
             url("$rootDir/../node_modules/jsc-android/dist")
         }
+        maven {
+            url("$rootDir/../node_modules/react-native-background-fetch/android/libs")
+        }
 
         google()
         jcenter()
