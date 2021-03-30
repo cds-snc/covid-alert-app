@@ -14,7 +14,7 @@ export const MenuButton = () => {
   return (
     <ButtonWrapper color="gray5" borderRadius={8} onPress={openMenu}>
       <Box style={styles.box}>
-        <Box flex={1} marginRight="s" style={{maxWidth: 25}}>
+        <Box marginRight="s">
           <Icon name="hamburger-menu" size={25} />
         </Box>
         <Box flex={1}>

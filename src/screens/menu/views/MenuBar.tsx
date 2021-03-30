@@ -4,6 +4,7 @@ import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useOrientation} from 'shared/useOrientation';
 
 import {QrButton} from '../components/QrButton';
 import {MenuButton} from '../components/MenuButton';
@@ -18,6 +19,8 @@ export const MenuBar = () => {
   const pixelRatio = PixelRatio.getFontScale();
   const statusHeaderPadding = pixelRatio > 1.0 ? 'none' : 'm';
   const menuButtonPadding = pixelRatio > 1.0 ? 'm' : 'none';
+  const {orientation} = useOrientation();
+  const safeAreaPadding = orientation === 'landscape' ? -10 : -20;
 
   const appStatus = (
     <Text paddingTop="m" paddingBottom={statusHeaderPadding}>
@@ -33,7 +36,7 @@ export const MenuBar = () => {
 
   return (
     <Box style={styles.content} paddingHorizontal="m">
-      <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: -20}}>
+      <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: safeAreaPadding}}>
         <Box style={styles.box}>
           {pixelRatio > 1.0 ? (
             <Box>
