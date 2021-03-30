@@ -3,6 +3,7 @@ import {StyleSheet, PixelRatio} from 'react-native';
 import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {QrButton} from '../components/QrButton';
 import {MenuButton} from '../components/MenuButton';
@@ -32,24 +33,26 @@ export const MenuBar = () => {
 
   return (
     <Box style={styles.content} paddingHorizontal="m">
-      <Box style={styles.box}>
-        {pixelRatio > 1.0 ? (
-          <Box>
-            {qrEnabled ? <QrButton /> : appStatus}
-            {menuButtonBox}
-          </Box>
-        ) : (
-          <>
-            <Box flex={3} marginRight="m">
+      <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: -20}}>
+        <Box style={styles.box}>
+          {pixelRatio > 1.0 ? (
+            <Box>
               {qrEnabled ? <QrButton /> : appStatus}
-            </Box>
-
-            <Box flex={2} marginVertical="m">
               {menuButtonBox}
             </Box>
-          </>
-        )}
-      </Box>
+          ) : (
+            <>
+              <Box flex={3} marginRight="m">
+                {qrEnabled ? <QrButton /> : appStatus}
+              </Box>
+
+              <Box flex={2} marginVertical="m">
+                {menuButtonBox}
+              </Box>
+            </>
+          )}
+        </Box>
+      </SafeAreaView>
     </Box>
   );
 };
