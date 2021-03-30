@@ -1,9 +1,20 @@
 package app.covidshield.exposurenotification
 
+import app.covidshield.shared.DateFns.Companion.getCurrentDate
+
 class ExposureNotification {
 
-    fun shouldPerformExposureNotificationCheck(){
+    fun main() {
 
+    }
+
+    fun shouldPerformExposureNotificationCheck(): Boolean{
+        val today = getCurrentDate()
+        val onboardedDatetime: String = ""
+        if (onboardedDatetime.isNullOrEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     fun processPendingExposureSummary(){

@@ -1,15 +1,18 @@
 package app.covidshield.services.exposurenotification
+import app.covidshield.exposurenotification.ExposureNotification
 import org.junit.Test
 import com.google.common.truth.Truth.assertThat
 
 class ExposureNotificationTest {
     @Test
     fun shouldPerformExposureCheck_ReturnsTrue() {
-        assertThat("asdf".equals("asdf")).isTrue()
+        val exposureNotification = ExposureNotification()
+        assertThat(exposureNotification.shouldPerformExposureNotificationCheck()).isTrue()
     }
 
     @Test
     fun shouldPerformExposureCheck_ReturnsFalse() {
-        assertThat("asdf".equals("qwer")).isFalse()
+        val exposureNotification = ExposureNotification()
+        assertThat(exposureNotification.shouldPerformExposureNotificationCheck()).isFalse()
     }
 }
