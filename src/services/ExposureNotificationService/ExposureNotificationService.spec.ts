@@ -1194,14 +1194,19 @@ describe('ExposureNotificationService', () => {
       expect(filteredMetricsService.addEvent).toHaveBeenCalledWith({type: EventTypeMetric.BackgroundCheck});
     });
 
-    it('setExposureDetectedAt publishes Exposed event', async () => {
-      await service.setExposureDetectedAt(
+    it('setExposed publishes Exposed event', async () => {
+      await service.setExposed(
         {
           attenuationDurations: [],
           daysSinceLastExposure: 0,
           lastExposureTimestamp: 0,
           matchedKeyCount: 0,
           maximumRiskScore: 0,
+        },
+        {
+          type: ExposureStatusType.Monitoring,
+          lastChecked: null,
+          ignoredSummaries: null,
         },
         0,
       );
