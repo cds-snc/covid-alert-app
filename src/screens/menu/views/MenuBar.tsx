@@ -3,6 +3,8 @@ import {StyleSheet, PixelRatio} from 'react-native';
 import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {useStorage} from 'services/StorageService';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useOrientation} from 'shared/useOrientation';
 
 import {QrButton} from '../components/QrButton';
 import {MenuButton} from '../components/MenuButton';
@@ -15,44 +17,46 @@ export const MenuBar = () => {
   const {qrEnabled} = useStorage();
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
-  const paddingBottom = pixelRatio > 1.0 ? 'none' : 'm';
+  const statusHeaderPadding = pixelRatio > 1.0 ? 'none' : 'm';
+  const menuButtonPadding = pixelRatio > 1.0 ? 'm' : 'none';
+  const {orientation} = useOrientation();
+  const safeAreaPadding = orientation === 'landscape' ? -10 : -20;
 
   const appStatus = (
-    <Text paddingTop="m" paddingBottom={paddingBottom}>
+    <Text paddingTop="m" paddingBottom={statusHeaderPadding}>
       <StatusHeaderView enabled={systemStatus === SystemStatus.Active} />
     </Text>
   );
-  const qrButtonBox = (
-    <Box marginVertical="m">
-      <QrButton />
-    </Box>
-  );
+
   const menuButtonBox = (
-    <Box marginVertical="m">
+    <Box paddingBottom={menuButtonPadding}>
       <MenuButton />
     </Box>
   );
 
   return (
     <Box style={styles.content} paddingHorizontal="m">
-      <Box style={styles.box}>
-        {pixelRatio > 1.0 ? (
-          <Box>
-            {qrEnabled ? qrButtonBox : appStatus}
-            {menuButtonBox}
-          </Box>
-        ) : (
-          <>
-            <Box flex={3} marginRight="m">
-              {qrEnabled ? qrButtonBox : appStatus}
-            </Box>
-
-            <Box flex={2} marginVertical="m">
+      <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: safeAreaPadding}}>
+        <Box style={styles.box}>
+          {/* Stack the menu buttons or place in columns */}
+          {pixelRatio > 1.0 ? (
+            <Box>
+              {qrEnabled ? <QrButton /> : appStatus}
               {menuButtonBox}
             </Box>
-          </>
-        )}
-      </Box>
+          ) : (
+            <>
+              <Box flex={1} marginRight="m">
+                {qrEnabled ? <QrButton /> : appStatus}
+              </Box>
+
+              <Box flex={1} marginVertical="m">
+                {menuButtonBox}
+              </Box>
+            </>
+          )}
+        </Box>
+      </SafeAreaView>
     </Box>
   );
 };
