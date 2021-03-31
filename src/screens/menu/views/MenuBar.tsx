@@ -38,6 +38,7 @@ export const MenuBar = () => {
     <Box style={styles.content} paddingHorizontal="m">
       <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: safeAreaPadding}}>
         <Box style={styles.box}>
+          {/* Stack the menu buttons or place in columns */}
           {pixelRatio > 1.0 ? (
             <Box>
               {qrEnabled ? <QrButton /> : appStatus}
