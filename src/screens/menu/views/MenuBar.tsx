@@ -45,11 +45,11 @@ export const MenuBar = () => {
             </Box>
           ) : (
             <>
-              <Box flex={3} marginRight="m">
+              <Box flex={1} marginRight="m">
                 {qrEnabled ? <QrButton /> : appStatus}
               </Box>
 
-              <Box flex={2} marginVertical="m">
+              <Box flex={1} marginVertical="m">
                 {menuButtonBox}
               </Box>
             </>
