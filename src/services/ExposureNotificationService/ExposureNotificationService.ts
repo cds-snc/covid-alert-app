@@ -854,9 +854,16 @@ export class ExposureNotificationService {
       });
       return this.finalize({}, lastCheckedPeriod);
     }
+
+    this.filteredMetricsService.addEvent({
+      type: EventTypeMetric.Exposed,
+      isUserExposed: currentExposureStatus.type === ExposureStatusType.Exposed,
+    });
+
     if (currentExposureStatus.type === ExposureStatusType.Monitoring) {
       return this.setExposureDetectedAt(summary, lastCheckedPeriod);
     }
+
     if (currentExposureStatus.type === ExposureStatusType.Exposed && isNext) {
       const exposureHistory = this.exposureHistory.get();
       if (exposureHistory.length === 0 && currentExposureStatus.exposureDetectedAt) {
@@ -903,11 +910,6 @@ export class ExposureNotificationService {
     const exposureHistory = this.exposureHistory.get();
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
-
-    this.filteredMetricsService.addEvent({
-      type: EventTypeMetric.Exposed,
-      isUserExposed: this.exposureStatus.get().type === ExposureStatusType.Exposed,
-    });
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {

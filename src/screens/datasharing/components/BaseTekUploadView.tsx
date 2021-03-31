@@ -20,6 +20,7 @@ interface BaseTekUploadViewProps {
   secondaryButtonOnPress?(): void;
   showBackButton?: boolean;
   closeRoute?: string;
+  uploadOtkEntryMetric?: boolean;
 }
 
 export const BaseTekUploadView = ({
@@ -30,6 +31,7 @@ export const BaseTekUploadView = ({
   secondaryButtonOnPress,
   showBackButton = true,
   closeRoute = '',
+  uploadOtkEntryMetric = true,
 }: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
@@ -82,11 +84,13 @@ export const BaseTekUploadView = ({
       setLoading(false);
       setIsUploading(false);
 
-      FilteredMetricsService.sharedInstance().addEvent({
-        type: EventTypeMetric.OtkEntered,
-        withDate: contagiousDateInfo.dateType !== ContagiousDateType.None,
-        isUserExposed: exposureHistory.length > 0,
-      });
+      if (uploadOtkEntryMetric) {
+        FilteredMetricsService.sharedInstance().addEvent({
+          type: EventTypeMetric.OtkEntered,
+          withDate: contagiousDateInfo.dateType !== ContagiousDateType.None,
+          isUserExposed: exposureHistory.length > 0,
+        });
+      }
 
       onSuccess();
     } catch (error) {
@@ -94,7 +98,15 @@ export const BaseTekUploadView = ({
       setIsUploading(false);
       onError(error);
     }
-  }, [contagiousDateInfo, exposureHistory.length, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
+  }, [
+    contagiousDateInfo,
+    exposureHistory.length,
+    fetchAndSubmitKeys,
+    onError,
+    onSuccess,
+    setIsUploading,
+    uploadOtkEntryMetric,
+  ]);
 
   if (loading) {
     return (

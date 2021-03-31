@@ -14,6 +14,7 @@ export const TekUploadSubsequentDays = () => {
       contagiousDateInfo={{dateType: ContagiousDateType.None, date: null}}
       showBackButton={false}
       closeRoute="Home"
+      uploadOtkEntryMetric={false}
     >
       <Box paddingHorizontal="m">
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
