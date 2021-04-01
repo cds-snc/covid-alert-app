@@ -2,7 +2,6 @@ package app.covidshield.receiver.worker;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -14,7 +13,6 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 import com.facebook.react.jstasks.HeadlessJsTaskContext;
 import com.facebook.react.jstasks.HeadlessJsTaskEventListener;
-import com.transistorsoft.tsbackgroundfetch.BackgroundFetch;
 import com.facebook.react.common.LifecycleState;
 
 import app.covidshield.services.metrics.MetricsService;
