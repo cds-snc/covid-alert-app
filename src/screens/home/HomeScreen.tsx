@@ -171,7 +171,7 @@ export const HomeScreen = () => {
 
   const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
-    const success = await startExposureNotificationService();
+    const success = await startExposureNotificationService(false);
     if (qrEnabled) {
       checkForOutbreaks();
     }

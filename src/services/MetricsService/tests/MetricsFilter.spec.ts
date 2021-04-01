@@ -70,26 +70,6 @@ describe('MetricsFilter', () => {
     expect(filteredEvent3).toBeNull();
   });
 
-  it('en-toggle event (set to enabled) is only published if user is 24 hours after onboarding date', async () => {
-    today = new OriginalDate('2019-01-02T23:00:00.000Z');
-
-    const filteredEvent1 = await sut.filterEvent({
-      type: EventTypeMetric.EnToggle,
-      state: true,
-      onboardedDate: new OriginalDate('2019-01-02T12:00:00.000Z'),
-    });
-    expect(filteredEvent1).toBeNull();
-
-    today = new OriginalDate('2019-01-03T13:00:00.000Z');
-
-    const filteredEvent2 = await sut.filterEvent({
-      type: EventTypeMetric.EnToggle,
-      state: true,
-      onboardedDate: new OriginalDate('2019-01-02T12:00:00.000Z'),
-    });
-    expect(filteredEvent2).not.toBeNull();
-  });
-
   it('exposed-clear event is only published if in exposed state', async () => {
     const filteredEvent1 = await sut.filterEvent({
       type: EventTypeMetric.ExposedClear,

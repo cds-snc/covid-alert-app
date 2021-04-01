@@ -9,7 +9,7 @@ export const SystemStatusOff = () => {
   const startExposureNotificationService = useStartExposureNotificationService();
   const onPress = async () => {
     if (Platform.OS === 'android') {
-      await startExposureNotificationService();
+      await startExposureNotificationService(false);
       return;
     }
     return toSettings();

@@ -16,7 +16,7 @@ export const ExposureNotificationsDisabledView = () => {
   }, []);
 
   const startEn = useCallback(async () => {
-    await startExposureNotificationService();
+    await startExposureNotificationService(false);
   }, [startExposureNotificationService]);
 
   const onPress = () => {

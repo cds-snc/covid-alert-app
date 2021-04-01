@@ -16,7 +16,7 @@ export const LocationOffView = () => {
   }, []);
 
   const startEn = useCallback(() => {
-    startExposureNotificationService();
+    startExposureNotificationService(false);
   }, [startExposureNotificationService]);
 
   const onPress = () => {

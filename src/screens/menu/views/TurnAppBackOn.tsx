@@ -8,7 +8,7 @@ export const TurnAppBackOn = () => {
   const startExposureNotificationService = useStartExposureNotificationService();
 
   const onStart = useCallback(async () => {
-    await startExposureNotificationService();
+    await startExposureNotificationService(true);
   }, [startExposureNotificationService]);
 
   return (
