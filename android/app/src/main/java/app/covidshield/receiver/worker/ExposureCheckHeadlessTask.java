@@ -37,7 +37,7 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
             mReactNativeHost = reactApplication.getReactNativeHost();
         } catch (AssertionError | ClassCastException e) {
             MetricsService.publishDebugMetric(100, context, e.getMessage());
-            Log.e(BackgroundFetch.TAG, "Failed to fetch ReactApplication.  Task ignored.");
+            // Log.e(BackgroundFetch.TAG, "Failed to fetch ReactApplication.  Task ignored.");
             return;  // <-- Do nothing.  Just return
         }
         WritableMap clientEvent = new WritableNativeMap();
@@ -55,12 +55,12 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
 
     @Override
     public void onHeadlessJsTaskStart(int taskId) {
-        Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskStart: " + taskId);
+        // Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskStart: " + taskId);
     }
 
     @Override
     public void onHeadlessJsTaskFinish(int taskId) {
-        Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskFinish: " + taskId);
+        // Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskFinish: " + taskId);
         mActiveTaskContext.removeTaskEventListener(this);
     }
 
@@ -118,14 +118,14 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
                         int taskId = headlessJsTaskContext.startTask(taskConfig);
                     } catch (IllegalStateException exception) {
                         MetricsService.publishDebugMetric(104, reactContext);
-                        Log.e(BackgroundFetch.TAG, "Headless task attempted to run in the foreground.  Task ignored.");
+                        // Log.e(BackgroundFetch.TAG, "Headless task attempted to run in the foreground.  Task ignored.");
                         return;  // <-- Do nothing.  Just return
                     }
                 }
             });
         } catch (IllegalStateException exception) {
             MetricsService.publishDebugMetric(105, reactContext, exception.getMessage());
-            Log.e(BackgroundFetch.TAG, "Headless task attempted to run in the foreground.  Task ignored.");
+            // Log.e(BackgroundFetch.TAG, "Headless task attempted to run in the foreground.  Task ignored.");
             return;  // <-- Do nothing.  Just return
         }
 
