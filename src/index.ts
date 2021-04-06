@@ -15,12 +15,10 @@ import {createBackgroundI18n} from 'locale';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 
-import {name as appName} from '../app.json';
-
 import {createStorageService} from './services/StorageService';
 import App from './App';
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent('CovidShield', () => App);
 
 if (Platform.OS === 'android') {
   BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
