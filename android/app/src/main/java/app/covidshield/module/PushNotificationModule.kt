@@ -30,11 +30,11 @@ private const val CHANNEL_DESC = "COVID Alert"
  */
 class PushNotificationModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
 
-    private val notificationManager: NotificationManager by lazy(LazyThreadSafetyMode.NONE) {
+    private val notificationManager: NotificationManager by lazy {
         context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
-    private val workManager: WorkManager by lazy(LazyThreadSafetyMode.NONE) {
+    private val workManager: WorkManager by lazy {
         WorkManager.getInstance(context.applicationContext)
     }
 

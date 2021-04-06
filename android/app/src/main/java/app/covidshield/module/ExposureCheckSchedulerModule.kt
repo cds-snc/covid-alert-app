@@ -23,7 +23,7 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
 
     override val coroutineContext: CoroutineContext get() = Dispatchers.Default
 
-    private val workManager: WorkManager by lazy(LazyThreadSafetyMode.NONE) {
+    private val workManager: WorkManager by lazy {
         WorkManager.getInstance(context.applicationContext)
     }
 
