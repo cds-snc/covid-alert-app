@@ -142,11 +142,6 @@
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
     },
-    "TurnAppBackOn": {
-      "Title": "Réactiver Alerte COVID",
-      "Body": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
-      "CTA": "Réactiver"
-    },
     "CodeNotShared": {
       "Title": "Aidez à ralentir la propagation de la COVID-19 ",
       "Body": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions.",

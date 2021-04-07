@@ -36,7 +36,6 @@ export type EventWithContext =
   | {
       type: EventTypeMetric.EnToggle;
       state: boolean;
-      onboardedDate: Date | undefined;
     }
   | {
       type: EventTypeMetric.ExposedClear;
@@ -97,7 +96,11 @@ export class DefaultMetricsFilter implements MetricsFilter {
           shouldBePushedToServerRightAway: false,
         });
       case EventTypeMetric.EnToggle:
-        return this.processEnToggleEvent(eventWithContext.state, eventWithContext.onboardedDate);
+        return Promise.resolve({
+          eventType: EventTypeMetric.EnToggle,
+          payload: [['state', String(eventWithContext.state)]],
+          shouldBePushedToServerRightAway: false,
+        });
       case EventTypeMetric.ExposedClear:
         if (eventWithContext.exposureStatus.type === ExposureStatusType.Exposed) {
           return Promise.resolve({
@@ -164,27 +167,6 @@ export class DefaultMetricsFilter implements MetricsFilter {
         return null;
       }
     });
-  }
-
-  private processEnToggleEvent(state: boolean, onboardedDate: Date | undefined): Promise<FilteredEvent | null> {
-    function shouldPublishEnToggle(): boolean {
-      if (!state) return true;
-      if (onboardedDate && getHoursBetween(onboardedDate, getCurrentDate()) > 24) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    if (shouldPublishEnToggle()) {
-      return Promise.resolve({
-        eventType: EventTypeMetric.EnToggle,
-        payload: [['state', String(state)]],
-        shouldBePushedToServerRightAway: false,
-      });
-    } else {
-      return Promise.resolve(null);
-    }
   }
 
   private processBackgroundCheckEvent(): Promise<FilteredEvent | null> {

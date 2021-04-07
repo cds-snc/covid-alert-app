@@ -128,53 +128,67 @@ export function useExposureNotificationService() {
   return useContext(ExposureNotificationServiceContext)!;
 }
 
-export function useStartExposureNotificationService(): () => Promise<boolean | {success: boolean; error?: string}> {
+export function useStartExposureNotificationService(): (
+  manualTrigger: boolean,
+) => Promise<boolean | {success: boolean; error?: string}> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped, onboardedDatetime} = useStorage();
+  const {setUserStopped} = useStorage();
 
-  return useCallback(async () => {
-    const start = await exposureNotificationService.start();
+  return useCallback(
+    async (manualTrigger: boolean) => {
+      const start = await exposureNotificationService.start();
 
-    log.debug({message: 'exposureNotificationService.start()', payload: start});
-    FilteredMetricsService.sharedInstance().addEvent({
-      type: EventTypeMetric.EnToggle,
-      state: true,
-      onboardedDate: onboardedDatetime,
-    });
+      log.debug({message: 'exposureNotificationService.start()', payload: start});
 
-    if (Platform.OS === 'ios') {
-      setUserStopped(false);
-    }
-    if (start?.error === 'PERMISSION_DENIED') {
+      if (manualTrigger) {
+        FilteredMetricsService.sharedInstance().addEvent({
+          type: EventTypeMetric.EnToggle,
+          state: true,
+        });
+      }
+
+      if (Platform.OS === 'ios') {
+        setUserStopped(false);
+      }
+      if (start?.error === 'PERMISSION_DENIED') {
+        return false;
+      }
+      if (start.success) {
+        setUserStopped(false);
+        return true;
+      }
+
+      if (start?.error === 'API_NOT_CONNECTED') {
+        return {success: false, error: 'API_NOT_CONNECTED'};
+      }
+
       return false;
-    }
-    if (start.success) {
-      setUserStopped(false);
-      return true;
-    }
-
-    if (start?.error === 'API_NOT_CONNECTED') {
-      return {success: false, error: 'API_NOT_CONNECTED'};
-    }
-
-    return false;
-  }, [exposureNotificationService, onboardedDatetime, setUserStopped]);
+    },
+    [exposureNotificationService, setUserStopped],
+  );
 }
 
-export function useStopExposureNotificationService(): () => Promise<boolean> {
+export function useStopExposureNotificationService(): (manualTrigger: boolean) => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped, onboardedDatetime} = useStorage();
-  return useCallback(async () => {
-    setUserStopped(true);
-    const stopped = await exposureNotificationService.stop();
-    log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
-    FilteredMetricsService.sharedInstance().addEvent({
-      type: EventTypeMetric.EnToggle,
-      state: false,
-      onboardedDate: onboardedDatetime,
-    });
-    return stopped;
-  }, [exposureNotificationService, onboardedDatetime, setUserStopped]);
+  const {setUserStopped} = useStorage();
+  return useCallback(
+    async (manualTrigger: boolean) => {
+      setUserStopped(true);
+      const stopped = await exposureNotificationService.stop();
+
+      log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
+
+      if (manualTrigger) {
+        FilteredMetricsService.sharedInstance().addEvent({
+          type: EventTypeMetric.EnToggle,
+          state: false,
+        });
+      }
+
+      return stopped;
+    },
+    [exposureNotificationService, setUserStopped],
+  );
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {

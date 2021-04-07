@@ -11,7 +11,7 @@ export const ExposureNotificationsUserStoppedView = () => {
   const startExposureNotificationService = useStartExposureNotificationService();
 
   const startEn = useCallback(async () => {
-    await startExposureNotificationService();
+    await startExposureNotificationService(true);
   }, [startExposureNotificationService]);
 
   const onPress = async () => {

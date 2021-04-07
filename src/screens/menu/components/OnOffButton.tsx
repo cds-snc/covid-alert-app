@@ -34,7 +34,7 @@ export const OnOffButton = () => {
         {
           text: i18n.translate('Info.ToggleCovidAlert.Confirm.Accept'),
           onPress: async () => {
-            await stopExposureNotificationService();
+            await stopExposureNotificationService(true);
             NativePushNotification.presentLocalNotification({
               alertTitle: i18n.translate('Notification.PausedMessageTitle'),
               alertBody: i18n.translate('Notification.PausedMessageBody'),
@@ -49,7 +49,7 @@ export const OnOffButton = () => {
   }, [i18n, navigation, stopExposureNotificationService]);
 
   const onStart = useCallback(async () => {
-    await startExposureNotificationService();
+    await startExposureNotificationService(true);
     navigation.navigate('Home');
   }, [navigation, startExposureNotificationService]);
 
