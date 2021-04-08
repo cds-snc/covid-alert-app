@@ -41,13 +41,13 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
         val enIsEnabled = exposureNotificationClient.isEnabled.await()
         val enStatus = exposureNotificationClient.status.await()
         if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
-            MetricsService.publishDebugMetric(5.1, context)
+            MetricsService.publishDebugMetric(7.1, context)
             Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
             return Result.success()
         }
 
         val reactApplication = applicationContext as? ReactApplication ?: return Result.success()
-        MetricsService.publishDebugMetric(5.2, context)
+        MetricsService.publishDebugMetric(7.2, context)
         val reactInstanceManager = reactApplication.reactNativeHost.reactInstanceManager
         reactInstanceManager.currentReactContext?.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
 
