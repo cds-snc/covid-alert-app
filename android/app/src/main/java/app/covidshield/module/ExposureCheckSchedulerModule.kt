@@ -10,6 +10,7 @@ import app.covidshield.extensions.parse
 import app.covidshield.extensions.toJson
 import app.covidshield.receiver.worker.ExposureCheckNotificationWorker
 import app.covidshield.receiver.worker.ExposureCheckSchedulerWorker
+import app.covidshield.services.metrics.DebugMetricsHelper
 import app.covidshield.services.metrics.MetricsService
 import com.facebook.react.bridge.*
 import com.google.gson.annotations.SerializedName
@@ -60,7 +61,7 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
         promise.launch(this) {
             Log.d("background", "executeExposureCheck")
 
-            MetricsService.publishDebugMetric(7.0, context);
+            MetricsService.publishDebugMetric(7.0, context)
 
             val config = data.toHashMap().toJson().parse(NotificationPayload::class.java)
 

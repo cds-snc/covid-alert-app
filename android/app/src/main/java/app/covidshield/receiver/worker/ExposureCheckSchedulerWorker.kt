@@ -27,7 +27,7 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
 
-        MetricsService.publishDebugMetric(2.0, context);
+        MetricsService.publishDebugMetric(2.0, context)
 
         try {
             val enIsEnabled = exposureNotificationClient.isEnabled.await()
@@ -35,7 +35,7 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
 
             if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
                 Log.d("background", "ExposureCheckSchedulerWorker - ExposureNotification: Not enabled or not activated")
-                MetricsService.publishDebugMetric(2.1, context, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.firstOrNull()?.ordinal}.");
+                MetricsService.publishDebugMetric(2.1, context, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
                 return Result.success()
             }
             val currentReactContext = getCurrentReactContext(context)

@@ -103,10 +103,12 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
             MetricsService.publishDebugMetric(3.9, reactContext);
             return;
         }
-        final HeadlessJsTaskContext headlessJsTaskContext = HeadlessJsTaskContext.getInstance(reactContext);
-        headlessJsTaskContext.addTaskEventListener(this);
-        mActiveTaskContext = headlessJsTaskContext;
+
         try {
+            final HeadlessJsTaskContext headlessJsTaskContext = HeadlessJsTaskContext.getInstance(reactContext);
+            headlessJsTaskContext.addTaskEventListener(this);
+            mActiveTaskContext = headlessJsTaskContext;
+
             MetricsService.publishDebugMetric(3.10, reactContext);
             UiThreadUtil.runOnUiThread(new Runnable() {
                 @Override
@@ -114,16 +116,14 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
                     MetricsService.publishDebugMetric(3.11, reactContext);
                     try {
                         int taskId = headlessJsTaskContext.startTask(taskConfig);
-                    } catch (IllegalStateException exception) {
-                        MetricsService.publishDebugMetric(104, reactContext);
-                        // Log.e(BackgroundFetch.TAG, "Headless task attempted to run in the foreground.  Task ignored.");
+                    } catch (Exception exception) {
+                        MetricsService.publishDebugMetric(104, reactContext, exception.getMessage());
                         return;  // <-- Do nothing.  Just return
                     }
                 }
             });
-        } catch (IllegalStateException exception) {
+        } catch (Exception exception) {
             MetricsService.publishDebugMetric(105, reactContext, exception.getMessage());
-            // Log.e(BackgroundFetch.TAG, "Headless task attempted to run in the foreground.  Task ignored.");
             return;  // <-- Do nothing.  Just return
         }
 

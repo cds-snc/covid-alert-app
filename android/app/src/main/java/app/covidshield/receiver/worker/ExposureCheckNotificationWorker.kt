@@ -23,6 +23,7 @@ import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 
 class ExposureCheckNotificationWorker (private val context: Context, parameters: WorkerParameters) :
@@ -41,48 +42,57 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
         val enIsEnabled = exposureNotificationClient.isEnabled.await()
         val enStatus = exposureNotificationClient.status.await()
         if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
-            MetricsService.publishDebugMetric(5.1, context)
+            MetricsService.publishDebugMetric(7.1, context)
             Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
             return Result.success()
         }
 
-        val reactApplication = applicationContext as? ReactApplication ?: return Result.success()
-        MetricsService.publishDebugMetric(5.2, context)
-        val reactInstanceManager = reactApplication.reactNativeHost.reactInstanceManager
-        reactInstanceManager.currentReactContext?.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
-
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        try {
+            val reactApplication = applicationContext as? ReactApplication ?: return Result.success()
+            MetricsService.publishDebugMetric(7.2, context)
+            val reactInstanceManager = reactApplication.reactNativeHost.reactInstanceManager
+            reactInstanceManager.currentReactContext?.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
+        } catch (exception: Exception) {
+            MetricsService.publishDebugMetric(106.0, context, exception.message ?: "Unknown")
         }
 
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-        val notification = NotificationCompat.Builder(context, "1")
-                .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_detect_icon))
-                .setContentTitle(inputData.getString("title"))
-                .setContentText(inputData.getString("body"))
-                .setContentIntent(pendingIntent)
-                .setOngoing(true)
+        try {
+            val intent = Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            notification.setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_DEFAULT))
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+            val notification = NotificationCompat.Builder(context, "1")
+                    .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_detect_icon))
+                    .setContentTitle(inputData.getString("title"))
+                    .setContentText(inputData.getString("body"))
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                notification.setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_DEFAULT))
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createNotificationChannel(CHANNEL_ID, inputData.getString("channelName")?: "COVID Alert Exposure Checks", inputData.getBoolean("disableSound", false))
+                notification.setChannelId(CHANNEL_ID)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val styledText: Spanned = Html.fromHtml(inputData.getString("body"), Html.FROM_HTML_MODE_LEGACY)
+                notification.setStyle(NotificationCompat.BigTextStyle().bigText(styledText))
+            }
+
+            val foregroundInfo = ForegroundInfo(1, notification.build())
+            setForeground(foregroundInfo)
+
+            // TODO: How long should the notification appear?
+            delay(5000)
+            return Result.success()
+        } catch (exception: Exception) {
+            MetricsService.publishDebugMetric(107.0, context, exception.message ?: "Unknown")
+            return Result.success()
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(CHANNEL_ID, inputData.getString("channelName")?: "COVID Alert Exposure Checks", inputData.getBoolean("disableSound", false))
-            notification.setChannelId(CHANNEL_ID)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val styledText: Spanned = Html.fromHtml(inputData.getString("body"), Html.FROM_HTML_MODE_LEGACY)
-            notification.setStyle(NotificationCompat.BigTextStyle().bigText(styledText))
-        }
-
-        val foregroundInfo = ForegroundInfo(1, notification.build())
-        setForeground(foregroundInfo)
-
-        // TODO: How long should the notification appear?
-        delay(5000)
-        return Result.success()
     }
 
     /**
