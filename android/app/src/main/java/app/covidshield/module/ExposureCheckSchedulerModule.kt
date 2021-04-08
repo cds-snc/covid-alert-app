@@ -5,6 +5,7 @@ import androidx.core.app.NotificationCompat
 import androidx.work.*
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
+import app.covidshield.extensions.launch
 import app.covidshield.extensions.parse
 import app.covidshield.extensions.toJson
 import app.covidshield.receiver.worker.ExposureCheckNotificationWorker
@@ -35,43 +36,49 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
 
     @ReactMethod
     fun scheduleExposureCheck(data: ReadableMap, promise: Promise) {
-        Log.d("background", "scheduleExposureCheck")
+        promise.launch(this){
+            Log.d("background", "scheduleExposureCheck")
 
-        MetricsService.publishDebugMetric(1.0, context);
+            MetricsService.publishDebugMetric(1.0, context);
 
-        val config = data.toHashMap().toJson().parse(PeriodicWorkPayload::class.java)
-        Log.d("Minimum Repeat Interval", MIN_PERIODIC_INTERVAL_MILLIS.toString())
-        Log.d("Config Repeat Interval", config.repeatInterval.toString())
-        Log.d("Minimum Flex Time", MIN_PERIODIC_FLEX_MILLIS.toString())
-        val workerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ExposureCheckSchedulerWorker>(config.repeatInterval, TimeUnit.MILLISECONDS)
-                .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
-                .setConstraints(workerConstraints)
-                .build()
+            val config = data.toHashMap().toJson().parse(PeriodicWorkPayload::class.java)
+            Log.d("Minimum Repeat Interval", MIN_PERIODIC_INTERVAL_MILLIS.toString())
+            Log.d("Config Repeat Interval", config.repeatInterval.toString())
+            Log.d("Minimum Flex Time", MIN_PERIODIC_FLEX_MILLIS.toString())
+            val workerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ExposureCheckSchedulerWorker>(config.repeatInterval, TimeUnit.MILLISECONDS)
+                    .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
+                    .setConstraints(workerConstraints)
+                    .build()
 
-        workManager.enqueueUniquePeriodicWork("exposureCheckSchedulerWorker", ExistingPeriodicWorkPolicy.REPLACE, workerRequest)
+            workManager.enqueueUniquePeriodicWork("exposureCheckSchedulerWorker", ExistingPeriodicWorkPolicy.REPLACE, workerRequest)
+            promise.resolve(null)
+        }
     }
 
     @ReactMethod
     fun executeExposureCheck(data: ReadableMap, promise: Promise) {
-        Log.d("background", "executeExposureCheck")
+        promise.launch(this) {
+            Log.d("background", "executeExposureCheck")
 
-        MetricsService.publishDebugMetric(7.0, context);
+            MetricsService.publishDebugMetric(7.0, context);
 
-        val config = data.toHashMap().toJson().parse(NotificationPayload::class.java)
+            val config = data.toHashMap().toJson().parse(NotificationPayload::class.java)
 
-        val workerData = Data.Builder()
-                .putString("title", config.title)
-                .putString("body", config.body)
-                .putString("channelName", config.channelName)
-                .putBoolean("disableSound", config.disableSound)
-                .build()
+            val workerData = Data.Builder()
+                    .putString("title", config.title)
+                    .putString("body", config.body)
+                    .putString("channelName", config.channelName)
+                    .putBoolean("disableSound", config.disableSound)
+                    .build()
 
-        val workerRequest: OneTimeWorkRequest = OneTimeWorkRequestBuilder<ExposureCheckNotificationWorker>()
-                .setInputData(workerData)
-                .setConstraints(workerConstraints)
-                .build()
+            val workerRequest: OneTimeWorkRequest = OneTimeWorkRequestBuilder<ExposureCheckNotificationWorker>()
+                    .setInputData(workerData)
+                    .setConstraints(workerConstraints)
+                    .build()
 
-        workManager.enqueueUniqueWork("exposureCheckNotificationWorker", ExistingWorkPolicy.REPLACE, workerRequest)
+            workManager.enqueueUniqueWork("exposureCheckNotificationWorker", ExistingWorkPolicy.REPLACE, workerRequest)
+            promise.resolve(null)
+        }
     }
 
 }
