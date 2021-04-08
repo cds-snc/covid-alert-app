@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Image, StyleSheet, NativeModules, Platform} from 'react-native';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {Box, Button, Icon} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
@@ -10,7 +10,7 @@ import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 export const LandingScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
-  const {setLocale} = useStorage();
+  const {setLocale} = useCachedStorage();
 
   const isENFrameworkSupported = async () => {
     if (Platform.OS === 'ios') {

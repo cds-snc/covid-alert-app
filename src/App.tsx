@@ -11,7 +11,7 @@ import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {StorageServiceProvider, useStorageService} from 'services/StorageService';
+import {DefaultStorageService, CachedStorageServiceProvider} from 'services/StorageService';
 import {AppState, AppStateStatus, Platform, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
@@ -44,10 +44,10 @@ const appInit = async () => {
 
 const App = () => {
   const initialRegionContent: RegionContent = regionContentDefault as RegionContent;
-  const storageService = useStorageService();
-  const backendService = useMemo(() => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region), [
-    storageService,
-  ]);
+  const backendService = useMemo(
+    () => new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, DefaultStorageService.sharedInstance()),
+    [],
+  );
 
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
 
@@ -83,7 +83,7 @@ const App = () => {
       <RegionalProvider activeRegions={[]} translate={id => id} regionContent={regionContent.payload}>
         <ExposureNotificationServiceProvider backendInterface={backendService}>
           <OutbreakProvider>
-            <DevPersistedNavigationContainer persistKey="navigationState">
+            <DevPersistedNavigationContainer>
               <AccessibilityServiceProvider>
                 <NotificationPermissionStatusProvider>
                   <MainNavigator />
@@ -101,11 +101,11 @@ const AppProvider = () => {
   return (
     <SafeAreaProvider>
       <StatusBar backgroundColor="transparent" translucent />
-      <StorageServiceProvider>
+      <CachedStorageServiceProvider>
         <ThemeProvider>
           <App />
         </ThemeProvider>
-      </StorageServiceProvider>
+      </CachedStorageServiceProvider>
     </SafeAreaProvider>
   );
 };

@@ -1,8 +1,9 @@
 import {DefaultMetricsProvider} from '../MetricsProvider';
 import {MetricsPublisher, DefaultMetricsPublisher} from '../MetricsPublisher';
 import {DefaultMetricsStorage} from '../MetricsStorage';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {StorageServiceMock} from '../../StorageService/tests/StorageServiceMock';
 
-import {RNSecureKeyStoreMock} from './RNSecureKeyStoreMock';
 import {MetricFactory} from './MetricFactory';
 
 describe('MetricsProvider', () => {
@@ -10,7 +11,7 @@ describe('MetricsProvider', () => {
   let sut: DefaultMetricsProvider;
 
   beforeEach(() => {
-    const metricsStorage = new DefaultMetricsStorage(new RNSecureKeyStoreMock());
+    const metricsStorage = new DefaultMetricsStorage(new StorageServiceMock());
     metricsPublisher = new DefaultMetricsPublisher(metricsStorage);
     sut = new DefaultMetricsProvider(metricsStorage);
   });

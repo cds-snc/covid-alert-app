@@ -2,7 +2,7 @@ import React from 'react';
 import {Box} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 
 import {PrimaryActionButton} from '../components/PrimaryActionButton';
 import {OnOffButton} from '../components/OnOffButton';
@@ -11,7 +11,7 @@ import {ShareDiagnosisCode} from './ShareDiagnosisCode';
 
 export const PrimaryMenuButtons = () => {
   const i18n = useI18n();
-  const {qrEnabled} = useStorage();
+  const {qrEnabled} = useCachedStorage();
   const navigation = useNavigation();
   return (
     <>

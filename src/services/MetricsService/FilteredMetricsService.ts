@@ -1,17 +1,15 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_CODE} from 'env';
 import PQueue from 'p-queue';
 import {Platform} from 'react-native';
 import {Status} from 'shared/NotificationPermissionStatus';
 import {SystemStatus} from 'services/ExposureNotificationService';
-import {Key} from 'services/StorageService';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';
 
 import {Metric} from './Metric';
 import {DefaultMetricsFilter, EventTypeMetric, EventWithContext, MetricsFilter} from './MetricsFilter';
 import {DefaultMetricsJsonSerializer} from './MetricsJsonSerializer';
 import {DefaultMetricsService, MetricsService} from './MetricsService';
-import {DefaultSecureKeyValueStore} from './SecureKeyValueStorage';
 
 export class FilteredMetricsService {
   private static instance: FilteredMetricsService;
@@ -30,7 +28,7 @@ export class FilteredMetricsService {
             androidReleaseVersion,
           ),
         ),
-        new DefaultMetricsFilter(new DefaultSecureKeyValueStore()),
+        new DefaultMetricsFilter(DefaultStorageService.sharedInstance()),
       );
     }
     return this.instance;
@@ -98,7 +96,7 @@ export class FilteredMetricsService {
   }
 
   private async getRegion(): Promise<string> {
-    const regionOpt = await AsyncStorage.getItem(Key.Region);
+    const regionOpt = await DefaultStorageService.sharedInstance().retrieve(StorageDirectory.GlobalRegionKey);
     return regionOpt ? regionOpt : 'None';
   }
 }

@@ -4,7 +4,7 @@ import {Text, RoundedBox} from 'components';
 import {ExposureStatusType, useExposureStatus} from 'services/ExposureNotificationService';
 import {getUploadDaysLeft} from 'shared/date-fns';
 import {pluralizeKey} from 'shared/pluralization';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {isRegionActive} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {TEST_MODE} from 'env';
@@ -16,7 +16,7 @@ import {HomeScreenTitle} from '../components/HomeScreenTitle';
 export const DiagnosedView = () => {
   const i18n = useI18n();
   const regionalI18n = useRegionalI18n();
-  const {region} = useStorage();
+  const {region} = useCachedStorage();
   const exposureStatus = useExposureStatus();
 
   let daysLeft: number;

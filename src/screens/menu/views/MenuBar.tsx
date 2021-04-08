@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet, PixelRatio} from 'react-native';
 import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
-import {useStorage} from 'services/StorageService';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useOrientation} from 'shared/useOrientation';
+import {useCachedStorage} from 'services/StorageService';
 
 import {QrButton} from '../components/QrButton';
 import {MenuButton} from '../components/MenuButton';
@@ -14,7 +14,7 @@ import {StatusHeaderView} from './StatusHeaderView';
 const borderRadius = 16;
 
 export const MenuBar = () => {
-  const {qrEnabled} = useStorage();
+  const {qrEnabled} = useCachedStorage();
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
   const statusHeaderPadding = pixelRatio > 1.0 ? 'none' : 'm';

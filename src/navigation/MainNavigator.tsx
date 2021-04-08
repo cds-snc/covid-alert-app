@@ -14,7 +14,7 @@ import {
   TestDateScreen,
 } from 'screens/datasharing';
 import {LanguageScreen} from 'screens/language';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {RegionPickerSettingsScreen, RegionPickerExposedNoPTScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -145,7 +145,7 @@ const DataSharingNavigator = () => {
 
 const QRCodeStack = createStackNavigator();
 const QRCodeNavigator = () => {
-  const {hasViewedQrInstructions} = useStorage();
+  const {hasViewedQrInstructions} = useCachedStorage();
   return (
     <QRCodeStack.Navigator
       screenOptions={{headerShown: false}}
@@ -167,7 +167,7 @@ const forFade = ({current}: {current: any}) => ({
 });
 
 const MainNavigator = () => {
-  const {isOnboarding} = useStorage();
+  const {isOnboarding} = useCachedStorage();
   return (
     <MainStack.Navigator
       screenOptions={{headerShown: false}}

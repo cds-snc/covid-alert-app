@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Box, Text, Button} from 'components';
 import {useNavigation} from '@react-navigation/native';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
@@ -9,7 +9,7 @@ import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 export const QRCodeIntroScreen = () => {
   const navigation = useNavigation();
   const i18n = useI18n();
-  const {setHasViewedQr} = useStorage();
+  const {setHasViewedQr} = useCachedStorage();
   const toQRScreen = useCallback(async () => {
     await setHasViewedQr(true);
     navigation.navigate('QRCodeReaderScreen');

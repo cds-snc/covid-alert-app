@@ -34,20 +34,13 @@ import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
-import {Key} from '../StorageService';
+import {StorageService, StorageDirectory} from '../StorageService';
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 
 import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 import {doesPlatformSupportV2} from './ExposureNotificationServiceUtils';
-
-const SUBMISSION_AUTH_KEYS = 'submissionAuthKeys';
-const EXPOSURE_CONFIGURATION = 'exposureConfiguration';
-
-export const EXPOSURE_HISTORY = 'exposureHistory';
-
-export const EXPOSURE_STATUS = 'exposureStatus';
 
 export const HOURS_PER_PERIOD = 24;
 
@@ -97,20 +90,6 @@ export type ExposureStatus =
       ignoredSummaries?: ExposureSummary[];
     };
 
-export interface PersistencyProvider {
-  setItem(key: string, value: string): Promise<void>;
-  getItem(key: string): Promise<string | null>;
-}
-
-export interface SecurePersistencyProvider {
-  set(key: string, value: string, options: SecureStorageOptions): Promise<null>;
-  get(key: string): Promise<string | null>;
-}
-
-export interface SecureStorageOptions {
-  accessible?: string;
-}
-
 export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: MapObservable<ExposureStatus>;
@@ -130,16 +109,14 @@ export class ExposureNotificationService {
   private backendInterface: BackendInterface;
 
   private i18n: I18n;
-  private storage: PersistencyProvider;
-  private secureStorage: SecurePersistencyProvider;
+  private storageService: StorageService;
 
   private filteredMetricsService: FilteredMetricsService;
 
   constructor(
     backendInterface: BackendInterface,
     i18n: I18n,
-    storage: PersistencyProvider,
-    secureStorage: SecurePersistencyProvider,
+    storageService: StorageService,
     exposureNotification: typeof ExposureNotification,
     filteredMetricsService: FilteredMetricsService,
   ) {
@@ -149,14 +126,13 @@ export class ExposureNotificationService {
     this.exposureStatus = new MapObservable<ExposureStatus>({type: ExposureStatusType.Monitoring});
     this.exposureHistory = new Observable<number[]>([]);
     this.backendInterface = backendInterface;
-    this.storage = storage;
-    this.secureStorage = secureStorage;
+    this.storageService = storageService;
     this.filteredMetricsService = filteredMetricsService;
     this.exposureStatus.observe(status => {
-      this.storage.setItem(EXPOSURE_STATUS, JSON.stringify(status));
+      this.storageService.save(StorageDirectory.ExposureNotificationServiceExposureStatusKey, JSON.stringify(status));
     });
     this.exposureHistory.observe(history => {
-      this.secureStorage.set(EXPOSURE_HISTORY, history.join(','), {});
+      this.storageService.save(StorageDirectory.ExposureNotificationServiceExposureHistoryKey, history.join(','));
     });
 
     if (Platform.OS === 'android') {
@@ -293,7 +269,7 @@ export class ExposureNotificationService {
       await this.loadExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
-      const qrEnabled = (await this.storage.getItem(Key.QrEnabled)) === '1';
+      const qrEnabled = (await this.storageService.retrieve(StorageDirectory.GlobalQrEnabledKey)) === '1';
       if (qrEnabled) {
         OutbreakService.sharedInstance(this.i18n).checkForOutbreaks();
       }
@@ -424,7 +400,7 @@ export class ExposureNotificationService {
     const keys = await this.backendInterface.claimOneTimeCode(oneTimeCode);
     const serialized = JSON.stringify(keys);
     try {
-      await this.secureStorage.set(SUBMISSION_AUTH_KEYS, serialized, {});
+      await this.storageService.save(StorageDirectory.ExposureNotificationServiceSubmissionAuthKeysKey, serialized);
     } catch (error) {
       captureException('Unable to store SUBMISSION_AUTH_KEYS', error);
     }
@@ -439,7 +415,9 @@ export class ExposureNotificationService {
   }
 
   async fetchAndSubmitKeys(contagiousDateInfo: ContagiousDateInfo): Promise<void> {
-    const submissionKeysStr = await this.secureStorage.get(SUBMISSION_AUTH_KEYS);
+    const submissionKeysStr = await this.storageService.retrieve(
+      StorageDirectory.ExposureNotificationServiceSubmissionAuthKeysKey,
+    );
     if (!submissionKeysStr) {
       throw new Error('Submission keys: bad certificate');
     }
@@ -672,7 +650,7 @@ export class ExposureNotificationService {
   public shouldPerformExposureCheck = async () => {
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
-    const onboardedDatetime = await this.storage.getItem(Key.OnboardedDatetime);
+    const onboardedDatetime = await this.storageService.retrieve(StorageDirectory.GlobalOnboardedDatetimeKey);
 
     if (!onboardedDatetime) {
       log.debug({
@@ -944,13 +922,17 @@ export class ExposureNotificationService {
   }
 
   private async loadExposureStatus() {
-    const exposureStatus = JSON.parse((await this.storage.getItem(EXPOSURE_STATUS)) || 'null');
+    const exposureStatus = JSON.parse(
+      (await this.storageService.retrieve(StorageDirectory.ExposureNotificationServiceExposureStatusKey)) || 'null',
+    );
     this.exposureStatus.append({...exposureStatus});
   }
 
   private async loadExposureHistory() {
     try {
-      const _exposureHistory = await this.secureStorage.get(EXPOSURE_HISTORY);
+      const _exposureHistory = await this.storageService.retrieve(
+        StorageDirectory.ExposureNotificationServiceExposureHistoryKey,
+      );
       if (!_exposureHistory) {
         log.debug({message: "'Unable to retrieve EXPOSURE_HISTORY"});
         return;
@@ -969,7 +951,9 @@ export class ExposureNotificationService {
    */
   private async getAlternateExposureConfiguration(): Promise<ExposureConfiguration> {
     try {
-      const exposureConfigurationStr = await this.storage.getItem(EXPOSURE_CONFIGURATION);
+      const exposureConfigurationStr = await this.storageService.retrieve(
+        StorageDirectory.ExposureNotificationServiceExposureConfigurationKey,
+      );
       if (exposureConfigurationStr) {
         return JSON.parse(exposureConfigurationStr);
       } else {
@@ -1088,7 +1072,7 @@ export class ExposureNotificationService {
         message: 'Using downloaded exposureConfiguration.',
       });
       const serialized = JSON.stringify(exposureConfiguration);
-      await this.storage.setItem(EXPOSURE_CONFIGURATION, serialized);
+      await this.storageService.save(StorageDirectory.ExposureNotificationServiceExposureConfigurationKey, serialized);
       log.debug({
         category: 'configuration',
         message: 'Saving exposure configuration to secure storage.',

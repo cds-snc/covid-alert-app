@@ -1,8 +1,8 @@
 import {MetricsFilter, DefaultMetricsFilter, EventTypeMetric} from '../MetricsFilter';
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {ExposureStatusType} from '../../ExposureNotificationService/ExposureNotificationService';
-
-import {RNSecureKeyStoreMock} from './RNSecureKeyStoreMock';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {StorageServiceMock} from '../../StorageService/tests/StorageServiceMock';
 
 jest.mock('react-native-zip-archive', () => ({
   unzip: jest.fn(),
@@ -44,7 +44,7 @@ describe('MetricsFilter', () => {
   global.Date.UTC = realDateUTC;
 
   beforeEach(() => {
-    sut = new DefaultMetricsFilter(new RNSecureKeyStoreMock());
+    sut = new DefaultMetricsFilter(new StorageServiceMock());
   });
 
   afterEach(() => {

@@ -1,12 +1,10 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 import {useI18nRef} from 'locale';
 import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotification';
 import {AppState, AppStateStatus, Platform} from 'react-native';
-import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
-import {useStorage} from 'services/StorageService';
+import {DefaultStorageService, StorageService, useCachedStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'shared/NotificationPermissionStatus';
@@ -15,12 +13,7 @@ import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
 
-import {
-  ExposureNotificationService,
-  ExposureStatus,
-  PersistencyProvider,
-  SecurePersistencyProvider,
-} from './ExposureNotificationService';
+import {ExposureNotificationService, ExposureStatus} from './ExposureNotificationService';
 
 const ExposureNotificationServiceContext = createContext<ExposureNotificationService | undefined>(undefined);
 
@@ -28,8 +21,7 @@ export interface ExposureNotificationServiceProviderProps {
   backendInterface: BackendInterface;
   backgroundScheduler?: typeof BackgroundScheduler;
   exposureNotification?: typeof ExposureNotification;
-  storage?: PersistencyProvider;
-  secureStorage?: SecurePersistencyProvider;
+  storageService?: StorageService;
   children?: React.ReactElement;
 }
 
@@ -37,23 +29,20 @@ export const ExposureNotificationServiceProvider = ({
   backendInterface,
   backgroundScheduler = BackgroundScheduler,
   exposureNotification,
-  storage,
-  secureStorage,
   children,
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped} = useCachedStorage();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
         backendInterface,
         i18n,
-        storage || AsyncStorage,
-        secureStorage || RNSecureKeyStore,
+        DefaultStorageService.sharedInstance(),
         exposureNotification || ExposureNotification,
         FilteredMetricsService.sharedInstance(),
       ),
-    [backendInterface, exposureNotification, i18n, secureStorage, storage],
+    [backendInterface, exposureNotification, i18n],
   );
 
   useEffect(() => {
@@ -132,7 +121,7 @@ export function useStartExposureNotificationService(): (
   manualTrigger: boolean,
 ) => Promise<boolean | {success: boolean; error?: string}> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped} = useCachedStorage();
 
   return useCallback(
     async (manualTrigger: boolean) => {
@@ -170,7 +159,7 @@ export function useStartExposureNotificationService(): (
 
 export function useStopExposureNotificationService(): (manualTrigger: boolean) => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped} = useCachedStorage();
   return useCallback(
     async (manualTrigger: boolean) => {
       setUserStopped(true);

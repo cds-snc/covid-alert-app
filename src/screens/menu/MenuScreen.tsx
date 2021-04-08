@@ -7,7 +7,7 @@ import {Linking, ScrollView, StyleSheet} from 'react-native';
 import {StatusHeaderView} from 'screens/menu/views/StatusHeaderView';
 import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {captureException} from 'shared/log';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
@@ -21,7 +21,7 @@ export const MenuScreen = () => {
   const [systemStatus] = useSystemStatus();
   const navigation = useNavigation();
   const i18n = useI18n();
-  const {region} = useStorage();
+  const {region} = useCachedStorage();
   const regionalI18n = useRegionalI18n();
 
   const onPrivacy = useCallback(() => {

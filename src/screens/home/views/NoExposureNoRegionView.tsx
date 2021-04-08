@@ -1,7 +1,7 @@
 import React from 'react';
 import {RoundedBox, TextMultiline} from 'components';
 import {useI18n} from 'locale';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
 import {Platform} from 'react-native';
 
@@ -30,7 +30,7 @@ const TextContent = () => {
 
 export const NoExposureNoRegionView = () => {
   const i18n = useI18n();
-  const {onboardedDatetime, skipAllSet} = useStorage();
+  const {onboardedDatetime, skipAllSet} = useCachedStorage();
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (

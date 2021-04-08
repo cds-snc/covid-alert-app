@@ -1,14 +1,17 @@
 import {DefaultMetricsService, MetricsService} from '../MetricsService';
 import {MetricsPublisher, DefaultMetricsPublisher} from '../MetricsPublisher';
 import {DefaultMetricsStorage} from '../MetricsStorage';
-import {SecureKeyValueStore} from '../SecureKeyValueStorage';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {SecureKeyValueStore} from '../../StorageService/KeyValueStore';
 import {DefaultMetricsProvider, MetricsProvider} from '../MetricsProvider';
 import {DefaultMetricsJsonSerializer, MetricsJsonSerializer} from '../MetricsJsonSerializer';
 import {MetricsPusher, MetricsPusherResult} from '../MetricsPusher';
 import {Metric} from '../Metric';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {StorageServiceMock} from '../../StorageService/tests/StorageServiceMock';
+import {StorageService} from '../../StorageService';
 
 import {MetricFactory} from './MetricFactory';
-import {RNSecureKeyStoreMock} from './RNSecureKeyStoreMock';
 
 const metricsPusherMock: MetricsPusher = {
   push: jest.fn().mockReturnValue(Promise.resolve(MetricsPusherResult.Success)),
@@ -21,8 +24,8 @@ describe('MetricsService', () => {
   let metricsProvider: MetricsProvider;
 
   beforeEach(() => {
-    const secureKeyValueStore: SecureKeyValueStore = new RNSecureKeyStoreMock();
-    metricsStorage = new DefaultMetricsStorage(secureKeyValueStore);
+    const storageService: StorageService = new StorageServiceMock();
+    metricsStorage = new DefaultMetricsStorage(storageService);
     const metricsPublisher: MetricsPublisher = new DefaultMetricsPublisher(metricsStorage);
     metricsProvider = new DefaultMetricsProvider(metricsStorage);
     const metricsJsonSerializer: MetricsJsonSerializer = new DefaultMetricsJsonSerializer(
@@ -34,7 +37,7 @@ describe('MetricsService', () => {
       '11',
     );
     sut = new DefaultMetricsService(
-      secureKeyValueStore,
+      storageService,
       metricsPublisher,
       metricsProvider,
       metricsStorage,

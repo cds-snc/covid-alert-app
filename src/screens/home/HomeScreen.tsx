@@ -13,7 +13,7 @@ import {
   useExposureNotificationSystemStatusAutomaticUpdater,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {RegionCase} from 'shared/Region';
 import {getRegionCase} from 'shared/RegionLogic';
 import {ForceScreen} from 'shared/ForceScreen';
@@ -47,7 +47,7 @@ const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
 };
 
 const Content = () => {
-  const {region, userStopped} = useStorage();
+  const {region, userStopped} = useCachedStorage();
 
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
@@ -73,7 +73,7 @@ const Content = () => {
   };
 
   // this is for the test menu
-  const {forceScreen} = useStorage();
+  const {forceScreen} = useCachedStorage();
   if (TEST_MODE) {
     switch (forceScreen) {
       case ForceScreen.NoExposureView:
@@ -147,7 +147,7 @@ const Content = () => {
 export const HomeScreen = () => {
   const {checkForOutbreaks} = useOutbreakService();
   const navigation = useNavigation();
-  const {userStopped, qrEnabled} = useStorage();
+  const {userStopped, qrEnabled} = useCachedStorage();
 
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {

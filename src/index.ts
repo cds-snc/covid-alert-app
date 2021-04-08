@@ -3,8 +3,6 @@
  */
 import 'react-native-gesture-handler';
 
-import AsyncStorage from '@react-native-community/async-storage';
-import RNSecureKeyStore from 'react-native-secure-key-store';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL} from 'env';
 import {AppRegistry, LogBox, Platform} from 'react-native';
@@ -15,7 +13,7 @@ import {createBackgroundI18n} from 'locale';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 
-import {createStorageService} from './services/StorageService';
+import {DefaultStorageService} from './services/StorageService';
 import App from './App';
 
 AppRegistry.registerComponent('CovidShield', () => App);
@@ -24,14 +22,17 @@ if (Platform.OS === 'android') {
   BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
     await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
-    const storageService = await createStorageService();
-    const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+    const backendService = new BackendService(
+      RETRIEVE_URL,
+      SUBMIT_URL,
+      HMAC_KEY,
+      DefaultStorageService.sharedInstance(),
+    );
     const i18n = await createBackgroundI18n();
     const exposureNotificationService = new ExposureNotificationService(
       backendService,
       i18n,
-      AsyncStorage,
-      RNSecureKeyStore,
+      DefaultStorageService.sharedInstance(),
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
     );
@@ -43,14 +44,17 @@ if (Platform.OS === 'android') {
     publishDebugMetric(4.3);
     await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
-    const storageService = await createStorageService();
-    const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+    const backendService = new BackendService(
+      RETRIEVE_URL,
+      SUBMIT_URL,
+      HMAC_KEY,
+      DefaultStorageService.sharedInstance(),
+    );
     const i18n = await createBackgroundI18n();
     const exposureNotificationService = new ExposureNotificationService(
       backendService,
       i18n,
-      AsyncStorage,
-      RNSecureKeyStore,
+      DefaultStorageService.sharedInstance(),
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
     );

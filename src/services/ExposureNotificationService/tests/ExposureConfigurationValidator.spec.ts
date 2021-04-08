@@ -1,6 +1,6 @@
-import {ExposureConfigurationValidationError, ExposureConfigurationValidator} from './ExposureConfigurationValidator';
-import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
-import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
+import {ExposureConfigurationValidationError, ExposureConfigurationValidator} from '../ExposureConfigurationValidator';
+import exposureConfigurationDefault from '../ExposureConfigurationDefault.json';
+import exposureConfigurationSchema from '../ExposureConfigurationSchema.json';
 
 describe('ExposureConfigurationValidator', () => {
   it('verify the schema is parseable JSON with bare minimum of properties', () => {

@@ -1,8 +1,6 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {AppRegistry, Platform} from 'react-native';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
-import AsyncStorage from '@react-native-community/async-storage';
-import RNSecureKeyStore from 'react-native-secure-key-store';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
@@ -12,7 +10,7 @@ import {PeriodicWorkPayload} from '../../bridge/PushNotification';
 import {log} from '../../shared/logging/config';
 import {ExposureNotificationService} from '../ExposureNotificationService';
 import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
-import {createStorageService} from '../StorageService';
+import {DefaultStorageService} from '../StorageService';
 import {BackendService} from '../BackendService';
 import {createBackgroundI18n} from '../../locale';
 
@@ -124,14 +122,17 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
       await BackgroundFetch.stop('react-native-background-fetch');
 
       // Setup new periodic task to use WorkManager
-      const storageService = await createStorageService();
-      const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+      const backendService = new BackendService(
+        RETRIEVE_URL,
+        SUBMIT_URL,
+        HMAC_KEY,
+        DefaultStorageService.sharedInstance(),
+      );
       const i18n = await createBackgroundI18n();
       const exposureNotificationService = new ExposureNotificationService(
         backendService,
         i18n,
-        AsyncStorage,
-        RNSecureKeyStore,
+        DefaultStorageService.sharedInstance(),
         ExposureNotification,
         FilteredMetricsService.sharedInstance(),
       );

@@ -1,9 +1,9 @@
 /* eslint-disable promise/no-nesting */
 import {getHoursBetween, getCurrentDate, daysBetweenUTC, getUTCMidnight} from 'shared/date-fns';
 import {ExposureStatus, ExposureStatusType} from 'services/ExposureNotificationService';
+import {StorageService} from 'services/StorageService';
 
 import {DefaultMetricsFilterStateStorage, MetricsFilterStateStorage} from './MetricsFilterStateStorage';
-import {SecureKeyValueStore} from './SecureKeyValueStorage';
 
 export enum EventTypeMetric {
   Installed = 'installed',
@@ -70,8 +70,8 @@ export interface MetricsFilter {
 export class DefaultMetricsFilter implements MetricsFilter {
   private stateStorage: MetricsFilterStateStorage;
 
-  constructor(secureKeyValueStore: SecureKeyValueStore) {
-    this.stateStorage = new DefaultMetricsFilterStateStorage(secureKeyValueStore);
+  constructor(storageService: StorageService) {
+    this.stateStorage = new DefaultMetricsFilterStateStorage(storageService);
   }
 
   filterEvent(eventWithContext: EventWithContext): Promise<FilteredEvent | null> {
