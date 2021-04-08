@@ -32,9 +32,10 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
         try {
             val enIsEnabled = exposureNotificationClient.isEnabled.await()
             val enStatus = exposureNotificationClient.status.await()
-            if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)){
+
+            if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
                 Log.d("background", "ExposureCheckSchedulerWorker - ExposureNotification: Not enabled or not activated")
-                MetricsService.publishDebugMetric(2.1, context, "ExposureNotification: Not enabled or not activated.");
+                MetricsService.publishDebugMetric(2.1, context, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.firstOrNull()?.ordinal}.");
                 return Result.success()
             }
             val currentReactContext = getCurrentReactContext(context)
