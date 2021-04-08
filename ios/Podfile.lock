@@ -568,15 +568,15 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
+  DoubleConversion: cde416483dac037923206447da6e1454df403714
   EXBarCodeScanner: 77f5461a382d3c65c974f2bbe00e7c2d46e25df6
   EXConstants: 54d0bf04319d1692c6c7bc03ca151ef7a71705a4
   EXFileSystem: 0e4974ab77bff04cda68d2886d070cbe64b93a6b
   EXImageLoader: f96ec9992733a4224418bbd9382e5485c8948944
   EXPermissions: 17d4846ad1880f6891c74ae58ca1acb43e47ed47
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: c1ef578d12cb5d55fe8ff81ceaca7469ddb129b7
-  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
+  FBReactNativeSpec: 2a59be1c614979e9ea801a28227667b4618abf8c
+  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   Permission-Notifications: d437cafc026900006d35981d35a2d694f883f44e
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
