@@ -34,7 +34,7 @@ object MetricsService {
 
         if (!DebugMetricsHelper.canPublishDebugMetrics(context)) return
 
-        fun serializeMetricPayload(stepNumber: Double, lifecycleId: String, lifeCycleDailyCount: Number): JSONObject {
+        fun serializeMetricPayload(stepNumber: Double, lifecycleId: String, lifeCycleDailyCount: Number, successfulDailyBackgroundChecks: Number): JSONObject {
             val jsonObject = JSONObject();
 
             jsonObject.put("identifier", "ExposureNotificationCheck")
@@ -43,6 +43,7 @@ object MetricsService {
             jsonObject.put("step", stepNumber.toString())
             jsonObject.put("lifecycleId", lifecycleId)
             jsonObject.put("lifeCycleDailyCount", lifeCycleDailyCount.toString())
+            jsonObject.put("successfulDailyBackgroundChecks", successfulDailyBackgroundChecks.toString())
             jsonObject.put("message", message)
 
             if (BuildConfig.TEST_MODE == "true") {
@@ -53,9 +54,13 @@ object MetricsService {
             return jsonObject
         }
 
+        // This is the current final step we have and it is published from the React layer
+        if (stepNumber == 8.0) DebugMetricsHelper.incrementSuccessfulDailyBackgroundChecks(context)
+
         val lifecycleIdentifier = DebugMetricsHelper.getLifecycleIdentifier()
         val lifecycleDailyCount = DebugMetricsHelper.getLifecycleDailyCount(context)
-        val serializedMetricPayload = serializeMetricPayload(stepNumber, lifecycleIdentifier, lifecycleDailyCount)
+        val successfulDailyBackgroundChecks = DebugMetricsHelper.getSuccessfulDailyBackgroundChecks(context)
+        val serializedMetricPayload = serializeMetricPayload(stepNumber, lifecycleIdentifier, lifecycleDailyCount, successfulDailyBackgroundChecks)
         val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(serializedMetricPayload, context)
 
         this.push(serializedGlobalMetricsPayload, context)

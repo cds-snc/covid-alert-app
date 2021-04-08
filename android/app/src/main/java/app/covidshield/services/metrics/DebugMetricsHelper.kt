@@ -14,14 +14,20 @@ object DebugMetricsHelper {
 
     private const val SharedPreferencesFileKey = "covid-shield-debug-metrics"
     private const val LifecycleDailyCountKey = "lifecycle-daily-count"
+    private const val SuccessfulDailyBackgroundChecksKey = "successful-daily-background-checks"
     private const val DebugMetricsSwitch = "debug-metrics-switch"
-    private const val ResetTimestampKey = "reset-timestamp"
+
+    private const val LifecycleDailyCountResetTimestampKey = "lifecycle-daily-count-reset-timestamp"
+    private const val SuccessfulDailyBackgroundChecksResetTimestampKey = "successful-daily-background-checks-reset-timestamp"
+    private const val DebugMetricsSwitchResetTimestampKey = "debug-metrics-switch-reset-timestamp"
+
     private const val configurationUrl = BuildConfig.EN_CONFIG_URL;
 
     private val okHttpClient by lazy { OkHttpClient() }
 
     private var cachedLifecycleIdentifier: String? = null
     private var cachedLifecycleDailyCount: Number? = null
+    private var cachedSuccessfulDailyBackgroundChecks: Number? = null
     private var cachedActivationFlag: Boolean? = null
     private var cachedDeviceIdentifier: String? = null
 
@@ -45,7 +51,7 @@ object DebugMetricsHelper {
         val sharedPreferences = context.getSharedPreferences(SharedPreferencesFileKey, Context.MODE_PRIVATE)
 
         return if (cachedLifecycleDailyCount == null) {
-            val retrievedDailyCount = if (didDayChange(context)) 0 else sharedPreferences.getInt(LifecycleDailyCountKey, 0)
+            val retrievedDailyCount = if (didDayChange(LifecycleDailyCountResetTimestampKey, context)) 0 else sharedPreferences.getInt(LifecycleDailyCountKey, 0)
 
             val incrementedDailyCount = retrievedDailyCount + 1
 
@@ -61,12 +67,37 @@ object DebugMetricsHelper {
         }
     }
 
+    fun getSuccessfulDailyBackgroundChecks(context: Context): Number {
+
+        val sharedPreferences = context.getSharedPreferences(SharedPreferencesFileKey, Context.MODE_PRIVATE)
+
+        return if (cachedSuccessfulDailyBackgroundChecks == null) {
+            val retrievedSuccessfulDailyBackgroundChecks = if (didDayChange(SuccessfulDailyBackgroundChecksResetTimestampKey, context)) 0 else sharedPreferences.getInt(SuccessfulDailyBackgroundChecksKey, 0)
+            cachedSuccessfulDailyBackgroundChecks = retrievedSuccessfulDailyBackgroundChecks
+            retrievedSuccessfulDailyBackgroundChecks
+        } else {
+            cachedSuccessfulDailyBackgroundChecks!!
+        }
+    }
+
+    fun incrementSuccessfulDailyBackgroundChecks(context: Context) {
+
+        val sharedPreferences = context.getSharedPreferences(SharedPreferencesFileKey, Context.MODE_PRIVATE)
+
+        val successfulDailyBackgroundChecks = getSuccessfulDailyBackgroundChecks(context).toInt()
+
+        with (sharedPreferences.edit()) {
+            putInt(SuccessfulDailyBackgroundChecksKey, successfulDailyBackgroundChecks + 1)
+            apply()
+        }
+    }
+
     fun canPublishDebugMetrics(context: Context): Boolean {
 
         val sharedPreferences = context.getSharedPreferences(SharedPreferencesFileKey, Context.MODE_PRIVATE)
 
         return if (cachedActivationFlag == null) {
-            val isActive = if (didDayChange(context)) {
+            val isActive = if (didDayChange(DebugMetricsSwitchResetTimestampKey, context)) {
                 val request = Request.Builder().url(configurationUrl).build()
 
                 val stepsEnabled = okHttpClient.newCall(request).execute().use { response ->
@@ -114,23 +145,23 @@ object DebugMetricsHelper {
         }
     }
 
-    private fun didDayChange(context: Context): Boolean {
+    private fun didDayChange(resetTimestampKey: String, context: Context): Boolean {
         val sharedPreferences = context.getSharedPreferences(SharedPreferencesFileKey, Context.MODE_PRIVATE)
 
-        return if (!sharedPreferences.contains(ResetTimestampKey)) {
+        return if (!sharedPreferences.contains(resetTimestampKey)) {
             with (sharedPreferences.edit()) {
-                putLong(ResetTimestampKey, Date().time)
+                putLong(resetTimestampKey, Date().time)
                 apply()
             }
             true
         } else {
-            val resetTimestamp = sharedPreferences.getLong(ResetTimestampKey, Date().time)
+            val resetTimestamp = sharedPreferences.getLong(resetTimestampKey, Date().time)
 
             val shouldReset = DateUtils.isToday(resetTimestamp) == false
 
             if (shouldReset) {
                 with (sharedPreferences.edit()) {
-                    putLong(ResetTimestampKey, Date().time)
+                    putLong(resetTimestampKey, Date().time)
                     apply()
                 }
             }
