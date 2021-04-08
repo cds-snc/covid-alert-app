@@ -144,14 +144,15 @@ export class ExposureNotificationService {
   }
 
   initiateExposureCheckEvent = async () => {
-    publishDebugMetric(4.1);
     if (Platform.OS !== 'android') return;
+    publishDebugMetric(4.1);
     log.debug({category: 'background', message: 'initiateExposureCheckEvent'});
     await this.initiateExposureCheck();
   };
 
   initiateExposureCheckHeadless = async () => {
     if (Platform.OS !== 'android') return;
+    publishDebugMetric(4.4);
     log.debug({category: 'background', message: 'initiateExposureCheckHeadless'});
     await this.initiateExposureCheck();
   };
@@ -173,6 +174,7 @@ export class ExposureNotificationService {
   };
 
   executeExposureCheckEvent = async () => {
+    publishDebugMetric(7.3);
     await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
     if (Platform.OS !== 'android') return;
@@ -180,6 +182,7 @@ export class ExposureNotificationService {
     try {
       await this.updateExposureStatusInBackground();
     } catch (error) {
+      publishDebugMetric(104.0, `${error}`);
       // Noop
       log.error({category: 'background', message: 'executeExposureCheckEvent', error});
     }
@@ -284,7 +287,9 @@ export class ExposureNotificationService {
       PollNotifications.checkForNotifications(this.i18n);
 
       await logEndOfBackgroundTask(true);
+      publishDebugMetric(8.0);
     } catch (error) {
+      publishDebugMetric(105.0, `${error}`);
       await logEndOfBackgroundTask(false);
       log.error({category: 'exposure-check', message: 'updateExposureStatusInBackground', error});
     }
