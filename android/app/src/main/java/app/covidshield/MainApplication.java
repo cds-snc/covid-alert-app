@@ -17,12 +17,14 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
 import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 import org.unimodules.core.interfaces.SingletonModule;
 
 import app.covidshield.generated.BasePackageList;
+import android.util.Log;
 
 
 
@@ -65,6 +67,8 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         instance = this;
+        Log.d("locale", Locale.getDefault().getLanguage());
+        Log.d("locale", getResources().getString(R.string.app_name));
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
     }
