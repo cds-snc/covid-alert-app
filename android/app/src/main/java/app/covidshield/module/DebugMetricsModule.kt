@@ -16,9 +16,9 @@ class DebugMetricsModule(private val context: ReactApplicationContext) : ReactCo
     override val coroutineContext: CoroutineContext = Dispatchers.IO
 
     @ReactMethod
-    fun publishDebugMetric(stepNumber: Double, promise: Promise) {
+    fun publishDebugMetric(stepNumber: Double, message: String, promise: Promise) {
         promise.launch(this) {
-            MetricsService.publishDebugMetric(stepNumber, context)
+            MetricsService.publishDebugMetric(stepNumber, context, message)
             promise.resolve(null)
         }
     }
