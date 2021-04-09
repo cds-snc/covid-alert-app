@@ -1,3 +1,4 @@
 <resources>
 	<string name="app_name">Alerte COVID</string>
+	<string name="no_exposure_detected_region_covered_title">Aucune exposition détectée</string>
 </resources>

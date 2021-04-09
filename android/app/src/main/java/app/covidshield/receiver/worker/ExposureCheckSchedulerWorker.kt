@@ -1,11 +1,16 @@
 package app.covidshield.receiver.worker
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import app.covidshield.MainApplication
+import app.covidshield.R
 import app.covidshield.extensions.log
 import app.covidshield.services.metrics.MetricsService
+import app.covidshield.storage.StorageDirectory
+import app.covidshield.storage.StorageService
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
@@ -13,6 +18,7 @@ import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatus
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
+import java.util.*
 
 private const val HEADLESS_JS_TASK_NAME = "EXPOSURE_CHECK_HEADLESS_TASK"
 private const val HEADLESS_JS_TASK_TIMEOUT_MS = 60000L
@@ -26,6 +32,23 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
 
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
+
+        val locale = StorageService.getInstance(context).retrieve(StorageDirectory.GlobalLocaleKey)
+
+        if (locale != null) {
+            val locale = when (locale) {
+                "fr" -> Locale.CANADA_FRENCH
+                else -> Locale.CANADA
+            }
+
+            Locale.setDefault(locale)
+            val resources: Resources = MainApplication.instance.resources
+            val config = resources.configuration
+            config.setLocale(locale)
+            resources.updateConfiguration(config, resources.displayMetrics)
+
+            Log.d("DEBUG>>>", "App name = ${MainApplication.instance.resources.getString(R.string.app_name)}")
+        }
 
         MetricsService.publishDebugMetric(2.0, context)
 
