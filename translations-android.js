@@ -3,7 +3,7 @@ const path = require('path');
 
 const contentDirectory = 'src/locale/translations';
 const outputFilename = 'strings.xml';
-const stringPaths = ['AppName', 'NoExposureDetected.RegionCovered.Title'];
+const stringPaths = ['AppName']; // add strings here i.e. 'NoExposureDetected.RegionCovered.Title'
 
 const resolveObjectPath = (stringPath, obj) => {
   return stringPath.split('.').reduce((prev, curr) => {
