@@ -660,6 +660,12 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
+  public isAppInBackground = () => {
+    if (this.appState !== 'active') {
+      return true;
+    }
+  };
+
   public shouldPerformExposureCheck = async () => {
     log.debug({
       category: 'exposure-check',
@@ -670,7 +676,7 @@ export class ExposureNotificationService {
     });
 
     // pass thru unless the app is open
-    if (this.appState !== 'active') {
+    if (this.isAppInBackground()) {
       return true;
     }
 
