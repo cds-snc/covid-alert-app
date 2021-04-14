@@ -167,8 +167,6 @@ export class ExposureNotificationService {
 
   initiateExposureCheck = async () => {
     if (Platform.OS !== 'android') return;
-    if (!(await this.shouldPerformExposureCheck())) return;
-
     const payload: NotificationPayload = {
       alertTitle: this.i18n.translate('Notification.ExposureChecksTitle'),
       alertBody: this.i18n.translate('Notification.ExposureChecksBody'),
@@ -274,9 +272,6 @@ export class ExposureNotificationService {
         durationInSeconds: backgroundTaskDurationInSeconds,
       });
     };
-
-    // @todo: maybe remove this gets called in updateExposureStatus
-    if (!(await this.shouldPerformExposureCheck())) return;
 
     try {
       await this.loadExposureStatus();
