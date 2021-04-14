@@ -58,9 +58,8 @@ if (Platform.OS === 'android') {
       ExposureNotification,
       FilteredMetricsService.sharedInstance(),
     );
-    if (await exposureNotificationService.shouldPerformExposureCheck()) {
-      await exposureNotificationService.initiateExposureCheckHeadless();
-    }
+
+    await exposureNotificationService.initiateExposureCheckHeadless();
   });
 }
 

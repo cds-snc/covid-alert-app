@@ -166,10 +166,7 @@ export class ExposureNotificationService {
   };
 
   initiateExposureCheck = async () => {
-    publishDebugMetric(5.0);
     if (Platform.OS !== 'android') return;
-    if (!(await this.shouldPerformExposureCheck())) return;
-
     const payload: NotificationPayload = {
       alertTitle: this.i18n.translate('Notification.ExposureChecksTitle'),
       alertBody: this.i18n.translate('Notification.ExposureChecksBody'),
@@ -182,11 +179,15 @@ export class ExposureNotificationService {
   };
 
   executeExposureCheckEvent = async () => {
+    if (Platform.OS !== 'android') return;
     publishDebugMetric(7.3);
+    log.debug({category: 'background', message: 'executeExposureCheckEvent'});
+    await this.executeExposureCheck();
+  };
+
+  executeExposureCheck = async () => {
     await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
-    if (Platform.OS !== 'android') return;
-    log.debug({category: 'background', message: 'executeExposureCheckEvent'});
     try {
       await this.updateExposureStatusInBackground();
     } catch (error) {
@@ -271,9 +272,6 @@ export class ExposureNotificationService {
         durationInSeconds: backgroundTaskDurationInSeconds,
       });
     };
-
-    // @todo: maybe remove this gets called in updateExposureStatus
-    if (!(await this.shouldPerformExposureCheck())) return;
 
     try {
       await this.loadExposureStatus();
@@ -822,8 +820,6 @@ export class ExposureNotificationService {
     }
 
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
-
-    publishDebugMetric(6.1);
 
     try {
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
