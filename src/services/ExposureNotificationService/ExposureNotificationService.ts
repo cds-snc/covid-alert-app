@@ -821,8 +821,6 @@ export class ExposureNotificationService {
 
     const {keysFileUrls, lastCheckedPeriod} = await this.getKeysFileUrls();
 
-    publishDebugMetric(6.1);
-
     try {
       const summaries = await this.exposureNotification.detectExposure(exposureConfiguration, keysFileUrls);
 
