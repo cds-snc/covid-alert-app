@@ -166,7 +166,6 @@ export class ExposureNotificationService {
   };
 
   initiateExposureCheck = async () => {
-    publishDebugMetric(5.0);
     if (Platform.OS !== 'android') return;
     if (!(await this.shouldPerformExposureCheck())) return;
 
