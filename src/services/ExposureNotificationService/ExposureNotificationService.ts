@@ -182,11 +182,15 @@ export class ExposureNotificationService {
   };
 
   executeExposureCheckEvent = async () => {
+    if (Platform.OS !== 'android') return;
     publishDebugMetric(7.3);
+    log.debug({category: 'background', message: 'executeExposureCheckEvent'});
+    await this.executeExposureCheck();
+  };
+
+  executeExposureCheck = async () => {
     await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
-    if (Platform.OS !== 'android') return;
-    log.debug({category: 'background', message: 'executeExposureCheckEvent'});
     try {
       await this.updateExposureStatusInBackground();
     } catch (error) {
