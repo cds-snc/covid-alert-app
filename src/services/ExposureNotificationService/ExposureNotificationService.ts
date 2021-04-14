@@ -22,7 +22,7 @@ import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
 import {captureException, captureMessage} from 'shared/log';
 import {log} from 'shared/logging/config';
-import {DeviceEventEmitter, Platform} from 'react-native';
+import {DeviceEventEmitter, Platform, AppState, AppStateStatus} from 'react-native';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EN_API_VERSION} from 'env';
 import {checkNotifications} from 'react-native-permissions';
@@ -112,6 +112,7 @@ export class ExposureNotificationService {
   private storageService: StorageService;
 
   private filteredMetricsService: FilteredMetricsService;
+  private appState: AppStateStatus;
 
   constructor(
     backendInterface: BackendInterface,
@@ -128,6 +129,7 @@ export class ExposureNotificationService {
     this.backendInterface = backendInterface;
     this.storageService = storageService;
     this.filteredMetricsService = filteredMetricsService;
+    this.appState = 'unknown';
     this.exposureStatus.observe(status => {
       this.storageService.save(StorageDirectory.ExposureNotificationServiceExposureStatusKey, JSON.stringify(status));
     });
@@ -141,7 +143,13 @@ export class ExposureNotificationService {
       DeviceEventEmitter.removeAllListeners('executeExposureCheckEvent');
       DeviceEventEmitter.addListener('executeExposureCheckEvent', this.executeExposureCheckEvent);
     }
+
+    AppState.addEventListener('change', this.appStateChange);
   }
+
+  appStateChange = async (newState: AppStateStatus) => {
+    this.appState = newState;
+  };
 
   initiateExposureCheckEvent = async () => {
     if (Platform.OS !== 'android') return;
@@ -652,7 +660,26 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
+  public isAppInBackground = () => {
+    if (this.appState !== 'active') {
+      return true;
+    }
+  };
+
   public shouldPerformExposureCheck = async () => {
+    log.debug({
+      category: 'exposure-check',
+      message: 'shouldPerformExposureCheck',
+      payload: {
+        appState: this.appState,
+      },
+    });
+
+    // pass thru unless the app is open
+    if (this.isAppInBackground()) {
+      return true;
+    }
+
     const today = getCurrentDate();
     const exposureStatus = this.exposureStatus.get();
     const onboardedDatetime = await this.storageService.retrieve(StorageDirectory.GlobalOnboardedDatetimeKey);
