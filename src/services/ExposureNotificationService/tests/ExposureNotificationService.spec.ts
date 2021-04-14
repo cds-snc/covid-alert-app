@@ -180,6 +180,7 @@ describe('ExposureNotificationService', () => {
     service = new ExposureNotificationService(server, i18n, storageService, bridge, filteredMetricsService);
     Platform.OS = 'ios';
     service.systemStatus.set(SystemStatus.Active);
+    service.appStateChange('active');
     when(storageService.retrieve)
       .calledWith(StorageDirectory.GlobalOnboardedDatetimeKey)
       .mockResolvedValue(today.getTime());
