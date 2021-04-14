@@ -42,8 +42,8 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
         val enIsEnabled = exposureNotificationClient.isEnabled.await()
         val enStatus = exposureNotificationClient.status.await()
         if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
-            MetricsService.publishDebugMetric(7.1, context)
             Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
+            MetricsService.publishDebugMetric(7.1, context, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
             return Result.success()
         }
 
