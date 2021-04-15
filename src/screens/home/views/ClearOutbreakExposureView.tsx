@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useI18n} from 'locale';
 
 export const ClearOutbreakExposureScreen = () => {
   const navigation = useNavigation();
@@ -52,18 +53,15 @@ export const ClearOutbreakExposureScreen = () => {
 
 export const NegativeOutbreakTestButton = () => {
   const navigation = useNavigation();
+  const i18n = useI18n();
+  const text = i18n.translate(`QRCode.OutbreakExposed.NextSteps.CTA`);
 
   const toClearOutbreakExposure = useCallback(() => navigation.navigate('ClearOutbreakExposure'), [navigation]);
 
   return (
     <Box>
       <Box alignSelf="stretch">
-        <ButtonSingleLine
-          iconName="icon-chevron"
-          text="Clear Outbreak Exposure"
-          onPress={toClearOutbreakExposure}
-          variant="exposure25"
-        />
+        <ButtonSingleLine iconName="icon-chevron" text={text} onPress={toClearOutbreakExposure} variant="scan25" />
       </Box>
     </Box>
   );

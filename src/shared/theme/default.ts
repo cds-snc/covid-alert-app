@@ -44,6 +44,8 @@ export const palette = {
   info100: '#005B99',
   focus: '#44BBEE',
   exposure25: '#DED8FB',
+  scan25: '#FEEFB8',
+
   greyCanada25: '#D0D7DE',
   loudYellow: '#F5D547',
 };
@@ -362,6 +364,19 @@ const theme = {
     },
     exposure25: {
       color: palette.exposure25,
+      fontWeight: 'normal',
+      height: 30,
+      textColor: palette.bodyBlack,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    scan25: {
+      color: palette.scan25,
       fontWeight: 'normal',
       height: 30,
       textColor: palette.bodyBlack,
