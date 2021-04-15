@@ -37,6 +37,8 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
 
     override suspend fun doWork(): Result {
 
+        Log.d("background", "ExposureCheckNotificationWorker - doWork")
+
         try {
             val intent = Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -70,8 +72,6 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
             MetricsService.publishDebugMetric(107.0, context, exception.message ?: "Unknown")
             return Result.failure()
         }
-
-        Log.d("background", "ExposureCheckNotificationWorker - doWork")
 
         val enIsEnabled = exposureNotificationClient.isEnabled.await()
         val enStatus = exposureNotificationClient.status.await()
