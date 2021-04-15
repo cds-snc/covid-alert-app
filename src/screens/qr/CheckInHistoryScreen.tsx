@@ -10,7 +10,7 @@ import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {sortedCheckInArray} from './utils';
 
-const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: CheckInData[]; isEditing: boolean}) => {
+const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) => {
   const i18n = useI18n();
   const {deleteScannedPlaces} = useOutbreakService();
   const checkIns = sortedCheckInArray(scannedCheckInData);
@@ -31,9 +31,6 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
       },
     ]);
   };
-  if (checkIns.length === 0) {
-    return <Text>No Check-ins yet</Text>;
-  }
   return (
     <>
       {Object.keys(checkIns).map(item => {
@@ -48,18 +45,11 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
                 return (
                   <>
                     <Box
-                      paddingLeft="m"
+                      paddingHorizontal="m"
                       style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
                       key={data.checkIns.id.concat(index.toString())}
                     >
-                      <TouchableOpacity
-                        onPress={() => {
-                          deleteConfirmationAlert(data.checkIns.id);
-                        }}
-                      >
-                        {isEditing && <Icon size={10} name="canada-logo" />}
-                      </TouchableOpacity>
-                      <Box padding="m">
+                      <Box paddingVertical="m" paddingRight="s">
                         <Text variant="bodySubTitle">{data.checkIns.name}</Text>
                         <Text paddingVertical="s">{data.checkIns.address}</Text>
                         <Text>
@@ -69,6 +59,15 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
                             hour12: true,
                           })}
                         </Text>
+                      </Box>
+                      <Box>
+                        <TouchableOpacity
+                          onPress={() => {
+                            deleteConfirmationAlert(data.checkIns.id);
+                          }}
+                        >
+                          <Icon size={40} name="delete-icon" />
+                        </TouchableOpacity>
                       </Box>
                     </Box>
                   </>
@@ -82,16 +81,22 @@ const CheckInList = ({scannedCheckInData, isEditing}: {scannedCheckInData: Check
   );
 };
 
+const NoVisitsScreen = () => {
+  const i18n = useI18n();
+
+  return (
+    <Box style={styles.noVisitScreen} marginTop="xl">
+      <Icon height={120} width={150} name="no-visit-icon" />
+      <Text paddingTop="s" fontWeight="bold">
+        {i18n.translate('PlacesLog.NoVisit')}
+      </Text>
+    </Box>
+  );
+};
+
 export const CheckInHistoryScreen = () => {
   const i18n = useI18n();
   const {checkInHistory, deleteAllScannedPlaces} = useOutbreakService();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [isEditingText, setIsEditingText] = useState('Edit');
-  const onPressEdit = () => {
-    setIsEditing(!isEditing);
-    setIsEditingText(isEditing ? 'Edit' : 'Done');
-  };
 
   const deleteAllPlaces = () => {
     Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
@@ -116,32 +121,28 @@ export const CheckInHistoryScreen = () => {
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
             {i18n.translate('PlacesLog.Title')}
           </Text>
-          <Text>
-            {i18n.translate('PlacesLog.Body1')}
-            {/* {checkInHistory.length === 0
-              ? i18n.translate('ScannedPlaces.BodyNoScan')
-              : i18n.translate('ScannedPlaces.Body')} */}
-          </Text>
-          <Text variant="bodyTitle" accessibilityRole="header" marginTop="l">
-            {i18n.translate('PlacesLog.Body2a')}
-          </Text>
-          <Text marginTop="s">{i18n.translate('PlacesLog.Body2a')}</Text>
-        </Box>
-        <Box>
-          {checkInHistory.length !== 0 && (
-            <Box style={styles.textBox}>
-              <Box>{isEditing && <Button text="Delete All" variant="text" onPress={deleteAllPlaces} />}</Box>
+          <Text>{i18n.translate('PlacesLog.Body1')}</Text>
 
-              <Box>
-                <Button text={isEditingText} variant="text" onPress={onPressEdit} />
-              </Box>
+          <Text marginTop="s">
+            <Text fontWeight="bold">{i18n.translate('PlacesLog.Body2a')}</Text>
+
+            {i18n.translate('PlacesLog.Body2b')}
+          </Text>
+        </Box>
+
+        {checkInHistory.length === 0 ? (
+          <NoVisitsScreen />
+        ) : (
+          <>
+            <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
+              <CheckInList scannedCheckInData={checkInHistory} />
             </Box>
-          )}
 
-          <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
-            <CheckInList scannedCheckInData={checkInHistory} isEditing={isEditing} />
-          </Box>
-        </Box>
+            <Box margin="m">
+              <Button variant="opaqueGrey" text={i18n.translate('PlacesLog.DeleteBtnCTA')} onPress={deleteAllPlaces} />
+            </Box>
+          </>
+        )}
       </BaseDataSharingView>
     </>
   );
@@ -164,5 +165,9 @@ const styles = StyleSheet.create({
   },
   radius: {
     borderRadius: 10,
+  },
+  noVisitScreen: {
+    flex: 1,
+    alignItems: 'center',
   },
 });

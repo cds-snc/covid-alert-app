@@ -36,6 +36,8 @@ import HamburgerMenu from 'assets/hamburger-menu.svg';
 import Close from 'assets/close.svg';
 import IconThreeDots from 'assets/icon-three-dots.svg';
 import IconExclamation from 'assets/icon-exclamation.svg';
+import DeleteIcon from 'assets/delete-icon.svg';
+import NoVisitIcon from 'assets/no-visit-icon.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -75,6 +77,8 @@ const ICONS = {
   close: Close,
   'icon-three-dots': IconThreeDots,
   'icon-exclamation': IconExclamation,
+  'delete-icon': DeleteIcon,
+  'no-visit-icon': NoVisitIcon,
 };
 
 export type IconName = keyof typeof ICONS;
