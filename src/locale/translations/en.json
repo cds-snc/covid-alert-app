@@ -469,7 +469,7 @@
   },
   "MenuButton": "Menu",
   "QRCode": {
-    "CTA": "Scan a place",
+    "CTA": "Add a visit",
     "Reader": {
       "Title": "Point the camera at the QR code",
       "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",

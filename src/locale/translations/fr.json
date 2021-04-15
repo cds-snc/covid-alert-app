@@ -466,7 +466,7 @@
   },
   "MenuButton": "Menu",
   "QRCode": {
-    "CTA": "Scanner un lieu",
+    "CTA": "Ajouter une visite",
     "Reader": {
       "Title": "Placez votre appareil photo devant le code QR",
       "Body": "",
