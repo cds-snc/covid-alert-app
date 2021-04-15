@@ -172,6 +172,7 @@
     "Help": "Help",
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get a one-time key",
+    "YourVisits": "Your Visits",
     "ChangeLanguage": "Change language",
     "ToggleCovidAlert": {
       "TurnOff": "Turn off COVID Alert",
@@ -513,6 +514,23 @@
       "Body": "You can get notified if contagious people have visited the same place as you. When you scan COVID Alert QR codes at the places you go, the app saves them to your phone.\n\nThe places you visit",
       "Body2": " will not be shared with anyone.",
       "CTA": "Next"
+    }
+  },
+
+  "PlacesLog": {
+    "Title": "Your Visits",
+    "Body1": "You’ll get notified if there’s a possible exposure from the following visits.",
+    "Body2a": "Your visits are not shared ",
+    "Body2b": "with anyone. They’re only on your phone.",
+    "DeleteBtnCTA": "Delete all visits",
+    "Alert": {
+      "Title": "Are you sure you want to delete this visit?",
+      "TitleDeleteAll": "Are you sure you want to delete all visits?",
+      "Subtitle": "If there’s a possible exposure at this place, you will not be notified.",
+      "SubtitleDeleteAll": "If there’s a possible exposure at any of these places, you will not be notified.",
+      "Cancel": "Cancel",
+      "ConfirmDelete": "Yes, delete",
+      "ConfirmDeleteAll": "Yes, delete all"
     }
   },
 

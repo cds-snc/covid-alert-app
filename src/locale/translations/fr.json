@@ -172,6 +172,7 @@
     "Help": "Aide et questions fréquentes",
     "HelpUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html",
     "GetCode": "Obtenir une clé à usage unique",
+    "YourVisits": "Vos visites",
     "ChangeLanguage": "Modifier la langue",
     "ToggleCovidAlert": {
       "TurnOff": "Désactiver Alerte COVID",
@@ -507,6 +508,23 @@
       "Body": "Vous pouvez être notifié si des personnes contagieuses ont visité le même lieu que vous. Lorsque vous scannez un code QR Alerte COVID à l’entrée d’un lieu, l’application l’enregistre sur votre téléphone.\n\nLes lieux que vous visitez",
       "Body2": "ne seront pas communiqués à personne.",
       "CTA": "Suivant"
+    }
+  },
+
+  "PlacesLog": {
+    "Title": "Vos visites",
+    "Body1": "Vous serez avisé s’il y a eu un risque d’exposition lors des visites qui suivent.",
+    "Body2a": "Vos visites ne sont communiquées ",
+    "Body2b": "à personne. Elles sont uniquement conservées sur votre téléphone.",
+    "DeleteBtnCTA": "Supprimer toutes les visites",
+    "Alert": {
+      "Title": "Voulez-vous vraiment supprimer cette visite?",
+      "TitleDeleteAll": "Voulez-vous vraiment supprimer toutes les visites?",
+      "Subtitle": "S’il y a un risque d’exposition dans ce lieu, vous n’en serez pas avisé.",
+      "SubtitleDeleteAll": "S’il y a un risque d’exposition dans un de ces lieux, vous n’en serez pas avisé.",
+      "Cancel": "Annuler",
+      "ConfirmDelete": "Oui, supprimer",
+      "ConfirmDeleteAll": "Oui, tout supprimer"
     }
   },
 

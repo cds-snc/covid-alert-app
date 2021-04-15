@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useI18n, useRegionalI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Box, Text} from 'components';
+import {Box, Icon, Text} from 'components';
 import {Linking, ScrollView, StyleSheet} from 'react-native';
 import {StatusHeaderView} from 'screens/menu/views/StatusHeaderView';
 import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
@@ -16,6 +16,8 @@ import {ConditionalMenuPanels} from './views/ConditionalMenuPanels';
 import {PrimaryMenuButtons} from './views/PrimaryMenuButtons';
 import {InfoShareItem} from './components/InfoShareItem';
 import {CloseButton} from './components/CloseButton';
+import {OnOffButton} from './components/OnOffButton';
+import {ShareDiagnosisCode} from './views/ShareDiagnosisCode';
 
 export const MenuScreen = () => {
   const [systemStatus] = useSystemStatus();
@@ -32,6 +34,7 @@ export const MenuScreen = () => {
   const onLearnMore = useCallback(() => navigation.navigate('Tutorial'), [navigation]);
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
   const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
+  const onYourVisits = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
   const onHelp = useCallback(() => {
     Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
@@ -66,7 +69,8 @@ export const MenuScreen = () => {
         </Box>
         <ScrollView style={styles.flex}>
           <Box marginBottom="m">
-            <PrimaryMenuButtons />
+            <ShareDiagnosisCode />
+            <OnOffButton />
           </Box>
 
           <Box marginBottom="m">
@@ -74,6 +78,12 @@ export const MenuScreen = () => {
           </Box>
 
           <Box marginBottom="m" testID="InfoShareViewID">
+            <InfoShareItem
+              text={i18n.translate('Info.YourVisits')}
+              testID="yourVisitsButton"
+              onPress={onYourVisits}
+              icon="icon-chevron"
+            />
             <InfoShareItem
               text={i18n.translate('Info.GetCode')}
               testID="getCodeButton"
@@ -89,14 +99,6 @@ export const MenuScreen = () => {
               accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate(
                 'Home.ExternalLinkHint',
               )}`}
-            />
-
-            <InfoShareItem
-              text={i18n.translate('Info.Help')}
-              onPress={onHelp}
-              icon="icon-external-arrow"
-              accessibilityRole="link"
-              accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
             />
           </Box>
 
@@ -128,6 +130,13 @@ export const MenuScreen = () => {
               accessibilityRole="link"
               onPress={onPrivacy}
               accessibilityHint={`${i18n.translate('Info.Privacy')} . ${i18n.translate('Home.ExternalLinkHint')}`}
+            />
+            <InfoShareItem
+              text={i18n.translate('Info.Help')}
+              onPress={onHelp}
+              icon="icon-external-arrow"
+              accessibilityRole="link"
+              accessibilityHint={`${i18n.translate('Info.Help')} . ${i18n.translate('Home.ExternalLinkHint')}`}
             />
           </Box>
           <Box paddingBottom="l">

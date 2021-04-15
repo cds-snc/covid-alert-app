@@ -84,6 +84,28 @@ export class OutbreakService implements OutbreakService {
     this.checkInHistory.set(newCheckInHistory);
   };
 
+  deleteScannedPlaces = async (value: string) => {
+    const _checkInHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
+    const checkInHistory = JSON.parse(_checkInHistory);
+    const index = checkInHistory.findIndex((item: {id: string}) => item.id === value);
+    const newCheckInHistory = checkInHistory;
+    if (index !== -1) {
+      newCheckInHistory.splice(index, 1);
+    }
+
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceCheckInHistoryKey,
+      JSON.stringify(newCheckInHistory),
+    );
+    this.checkInHistory.set(newCheckInHistory);
+  };
+
+  deleteAllScannedPlaces = async () => {
+    await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify([]));
+    this.checkInHistory.set([]);
+  };
+
   init = async () => {
     const outbreakHistory =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';
@@ -206,6 +228,19 @@ export const useOutbreakService = () => {
     },
     [outbreakService],
   );
+  const deleteScannedPlaces = useMemo(
+    () => (id: string) => {
+      outbreakService.deleteScannedPlaces(id);
+    },
+    [outbreakService],
+  );
+
+  const deleteAllScannedPlaces = useMemo(
+    () => () => {
+      outbreakService.deleteAllScannedPlaces();
+    },
+    [outbreakService],
+  );
 
   useEffect(() => outbreakService.checkInHistory.observe(addCheckInInternal), [outbreakService.checkInHistory]);
   useEffect(() => outbreakService.outbreakHistory.observe(setOutbreakHistoryInternal), [
@@ -219,8 +254,19 @@ export const useOutbreakService = () => {
       checkForOutbreaks,
       addCheckIn,
       removeCheckIn,
+      deleteScannedPlaces,
+      deleteAllScannedPlaces,
       checkInHistory,
     }),
-    [outbreakHistory, clearOutbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
+    [
+      outbreakHistory,
+      clearOutbreakHistory,
+      checkForOutbreaks,
+      addCheckIn,
+      removeCheckIn,
+      deleteScannedPlaces,
+      deleteAllScannedPlaces,
+      checkInHistory,
+    ],
   );
 };
