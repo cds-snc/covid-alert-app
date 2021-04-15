@@ -45,7 +45,7 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
             text={i18n.translate('QRCode.CameraPermissionDenied.CTA2')}
             variant="thinFlatNeutralGrey"
             onPress={() => {
-              navigation.navigate('LearnAboutQRScreen');
+              navigation.navigate('QRCodeOnboard');
             }}
             iconName="icon-chevron"
           />
