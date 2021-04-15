@@ -55,14 +55,17 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
                 } catch (exception: TimeoutCancellationException) {
                     MetricsService.publishDebugMetric(101.0, context, exception.message ?: "Unknown");
                     log("doWork exception", mapOf("message" to "Timeout"))
+                    return Result.failure()
                 } catch (exception: Exception) {
                     MetricsService.publishDebugMetric(102.0, context, exception.message ?: "Unknown");
                     log("doWork exception", mapOf("message" to (exception.message ?: "Unknown")))
+                    return Result.failure()
                 }
             }
         } catch (exception: Exception) {
             MetricsService.publishDebugMetric(103.0, context, exception.message ?: "Unknown");
             Log.d("exception", "exception")
+            return Result.failure()
         }
 
         return Result.success()
