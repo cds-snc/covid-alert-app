@@ -21,6 +21,7 @@ import SheetHandleBarClose from 'assets/sheet-handle-bar-close.svg';
 import IconX from 'assets/icon-x.svg';
 import ThumbsUp from 'assets/thumbs-up.svg';
 import HandCaution from 'assets/hand-caution.svg';
+import HandCautionYellow from 'assets/hand-caution-yellow.svg';
 import HandReminder from 'assets/hand-reminder.svg';
 import HandThankYouWithLove from 'assets/hand-thank-you-with-love.svg';
 import HandNoProvinceYet from 'assets/hand-no-province-yet.svg';
@@ -61,6 +62,7 @@ const ICONS = {
   'sheet-handle-bar-close': SheetHandleBarClose,
   'thumbs-up': ThumbsUp,
   'hand-caution': HandCaution,
+  'hand-caution-yellow': HandCautionYellow,
   'hand-reminder': HandReminder,
   'hand-thank-you-with-love': HandThankYouWithLove,
   'hand-no-province-yet': HandNoProvinceYet,
