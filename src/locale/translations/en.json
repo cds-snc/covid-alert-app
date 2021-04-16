@@ -506,7 +506,7 @@
       "Title": "Access denied",
       "Body": "You said no to COVID Alert using your phone’s camera.\n\nTo scan a place, you’ll need to update your phone’s settings to let COVID Alert  use the camera.\n\nYou can also use your phone’s camera directly or a QR scanning app.",
       "CTA": "Allow camera access in settings",
-      "CTA2": "About scanning a place"
+      "CTA2": "About adding a visit"
     },
     "Error": {
       "Title": "QR code not recognized",
@@ -527,10 +527,12 @@
       "Title": "Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Scan a place",
-      "Body": "You can get notified if contagious people have visited the same place as you. When you scan COVID Alert QR codes at the places you go, the app saves them to your phone.\n\nThe places you visit",
-      "Body2": " will not be shared with anyone.",
-      "CTA": "Next"
+      "Title": "Add a visit",
+      "Body": "Get notified if someone from today tests positive later.\n\nThe app saves your visits on your phone, including the dates and times you were there.",
+      "Body2": "Your visits are not shared ",
+      "Body3": "with anyone.",
+      "CTA": "Next",
+      "CTA2": "About adding a visit"
     },
     "OutbreakExposed": {
       "Title": "Possible exposure at a visit",
