@@ -99,8 +99,14 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
     }
 
     private void invokeStartTask(ReactContext reactContext, final HeadlessJsTaskConfig taskConfig) {
-        if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
-            MetricsService.publishDebugMetric(3.9, reactContext);
+
+        try {
+            if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
+                MetricsService.publishDebugMetric(3.9, reactContext);
+                return;
+            }
+        } catch (Exception exception) {
+            MetricsService.publishDebugMetric(109, reactContext, exception.getMessage());
             return;
         }
 

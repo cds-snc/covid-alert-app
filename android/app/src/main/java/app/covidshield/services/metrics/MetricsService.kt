@@ -54,9 +54,6 @@ object MetricsService {
             return jsonObject
         }
 
-        // This is the current final step we have and it is published from the React layer
-        if (stepNumber == 8.0) DebugMetricsHelper.incrementSuccessfulDailyBackgroundChecks(context)
-
         val lifecycleIdentifier = DebugMetricsHelper.getLifecycleIdentifier()
         val lifecycleDailyCount = DebugMetricsHelper.getLifecycleDailyCount(context)
         val successfulDailyBackgroundChecks = DebugMetricsHelper.getSuccessfulDailyBackgroundChecks(context)
