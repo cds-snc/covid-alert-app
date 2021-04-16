@@ -275,8 +275,7 @@ const theme = {
       textColor: palette.white,
       fontFamily: 'notosans',
       fontSize: 18,
-      disabled: {
-      },
+      disabled: {},
     },
     thinFlatBlue: {
       color: palette.neutralGrey,

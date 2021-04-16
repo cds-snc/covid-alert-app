@@ -1,9 +1,10 @@
 import React, {useCallback} from 'react';
 import {Box, Text, Icon, Button} from 'components';
-import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useCachedStorage} from 'services/StorageService';
 import {useI18n} from 'locale';
+
+import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
 export const LearnAboutQRScreen = () => {
   const navigation = useNavigation();

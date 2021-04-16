@@ -3,9 +3,9 @@ import {Box, Text, Button, ButtonSingleLine} from 'components';
 import {AppState, AppStateStatus, Linking, StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
-import {InfoShareItem} from '../../menu/components/InfoShareItem';
 
 export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();

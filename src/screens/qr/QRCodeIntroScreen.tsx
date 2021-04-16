@@ -2,10 +2,9 @@ import React, {useCallback} from 'react';
 import {Box, Text, Button} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
+import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
-
-import {InfoShareItem} from '../menu/components/InfoShareItem';
 
 export const QRCodeIntroScreen = () => {
   const navigation = useNavigation();
