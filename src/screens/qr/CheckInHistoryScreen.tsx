@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {useI18n} from 'locale';
 import {Box, Text, Icon, Button} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {CheckInData} from 'shared/qr';
-import {formatExposedDate, formateScannedDate, formatCheckInDate} from 'shared/date-fns';
+import {formatExposedDate, formateScannedDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {sortedCheckInArray} from './utils';

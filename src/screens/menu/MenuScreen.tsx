@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useI18n, useRegionalI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Box, Icon, Text} from 'components';
+import {Box, Text} from 'components';
 import {Linking, ScrollView, StyleSheet} from 'react-native';
 import {StatusHeaderView} from 'screens/menu/views/StatusHeaderView';
 import {useSystemStatus, SystemStatus} from 'services/ExposureNotificationService';
@@ -13,7 +13,6 @@ import {captureException} from 'shared/log';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {ConditionalMenuPanels} from './views/ConditionalMenuPanels';
-import {PrimaryMenuButtons} from './views/PrimaryMenuButtons';
 import {InfoShareItem} from './components/InfoShareItem';
 import {CloseButton} from './components/CloseButton';
 import {OnOffButton} from './components/OnOffButton';
