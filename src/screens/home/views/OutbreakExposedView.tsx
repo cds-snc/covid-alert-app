@@ -32,6 +32,7 @@ export const OutbreakExposedView = () => {
     <BaseHomeView
       iconName="hand-caution-yellow"
       testID="outbreakExposure"
+      // eslint-disable-next-line react-native/no-inline-styles
       primaryIconStyles={{marginLeft: -20, marginBottom: 20}}
     >
       <ExposureText />
