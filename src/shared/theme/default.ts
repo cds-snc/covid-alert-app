@@ -269,6 +269,15 @@ const theme = {
         borderBottomColor: palette.gray3,
       },
     },
+    thinFlatNoBorder: {
+      color: palette.info100,
+      height: 52,
+      textColor: palette.white,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      disabled: {
+      },
+    },
     thinFlatBlue: {
       color: palette.neutralGrey,
       height: 52,

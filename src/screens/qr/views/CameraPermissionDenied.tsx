@@ -5,6 +5,7 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
+import {InfoShareItem} from '../../menu/components/InfoShareItem';
 
 export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
@@ -37,17 +38,20 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
           <Text marginBottom="l"> {i18n.translate('QRCode.CameraPermissionDenied.Body')}</Text>
         </Box>
         <Box paddingHorizontal="s" paddingTop="xl" marginBottom="m">
-          <Button variant="thinFlat" text={i18n.translate('QRCode.CameraPermissionDenied.CTA')} onPress={toSettings} />
+          <Button
+            variant="thinFlatNoBorder"
+            text={i18n.translate('QRCode.CameraPermissionDenied.CTA')}
+            onPress={toSettings}
+          />
         </Box>
 
         <Box paddingHorizontal="s" marginBottom="m">
-          <ButtonSingleLine
-            text={i18n.translate('QRCode.CameraPermissionDenied.CTA2')}
-            variant="thinFlatNeutralGrey"
+          <InfoShareItem
+            text={i18n.translate('QRCode.ScanAPlace.CTA2')}
             onPress={() => {
               navigation.navigate('QRCodeOnboard');
             }}
-            iconName="icon-chevron"
+            icon="icon-chevron"
           />
         </Box>
       </Box>

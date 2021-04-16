@@ -24,7 +24,7 @@ export const LearnAboutQRScreen = () => {
         <Text marginVertical="s">{i18n.translate('QRCode.LearnAboutQRScan.Body1')}</Text>
         <Text>{i18n.translate('QRCode.LearnAboutQRScan.Body2')}</Text>
         <Box marginTop="xl">
-          <Button text="Next" variant="thinFlat" onPress={toQRScreen} />
+          <Button text="Next" variant="thinFlatNoBorder" onPress={toQRScreen} />
         </Box>
       </Box>
     </BaseQRCodeScreen>

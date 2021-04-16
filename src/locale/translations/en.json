@@ -509,6 +509,12 @@
       "CTA": "Allow camera access in settings",
       "CTA2": "About adding a visit"
     },
+    "CameraPermissionAlert": {
+      "Title": "« COVID Alert » Would Like to Access the Camera",
+      "Subtitle": "COVID Alert needs access to your camera so it can read the QR code.",
+      "Allow": "Allow",
+      "DontAllow": "Don’t Allow"
+    },
     "LearnAboutQRScan": {
       "Title": "How to add a visit",
       "Body1": "1. Give COVID Alert access to your camera so it can read the QR code.",

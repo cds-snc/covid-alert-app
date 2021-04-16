@@ -518,6 +518,12 @@
       "CTA": "Autoriser l’accès dans les paramètres",
       "CTA2": "À propos de l’ajout d’une visite"
     },
+    "CameraPermissionAlert": {
+      "Title": "« Alerte COVID » souhaite accéder à l’appareil photo",
+      "Subtitle": "Alerte COVID doit accéder à l’appareil photo pour lire le code QR.",
+      "Allow": "Autoriser",
+      "DontAllow": "Ne pas autoriser"
+    },
     "LearnAboutQRScan": {
       "Title": "Comment ajouter une visite",
       "Body1": "1. Autorisez Alerte COVID à accéder à l’appareil photo pour lire le code QR.",
