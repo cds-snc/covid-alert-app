@@ -3,6 +3,7 @@ import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
+import {QRCodeOnboardScreen} from 'screens/qr/onboarding/Tutorial';
 import {
   FormScreen,
   Step0Screen,
@@ -76,11 +77,13 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Home: undefined;
   Onboarding: undefined;
   Tutorial: undefined;
+  QROnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
+const QRCodeOnboardScreenWithNavBar = withDarkNav(QRCodeOnboardScreen);
 const Step0ScreenWithNavBar = withDarkNav(Step0Screen);
 const IntermediateInstructionScreenWithNavBar = withDarkNav(IntermediateInstructionScreen);
 const Step2ScreenWithNavBar = withDarkNav(Step2Screen);
@@ -156,6 +159,7 @@ const QRCodeNavigator = () => {
       <QRCodeStack.Screen name="CheckInSuccessfulScreen" component={CheckInSuccessfulScreenWithNavBar} />
       <QRCodeStack.Screen name="LearnAboutQRScreen" component={LearnAboutQRScreenWithNavBar} />
       <QRCodeStack.Screen name="QRCodeIntroScreen" component={QRCodeIntroScreenWithNavBar} />
+      <QRCodeStack.Screen name="QRCodeOnboard" component={QRCodeOnboardScreenWithNavBar} />
     </QRCodeStack.Navigator>
   );
 };

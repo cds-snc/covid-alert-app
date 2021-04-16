@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import app.covidshield.extensions.log
 import app.covidshield.services.metrics.MetricsService
+import app.covidshield.services.metrics.UniqueDailyDebugMetricsHelper
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
@@ -27,6 +28,11 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
 
+        if (UniqueDailyDebugMetricsHelper.canPublishMetric("200.0", context)) {
+            MetricsService.publishDebugMetric(200.0, context)
+            UniqueDailyDebugMetricsHelper.markMetricAsPublished("200.0", context)
+        }
+
         MetricsService.publishDebugMetric(2.0, context)
 
         try {
@@ -34,6 +40,12 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
             val enStatus = exposureNotificationClient.status.await()
 
             if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
+
+                if (UniqueDailyDebugMetricsHelper.canPublishMetric("200.1", context)) {
+                    MetricsService.publishDebugMetric(200.1, context)
+                    UniqueDailyDebugMetricsHelper.markMetricAsPublished("200.1", context)
+                }
+
                 Log.d("background", "ExposureCheckSchedulerWorker - ExposureNotification: Not enabled or not activated")
                 MetricsService.publishDebugMetric(2.1, context, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
                 return Result.success()

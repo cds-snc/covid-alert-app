@@ -25,7 +25,7 @@ object MetricsService {
         jsonObject.put("timestamp", TimeUnit.MILLISECONDS.toMillis(System.currentTimeMillis()))
 
         val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(jsonObject, context)
-        this.push(serializedGlobalMetricsPayload, context)
+        this.push(serializedGlobalMetricsPayload)
     }
 
     @JvmStatic
@@ -63,7 +63,7 @@ object MetricsService {
         val serializedMetricPayload = serializeMetricPayload(stepNumber, lifecycleIdentifier, lifecycleDailyCount, successfulDailyBackgroundChecks)
         val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(serializedMetricPayload, context)
 
-        this.push(serializedGlobalMetricsPayload, context)
+        this.push(serializedGlobalMetricsPayload)
     }
 
     private fun serializeGlobalMetricsPayload(metricPayload: JSONObject, context: Context): JSONObject {
@@ -86,7 +86,7 @@ object MetricsService {
         return jsonObject
     }
 
-    private fun push(globalMetricsPayload: JSONObject, context: Context) {
+    private fun push(globalMetricsPayload: JSONObject) {
         val body: RequestBody = RequestBody.create(MediaType.parse("text/plain"), globalMetricsPayload.toString())
 
         val request = Request.Builder()
