@@ -1,23 +1,78 @@
-import React from 'react';
-import {Box, Text} from 'components';
-import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
+import React, {useCallback} from 'react';
+import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {useI18n} from 'locale';
+import {useNavigation} from '@react-navigation/native';
+import {Box, Text, Icon, Button, Toolbar} from 'components';
 import {CheckInData} from 'shared/qr';
-import {formatCheckInDate} from 'shared/date-fns';
+import {formatExposedDate, formateScannedDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {ScrollView} from 'react-native-gesture-handler';
 
-const CheckInList = ({checkIns}: {checkIns: CheckInData[]}) => {
-  if (checkIns.length === 0) {
-    return <Text>No Check-ins yet</Text>;
-  }
+import {sortedCheckInArray} from './utils';
+
+const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) => {
+  const i18n = useI18n();
+  const {deleteScannedPlaces} = useOutbreakService();
+  const checkIns = sortedCheckInArray(scannedCheckInData);
+  const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
+
+  const deleteConfirmationAlert = (id: string) => {
+    Alert.alert(i18n.translate('PlacesLog.Alert.Title'), i18n.translate('PlacesLog.Alert.Subtitle'), [
+      {
+        text: i18n.translate('PlacesLog.Alert.Cancel'),
+        onPress: () => {},
+      },
+      {
+        text: i18n.translate('PlacesLog.Alert.ConfirmDelete'),
+        onPress: () => {
+          deleteScannedPlaces(id);
+        },
+        style: 'cancel',
+      },
+    ]);
+  };
   return (
     <>
-      {checkIns.map((checkIn, index) => {
+      {Object.keys(checkIns).map(item => {
         return (
-          <Box marginBottom="l" key={checkIn.id.concat(index.toString())}>
-            <Text>ID: {checkIn.id}</Text>
-            <Text>Name: {checkIn.name}</Text>
-            <Text>Address: {checkIn.address}</Text>
-            <Text>Time: {formatCheckInDate(new Date(checkIn.timestamp))}</Text>
+          <Box key={item}>
+            <Box marginTop="m" paddingBottom="m">
+              <Text variant="bodyTitle">{formatExposedDate(formateScannedDate(item), dateLocale)}</Text>
+            </Box>
+
+            <Box style={styles.radius} backgroundColor="gray5">
+              {checkIns[item].map((data: any, index: number) => {
+                return (
+                  <Box
+                    paddingHorizontal="m"
+                    style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
+                    key={data.checkIns.id.concat(index.toString())}
+                  >
+                    <Box paddingVertical="m" paddingRight="xs">
+                      <Text variant="bodySubTitle">{data.checkIns.name}</Text>
+                      <Text paddingVertical="s">{data.checkIns.address}</Text>
+                      <Text>
+                        {new Date(data.checkIns.timestamp).toLocaleString('default', {
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          hour12: true,
+                        })}
+                      </Text>
+                    </Box>
+                    <Box>
+                      <TouchableOpacity
+                        onPress={() => {
+                          deleteConfirmationAlert(data.checkIns.id);
+                        }}
+                      >
+                        <Icon size={40} name="delete-icon" />
+                      </TouchableOpacity>
+                    </Box>
+                  </Box>
+                );
+              })}
+            </Box>
           </Box>
         );
       })}
@@ -25,18 +80,105 @@ const CheckInList = ({checkIns}: {checkIns: CheckInData[]}) => {
   );
 };
 
-export const CheckInHistoryScreen = () => {
-  const {checkInHistory} = useOutbreakService();
+const NoVisitsScreen = () => {
+  const i18n = useI18n();
+
   return (
-    <BaseDataSharingView showBackButton={false}>
-      <Box paddingHorizontal="m">
-        <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
-          Check-in History
-        </Text>
-        <Box>
-          <CheckInList checkIns={checkInHistory} />
-        </Box>
-      </Box>
-    </BaseDataSharingView>
+    <Box style={styles.noVisitScreen} marginTop="xl">
+      <Icon height={120} width={150} name="no-visit-icon" />
+      <Text paddingTop="s" fontWeight="bold">
+        {i18n.translate('PlacesLog.NoVisit')}
+      </Text>
+    </Box>
   );
 };
+
+export const CheckInHistoryScreen = () => {
+  const i18n = useI18n();
+  const {checkInHistory, deleteAllScannedPlaces} = useOutbreakService();
+  const navigation = useNavigation();
+  const back = useCallback(() => navigation.goBack(), [navigation]);
+
+  const deleteAllPlaces = () => {
+    Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
+      {
+        text: i18n.translate('PlacesLog.Alert.Cancel'),
+        onPress: () => {},
+      },
+      {
+        text: i18n.translate('PlacesLog.Alert.ConfirmDeleteAll'),
+        onPress: () => {
+          deleteAllScannedPlaces();
+        },
+        style: 'cancel',
+      },
+    ]);
+  };
+
+  return (
+    <Box flex={1} backgroundColor="overlayBackground">
+      <SafeAreaView style={styles.flex}>
+        <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('PlacesLog.Back')} onIconClicked={back} />
+        <ScrollView style={styles.flex}>
+          <Box paddingHorizontal="m">
+            <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+              {i18n.translate('PlacesLog.Title')}
+            </Text>
+            <Text>{i18n.translate('PlacesLog.Body1')}</Text>
+
+            <Text marginTop="s">
+              <Text fontWeight="bold">{i18n.translate('PlacesLog.Body2a')}</Text>
+
+              {i18n.translate('PlacesLog.Body2b')}
+            </Text>
+          </Box>
+
+          {checkInHistory.length === 0 ? (
+            <NoVisitsScreen />
+          ) : (
+            <>
+              <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
+                <CheckInList scannedCheckInData={checkInHistory} />
+              </Box>
+
+              <Box margin="m">
+                <Button
+                  variant="opaqueGrey"
+                  text={i18n.translate('PlacesLog.DeleteBtnCTA')}
+                  onPress={deleteAllPlaces}
+                />
+              </Box>
+            </>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </Box>
+  );
+};
+
+const styles = StyleSheet.create({
+  boxStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bottomBorder: {
+    borderBottomColor: '#8a8a8a',
+    borderBottomWidth: 1,
+  },
+  textBox: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  radius: {
+    borderRadius: 10,
+  },
+  noVisitScreen: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  flex: {
+    flex: 1,
+  },
+});

@@ -114,6 +114,13 @@ export const formatCheckInDate = (date: Date) => {
   return dateString;
 };
 
+export const formateScannedDate = (dateString: string) => {
+  const dateSplit = dateString.split('/');
+  const formattedDate = new Date(Number(dateSplit[2]), Number(dateSplit[0]) - 1, Number(dateSplit[1]));
+
+  return formattedDate;
+};
+
 export const getFirstThreeUniqueDates = (formattedDates: string[]) => {
   return [...new Set(formattedDates)].slice(0, 3);
 };

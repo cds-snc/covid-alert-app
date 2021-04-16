@@ -93,3 +93,30 @@ export const useDeepLinks = () => {
     };
   }, [navigation, addCheckIn]);
 };
+
+interface GroupedCheckInData {
+  date: string;
+  checkIns: CheckInData;
+}
+
+export const sortedCheckInArray = (checkIns: CheckInData[]) => {
+  const sortedArray: GroupedCheckInData[] = [];
+  const sortedCheckIn = checkIns.sort(function (first, second) {
+    return second.timestamp - first.timestamp;
+  });
+  sortedCheckIn.map(checkIn => {
+    const date = new Date(checkIn.timestamp);
+    const timestampToDateString = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    sortedArray.push({date: timestampToDateString, checkIns: checkIn});
+  });
+
+  return combine(sortedArray);
+};
+const combine = (array: GroupedCheckInData[]) => {
+  const groupedArray = array.reduce(function (arr: any, obj) {
+    arr[obj.date] = arr[obj.date] || [];
+    arr[obj.date].push(obj);
+    return arr;
+  }, {});
+  return groupedArray;
+};

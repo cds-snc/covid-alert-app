@@ -14,15 +14,17 @@ const TextContent = () => {
 
   return (
     <>
-      <HomeScreenTitle testID="coveredRegionHeader">
-        {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
-      </HomeScreenTitle>
-      <TextMultiline
-        variant="bodyText"
-        color="bodyText"
-        marginBottom="m"
-        text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
-      />
+      <RoundedBox isFirstBox>
+        <HomeScreenTitle testID="coveredRegionHeader">
+          {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
+        </HomeScreenTitle>
+        <TextMultiline
+          variant="bodyText"
+          color="bodyText"
+          marginBottom="m"
+          text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
+        />
+      </RoundedBox>
     </>
   );
 };

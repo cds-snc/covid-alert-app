@@ -172,6 +172,7 @@
     "Help": "Aide et questions fréquentes",
     "HelpUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html",
     "GetCode": "Obtenir une clé à usage unique",
+    "YourVisits": "Vos visites",
     "ChangeLanguage": "Modifier la langue",
     "ToggleCovidAlert": {
       "TurnOff": "Désactiver Alerte COVID",
@@ -484,7 +485,7 @@
   },
   "MenuButton": "Menu",
   "QRCode": {
-    "CTA": "Scanner un lieu",
+    "CTA": "Ajouter une visite",
     "Reader": {
       "Title": "Placez votre appareil photo devant le code QR",
       "Body": "",
@@ -536,6 +537,25 @@
         "Body": "Si vous avez des symptômes, faites-vous tester immédiatement. Si vous n’en avez pas, attendez 7 jours après la date d’exposition pour vous faire tester.\n\nVous devez vous isoler pendant 14 jours à partir de la date d’exposition.\n\nPour toute question, contactez le bureau de santé de votre région.",
         "CTA": "Résultat de test négatif?"
       }
+    }
+  },
+
+  "PlacesLog": {
+    "Title": "Vos visites",
+    "Body1": "Vous serez avisé s’il y a eu un risque d’exposition lors des visites qui suivent.",
+    "Body2a": "Vos visites ne sont communiquées ",
+    "Body2b": "à personne. Elles sont uniquement conservées sur votre téléphone.",
+    "DeleteBtnCTA": "Supprimer toutes les visites",
+    "NoVisit": "Aucune visite",
+    "Back": "Précédent",
+    "Alert": {
+      "Title": "Voulez-vous vraiment supprimer cette visite?",
+      "TitleDeleteAll": "Voulez-vous vraiment supprimer toutes les visites?",
+      "Subtitle": "S’il y a un risque d’exposition dans ce lieu, vous n’en serez pas avisé.",
+      "SubtitleDeleteAll": "S’il y a un risque d’exposition dans un de ces lieux, vous n’en serez pas avisé.",
+      "Cancel": "Annuler",
+      "ConfirmDelete": "Oui, supprimer",
+      "ConfirmDeleteAll": "Oui, tout supprimer"
     }
   },
 
