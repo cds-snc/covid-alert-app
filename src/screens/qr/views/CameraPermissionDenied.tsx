@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {Box, Text, Button, ButtonSingleLine} from 'components';
+import {Box, Text, Button} from 'components';
 import {AppState, AppStateStatus, Linking, StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
