@@ -29,7 +29,11 @@ const ExposureText = () => {
 
 export const OutbreakExposedView = () => {
   return (
-    <BaseHomeView iconName="hand-caution-yellow" testID="outbreakExposure">
+    <BaseHomeView
+      iconName="hand-caution-yellow"
+      testID="outbreakExposure"
+      primaryIconStyles={{marginLeft: -20, marginBottom: 20}}
+    >
       <ExposureText />
     </BaseHomeView>
   );
