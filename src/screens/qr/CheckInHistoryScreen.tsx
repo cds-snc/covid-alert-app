@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {useI18n} from 'locale';
-import {Box, Text, Icon, Button} from 'components';
-import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
+import {useNavigation} from '@react-navigation/native';
+import {Box, Text, Icon, Button, Toolbar} from 'components';
 import {CheckInData} from 'shared/qr';
 import {formatExposedDate, formateScannedDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {ScrollView} from 'react-native-gesture-handler';
 
 import {sortedCheckInArray} from './utils';
 
@@ -47,7 +49,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                     style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
                     key={data.checkIns.id.concat(index.toString())}
                   >
-                    <Box paddingVertical="m" paddingRight="s">
+                    <Box paddingVertical="m" paddingRight="xs">
                       <Text variant="bodySubTitle">{data.checkIns.name}</Text>
                       <Text paddingVertical="s">{data.checkIns.address}</Text>
                       <Text>
@@ -94,6 +96,8 @@ const NoVisitsScreen = () => {
 export const CheckInHistoryScreen = () => {
   const i18n = useI18n();
   const {checkInHistory, deleteAllScannedPlaces} = useOutbreakService();
+  const navigation = useNavigation();
+  const back = useCallback(() => navigation.goBack(), [navigation]);
 
   const deleteAllPlaces = () => {
     Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
@@ -112,36 +116,43 @@ export const CheckInHistoryScreen = () => {
   };
 
   return (
-    <>
-      <BaseDataSharingView>
-        <Box paddingHorizontal="m">
-          <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
-            {i18n.translate('PlacesLog.Title')}
-          </Text>
-          <Text>{i18n.translate('PlacesLog.Body1')}</Text>
+    <Box flex={1} backgroundColor="overlayBackground">
+      <SafeAreaView style={styles.flex}>
+        <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('PlacesLog.Back')} onIconClicked={back} />
+        <ScrollView style={styles.flex}>
+          <Box paddingHorizontal="m">
+            <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+              {i18n.translate('PlacesLog.Title')}
+            </Text>
+            <Text>{i18n.translate('PlacesLog.Body1')}</Text>
 
-          <Text marginTop="s">
-            <Text fontWeight="bold">{i18n.translate('PlacesLog.Body2a')}</Text>
+            <Text marginTop="s">
+              <Text fontWeight="bold">{i18n.translate('PlacesLog.Body2a')}</Text>
 
-            {i18n.translate('PlacesLog.Body2b')}
-          </Text>
-        </Box>
+              {i18n.translate('PlacesLog.Body2b')}
+            </Text>
+          </Box>
 
-        {checkInHistory.length === 0 ? (
-          <NoVisitsScreen />
-        ) : (
-          <>
-            <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
-              <CheckInList scannedCheckInData={checkInHistory} />
-            </Box>
+          {checkInHistory.length === 0 ? (
+            <NoVisitsScreen />
+          ) : (
+            <>
+              <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
+                <CheckInList scannedCheckInData={checkInHistory} />
+              </Box>
 
-            <Box margin="m">
-              <Button variant="opaqueGrey" text={i18n.translate('PlacesLog.DeleteBtnCTA')} onPress={deleteAllPlaces} />
-            </Box>
-          </>
-        )}
-      </BaseDataSharingView>
-    </>
+              <Box margin="m">
+                <Button
+                  variant="opaqueGrey"
+                  text={i18n.translate('PlacesLog.DeleteBtnCTA')}
+                  onPress={deleteAllPlaces}
+                />
+              </Box>
+            </>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </Box>
   );
 };
 
@@ -166,5 +177,8 @@ const styles = StyleSheet.create({
   noVisitScreen: {
     flex: 1,
     alignItems: 'center',
+  },
+  flex: {
+    flex: 1,
   },
 });
