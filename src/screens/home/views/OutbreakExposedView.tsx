@@ -12,15 +12,15 @@ const ExposureText = () => {
   return (
     <>
       <RoundedBox isFirstBox>
-        <HomeScreenTitle>You have been exposed to an Outbreak</HomeScreenTitle>
-        <Text marginBottom="m">[Placeholder] There was an outbreak at one of the locations you scanned.</Text>
+        <HomeScreenTitle>{i18n.translate(`QRCode.OutbreakExposed.Title`)}</HomeScreenTitle>
+        <Text marginBottom="m">{i18n.translate(`QRCode.OutbreakExposed.Body`)}</Text>
       </RoundedBox>
 
       <RoundedBox isFirstBox={false}>
         <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-          {i18n.translate('Home.ExposureDetected.Title2')}
+          {i18n.translate('QRCode.OutbreakExposed.NextSteps.Title')}
         </Text>
-        <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body2')}</Text>
+        <Text marginBottom="m">{i18n.translate('QRCode.OutbreakExposed.NextSteps.Body')}</Text>
         <NegativeOutbreakTestButton />
       </RoundedBox>
     </>
@@ -29,7 +29,11 @@ const ExposureText = () => {
 
 export const OutbreakExposedView = () => {
   return (
-    <BaseHomeView iconName="hand-caution" testID="outbreakExposure">
+    <BaseHomeView
+      iconName="hand-caution-yellow"
+      testID="outbreakExposure"
+      primaryIconStyles={{marginLeft: -20, marginBottom: 20}}
+    >
       <ExposureText />
     </BaseHomeView>
   );

@@ -525,6 +525,15 @@
       "Body": "Vous pouvez être notifié si des personnes contagieuses ont visité le même lieu que vous. Lorsque vous scannez un code QR Alerte COVID à l’entrée d’un lieu, l’application l’enregistre sur votre téléphone.\n\nLes lieux que vous visitez",
       "Body2": "ne seront pas communiqués à personne.",
       "CTA": "Suivant"
+    },
+    "OutbreakExposed": {
+      "Title": "Exposition possible lors d’une visite",
+      "Body": "Une personne déclarée positive était présente lors d’une de vos visites.",
+      "NextSteps": {
+        "Title": "Isolez-vous et passez un test",
+        "Body": "Si vous avez des symptômes, faites-vous tester immédiatement. Si vous n’en avez pas, attendez 7 jours après la date d’exposition pour vous faire tester.\n\nVous devez vous isoler pendant 14 jours à partir de la date d’exposition.\n\nPour toute question, contactez le bureau de santé de votre région.",
+        "CTA": "Résultat de test négatif?"
+      }
     }
   },
 

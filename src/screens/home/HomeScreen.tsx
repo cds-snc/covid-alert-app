@@ -88,6 +88,8 @@ const Content = () => {
         return <DiagnosedShareUploadView />;
       case ForceScreen.FrameworkUnavailableView:
         return <FrameworkUnavailableView />;
+      case ForceScreen.OutbreakExposedView:
+        return <OutbreakExposedView />;
       default:
         break;
     }

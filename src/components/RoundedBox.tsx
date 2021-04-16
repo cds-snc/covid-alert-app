@@ -1,6 +1,6 @@
 import {Box} from 'components';
 import React from 'react';
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 interface RoundedBoxProp {
   children: React.ReactNode;
@@ -12,7 +12,6 @@ export const RoundedBox = ({children, isFirstBox}: RoundedBoxProp) => {
     <Box
       style={isFirstBox ? [styles.roundedBox, styles.firstBox] : styles.roundedBox}
       marginBottom="m"
-      marginTop="m"
       alignSelf="stretch"
     >
       <Box paddingHorizontal="m" paddingVertical="m">
@@ -28,7 +27,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   firstBox: {
-    marginTop: Platform.OS === 'ios' ? 5 : 20,
+    marginTop: -30,
+    paddingTop: 30,
     zIndex: -1,
   },
 });

@@ -43,6 +43,7 @@ const ScreenRadioSelector = () => {
     {displayName: 'Diagnosed', value: ForceScreen.DiagnosedView},
     {displayName: 'Diagnosed Share Upload', value: ForceScreen.DiagnosedShareUploadView},
     {displayName: 'Unsupported Framework', value: ForceScreen.FrameworkUnavailableView},
+    {displayName: 'Outbreak exposure', value: ForceScreen.OutbreakExposedView},
   ];
   return (
     <Box
