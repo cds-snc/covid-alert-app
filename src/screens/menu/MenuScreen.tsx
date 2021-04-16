@@ -24,6 +24,7 @@ export const MenuScreen = () => {
   const i18n = useI18n();
   const {region} = useCachedStorage();
   const regionalI18n = useRegionalI18n();
+  const {qrEnabled} = useCachedStorage();
 
   const onPrivacy = useCallback(() => {
     Linking.openURL(i18n.translate('Info.PrivacyUrl')).catch(error => captureException('An error occurred', error));
@@ -77,12 +78,15 @@ export const MenuScreen = () => {
           </Box>
 
           <Box marginBottom="m" testID="InfoShareViewID">
-            <InfoShareItem
-              text={i18n.translate('Info.YourVisits')}
-              testID="yourVisitsButton"
-              onPress={onYourVisits}
-              icon="icon-chevron"
-            />
+            {qrEnabled && (
+              <InfoShareItem
+                text={i18n.translate('Info.YourVisits')}
+                testID="yourVisitsButton"
+                onPress={onYourVisits}
+                icon="icon-chevron"
+              />
+            )}
+
             <InfoShareItem
               text={i18n.translate('Info.GetCode')}
               testID="getCodeButton"
