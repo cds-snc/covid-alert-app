@@ -532,6 +532,15 @@
       "Body": "You can get notified if contagious people have visited the same place as you. When you scan COVID Alert QR codes at the places you go, the app saves them to your phone.\n\nThe places you visit",
       "Body2": " will not be shared with anyone.",
       "CTA": "Next"
+    },
+    "OutbreakExposed": {
+      "Title": "Possible exposure at a visit",
+      "Body": "Someone tested positive from one of your visits.",
+      "NextSteps": {
+        "Title": "Isolate and get tested",
+        "Body": "If you have symptoms, get tested right away. If you do not have symptoms, wait to get tested at least 7 days after the date of exposure.\n\nYou also need to isolate for 14 days from the date of exposure.\n\nIf you have questions, contact your local public health unit.",
+        "CTA": "Negative test?"
+      }
     }
   },
 

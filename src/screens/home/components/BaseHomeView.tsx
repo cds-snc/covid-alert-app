@@ -6,10 +6,16 @@ import {Box, Header, Icon, IconName} from 'components';
 interface BaseHomeViewProps {
   children?: React.ReactNode;
   iconName?: IconName;
+  primaryIconStyles?: {marginLeft: number; marginBottom: number};
   testID?: string;
 }
 
-export const BaseHomeView = ({children, iconName, testID}: BaseHomeViewProps) => {
+export const BaseHomeView = ({
+  children,
+  iconName,
+  primaryIconStyles = {marginLeft: -35, marginBottom: 32},
+  testID,
+}: BaseHomeViewProps) => {
   return (
     <>
       <SafeAreaView edges={['top']}>
@@ -22,8 +28,8 @@ export const BaseHomeView = ({children, iconName, testID}: BaseHomeViewProps) =>
         contentContainerStyle={styles.scrollContainer}
       >
         <SafeAreaView edges={['left', 'right']}>
-          <Box width="100%" justifyContent="flex-start" marginBottom="-l">
-            <Box style={{...styles.primaryIcon}}>
+          <Box style={styles.zindex} width="100%" justifyContent="flex-start" marginBottom="-l">
+            <Box style={{...primaryIconStyles}}>
               <Icon name={iconName} height={120} width={150} />
             </Box>
           </Box>
@@ -44,7 +50,6 @@ export const BaseHomeView = ({children, iconName, testID}: BaseHomeViewProps) =>
 };
 
 const styles = StyleSheet.create({
-  primaryIcon: {marginLeft: -40, marginBottom: 30},
   scrollContainerWithAnimation: {
     marginTop: -100,
   },
@@ -54,5 +59,8 @@ const styles = StyleSheet.create({
   scrollContainer: {
     maxWidth: 600,
     alignItems: 'flex-start',
+  },
+  zindex: {
+    zIndex: 1,
   },
 });
