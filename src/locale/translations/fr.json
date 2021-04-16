@@ -518,6 +518,11 @@
       "CTA": "Autoriser l’accès dans les paramètres",
       "CTA2": "À propos de l’ajout d’une visite"
     },
+    "LearnAboutQRScan": {
+      "Title": "Comment ajouter une visite",
+      "Body1": "1. Autorisez Alerte COVID à accéder à l’appareil photo pour lire le code QR.",
+      "Body2": "2. Placez votre appareil devant le code."
+    },
     "CancelCheckIn": {
       "Title": "FR Scan cancelled"
     },

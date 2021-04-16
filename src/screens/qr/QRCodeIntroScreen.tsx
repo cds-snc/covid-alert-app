@@ -5,6 +5,7 @@ import {useCachedStorage} from 'services/StorageService';
 import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
+
 import {InfoShareItem} from '../menu/components/InfoShareItem';
 
 export const QRCodeIntroScreen = () => {
@@ -15,6 +16,9 @@ export const QRCodeIntroScreen = () => {
     await setHasViewedQr(true);
     navigation.navigate('QRCodeReaderScreen');
   }, [setHasViewedQr, navigation]);
+  const toLearnAboutQRScreen = useCallback(() => {
+    navigation.navigate('LearnAboutQRScreen');
+  }, [navigation]);
   return (
     <BaseQRCodeScreen>
       <Box backgroundColor="gray4">
@@ -29,8 +33,11 @@ export const QRCodeIntroScreen = () => {
           <Text>{i18n.translate('QRCode.ScanAPlace.Body')}</Text>
           <Text variant="bodySubTitle">{i18n.translate('QRCode.ScanAPlace.Body2')}</Text>
         </Text>
-        <Box marginBottom="m">
-          <Button text="Next" variant="thinFlat" onPress={toQRScreen} />
+
+        <Box paddingHorizontal="s" paddingTop="xl" marginBottom="m">
+          <Button text="Next" variant="thinFlat" onPress={toLearnAboutQRScreen} />
+        </Box>
+        <Box paddingHorizontal="s" marginBottom="m">
           <InfoShareItem
             text={i18n.translate('QRCode.ScanAPlace.CTA2')}
             onPress={() => console.log('')}
