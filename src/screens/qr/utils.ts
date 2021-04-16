@@ -101,7 +101,7 @@ interface GroupedCheckInData {
 
 export const sortedCheckInArray = (checkIns: CheckInData[]) => {
   const sortedArray: GroupedCheckInData[] = [];
-  const sortedCheckIn = checkIns.sort(function(first, second) {
+  const sortedCheckIn = checkIns.sort(function (first, second) {
     return second.timestamp - first.timestamp;
   });
   sortedCheckIn.map(checkIn => {
@@ -111,9 +111,9 @@ export const sortedCheckInArray = (checkIns: CheckInData[]) => {
   });
 
   return combine(sortedArray);
-}
+};
 const combine = (array: GroupedCheckInData[]) => {
-  const groupedArray = array.reduce(function(arr: any, obj) {
+  const groupedArray = array.reduce(function (arr: any, obj) {
     arr[obj.date] = arr[obj.date] || [];
     arr[obj.date].push(obj);
     return arr;

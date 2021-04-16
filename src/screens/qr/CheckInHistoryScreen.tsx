@@ -4,8 +4,7 @@ import {useI18n} from 'locale';
 import {Box, Text, Icon, Button} from 'components';
 import {BaseDataSharingView} from 'screens/datasharing/components/BaseDataSharingView';
 import {CheckInData} from 'shared/qr';
-import {formatExposedDate, formateScannedDate} from 'shared/date-fns';
-import {formatCheckInDate} from 'shared/date-fns';
+import {formatExposedDate, formateScannedDate, formatCheckInDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 
 import {sortedCheckInArray} from './utils';

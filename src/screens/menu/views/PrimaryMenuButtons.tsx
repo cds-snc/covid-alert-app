@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {OnOffButton} from '../components/OnOffButton';
 
 import {ShareDiagnosisCode} from './ShareDiagnosisCode';
