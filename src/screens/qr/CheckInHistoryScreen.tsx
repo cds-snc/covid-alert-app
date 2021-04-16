@@ -34,46 +34,44 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
     <>
       {Object.keys(checkIns).map(item => {
         return (
-          <>
-            <Box marginTop="m" paddingBottom="m" key={item}>
+          <Box key={item}>
+            <Box marginTop="m" paddingBottom="m">
               <Text variant="bodyTitle">{formatExposedDate(formateScannedDate(item), dateLocale)}</Text>
             </Box>
 
             <Box style={styles.radius} backgroundColor="gray5">
               {checkIns[item].map((data: any, index: number) => {
                 return (
-                  <>
-                    <Box
-                      paddingHorizontal="m"
-                      style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
-                      key={data.checkIns.id.concat(index.toString())}
-                    >
-                      <Box paddingVertical="m" paddingRight="s">
-                        <Text variant="bodySubTitle">{data.checkIns.name}</Text>
-                        <Text paddingVertical="s">{data.checkIns.address}</Text>
-                        <Text>
-                          {new Date(data.checkIns.timestamp).toLocaleString('default', {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: true,
-                          })}
-                        </Text>
-                      </Box>
-                      <Box>
-                        <TouchableOpacity
-                          onPress={() => {
-                            deleteConfirmationAlert(data.checkIns.id);
-                          }}
-                        >
-                          <Icon size={40} name="delete-icon" />
-                        </TouchableOpacity>
-                      </Box>
+                  <Box
+                    paddingHorizontal="m"
+                    style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
+                    key={data.checkIns.id.concat(index.toString())}
+                  >
+                    <Box paddingVertical="m" paddingRight="s">
+                      <Text variant="bodySubTitle">{data.checkIns.name}</Text>
+                      <Text paddingVertical="s">{data.checkIns.address}</Text>
+                      <Text>
+                        {new Date(data.checkIns.timestamp).toLocaleString('default', {
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          hour12: true,
+                        })}
+                      </Text>
                     </Box>
-                  </>
+                    <Box>
+                      <TouchableOpacity
+                        onPress={() => {
+                          deleteConfirmationAlert(data.checkIns.id);
+                        }}
+                      >
+                        <Icon size={40} name="delete-icon" />
+                      </TouchableOpacity>
+                    </Box>
+                  </Box>
                 );
               })}
             </Box>
-          </>
+          </Box>
         );
       })}
     </>
