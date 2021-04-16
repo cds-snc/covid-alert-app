@@ -172,6 +172,7 @@
     "Help": "Help",
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get a one-time key",
+    "YourVisits": "Your Visits",
     "ChangeLanguage": "Change language",
     "ToggleCovidAlert": {
       "TurnOff": "Turn off COVID Alert",
@@ -487,7 +488,7 @@
   },
   "MenuButton": "Menu",
   "QRCode": {
-    "CTA": "Scan a place",
+    "CTA": "Add a visit",
     "Reader": {
       "Title": "Point the camera at the QR code",
       "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",
@@ -540,6 +541,25 @@
         "Body": "If you have symptoms, get tested right away. If you do not have symptoms, wait to get tested at least 7 days after the date of exposure.\n\nYou also need to isolate for 14 days from the date of exposure.\n\nIf you have questions, contact your local public health unit.",
         "CTA": "Negative test?"
       }
+    }
+  },
+
+  "PlacesLog": {
+    "Title": "Your Visits",
+    "Body1": "You’ll get notified if there’s a possible exposure from the following visits.",
+    "Body2a": "Your visits are not shared ",
+    "Body2b": "with anyone. They’re only on your phone.",
+    "DeleteBtnCTA": "Delete all visits",
+    "NoVisit": "No visits yet",
+    "Back": "Back",
+    "Alert": {
+      "Title": "Are you sure you want to delete this visit?",
+      "TitleDeleteAll": "Are you sure you want to delete all visits?",
+      "Subtitle": "If there’s a possible exposure at this place, you will not be notified.",
+      "SubtitleDeleteAll": "If there’s a possible exposure at any of these places, you will not be notified.",
+      "Cancel": "Cancel",
+      "ConfirmDelete": "Yes, delete",
+      "ConfirmDeleteAll": "Yes, delete all"
     }
   },
 
