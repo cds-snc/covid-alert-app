@@ -516,9 +516,13 @@
       "CTA2": "Back to Home"
     },
     "CheckInView": {
-      "Title": "Scanned",
-      "CTA1": "OK",
-      "CTA2": "Cancel",
+      "Title": "Thank you for adding a visit",
+      "Body1": "You’ll only be notified if someone from today tests positive. ",
+      "Body2": "Your visits are not shared ",
+      "Body3": "with anyone.\n\n Remember to scan each time you visit.",
+      "Body4": "You can delete this visit any time by going into Your visits.",
+      "CTA1": "Back to home",
+      "CTA2": "Your visits",
       "MoreInfo": "Learn more about QR codes and COVID alert"
     },
     "Exposed": {

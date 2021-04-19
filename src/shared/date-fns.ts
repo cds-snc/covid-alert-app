@@ -114,6 +114,19 @@ export const formatCheckInDate = (date: Date) => {
   return dateString;
 };
 
+export const formateCheckInSuccessfulDate = (date: Date, locale: string) => {
+  const time = date.toLocaleTimeString('default', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: locale === 'fr-CA' ? false : true
+  })
+  if (locale === 'en-CA') {
+    return `${time} on ${formatExposedDate(date, locale)}`
+  } else if (locale === 'fr-CA') {
+    return `Le ${formatExposedDate(date, locale)} à ${time}h`
+  }
+}
+
 export const formateScannedDate = (dateString: string) => {
   const dateSplit = dateString.split('/');
   const formattedDate = new Date(Number(dateSplit[2]), Number(dateSplit[0]) - 1, Number(dateSplit[1]));
@@ -133,3 +146,8 @@ export const getUTCMidnight = (date: Date) => {
   const midnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   return midnight.getTime();
 };
+
+// export const formateCheckInDate = (timestamp: number) => {
+//   const d = new Date(timestamp);
+//   return d.getHours();
+// }
