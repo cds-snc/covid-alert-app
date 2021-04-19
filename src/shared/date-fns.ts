@@ -146,8 +146,3 @@ export const getUTCMidnight = (date: Date) => {
   const midnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   return midnight.getTime();
 };
-
-// export const formateCheckInDate = (timestamp: number) => {
-//   const d = new Date(timestamp);
-//   return d.getHours();
-// }
