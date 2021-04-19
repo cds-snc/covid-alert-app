@@ -5,7 +5,6 @@ import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {CheckInData} from 'shared/qr';
 import {formateCheckInSuccessfulDate} from 'shared/date-fns';
-
 import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -37,7 +36,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
           </Box>
           <Box paddingHorizontal="m">
             <Box paddingBottom="l">
-              <Text variant="bodyTitle" marginTop="xl">
+              <Text variant="bodyTitle" marginTop="xl" accessibilityRole="header" accessibilityAutoFocus>
                 {i18n.translate('QRCode.CheckInView.Title')}
               </Text>
             </Box>

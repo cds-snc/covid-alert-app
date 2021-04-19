@@ -118,14 +118,14 @@ export const formateCheckInSuccessfulDate = (date: Date, locale: string) => {
   const time = date.toLocaleTimeString('default', {
     hour: 'numeric',
     minute: 'numeric',
-    hour12: locale === 'fr-CA' ? false : true
-  })
+    hour12: locale !== 'fr-CA',
+  });
   if (locale === 'en-CA') {
-    return `${time} on ${formatExposedDate(date, locale)}`
+    return `${time} on ${formatExposedDate(date, locale)}`;
   } else if (locale === 'fr-CA') {
-    return `Le ${formatExposedDate(date, locale)} à ${time}h`
+    return `Le ${formatExposedDate(date, locale)} à ${time}h`;
   }
-}
+};
 
 export const formateScannedDate = (dateString: string) => {
   const dateSplit = dateString.split('/');
