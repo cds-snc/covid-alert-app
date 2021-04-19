@@ -504,7 +504,7 @@
     },
     "Error": {
       "Title": "Code QR non reconnu",
-      "Body": "Vérifiez qu’il s’agit bien d’un code QR officiel d’Alerte COVID. Si vous n’êtes pas certain, demandez l’aide d’un employé.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "Body": "Vous n’avez peut-être pas scanné un code QR officiel d’Alerte COVID.\n\nDemandez à quelqu’un où se trouve l’affiche officielle d’Alerte COVID.",
       "CTA": "Réessayer",
       "CTA2": "Retour à l’écran d’accueil"
     },

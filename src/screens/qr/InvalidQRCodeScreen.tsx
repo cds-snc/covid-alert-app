@@ -12,9 +12,9 @@ export const InvalidQRCodeScreen = () => {
   const tryAgain = useCallback(() => navigation.navigate('QRCodeReaderScreen'), [navigation]);
   const goHome = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
-    <BaseQRCodeScreen showBackButton={false}>
-      <Box paddingHorizontal="m" marginTop="-xxl">
-        <Icon name="red-circle-exclamation" height={75} width={75} />
+    <BaseQRCodeScreen showBackButton={true}>
+      <Box paddingHorizontal="m" marginTop="m">
+        <Icon name="qr-code-invalid" height={75} width={75} />
       </Box>
       <Box paddingHorizontal="m" marginTop="l" style={styles.flex}>
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
@@ -25,10 +25,7 @@ export const InvalidQRCodeScreen = () => {
         </Box>
 
         <Box alignSelf="stretch" marginTop="s">
-          <Button variant="thinFlat" text={i18n.translate('QRCode.Error.CTA2')} onPress={goHome} />
-        </Box>
-        <Box alignSelf="stretch" marginTop="s" marginBottom="m">
-          <Button variant="thinFlatNeutralGrey" text={i18n.translate('QRCode.Error.CTA')} onPress={tryAgain} />
+          <Button variant="thinFlatNoBorder" text={i18n.translate('QRCode.Error.CTA')} onPress={tryAgain} />
         </Box>
       </Box>
     </BaseQRCodeScreen>

@@ -40,6 +40,7 @@ import IconExclamation from 'assets/icon-exclamation.svg';
 import DeleteIcon from 'assets/delete-icon.svg';
 import NoVisitIcon from 'assets/no-visit-icon.svg';
 import SuccessfulCheckIn from 'assets/successful-checkin-hand.svg';
+import QRCodeInvalid from 'assets/qr-code-invalid.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -83,6 +84,7 @@ const ICONS = {
   'delete-icon': DeleteIcon,
   'no-visit-icon': NoVisitIcon,
   'successful-checkin': SuccessfulCheckIn,
+  'qr-code-invalid': QRCodeInvalid,
 };
 
 export type IconName = keyof typeof ICONS;

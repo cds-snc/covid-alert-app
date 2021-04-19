@@ -511,7 +511,7 @@
     },
     "Error": {
       "Title": "QR code not recognized",
-      "Body": "You may not have scanned an official COVID Alert QR code.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "Body": "You may not have scanned an official COVID Alert QR code.\n\nAsk someone for the official COVID Alert poster.",
       "CTA": "Try Again",
       "CTA2": "Back to Home"
     },
