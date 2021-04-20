@@ -46,28 +46,31 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                 return (
                   <Box
                     paddingHorizontal="m"
-                    style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
+                    style={[checkIns[item].length !== index + 1 && styles.bottomBorder]}
                     key={data.checkIns.id.concat(index.toString())}
                   >
-                    <Box paddingVertical="m" paddingRight="xs">
-                      <Text variant="bodySubTitle">{data.checkIns.name}</Text>
-                      <Text paddingVertical="s">{data.checkIns.address}</Text>
-                      <Text>
-                        {new Date(data.checkIns.timestamp).toLocaleString('default', {
-                          hour: 'numeric',
-                          minute: 'numeric',
-                          hour12: true,
-                        })}
-                      </Text>
-                    </Box>
-                    <Box>
-                      <TouchableOpacity
-                        onPress={() => {
-                          deleteConfirmationAlert(data.checkIns.id);
-                        }}
-                      >
-                        <Icon size={40} name="delete-icon" />
-                      </TouchableOpacity>
+                    <Box paddingVertical="m" style={styles.checkInList}>
+                      <Box style={{flex: 4}}>
+                        <Text variant="bodySubTitle">{data.checkIns.name}</Text>
+                        <Text paddingVertical="s">{data.checkIns.address}</Text>
+                        <Text>
+                          {new Date(data.checkIns.timestamp).toLocaleString('default', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: true,
+                          })}
+                        </Text>
+                      </Box>
+                      <Box style={styles.deleteIconBox}>
+                        <TouchableOpacity
+                          style={styles.deleteIcon}
+                          onPress={() => {
+                            deleteConfirmationAlert(data.checkIns.id);
+                          }}
+                        >
+                          <Icon size={40} name="delete-icon" />
+                        </TouchableOpacity>
+                      </Box>
                     </Box>
                   </Box>
                 );
@@ -137,7 +140,7 @@ export const CheckInHistoryScreen = () => {
             <NoVisitsScreen />
           ) : (
             <>
-              <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
+              <Box paddingHorizontal="xxs" marginLeft="s" marginRight="s" paddingBottom="m">
                 <CheckInList scannedCheckInData={checkInHistory} />
               </Box>
 
@@ -157,11 +160,6 @@ export const CheckInHistoryScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  boxStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   bottomBorder: {
     borderBottomColor: '#8a8a8a',
     borderBottomWidth: 1,
@@ -180,5 +178,16 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  deleteIconBox: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  deleteIcon: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  checkInList: {
+    flexDirection: 'row',
   },
 });
