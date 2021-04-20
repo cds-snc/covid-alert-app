@@ -41,7 +41,13 @@ export const MenuBar = () => {
           {/* Stack the menu buttons or place in columns */}
           {pixelRatio > 1.0 ? (
             <Box>
-              {qrEnabled ? <QrButton /> : appStatus}
+              {qrEnabled ? (
+                <Box paddingVertical="m">
+                  <QrButton />
+                </Box>
+              ) : (
+                appStatus
+              )}
               {menuButtonBox}
             </Box>
           ) : (
