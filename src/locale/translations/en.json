@@ -511,14 +511,18 @@
     },
     "Error": {
       "Title": "QR code not recognized",
-      "Body": "You may not have scanned an official COVID Alert QR code.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "Body": "You may not have scanned an official COVID Alert QR code.\n\nAsk someone for the official COVID Alert poster.",
       "CTA": "Try Again",
       "CTA2": "Back to Home"
     },
     "CheckInView": {
-      "Title": "Scanned",
-      "CTA1": "OK",
-      "CTA2": "Cancel",
+      "Title": "Thank you for adding a visit",
+      "Body1": "You’ll only be notified if someone from today tests positive. ",
+      "Body2": "Your visits are not shared ",
+      "Body3": "with anyone.\n\nRemember to scan each time you visit.",
+      "Body4": "You can delete this visit any time by going into Your visits.",
+      "CTA1": "Back to home",
+      "CTA2": "Your visits",
       "MoreInfo": "Learn more about QR codes and COVID alert"
     },
     "Exposed": {
