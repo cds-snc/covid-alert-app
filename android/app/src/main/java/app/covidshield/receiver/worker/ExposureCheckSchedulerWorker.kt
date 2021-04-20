@@ -5,13 +5,19 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import app.covidshield.extensions.log
+import app.covidshield.models.ExposureStatus
 import app.covidshield.services.metrics.MetricsService
 import app.covidshield.services.metrics.UniqueDailyDebugMetricsHelper
+import app.covidshield.shared.DateFns
+import app.covidshield.storage.StorageDirectory
+import app.covidshield.storage.StorageService
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatus
+import com.google.gson.Gson
+import com.reactlibrary.securekeystore.Storage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
@@ -25,6 +31,10 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
         Nearby.getExposureNotificationClient(context)
     }
 
+    private val storageService: StorageService by lazy {
+        StorageService.getInstance(context)
+    }
+
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
 
@@ -33,7 +43,17 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
             UniqueDailyDebugMetricsHelper.markMetricAsPublished("200.0", context)
         }
 
-        MetricsService.publishDebugMetric(2.0, context)
+        try {
+            val status = storageService.retrieve(StorageDirectory.ExposureStatus)
+            val exposureStatus = Gson().fromJson(status, ExposureStatus::class.java)
+            val minutesSinceLastCheck = (DateFns.getCurrentDate().time - exposureStatus.lastChecked.timestamp) / 1000 / 60
+            val backgroundCheck = storageService.retrieve(StorageDirectory.MetricsFilterStateStorageBackgroundCheckEventMarkerKey)?.split(",")?.count() ?: 0
+            Log.d("background", "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
+            MetricsService.publishDebugMetric(2.0, context, "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
+        } catch (exception: Exception) {
+            Log.e("exception", exception.message ?: "Exception message not available")
+            MetricsService.publishDebugMetric(2.0, context, "LastChecked: n/a, BackgroundCheck: n/a")
+        }
 
         try {
             val enIsEnabled = exposureNotificationClient.isEnabled.await()
