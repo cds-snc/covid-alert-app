@@ -1,9 +1,11 @@
 package app.covidshield.shared
 
+import java.util.*
+
 class DateFns {
     companion object {
-        fun getCurrentDate(): Long{
-            return System.currentTimeMillis()
+        fun getCurrentDate(): Date{
+            return Date()
         }
     }
 }

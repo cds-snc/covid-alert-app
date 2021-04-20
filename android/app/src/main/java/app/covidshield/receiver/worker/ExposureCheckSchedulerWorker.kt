@@ -46,7 +46,7 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
         try {
             val status = storageService.retrieve(StorageDirectory.ExposureStatus)
             val exposureStatus = Gson().fromJson(status, ExposureStatus::class.java)
-            val minutesSinceLastCheck = (DateFns.getCurrentDate() - exposureStatus.lastChecked.timestamp) / 1000 / 60
+            val minutesSinceLastCheck = (DateFns.getCurrentDate().time - exposureStatus.lastChecked.timestamp) / 1000 / 60
             val backgroundCheck = storageService.retrieve(StorageDirectory.MetricsFilterStateStorageBackgroundCheckEventMarkerKey)?.split(",")?.count() ?: 0
             Log.d("background", "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
             MetricsService.publishDebugMetric(2.0, context, "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
