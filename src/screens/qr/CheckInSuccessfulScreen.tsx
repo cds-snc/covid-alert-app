@@ -23,7 +23,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const dateAndTime = (address: string) => {
     const formatDate = formateCheckInSuccessfulDate(new Date(timestamp), dateLocale);
-    return `${address} \n\n ${formatDate}`;
+    return `${address} \n\n${formatDate}`;
   };
 
   return (

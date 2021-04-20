@@ -38,7 +38,7 @@ export const QRCodeScanner = () => {
           <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} />
         </Box>
         <Box style={styles.info} paddingTop="s" paddingHorizontal="m">
-          <Text variant="bodyText" accessibilityRole="header" color="bodyTitleWhite">
+          <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
             {i18n.translate(`QRCode.Reader.Title`)}
           </Text>
           {/* <Icon size={170} name="scan-qr-code-white-arrow" /> */}
