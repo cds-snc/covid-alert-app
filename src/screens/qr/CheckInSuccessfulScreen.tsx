@@ -33,7 +33,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
       </Box>
       <Box paddingHorizontal="m">
         <Box paddingBottom="l">
-          <Text variant="bodySubTitle" marginTop="xl">
+          <Text variant="bodySubTitle" marginTop="xl" accessibilityRole="header" accessibilityAutoFocus>
             {i18n.translate('QRCode.CheckInView.Title')}
           </Text>
         </Box>
