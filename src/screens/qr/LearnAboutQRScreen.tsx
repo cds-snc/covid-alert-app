@@ -1,20 +1,12 @@
 import React, {useCallback} from 'react';
 import {Box, Text, Icon, Button} from 'components';
-import {useNavigation} from '@react-navigation/native';
-import {useCachedStorage} from 'services/StorageService';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
 export const LearnAboutQRScreen = ({updatePermissions}: {updatePermissions: () => void}) => {
-  const navigation = useNavigation();
   const i18n = useI18n();
-  const {setHasViewedQr} = useCachedStorage();
-  const toQRScreen = useCallback(async () => {
-    await setHasViewedQr(true);
-    navigation.navigate('QRCodeReaderScreen');
-  }, [setHasViewedQr, navigation]);
   const requestPermissions = useCallback(async () => {
     await BarCodeScanner.requestPermissionsAsync();
     updatePermissions();

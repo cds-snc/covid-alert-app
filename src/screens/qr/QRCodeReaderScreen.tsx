@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {BarCodeScanner, PermissionResponse} from 'expo-barcode-scanner';
 import {Box} from 'components';
 
-import {QRCodeScanner, CameraPermissionDenied, RequestCameraPermission} from './views';
+import {QRCodeScanner, CameraPermissionDenied} from './views';
 import {LearnAboutQRScreen} from './LearnAboutQRScreen';
 
 const Content = () => {

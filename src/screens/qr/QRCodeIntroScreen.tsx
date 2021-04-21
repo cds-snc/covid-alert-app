@@ -12,9 +12,6 @@ export const QRCodeIntroScreen = () => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const {setHasViewedQr} = useCachedStorage();
-  const toLearnAboutQRScreen = useCallback(() => {
-    navigation.navigate('LearnAboutQRScreen');
-  }, [navigation]);
   const toQRScreen = useCallback(async () => {
     await setHasViewedQr(true);
     navigation.navigate('QRCodeReaderScreen');
