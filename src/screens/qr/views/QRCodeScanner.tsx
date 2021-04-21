@@ -35,12 +35,7 @@ export const QRCodeScanner = () => {
       <Box style={styles.top} />
       <SafeAreaView style={styles.flex}>
         <Box marginBottom="m" style={styles.toolbar}>
-          <Toolbar2
-            navText={i18n.translate('DataUpload.Close')}
-            useWhiteText
-            onIconClicked={close}
-            showBackButton={true}
-          />
+          <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} showBackButton />
         </Box>
         <Box style={styles.info} paddingTop="s" paddingHorizontal="m">
           <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
