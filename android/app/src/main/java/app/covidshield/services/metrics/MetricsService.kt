@@ -3,12 +3,17 @@ package app.covidshield.services.metrics
 import android.content.Context
 import android.content.pm.PackageInfo
 import app.covidshield.BuildConfig
-import app.covidshield.extensions.log
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+
+enum class MetricType(val identifier: String) {
+    PackageUpdated("android-package-replaced"),
+    ScheduledCheckStartedToday("scheduled-check-started-today"),
+    ScheduledCheckSuccessfulToday("scheduled-check-successful-today")
+}
 
 object MetricsService {
 
@@ -17,15 +22,27 @@ object MetricsService {
 
     private val okHttpClient by lazy { OkHttpClient() }
 
-    fun publishPackageUpdatedMetric(context: Context) {
-        val jsonObject = JSONObject();
+    fun publishMetric(type: MetricType, oncePerUTCDay: Boolean, context: Context) {
 
-        jsonObject.put("identifier", "android-package-replaced")
-        jsonObject.put("region", "None")
-        jsonObject.put("timestamp", TimeUnit.MILLISECONDS.toMillis(System.currentTimeMillis()))
+        fun pushMetric() {
+            val jsonObject = JSONObject();
 
-        val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(jsonObject, context)
-        this.push(serializedGlobalMetricsPayload)
+            jsonObject.put("identifier", type.identifier)
+            jsonObject.put("region", "None")
+            jsonObject.put("timestamp", System.currentTimeMillis())
+
+            val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(jsonObject, context)
+            this.push(serializedGlobalMetricsPayload)
+        }
+
+        if (oncePerUTCDay) {
+            if (UniqueDailyDebugMetricsHelper.canPublishMetric(type.identifier, context)) {
+                pushMetric()
+                UniqueDailyDebugMetricsHelper.markMetricAsPublished(type.identifier, context)
+            }
+        } else {
+            pushMetric()
+        }
     }
 
     @JvmStatic
@@ -39,7 +56,7 @@ object MetricsService {
 
             jsonObject.put("identifier", "ExposureNotificationCheck")
             jsonObject.put("region", "None")
-            jsonObject.put("timestamp", TimeUnit.MILLISECONDS.toMillis(System.currentTimeMillis()))
+            jsonObject.put("timestamp", System.currentTimeMillis())
             jsonObject.put("step", stepNumber.toString())
             jsonObject.put("lifecycleId", lifecycleId)
             jsonObject.put("lifeCycleDailyCount", lifeCycleDailyCount.toString())

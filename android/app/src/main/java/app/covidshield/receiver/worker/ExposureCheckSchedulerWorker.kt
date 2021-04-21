@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import app.covidshield.extensions.log
 import app.covidshield.models.ExposureStatus
+import app.covidshield.services.metrics.MetricType
 import app.covidshield.services.metrics.MetricsService
 import app.covidshield.services.metrics.UniqueDailyDebugMetricsHelper
 import app.covidshield.shared.DateFns
@@ -17,7 +18,6 @@ import com.facebook.react.modules.core.RCTNativeAppEventEmitter
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatus
 import com.google.gson.Gson
-import com.reactlibrary.securekeystore.Storage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
@@ -38,10 +38,7 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
 
-        if (UniqueDailyDebugMetricsHelper.canPublishMetric("200.0", context)) {
-            MetricsService.publishDebugMetric(200.0, context)
-            UniqueDailyDebugMetricsHelper.markMetricAsPublished("200.0", context)
-        }
+        MetricsService.publishMetric(MetricType.ScheduledCheckStartedToday, true, context)
 
         try {
             val status = storageService.retrieve(StorageDirectory.ExposureStatus)
