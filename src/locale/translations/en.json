@@ -173,6 +173,7 @@
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get a one-time key",
     "YourVisits": "Your Visits",
+    "YourRecentExposures": "Your recent exposures",
     "ChangeLanguage": "Change language",
     "ToggleCovidAlert": {
       "TurnOff": "Turn off COVID Alert",
@@ -567,7 +568,11 @@
       "ConfirmDeleteAll": "Yes, delete all"
     }
   },
-
+  "ExposureHistory": {
+    "Title": "Your recent exposures",
+    "Body": "This list shows your exposures from the last 14 days.",
+    "NoExposures": "No exposures"
+  },
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {
