@@ -62,9 +62,6 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to use the camera</string>
-  <!-- uncomment the next 2 lines to use the QR feature -->
-  <!-- <key>NSMicrophoneUsageDescription</key> -->
-  <!-- <string>Allow $(PRODUCT_NAME) to use the microphone</string> -->
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

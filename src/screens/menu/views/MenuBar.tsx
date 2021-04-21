@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, PixelRatio} from 'react-native';
+import {StyleSheet, PixelRatio, Dimensions} from 'react-native';
 import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -11,14 +11,18 @@ import {MenuButton} from '../components/MenuButton';
 
 import {StatusHeaderView} from './StatusHeaderView';
 
+const windowWidth = Dimensions.get('window').width;
+
 const borderRadius = 16;
 
 export const MenuBar = () => {
   const {qrEnabled} = useCachedStorage();
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
+
   const statusHeaderPadding = pixelRatio > 1.0 ? 'none' : 'm';
-  const menuButtonPadding = pixelRatio > 1.0 ? 'm' : 'none';
+  const menuButtonPadding = pixelRatio > 1.0 || (qrEnabled && windowWidth <= 320) ? 'm' : 'none';
+
   const {orientation} = useOrientation();
   const safeAreaPadding = orientation === 'landscape' ? -10 : -20;
 
@@ -39,14 +43,20 @@ export const MenuBar = () => {
       <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: safeAreaPadding}}>
         <Box style={styles.box}>
           {/* Stack the menu buttons or place in columns */}
-          {pixelRatio > 1.0 ? (
+          {pixelRatio > 1.0 || (qrEnabled && windowWidth <= 320) ? (
             <Box>
-              {qrEnabled ? <QrButton /> : appStatus}
+              {qrEnabled ? (
+                <Box paddingVertical="m">
+                  <QrButton />
+                </Box>
+              ) : (
+                appStatus
+              )}
               {menuButtonBox}
             </Box>
           ) : (
             <>
-              <Box flex={1} marginRight="m">
+              <Box flex={qrEnabled ? 2 : 1} marginRight="m">
                 {qrEnabled ? <QrButton /> : appStatus}
               </Box>
 

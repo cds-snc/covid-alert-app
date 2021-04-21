@@ -493,14 +493,18 @@
       "Learn": ""
     },
     "CheckInView": {
-      "Title": "Lieu scanné",
-      "CTA1": "OK",
-      "CTA2": "Annuler la visite",
+      "Title": "Merci d’avoir ajouté une visite",
+      "Body1": "Vous ne serez avisé que si quelqu’un présent pendant votre visite est déclaré positif prochainement. Vos visites ",
+      "Body2": "ne sont communiquées à personne.",
+      "Body3": "N’oubliez pas de scanner à chaque visite.",
+      "Body4": "Vous pouvez supprimer cette visite en tout temps en allant dans Vos visites.",
+      "CTA1": "Retour à l’écran d’accueil",
+      "CTA2": "Vos visites",
       "MoreInfo": "Annuler"
     },
     "Error": {
       "Title": "Code QR non reconnu",
-      "Body": "Vérifiez qu’il s’agit bien d’un code QR officiel d’Alerte COVID. Si vous n’êtes pas certain, demandez l’aide d’un employé.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "Body": "Vous n’avez peut-être pas scanné un code QR officiel d’Alerte COVID.\n\nDemandez à quelqu’un où se trouve l’affiche officielle d’Alerte COVID.",
       "CTA": "Réessayer",
       "CTA2": "Retour à l’écran d’accueil"
     },

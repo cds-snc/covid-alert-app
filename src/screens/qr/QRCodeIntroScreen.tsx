@@ -3,7 +3,7 @@ import {Box, Text, Button} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
-
+import {StyleSheet} from 'react-native';
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
 export const QRCodeIntroScreen = () => {
@@ -15,11 +15,14 @@ export const QRCodeIntroScreen = () => {
   return (
     <BaseQRCodeScreen>
       <Box paddingHorizontal="m">
+        <Box backgroundColor="gray5" style={styles.illustrationStyle} marginBottom="l">
+          <Text>Placeholder for illustration</Text>
+        </Box>
         <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
           {i18n.translate('QRCode.ScanAPlace.Title')}
         </Text>
         <Text marginBottom="m">{i18n.translate('QRCode.ScanAPlace.Body')}</Text>
-        <Text marginBottom="l">
+        <Text marginBottom="s">
           <Text variant="bodySubTitle">{i18n.translate('QRCode.ScanAPlace.Body2')}</Text>
           <Text>{i18n.translate('QRCode.ScanAPlace.Body3')}</Text>
         </Text>
@@ -27,10 +30,24 @@ export const QRCodeIntroScreen = () => {
         <Box paddingHorizontal="s" paddingTop="xl" marginBottom="m">
           <Button text="Next" variant="thinFlatNoBorder" onPress={toLearnAboutQRScreen} />
         </Box>
-        <Box paddingHorizontal="s" marginBottom="m">
-          <InfoShareItem text={i18n.translate('QRCode.ScanAPlace.CTA2')} onPress={() => {}} icon="icon-chevron" />
+        <Box paddingHorizontal="s" marginBottom="xl">
+          <InfoShareItem
+            text={i18n.translate('QRCode.ScanAPlace.CTA2')}
+            onPress={() => {
+              navigation.navigate('QRCodeOnboard');
+            }}
+            icon="icon-chevron"
+          />
         </Box>
       </Box>
     </BaseQRCodeScreen>
   );
 };
+
+const styles = StyleSheet.create({
+  illustrationStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 150,
+  },
+});

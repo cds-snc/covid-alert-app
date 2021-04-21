@@ -39,6 +39,8 @@ import IconThreeDots from 'assets/icon-three-dots.svg';
 import IconExclamation from 'assets/icon-exclamation.svg';
 import DeleteIcon from 'assets/delete-icon.svg';
 import NoVisitIcon from 'assets/no-visit-icon.svg';
+import SuccessfulCheckIn from 'assets/successful-checkin-hand.svg';
+import QRCodeInvalid from 'assets/qr-code-invalid.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -81,6 +83,8 @@ const ICONS = {
   'icon-exclamation': IconExclamation,
   'delete-icon': DeleteIcon,
   'no-visit-icon': NoVisitIcon,
+  'successful-checkin': SuccessfulCheckIn,
+  'qr-code-invalid': QRCodeInvalid,
 };
 
 export type IconName = keyof typeof ICONS;

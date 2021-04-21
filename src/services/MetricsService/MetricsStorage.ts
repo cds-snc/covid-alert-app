@@ -78,6 +78,7 @@ export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStora
   }
 
   private deserializeMetrics(serializedMetrics: string): Metric[] {
+    if (serializedMetrics.trim().length === 0) return [];
     return serializedMetrics.split('#').map(metric => {
       const [timestamp, identifier, region, payload] = metric.split(';');
       const reconstructedPayload: [string, string][] = JSON.parse(payload);

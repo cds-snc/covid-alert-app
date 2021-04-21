@@ -274,6 +274,7 @@ const theme = {
       height: 52,
       textColor: palette.white,
       fontFamily: 'notosans',
+      fontWeight: 'bold',
       fontSize: 18,
       disabled: {},
     },
