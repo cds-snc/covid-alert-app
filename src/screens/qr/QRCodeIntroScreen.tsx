@@ -18,7 +18,7 @@ export const QRCodeIntroScreen = () => {
         <Box backgroundColor="gray5" style={styles.illustrationStyle} marginBottom="l">
           <Text>Placeholder for illustration</Text>
         </Box>
-        <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
+        <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.ScanAPlace.Title')}
         </Text>
         <Text marginBottom="m">{i18n.translate('QRCode.ScanAPlace.Body')}</Text>
