@@ -8,8 +8,12 @@ import {useCachedStorage} from 'services/StorageService';
 
 import {QrButton} from '../components/QrButton';
 import {MenuButton} from '../components/MenuButton';
+import {Dimensions} from 'react-native';
 
 import {StatusHeaderView} from './StatusHeaderView';
+const windowWidth = Dimensions.get('window').width;
+
+console.log('windowWidth', windowWidth);
 
 const borderRadius = 16;
 
@@ -17,8 +21,11 @@ export const MenuBar = () => {
   const {qrEnabled} = useCachedStorage();
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
+
+  PixelRatio.getPixelSizeForLayoutSize;
   const statusHeaderPadding = pixelRatio > 1.0 ? 'none' : 'm';
-  const menuButtonPadding = pixelRatio > 1.0 ? 'm' : 'none';
+  const menuButtonPadding = pixelRatio > 1.0 || (qrEnabled && windowWidth <= 320) ? 'm' : 'none';
+
   const {orientation} = useOrientation();
   const safeAreaPadding = orientation === 'landscape' ? -10 : -20;
 
@@ -39,7 +46,7 @@ export const MenuBar = () => {
       <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: safeAreaPadding}}>
         <Box style={styles.box}>
           {/* Stack the menu buttons or place in columns */}
-          {pixelRatio > 1.0 ? (
+          {pixelRatio > 1.0 || (qrEnabled && windowWidth <= 320) ? (
             <Box>
               {qrEnabled ? (
                 <Box paddingVertical="m">
