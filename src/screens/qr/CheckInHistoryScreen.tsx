@@ -4,7 +4,7 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon, Button, Toolbar} from 'components';
 import {CheckInData} from 'shared/qr';
-import {formatExposedDate, formateScannedDate} from 'shared/date-fns';
+import {formatExposedDate, formateScannedDate, accessibilityReadableDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -38,7 +38,9 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
         return (
           <Box key={item}>
             <Box marginTop="m" paddingBottom="m">
-              <Text variant="bodyTitle">{formatExposedDate(formateScannedDate(item), dateLocale)}</Text>
+              <Text accessibilityLabel={`${accessibilityReadableDate(formateScannedDate(item))}`} variant="bodyTitle">
+                {formatExposedDate(formateScannedDate(item), dateLocale)}
+              </Text>
             </Box>
 
             <Box style={styles.radius} backgroundColor="gray5">
@@ -63,6 +65,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                       </Box>
                       <Box style={styles.deleteIconBox}>
                         <TouchableOpacity
+                          accessibilityLabel={`${i18n.translate('PlacesLog.DeleteIcon')} ${data.checkIns.name}`}
                           style={styles.deleteIcon}
                           onPress={() => {
                             deleteConfirmationAlert(data.checkIns.id);

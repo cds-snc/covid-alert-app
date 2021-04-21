@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
 import {StyleSheet} from 'react-native';
-import {Box, Button, Text, Icon, InfoBlock, Header} from 'components';
+import {Box, Button, Text, Icon, Header} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {CheckInData} from 'shared/qr';
-import {formateCheckInSuccessfulDate} from 'shared/date-fns';
+import {accessibilityReadableDate, getScannedTime, formatExposedDate} from 'shared/date-fns';
 import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -21,9 +21,28 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
   const navigateHome = useCallback(() => navigation.navigate('Home'), [navigation]);
   const navigateYourVisits = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
-  const dateAndTime = (address: string) => {
-    const formatDate = formateCheckInSuccessfulDate(new Date(timestamp), dateLocale);
-    return `${address} \n\n${formatDate}`;
+  const readableDate = accessibilityReadableDate(new Date(timestamp));
+  const scannedTime = getScannedTime(new Date(timestamp), dateLocale);
+  const formatDate = formatExposedDate(new Date(timestamp), dateLocale);
+
+  const ScannedDate = () => {
+    return (
+      <>
+        {dateLocale === 'en-CA' ? (
+          <Text accessibilityLabel={`${scannedTime} on ${readableDate}`}>
+            <Text>{scannedTime} on </Text>
+
+            <Text>{formatDate}</Text>
+          </Text>
+        ) : (
+          <Text accessibilityLabel={`Le ${readableDate} à ${scannedTime}`}>
+            <Text>Le ${formatDate} à</Text>
+
+            <Text>{scannedTime}</Text>
+          </Text>
+        )}
+      </>
+    );
   };
 
   return (
@@ -48,17 +67,15 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
               </Text>
             </Box>
             <Box paddingBottom="l">
-              <InfoBlock
-                titleBolded={name}
-                backgroundColor="gray5"
-                color="bodyText"
-                button={{
-                  text: '',
-                  action: () => {},
-                }}
-                text={dateAndTime(address)}
-                showButton={false}
-              />
+              <Box backgroundColor="gray5" paddingHorizontal="l" style={styles.boxStyle}>
+                <Text fontWeight="bold" marginVertical="s">
+                  {name}
+                </Text>
+                <Text marginBottom="s">{address}</Text>
+                <Box marginBottom="m">
+                  <ScannedDate />
+                </Box>
+              </Box>
             </Box>
             <Box paddingBottom="l">
               <Text>{i18n.translate('QRCode.CheckInView.Body4')}</Text>
@@ -88,5 +105,8 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+  },
+  boxStyle: {
+    borderRadius: 10,
   },
 });
