@@ -3,12 +3,17 @@ package app.covidshield.services.metrics
 import android.content.Context
 import android.content.pm.PackageInfo
 import app.covidshield.BuildConfig
-import app.covidshield.extensions.log
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+
+enum class MetricType(val identifier: String) {
+    PackageUpdated("android-package-replaced"),
+    ScheduledCheckStartedToday("scheduled-check-started-today"),
+    ScheduledCheckSuccessfulToday("scheduled-check-successful-today")
+}
 
 object MetricsService {
 
@@ -17,50 +22,74 @@ object MetricsService {
 
     private val okHttpClient by lazy { OkHttpClient() }
 
-    fun publishPackageUpdatedMetric(context: Context) {
-        val jsonObject = JSONObject();
+    fun publishMetric(type: MetricType, oncePerUTCDay: Boolean, context: Context) {
 
-        jsonObject.put("identifier", "android-package-replaced")
-        jsonObject.put("region", "None")
-        jsonObject.put("timestamp", TimeUnit.MILLISECONDS.toMillis(System.currentTimeMillis()))
+        fun pushMetric() {
+            val jsonObject = JSONObject();
 
-        val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(jsonObject, context)
-        this.push(serializedGlobalMetricsPayload)
+            jsonObject.put("identifier", type.identifier)
+            jsonObject.put("region", "None")
+            jsonObject.put("timestamp", System.currentTimeMillis())
+
+            val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(jsonObject, context)
+            this.push(serializedGlobalMetricsPayload)
+        }
+
+        if (oncePerUTCDay) {
+            if (UniqueDailyMetricsHelper.canPublishMetric(type.identifier, context)) {
+                pushMetric()
+                UniqueDailyMetricsHelper.markMetricAsPublished(type.identifier, context)
+            }
+        } else {
+            pushMetric()
+        }
     }
 
     @JvmStatic
     @JvmOverloads
-    fun publishDebugMetric(stepNumber: Double, context: Context, message: String = "n/a") {
+    fun publishDebugMetric(stepNumber: Double, context: Context, message: String = "n/a", oncePerUTCDay: Boolean = false) {
 
         if (!DebugMetricsHelper.canPublishDebugMetrics(context)) return
 
-        fun serializeMetricPayload(stepNumber: Double, lifecycleId: String, lifeCycleDailyCount: Number, successfulDailyBackgroundChecks: Number): JSONObject {
-            val jsonObject = JSONObject();
+        fun pushMetric() {
 
-            jsonObject.put("identifier", "ExposureNotificationCheck")
-            jsonObject.put("region", "None")
-            jsonObject.put("timestamp", TimeUnit.MILLISECONDS.toMillis(System.currentTimeMillis()))
-            jsonObject.put("step", stepNumber.toString())
-            jsonObject.put("lifecycleId", lifecycleId)
-            jsonObject.put("lifeCycleDailyCount", lifeCycleDailyCount.toString())
-            jsonObject.put("successfulDailyBackgroundChecks", successfulDailyBackgroundChecks.toString())
-            jsonObject.put("message", message)
+            fun serializeMetricPayload(stepNumber: Double, lifecycleId: String, lifeCycleDailyCount: Number, successfulDailyBackgroundChecks: Number): JSONObject {
+                val jsonObject = JSONObject();
 
-            if (BuildConfig.TEST_MODE == "true") {
-                val deviceIdentifier = DebugMetricsHelper.getDeviceIdentifier(context)
-                jsonObject.put("deviceIdentifier", deviceIdentifier)
+                jsonObject.put("identifier", "ExposureNotificationCheck")
+                jsonObject.put("region", "None")
+                jsonObject.put("timestamp", System.currentTimeMillis())
+                jsonObject.put("step", stepNumber.toString())
+                jsonObject.put("lifecycleId", lifecycleId)
+                jsonObject.put("lifeCycleDailyCount", lifeCycleDailyCount.toString())
+                jsonObject.put("successfulDailyBackgroundChecks", successfulDailyBackgroundChecks.toString())
+                jsonObject.put("message", message)
+
+                if (BuildConfig.TEST_MODE == "true") {
+                    val deviceIdentifier = DebugMetricsHelper.getDeviceIdentifier(context)
+                    jsonObject.put("deviceIdentifier", deviceIdentifier)
+                }
+
+                return jsonObject
             }
 
-            return jsonObject
+            val lifecycleIdentifier = DebugMetricsHelper.getLifecycleIdentifier()
+            val lifecycleDailyCount = DebugMetricsHelper.getLifecycleDailyCount(context)
+            val successfulDailyBackgroundChecks = DebugMetricsHelper.getSuccessfulDailyBackgroundChecks(context)
+            val serializedMetricPayload = serializeMetricPayload(stepNumber, lifecycleIdentifier, lifecycleDailyCount, successfulDailyBackgroundChecks)
+            val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(serializedMetricPayload, context)
+
+            this.push(serializedGlobalMetricsPayload)
         }
 
-        val lifecycleIdentifier = DebugMetricsHelper.getLifecycleIdentifier()
-        val lifecycleDailyCount = DebugMetricsHelper.getLifecycleDailyCount(context)
-        val successfulDailyBackgroundChecks = DebugMetricsHelper.getSuccessfulDailyBackgroundChecks(context)
-        val serializedMetricPayload = serializeMetricPayload(stepNumber, lifecycleIdentifier, lifecycleDailyCount, successfulDailyBackgroundChecks)
-        val serializedGlobalMetricsPayload = serializeGlobalMetricsPayload(serializedMetricPayload, context)
-
-        this.push(serializedGlobalMetricsPayload)
+        if (oncePerUTCDay) {
+            if (UniqueDailyMetricsHelper.canPublishMetric(stepNumber.toString(), context)) {
+                pushMetric()
+                UniqueDailyMetricsHelper.markMetricAsPublished(stepNumber.toString(), context)
+            }
+        } else {
+            pushMetric()
+        }
     }
 
     private fun serializeGlobalMetricsPayload(metricPayload: JSONObject, context: Context): JSONObject {

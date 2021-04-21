@@ -4,7 +4,7 @@ import android.content.Context
 import app.covidshield.utils.DateUtils
 import java.util.*
 
-object UniqueDailyDebugMetricsHelper {
+object UniqueDailyMetricsHelper {
 
     private const val SharedPreferencesFileKey = "covid-shield-unique-daily-debug-metrics"
 

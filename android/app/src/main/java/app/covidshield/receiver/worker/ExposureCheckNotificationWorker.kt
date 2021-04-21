@@ -17,7 +17,6 @@ import androidx.work.WorkerParameters
 import app.covidshield.MainActivity
 import app.covidshield.R
 import app.covidshield.services.metrics.MetricsService
-import app.covidshield.services.metrics.UniqueDailyDebugMetricsHelper
 import com.facebook.react.ReactApplication
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
 import com.google.android.gms.nearby.Nearby
@@ -25,7 +24,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationSt
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
-
 
 class ExposureCheckNotificationWorker (private val context: Context, parameters: WorkerParameters) :
         CoroutineWorker(context, parameters) {
@@ -77,10 +75,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
         val enIsEnabled = exposureNotificationClient.isEnabled.await()
         val enStatus = exposureNotificationClient.status.await()
         if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
-            if (UniqueDailyDebugMetricsHelper.canPublishMetric("200.2", context)) {
-                MetricsService.publishDebugMetric(200.2, context)
-                UniqueDailyDebugMetricsHelper.markMetricAsPublished("200.2", context)
-            }
+            MetricsService.publishDebugMetric(200.2, context, oncePerUTCDay = true)
             Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
             MetricsService.publishDebugMetric(7.1, context, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
             return Result.success()

@@ -2,8 +2,8 @@ package app.covidshield.module
 
 import app.covidshield.extensions.launch
 import app.covidshield.services.metrics.DebugMetricsHelper
+import app.covidshield.services.metrics.MetricType
 import app.covidshield.services.metrics.MetricsService
-import app.covidshield.services.metrics.UniqueDailyDebugMetricsHelper
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -26,11 +26,7 @@ class DebugMetricsModule(private val context: ReactApplicationContext) : ReactCo
             // This is the current final step we have and it is published from the React layer
             if (stepNumber == 8.0) {
                 DebugMetricsHelper.incrementSuccessfulDailyBackgroundChecks(context)
-
-                if (UniqueDailyDebugMetricsHelper.canPublishMetric("200.3", context)) {
-                    MetricsService.publishDebugMetric(200.3, context)
-                    UniqueDailyDebugMetricsHelper.markMetricAsPublished("200.3", context)
-                }
+                MetricsService.publishMetric(MetricType.ScheduledCheckSuccessfulToday, true, context)
             }
 
             promise.resolve(null)
