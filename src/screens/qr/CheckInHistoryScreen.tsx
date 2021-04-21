@@ -52,10 +52,10 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                     key={data.checkIns.id.concat(index.toString())}
                   >
                     <Box paddingVertical="m" style={styles.checkInList}>
-                      <Box style={{flex: 4}}>
+                      <Box style={styles.boxFlex}>
                         <Text variant="bodySubTitle">{data.checkIns.name}</Text>
-                        <Text paddingVertical="s">{data.checkIns.address}</Text>
-                        <Text>
+                        <Text paddingTop="s">
+                          {data.checkIns.address} {'\n'}
                           {new Date(data.checkIns.timestamp).toLocaleString('default', {
                             hour: 'numeric',
                             minute: 'numeric',
@@ -167,11 +167,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#8a8a8a',
     borderBottomWidth: 1,
   },
-  textBox: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   radius: {
     borderRadius: 10,
   },
@@ -188,9 +183,11 @@ const styles = StyleSheet.create({
   },
   deleteIcon: {
     alignItems: 'flex-end',
-    justifyContent: 'flex-end',
   },
   checkInList: {
     flexDirection: 'row',
+  },
+  boxFlex: {
+    flex: 4,
   },
 });
