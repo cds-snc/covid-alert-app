@@ -31,11 +31,6 @@ const Content = () => {
 
   if (!hasPermission || hasPermission?.granted === false) {
     return (
-      // <RequestCameraPermission
-      //   updatePermissions={() => {
-      //     checkPermissions();
-      //   }}
-      // />
       <LearnAboutQRScreen
         updatePermissions={() => {
           checkPermissions();
