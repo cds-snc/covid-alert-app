@@ -36,9 +36,9 @@ object MetricsService {
         }
 
         if (oncePerUTCDay) {
-            if (UniqueDailyDebugMetricsHelper.canPublishMetric(type.identifier, context)) {
+            if (UniqueDailyMetricsHelper.canPublishMetric(type.identifier, context)) {
                 pushMetric()
-                UniqueDailyDebugMetricsHelper.markMetricAsPublished(type.identifier, context)
+                UniqueDailyMetricsHelper.markMetricAsPublished(type.identifier, context)
             }
         } else {
             pushMetric()
@@ -83,9 +83,9 @@ object MetricsService {
         }
 
         if (oncePerUTCDay) {
-            if (UniqueDailyDebugMetricsHelper.canPublishMetric(stepNumber.toString(), context)) {
+            if (UniqueDailyMetricsHelper.canPublishMetric(stepNumber.toString(), context)) {
                 pushMetric()
-                UniqueDailyDebugMetricsHelper.markMetricAsPublished(stepNumber.toString(), context)
+                UniqueDailyMetricsHelper.markMetricAsPublished(stepNumber.toString(), context)
             }
         } else {
             pushMetric()
