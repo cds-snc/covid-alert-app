@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, PixelRatio} from 'react-native';
+import {StyleSheet, PixelRatio, Dimensions} from 'react-native';
 import {Box, Text} from 'components';
 import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationService';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -8,12 +8,10 @@ import {useCachedStorage} from 'services/StorageService';
 
 import {QrButton} from '../components/QrButton';
 import {MenuButton} from '../components/MenuButton';
-import {Dimensions} from 'react-native';
 
 import {StatusHeaderView} from './StatusHeaderView';
-const windowWidth = Dimensions.get('window').width;
 
-console.log('windowWidth', windowWidth);
+const windowWidth = Dimensions.get('window').width;
 
 const borderRadius = 16;
 
@@ -22,7 +20,6 @@ export const MenuBar = () => {
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
 
-  PixelRatio.getPixelSizeForLayoutSize;
   const statusHeaderPadding = pixelRatio > 1.0 ? 'none' : 'm';
   const menuButtonPadding = pixelRatio > 1.0 || (qrEnabled && windowWidth <= 320) ? 'm' : 'none';
 
