@@ -4,7 +4,7 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon, Button, Toolbar} from 'components';
 import {CheckInData} from 'shared/qr';
-import {formatExposedDate, formateScannedDate} from 'shared/date-fns';
+import {formatExposedDate, formateScannedDate, accessibilityReadableDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -38,7 +38,9 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
         return (
           <Box key={item}>
             <Box marginTop="m" paddingBottom="m">
-              <Text variant="bodyTitle">{formatExposedDate(formateScannedDate(item), dateLocale)}</Text>
+              <Text accessibilityLabel={`${accessibilityReadableDate(formateScannedDate(item))}`} variant="bodyTitle">
+                {formatExposedDate(formateScannedDate(item), dateLocale)}
+              </Text>
             </Box>
 
             <Box style={styles.radius} backgroundColor="gray5">
@@ -46,28 +48,32 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                 return (
                   <Box
                     paddingHorizontal="m"
-                    style={[styles.boxStyle, checkIns[item].length !== index + 1 && styles.bottomBorder]}
+                    style={[checkIns[item].length !== index + 1 && styles.bottomBorder]}
                     key={data.checkIns.id.concat(index.toString())}
                   >
-                    <Box paddingVertical="m" paddingRight="xs">
-                      <Text variant="bodySubTitle">{data.checkIns.name}</Text>
-                      <Text paddingVertical="s">{data.checkIns.address}</Text>
-                      <Text>
-                        {new Date(data.checkIns.timestamp).toLocaleString('default', {
-                          hour: 'numeric',
-                          minute: 'numeric',
-                          hour12: true,
-                        })}
-                      </Text>
-                    </Box>
-                    <Box>
-                      <TouchableOpacity
-                        onPress={() => {
-                          deleteConfirmationAlert(data.checkIns.id);
-                        }}
-                      >
-                        <Icon size={40} name="delete-icon" />
-                      </TouchableOpacity>
+                    <Box paddingVertical="m" style={styles.checkInList}>
+                      <Box style={styles.boxFlex}>
+                        <Text variant="bodySubTitle">{data.checkIns.name}</Text>
+                        <Text paddingTop="s">
+                          {data.checkIns.address} {'\n'}
+                          {new Date(data.checkIns.timestamp).toLocaleString('default', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: true,
+                          })}
+                        </Text>
+                      </Box>
+                      <Box style={styles.deleteIconBox}>
+                        <TouchableOpacity
+                          accessibilityLabel={`${i18n.translate('PlacesLog.DeleteIcon')} ${data.checkIns.name}`}
+                          style={styles.deleteIcon}
+                          onPress={() => {
+                            deleteConfirmationAlert(data.checkIns.id);
+                          }}
+                        >
+                          <Icon size={40} name="delete-icon" />
+                        </TouchableOpacity>
+                      </Box>
                     </Box>
                   </Box>
                 );
@@ -137,7 +143,7 @@ export const CheckInHistoryScreen = () => {
             <NoVisitsScreen />
           ) : (
             <>
-              <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
+              <Box paddingHorizontal="xxs" marginLeft="s" marginRight="s" paddingBottom="m">
                 <CheckInList scannedCheckInData={checkInHistory} />
               </Box>
 
@@ -157,19 +163,9 @@ export const CheckInHistoryScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  boxStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   bottomBorder: {
     borderBottomColor: '#8a8a8a',
     borderBottomWidth: 1,
-  },
-  textBox: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   radius: {
     borderRadius: 10,
@@ -180,5 +176,18 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  deleteIconBox: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  deleteIcon: {
+    alignItems: 'flex-end',
+  },
+  checkInList: {
+    flexDirection: 'row',
+  },
+  boxFlex: {
+    flex: 4,
   },
 });
