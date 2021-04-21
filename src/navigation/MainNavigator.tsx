@@ -106,6 +106,7 @@ const InvalidQRCodeScreenWithNavBar = withDarkNav(InvalidQRCodeScreen);
 const LearnAboutQRScreenWithNavBar = withDarkNav(LearnAboutQRScreen);
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
 const CheckInHistoryScreenWithNavBar = withDarkNav(CheckInHistoryScreen);
+const ExposureHistoryScreenWithNavBar = withDarkNav(ExposureHistoryScreen);
 const QRCodeIntroScreenWithNavBar = withDarkNav(QRCodeIntroScreen);
 const MenuScreenWithNavBar = withDarkNav(MenuScreen);
 const ClearOutbreakExposureScreenWithNavBar = withDarkNav(ClearOutbreakExposureScreen);

@@ -564,7 +564,7 @@
   "ExposureHistory": {
     "Title": "Vos expositions récentes",
     "Body": "Voici la liste de vos expositions pour les 14 derniers jours.",
-    "NoExposures": ""
+    "NoExposures": "Aucune exposition"
   },
   "Errors": {
     "Action": "OK",

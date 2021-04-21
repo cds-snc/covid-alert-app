@@ -11,7 +11,7 @@ const ExposureList = ({exposureHistoryData}: {exposureHistoryData: ExposureHisto
   return (
     <>
       {Object.keys(exposureHistoryData).map(item => {
-        return <Box key={item}></Box>;
+        return <Box key={item} />;
       })}
     </>
   );
@@ -22,10 +22,10 @@ const NoExposureHistoryScreen = () => {
 
   return (
     <Box style={styles.noExposureHistoryScreen} marginTop="xl">
+      <Icon height={120} width={150} name="exposure-history-thumb" />
       <Text paddingTop="s" fontWeight="bold">
-        {i18n.translate('ExposureHistory.Title')}
+        {i18n.translate('ExposureHistory.NoExposures')}
       </Text>
-      <Icon height={120} width={150} name="no-visit-icon" />
     </Box>
   );
 };

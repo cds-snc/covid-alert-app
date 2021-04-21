@@ -570,7 +570,7 @@
   "ExposureHistory": {
     "Title": "Your recent exposures",
     "Body": "This list shows your exposures from the last 14 days.",
-    "NoExposures": ""
+    "NoExposures": "No exposures"
   },
   "Errors": {
     "Action": "OK",
