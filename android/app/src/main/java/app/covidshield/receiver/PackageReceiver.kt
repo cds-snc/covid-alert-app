@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import app.covidshield.extensions.log
+import app.covidshield.services.metrics.MetricType
 import app.covidshield.services.metrics.MetricsService
 import okhttp3.*
 
@@ -16,7 +17,7 @@ class PackageReceiver () : BroadcastReceiver() {
         log("onReceive", mapOf("action" to action))
 
             if (action == "android.intent.action.MY_PACKAGE_REPLACED") {
-                MetricsService.publishPackageUpdatedMetric(context);
+                MetricsService.publishMetric(MetricType.PackageUpdated, false, context)
             }
     }
 
