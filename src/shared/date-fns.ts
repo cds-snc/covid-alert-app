@@ -135,7 +135,6 @@ export const formateScannedDate = (dateString: string) => {
 };
 
 export const accessibilityReadableDate = (date: Date) => {
-
   const readableDate = date.toLocaleDateString('default', {year: 'numeric', month: 'long', day: 'numeric'});
 
   return readableDate;
