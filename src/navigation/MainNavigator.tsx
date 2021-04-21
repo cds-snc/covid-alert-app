@@ -30,6 +30,7 @@ import {CheckInSuccessfulScreen} from 'screens/qr/CheckInSuccessfulScreen';
 import {InvalidQRCodeScreen} from 'screens/qr/InvalidQRCodeScreen';
 import {LearnAboutQRScreen} from 'screens/qr/LearnAboutQRScreen';
 import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
+import {ExposureHistoryScreen} from 'screens/qr/ExposureHistoryScreen';
 import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
 import {MenuScreen} from 'screens/menu/MenuScreen';
 import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
@@ -201,6 +202,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
       <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
+      <MainStack.Screen name="ExposureHistoryScreen" component={ExposureHistoryScreenWithNavBar} />
       <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
       <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
     </MainStack.Navigator>

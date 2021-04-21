@@ -35,6 +35,7 @@ export const MenuScreen = () => {
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
   const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
   const onYourVisits = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
+  const onRecentExposures = useCallback(() => navigation.navigate('ExposureHistoryScreen'), [navigation]);
   const onHelp = useCallback(() => {
     Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);
@@ -83,6 +84,14 @@ export const MenuScreen = () => {
                 text={i18n.translate('Info.YourVisits')}
                 testID="yourVisitsButton"
                 onPress={onYourVisits}
+                icon="icon-chevron"
+              />
+            )}
+            {qrEnabled && (
+              <InfoShareItem
+                text={i18n.translate('Info.YourRecentExposures')}
+                testID="yourVisitsButton"
+                onPress={onRecentExposures}
                 icon="icon-chevron"
               />
             )}

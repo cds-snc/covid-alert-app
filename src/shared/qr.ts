@@ -13,6 +13,12 @@ export interface CheckInData {
   timestamp: number;
 }
 
+export interface ExposureHistoryData {
+  id: string;
+  name: string;
+  timestamp: number;
+}
+
 export interface TimeWindow {
   start: number;
   end: number;
