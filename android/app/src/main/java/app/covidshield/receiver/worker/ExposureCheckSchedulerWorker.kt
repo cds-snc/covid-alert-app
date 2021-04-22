@@ -8,9 +8,9 @@ import app.covidshield.extensions.log
 import app.covidshield.models.ExposureStatus
 import app.covidshield.services.metrics.MetricType
 import app.covidshield.services.metrics.MetricsService
-import app.covidshield.shared.DateFns
 import app.covidshield.services.storage.StorageDirectory
 import app.covidshield.services.storage.StorageService
+import app.covidshield.utils.DateUtils
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
@@ -42,7 +42,7 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
         try {
             val status = storageService.retrieve(StorageDirectory.ExposureStatus)
             val exposureStatus = Gson().fromJson(status, ExposureStatus::class.java)
-            val minutesSinceLastCheck = (DateFns.getCurrentDate().time - exposureStatus.lastChecked.timestamp) / 1000 / 60
+            val minutesSinceLastCheck = (DateUtils.getCurrentLocalDate().time - exposureStatus.lastChecked.timestamp) / 1000 / 60
             val backgroundCheck = storageService.retrieve(StorageDirectory.MetricsFilterStateStorageBackgroundCheckEventMarkerKey)?.split(",")?.count() ?: 0
             Log.d("background", "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
             MetricsService.publishDebugMetric(2.0, context, "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
