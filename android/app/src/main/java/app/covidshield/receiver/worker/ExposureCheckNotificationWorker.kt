@@ -16,7 +16,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import app.covidshield.MainActivity
 import app.covidshield.R
-import app.covidshield.services.metrics.MetricsService
+import app.covidshield.services.metrics.FilteredMetricsService
 import com.facebook.react.ReactApplication
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
 import com.google.android.gms.nearby.Nearby
@@ -37,6 +37,8 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
     override suspend fun doWork(): Result {
 
         Log.d("background", "ExposureCheckNotificationWorker - doWork")
+
+        val filteredMetricsService = FilteredMetricsService.getInstance(context)
 
         try {
             val intent = Intent(context, MainActivity::class.java).apply {
@@ -68,22 +70,22 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
             val foregroundInfo = ForegroundInfo(1, notification.build())
             setForeground(foregroundInfo)
         } catch (exception: Exception) {
-            MetricsService.publishDebugMetric(107.0, context, exception.message ?: "Unknown")
+            filteredMetricsService.addDebugMetric(107.0, exception.message ?: "Unknown")
             return Result.failure()
         }
 
         val enIsEnabled = exposureNotificationClient.isEnabled.await()
         val enStatus = exposureNotificationClient.status.await()
         if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
-            MetricsService.publishDebugMetric(200.2, context, oncePerUTCDay = true)
+            filteredMetricsService.addDebugMetric(200.2, oncePerUTCDay = true)
             Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
-            MetricsService.publishDebugMetric(7.1, context, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
+            filteredMetricsService.addDebugMetric(7.1, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
             return Result.success()
         }
 
         try {
             val reactApplication = applicationContext as? ReactApplication ?: return Result.success()
-            MetricsService.publishDebugMetric(7.2, context)
+            filteredMetricsService.addDebugMetric(7.2)
             val reactInstanceManager = reactApplication.reactNativeHost.reactInstanceManager
             Log.d("background", "React-native emit")
             reactInstanceManager.currentReactContext?.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
@@ -92,7 +94,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
             delay(5000)
             return Result.success()
         } catch (exception: Exception) {
-            MetricsService.publishDebugMetric(106.0, context, exception.message ?: "Unknown")
+            filteredMetricsService.addDebugMetric(106.0, exception.message ?: "Unknown")
             return Result.failure()
         }
     }
