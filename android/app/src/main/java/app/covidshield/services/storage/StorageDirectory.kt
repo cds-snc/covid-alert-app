@@ -1,4 +1,4 @@
-package app.covidshield.storage
+package app.covidshield.services.storage
 
 object StorageDirectory {
     val ExposureStatus: KeyDefinition = Unsecure ("exposureStatus")

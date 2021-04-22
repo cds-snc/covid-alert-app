@@ -1,10 +1,10 @@
 package app.covidshield.module
 
 import app.covidshield.extensions.launch
-import app.covidshield.storage.KeyDefinition
-import app.covidshield.storage.Secure
-import app.covidshield.storage.StorageService
-import app.covidshield.storage.Unsecure
+import app.covidshield.services.storage.KeyDefinition
+import app.covidshield.services.storage.Secure
+import app.covidshield.services.storage.StorageService
+import app.covidshield.services.storage.Unsecure
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule

@@ -9,8 +9,8 @@ import app.covidshield.models.ExposureStatus
 import app.covidshield.services.metrics.MetricType
 import app.covidshield.services.metrics.MetricsService
 import app.covidshield.shared.DateFns
-import app.covidshield.storage.StorageDirectory
-import app.covidshield.storage.StorageService
+import app.covidshield.services.storage.StorageDirectory
+import app.covidshield.services.storage.StorageService
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter

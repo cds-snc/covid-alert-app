@@ -1,7 +1,6 @@
-package app.covidshield.storage
+package app.covidshield.services.storage
 
 import android.content.Context
-import android.util.Log
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.storage.AsyncStorageModule
 import com.reactlibrary.securekeystore.RNSecureKeyStoreModule
