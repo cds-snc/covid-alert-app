@@ -521,16 +521,29 @@
       "Title": "Autorisation refusée",
       "Body": "Vous avez refusé qu’Alerte COVID utilise votre appareil photo.\n\nPour scanner un lieu, vous devez autoriser Alerte COVID à utiliser l’appareil photo dans les paramètres de votre téléphone.\n\nVous pouvez aussi utiliser directement votre appareil photo ou une application de lecture de codes QR.",
       "CTA": "Autoriser l’accès dans les paramètres",
-      "CTA2": "En savoir plus sur Scanner un lieu"
+      "CTA2": "À propos de l’ajout d’une visite"
+    },
+    "CameraPermissionAlert": {
+      "Title": "« Alerte COVID » souhaite accéder à l’appareil photo",
+      "Subtitle": "Alerte COVID doit accéder à l’appareil photo pour lire le code QR.",
+      "Allow": "Autoriser",
+      "DontAllow": "Ne pas autoriser"
+    },
+    "LearnAboutQRScan": {
+      "Title": "Comment ajouter une visite",
+      "Body1": "1. Autorisez Alerte COVID à accéder à l’appareil photo pour lire le code QR.",
+      "Body2": "2. Placez votre appareil devant le code."
     },
     "CancelCheckIn": {
       "Title": "FR Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Scanner un lieu",
-      "Body": "Vous pouvez être notifié si des personnes contagieuses ont visité le même lieu que vous. Lorsque vous scannez un code QR Alerte COVID à l’entrée d’un lieu, l’application l’enregistre sur votre téléphone.\n\nLes lieux que vous visitez",
-      "Body2": "ne seront pas communiqués à personne.",
-      "CTA": "Suivant"
+      "Title": "Ajouter une visite",
+      "Body": "Vous serez avisé si quelqu’un présent pendant votre visite est déclaré positif prochainement.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.",
+      "Body2": "Vos visites ",
+      "Body3": "ne sont communiquées à personne.",
+      "CTA": "Suivant",
+      "CTA2": "À propos de l’ajout d’une visite"
     },
     "OutbreakExposed": {
       "Title": "Exposition possible lors d’une visite",

@@ -35,20 +35,17 @@ export const QRCodeScanner = () => {
       <Box style={styles.top} />
       <SafeAreaView style={styles.flex}>
         <Box marginBottom="m" style={styles.toolbar}>
-          <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} />
+          <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} showBackButton />
         </Box>
         <Box style={styles.info} paddingTop="s" paddingHorizontal="m">
           <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
             {i18n.translate(`QRCode.Reader.Title`)}
           </Text>
-          {/* <Icon size={170} name="scan-qr-code-white-arrow" /> */}
         </Box>
       </SafeAreaView>
     </BarCodeScanner>
   );
 };
-
-// const opacity = 'rgba(0, 0, 0, .8)';
 
 const styles = StyleSheet.create({
   top: {

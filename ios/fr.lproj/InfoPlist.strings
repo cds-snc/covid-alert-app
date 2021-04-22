@@ -7,3 +7,4 @@
 */
 "CFBundleDisplayName" = "Alerte COVID";
 "CFBundleName" = "Alerte COVID";
+NSCameraUsageDescription = "Alerte COVID doit accéder à l’appareil photo pour lire le code QR.";

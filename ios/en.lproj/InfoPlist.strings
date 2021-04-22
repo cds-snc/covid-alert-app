@@ -6,3 +6,4 @@
 */
 "CFBundleDisplayName" = "COVID Alert";
 "CFBundleName" = "COVID Alert";
+NSCameraUsageDescription = "COVID Alert needs access to your camera so it can read the QR code.";
