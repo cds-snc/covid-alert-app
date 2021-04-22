@@ -24,7 +24,7 @@ interface FilteredMetricsService {
 
 class DefaultFilteredMetricsService constructor(private val context: Context) : FilteredMetricsService {
 
-    private val metricsService = DefaultFutureMetricsService.initialize(
+    private val metricsService = DefaultMetricsService.initialize(
             DefaultMetricsJsonSerializer(
                     context.packageManager.getPackageInfo(context.packageName, 0).versionName,
                     "android",

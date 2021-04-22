@@ -8,7 +8,7 @@ import app.covidshield.services.storage.StorageService
 import app.covidshield.utils.DateUtils
 import java.util.*
 
-interface FutureMetricsService {
+interface MetricsService {
     suspend fun publishMetric(metric: Metric, forcePush: Boolean = false)
     suspend fun sendDailyMetrics()
 }
@@ -17,23 +17,23 @@ private enum class TriggerPushResult {
     Success, Error, NoData
 }
 
-class DefaultFutureMetricsService private constructor(
+class DefaultMetricsService private constructor(
         private val storageService: StorageService,
         private val metricsPublisher: MetricsPublisher,
         private val metricsProvider: MetricsProvider,
         private val metricsStorageCleaner: MetricsStorageCleaner,
         private val metricsJsonSerializer: MetricsJsonSerializer,
-        private val metricsPusher: MetricsPusher) : FutureMetricsService {
+        private val metricsPusher: MetricsPusher) : MetricsService {
 
     companion object {
 
-        fun initialize(metricsJsonSerializer: MetricsJsonSerializer, context: Context): FutureMetricsService {
+        fun initialize(metricsJsonSerializer: MetricsJsonSerializer, context: Context): MetricsService {
             val storageService = StorageService.getInstance(context)
             val metricsStorage = DefaultMetricsStorage(storageService)
             val metricsPublisher = DefaultMetricsPublisher(metricsStorage)
             val metricsProvider = DefaultMetricsProvider(metricsStorage)
             val metricsPusher = DefaultMetricsPusher(BuildConfig.METRICS_URL, BuildConfig.METRICS_API_KEY)
-            return DefaultFutureMetricsService(
+            return DefaultMetricsService(
                     storageService,
                     metricsPublisher,
                     metricsProvider,
