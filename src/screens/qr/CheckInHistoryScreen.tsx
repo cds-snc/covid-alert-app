@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon, Button, Toolbar} from 'components';
 import {CheckInData} from 'shared/qr';
 import {formatExposedDate, formateScannedDate, accessibilityReadableDate} from 'shared/date-fns';
-import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useOutbreakService} from 'services/OutbreakService/OutbreakProvider';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 

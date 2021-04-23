@@ -1,4 +1,3 @@
-import {OUTBREAK_LOCATIONS_URL} from 'env';
 import {log} from 'shared/logging/config';
 import {covidshield} from 'services/BackendService/covidshield';
 
@@ -92,14 +91,6 @@ export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
 
 const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
-export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> => {
-  const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
-    method: 'GET',
-  });
-  const data = await fetchedData.json();
-  return data.exposedLocations;
-};
-
 export const getMatchedOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
   outbreakEvents: covidshield.OutbreakEvent[],
@@ -181,8 +172,8 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
         end: checkIn.timestamp + ONE_HOUR_IN_MS,
       };
       const window2: TimeWindow = {
-        start: Number(outbreak.startTime),
-        end: Number(outbreak.endTime),
+        start: Number(outbreak.startTime) * 1000,
+        end: Number(outbreak.endTime) * 1000,
       };
       if (doTimeWindowsOverlap(window1, window2)) {
         const match: MatchData = {

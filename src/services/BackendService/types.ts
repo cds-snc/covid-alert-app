@@ -17,6 +17,7 @@ export interface BackendInterface {
     contagiousDateInfo: ContagiousDateInfo,
   ): Promise<void>;
   retrieveDiagnosisKeys(period: number): Promise<string>;
+  retrieveOutbreakEvents(period: number): Promise<string>;
   getRegionContent(): Promise<RegionContentResponse>;
   getExposureConfiguration(): Promise<ExposureConfiguration>;
 }
