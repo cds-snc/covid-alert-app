@@ -149,7 +149,7 @@ export class OutbreakService {
 
   shouldPerformOutbreaksCheck = async (): Promise<boolean> => {
     try {
-      const outbreaksLastCheckedDateTime = await getOutbreaksLastCheckedDateTime();
+      const outbreaksLastCheckedDateTime = await getOutbreaksLastCheckedDateTime(this.storageService);
       if (outbreaksLastCheckedDateTime === null) return true;
       const today = getCurrentDate();
       const minutesSinceLastOutbreaksCheck = minutesBetween(outbreaksLastCheckedDateTime, today);
