@@ -1,9 +1,9 @@
 import React from 'react';
-
-import {ItemView, ItemViewProps} from './ItemView';
 import {Text, Box} from 'components';
 import {useI18n} from 'locale';
 import {StyleSheet} from 'react-native';
+
+import {ItemView, ItemViewProps} from './ItemView';
 
 const Banner = () => {
   const i18n = useI18n();
