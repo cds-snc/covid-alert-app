@@ -233,6 +233,7 @@
     "step-3Title": "Facilitons la recherche de contacts",
     "step-3AltText": "-",
     "step-3": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu risque d’exposition pendant celles-ci.",
+    "step-3-banner": "Pour l’instant, les affiches à code QR ne sont présentes qu’à ________ pour un projet-pilote à petite échelle.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
