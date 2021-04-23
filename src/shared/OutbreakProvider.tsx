@@ -13,6 +13,7 @@ import {
   getOutbreakEvents,
   isExposedToOutbreak,
   OutbreakHistoryItem,
+  CombinedExposureHistoryData,
 } from './qr';
 import {createCancellableCallbackPromise} from './cancellablePromise';
 import {getCurrentDate, minutesBetween} from './date-fns';
@@ -32,6 +33,7 @@ export class OutbreakService implements OutbreakService {
 
   outbreakHistory: Observable<OutbreakHistoryItem[]>;
   checkInHistory: Observable<CheckInData[]>;
+  combinedExposureHistory: Observable<CombinedExposureHistoryData[]>;
   i18n: I18n;
   storageService: StorageService;
 
@@ -40,6 +42,7 @@ export class OutbreakService implements OutbreakService {
   constructor(i18n: I18n) {
     this.outbreakHistory = new Observable<OutbreakHistoryItem[]>([]);
     this.checkInHistory = new Observable<CheckInData[]>([]);
+    this.combinedExposureHistory = new Observable<CombinedExposureHistoryData[]>([]);
     this.i18n = i18n;
     this.storageService = DefaultStorageService.sharedInstance();
     this.serialPromiseQueue = new PQueue({concurrency: 1});
@@ -60,6 +63,19 @@ export class OutbreakService implements OutbreakService {
       JSON.stringify(newOutbreakHistory),
     );
     this.outbreakHistory.set(newOutbreakHistory);
+  };
+
+  addToCombinedExposureHistory = async (value: CombinedExposureHistoryData) => {
+    const _combinedExposureHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCombinedExposureHistoryKey)) || '[]';
+    const combinedExposureHistory = JSON.parse(_combinedExposureHistory);
+    console.log('value', value);
+    combinedExposureHistory.push(value);
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceCombinedExposureHistoryKey,
+      JSON.stringify(combinedExposureHistory),
+    );
+    this.combinedExposureHistory.set(combinedExposureHistory);
   };
 
   addCheckIn = async (value: CheckInData) => {
@@ -106,6 +122,11 @@ export class OutbreakService implements OutbreakService {
     this.checkInHistory.set([]);
   };
 
+  deleteAllCombinedExposureHistory = async () => {
+    await this.storageService.save(StorageDirectory.OutbreakServiceCombinedExposureHistoryKey, JSON.stringify([]));
+    this.combinedExposureHistory.set([]);
+  };
+
   init = async () => {
     const outbreakHistory =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';
@@ -114,6 +135,10 @@ export class OutbreakService implements OutbreakService {
     const checkInHistory =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     this.checkInHistory.set(JSON.parse(checkInHistory));
+
+    const combinedExposureHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCombinedExposureHistoryKey)) || '[]';
+    this.combinedExposureHistory.set(JSON.parse(combinedExposureHistory));
   };
 
   checkForOutbreaks = async (forceCheck?: boolean) => {
@@ -206,11 +231,21 @@ export const useOutbreakService = () => {
   const outbreakService = useContext(OutbreakContext)!.outbreakService!;
   const [checkInHistory, addCheckInInternal] = useState(outbreakService.checkInHistory.get());
   const [outbreakHistory, setOutbreakHistoryInternal] = useState(outbreakService.outbreakHistory.get());
+  const [combinedExposureHistory, setCombinedExposureHistoryInternal] = useState(
+    outbreakService.combinedExposureHistory.get(),
+  );
 
   const checkForOutbreaks = useMemo(() => outbreakService.checkForOutbreaks, [outbreakService.checkForOutbreaks]);
   const addCheckIn = useMemo(
     () => (newCheckIn: CheckInData) => {
       outbreakService.addCheckIn(newCheckIn);
+    },
+    [outbreakService],
+  );
+
+  const addToCombinedExposureHistory = useMemo(
+    () => (history: CombinedExposureHistoryData) => {
+      outbreakService.addToCombinedExposureHistory(history);
     },
     [outbreakService],
   );
@@ -242,9 +277,19 @@ export const useOutbreakService = () => {
     [outbreakService],
   );
 
+  const deleteAllCombinedExposureHistory = useMemo(
+    () => () => {
+      outbreakService.deleteAllCombinedExposureHistory();
+    },
+    [outbreakService],
+  );
+
   useEffect(() => outbreakService.checkInHistory.observe(addCheckInInternal), [outbreakService.checkInHistory]);
   useEffect(() => outbreakService.outbreakHistory.observe(setOutbreakHistoryInternal), [
     outbreakService.outbreakHistory,
+  ]);
+  useEffect(() => outbreakService.combinedExposureHistory.observe(setCombinedExposureHistoryInternal), [
+    outbreakService.combinedExposureHistory,
   ]);
 
   return useMemo(
@@ -257,6 +302,9 @@ export const useOutbreakService = () => {
       deleteScannedPlaces,
       deleteAllScannedPlaces,
       checkInHistory,
+      combinedExposureHistory,
+      addToCombinedExposureHistory,
+      deleteAllCombinedExposureHistory,
     }),
     [
       outbreakHistory,
@@ -267,6 +315,9 @@ export const useOutbreakService = () => {
       deleteScannedPlaces,
       deleteAllScannedPlaces,
       checkInHistory,
+      combinedExposureHistory,
+      addToCombinedExposureHistory,
+      deleteAllCombinedExposureHistory,
     ],
   );
 };

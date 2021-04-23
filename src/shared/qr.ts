@@ -13,10 +13,11 @@ export interface CheckInData {
   timestamp: number;
 }
 
-export interface ExposureHistoryData {
-  id: string;
-  name: string;
+export interface CombinedExposureHistoryData {
+  // id: string;
+  // name: string;
   timestamp: number;
+  type: string; //proximity or outbreak
 }
 
 export interface TimeWindow {

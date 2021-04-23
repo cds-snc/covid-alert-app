@@ -103,6 +103,11 @@ export class StorageDirectory {
     storageType: StorageType.Secure,
   };
 
+  static readonly OutbreakServiceCombinedExposureHistoryKey: KeyDefinition = {
+    keyIdentifier: 'CombinedExposureHistory',
+    storageType: StorageType.Unsecure,
+  }
+
   // PollNotificationService.ts
   static readonly PollNotificationServiceReadReceiptsKey: KeyDefinition = {
     keyIdentifier: 'NotificationReadReceipts',
