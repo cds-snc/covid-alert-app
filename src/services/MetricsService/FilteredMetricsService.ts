@@ -1,4 +1,4 @@
-import {APP_VERSION_CODE} from 'env';
+import {APP_VERSION_NAME} from 'env';
 import PQueue from 'p-queue';
 import {Platform} from 'react-native';
 import {Status} from 'shared/NotificationPermissionStatus';
@@ -20,7 +20,7 @@ export class FilteredMetricsService {
       this.instance = new this(
         DefaultMetricsService.initialize(
           new DefaultMetricsJsonSerializer(
-            String(APP_VERSION_CODE),
+            APP_VERSION_NAME,
             Platform.OS,
             String(Platform.Version),
             manufacturer,
