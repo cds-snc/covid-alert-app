@@ -1,17 +1,37 @@
-import React, {useCallback} from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {StyleSheet, Alert} from 'react-native';
 import {useI18n} from 'locale';
-import {ExposureHistoryData} from 'shared/qr';
+import {CombinedExposureHistoryData} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Text, Icon, Toolbar} from 'components';
+import {Box, Text, Icon, Toolbar, Button} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useExposureHistory} from 'services/ExposureNotificationService';
+import {useOutbreakService} from 'shared/OutbreakProvider';
+import {formatExposedDate, formateScannedDate, accessibilityReadableDate} from 'shared/date-fns';
 
-const ExposureList = ({exposureHistoryData}: {exposureHistoryData: ExposureHistoryData[]}) => {
+const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExposureHistoryData[]}) => {
+  const i18n = useI18n();
+  const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   return (
     <>
       {Object.keys(exposureHistoryData).map(item => {
-        return <Box key={item} />;
+        return (
+          <Box key={item}>
+            <Box backgroundColor="gray5" style={styles.radius}>
+              {exposureHistoryData.map((data: any, index: number) => {
+                return (
+                  <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
+                    <Text key={index}>
+                      <Text fontWeight="bold">{formatExposedDate(new Date(data.timestamp), dateLocale)}</Text>
+                      <Text>{data.type}</Text>
+                    </Text>
+                  </Box>
+                );
+              })}
+            </Box>
+          </Box>
+        );
       })}
     </>
   );
@@ -31,8 +51,39 @@ const NoExposureHistoryScreen = () => {
 };
 
 export const ExposureHistoryScreen = () => {
+  const exposureHistoryProximity = useExposureHistory();
+  const {
+    combinedExposureHistory,
+    addToCombinedExposureHistory,
+    deleteAllCombinedExposureHistory,
+    outbreakHistory,
+  } = useOutbreakService();
+
+  exposureHistoryProximity.map(time => {
+    const obj = {type: 'proximity', timestamp: time};
+  });
+  outbreakHistory.map(item => {
+    const obj = {type: 'outbreak', timestamp: item.checkInTimestamp};
+  });
+
+  const deleteAllPlaces = () => {
+    Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
+      {
+        text: i18n.translate('PlacesLog.Alert.Cancel'),
+        onPress: () => {},
+      },
+      {
+        text: i18n.translate('PlacesLog.Alert.ConfirmDeleteAll'),
+        onPress: () => {
+          deleteAllCombinedExposureHistory();
+        },
+        style: 'cancel',
+      },
+    ]);
+  };
+
   const i18n = useI18n();
-  const exposureHistory = [];
+
   const navigation = useNavigation();
   const back = useCallback(() => navigation.goBack(), [navigation]);
 
@@ -48,15 +99,19 @@ export const ExposureHistoryScreen = () => {
             <Text>{i18n.translate('ExposureHistory.Body')}</Text>
           </Box>
 
-          {exposureHistory.length === 0 ? (
+          {combinedExposureHistory.length === 0 ? (
             <NoExposureHistoryScreen />
           ) : (
             <>
               <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
-                <ExposureList exposureHistoryData={[]} />
+                <ExposureList exposureHistoryData={combinedExposureHistory} />
               </Box>
             </>
           )}
+          <Box margin="m">
+            {/* make this add an exposure */}
+            <Button variant="opaqueGrey" text="Delete All" onPress={deleteAllPlaces} />
+          </Box>
         </ScrollView>
       </SafeAreaView>
     </Box>
