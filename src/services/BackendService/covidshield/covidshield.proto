@@ -100,6 +100,7 @@ message OutbreakEvent {
   optional string location_id = 1;
   optional google.protobuf.Timestamp start_time = 2;
   optional google.protobuf.Timestamp end_time = 3;
+  optional uint32 severity = 4;
 }
 
 message OutbreakEventResponse {
