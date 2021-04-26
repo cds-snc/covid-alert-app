@@ -141,7 +141,7 @@ export class OutbreakService {
 
           this.processOutbreakNotification(outbreakHistory);
         } catch (error) {
-          log.error(error);
+          log.error({category: 'qr-code', error});
         }
       }
     });
