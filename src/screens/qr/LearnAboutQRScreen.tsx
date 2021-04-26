@@ -2,14 +2,19 @@ import React, {useCallback} from 'react';
 import {Box, Text, Icon, Button} from 'components';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
+import {log} from 'shared/logging/config';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
 export const LearnAboutQRScreen = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
   const requestPermissions = useCallback(async () => {
-    await BarCodeScanner.requestPermissionsAsync();
-    updatePermissions();
+    try {
+      await BarCodeScanner.requestPermissionsAsync();
+      updatePermissions();
+    } catch (err) {
+      log.error({category: 'qr-code', message: err.message});
+    }
   }, [updatePermissions]);
   return (
     <BaseQRCodeScreen showBackButton>

@@ -21,7 +21,7 @@ const config = {
   },
 };
 
-type Category = 'debug' | 'background' | 'configuration' | 'exposure-check' | 'summary' | 'metrics';
+type Category = 'debug' | 'background' | 'configuration' | 'exposure-check' | 'summary' | 'metrics' | 'qr-code';
 
 interface Log {
   info: (payload: {category?: Category; message?: string; payload?: string | {}}) => void;
