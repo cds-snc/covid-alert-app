@@ -67,7 +67,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
               </Text>
             </Box>
             <Box paddingBottom="l">
-              <Box backgroundColor="gray5" paddingHorizontal="l" style={styles.boxStyle}>
+              <Box backgroundColor="gray5" paddingHorizontal="m" style={styles.boxStyle}>
                 <Text fontWeight="bold" marginVertical="s">
                   {name}
                 </Text>
@@ -87,6 +87,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
               variant="thinFlatNoBorder"
               text={i18n.translate('QRCode.CheckInView.CTA1')}
               onPress={navigateHome}
+              alignLeft
             />
           </Box>
           <Box marginHorizontal="m" marginBottom="l">
