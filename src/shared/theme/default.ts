@@ -213,6 +213,19 @@ const theme = {
         borderBottomColor: palette.gray3,
       },
     },
+    opaqueGrey: {
+      color: palette.buttonGrey,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.gray4,
+        textColor: palette.bodyBlack,
+        borderBottomColor: palette.gray3,
+      },
+    },
     thinFlatGrey: {
       color: palette.neutralGrey,
       height: 52,
