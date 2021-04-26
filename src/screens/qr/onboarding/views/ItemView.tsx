@@ -16,6 +16,8 @@ export const ItemView = ({item, image, isActive}: ItemViewProps) => {
   const i18n = useI18n();
   const autoFocusRef = useAccessibilityAutoFocus(isActive);
 
+  const text = i18n.translate(`QRCodeOnboarding.${item}`);
+
   return (
     <>
       <Box marginHorizontal="-m" marginTop="s" marginBottom="l" borderBottomWidth={2} borderBottomColor="gray5">
@@ -30,12 +32,7 @@ export const ItemView = ({item, image, isActive}: ItemViewProps) => {
       <Text variant="bodyTitle" color="overlayBodyText" marginBottom="l" accessible accessibilityRole="header">
         {i18n.translate(`QRCodeOnboarding.${item}Title`)}
       </Text>
-      <TextMultiline
-        text={i18n.translate(`QRCodeOnboarding.${item}`)}
-        variant="bodyText"
-        color="overlayBodyText"
-        marginBottom="l"
-      />
+      <TextMultiline detectBold text={text} variant="bodyText" color="overlayBodyText" marginBottom="l" />
     </>
   );
 };

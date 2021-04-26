@@ -5,15 +5,39 @@ import {Theme} from 'shared/theme/default';
 
 interface TextMultilineProps extends TextProps<Theme> {
   text: string;
+  detectBold?: boolean;
 }
 
-export const TextMultiline = ({text, ...props}: TextMultilineProps) => {
+export const boldText = (input: string) => {
+  const boldPattern = /\*\*(.*?)\*\*/gm;
+  const textSplit = input.split(boldPattern);
+
+  /* no match just return */
+  if (textSplit.length < 3) return input;
+
+  /* wrap Text element if it's "the middle" item i.e. index 1*/
+  return (
+    <>
+      {textSplit.map((t, index) =>
+        index === 1 ? (
+          <Text key={t} fontWeight="bold">
+            {t}
+          </Text>
+        ) : (
+          t
+        ),
+      )}
+    </>
+  );
+};
+
+export const TextMultiline = ({text, detectBold, ...props}: TextMultilineProps) => {
   const textSplit = text.split(/\n\n/g);
   return (
     <>
       {textSplit.map(t => (
         <Text key={t} {...props}>
-          {t}
+          {detectBold ? boldText(t) : t}
         </Text>
       ))}
     </>
