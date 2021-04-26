@@ -4,9 +4,10 @@ import {useEffect} from 'react';
 import {Linking} from 'react-native';
 import {log} from 'shared/logging/config';
 import {useNavigation} from '@react-navigation/native';
-import {CheckInData} from 'shared/qr';
+import {CheckInData, CombinedExposureHistoryData} from 'shared/qr';
 import {getCurrentDate} from 'shared/date-fns';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useExposureHistory} from 'services/ExposureNotificationService';
 import {QR_HOST, QR_CODE_PUBLIC_KEY} from 'env';
 import base64 from 'react-native-base64';
 import nacl from 'tweetnacl';
@@ -17,6 +18,16 @@ interface EventURL {
 
 const base64ToUint8Array = (str: string) => {
   return new Uint8Array(Array.prototype.slice.call(Buffer.from(str, 'base64'), 0));
+};
+
+const parseData = (data: string) => {
+  const _locationData = data.split('\n');
+
+  return {
+    id: _locationData[0],
+    name: _locationData[1],
+    address: _locationData[2],
+  };
 };
 
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
@@ -41,7 +52,9 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
     }
 
     const _locationData = base64.decode(base64Str);
-    const locationData = JSON.parse(_locationData);
+
+    const locationData = parseData(_locationData);
+
     log.debug({message: 'decoded and parsed location data', payload: {locationData}});
     const checkInData: CheckInData = {
       id: locationData.id,
@@ -120,3 +133,22 @@ const combine = (array: GroupedCheckInData[]) => {
   }, {});
   return groupedArray;
 };
+
+// export const combinedExposureArray = () => {
+//   // const {outbreakHistory, addToCombinedExposureHistory, combinedExposureHistory} = useOutbreakService();
+//   // const exposureHistoryProximity = useExposureHistory();
+
+
+//   // if (outbreakHistory.length > 0 ) {
+//   //   outbreakHistory.map(item => {
+//   //     addToCombinedExposureHistory({type: 'outbreak', timestamp: item.checkInTimestamp});
+//   //   });
+
+//     // exposureHistoryProximity.map(item => {
+//     //   addToCombinedExposureHistory({type: 'proximity', timestamp: item});
+//     // })
+//   }
+
+//   // return combinedExposureHistory;
+
+// }

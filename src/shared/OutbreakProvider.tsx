@@ -69,7 +69,6 @@ export class OutbreakService implements OutbreakService {
     const _combinedExposureHistory =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCombinedExposureHistoryKey)) || '[]';
     const combinedExposureHistory = JSON.parse(_combinedExposureHistory);
-    console.log('value', value);
     combinedExposureHistory.push(value);
     await this.storageService.save(
       StorageDirectory.OutbreakServiceCombinedExposureHistoryKey,
@@ -171,6 +170,9 @@ export class OutbreakService implements OutbreakService {
     }
     await this.addToOutbreakHistory(newOutbreakExposures);
     const outbreakHistory = this.outbreakHistory.get();
+    outbreakHistory.map(item => {
+      this.addToCombinedExposureHistory({type: 'outbreak', timestamp: item.checkInTimestamp});
+    });
     log.debug({payload: {outbreakHistory}});
     this.processOutbreakNotification(outbreakHistory);
   };

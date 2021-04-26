@@ -1,13 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useMemo} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 import {useI18n} from 'locale';
 import {CombinedExposureHistoryData} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon, Toolbar, Button} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ScrollView} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {useExposureHistory} from 'services/ExposureNotificationService';
 import {useOutbreakService} from 'shared/OutbreakProvider';
+// import {combinedExposureArray} from './utils';
 import {formatExposedDate, formateScannedDate, accessibilityReadableDate} from 'shared/date-fns';
 
 const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExposureHistoryData[]}) => {
@@ -22,10 +23,24 @@ const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExpos
               {exposureHistoryData.map((data: any, index: number) => {
                 return (
                   <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
-                    <Text key={index}>
-                      <Text fontWeight="bold">{formatExposedDate(new Date(data.timestamp), dateLocale)}</Text>
-                      <Text>{data.type}</Text>
-                    </Text>
+                    <Box paddingVertical="m" style={styles.exposureList}>
+                      <Box style={styles.typeIconBox}>
+                        <Icon size={20} name={data.type === 'proximity' ? 'exposure-proximity' : 'exposure-outbreak'} />
+                      </Box>
+
+                      <Box style={styles.boxFlex}>
+                        {/* <Text key={index}> */}
+                        <Text fontWeight="bold">{formatExposedDate(new Date(data.timestamp), dateLocale)}</Text>
+                        <Text>{data.type}</Text>
+                        {/* </Text> */}
+                      </Box>
+
+                      <Box style={styles.chevronIconBox}>
+                        <TouchableOpacity style={styles.chevronIcon}>
+                          <Icon size={30} name="icon-chevron" />
+                        </TouchableOpacity>
+                      </Box>
+                    </Box>
                   </Box>
                 );
               })}
@@ -58,13 +73,6 @@ export const ExposureHistoryScreen = () => {
     deleteAllCombinedExposureHistory,
     outbreakHistory,
   } = useOutbreakService();
-
-  exposureHistoryProximity.map(time => {
-    const obj = {type: 'proximity', timestamp: time};
-  });
-  outbreakHistory.map(item => {
-    const obj = {type: 'outbreak', timestamp: item.checkInTimestamp};
-  });
 
   const deleteAllPlaces = () => {
     Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
@@ -142,5 +150,22 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  exposureList: {
+    flexDirection: 'row',
+  },
+  boxFlex: {
+    flex: 4,
+  },
+  chevronIcon: {
+    alignItems: 'flex-end',
+  },
+  chevronIconBox: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  typeIconBox: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
