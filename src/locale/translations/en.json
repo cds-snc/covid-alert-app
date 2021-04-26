@@ -122,7 +122,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "COVID Alert is ",
+    "SystemStatus": "COVID Alert is\u00a0",
     "SystemStatusOn": "active",
     "SystemStatusOff": "off",
     "NotificationStatus": "Notifications are ",
@@ -147,11 +147,6 @@
       "Body": "You entered your one-time key but you have not shared any exposures yet.",
       "CTA": "Finish sharing exposures"
     },
-    "TurnAppBackOn": {
-      "Title": "Turn on COVID Alert",
-      "Body": "The app is not recording exposures because you turned it off.",
-      "CTA": "Turn back on"
-    },
     "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
     "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
@@ -162,16 +157,23 @@
     "NoConnectivityCardAction": "COVID Alert is offline",
     "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures.",
     "EnUnauthorizedCardAction": "Enable COVID Alert",
-    "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\"."
+    "EnUnauthorizedCardBody": "Choose Exposure Notifications, then scroll down and turn on \"Share Exposure Information\".",
+    "ShareDiagnosisCode": {
+      "CtaReport": "Enter your one-time key",
+      "CtaFinish": "Finish sharing exposures"
+    }
   },
   "Info": {
     "CheckSymptoms": "Check symptoms",
     "SymptomsUrl": "https://ca.thrive.health/covid19/en",
     "TellAFriend": "Share app",
+    "Support": "Support",
     "LearnMore": "How it works",
     "Help": "Help",
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get a one-time key",
+    "YourVisits": "Your Visits",
+    "YourRecentExposures": "Your recent exposures",
     "ChangeLanguage": "Change language",
     "ToggleCovidAlert": {
       "TurnOff": "Turn off COVID Alert",
@@ -216,6 +218,22 @@
     "step-4Title": "Looking for exposures",
     "step-4AltText": "A hand-drawn illustration of a mobile phone uploading a numeric code to a cloud.",
     "step-4": "Every day, whenever it has an Internet connection, your phone will get a list of the random codes from people who reported a diagnosis.\n\nIf it finds codes that match, the app notifies you that you’ve been exposed and explains what to do next.",
+    "ActionBack": "Back",
+    "ActionNext": "Next",
+    "ActionEnd": "Done",
+    "Close": "Close"
+  },
+  "QRCodeOnboarding": {
+    "step-1Title": "How QR code notifications work",
+    "step-1AltText": "-",
+    "step-1": "Public health identifies when a place has an exposure risk.\n\nEvery day, your app downloads a list of those places and times.\n\nIf there’s a match with one of your visits, the app notifies you and explains what to do next.",
+    "step-2Title": "Your privacy is protected",
+    "step-2AltText": "-",
+    "step-2": "The app saves your visits on your phone, including the dates and times you were there. **Your visits and exposures are not shared** with anyone.\n\nYou can get to your recent visits from the menu. If you need to, you can delete any visit.",
+    "step-3Title": "Help make contact tracing easier",
+    "step-3AltText": "-",
+    "step-3": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from them.",
+    "step-3-banner": "Right now, posters with QR codes are only available in _____ as part of a small-scale pilot project.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -467,8 +485,9 @@
     "End": "List end",
     "Bullet": "Bullet"
   },
+  "MenuButton": "Menu",
   "QRCode": {
-    "CTA": "Scan a place",
+    "CTA": "Add a visit",
     "Reader": {
       "Title": "Point the camera at the QR code",
       "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",
@@ -487,18 +506,33 @@
       "Title": "Access denied",
       "Body": "You said no to COVID Alert using your phone’s camera.\n\nTo scan a place, you’ll need to update your phone’s settings to let COVID Alert  use the camera.\n\nYou can also use your phone’s camera directly or a QR scanning app.",
       "CTA": "Allow camera access in settings",
-      "CTA2": "About scanning a place"
+      "CTA2": "About adding a visit"
+    },
+    "CameraPermissionAlert": {
+      "Title": "« COVID Alert » Would Like to Access the Camera",
+      "Subtitle": "COVID Alert needs access to your camera so it can read the QR code.",
+      "Allow": "Allow",
+      "DontAllow": "Don’t Allow"
+    },
+    "LearnAboutQRScan": {
+      "Title": "How to add a visit",
+      "Body1": "1. Give COVID Alert access to your camera so it can read the QR code.",
+      "Body2": "2. Point your phone at the code."
     },
     "Error": {
       "Title": "QR code not recognized",
-      "Body": "You may not have scanned an official COVID Alert QR code.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "Body": "You may not have scanned an official COVID Alert QR code.\n\nAsk someone for the official COVID Alert poster.",
       "CTA": "Try Again",
       "CTA2": "Back to Home"
     },
     "CheckInView": {
-      "Title": "Scanned",
-      "CTA1": "OK",
-      "CTA2": "Cancel",
+      "Title": "Thank you for adding a visit",
+      "Body1": "You’ll only be notified if someone from today tests positive. ",
+      "Body2": "Your visits are not shared ",
+      "Body3": "with anyone.\n\nRemember to scan each time you visit.",
+      "Body4": "You can delete this visit any time by going into Your visits.",
+      "CTA1": "Back to home",
+      "CTA2": "Your visits",
       "MoreInfo": "Learn more about QR codes and COVID alert"
     },
     "Exposed": {
@@ -508,13 +542,48 @@
       "Title": "Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Scan a place",
-      "Body": "You can get notified if contagious people have visited the same place as you. When you scan COVID Alert QR codes at the places you go, the app saves them to your phone.\n\nThe places you visit",
-      "Body2": " will not be shared with anyone.",
-      "CTA": "Next"
+      "Title": "Add a visit",
+      "Body": "Get notified if someone from today tests positive later.\n\nThe app saves your visits on your phone, including the dates and times you were there.",
+      "Body2": "Your visits are not shared ",
+      "Body3": "with anyone.",
+      "CTA": "Next",
+      "CTA2": "About adding a visit"
+    },
+    "OutbreakExposed": {
+      "Title": "Possible exposure at a visit",
+      "Body": "Someone tested positive from one of your visits.",
+      "NextSteps": {
+        "Title": "Isolate and get tested",
+        "Body": "If you have symptoms, get tested right away. If you do not have symptoms, wait to get tested at least 7 days after the date of exposure.\n\nYou also need to isolate for 14 days from the date of exposure.\n\nIf you have questions, contact your local public health unit.",
+        "CTA": "Negative test?"
+      }
     }
   },
 
+  "PlacesLog": {
+    "Title": "Your Visits",
+    "Body1": "You’ll get notified if there’s a possible exposure from the following visits.",
+    "Body2a": "Your visits are not shared ",
+    "Body2b": "with anyone. They’re only on your phone.",
+    "DeleteBtnCTA": "Delete all visits",
+    "DeleteIcon": "Delete",
+    "NoVisit": "No visits yet",
+    "Back": "Back",
+    "Alert": {
+      "Title": "Are you sure you want to delete this visit?",
+      "TitleDeleteAll": "Are you sure you want to delete all visits?",
+      "Subtitle": "If there’s a possible exposure at this place, you will not be notified.",
+      "SubtitleDeleteAll": "If there’s a possible exposure at any of these places, you will not be notified.",
+      "Cancel": "Cancel",
+      "ConfirmDelete": "Yes, delete",
+      "ConfirmDeleteAll": "Yes, delete all"
+    }
+  },
+  "ExposureHistory": {
+    "Title": "Your recent exposures",
+    "Body": "This list shows your exposures from the last 14 days.",
+    "NoExposures": "No exposures"
+  },
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {

@@ -68,12 +68,12 @@ class ExposureNotificationModule(context: ReactApplicationContext) : ReactContex
     private var getTekResolutionCompleter: CompletableDeferred<Unit>? = null
     private var detectExposureResolutionCompleters = hashMapOf<Token, CompletableDeferred<Token>?>()
 
-    private val bluetoothAdapter: BluetoothAdapter? by lazy(LazyThreadSafetyMode.NONE) {
+    private val bluetoothAdapter: BluetoothAdapter? by lazy {
         val bluetoothManager = context.applicationContext.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
         BluetoothAdapter.getDefaultAdapter() ?: bluetoothManager?.adapter
     }
 
-    private val locationManager: LocationManager? by lazy(LazyThreadSafetyMode.NONE) {
+    private val locationManager: LocationManager? by lazy {
         context.applicationContext.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
     }
 

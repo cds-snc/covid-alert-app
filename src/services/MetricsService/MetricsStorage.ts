@@ -1,10 +1,8 @@
 import PQueue from 'p-queue';
+import {StorageService, StorageDirectory} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
 import {Metric} from './Metric';
-import {SecureKeyValueStore} from './SecureKeyValueStorage';
-
-const MetricsStorageKeyValueUniqueIdentifier = 'AE6AE306-523B-4D92-871E-9D13D5CA9B23';
 
 export interface MetricsStorageWriter {
   save(metrics: Metric[]): Promise<void>;
@@ -19,11 +17,11 @@ export interface MetricsStorageCleaner {
 }
 
 export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStorageReader, MetricsStorageCleaner {
-  private keyValueStore: SecureKeyValueStore;
+  private storageService: StorageService;
   private serialPromiseQueue: PQueue;
 
-  constructor(secureKeyValueStore: SecureKeyValueStore) {
-    this.keyValueStore = secureKeyValueStore;
+  constructor(storageService: StorageService) {
+    this.storageService = storageService;
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 
@@ -34,16 +32,16 @@ export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStora
         message: 'saving metrics',
         payload: metrics,
       });
-      return this.keyValueStore
-        .retrieve(MetricsStorageKeyValueUniqueIdentifier)
+      return this.storageService
+        .retrieve(StorageDirectory.MetricsStorageKey)
         .then(existingMetrics => this.serializeNewMetrics(existingMetrics, metrics))
-        .then(serializedMetrics => this.keyValueStore.save(MetricsStorageKeyValueUniqueIdentifier, serializedMetrics));
+        .then(serializedMetrics => this.storageService.save(StorageDirectory.MetricsStorageKey, serializedMetrics));
     });
   }
 
   retrieve(): Promise<Metric[]> {
     return this.serialPromiseQueue.add(() => {
-      return this.keyValueStore.retrieve(MetricsStorageKeyValueUniqueIdentifier).then(serializedMetrics => {
+      return this.storageService.retrieve(StorageDirectory.MetricsStorageKey).then(serializedMetrics => {
         const metrics = serializedMetrics ? this.deserializeMetrics(serializedMetrics) : [];
         log.debug({
           category: 'debug',
@@ -57,12 +55,12 @@ export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStora
 
   deleteUntilTimestamp(timestamp: number): Promise<void> {
     return this.serialPromiseQueue.add(() => {
-      return this.keyValueStore
-        .retrieve(MetricsStorageKeyValueUniqueIdentifier)
+      return this.storageService
+        .retrieve(StorageDirectory.MetricsStorageKey)
         .then(serializedMetrics => (serializedMetrics ? this.deserializeMetrics(serializedMetrics) : []))
         .then(metrics => metrics.filter(metric => metric.timestamp > timestamp))
         .then(filteredMetrics => this.serializeNewMetrics(null, filteredMetrics))
-        .then(filteredMetrics => this.keyValueStore.save(MetricsStorageKeyValueUniqueIdentifier, filteredMetrics));
+        .then(filteredMetrics => this.storageService.save(StorageDirectory.MetricsStorageKey, filteredMetrics));
     });
   }
 
@@ -80,6 +78,7 @@ export class DefaultMetricsStorage implements MetricsStorageWriter, MetricsStora
   }
 
   private deserializeMetrics(serializedMetrics: string): Metric[] {
+    if (serializedMetrics.trim().length === 0) return [];
     return serializedMetrics.split('#').map(metric => {
       const [timestamp, identifier, region, payload] = metric.split(';');
       const reconstructedPayload: [string, string][] = JSON.parse(payload);

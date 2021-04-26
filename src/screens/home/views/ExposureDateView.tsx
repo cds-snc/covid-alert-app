@@ -4,13 +4,13 @@ import {useI18n} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
 import {formatExposedDate, getCurrentDate, getFirstThreeUniqueDates} from 'shared/date-fns';
 import {ForceScreen} from 'shared/ForceScreen';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
 export const ExposureDateView = () => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
-  const {forceScreen} = useStorage();
+  const {forceScreen} = useCachedStorage();
 
   const exposureNotificationService = useExposureNotificationService();
 

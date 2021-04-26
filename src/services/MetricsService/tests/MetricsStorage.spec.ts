@@ -1,13 +1,14 @@
 import {DefaultMetricsStorage} from '../MetricsStorage';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {StorageServiceMock} from '../../StorageService/tests/StorageServiceMock';
 
-import {RNSecureKeyStoreMock} from './RNSecureKeyStoreMock';
 import {MetricFactory} from './MetricFactory';
 
 describe('MetricsStorage', () => {
   let sut: DefaultMetricsStorage;
 
   beforeEach(() => {
-    sut = new DefaultMetricsStorage(new RNSecureKeyStoreMock());
+    sut = new DefaultMetricsStorage(new StorageServiceMock());
   });
 
   it('can save an retrieve an empty array of metrics', async () => {

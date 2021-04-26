@@ -5,10 +5,14 @@ import androidx.core.app.NotificationCompat
 import androidx.work.*
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
+import app.covidshield.extensions.launch
+import app.covidshield.extensions.log
 import app.covidshield.extensions.parse
 import app.covidshield.extensions.toJson
 import app.covidshield.receiver.worker.ExposureCheckNotificationWorker
 import app.covidshield.receiver.worker.ExposureCheckSchedulerWorker
+import app.covidshield.services.metrics.DebugMetricsHelper
+import app.covidshield.services.metrics.MetricsService
 import com.facebook.react.bridge.*
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +26,7 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
 
     override val coroutineContext: CoroutineContext get() = Dispatchers.Default
 
-    private val workManager: WorkManager by lazy(LazyThreadSafetyMode.NONE) {
+    private val workManager: WorkManager by lazy {
         WorkManager.getInstance(context.applicationContext)
     }
 
@@ -34,39 +38,57 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
 
     @ReactMethod
     fun scheduleExposureCheck(data: ReadableMap, promise: Promise) {
+        promise.launch(this){
+            Log.d("background", "scheduleExposureCheck")
+            try {
+                MetricsService.publishDebugMetric(1.0, context);
 
-        Log.d("background", "scheduleExposureCheck")
-        val config = data.toHashMap().toJson().parse(PeriodicWorkPayload::class.java)
+                val config = data.toHashMap().toJson().parse(PeriodicWorkPayload::class.java)
+                Log.d("Minimum Repeat Interval", MIN_PERIODIC_INTERVAL_MILLIS.toString())
+                Log.d("Config Repeat Interval", config.repeatInterval.toString())
+                Log.d("Minimum Flex Time", MIN_PERIODIC_FLEX_MILLIS.toString())
+                val workerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ExposureCheckSchedulerWorker>(config.repeatInterval, TimeUnit.MILLISECONDS)
+                        .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
+                        .setConstraints(workerConstraints)
+                        .build()
 
-        Log.d("Minimum Repeat Interval", MIN_PERIODIC_INTERVAL_MILLIS.toString())
-        Log.d("Config Repeat Interval", config.repeatInterval.toString())
-        Log.d("Minimum Flex Time", MIN_PERIODIC_FLEX_MILLIS.toString())
-        val workerRequest: PeriodicWorkRequest = PeriodicWorkRequestBuilder<ExposureCheckSchedulerWorker>(config.repeatInterval, TimeUnit.MILLISECONDS)
-                .setInitialDelay(config.initialDelay, TimeUnit.MINUTES)
-                .setConstraints(workerConstraints)
-                .build()
-
-        workManager.enqueueUniquePeriodicWork("exposureCheckSchedulerWorker", ExistingPeriodicWorkPolicy.REPLACE, workerRequest)
+                workManager.enqueueUniquePeriodicWork("exposureCheckSchedulerWorker", ExistingPeriodicWorkPolicy.REPLACE, workerRequest)
+                promise.resolve(null)
+            } catch (exception: Exception) {
+                MetricsService.publishDebugMetric(108.0, context, exception.message ?: "Unknown");
+                promise.reject(exception)
+            }
+        }
     }
 
     @ReactMethod
     fun executeExposureCheck(data: ReadableMap, promise: Promise) {
-        Log.d("background", "executeExposureCheck")
-        val config = data.toHashMap().toJson().parse(NotificationPayload::class.java)
+        promise.launch(this) {
+            Log.d("background", "executeExposureCheck")
+            try {
+                MetricsService.publishDebugMetric(7.0, context)
 
-        val workerData = Data.Builder()
-                .putString("title", config.title)
-                .putString("body", config.body)
-                .putString("channelName", config.channelName)
-                .putBoolean("disableSound", config.disableSound)
-                .build()
+                val config = data.toHashMap().toJson().parse(NotificationPayload::class.java)
 
-        val workerRequest: OneTimeWorkRequest = OneTimeWorkRequestBuilder<ExposureCheckNotificationWorker>()
-                .setInputData(workerData)
-                .setConstraints(workerConstraints)
-                .build()
+                val workerData = Data.Builder()
+                        .putString("title", config.title)
+                        .putString("body", config.body)
+                        .putString("channelName", config.channelName)
+                        .putBoolean("disableSound", config.disableSound)
+                        .build()
 
-        workManager.enqueueUniqueWork("exposureCheckNotificationWorker", ExistingWorkPolicy.REPLACE, workerRequest)
+                val workerRequest: OneTimeWorkRequest = OneTimeWorkRequestBuilder<ExposureCheckNotificationWorker>()
+                        .setInputData(workerData)
+                        .setConstraints(workerConstraints)
+                        .build()
+
+                workManager.enqueueUniqueWork("exposureCheckNotificationWorker", ExistingWorkPolicy.REPLACE, workerRequest)
+                promise.resolve(null)
+            } catch (exception: Exception) {
+                MetricsService.publishDebugMetric(109.0, context, exception.message ?: "Unknown");
+                promise.reject(exception)
+            }
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Theme} from 'shared/theme';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
 import {Box} from './Box';
 import {Button} from './Button';
@@ -19,7 +18,6 @@ export interface InfoBlockProps {
     action: () => void;
   };
   showButton?: boolean;
-  focusOnTitle?: boolean;
 }
 
 export const InfoBlock = ({
@@ -31,9 +29,7 @@ export const InfoBlock = ({
   title,
   titleBolded,
   showButton,
-  focusOnTitle,
 }: InfoBlockProps) => {
-  const autoFocusRef = useAccessibilityAutoFocus(focusOnTitle);
   return (
     <Box borderRadius={10} backgroundColor={backgroundColor} padding="m" alignItems="flex-start">
       {icon && (
@@ -43,12 +39,7 @@ export const InfoBlock = ({
       )}
       {(title || titleBolded) && (
         <Box marginBottom="s" justifyContent="center" flexDirection="row" flexWrap="wrap">
-          <Text
-            focusRef={focusOnTitle ? autoFocusRef : null}
-            variant="menuItemTitle"
-            accessibilityRole="header"
-            textAlign="left"
-          >
+          <Text variant="menuItemTitle" accessibilityRole="header" textAlign="left">
             {title && <Text color={color}>{title}</Text>}
             {titleBolded && (
               <Text color={color} variant="menuItemTitle" fontWeight="bold">

@@ -18,12 +18,10 @@ export const Step2Screen = () => {
     setRadio(val);
   };
   const onError = useCallback(() => {
-    Alert.alert(i18n.translate(`Errors.DataSharingStep2.Title`), i18n.translate(`Errors.DataSharingStep2.Body`), [
-      {text: i18n.translate(`Errors.DataSharingStep2.Action`)},
-    ]);
+    Alert.alert('', i18n.translate(`Errors.DataSharingStep2.Body`), [{text: ''}]);
   }, [i18n]);
   return (
-    <BaseDataSharingView>
+    <BaseDataSharingView closeRoute="Home">
       <ScrollView style={styles.flex}>
         <Box marginHorizontal="m">
           <StepXofY currentStep={2} />

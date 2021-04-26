@@ -1,6 +1,5 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 
-const UUID_KEY = 'UUID_KEY';
 let currentUUID = '';
 
 const getRandomString = (size: number) => {
@@ -9,17 +8,18 @@ const getRandomString = (size: number) => {
   return [...Array(size)].map(_ => chars[(Math.random() * chars.length) | 0]).join('');
 };
 
-const cachedUUID = AsyncStorage.getItem(UUID_KEY)
+const cachedUUID = DefaultStorageService.sharedInstance()
+  .retrieve(StorageDirectory.UUIDKey)
   .then(uuid => uuid || getRandomString(8))
   .then(uuid => {
-    AsyncStorage.setItem(UUID_KEY, uuid);
+    DefaultStorageService.sharedInstance().save(StorageDirectory.UUIDKey, uuid);
     return uuid;
   })
   .catch(() => null);
 
 export const setLogUUID = (uuid: string) => {
   currentUUID = uuid;
-  AsyncStorage.setItem(UUID_KEY, uuid);
+  DefaultStorageService.sharedInstance().save(StorageDirectory.UUIDKey, uuid);
 };
 
 export const getLogUUID = async () => {

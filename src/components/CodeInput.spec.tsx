@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import {ThemeProvider} from 'shared/theme';
-import {StorageServiceProvider} from 'services/StorageService';
+import {CachedStorageServiceProvider} from 'services/StorageService';
 
 import {CodeInput} from './CodeInput';
 
@@ -18,11 +18,11 @@ describe('CodeInput', () => {
   beforeEach(async () => {
     componentQuery = await waitFor(() =>
       render(
-        <StorageServiceProvider>
+        <CachedStorageServiceProvider>
           <ThemeProvider>
             <CodeInput value="" onChange={changeMock} accessibilityLabel="codeInput" />
           </ThemeProvider>
-        </StorageServiceProvider>,
+        </CachedStorageServiceProvider>,
       ),
     );
   });

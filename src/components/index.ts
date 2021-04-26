@@ -1,4 +1,3 @@
-export * from './BottomSheet';
 export * from './Box';
 export * from './Button';
 export * from './InfoButton';
@@ -8,6 +7,7 @@ export * from './BulletPointPurple';
 export * from './ButtonMultiline';
 export * from './ButtonSingleLine';
 export * from './ButtonSelect';
+export * from './ButtonWrapper';
 export * from './CodeInput';
 export * from './Header';
 export * from './Icon';

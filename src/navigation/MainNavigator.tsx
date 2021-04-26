@@ -3,6 +3,7 @@ import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
+import {QRCodeOnboardScreen} from 'screens/qr/onboarding/Tutorial';
 import {
   FormScreen,
   Step0Screen,
@@ -14,7 +15,7 @@ import {
   TestDateScreen,
 } from 'screens/datasharing';
 import {LanguageScreen} from 'screens/language';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {RegionPickerSettingsScreen, RegionPickerExposedNoPTScreen} from 'screens/regionPicker';
 import {NoCodeScreen} from 'screens/nocode/NoCode';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -27,9 +28,10 @@ import {DismissAlertScreen} from 'screens/home/views/ClearExposureView';
 import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableView';
 import {CheckInSuccessfulScreen} from 'screens/qr/CheckInSuccessfulScreen';
 import {InvalidQRCodeScreen} from 'screens/qr/InvalidQRCodeScreen';
-import {LearnAboutQRScreen} from 'screens/qr/LearnAboutQRScreen';
 import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
+import {ExposureHistoryScreen} from 'screens/qr/ExposureHistoryScreen';
 import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
+import {MenuScreen} from 'screens/menu/MenuScreen';
 import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
@@ -75,11 +77,13 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Home: undefined;
   Onboarding: undefined;
   Tutorial: undefined;
+  QROnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
 const TutorialScreenWithNavBar = withDarkNav(TutorialScreen);
+const QRCodeOnboardScreenWithNavBar = withDarkNav(QRCodeOnboardScreen);
 const Step0ScreenWithNavBar = withDarkNav(Step0Screen);
 const IntermediateInstructionScreenWithNavBar = withDarkNav(IntermediateInstructionScreen);
 const Step2ScreenWithNavBar = withDarkNav(Step2Screen);
@@ -98,10 +102,11 @@ const DismissAlertScreenWithNavBar = withDarkNav(DismissAlertScreen);
 const QRCodeReaderScreenWithNavBar = withDarkNav(QRCodeReaderScreen);
 const CheckInSuccessfulScreenWithNavBar = withDarkNav(CheckInSuccessfulScreen);
 const InvalidQRCodeScreenWithNavBar = withDarkNav(InvalidQRCodeScreen);
-const LearnAboutQRScreenWithNavBar = withDarkNav(LearnAboutQRScreen);
 const OnboardingWithNavBar = withDarkNavNonModal(OnboardingScreen);
-const CheckInHistoryScreenWithNavBar = withDarkNavNonModal(CheckInHistoryScreen);
+const CheckInHistoryScreenWithNavBar = withDarkNav(CheckInHistoryScreen);
+const ExposureHistoryScreenWithNavBar = withDarkNav(ExposureHistoryScreen);
 const QRCodeIntroScreenWithNavBar = withDarkNav(QRCodeIntroScreen);
+const MenuScreenWithNavBar = withDarkNav(MenuScreen);
 const ClearOutbreakExposureScreenWithNavBar = withDarkNav(ClearOutbreakExposureScreen);
 
 const OnboardingStack = createStackNavigator();
@@ -143,7 +148,7 @@ const DataSharingNavigator = () => {
 
 const QRCodeStack = createStackNavigator();
 const QRCodeNavigator = () => {
-  const {hasViewedQrInstructions} = useStorage();
+  const {hasViewedQrInstructions} = useCachedStorage();
   return (
     <QRCodeStack.Navigator
       screenOptions={{headerShown: false}}
@@ -152,8 +157,8 @@ const QRCodeNavigator = () => {
       <QRCodeStack.Screen name="QRCodeReaderScreen" component={QRCodeReaderScreenWithNavBar} />
       <QRCodeStack.Screen name="InvalidQRCodeScreen" component={InvalidQRCodeScreenWithNavBar} />
       <QRCodeStack.Screen name="CheckInSuccessfulScreen" component={CheckInSuccessfulScreenWithNavBar} />
-      <QRCodeStack.Screen name="LearnAboutQRScreen" component={LearnAboutQRScreenWithNavBar} />
       <QRCodeStack.Screen name="QRCodeIntroScreen" component={QRCodeIntroScreenWithNavBar} />
+      <QRCodeStack.Screen name="QRCodeOnboard" component={QRCodeOnboardScreenWithNavBar} />
     </QRCodeStack.Navigator>
   );
 };
@@ -165,7 +170,7 @@ const forFade = ({current}: {current: any}) => ({
 });
 
 const MainNavigator = () => {
-  const {isOnboarding} = useStorage();
+  const {isOnboarding} = useCachedStorage();
   return (
     <MainStack.Navigator
       screenOptions={{headerShown: false}}
@@ -195,6 +200,8 @@ const MainNavigator = () => {
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
       <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
+      <MainStack.Screen name="ExposureHistoryScreen" component={ExposureHistoryScreenWithNavBar} />
+      <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
       <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
     </MainStack.Navigator>
   );

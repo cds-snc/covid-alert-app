@@ -6,9 +6,9 @@ import {useI18n} from 'locale';
 import {useReportDiagnosis, cannotGetTEKsError, useExposureHistory} from 'services/ExposureNotificationService';
 import {covidshield} from 'services/BackendService/covidshield';
 import {xhrError} from 'shared/fetch';
-import AsyncStorage from '@react-native-community/async-storage';
-import {INITIAL_TEK_UPLOAD_COMPLETE, ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
+import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -19,6 +19,8 @@ interface BaseTekUploadViewProps {
   secondaryButtonText?: string;
   secondaryButtonOnPress?(): void;
   showBackButton?: boolean;
+  closeRoute?: string;
+  uploadOtkEntryMetric?: boolean;
 }
 
 export const BaseTekUploadView = ({
@@ -28,6 +30,8 @@ export const BaseTekUploadView = ({
   secondaryButtonText,
   secondaryButtonOnPress,
   showBackButton = true,
+  closeRoute = '',
+  uploadOtkEntryMetric = true,
 }: BaseTekUploadViewProps) => {
   const navigation = useNavigation();
   const i18n = useI18n();
@@ -36,7 +40,7 @@ export const BaseTekUploadView = ({
   const exposureHistory = useExposureHistory();
 
   const onSuccess = useCallback(() => {
-    AsyncStorage.setItem(INITIAL_TEK_UPLOAD_COMPLETE, 'true');
+    DefaultStorageService.sharedInstance().save(StorageDirectory.GlobalInitialTekUploadCompleteKey, 'true');
     navigation.navigate('Home');
   }, [navigation]);
   // TEK = Temporary Exposure Key
@@ -80,10 +84,12 @@ export const BaseTekUploadView = ({
       setLoading(false);
       setIsUploading(false);
 
-      if (!contagiousDateInfo || contagiousDateInfo.dateType === ContagiousDateType.None || !contagiousDateInfo.date) {
-        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkNoDate, exposureHistory});
-      } else {
-        FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.OtkWithDate});
+      if (uploadOtkEntryMetric) {
+        FilteredMetricsService.sharedInstance().addEvent({
+          type: EventTypeMetric.OtkEntered,
+          withDate: contagiousDateInfo.dateType !== ContagiousDateType.None,
+          isUserExposed: exposureHistory.length > 0,
+        });
       }
 
       onSuccess();
@@ -92,7 +98,15 @@ export const BaseTekUploadView = ({
       setIsUploading(false);
       onError(error);
     }
-  }, [contagiousDateInfo, exposureHistory, fetchAndSubmitKeys, onError, onSuccess, setIsUploading]);
+  }, [
+    contagiousDateInfo,
+    exposureHistory.length,
+    fetchAndSubmitKeys,
+    onError,
+    onSuccess,
+    setIsUploading,
+    uploadOtkEntryMetric,
+  ]);
 
   if (loading) {
     return (
@@ -102,7 +116,7 @@ export const BaseTekUploadView = ({
     );
   }
   return (
-    <BaseDataSharingView showBackButton={showBackButton}>
+    <BaseDataSharingView showBackButton={showBackButton} closeRoute={closeRoute}>
       <ScrollView style={styles.flex}>{children}</ScrollView>
       <Box paddingHorizontal="m" paddingTop="m" marginBottom="m">
         <Button

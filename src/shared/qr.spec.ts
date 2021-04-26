@@ -82,7 +82,7 @@ describe('doTimeWindowsOverlap', () => {
     [windowC, windowA, false],
     [windowB, windowC, true],
     [windowC, windowB, true],
-  ])('Does %p overlap with %p? Result=%p', (window1, window2, result) => {
+  ])('does %p overlap with %p? Result=%p', (window1, window2, result) => {
     expect(doTimeWindowsOverlap(window1, window2)).toStrictEqual(result);
   });
 });
@@ -96,6 +96,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
     {locationId: '1', startTime: t1100, endTime: t1300},
     {locationId: '2', startTime: t1100, endTime: t1300},
   ];
+
   it('returns exposed if there is a match', () => {
     const checkInHistory: CheckInData[] = [
       {id: '1', timestamp: t1200, address: '', name: ''},
@@ -133,6 +134,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
     const newHistory = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(newHistory)).toStrictEqual(false);
   });
+
   it('returns monitoring if id matches but time does not', () => {
     const checkInHistory: CheckInData[] = [
       {id: '1', timestamp: t1400, address: '', name: ''},

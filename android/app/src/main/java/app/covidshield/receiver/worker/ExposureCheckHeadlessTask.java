@@ -2,7 +2,6 @@ package app.covidshield.receiver.worker;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -14,8 +13,9 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 import com.facebook.react.jstasks.HeadlessJsTaskContext;
 import com.facebook.react.jstasks.HeadlessJsTaskEventListener;
-import com.transistorsoft.tsbackgroundfetch.BackgroundFetch;
 import com.facebook.react.common.LifecycleState;
+
+import app.covidshield.services.metrics.MetricsService;
 
 /**
  * Created by chris on 2018-01-17 for https://github.com/cds-snc/react-native-background-fetch
@@ -29,16 +29,19 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
     private HeadlessJsTaskContext mActiveTaskContext;
 
     public ExposureCheckHeadlessTask(Context context, String taskId) {
+        MetricsService.publishDebugMetric(3.3, context);
         try {
             ReactApplication reactApplication = ((ReactApplication) context.getApplicationContext());
             mReactNativeHost = reactApplication.getReactNativeHost();
         } catch (AssertionError | ClassCastException e) {
-            Log.e(BackgroundFetch.TAG, "Failed to fetch ReactApplication.  Task ignored.");
+            MetricsService.publishDebugMetric(100, context, e.getMessage());
+            // Log.e(BackgroundFetch.TAG, "Failed to fetch ReactApplication.  Task ignored.");
             return;  // <-- Do nothing.  Just return
         }
         WritableMap clientEvent = new WritableNativeMap();
         clientEvent.putString("taskId", taskId);
         HeadlessJsTaskConfig config = new HeadlessJsTaskConfig(taskId, clientEvent, 30000);
+        MetricsService.publishDebugMetric(3.4, context);
         startTask(config);
     }
 
@@ -50,12 +53,12 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
 
     @Override
     public void onHeadlessJsTaskStart(int taskId) {
-        Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskStart: " + taskId);
+        // Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskStart: " + taskId);
     }
 
     @Override
     public void onHeadlessJsTaskFinish(int taskId) {
-        Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskFinish: " + taskId);
+        // Log.d(BackgroundFetch.TAG, "onHeadlessJsTaskFinish: " + taskId);
         mActiveTaskContext.removeTaskEventListener(this);
     }
 
@@ -75,9 +78,11 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
                 @Override
                 public void onReactContextInitialized(final ReactContext reactContext) {
                     // Hack to fix unknown problem executing asynchronous BackgroundTask when ReactContext is created *first time*.  Fixed by adding short delay before #invokeStartTask
+                    MetricsService.publishDebugMetric(3.5, reactContext);
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            MetricsService.publishDebugMetric(3.6, reactContext);
                             invokeStartTask(reactContext, taskConfig);
                         }
                     }, 500);
@@ -88,31 +93,43 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
                 reactInstanceManager.createReactContextInBackground();
             }
         } else {
+            MetricsService.publishDebugMetric(3.8, reactContext);
             invokeStartTask(reactContext, taskConfig);
         }
     }
 
     private void invokeStartTask(ReactContext reactContext, final HeadlessJsTaskConfig taskConfig) {
-        if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
+
+        try {
+            if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
+                MetricsService.publishDebugMetric(3.9, reactContext);
+                return;
+            }
+        } catch (Exception exception) {
+            MetricsService.publishDebugMetric(109, reactContext, exception.getMessage());
             return;
         }
-        final HeadlessJsTaskContext headlessJsTaskContext = HeadlessJsTaskContext.getInstance(reactContext);
-        headlessJsTaskContext.addTaskEventListener(this);
-        mActiveTaskContext = headlessJsTaskContext;
+
         try {
+            final HeadlessJsTaskContext headlessJsTaskContext = HeadlessJsTaskContext.getInstance(reactContext);
+            headlessJsTaskContext.addTaskEventListener(this);
+            mActiveTaskContext = headlessJsTaskContext;
+
+            MetricsService.publishDebugMetric(3.10, reactContext);
             UiThreadUtil.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    MetricsService.publishDebugMetric(3.11, reactContext);
                     try {
                         int taskId = headlessJsTaskContext.startTask(taskConfig);
-                    } catch (IllegalStateException exception) {
-                        Log.e(BackgroundFetch.TAG, "Headless task attempted to run in the foreground.  Task ignored.");
+                    } catch (Exception exception) {
+                        MetricsService.publishDebugMetric(104, reactContext, exception.getMessage());
                         return;  // <-- Do nothing.  Just return
                     }
                 }
             });
-        } catch (IllegalStateException exception) {
-            Log.e(BackgroundFetch.TAG, "Headless task attempted to run in the foreground.  Task ignored.");
+        } catch (Exception exception) {
+            MetricsService.publishDebugMetric(105, reactContext, exception.getMessage());
             return;  // <-- Do nothing.  Just return
         }
 

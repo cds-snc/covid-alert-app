@@ -1,13 +1,9 @@
 import {TEST_MODE} from 'env';
-import AsyncStorage from '@react-native-community/async-storage';
 import React, {useContext, useEffect, useMemo, useState} from 'react';
-import {Key} from 'services/StorageService';
+import {DefaultStorageService, StorageService, StorageDirectory} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {useI18nRef, I18n} from 'locale';
 import PQueue from 'p-queue';
-
-// eslint-disable-next-line @shopify/strict-component-boundaries
-import {DefaultSecureKeyValueStore, SecureKeyValueStore} from '../services/MetricsService/SecureKeyValueStorage';
 
 import {Observable} from './Observable';
 import {
@@ -21,8 +17,6 @@ import {
 import {createCancellableCallbackPromise} from './cancellablePromise';
 import {getCurrentDate, minutesBetween} from './date-fns';
 import {log} from './logging/config';
-
-const OutbreaksLastCheckedStorageKey = 'A436ED42-707E-11EB-9439-0242AC130002';
 
 const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 
@@ -39,7 +33,7 @@ export class OutbreakService implements OutbreakService {
   outbreakHistory: Observable<OutbreakHistoryItem[]>;
   checkInHistory: Observable<CheckInData[]>;
   i18n: I18n;
-  secureKeyValueStore: SecureKeyValueStore;
+  storageService: StorageService;
 
   private serialPromiseQueue: PQueue;
 
@@ -47,45 +41,78 @@ export class OutbreakService implements OutbreakService {
     this.outbreakHistory = new Observable<OutbreakHistoryItem[]>([]);
     this.checkInHistory = new Observable<CheckInData[]>([]);
     this.i18n = i18n;
-    this.secureKeyValueStore = new DefaultSecureKeyValueStore();
+    this.storageService = DefaultStorageService.sharedInstance();
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 
   clearOutbreakHistory = async () => {
-    await AsyncStorage.setItem(Key.OutbreakHistory, JSON.stringify([]));
+    await this.storageService.save(StorageDirectory.OutbreakServiceOutbreakHistoryKey, JSON.stringify([]));
     this.outbreakHistory.set([]);
   };
 
   addToOutbreakHistory = async (value: OutbreakHistoryItem[]) => {
-    const _outbreakHistory = (await AsyncStorage.getItem(Key.OutbreakHistory)) || '[]';
+    const _outbreakHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';
     const outbreakHistory = JSON.parse(_outbreakHistory);
     const newOutbreakHistory = outbreakHistory.concat(value);
-    await AsyncStorage.setItem(Key.OutbreakHistory, JSON.stringify(newOutbreakHistory));
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
+      JSON.stringify(newOutbreakHistory),
+    );
     this.outbreakHistory.set(newOutbreakHistory);
   };
 
   addCheckIn = async (value: CheckInData) => {
-    const _checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
+    const _checkInHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     const checkInHistory = JSON.parse(_checkInHistory);
     checkInHistory.push(value);
-    await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(checkInHistory));
+    await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify(checkInHistory));
     this.checkInHistory.set(checkInHistory);
   };
 
   removeCheckIn = async () => {
     // removes most recent Check In
-    const _checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
+    const _checkInHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     const checkInHistory = JSON.parse(_checkInHistory);
     const newCheckInHistory = checkInHistory.slice(0, -1);
-    await AsyncStorage.setItem(Key.CheckInHistory, JSON.stringify(newCheckInHistory));
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceCheckInHistoryKey,
+      JSON.stringify(newCheckInHistory),
+    );
     this.checkInHistory.set(newCheckInHistory);
   };
 
+  deleteScannedPlaces = async (value: string) => {
+    const _checkInHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
+    const checkInHistory = JSON.parse(_checkInHistory);
+    const index = checkInHistory.findIndex((item: {id: string}) => item.id === value);
+    const newCheckInHistory = checkInHistory;
+    if (index !== -1) {
+      newCheckInHistory.splice(index, 1);
+    }
+
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceCheckInHistoryKey,
+      JSON.stringify(newCheckInHistory),
+    );
+    this.checkInHistory.set(newCheckInHistory);
+  };
+
+  deleteAllScannedPlaces = async () => {
+    await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify([]));
+    this.checkInHistory.set([]);
+  };
+
   init = async () => {
-    const outbreakHistory = (await AsyncStorage.getItem(Key.OutbreakHistory)) || '[]';
+    const outbreakHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';
     this.outbreakHistory.set(JSON.parse(outbreakHistory));
 
-    const checkInHistory = (await AsyncStorage.getItem(Key.CheckInHistory)) || '[]';
+    const checkInHistory =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 
@@ -134,13 +161,16 @@ export class OutbreakService implements OutbreakService {
   };
 
   private getOutbreaksLastCheckedDateTime(): Promise<Date | null> {
-    return this.secureKeyValueStore
-      .retrieve(OutbreaksLastCheckedStorageKey)
+    return this.storageService
+      .retrieve(StorageDirectory.OutbreakProviderOutbreaksLastCheckedStorageKey)
       .then(value => (value ? new Date(Number(value)) : null));
   }
 
   private markOutbreaksLastCheckedDateTime(date: Date): Promise<void> {
-    return this.secureKeyValueStore.save(OutbreaksLastCheckedStorageKey, `${date.getTime()}`);
+    return this.storageService.save(
+      StorageDirectory.OutbreakProviderOutbreaksLastCheckedStorageKey,
+      `${date.getTime()}`,
+    );
   }
 }
 
@@ -198,6 +228,19 @@ export const useOutbreakService = () => {
     },
     [outbreakService],
   );
+  const deleteScannedPlaces = useMemo(
+    () => (id: string) => {
+      outbreakService.deleteScannedPlaces(id);
+    },
+    [outbreakService],
+  );
+
+  const deleteAllScannedPlaces = useMemo(
+    () => () => {
+      outbreakService.deleteAllScannedPlaces();
+    },
+    [outbreakService],
+  );
 
   useEffect(() => outbreakService.checkInHistory.observe(addCheckInInternal), [outbreakService.checkInHistory]);
   useEffect(() => outbreakService.outbreakHistory.observe(setOutbreakHistoryInternal), [
@@ -211,8 +254,19 @@ export const useOutbreakService = () => {
       checkForOutbreaks,
       addCheckIn,
       removeCheckIn,
+      deleteScannedPlaces,
+      deleteAllScannedPlaces,
       checkInHistory,
     }),
-    [outbreakHistory, clearOutbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
+    [
+      outbreakHistory,
+      clearOutbreakHistory,
+      checkForOutbreaks,
+      addCheckIn,
+      removeCheckIn,
+      deleteScannedPlaces,
+      deleteAllScannedPlaces,
+      checkInHistory,
+    ],
   );
 };

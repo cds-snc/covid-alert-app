@@ -226,6 +226,7 @@ describe('date-fns', () => {
         'Jan. 1 2021',
       ]);
     });
+
     it('gets only the first 3 dates from an array of formatted dates', () => {
       expect(getFirstThreeUniqueDates(['Jan. 4 2021', 'Jan. 3 2021', 'Jan. 2 2021', 'Jan. 1 2021'])).toStrictEqual([
         'Jan. 4 2021',

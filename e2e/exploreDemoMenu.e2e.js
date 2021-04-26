@@ -19,6 +19,7 @@ describe('Demo menu test', () => {
   it('onboard', async () => {
     await onboard();
   });
+
   it('open demo menu', async () => {
     await expect(element(by.id('headerButton'))).toBeVisible();
     await element(by.id('headerButton')).tap();

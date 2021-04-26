@@ -1,17 +1,12 @@
 import PushNotification from 'bridge/PushNotification';
-import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_NAME, NOTIFICATION_FEED_URL, TEST_MODE} from 'env';
 import semver from 'semver';
 import {log} from 'shared/logging/config';
-import RNSecureKeyStore, {ACCESSIBLE} from 'react-native-secure-key-store';
 import {getCurrentDate, minutesBetween} from 'shared/date-fns';
 import {I18n} from 'locale';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 
 import {NotificationMessage} from './types';
-
-const READ_RECEIPTS_KEY = 'NotificationReadReceipts';
-const ETAG_STORAGE_KEY = 'NotificationsEtag';
-const LastPollNotificationDateTime = 'LastPollNotificationDateTimeKey';
 
 // 24 hours
 const MIN_POLL_NOTIFICATION_MINUTES = TEST_MODE ? 2 : 60 * 24;
@@ -27,8 +22,10 @@ const checkForNotifications = async (i18n: I18n) => {
 
   const readReceipts: string[] = await getReadReceipts();
 
-  const selectedRegion: string = (await AsyncStorage.getItem('Region')) || 'CA';
-  const selectedLocale: string = (await AsyncStorage.getItem('Locale')) || 'en';
+  const selectedRegion: string =
+    (await DefaultStorageService.sharedInstance().retrieve(StorageDirectory.GlobalRegionKey)) || 'CA';
+  const selectedLocale: string =
+    (await DefaultStorageService.sharedInstance().retrieve(StorageDirectory.GlobalLocaleKey)) || 'en';
   const messageToDisplay = messages.find(message =>
     shouldDisplayNotification(message, selectedRegion, selectedLocale, readReceipts),
   );
@@ -51,7 +48,9 @@ const checkForNotifications = async (i18n: I18n) => {
 };
 
 const getReadReceipts = async (): Promise<string[]> => {
-  const readReceipts = await AsyncStorage.getItem(READ_RECEIPTS_KEY);
+  const readReceipts = await DefaultStorageService.sharedInstance().retrieve(
+    StorageDirectory.PollNotificationServiceReadReceiptsKey,
+  );
 
   if (readReceipts) {
     return JSON.parse(readReceipts);
@@ -61,11 +60,14 @@ const getReadReceipts = async (): Promise<string[]> => {
 };
 
 const saveReadReceipts = async (receipts: string[]) => {
-  await AsyncStorage.setItem(READ_RECEIPTS_KEY, JSON.stringify(receipts));
+  await DefaultStorageService.sharedInstance().save(
+    StorageDirectory.PollNotificationServiceReadReceiptsKey,
+    JSON.stringify(receipts),
+  );
 };
 
 const clearNotificationReceipts = async () => {
-  await AsyncStorage.removeItem(READ_RECEIPTS_KEY);
+  await DefaultStorageService.sharedInstance().delete(StorageDirectory.PollNotificationServiceReadReceiptsKey);
 };
 
 const shouldDisplayNotification = (
@@ -113,7 +115,9 @@ const checkRegion = (target: string[], selected: string): boolean => {
 
 // Fetch notifications from the endpoint
 const fetchNotifications = async (): Promise<NotificationMessage[]> => {
-  const etag = await AsyncStorage.getItem(ETAG_STORAGE_KEY);
+  const etag = await DefaultStorageService.sharedInstance().retrieve(
+    StorageDirectory.PollNotificationServiceEtagStorageKey,
+  );
   const headers: any = {};
 
   try {
@@ -163,7 +167,10 @@ const fetchNotifications = async (): Promise<NotificationMessage[]> => {
         category: 'debug',
         message: 'Storing etag',
       });
-      await AsyncStorage.setItem(ETAG_STORAGE_KEY, newEtag);
+      await DefaultStorageService.sharedInstance().save(
+        StorageDirectory.PollNotificationServiceEtagStorageKey,
+        newEtag,
+      );
     }
 
     const json = await response.json();
@@ -188,23 +195,26 @@ const shouldPollNotifications = (lastPollNotificationDateTime: Date | null): boo
 
   const today = getCurrentDate();
   const minutesSinceLastPollNotification = minutesBetween(new Date(Number(lastPollNotificationDateTime)), today);
-  // randomize the upload window, to stagger when phones are uploading the metrics
-  const randomMinutes = Math.floor(Math.random() * MIN_POLL_NOTIFICATION_MINUTES);
+
   log.debug({
     category: 'debug',
-    message: `Minutes Since Last Poll Notification: ${minutesSinceLastPollNotification}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}, RandomMinutes: ${randomMinutes}`,
+    message: `Minutes Since Last Poll Notification: ${minutesSinceLastPollNotification}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}`,
   });
-  return minutesSinceLastPollNotification > MIN_POLL_NOTIFICATION_MINUTES + randomMinutes;
+
+  return minutesSinceLastPollNotification > MIN_POLL_NOTIFICATION_MINUTES;
 };
 
-const getLastPollNotificationDateTime = async (): Promise<any> => {
-  return RNSecureKeyStore.get(LastPollNotificationDateTime).catch(() => null);
+const getLastPollNotificationDateTime = async (): Promise<Date | null> => {
+  return DefaultStorageService.sharedInstance()
+    .retrieve(StorageDirectory.PollNotificationServiceLastPollNotificationDateTimeKey)
+    .then(value => (value ? new Date(Number(value)) : null));
 };
 
 const markLastPollDateTime = async (date: Date): Promise<void> => {
-  return RNSecureKeyStore.set(LastPollNotificationDateTime, `${date.getTime()}`, {
-    accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
-  }).catch(() => null);
+  return DefaultStorageService.sharedInstance().save(
+    StorageDirectory.PollNotificationServiceLastPollNotificationDateTimeKey,
+    `${date.getTime()}`,
+  );
 };
 
 export const PollNotifications = {

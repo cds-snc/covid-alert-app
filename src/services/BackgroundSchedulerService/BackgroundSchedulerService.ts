@@ -1,19 +1,18 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {AppRegistry, Platform} from 'react-native';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
-import AsyncStorage from '@react-native-community/async-storage';
-import RNSecureKeyStore from 'react-native-secure-key-store';
-import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
+import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
+import ExposureNotification from 'bridge/ExposureNotification';
+import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
 import {log} from '../../shared/logging/config';
 import {ExposureNotificationService} from '../ExposureNotificationService';
 import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
-import {createStorageService} from '../StorageService';
+import {DefaultStorageService} from '../StorageService';
 import {BackendService} from '../BackendService';
 import {createBackgroundI18n} from '../../locale';
-import ExposureNotification from '../../bridge/ExposureNotification';
 
 const BACKGROUND_TASK_ID = 'app.covidshield.exposure-notification';
 
@@ -25,6 +24,7 @@ export const PERIODIC_TASK_INTERVAL_IN_MINUTES = TEST_MODE ? 15 : 240;
 export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 1 : PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
 
 const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationService?: ExposureNotificationService) => {
+  publishDebugMetric(0);
   if (Platform.OS === 'ios') {
     // iOS only
     BackgroundFetch.configure(
@@ -122,18 +122,22 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
       await BackgroundFetch.stop('react-native-background-fetch');
 
       // Setup new periodic task to use WorkManager
-      const storageService = await createStorageService();
-      const backendService = new BackendService(RETRIEVE_URL, SUBMIT_URL, HMAC_KEY, storageService?.region);
+      const backendService = new BackendService(
+        RETRIEVE_URL,
+        SUBMIT_URL,
+        HMAC_KEY,
+        DefaultStorageService.sharedInstance(),
+      );
       const i18n = await createBackgroundI18n();
       const exposureNotificationService = new ExposureNotificationService(
         backendService,
         i18n,
-        AsyncStorage,
-        RNSecureKeyStore,
+        DefaultStorageService.sharedInstance(),
         ExposureNotification,
         FilteredMetricsService.sharedInstance(),
       );
       registerPeriodicTask(async () => {
+        await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
         await exposureNotificationService.updateExposureStatusInBackground();
       }, exposureNotificationService);
     } catch (error) {
@@ -151,6 +155,7 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
 };
 
 const registerAndroidHeadlessExposureCheckPeriodicTask = (task: PeriodicTask) => {
+  publishDebugMetric(4.2);
   if (Platform.OS !== 'android') return;
 
   AppRegistry.registerHeadlessTask('EXPOSURE_CHECK_HEADLESS_TASK', () => async () => {

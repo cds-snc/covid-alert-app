@@ -22,9 +22,7 @@ export const doesPlatformSupportV2 = (
   }
   let numericVersion: number;
   if (typeof Platform.Version === 'string') {
-    const majorMinorVersion = Platform.Version.split('.')
-      .slice(0, 2)
-      .join('.');
+    const majorMinorVersion = Platform.Version.split('.').slice(0, 2).join('.');
     numericVersion = Number(majorMinorVersion);
   } else {
     numericVersion = Platform.Version;

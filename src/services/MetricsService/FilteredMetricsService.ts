@@ -1,24 +1,35 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import {APP_VERSION_CODE} from 'env';
 import PQueue from 'p-queue';
 import {Platform} from 'react-native';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {Status} from 'shared/NotificationPermissionStatus';
 import {SystemStatus} from 'services/ExposureNotificationService';
-import {Key} from 'services/StorageService';
+import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 import {getCurrentDate} from 'shared/date-fns';
 
 import {Metric} from './Metric';
 import {DefaultMetricsFilter, EventTypeMetric, EventWithContext, MetricsFilter} from './MetricsFilter';
 import {DefaultMetricsJsonSerializer} from './MetricsJsonSerializer';
 import {DefaultMetricsService, MetricsService} from './MetricsService';
-import {DefaultSecureKeyValueStore} from './SecureKeyValueStorage';
 
 export class FilteredMetricsService {
   private static instance: FilteredMetricsService;
 
   static sharedInstance(): FilteredMetricsService {
     if (!this.instance) {
-      this.instance = new this();
+      const [manufacturer, model, androidReleaseVersion] = getManufacturerWithModelAndAndroidReleaseVersion();
+      this.instance = new this(
+        DefaultMetricsService.initialize(
+          new DefaultMetricsJsonSerializer(
+            String(APP_VERSION_CODE),
+            Platform.OS,
+            String(Platform.Version),
+            manufacturer,
+            model,
+            androidReleaseVersion,
+          ),
+        ),
+        new DefaultMetricsFilter(DefaultStorageService.sharedInstance()),
+      );
     }
     return this.instance;
   }
@@ -28,11 +39,10 @@ export class FilteredMetricsService {
 
   private serialPromiseQueue: PQueue;
 
-  private constructor() {
-    this.metricsService = DefaultMetricsService.initialize(
-      new DefaultMetricsJsonSerializer(String(APP_VERSION_CODE), Platform.OS, String(Platform.Version)),
-    );
-    this.metricsFilter = new DefaultMetricsFilter(new DefaultSecureKeyValueStore());
+  constructor(metricsService: MetricsService, metricsFilter: MetricsFilter) {
+    this.metricsService = metricsService;
+    this.metricsFilter = metricsFilter;
+
     this.serialPromiseQueue = new PQueue({concurrency: 1});
   }
 
@@ -86,7 +96,26 @@ export class FilteredMetricsService {
   }
 
   private async getRegion(): Promise<string> {
-    const regionOpt = await AsyncStorage.getItem(Key.Region);
+    const regionOpt = await DefaultStorageService.sharedInstance().retrieve(StorageDirectory.GlobalRegionKey);
     return regionOpt ? regionOpt : 'None';
+  }
+}
+
+function getManufacturerWithModelAndAndroidReleaseVersion(): [string, string, string] {
+  try {
+    if (Platform.OS === 'android') {
+      // @ts-ignore
+      const fingerprintFromPlatformConstants = String(Platform.constants.Fingerprint);
+      const manufacturer = fingerprintFromPlatformConstants.split('/')[0];
+      // @ts-ignore
+      const model = String(Platform.constants.Model);
+      // @ts-ignore
+      const androidReleaseVersion = String(Platform.constants.Release);
+      return [manufacturer, model, androidReleaseVersion];
+    } else {
+      return ['Apple', 'unavailable', 'unavailable'];
+    }
+  } catch (error) {
+    return ['unavailable', 'unavailable', 'unavailable'];
   }
 }

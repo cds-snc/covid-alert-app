@@ -19,6 +19,16 @@ const base64ToUint8Array = (str: string) => {
   return new Uint8Array(Array.prototype.slice.call(Buffer.from(str, 'base64'), 0));
 };
 
+const parseData = (data: string) => {
+  const _locationData = data.split('\n');
+
+  return {
+    id: _locationData[0],
+    name: _locationData[1],
+    address: _locationData[2],
+  };
+};
+
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
   const [scheme, , host] = url.split('/');
 
@@ -41,7 +51,9 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
     }
 
     const _locationData = base64.decode(base64Str);
-    const locationData = JSON.parse(_locationData);
+
+    const locationData = parseData(_locationData);
+
     log.debug({message: 'decoded and parsed location data', payload: {locationData}});
     const checkInData: CheckInData = {
       id: locationData.id,
@@ -92,4 +104,31 @@ export const useDeepLinks = () => {
       Linking.removeEventListener('url', handleOpenURL);
     };
   }, [navigation, addCheckIn]);
+};
+
+interface GroupedCheckInData {
+  date: string;
+  checkIns: CheckInData;
+}
+
+export const sortedCheckInArray = (checkIns: CheckInData[]) => {
+  const sortedArray: GroupedCheckInData[] = [];
+  const sortedCheckIn = checkIns.sort(function (first, second) {
+    return second.timestamp - first.timestamp;
+  });
+  sortedCheckIn.map(checkIn => {
+    const date = new Date(checkIn.timestamp);
+    const timestampToDateString = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    sortedArray.push({date: timestampToDateString, checkIns: checkIn});
+  });
+
+  return combine(sortedArray);
+};
+const combine = (array: GroupedCheckInData[]) => {
+  const groupedArray = array.reduce(function (arr: any, obj) {
+    arr[obj.date] = arr[obj.date] || [];
+    arr[obj.date].push(obj);
+    return arr;
+  }, {});
+  return groupedArray;
 };

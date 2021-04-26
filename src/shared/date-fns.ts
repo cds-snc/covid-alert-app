@@ -79,7 +79,7 @@ export function parseDateString(dateString: string) {
 }
 
 export const formatExposedDate = (date: Date, locale: string) => {
-  const dateFormatOptions = {
+  const dateFormatOptions: Intl.DateTimeFormatOptions = {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
@@ -102,16 +102,42 @@ export const formatExposedDate = (date: Date, locale: string) => {
   return _formattedDate;
 };
 
-export const formatCheckInDate = (date: Date) => {
-  const dateString = date.toLocaleString('default', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+export const formateCheckInSuccessfulDate = (date: Date, locale: string) => {
+  const time = date.toLocaleTimeString('default', {
     hour: 'numeric',
     minute: 'numeric',
-    hour12: true,
+    hour12: locale !== 'fr-CA',
   });
-  return dateString;
+  if (locale === 'en-CA') {
+    return `${time} on ${formatExposedDate(date, locale)}`;
+  } else if (locale === 'fr-CA') {
+    return `Le ${formatExposedDate(date, locale)} à ${time}h`;
+  }
+  return formatExposedDate(date, locale);
+};
+
+export const getScannedTime = (date: Date, locale: string) => {
+  const time = date.toLocaleTimeString('default', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: locale !== 'fr-CA',
+  });
+
+  return time;
+};
+
+export const formateScannedDate = (dateString: string) => {
+  const dateSplit = dateString.split('/');
+
+  const formattedDate = new Date(Number(dateSplit[2]), Number(dateSplit[0]) - 1, Number(dateSplit[1]));
+
+  return formattedDate;
+};
+
+export const accessibilityReadableDate = (date: Date) => {
+  const readableDate = date.toLocaleDateString('default', {year: 'numeric', month: 'long', day: 'numeric'});
+
+  return readableDate;
 };
 
 export const getFirstThreeUniqueDates = (formattedDates: string[]) => {

@@ -19,17 +19,12 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v1
-      - uses: borales/actions-yarn@v2.0.0
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          cmd: install # will run `yarn install` command
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: lint # will run `yarn lint` command
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: tsc # will run `yarn tsc` command
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: test # will run `yarn tsc` command
-
+          node-version: '14'
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn tsc
+      - run: yarn test

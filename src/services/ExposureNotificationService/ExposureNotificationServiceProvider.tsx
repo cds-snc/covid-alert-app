@@ -1,26 +1,19 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 import {useI18nRef} from 'locale';
 import ExposureNotification, {Status as SystemStatus} from 'bridge/ExposureNotification';
 import {AppState, AppStateStatus, Platform} from 'react-native';
-import RNSecureKeyStore from 'react-native-secure-key-store';
 import SystemSetting from 'react-native-system-setting';
 import {ContagiousDateInfo} from 'shared/DataSharing';
-import {useStorage} from 'services/StorageService';
+import {DefaultStorageService, StorageService, useCachedStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 import {checkNotifications} from 'react-native-permissions';
-import {Status} from 'screens/home/components/NotificationPermissionStatus';
+import {Status} from 'shared/NotificationPermissionStatus';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
 
-import {
-  ExposureNotificationService,
-  ExposureStatus,
-  PersistencyProvider,
-  SecurePersistencyProvider,
-} from './ExposureNotificationService';
+import {ExposureNotificationService, ExposureStatus} from './ExposureNotificationService';
 
 const ExposureNotificationServiceContext = createContext<ExposureNotificationService | undefined>(undefined);
 
@@ -28,8 +21,7 @@ export interface ExposureNotificationServiceProviderProps {
   backendInterface: BackendInterface;
   backgroundScheduler?: typeof BackgroundScheduler;
   exposureNotification?: typeof ExposureNotification;
-  storage?: PersistencyProvider;
-  secureStorage?: SecurePersistencyProvider;
+  storageService?: StorageService;
   children?: React.ReactElement;
 }
 
@@ -37,27 +29,25 @@ export const ExposureNotificationServiceProvider = ({
   backendInterface,
   backgroundScheduler = BackgroundScheduler,
   exposureNotification,
-  storage,
-  secureStorage,
   children,
 }: ExposureNotificationServiceProviderProps) => {
   const i18n = useI18nRef();
-  const {setUserStopped} = useStorage();
+  const {setUserStopped} = useCachedStorage();
   const exposureNotificationService = useMemo(
     () =>
       new ExposureNotificationService(
         backendInterface,
         i18n,
-        storage || AsyncStorage,
-        secureStorage || RNSecureKeyStore,
+        DefaultStorageService.sharedInstance(),
         exposureNotification || ExposureNotification,
         FilteredMetricsService.sharedInstance(),
       ),
-    [backendInterface, exposureNotification, i18n, secureStorage, storage],
+    [backendInterface, exposureNotification, i18n],
   );
 
   useEffect(() => {
     backgroundScheduler.registerPeriodicTask(async () => {
+      await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
       await exposureNotificationService.updateExposureStatusInBackground();
     }, exposureNotificationService);
   }, [backgroundScheduler, exposureNotificationService]);
@@ -73,6 +63,7 @@ export const ExposureNotificationServiceProvider = ({
       exposureNotificationService.updateExposure();
       await exposureNotificationService.updateExposureStatus();
 
+      await filteredMetricsService.addEvent({type: EventTypeMetric.ActiveUser});
       const notificationStatus: Status = await checkNotifications()
         .then(({status}) => status)
         .catch(() => 'unavailable');
@@ -83,6 +74,7 @@ export const ExposureNotificationServiceProvider = ({
       }
       // re-register the background tasks upon app launch
       backgroundScheduler.registerPeriodicTask(async () => {
+        await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
         await exposureNotificationService.updateExposureStatusInBackground();
       }, exposureNotificationService);
     };
@@ -91,14 +83,20 @@ export const ExposureNotificationServiceProvider = ({
     exposureNotificationService.updateExposure();
     exposureNotificationService.updateExposureStatus();
 
-    checkNotifications()
-      .then(({status}) => status)
-      .catch(() => 'unavailable')
-      .then(notificationStatus => {
-        filteredMetricsService.sendDailyMetrics(
-          exposureNotificationService.systemStatus.get(),
-          notificationStatus as Status,
-        );
+    filteredMetricsService
+      .addEvent({type: EventTypeMetric.ActiveUser})
+      .then(() => {
+        // eslint-disable-next-line promise/no-nesting
+        checkNotifications()
+          .then(({status}) => status)
+          .catch(() => 'unavailable')
+          .then(notificationStatus => {
+            filteredMetricsService.sendDailyMetrics(
+              exposureNotificationService.systemStatus.get(),
+              notificationStatus as Status,
+            );
+          })
+          .catch(() => {});
       })
       .catch(() => {});
 
@@ -119,53 +117,67 @@ export function useExposureNotificationService() {
   return useContext(ExposureNotificationServiceContext)!;
 }
 
-export function useStartExposureNotificationService(): () => Promise<boolean | {success: boolean; error?: string}> {
+export function useStartExposureNotificationService(): (
+  manualTrigger: boolean,
+) => Promise<boolean | {success: boolean; error?: string}> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped, onboardedDatetime} = useStorage();
+  const {setUserStopped} = useCachedStorage();
 
-  return useCallback(async () => {
-    const start = await exposureNotificationService.start();
+  return useCallback(
+    async (manualTrigger: boolean) => {
+      const start = await exposureNotificationService.start();
 
-    log.debug({message: 'exposureNotificationService.start()', payload: start});
-    FilteredMetricsService.sharedInstance().addEvent({
-      type: EventTypeMetric.EnToggle,
-      state: true,
-      onboardedDate: onboardedDatetime,
-    });
+      log.debug({message: 'exposureNotificationService.start()', payload: start});
 
-    if (Platform.OS === 'ios') {
-      setUserStopped(false);
-    }
-    if (start?.error === 'PERMISSION_DENIED') {
+      if (manualTrigger) {
+        FilteredMetricsService.sharedInstance().addEvent({
+          type: EventTypeMetric.EnToggle,
+          state: true,
+        });
+      }
+
+      if (Platform.OS === 'ios') {
+        setUserStopped(false);
+      }
+      if (start?.error === 'PERMISSION_DENIED') {
+        return false;
+      }
+      if (start.success) {
+        setUserStopped(false);
+        return true;
+      }
+
+      if (start?.error === 'API_NOT_CONNECTED') {
+        return {success: false, error: 'API_NOT_CONNECTED'};
+      }
+
       return false;
-    }
-    if (start.success) {
-      setUserStopped(false);
-      return true;
-    }
-
-    if (start?.error === 'API_NOT_CONNECTED') {
-      return {success: false, error: 'API_NOT_CONNECTED'};
-    }
-
-    return false;
-  }, [exposureNotificationService, onboardedDatetime, setUserStopped]);
+    },
+    [exposureNotificationService, setUserStopped],
+  );
 }
 
-export function useStopExposureNotificationService(): () => Promise<boolean> {
+export function useStopExposureNotificationService(): (manualTrigger: boolean) => Promise<boolean> {
   const exposureNotificationService = useExposureNotificationService();
-  const {setUserStopped, onboardedDatetime} = useStorage();
-  return useCallback(async () => {
-    setUserStopped(true);
-    const stopped = await exposureNotificationService.stop();
-    log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
-    FilteredMetricsService.sharedInstance().addEvent({
-      type: EventTypeMetric.EnToggle,
-      state: false,
-      onboardedDate: onboardedDatetime,
-    });
-    return stopped;
-  }, [exposureNotificationService, onboardedDatetime, setUserStopped]);
+  const {setUserStopped} = useCachedStorage();
+  return useCallback(
+    async (manualTrigger: boolean) => {
+      setUserStopped(true);
+      const stopped = await exposureNotificationService.stop();
+
+      log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
+
+      if (manualTrigger) {
+        FilteredMetricsService.sharedInstance().addEvent({
+          type: EventTypeMetric.EnToggle,
+          state: false,
+        });
+      }
+
+      return stopped;
+    },
+    [exposureNotificationService, setUserStopped],
+  );
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {

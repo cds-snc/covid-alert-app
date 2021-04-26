@@ -12,12 +12,13 @@ export const palette = {
   danger: '#B1081E',
   error: '#D3080C',
   brandRed: '#AF3C43',
+  lightBlue: '#89CDFB',
   neutralGrey: '#EEEEEE',
   darkGrey: '#cecece',
   black: '#000000',
   buttonGrey: '#EEEEEE',
   danger10: '#FEE9E6',
-  danger25: '#FFC1B3',
+  danger25: '#FEA88E',
   danger50: '#F7635D',
   purple: '#573EC5',
   gray1Text: '#333333',
@@ -28,6 +29,10 @@ export const palette = {
   info100: '#005B99',
   focus: '#44BBEE',
   exposure25: '#DED8FB',
+  scan25: '#FEEFB8',
+
+  greyCanada25: '#D0D7DE',
+  loudYellow: '#F5D547',
 };
 
 const theme = {
@@ -45,7 +50,7 @@ const theme = {
     bodyTitleWhite: palette.white,
     bodyTextSubdued: palette.bodySubdued,
     statusSuccess: palette.success,
-    statusError: palette.error,
+    statusError: palette.danger,
     infoBlockNeutralBackground: palette.neutralGrey,
     divider: palette.fadedWhite,
     buttonGrey: palette.buttonGrey,
@@ -54,7 +59,10 @@ const theme = {
     gray3: palette.gray3,
     gray4: palette.gray4,
     gray5: palette.neutralGrey,
+    greyCanada25: palette.greyCanada25,
     green2: palette.green2,
+    otkButton: palette.lightBlue,
+    qrButton: palette.loudYellow,
   },
   spacing: {
     /* eslint-disable id-length */
@@ -182,6 +190,15 @@ const theme = {
         borderBottomColor: palette.gray3,
       },
     },
+    thinFlatNoBorder: {
+      color: palette.info100,
+      height: 52,
+      textColor: palette.white,
+      fontFamily: 'notosans',
+      fontWeight: 'bold',
+      fontSize: 18,
+      disabled: {},
+    },
     thinFlatBlue: {
       color: palette.neutralGrey,
       height: 52,
@@ -212,6 +229,15 @@ const theme = {
     },
     bigFlatNeutralGrey: {
       color: palette.neutralGrey,
+      height: 52,
+      textColor: palette.black,
+      fontFamily: 'notosans',
+      fontSize: 16,
+      borderBottomWidth: undefined,
+      disabled: {},
+    },
+    qrButton: {
+      color: palette.loudYellow,
       height: 52,
       textColor: palette.black,
       fontFamily: 'notosans',
@@ -268,6 +294,19 @@ const theme = {
     },
     exposure25: {
       color: palette.exposure25,
+      fontWeight: 'normal',
+      height: 30,
+      textColor: palette.bodyBlack,
+      fontFamily: 'notosans',
+      fontSize: 18,
+      borderWidth: undefined,
+      disabled: {
+        color: palette.darkGrey,
+        textColor: palette.bodyBlack,
+      },
+    },
+    scan25: {
+      color: palette.scan25,
       fontWeight: 'normal',
       height: 30,
       textColor: palette.bodyBlack,

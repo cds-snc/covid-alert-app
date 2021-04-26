@@ -122,7 +122,7 @@
     }
   },
   "OverlayClosed": {
-    "SystemStatus": "Alerte COVID est ",
+    "SystemStatus": "Alerte COVID est\u00a0",
     "SystemStatusOn": "activée",
     "SystemStatusOff": "désactivée",
     "NotificationStatus": "Notifications ",
@@ -142,11 +142,6 @@
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
     },
-    "TurnAppBackOn": {
-      "Title": "Réactiver Alerte COVID",
-      "Body": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
-      "CTA": "Réactiver"
-    },
     "CodeNotShared": {
       "Title": "Aidez à ralentir la propagation de la COVID-19 ",
       "Body": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions.",
@@ -162,16 +157,23 @@
     "NoConnectivityCardAction": "Alerte COVID est hors ligne",
     "NoConnectivityCardBody": "Connectez-vous à Internet pour aviser les autres personnes ou pour vérifier si vous avez été exposé.",
     "EnUnauthorizedCardAction": "Activer Alerte COVID",
-    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions »."
+    "EnUnauthorizedCardBody": "Sélectionnez Notifications d’exposition. Faites défiler l’écran et activez « Partager les informations sur les expositions ».",
+    "ShareDiagnosisCode": {
+      "CtaReport": "Entrer une clé à usage unique",
+      "CtaFinish": "Finir le partage d’expositions"
+    }
   },
   "Info": {
     "CheckSymptoms": "Vérifier vos symptômes",
     "SymptomsUrl": "https://ca.thrive.health/covid19/fr",
     "TellAFriend": "Partager l’application",
+    "Support": "Aide",
     "LearnMore": "Fonctionnement",
-    "Help": "Aide",
+    "Help": "Aide et questions fréquentes",
     "HelpUrl": "https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid/aide.html",
     "GetCode": "Obtenir une clé à usage unique",
+    "YourVisits": "Vos visites",
+    "YourRecentExposures": "Vos expositions récentes",
     "ChangeLanguage": "Modifier la langue",
     "ToggleCovidAlert": {
       "TurnOff": "Désactiver Alerte COVID",
@@ -220,6 +222,22 @@
     "ActionNext": "Suivant",
     "ActionEnd": "Terminé",
     "Close": "Fermer"
+  },
+  "QRCodeOnboarding": {
+    "step-1Title": "Fonctionnement des notifications par code QR",
+    "step-1AltText": "-",
+    "step-1": "Le lieu et le moment où il y a un risque d’exposition est déterminé par les autorités de santé publique.\n\nChaque jour, Alerte COVID télécharge une liste de ces lieux et moments.\n\nS’il y a correspondance avec l’une de vos visites, l’application vous enverra une notification et vous expliquera quoi faire.",
+    "step-2Title": "Votre vie privée est protégée",
+    "step-2AltText": "-",
+    "step-2": "L’application enregistre la date, l’heure et le lieu de vos visites sur votre téléphone. **Vos visites et vos expositions ne sont communiquées à personne.**\n\nVous pouvez consulter la liste de vos visites récentes à partir du menu. Au besoin, vous pouvez aussi supprimer des visites.",
+    "step-3Title": "Facilitons la recherche de contacts",
+    "step-3AltText": "-",
+    "step-3": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu risque d’exposition pendant celles-ci.",
+    "step-3-banner": "Pour l’instant, les affiches à code QR ne sont présentes qu’à ________ pour un projet-pilote à petite échelle.",
+    "ActionBack": "Back",
+    "ActionNext": "Next",
+    "ActionEnd": "Done",
+    "Close": "Close"
   },
   "Onboarding": {
     "Step": "Étape",
@@ -464,8 +482,9 @@
     "End": "Fin de liste",
     "Bullet": "Puce"
   },
+  "MenuButton": "Menu",
   "QRCode": {
-    "CTA": "Scanner un lieu",
+    "CTA": "Ajouter une visite",
     "Reader": {
       "Title": "Placez votre appareil photo devant le code QR",
       "Body": "",
@@ -473,14 +492,18 @@
       "Learn": ""
     },
     "CheckInView": {
-      "Title": "Lieu scanné",
-      "CTA1": "OK",
-      "CTA2": "Annuler la visite",
+      "Title": "Merci d’avoir ajouté une visite",
+      "Body1": "Vous ne serez avisé que si quelqu’un présent pendant votre visite est déclaré positif prochainement. Vos visites ",
+      "Body2": "ne sont communiquées à personne.",
+      "Body3": "N’oubliez pas de scanner à chaque visite.",
+      "Body4": "Vous pouvez supprimer cette visite en tout temps en allant dans Vos visites.",
+      "CTA1": "Retour à l’écran d’accueil",
+      "CTA2": "Vos visites",
       "MoreInfo": "Annuler"
     },
     "Error": {
       "Title": "Code QR non reconnu",
-      "Body": "Vérifiez qu’il s’agit bien d’un code QR officiel d’Alerte COVID. Si vous n’êtes pas certain, demandez l’aide d’un employé.\n\nFind another way to subscribe to notifications. Speak to an employee to ask for help.",
+      "Body": "Vous n’avez peut-être pas scanné un code QR officiel d’Alerte COVID.\n\nDemandez à quelqu’un où se trouve l’affiche officielle d’Alerte COVID.",
       "CTA": "Réessayer",
       "CTA2": "Retour à l’écran d’accueil"
     },
@@ -496,19 +519,65 @@
       "Title": "Autorisation refusée",
       "Body": "Vous avez refusé qu’Alerte COVID utilise votre appareil photo.\n\nPour scanner un lieu, vous devez autoriser Alerte COVID à utiliser l’appareil photo dans les paramètres de votre téléphone.\n\nVous pouvez aussi utiliser directement votre appareil photo ou une application de lecture de codes QR.",
       "CTA": "Autoriser l’accès dans les paramètres",
-      "CTA2": "En savoir plus sur Scanner un lieu"
+      "CTA2": "À propos de l’ajout d’une visite"
+    },
+    "CameraPermissionAlert": {
+      "Title": "« Alerte COVID » souhaite accéder à l’appareil photo",
+      "Subtitle": "Alerte COVID doit accéder à l’appareil photo pour lire le code QR.",
+      "Allow": "Autoriser",
+      "DontAllow": "Ne pas autoriser"
+    },
+    "LearnAboutQRScan": {
+      "Title": "Comment ajouter une visite",
+      "Body1": "1. Autorisez Alerte COVID à accéder à l’appareil photo pour lire le code QR.",
+      "Body2": "2. Placez votre appareil devant le code."
     },
     "CancelCheckIn": {
       "Title": "FR Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Scanner un lieu",
-      "Body": "Vous pouvez être notifié si des personnes contagieuses ont visité le même lieu que vous. Lorsque vous scannez un code QR Alerte COVID à l’entrée d’un lieu, l’application l’enregistre sur votre téléphone.\n\nLes lieux que vous visitez",
-      "Body2": "ne seront pas communiqués à personne.",
-      "CTA": "Suivant"
+      "Title": "Ajouter une visite",
+      "Body": "Vous serez avisé si quelqu’un présent pendant votre visite est déclaré positif prochainement.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.",
+      "Body2": "Vos visites ",
+      "Body3": "ne sont communiquées à personne.",
+      "CTA": "Suivant",
+      "CTA2": "À propos de l’ajout d’une visite"
+    },
+    "OutbreakExposed": {
+      "Title": "Exposition possible lors d’une visite",
+      "Body": "Une personne déclarée positive était présente lors d’une de vos visites.",
+      "NextSteps": {
+        "Title": "Isolez-vous et passez un test",
+        "Body": "Si vous avez des symptômes, faites-vous tester immédiatement. Si vous n’en avez pas, attendez 7 jours après la date d’exposition pour vous faire tester.\n\nVous devez vous isoler pendant 14 jours à partir de la date d’exposition.\n\nPour toute question, contactez le bureau de santé de votre région.",
+        "CTA": "Résultat de test négatif?"
+      }
     }
   },
 
+  "PlacesLog": {
+    "Title": "Vos visites",
+    "Body1": "Vous serez avisé s’il y a eu un risque d’exposition lors des visites qui suivent.",
+    "Body2a": "Vos visites ne sont communiquées ",
+    "Body2b": "à personne. Elles sont uniquement conservées sur votre téléphone.",
+    "DeleteBtnCTA": "Supprimer toutes les visites",
+    "DeleteIcon": "Supprimer",
+    "NoVisit": "Aucune visite",
+    "Back": "Précédent",
+    "Alert": {
+      "Title": "Voulez-vous vraiment supprimer cette visite?",
+      "TitleDeleteAll": "Voulez-vous vraiment supprimer toutes les visites?",
+      "Subtitle": "S’il y a un risque d’exposition dans ce lieu, vous n’en serez pas avisé.",
+      "SubtitleDeleteAll": "S’il y a un risque d’exposition dans un de ces lieux, vous n’en serez pas avisé.",
+      "Cancel": "Annuler",
+      "ConfirmDelete": "Oui, supprimer",
+      "ConfirmDeleteAll": "Oui, tout supprimer"
+    }
+  },
+  "ExposureHistory": {
+    "Title": "Vos expositions récentes",
+    "Body": "Voici la liste de vos expositions pour les 14 derniers jours.",
+    "NoExposures": "Aucune exposition"
+  },
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {

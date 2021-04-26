@@ -1,16 +1,15 @@
 /* eslint-disable promise/no-nesting */
 import {getHoursBetween, getCurrentDate, daysBetweenUTC, getUTCMidnight} from 'shared/date-fns';
 import {ExposureStatus, ExposureStatusType} from 'services/ExposureNotificationService';
+import {StorageService} from 'services/StorageService';
 
 import {DefaultMetricsFilterStateStorage, MetricsFilterStateStorage} from './MetricsFilterStateStorage';
-import {SecureKeyValueStore} from './SecureKeyValueStorage';
 
 export enum EventTypeMetric {
   Installed = 'installed',
   Onboarded = 'onboarded',
   Exposed = 'exposed',
-  OtkNoDate = 'otk-no-date',
-  OtkWithDate = 'otk-with-date',
+  OtkEntered = 'otk-entered',
   EnToggle = 'en-toggle',
   ExposedClear = 'exposed-clear',
   BackgroundCheck = 'background-check',
@@ -27,18 +26,16 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.Exposed;
+      isUserExposed: boolean;
     }
   | {
-      type: EventTypeMetric.OtkNoDate;
-      exposureHistory: number[];
-    }
-  | {
-      type: EventTypeMetric.OtkWithDate;
+      type: EventTypeMetric.OtkEntered;
+      withDate: boolean;
+      isUserExposed: boolean;
     }
   | {
       type: EventTypeMetric.EnToggle;
       state: boolean;
-      onboardedDate: Date | undefined;
     }
   | {
       type: EventTypeMetric.ExposedClear;
@@ -73,8 +70,8 @@ export interface MetricsFilter {
 export class DefaultMetricsFilter implements MetricsFilter {
   private stateStorage: MetricsFilterStateStorage;
 
-  constructor(secureKeyValueStore: SecureKeyValueStore) {
-    this.stateStorage = new DefaultMetricsFilterStateStorage(secureKeyValueStore);
+  constructor(storageService: StorageService) {
+    this.stateStorage = new DefaultMetricsFilterStateStorage(storageService);
   }
 
   filterEvent(eventWithContext: EventWithContext): Promise<FilteredEvent | null> {
@@ -86,26 +83,24 @@ export class DefaultMetricsFilter implements MetricsFilter {
       case EventTypeMetric.Exposed:
         return Promise.resolve({
           eventType: EventTypeMetric.Exposed,
-          payload: [],
+          payload: [['isUserExposed', String(eventWithContext.isUserExposed)]],
           shouldBePushedToServerRightAway: false,
         });
-      case EventTypeMetric.OtkNoDate:
-        if (eventWithContext.exposureHistory.length > 0) {
-          return Promise.resolve({
-            eventType: EventTypeMetric.OtkNoDate,
-            payload: [],
-            shouldBePushedToServerRightAway: false,
-          });
-        }
-        break;
-      case EventTypeMetric.OtkWithDate:
+      case EventTypeMetric.OtkEntered:
         return Promise.resolve({
-          eventType: EventTypeMetric.OtkWithDate,
-          payload: [],
+          eventType: EventTypeMetric.OtkEntered,
+          payload: [
+            ['withDate', String(eventWithContext.withDate)],
+            ['isUserExposed', String(eventWithContext.isUserExposed)],
+          ],
           shouldBePushedToServerRightAway: false,
         });
       case EventTypeMetric.EnToggle:
-        return this.processEnToggleEvent(eventWithContext.state, eventWithContext.onboardedDate);
+        return Promise.resolve({
+          eventType: EventTypeMetric.EnToggle,
+          payload: [['state', String(eventWithContext.state)]],
+          shouldBePushedToServerRightAway: false,
+        });
       case EventTypeMetric.ExposedClear:
         if (eventWithContext.exposureStatus.type === ExposureStatusType.Exposed) {
           return Promise.resolve({
@@ -174,27 +169,6 @@ export class DefaultMetricsFilter implements MetricsFilter {
     });
   }
 
-  private processEnToggleEvent(state: boolean, onboardedDate: Date | undefined): Promise<FilteredEvent | null> {
-    function shouldPublishEnToggle(): boolean {
-      if (!state) return true;
-      if (onboardedDate && getHoursBetween(onboardedDate, getCurrentDate()) > 24) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    if (shouldPublishEnToggle()) {
-      return Promise.resolve({
-        eventType: EventTypeMetric.EnToggle,
-        payload: [['state', String(state)]],
-        shouldBePushedToServerRightAway: false,
-      });
-    } else {
-      return Promise.resolve(null);
-    }
-  }
-
   private processBackgroundCheckEvent(): Promise<FilteredEvent | null> {
     const newBackgroundCheckEvent = getCurrentDate();
 
@@ -227,7 +201,7 @@ export class DefaultMetricsFilter implements MetricsFilter {
         return {
           eventType: EventTypeMetric.ActiveUser,
           payload: [],
-          shouldBePushedToServerRightAway: false,
+          shouldBePushedToServerRightAway: true,
         };
       });
     };

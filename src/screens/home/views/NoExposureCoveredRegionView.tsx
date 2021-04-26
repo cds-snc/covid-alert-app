@@ -1,50 +1,43 @@
 import React from 'react';
-import {Text, TextMultiline, RoundedBox} from 'components';
+import {TextMultiline, RoundedBox} from 'components';
 import {useI18n} from 'locale';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
-import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 import {Platform} from 'react-native';
 
 import {AllSetView} from '../components/AllSetView';
 import {BaseHomeView} from '../components/BaseHomeView';
+import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
-const TextContent = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+const TextContent = () => {
   const i18n = useI18n();
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+
   return (
     <>
-      <Text
-        testID="coveredRegionHeader"
-        focusRef={autoFocusRef}
-        variant="bodyTitle"
-        color="bodyText"
-        marginBottom="m"
-        accessibilityRole="header"
-        accessibilityAutoFocus
-      >
-        {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
-      </Text>
-      <TextMultiline
-        variant="bodyText"
-        color="bodyText"
-        marginBottom="m"
-        text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
-      />
+      <RoundedBox isFirstBox>
+        <HomeScreenTitle testID="coveredRegionHeader">
+          {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
+        </HomeScreenTitle>
+        <TextMultiline
+          variant="bodyText"
+          color="bodyText"
+          marginBottom="m"
+          text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
+        />
+      </RoundedBox>
     </>
   );
 };
 
-export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSheetExpanded: boolean}) => {
+export const NoExposureCoveredRegionView = () => {
   const i18n = useI18n();
-  const {onboardedDatetime, skipAllSet} = useStorage();
+  const {onboardedDatetime, skipAllSet} = useCachedStorage();
 
   if (!skipAllSet && onboardedDatetime && hoursFromNow(onboardedDatetime) < 24) {
     return (
       <BaseHomeView iconName="thumbs-up">
         <AllSetView
           testID="allSetCoveredRegionView"
-          isBottomSheetExpanded={isBottomSheetExpanded}
           titleText={i18n.translate('Home.NoExposureDetected.AllSetTitle')}
           bodyText={i18n.translate('Home.NoExposureDetected.RegionCovered.AllSetBody')}
         />
@@ -55,10 +48,10 @@ export const NoExposureCoveredRegionView = ({isBottomSheetExpanded}: {isBottomSh
     // note you can add an icon i.e. <BaseHomeView iconName="icon-offline>
     <BaseHomeView iconName="thumbs-up">
       {Platform.OS === 'ios' ? (
-        <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+        <TextContent />
       ) : (
         <RoundedBox isFirstBox>
-          <TextContent isBottomSheetExpanded={isBottomSheetExpanded} />
+          <TextContent />
         </RoundedBox>
       )}
     </BaseHomeView>

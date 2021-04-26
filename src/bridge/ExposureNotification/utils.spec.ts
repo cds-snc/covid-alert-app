@@ -43,6 +43,7 @@ describe('utils', () => {
       // it will change in V2
       expect(getLastExposureTimestamp(noExposureSummary)).toStrictEqual(0);
     });
+
     it('returns x for a summary w/ an exposure that happened x days ago', () => {
       const today = getCurrentDate();
       expect(getLastExposureTimestamp(androidExposureSummary)).toStrictEqual(today.getTime());

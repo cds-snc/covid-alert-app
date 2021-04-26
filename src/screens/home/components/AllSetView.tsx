@@ -2,18 +2,8 @@ import React from 'react';
 import {Text, TextMultiline} from 'components';
 import {useAccessibilityAutoFocus} from 'shared/useAccessibilityAutoFocus';
 
-export const AllSetView = ({
-  isBottomSheetExpanded,
-  titleText,
-  bodyText,
-  testID,
-}: {
-  isBottomSheetExpanded: boolean;
-  titleText: string;
-  bodyText: string;
-  testID?: string;
-}) => {
-  const autoFocusRef = useAccessibilityAutoFocus(!isBottomSheetExpanded);
+export const AllSetView = ({titleText, bodyText, testID}: {titleText: string; bodyText: string; testID?: string}) => {
+  const autoFocusRef = useAccessibilityAutoFocus();
   return (
     <>
       <Text

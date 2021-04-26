@@ -12,7 +12,7 @@ export const IntermediateInstructionScreen = () => {
   const onNext = useCallback(() => navigation.navigate('Step2'), [navigation]);
 
   return (
-    <BaseDataSharingView showBackButton={false}>
+    <BaseDataSharingView showBackButton={false} closeRoute="Home">
       <ScrollView style={styles.flex}>
         <Box paddingHorizontal="l">
           <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>

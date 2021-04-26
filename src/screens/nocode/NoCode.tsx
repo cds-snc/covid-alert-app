@@ -3,7 +3,7 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Toolbar} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
-import {useStorage} from 'services/StorageService';
+import {useCachedStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useRegionalI18n} from 'locale/regional';
@@ -14,7 +14,7 @@ import {ActiveListView} from './views/ActiveListView';
 import {ActiveParagraphView} from './views/ActiveParagraphView';
 
 const Content = () => {
-  const {region} = useStorage();
+  const {region} = useCachedStorage();
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
   switch (regionCase) {
