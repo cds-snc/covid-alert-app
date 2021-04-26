@@ -122,7 +122,7 @@ export class OutbreakService {
             return;
           }
 
-          markOutbreaksLastCheckedDateTime(getCurrentDate());
+          markOutbreaksLastCheckedDateTime(this.storageService, getCurrentDate());
 
           const detectedOutbreakExposures = getMatchedOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
 
