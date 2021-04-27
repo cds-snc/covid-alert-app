@@ -133,22 +133,3 @@ const combine = (array: GroupedCheckInData[]) => {
   }, {});
   return groupedArray;
 };
-
-// export const combinedExposureArray = () => {
-//   // const {outbreakHistory, addToCombinedExposureHistory, combinedExposureHistory} = useOutbreakService();
-//   // const exposureHistoryProximity = useExposureHistory();
-
-
-//   // if (outbreakHistory.length > 0 ) {
-//   //   outbreakHistory.map(item => {
-//   //     addToCombinedExposureHistory({type: 'outbreak', timestamp: item.checkInTimestamp});
-//   //   });
-
-//     // exposureHistoryProximity.map(item => {
-//     //   addToCombinedExposureHistory({type: 'proximity', timestamp: item});
-//     // })
-//   }
-
-//   // return combinedExposureHistory;
-
-// }

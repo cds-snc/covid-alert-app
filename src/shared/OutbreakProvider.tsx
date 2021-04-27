@@ -170,9 +170,9 @@ export class OutbreakService implements OutbreakService {
     }
     await this.addToOutbreakHistory(newOutbreakExposures);
     const outbreakHistory = this.outbreakHistory.get();
-    outbreakHistory.map(item => {
-      this.addToCombinedExposureHistory({type: 'outbreak', timestamp: item.checkInTimestamp});
-    });
+    // outbreakHistory.map(item => {
+    //   this.addToCombinedExposureHistory({type: 'outbreak', timestamp: item.checkInTimestamp});
+    // });
     log.debug({payload: {outbreakHistory}});
     this.processOutbreakNotification(outbreakHistory);
   };
