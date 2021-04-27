@@ -107,8 +107,13 @@ const Content = () => {
   const navigation = useNavigation();
 
   const {reset, qrEnabled, setQrEnabled} = useCachedStorage();
-  const {checkForOutbreaks, clearOutbreakHistory} = useOutbreakService();
+  const {checkForOutbreaks, clearOutbreakHistory, addToCombinedExposureHistory} = useOutbreakService();
   const [toggleState, setToggleState] = useState<boolean>(qrEnabled);
+  const historyExposureObjectArray = [
+    {type: 'outbreak', timestamp: 1619370745000},
+    {type: 'outbreak', timestamp: 1619457145000},
+    {type: 'outbreak', timestamp: 1619543545000},
+  ];
   const onClearOutbreak = useCallback(async () => {
     clearOutbreakHistory();
   }, [clearOutbreakHistory]);
@@ -223,6 +228,17 @@ const Content = () => {
           </Section>
           <Section>
             <Button text="Check-in History" variant="bigFlat" onPress={goToCheckInHistory} />
+          </Section>
+          <Section>
+            <Button
+              text="Force Data to Recent Exposures"
+              variant="bigFlat"
+              onPress={() => {
+                historyExposureObjectArray.map(items => {
+                  addToCombinedExposureHistory(items);
+                });
+              }}
+            />
           </Section>
         </>
       )}

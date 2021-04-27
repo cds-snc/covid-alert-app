@@ -67,12 +67,15 @@ const NoExposureHistoryScreen = () => {
 
 export const ExposureHistoryScreen = () => {
   const exposureHistoryProximity = useExposureHistory();
+
   const {
     combinedExposureHistory,
     addToCombinedExposureHistory,
     deleteAllCombinedExposureHistory,
     outbreakHistory,
   } = useOutbreakService();
+
+  console.log('combinedExposureHistory', combinedExposureHistory);
 
   const deleteAllPlaces = () => {
     Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
