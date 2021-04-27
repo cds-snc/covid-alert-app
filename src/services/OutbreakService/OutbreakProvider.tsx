@@ -49,6 +49,21 @@ export const useOutbreakService = () => {
     [outbreakService],
   );
 
+  const deleteScannedPlace = useMemo(
+    () => (id: string) => {
+      console.log(id);
+      // @todo - add remove by id
+    },
+    [],
+  );
+
+  const deleteAllScannedPlaces = useMemo(
+    () => () => {
+      // @todo - add remove all
+    },
+    [outbreakService],
+  );
+
   const removeCheckIn = useMemo(
     () => () => {
       outbreakService.removeCheckIn();
@@ -76,6 +91,8 @@ export const useOutbreakService = () => {
       addCheckIn,
       removeCheckIn,
       checkInHistory,
+      deleteAllScannedPlaces,
+      deleteScannedPlace,
     }),
     [outbreakHistory, clearOutbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
   );

@@ -13,7 +13,7 @@ import {sortedCheckInArray} from './utils';
 
 const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) => {
   const i18n = useI18n();
-  const {deleteScannedPlaces} = useOutbreakService();
+  const {deleteScannedPlace} = useOutbreakService();
   const checkIns = sortedCheckInArray(scannedCheckInData);
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
 
@@ -26,7 +26,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
       {
         text: i18n.translate('PlacesLog.Alert.ConfirmDelete'),
         onPress: () => {
-          deleteScannedPlaces(id);
+          deleteScannedPlace(id);
         },
         style: 'cancel',
       },
