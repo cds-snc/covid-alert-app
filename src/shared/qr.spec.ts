@@ -45,8 +45,8 @@ const checkIns = [
 const outbreaks = [
   {
     locationId: '123',
-    startTime: new Date('2021-02-01T09:00Z').getTime(),
-    endTime: new Date('2021-02-01T16:00Z').getTime(),
+    startTime: new Date('2021-02-01T09:00Z').getTime() / 1000,
+    endTime: new Date('2021-02-01T16:00Z').getTime() / 1000,
   },
   {
     locationId: '456',
@@ -55,8 +55,8 @@ const outbreaks = [
   },
   {
     locationId: '123',
-    startTime: new Date('2021-03-01T09:00Z').getTime(),
-    endTime: new Date('2021-03-01T16:00Z').getTime(),
+    startTime: new Date('2021-03-01T09:00Z').getTime() / 1000,
+    endTime: new Date('2021-03-01T16:00Z').getTime() / 1000,
   },
 ];
 
@@ -93,8 +93,8 @@ describe('getMatchedOutbreakHistoryItems', () => {
   const t1300 = new Date('2021-02-01T13:00Z').getTime();
   const t1400 = new Date('2021-02-01T14:00Z').getTime();
   const outbreakEvents = [
-    {locationId: '1', startTime: t1100, endTime: t1300},
-    {locationId: '2', startTime: t1100, endTime: t1300},
+    {locationId: '1', startTime: t1100 / 1000, endTime: t1300 / 1000},
+    {locationId: '2', startTime: t1100 / 1000, endTime: t1300 / 1000},
   ];
 
   it('returns exposed if there is a match', () => {
@@ -231,13 +231,13 @@ describe('outbreakHistory functions', () => {
       const outbreaks = [
         {
           locationId: '123',
-          startTime: outbreak1.start,
-          endTime: outbreak1.end,
+          startTime: outbreak1.start / 1000,
+          endTime: outbreak1.end / 1000,
         },
         {
           locationId: '123',
-          startTime: outbreak2.start,
-          endTime: outbreak2.end,
+          startTime: outbreak2.start / 1000,
+          endTime: outbreak2.end / 1000,
         },
       ];
 
