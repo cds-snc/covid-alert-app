@@ -5,6 +5,7 @@ import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationServic
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useOrientation} from 'shared/useOrientation';
 import {useCachedStorage} from 'services/StorageService';
+import {useI18n} from 'locale';
 
 import {QrButton} from '../components/QrButton';
 import {MenuButton} from '../components/MenuButton';
@@ -16,6 +17,7 @@ const windowWidth = Dimensions.get('window').width;
 const borderRadius = 16;
 
 export const MenuBar = () => {
+  const i18n = useI18n();
   const {qrEnabled} = useCachedStorage();
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
@@ -56,7 +58,7 @@ export const MenuBar = () => {
             </Box>
           ) : (
             <>
-              <Box flex={qrEnabled ? 1.85 : 1} marginRight="m">
+              <Box flex={qrEnabled ? 1.85 : 1} marginRight="m" marginVertical={i18n.locale === 'fr' ? 's' : 'none'}>
                 {qrEnabled ? <QrButton /> : appStatus}
               </Box>
 
