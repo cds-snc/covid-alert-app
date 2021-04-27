@@ -31,8 +31,10 @@ export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export interface OutbreakEvent {
   locationId: string;
-  startTime: number; // ms
-  endTime: number; // ms
+  // ms
+  startTime: number;
+  // ms
+  endTime: number;
   severity: number;
 }
 

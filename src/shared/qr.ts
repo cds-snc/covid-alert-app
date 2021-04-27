@@ -171,10 +171,7 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
         start: checkIn.timestamp,
         end: checkIn.timestamp + ONE_HOUR_IN_MS,
       };
-      const window2: TimeWindow = {
-        start: Number(outbreak.startTime),
-        end: Number(outbreak.endTime),
-      };
+      const window2: TimeWindow = timeWindowFromOutbreakEvent(outbreak);
       if (doTimeWindowsOverlap(window1, window2)) {
         const match: MatchData = {
           timestamp: checkIn.timestamp,
@@ -186,6 +183,13 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
     }
   }
   return matches;
+};
+
+const timeWindowFromOutbreakEvent = (outbreak: OutbreakEvent) => {
+  return {
+    start: Number(outbreak.startTime) * 1000,
+    end: Number(outbreak.endTime) * 1000,
+  };
 };
 
 export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistoryItem => {
