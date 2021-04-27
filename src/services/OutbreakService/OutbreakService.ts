@@ -29,6 +29,13 @@ export const HOURS_PER_PERIOD = 24;
 
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
+export interface OutbreakEvent {
+  locationId: string;
+  startTime: number; // ms
+  endTime: number; // ms
+  severity: number;
+}
+
 export class OutbreakService {
   private static instance: OutbreakService;
 
@@ -121,9 +128,7 @@ export class OutbreakService {
             outbreaksFileUrls.push(outbreaksFileUrl);
           }
 
-          const outbreakEvents: covidshield.OutbreakEvent[] = await this.extractOutbreakEventsFromZipFiles(
-            outbreaksFileUrls,
-          );
+          const outbreakEvents = await this.extractOutbreakEventsFromZipFiles(outbreaksFileUrls);
           if (outbreakEvents.length === 0) {
             return;
           }
@@ -165,7 +170,18 @@ export class OutbreakService {
     }
   };
 
-  extractOutbreakEventsFromZipFiles = async (outbreaksURLs: string[]): Promise<covidshield.OutbreakEvent[]> => {
+  convertOutbreakEvents = (outbreakEvents: covidshield.OutbreakEvent[]): OutbreakEvent[] => {
+    return outbreakEvents.map(event => {
+      return {
+        locationId: event.locationId,
+        endTime: 1000 * Number(event.endTime?.seconds),
+        startTime: 1000 * Number(event.startTime?.seconds),
+        severity: event.severity,
+      };
+    });
+  };
+
+  extractOutbreakEventsFromZipFiles = async (outbreaksURLs: string[]): Promise<OutbreakEvent[]> => {
     const outbreaks: any[] = [];
     if (outbreaksURLs.length === 0) {
       throw new Error('');
@@ -192,7 +208,7 @@ export class OutbreakService {
       payload: outbreaks,
     });
 
-    return outbreakEvents;
+    return this.convertOutbreakEvents(outbreakEvents);
   };
 
   processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {

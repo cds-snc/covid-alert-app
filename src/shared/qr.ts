@@ -1,5 +1,5 @@
+import {OutbreakEvent} from 'services/OutbreakService';
 import {log} from 'shared/logging/config';
-import {covidshield} from 'services/BackendService/covidshield';
 
 import {getCurrentDate, getHoursBetween} from './date-fns';
 
@@ -25,14 +25,14 @@ export interface TimeWindow {
 
 interface MatchCalculationData {
   locationId: string;
-  outbreakEvents: covidshield.OutbreakEvent[];
+  outbreakEvents: OutbreakEvent[];
   checkIns: CheckInData[];
 }
 
 interface MatchData {
   timestamp: number;
   checkIn: CheckInData;
-  outbreakEvent: covidshield.OutbreakEvent;
+  outbreakEvent: OutbreakEvent;
 }
 
 export interface OutbreakHistoryItem {
@@ -93,7 +93,7 @@ const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
 export const getMatchedOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
-  outbreakEvents: covidshield.OutbreakEvent[],
+  outbreakEvents: OutbreakEvent[],
 ): OutbreakHistoryItem[] => {
   log.debug({message: 'fetching outbreak locations', payload: {outbreakEvents}});
   const outbreakIds = outbreakEvents.map(event => event.locationId);
@@ -139,7 +139,7 @@ export const getMatches = ({
   checkInHistory,
   matchedOutbreakIds,
 }: {
-  outbreakEvents: covidshield.OutbreakEvent[];
+  outbreakEvents: OutbreakEvent[];
   checkInHistory: CheckInData[];
   matchedOutbreakIds: string[];
 }): MatchData[] => {
