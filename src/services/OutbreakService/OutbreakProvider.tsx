@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {useI18nRef, I18n} from 'locale';
 import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
 import {BackendInterface} from 'services/BackendService';
+import {log} from 'shared/logging/config';
 
 import {CheckInData} from '../../shared/qr';
 
@@ -51,15 +52,18 @@ export const useOutbreakService = () => {
 
   const deleteScannedPlace = useMemo(
     () => (id: string) => {
-      console.log(id);
-      // @todo - add remove by id
+      // @todo this is a placeholder - needs to use the id
+      log.debug({message: 'deleteScannedPlace', payload: {id}});
+      outbreakService.removeCheckIn();
     },
-    [],
+    [outbreakService],
   );
 
   const deleteAllScannedPlaces = useMemo(
     () => () => {
-      // @todo - add remove all
+      // @todo
+      log.debug({message: 'deleteAllScannedPlaces', payload: {}});
+      outbreakService.clearOutbreakHistory();
     },
     [outbreakService],
   );
@@ -94,6 +98,15 @@ export const useOutbreakService = () => {
       deleteAllScannedPlaces,
       deleteScannedPlace,
     }),
-    [outbreakHistory, clearOutbreakHistory, checkForOutbreaks, addCheckIn, removeCheckIn, checkInHistory],
+    [
+      outbreakHistory,
+      clearOutbreakHistory,
+      checkForOutbreaks,
+      addCheckIn,
+      removeCheckIn,
+      checkInHistory,
+      deleteAllScannedPlaces,
+      deleteScannedPlace,
+    ],
   );
 };
