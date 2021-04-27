@@ -187,8 +187,8 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
 
 const timeWindowFromOutbreakEvent = (outbreak: OutbreakEvent) => {
   return {
-    start: Number(outbreak.startTime) * 1000,
-    end: Number(outbreak.endTime) * 1000,
+    start: Number(outbreak.startTime),
+    end: Number(outbreak.endTime),
   };
 };
 
