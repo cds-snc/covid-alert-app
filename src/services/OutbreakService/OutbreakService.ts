@@ -113,7 +113,7 @@ export class OutbreakService {
           ? periodSinceEpoch(outbreaksLastCheckedDate, HOURS_PER_PERIOD)
           : undefined;
 
-        const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
+        const periodsSinceLastFetch = this.periodsSinceLastOutbreaksCheck(lastCheckedPeriod);
 
         try {
           for (const period of periodsSinceLastFetch) {
@@ -205,23 +205,8 @@ export class OutbreakService {
     }
   };
 
+  // TODO: refactor this method to share logic with getPeriodsSinceLastFetch method found in ExposureNotificationService.
   periodsSinceLastOutbreaksCheck = (_lastCheckedPeriod?: number): number[] => {
-    const runningDate = getCurrentDate();
-    let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-    if (!_lastCheckedPeriod) {
-      return [0, runningPeriod];
-    }
-    const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
-    const periodsToFetch = [];
-    while (runningPeriod > lastCheckedPeriod) {
-      periodsToFetch.push(runningPeriod);
-      runningPeriod -= 1;
-    }
-    return periodsToFetch;
-  };
-
-  // TODO: refactor this method to share logic with same method found in ExposureNotificationService.
-  getPeriodsSinceLastFetch = (_lastCheckedPeriod?: number): number[] => {
     const runningDate = getCurrentDate();
     let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
     if (!_lastCheckedPeriod) {
