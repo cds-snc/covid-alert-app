@@ -87,7 +87,6 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
               variant="thinFlatNoBorder"
               text={i18n.translate('QRCode.CheckInView.CTA1')}
               onPress={navigateHome}
-              alignLeft
             />
           </Box>
           <Box marginHorizontal="m" marginBottom="l">

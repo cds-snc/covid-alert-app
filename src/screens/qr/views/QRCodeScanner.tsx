@@ -33,10 +33,14 @@ export const QRCodeScanner = () => {
   return (
     <BarCodeScanner onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned} style={styles.barcodeScanner}>
       <Box style={styles.top} />
+
       <SafeAreaView style={styles.flex}>
+        <Box style={styles.boxLeft} />
+        <Box style={styles.boxRight} />
         <Box marginBottom="m" style={styles.toolbar}>
           <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} showBackButton />
         </Box>
+
         <Box style={styles.info} paddingTop="s" paddingHorizontal="m">
           <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
             {i18n.translate(`QRCode.Reader.Title`)}
@@ -70,6 +74,24 @@ const styles = StyleSheet.create({
   },
   barcodeScanner: {
     ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'black',
+  },
+  boxLeft: {
+    top: 0,
+    height: '100%',
+    left: 0,
+    position: 'absolute',
+    width: '4%',
+    paddingBottom: '40%',
+    backgroundColor: 'black',
+  },
+  boxRight: {
+    top: 0,
+    height: '100%',
+    right: 0,
+    position: 'absolute',
+    width: '4%',
+    paddingBottom: '40%',
     backgroundColor: 'black',
   },
 });

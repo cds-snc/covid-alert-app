@@ -12,21 +12,25 @@ import {MenuButton} from '../components/MenuButton';
 
 import {StatusHeaderView} from './StatusHeaderView';
 
-const windowWidth = Dimensions.get('window').width;
+// const windowWidth = Dimensions.get('window').width;
 
 const borderRadius = 16;
 
 export const MenuBar = () => {
   const i18n = useI18n();
+  const {orientation} = useOrientation();
   const {qrEnabled} = useCachedStorage();
   const [systemStatus] = useSystemStatus();
   const pixelRatio = PixelRatio.getFontScale();
 
-  const statusHeaderPadding = pixelRatio > 1.0 ? 'none' : 'm';
-  const menuButtonPadding = pixelRatio > 1.0 || (qrEnabled && windowWidth <= 320) ? 'm' : 'none';
+  const windowWidth = orientation === 'landscape' ? Dimensions.get('window').height : Dimensions.get('window').width;
+  const ratio = orientation === 'landscape' ? pixelRatio > 1.4 : pixelRatio > 1;
+  const statusHeaderPadding = ratio ? 'none' : 'm';
+  const menuButtonPadding = ratio || (qrEnabled && windowWidth <= 320) ? 'm' : 'none';
 
-  const {orientation} = useOrientation();
   const safeAreaPadding = orientation === 'landscape' ? -10 : -20;
+  console.log('windowWidth', windowWidth);
+  console.log('pixelRatio', pixelRatio);
 
   const appStatus = (
     <Text paddingTop="m" paddingBottom={statusHeaderPadding}>
@@ -45,7 +49,10 @@ export const MenuBar = () => {
       <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: safeAreaPadding}}>
         <Box style={styles.box}>
           {/* Stack the menu buttons or place in columns */}
-          {pixelRatio > 1.0 || (qrEnabled && windowWidth <= 320) ? (
+          {/* /* landscape mode, buttons side by side
+
+          */}
+          {ratio || (qrEnabled && windowWidth <= 320) ? (
             <Box>
               {qrEnabled ? (
                 <Box paddingVertical="m">
@@ -58,7 +65,7 @@ export const MenuBar = () => {
             </Box>
           ) : (
             <>
-              <Box flex={qrEnabled ? 1.85 : 1} marginRight="m" marginVertical={i18n.locale === 'fr' ? 's' : 'none'}>
+              <Box flex={qrEnabled ? 1.85 : 1} marginRight="s">
                 {qrEnabled ? <QrButton /> : appStatus}
               </Box>
 
