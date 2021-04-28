@@ -90,12 +90,18 @@ export class OutbreakService {
     this.checkInHistory.set(checkInHistory);
   };
 
-  removeCheckIn = async () => {
-    // removes most recent Check In
-    const _checkInHistory =
+  removeCheckIn = async (locationId?: string) => {
+    const _checkInHistory: string =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
-    const checkInHistory = JSON.parse(_checkInHistory);
-    const newCheckInHistory = checkInHistory.slice(0, -1);
+    const checkInHistory: CheckInData[] = JSON.parse(_checkInHistory);
+    let newCheckInHistory;
+    if (locationId) {
+      newCheckInHistory = checkInHistory.filter(checkInData => checkInData.id !== locationId);
+    } else {
+      checkInHistory.pop();
+      newCheckInHistory = checkInHistory;
+    }
+
     await this.storageService.save(
       StorageDirectory.OutbreakServiceCheckInHistoryKey,
       JSON.stringify(newCheckInHistory),

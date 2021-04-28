@@ -17,7 +17,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
   const checkIns = sortedCheckInArray(scannedCheckInData);
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
 
-  const deleteConfirmationAlert = (id: string) => {
+  const deleteConfirmationAlert = (locationId: string) => {
     Alert.alert(i18n.translate('PlacesLog.Alert.Title'), i18n.translate('PlacesLog.Alert.Subtitle'), [
       {
         text: i18n.translate('PlacesLog.Alert.Cancel'),
@@ -26,7 +26,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
       {
         text: i18n.translate('PlacesLog.Alert.ConfirmDelete'),
         onPress: () => {
-          deleteScannedPlace(id);
+          deleteScannedPlace(locationId);
         },
         style: 'cancel',
       },
