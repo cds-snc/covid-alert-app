@@ -90,17 +90,35 @@ export class OutbreakService {
     this.checkInHistory.set(checkInHistory);
   };
 
-  removeCheckIn = async () => {
-    // removes most recent Check In
-    const _checkInHistory =
+  removeCheckIn = async (locationId?: string, timestamp?: number) => {
+    const _checkInHistory: string =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
-    const checkInHistory = JSON.parse(_checkInHistory);
-    const newCheckInHistory = checkInHistory.slice(0, -1);
+    const checkInHistory: CheckInData[] = JSON.parse(_checkInHistory);
+    let newCheckInHistory;
+    if (locationId && timestamp) {
+      // removes a specific Check In
+      console.log('Removing specific checkin: ', locationId, timestamp);
+      console.log(checkInHistory);
+      newCheckInHistory = checkInHistory.filter(checkInData => {
+        return !(locationId === checkInData.id && timestamp === checkInData.timestamp);
+      });
+      console.log('newCheckInHistory: ', newCheckInHistory);
+    } else {
+      // removes most recent Check In
+      checkInHistory.pop();
+      newCheckInHistory = checkInHistory;
+    }
+
     await this.storageService.save(
       StorageDirectory.OutbreakServiceCheckInHistoryKey,
       JSON.stringify(newCheckInHistory),
     );
     this.checkInHistory.set(newCheckInHistory);
+  };
+
+  clearCheckInHistory = async () => {
+    await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify([]));
+    this.checkInHistory.set([]);
   };
 
   init = async () => {
