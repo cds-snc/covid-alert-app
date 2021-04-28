@@ -3,19 +3,22 @@ import {Box, Text, Icon, Button} from 'components';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {log} from 'shared/logging/config';
+import {useCachedStorage} from 'services/StorageService';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
 export const LearnAboutQRScreen = ({updatePermissions}: {updatePermissions: () => void}) => {
   const i18n = useI18n();
+  const {setHasViewedQr} = useCachedStorage();
   const requestPermissions = useCallback(async () => {
     try {
       await BarCodeScanner.requestPermissionsAsync();
+      await setHasViewedQr(true);
       updatePermissions();
     } catch (err) {
       log.error({category: 'qr-code', message: err.message});
     }
-  }, [updatePermissions]);
+  }, [updatePermissions, setHasViewedQr]);
   return (
     <BaseQRCodeScreen showBackButton>
       <Box paddingHorizontal="m">

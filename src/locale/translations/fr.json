@@ -494,7 +494,7 @@
     "CheckInView": {
       "Title": "Merci d’avoir ajouté une visite",
       "Body1": "Vous ne serez avisé que si quelqu’un présent pendant votre visite est déclaré positif prochainement. Vos visites ",
-      "Body2": "ne sont communiquées à personne.",
+      "Body2": "ne sont communiquées à personne.\n\n",
       "Body3": "N’oubliez pas de scanner à chaque visite.",
       "Body4": "Vous pouvez supprimer cette visite en tout temps en allant dans Vos visites.",
       "CTA1": "Retour à l’écran d’accueil",

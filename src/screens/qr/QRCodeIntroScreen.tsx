@@ -4,18 +4,15 @@ import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
 import {StyleSheet} from 'react-native';
-import {useCachedStorage} from 'services/StorageService';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
 export const QRCodeIntroScreen = () => {
   const navigation = useNavigation();
   const i18n = useI18n();
-  const {setHasViewedQr} = useCachedStorage();
   const toQRScreen = useCallback(async () => {
-    await setHasViewedQr(true);
     navigation.navigate('QRCodeReaderScreen');
-  }, [setHasViewedQr, navigation]);
+  }, [navigation]);
   return (
     <BaseQRCodeScreen>
       <Box paddingHorizontal="m">
@@ -31,10 +28,10 @@ export const QRCodeIntroScreen = () => {
           <Text>{i18n.translate('QRCode.ScanAPlace.Body3')}</Text>
         </Text>
 
-        <Box paddingHorizontal="s" paddingTop="m" marginBottom="m">
+        <Box paddingTop="m" marginBottom="m">
           <Button text={i18n.translate('QRCode.ScanAPlace.CTA')} variant="thinFlatNoBorder" onPress={toQRScreen} />
         </Box>
-        <Box paddingHorizontal="s" marginBottom="xxl">
+        <Box marginBottom="xxl">
           <InfoShareItem
             text={i18n.translate('QRCode.ScanAPlace.CTA2')}
             onPress={() => {
