@@ -449,6 +449,9 @@ export namespace covidshield {
 
         /** OutbreakEvent endTime */
         endTime?: (google.protobuf.ITimestamp|null);
+
+        /** OutbreakEvent severity */
+        severity?: (number|null);
     }
 
     /** Represents an OutbreakEvent. */
@@ -468,6 +471,9 @@ export namespace covidshield {
 
         /** OutbreakEvent endTime. */
         public endTime?: (google.protobuf.ITimestamp|null);
+
+        /** OutbreakEvent severity. */
+        public severity: number;
 
         /**
          * Creates a new OutbreakEvent instance using the specified properties.

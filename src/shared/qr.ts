@@ -1,6 +1,5 @@
-import {OUTBREAK_LOCATIONS_URL} from 'env';
+import {OutbreakEvent} from 'services/OutbreakService';
 import {log} from 'shared/logging/config';
-import {covidshield} from 'services/BackendService/covidshield';
 
 import {getCurrentDate, getHoursBetween} from './date-fns';
 
@@ -26,14 +25,14 @@ export interface TimeWindow {
 
 interface MatchCalculationData {
   locationId: string;
-  outbreakEvents: covidshield.OutbreakEvent[];
+  outbreakEvents: OutbreakEvent[];
   checkIns: CheckInData[];
 }
 
 interface MatchData {
   timestamp: number;
   checkIn: CheckInData;
-  outbreakEvent: covidshield.OutbreakEvent;
+  outbreakEvent: OutbreakEvent;
 }
 
 export interface OutbreakHistoryItem {
@@ -92,17 +91,9 @@ export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
 
 const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 
-export const getOutbreakEvents = async (): Promise<covidshield.OutbreakEvent[]> => {
-  const fetchedData = await fetch(OUTBREAK_LOCATIONS_URL, {
-    method: 'GET',
-  });
-  const data = await fetchedData.json();
-  return data.exposedLocations;
-};
-
 export const getMatchedOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
-  outbreakEvents: covidshield.OutbreakEvent[],
+  outbreakEvents: OutbreakEvent[],
 ): OutbreakHistoryItem[] => {
   log.debug({message: 'fetching outbreak locations', payload: {outbreakEvents}});
   const outbreakIds = outbreakEvents.map(event => event.locationId);
@@ -148,7 +139,7 @@ export const getMatches = ({
   checkInHistory,
   matchedOutbreakIds,
 }: {
-  outbreakEvents: covidshield.OutbreakEvent[];
+  outbreakEvents: OutbreakEvent[];
   checkInHistory: CheckInData[];
   matchedOutbreakIds: string[];
 }): MatchData[] => {
@@ -180,10 +171,7 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
         start: checkIn.timestamp,
         end: checkIn.timestamp + ONE_HOUR_IN_MS,
       };
-      const window2: TimeWindow = {
-        start: Number(outbreak.startTime),
-        end: Number(outbreak.endTime),
-      };
+      const window2: TimeWindow = timeWindowFromOutbreakEvent(outbreak);
       if (doTimeWindowsOverlap(window1, window2)) {
         const match: MatchData = {
           timestamp: checkIn.timestamp,
@@ -195,6 +183,13 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
     }
   }
   return matches;
+};
+
+const timeWindowFromOutbreakEvent = (outbreak: OutbreakEvent) => {
+  return {
+    start: Number(outbreak.startTime),
+    end: Number(outbreak.endTime),
+  };
 };
 
 export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistoryItem => {

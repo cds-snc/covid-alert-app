@@ -1164,6 +1164,7 @@
              * @property {string|null} [locationId] OutbreakEvent locationId
              * @property {google.protobuf.ITimestamp|null} [startTime] OutbreakEvent startTime
              * @property {google.protobuf.ITimestamp|null} [endTime] OutbreakEvent endTime
+             * @property {number|null} [severity] OutbreakEvent severity
              */
     
             /**
@@ -1206,6 +1207,14 @@
             OutbreakEvent.prototype.endTime = null;
     
             /**
+             * OutbreakEvent severity.
+             * @member {number} severity
+             * @memberof covidshield.OutbreakEvent
+             * @instance
+             */
+            OutbreakEvent.prototype.severity = 0;
+    
+            /**
              * Creates a new OutbreakEvent instance using the specified properties.
              * @function create
              * @memberof covidshield.OutbreakEvent
@@ -1235,6 +1244,8 @@
                     $root.google.protobuf.Timestamp.encode(message.startTime, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                 if (message.endTime != null && Object.hasOwnProperty.call(message, "endTime"))
                     $root.google.protobuf.Timestamp.encode(message.endTime, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                if (message.severity != null && Object.hasOwnProperty.call(message, "severity"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.severity);
                 return writer;
             };
     
@@ -1277,6 +1288,9 @@
                         break;
                     case 3:
                         message.endTime = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                        break;
+                    case 4:
+                        message.severity = reader.uint32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -1326,6 +1340,9 @@
                     if (error)
                         return "endTime." + error;
                 }
+                if (message.severity != null && message.hasOwnProperty("severity"))
+                    if (!$util.isInteger(message.severity))
+                        return "severity: integer expected";
                 return null;
             };
     
@@ -1353,6 +1370,8 @@
                         throw TypeError(".covidshield.OutbreakEvent.endTime: object expected");
                     message.endTime = $root.google.protobuf.Timestamp.fromObject(object.endTime);
                 }
+                if (object.severity != null)
+                    message.severity = object.severity >>> 0;
                 return message;
             };
     
@@ -1373,6 +1392,7 @@
                     object.locationId = "";
                     object.startTime = null;
                     object.endTime = null;
+                    object.severity = 0;
                 }
                 if (message.locationId != null && message.hasOwnProperty("locationId"))
                     object.locationId = message.locationId;
@@ -1380,6 +1400,8 @@
                     object.startTime = $root.google.protobuf.Timestamp.toObject(message.startTime, options);
                 if (message.endTime != null && message.hasOwnProperty("endTime"))
                     object.endTime = $root.google.protobuf.Timestamp.toObject(message.endTime, options);
+                if (message.severity != null && message.hasOwnProperty("severity"))
+                    object.severity = message.severity;
                 return object;
             };
     

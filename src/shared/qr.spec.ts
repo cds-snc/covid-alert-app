@@ -47,16 +47,19 @@ const outbreaks = [
     locationId: '123',
     startTime: new Date('2021-02-01T09:00Z').getTime(),
     endTime: new Date('2021-02-01T16:00Z').getTime(),
+    severity: 1,
   },
   {
     locationId: '456',
     startTime: null,
     endTime: null,
+    severity: 1,
   },
   {
     locationId: '123',
     startTime: new Date('2021-03-01T09:00Z').getTime(),
     endTime: new Date('2021-03-01T16:00Z').getTime(),
+    severity: 1,
   },
 ];
 
@@ -93,8 +96,8 @@ describe('getMatchedOutbreakHistoryItems', () => {
   const t1300 = new Date('2021-02-01T13:00Z').getTime();
   const t1400 = new Date('2021-02-01T14:00Z').getTime();
   const outbreakEvents = [
-    {locationId: '1', startTime: t1100, endTime: t1300},
-    {locationId: '2', startTime: t1100, endTime: t1300},
+    {locationId: '1', startTime: t1100, endTime: t1300, severity: 1},
+    {locationId: '2', startTime: t1100, endTime: t1300, severity: 1},
   ];
 
   it('returns exposed if there is a match', () => {
@@ -233,11 +236,13 @@ describe('outbreakHistory functions', () => {
           locationId: '123',
           startTime: outbreak1.start,
           endTime: outbreak1.end,
+          severity: 1,
         },
         {
           locationId: '123',
           startTime: outbreak2.start,
           endTime: outbreak2.end,
+          severity: 1,
         },
       ];
 

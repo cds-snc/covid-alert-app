@@ -18,7 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
-import {useOutbreakService} from 'shared/OutbreakProvider';
+import {useOutbreakService} from 'services/OutbreakService';
 import {PollNotifications} from 'services/PollNotificationService';
 import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 import {log} from 'shared/logging/config';
