@@ -54,7 +54,7 @@ export const ClearOutbreakExposureScreen = () => {
 export const NegativeOutbreakTestButton = () => {
   const navigation = useNavigation();
   const i18n = useI18n();
-  const text = i18n.translate(`QRCode.OutbreakExposed.NextSteps.CTA`);
+  const text = i18n.translate(`QRCode.OutbreakExposed.CTA`);
 
   const toClearOutbreakExposure = useCallback(() => navigation.navigate('ClearOutbreakExposure'), [navigation]);
 

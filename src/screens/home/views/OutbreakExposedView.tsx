@@ -1,5 +1,5 @@
 import React from 'react';
-import {RoundedBox, Text} from 'components';
+import {RoundedBox, Text, TextMultiline} from 'components';
 import {useI18n, I18n} from 'locale';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentOutbreakHistory, OutbreakSeverity} from 'shared/qr';
@@ -44,9 +44,9 @@ const IsolateText = ({i18n}: {i18n: I18n}) => {
   return (
     <>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate('QRCode.OutbreakExposed.NextSteps.Title')}
+        {i18n.translate('QRCode.OutbreakExposed.SelfIsolate.Title')}
       </Text>
-      <Text marginBottom="m">{i18n.translate('QRCode.OutbreakExposed.NextSteps.Body')}</Text>
+      <TextMultiline marginBottom="m" text={i18n.translate('QRCode.OutbreakExposed.SelfIsolate.Body')} />
       <NegativeOutbreakTestButton />
     </>
   );
@@ -56,8 +56,9 @@ const MonitorText = ({i18n}: {i18n: I18n}) => {
   return (
     <>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        Self Monitor!
+        {i18n.translate('QRCode.OutbreakExposed.SelfMonitor.Title')}
       </Text>
+      <TextMultiline marginBottom="m" text={i18n.translate('QRCode.OutbreakExposed.SelfMonitor.Body')} />
     </>
   );
 };
@@ -66,8 +67,10 @@ const GetTestedText = ({i18n}: {i18n: I18n}) => {
   return (
     <>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        Get Tested!
+        {i18n.translate('QRCode.OutbreakExposed.GetTested.Title')}
       </Text>
+      <TextMultiline marginBottom="m" text={i18n.translate('QRCode.OutbreakExposed.GetTested.Body')} />
+      <NegativeOutbreakTestButton />
     </>
   );
 };
