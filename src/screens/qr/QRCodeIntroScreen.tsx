@@ -31,10 +31,10 @@ export const QRCodeIntroScreen = () => {
           <Text>{i18n.translate('QRCode.ScanAPlace.Body3')}</Text>
         </Text>
 
-        <Box paddingHorizontal="s" paddingTop="m" marginBottom="m">
+        <Box paddingTop="m" marginBottom="m">
           <Button text={i18n.translate('QRCode.ScanAPlace.CTA')} variant="thinFlatNoBorder" onPress={toQRScreen} />
         </Box>
-        <Box paddingHorizontal="s" marginBottom="xxl">
+        <Box marginBottom="xxl">
           <InfoShareItem
             text={i18n.translate('QRCode.ScanAPlace.CTA2')}
             onPress={() => {

@@ -36,7 +36,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
           </Text>
         ) : (
           <Text accessibilityLabel={`Le ${readableDate} à ${scannedTime}`}>
-            <Text>Le ${formatDate} à</Text>
+            <Text>Le {formatDate} à </Text>
 
             <Text>{scannedTime}</Text>
           </Text>
@@ -67,12 +67,12 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
               </Text>
             </Box>
             <Box paddingBottom="l">
-              <Box backgroundColor="gray5" paddingHorizontal="l" style={styles.boxStyle}>
-                <Text fontWeight="bold" marginVertical="s">
+              <Box backgroundColor="gray5" padding="m" style={styles.boxStyle}>
+                <Text fontWeight="bold" marginBottom="s">
                   {name}
                 </Text>
                 <Text marginBottom="s">{address}</Text>
-                <Box marginBottom="m">
+                <Box>
                   <ScannedDate />
                 </Box>
               </Box>
