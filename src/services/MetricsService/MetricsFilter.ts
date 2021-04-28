@@ -9,7 +9,7 @@ export enum EventTypeMetric {
   Installed = 'installed',
   Onboarded = 'onboarded',
   Exposed = 'exposed',
-  OtkEntered = 'otk-entered',
+  OtkEntered = 'otk-entered-v2',
   EnToggle = 'en-toggle',
   ExposedClear = 'exposed-clear',
   BackgroundCheck = 'background-check',
@@ -33,7 +33,8 @@ export type EventWithContext =
   | {
       type: EventTypeMetric.OtkEntered;
       withDate: boolean;
-      isUserExposed: boolean;
+      isUserExposedProximity: boolean;
+      isUserExposedOutbreak: boolean;
     }
   | {
       type: EventTypeMetric.EnToggle;
@@ -95,14 +96,11 @@ export class DefaultMetricsFilter implements MetricsFilter {
           shouldBePushedToServerRightAway: false,
         });
       case EventTypeMetric.OtkEntered:
-        return Promise.resolve({
-          eventType: EventTypeMetric.OtkEntered,
-          payload: [
-            ['withDate', String(eventWithContext.withDate)],
-            ['isUserExposed', String(eventWithContext.isUserExposed)],
-          ],
-          shouldBePushedToServerRightAway: false,
-        });
+        return this.processOtkEnteredEvent(
+          eventWithContext.withDate,
+          eventWithContext.isUserExposedProximity,
+          eventWithContext.isUserExposedOutbreak,
+        );
       case EventTypeMetric.EnToggle:
         return Promise.resolve({
           eventType: EventTypeMetric.EnToggle,
@@ -186,6 +184,33 @@ export class DefaultMetricsFilter implements MetricsFilter {
       } else {
         return null;
       }
+    });
+  }
+
+  private processOtkEnteredEvent(
+    withDate: boolean,
+    isUserExposedProximity: boolean,
+    isUserExposedOutbreak: boolean,
+  ): Promise<FilteredEvent | null> {
+    function serializeIsUserExposed(): string {
+      if (!isUserExposedProximity && !isUserExposedOutbreak) {
+        return '';
+      } else if (isUserExposedProximity && isUserExposedOutbreak) {
+        return 'proximity,outbreak';
+      } else if (isUserExposedProximity) {
+        return 'proximity';
+      } else {
+        return 'outbreak';
+      }
+    }
+
+    return Promise.resolve({
+      eventType: EventTypeMetric.OtkEntered,
+      payload: [
+        ['withDate', String(withDate)],
+        ['isUserExposed', serializeIsUserExposed()],
+      ],
+      shouldBePushedToServerRightAway: false,
     });
   }
 
