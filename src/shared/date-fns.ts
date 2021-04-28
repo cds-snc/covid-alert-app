@@ -102,19 +102,6 @@ export const formatExposedDate = (date: Date, locale: string) => {
   return _formattedDate;
 };
 
-export const formateCheckInSuccessfulDate = (date: Date, locale: string) => {
-  const time = date.toLocaleTimeString('default', {
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: locale !== 'fr-CA',
-  });
-  if (locale === 'en-CA') {
-    return `${time} on ${formatExposedDate(date, locale)}`;
-  } else if (locale === 'fr-CA') {
-    return `Le ${formatExposedDate(date, locale)} à ${time}h`;
-  }
-  return formatExposedDate(date, locale);
-};
 
 export const getScannedTime = (date: Date, locale: string) => {
   const time = date.toLocaleTimeString('default', {
@@ -122,8 +109,21 @@ export const getScannedTime = (date: Date, locale: string) => {
     minute: 'numeric',
     hour12: locale !== 'fr-CA',
   });
+  const parts = time.split(':');
+  const hour = parts[0];
+  const minutes = parts[1];
+
+  if (locale === 'fr-CA') {
+    return `${hour} h ${minutes}`;
+  } else if (locale === 'en-CA') {
+    const formatEnTime = time.replace('AM', 'a.m.').replace('PM', 'p.m.')
+    return formatEnTime
+  }
+
 
   return time;
+
+
 };
 
 export const formateScannedDate = (dateString: string) => {

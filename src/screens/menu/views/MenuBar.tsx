@@ -5,19 +5,15 @@ import {SystemStatus, useSystemStatus} from 'services/ExposureNotificationServic
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useOrientation} from 'shared/useOrientation';
 import {useCachedStorage} from 'services/StorageService';
-import {useI18n} from 'locale';
 
 import {QrButton} from '../components/QrButton';
 import {MenuButton} from '../components/MenuButton';
 
 import {StatusHeaderView} from './StatusHeaderView';
 
-// const windowWidth = Dimensions.get('window').width;
-
 const borderRadius = 16;
 
 export const MenuBar = () => {
-  const i18n = useI18n();
   const {orientation} = useOrientation();
   const {qrEnabled} = useCachedStorage();
   const [systemStatus] = useSystemStatus();
@@ -29,8 +25,6 @@ export const MenuBar = () => {
   const menuButtonPadding = ratio || (qrEnabled && windowWidth <= 320) ? 'm' : 'none';
 
   const safeAreaPadding = orientation === 'landscape' ? -10 : -20;
-  console.log('windowWidth', windowWidth);
-  console.log('pixelRatio', pixelRatio);
 
   const appStatus = (
     <Text paddingTop="m" paddingBottom={statusHeaderPadding}>
@@ -49,9 +43,6 @@ export const MenuBar = () => {
       <SafeAreaView edges={['bottom']} mode="padding" style={{paddingBottom: safeAreaPadding}}>
         <Box style={styles.box}>
           {/* Stack the menu buttons or place in columns */}
-          {/* /* landscape mode, buttons side by side
-
-          */}
           {ratio || (qrEnabled && windowWidth <= 320) ? (
             <Box>
               {qrEnabled ? (
