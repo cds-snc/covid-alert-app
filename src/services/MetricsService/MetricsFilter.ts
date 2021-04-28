@@ -15,6 +15,7 @@ export enum EventTypeMetric {
   BackgroundCheck = 'background-check',
   ActiveUser = 'active-user',
   BackgroundProcess = 'background-process',
+  QrCodeSuccessfullyScanned = 'qr-code-successfully-scanned',
 }
 
 export type EventWithContext =
@@ -51,6 +52,9 @@ export type EventWithContext =
       type: EventTypeMetric.BackgroundProcess;
       succeeded: boolean;
       durationInSeconds: number;
+    }
+  | {
+      type: EventTypeMetric.QrCodeSuccessfullyScanned;
     };
 
 export interface FilteredEvent {
@@ -126,6 +130,12 @@ export class DefaultMetricsFilter implements MetricsFilter {
             ['status', eventWithContext.succeeded ? 'success' : 'fail'],
             ['durationInSeconds', String(eventWithContext.durationInSeconds)],
           ],
+          shouldBePushedToServerRightAway: false,
+        });
+      case EventTypeMetric.QrCodeSuccessfullyScanned:
+        return Promise.resolve({
+          eventType: EventTypeMetric.QrCodeSuccessfullyScanned,
+          payload: [],
           shouldBePushedToServerRightAway: false,
         });
       default:

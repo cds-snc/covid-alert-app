@@ -8,6 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {log} from 'shared/logging/config';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useOrientation} from 'shared/useOrientation';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 import {handleOpenURL} from '../utils';
 
@@ -24,6 +25,9 @@ export const QRCodeScanner = () => {
       const checkInData = await handleOpenURL({url: data});
       setScanned(true);
       addCheckIn(checkInData);
+
+      FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.QrCodeSuccessfullyScanned});
+
       navigation.navigate('CheckInSuccessfulScreen', checkInData);
     } catch (error) {
       log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`, payload: {error}});
