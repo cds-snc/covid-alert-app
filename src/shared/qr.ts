@@ -5,6 +5,12 @@ import {getCurrentDate, getHoursBetween} from './date-fns';
 
 export const OUTBREAK_EXPOSURE_DURATION_DAYS = 14;
 
+export enum OutbreakSeverity {
+  SelfMonitor = 1,
+  SelfIsolate = 2,
+  GetTested = 3,
+}
+
 export interface CheckInData {
   id: string;
   name: string;
@@ -46,6 +52,7 @@ export interface OutbreakHistoryItem {
   outbreakEndTimestamp: number;
   checkInTimestamp: number;
   notificationTimestamp: number;
+  severity: OutbreakSeverity;
 }
 
 /** returns a new outbreakHistory with the `isExpired` property updated */
@@ -75,13 +82,17 @@ export const ignoreHistoryItems = (
   });
 };
 
-export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
-  const currentOutbreakHistory = outbreakHistory.filter(outbreak => {
+export const getCurrentOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
+  return outbreakHistory.filter(outbreak => {
     if (outbreak.isExpired || outbreak.isIgnored) {
       return false;
     }
     return true;
   });
+};
+
+export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
+  const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
 
   if (currentOutbreakHistory.length > 0) {
     return true;
@@ -206,6 +217,7 @@ export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistory
     outbreakEndTimestamp: Number(matchData.outbreakEvent.endTime),
     checkInTimestamp,
     notificationTimestamp: getCurrentDate().getTime() /* revisit */,
+    severity: matchData.outbreakEvent.severity,
   };
   return newItem;
 };
