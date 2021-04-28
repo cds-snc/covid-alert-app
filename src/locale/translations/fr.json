@@ -546,10 +546,18 @@
     "OutbreakExposed": {
       "Title": "Exposition possible lors d’une visite",
       "Body": "Une personne déclarée positive était présente lors d’une de vos visites.",
-      "NextSteps": {
+      "CTA": "Résultat de test négatif?",
+      "SelfIsolate": {
         "Title": "Isolez-vous et passez un test",
-        "Body": "Si vous avez des symptômes, faites-vous tester immédiatement. Si vous n’en avez pas, attendez 7 jours après la date d’exposition pour vous faire tester.\n\nVous devez vous isoler pendant 14 jours à partir de la date d’exposition.\n\nPour toute question, contactez le bureau de santé de votre région.",
-        "CTA": "Résultat de test négatif?"
+        "Body": "Vous êtes un contact à risque élevé. Si vous avez des symptômes, faites-vous tester immédiatement. Si vous n’en avez pas, attendez 7 jours après la date d’exposition pour vous faire tester.\n\nVous devez vous isoler pendant 14 jours à partir de la date d’exposition.\n\nPour toute question, contactez le bureau de santé de votre région."
+      },
+      "GetTested": {
+        "Title": "Passez un test",
+        "Body": "Vous devez passer un test de dépistage dès que possible.\n\nEntre-temps, évitez les contacts avec les personnes vulnérables.\n\nPour toute question, contactez le bureau de santé de votre région."
+      },
+      "SelfMonitor": {
+        "Title": "Évitez les contacts et surveillez vos symptômes",
+        "Body": "Vous devez éviter les contacts avec les personnes vulnérables et surveiller vos symptômes. Si vous en développez, remplissez une autoévaluation.\n\nPour toute question, contactez le bureau de santé de votre région."
       }
     }
   },

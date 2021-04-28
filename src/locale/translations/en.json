@@ -552,10 +552,18 @@
     "OutbreakExposed": {
       "Title": "Possible exposure at a visit",
       "Body": "Someone tested positive from one of your visits.",
-      "NextSteps": {
+      "CTA": "Negative test?",
+      "SelfIsolate": {
         "Title": "Isolate and get tested",
-        "Body": "If you have symptoms, get tested right away. If you do not have symptoms, wait to get tested at least 7 days after the date of exposure.\n\nYou also need to isolate for 14 days from the date of exposure.\n\nIf you have questions, contact your local public health unit.",
-        "CTA": "Negative test?"
+        "Body": "You’re a high-risk contact. If you have symptoms, get tested right away. If you do not have symptoms, wait to get tested at least 7 days after the date of exposure.\n\nYou also need to isolate for 14 days from the date of exposure.\n\nIf you have questions, contact your local public health unit."
+      },
+      "GetTested": {
+        "Title": "Get tested",
+        "Body": "You need to get tested as soon as possible.\n\nIn the meantime, avoid contact with vulnerable people.\n\nIf you have questions, contact your local public health unit."
+      },
+      "SelfMonitor": {
+        "Title": "Avoid people and self-monitor",
+        "Body": "You need to avoid contact with vulnerable people and watch yourself carefully for symptoms. If you get symptoms, take a self-assessment.\n\nIf you have questions, contact your local public health unit."
       }
     }
   },
