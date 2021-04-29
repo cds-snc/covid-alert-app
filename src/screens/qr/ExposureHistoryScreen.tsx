@@ -1,17 +1,70 @@
 import React, {useCallback} from 'react';
-import {StyleSheet} from 'react-native';
-import {useI18n} from 'locale';
-import {ExposureHistoryData} from 'shared/qr';
+import {StyleSheet, TouchableOpacity} from 'react-native';
+import {useI18n, I18n} from 'locale';
+import {CombinedExposureHistoryData, getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon, Toolbar} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useOutbreakService} from 'services/OutbreakService';
+import {formatExposedDate} from 'shared/date-fns';
 
-const ExposureList = ({exposureHistoryData}: {exposureHistoryData: ExposureHistoryData[]}) => {
+const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
+  switch (severity) {
+    case OutbreakSeverity.GetTested:
+      return i18n.translate('QRCode.OutbreakExposed.GetTested.Title');
+    case OutbreakSeverity.SelfIsolate:
+      return i18n.translate('QRCode.OutbreakExposed.SelfIsolate.Title');
+    case OutbreakSeverity.SelfMonitor:
+      return i18n.translate('QRCode.OutbreakExposed.SelfMonitor.Title');
+  }
+};
+
+const toCombinedExposureHistoryData = ({
+  history,
+  i18n,
+}: {
+  history: OutbreakHistoryItem[];
+  i18n: I18n;
+}): CombinedExposureHistoryData[] => {
+  return history.map(outbreak => {
+    return {
+      id: outbreak.locationId,
+      type: severityText({severity: Number(outbreak.severity), i18n}),
+      timestamp: outbreak.checkInTimestamp,
+    };
+  });
+};
+
+const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExposureHistoryData[]}) => {
+  const i18n = useI18n();
+  const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
+
   return (
     <>
-      {Object.keys(exposureHistoryData).map(item => {
-        return <Box key={item} />;
+      {exposureHistoryData.map((item, index) => {
+        return (
+          <Box key={item.timestamp}>
+            <Box backgroundColor="gray5" style={styles.radius}>
+              <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
+                <Box paddingVertical="m" style={styles.exposureList}>
+                  <Box style={styles.typeIconBox}>
+                    <Icon size={20} name={item.type === 'proximity' ? 'exposure-proximity' : 'exposure-outbreak'} />
+                  </Box>
+                  <Box style={styles.boxFlex}>
+                    <Text fontWeight="bold">{formatExposedDate(new Date(item.timestamp), dateLocale)}</Text>
+                    <Text>{item.type}</Text>
+                  </Box>
+                  <Box style={styles.chevronIconBox}>
+                    <TouchableOpacity style={styles.chevronIcon}>
+                      <Icon size={30} name="icon-chevron" />
+                    </TouchableOpacity>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        );
       })}
     </>
   );
@@ -32,7 +85,9 @@ const NoExposureHistoryScreen = () => {
 
 export const ExposureHistoryScreen = () => {
   const i18n = useI18n();
-  const exposureHistory = [];
+  const outbreaks = useOutbreakService();
+  const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
+
   const navigation = useNavigation();
   const back = useCallback(() => navigation.goBack(), [navigation]);
 
@@ -41,19 +96,21 @@ export const ExposureHistoryScreen = () => {
       <SafeAreaView style={styles.flex}>
         <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('PlacesLog.Back')} onIconClicked={back} />
         <ScrollView style={styles.flex}>
-          <Box paddingHorizontal="m">
+          <Box paddingHorizontal="m" paddingBottom="m">
             <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
               {i18n.translate('ExposureHistory.Title')}
             </Text>
             <Text>{i18n.translate('ExposureHistory.Body')}</Text>
           </Box>
 
-          {exposureHistory.length === 0 ? (
+          {currentOutbreakHistory.length === 0 ? (
             <NoExposureHistoryScreen />
           ) : (
             <>
               <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
-                <ExposureList exposureHistoryData={[]} />
+                <ExposureList
+                  exposureHistoryData={toCombinedExposureHistoryData({history: currentOutbreakHistory, i18n})}
+                />
               </Box>
             </>
           )}
@@ -87,5 +144,22 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  exposureList: {
+    flexDirection: 'row',
+  },
+  boxFlex: {
+    flex: 4,
+  },
+  chevronIcon: {
+    alignItems: 'flex-end',
+  },
+  chevronIconBox: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  typeIconBox: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

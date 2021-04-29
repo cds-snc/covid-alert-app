@@ -55,6 +55,12 @@ export interface OutbreakHistoryItem {
   severity: OutbreakSeverity;
 }
 
+export interface CombinedExposureHistoryData {
+  timestamp: number;
+  // proximity or outbreak
+  type: string;
+}
+
 /** returns a new outbreakHistory with the `isExpired` property updated */
 export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
   return outbreakHistory.map(historyItem => {
