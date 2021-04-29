@@ -97,12 +97,9 @@ export class OutbreakService {
     let newCheckInHistory;
     if (locationId && timestamp) {
       // removes a specific Check In
-      console.log('Removing specific checkin: ', locationId, timestamp);
-      console.log(checkInHistory);
       newCheckInHistory = checkInHistory.filter(checkInData => {
         return !(locationId === checkInData.id && timestamp === checkInData.timestamp);
       });
-      console.log('newCheckInHistory: ', newCheckInHistory);
     } else {
       // removes most recent Check In
       checkInHistory.pop();
