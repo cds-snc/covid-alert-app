@@ -139,7 +139,7 @@ export const CheckInHistoryScreen = () => {
             </Text>
           </Box>
 
-          {checkInHistory.length === 0 ? (
+          {!checkInHistory.length || checkInHistory.length === 0 ? (
             <NoVisitsScreen />
           ) : (
             <>
