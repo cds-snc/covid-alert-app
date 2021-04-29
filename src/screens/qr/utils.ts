@@ -113,6 +113,9 @@ interface GroupedCheckInData {
 
 export const sortedCheckInArray = (checkIns: CheckInData[]) => {
   const sortedArray: GroupedCheckInData[] = [];
+
+  if (!checkIns.length) return [];
+
   const sortedCheckIn = checkIns.sort(function (first, second) {
     return second.timestamp - first.timestamp;
   });
