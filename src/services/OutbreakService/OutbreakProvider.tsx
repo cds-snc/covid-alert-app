@@ -52,7 +52,7 @@ export const useOutbreakService = () => {
 
   const deleteScannedPlace = useMemo(
     () => (locationId: string, timestamp: number) => {
-      log.debug({message: 'deleteScannedPlace', payload: {locationId}});
+      log.debug({message: 'deleteScannedPlace', payload: {locationId, timestamp}});
       outbreakService.removeCheckIn(locationId, timestamp);
     },
     [outbreakService],
@@ -62,7 +62,7 @@ export const useOutbreakService = () => {
     () => () => {
       // @todo
       log.debug({message: 'deleteAllScannedPlaces', payload: {}});
-      outbreakService.clearOutbreakHistory();
+      outbreakService.clearCheckInHistory();
     },
     [outbreakService],
   );
