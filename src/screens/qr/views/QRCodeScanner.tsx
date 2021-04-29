@@ -43,7 +43,12 @@ export const QRCodeScanner = () => {
           <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} showBackButton />
         </Box>
 
-        <Box style={styles.info} paddingTop="s" paddingHorizontal="m" height={orientation === 'landscape' ? 30 : '40%'}>
+        <Box
+          style={styles.info}
+          paddingVertical="s"
+          paddingHorizontal="m"
+          height={orientation === 'landscape' ? 40 : '40%'}
+        >
           <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
             {i18n.translate(`QRCode.Reader.Title`)}
           </Text>
@@ -66,9 +71,6 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     width: '100%',
-    // paddingBottom: '50%',
-    // height: '40%',
-    // flex: 1,
   },
   toolbar: {
     backgroundColor: 'black',
