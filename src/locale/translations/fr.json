@@ -543,6 +543,7 @@
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },
+    "ProximityExposure": "Passez un test",
     "OutbreakExposed": {
       "Title": "Exposition possible lors d’une visite",
       "Body": "Une personne déclarée positive était présente lors d’une de vos visites.",

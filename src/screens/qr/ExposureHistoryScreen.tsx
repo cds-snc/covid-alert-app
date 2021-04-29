@@ -8,6 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {formatExposedDate} from 'shared/date-fns';
+import {useExposureHistory} from 'services/ExposureNotificationService';
 
 const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
   switch (severity) {
@@ -20,7 +21,7 @@ const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}
   }
 };
 
-const toCombinedExposureHistoryData = ({
+const toOutbreakExposureHistoryData = ({
   history,
   i18n,
 }: {
@@ -30,8 +31,26 @@ const toCombinedExposureHistoryData = ({
   return history.map(outbreak => {
     return {
       id: outbreak.locationId,
-      type: severityText({severity: Number(outbreak.severity), i18n}),
+      type: 'exposure',
+      subtitle: severityText({severity: Number(outbreak.severity), i18n}),
       timestamp: outbreak.checkInTimestamp,
+    };
+  });
+};
+
+const toProximityExposureHistoryData = ({
+  history,
+  i18n,
+}: {
+  history: number[];
+  i18n: I18n;
+}): CombinedExposureHistoryData[] => {
+  return history.map(outbreak => {
+    return {
+      id: outbreak,
+      type: 'proximity',
+      subtitle: i18n.translate('QRCode.ProximityExposure'),
+      timestamp: outbreak,
     };
   });
 };
@@ -53,7 +72,7 @@ const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExpos
                   </Box>
                   <Box style={styles.boxFlex}>
                     <Text fontWeight="bold">{formatExposedDate(new Date(item.timestamp), dateLocale)}</Text>
-                    <Text>{item.type}</Text>
+                    <Text>{item.subtitle}</Text>
                   </Box>
                   <Box style={styles.chevronIconBox}>
                     <TouchableOpacity style={styles.chevronIcon}>
@@ -87,6 +106,11 @@ export const ExposureHistoryScreen = () => {
   const i18n = useI18n();
   const outbreaks = useOutbreakService();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
+  const proximityExposure = useExposureHistory();
+  const mergedArray = [
+    ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
+    ...toProximityExposureHistoryData({history: proximityExposure, i18n}),
+  ];
 
   const navigation = useNavigation();
   const back = useCallback(() => navigation.goBack(), [navigation]);
@@ -119,17 +143,14 @@ export const ExposureHistoryScreen = () => {
             <Text>{i18n.translate('ExposureHistory.Body')}</Text>
           </Box>
 
-          {currentOutbreakHistory.length === 0 ? (
+          {mergedArray.length === 0 ? (
             <NoExposureHistoryScreen />
           ) : (
             <>
               <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
-                <ExposureList
-                  exposureHistoryData={toCombinedExposureHistoryData({history: currentOutbreakHistory, i18n})}
-                />
+                <ExposureList exposureHistoryData={mergedArray} />
 
                 <Box marginTop="m">
-                  {/* make this add an exposure */}
                   <Button variant="opaqueGrey" text="Delete All" onPress={deleteAllPlaces} />
                 </Box>
               </Box>
