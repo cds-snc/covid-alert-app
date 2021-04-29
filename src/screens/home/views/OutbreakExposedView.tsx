@@ -14,7 +14,7 @@ export const OutbreakExposedView = () => {
   const {outbreakHistory} = useOutbreakService();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
   const mostRecentHistoryItem = currentOutbreakHistory[0];
-  const severity = mostRecentHistoryItem.severity;
+  const severity = mostRecentHistoryItem?.severity;
 
   return (
     <BaseHomeView iconName="hand-caution-yellow" testID="outbreakExposure">
