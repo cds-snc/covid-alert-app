@@ -8,7 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {formatExposedDate} from 'shared/date-fns';
-import {useExposureHistory} from 'services/ExposureNotificationService';
+import {useExposureHistory, useClearExposedStatus} from 'services/ExposureNotificationService';
 
 const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
   switch (severity) {
@@ -105,12 +105,16 @@ const NoExposureHistoryScreen = () => {
 export const ExposureHistoryScreen = () => {
   const i18n = useI18n();
   const outbreaks = useOutbreakService();
+  const [clearExposedStatus] = useClearExposedStatus();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
   const proximityExposure = useExposureHistory();
   const mergedArray = [
     ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
     ...toProximityExposureHistoryData({history: proximityExposure, i18n}),
   ];
+  const clearProximityExposure = useCallback(() => {
+    clearExposedStatus();
+  }, [clearExposedStatus]);
 
   const navigation = useNavigation();
   const back = useCallback(() => navigation.goBack(), [navigation]);
@@ -125,6 +129,7 @@ export const ExposureHistoryScreen = () => {
         text: i18n.translate('PlacesLog.Alert.ConfirmDeleteAll'),
         onPress: () => {
           outbreaks.deleteAllScannedPlaces();
+          clearProximityExposure();
         },
         style: 'cancel',
       },
