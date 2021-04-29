@@ -47,7 +47,7 @@ export const QRCodeScanner = () => {
           style={styles.info}
           paddingVertical="s"
           paddingHorizontal="m"
-          height={orientation === 'landscape' ? 40 : '40%'}
+          height={orientation === 'landscape' ? 40 : '25%'}
         >
           <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
             {i18n.translate(`QRCode.Reader.Title`)}
