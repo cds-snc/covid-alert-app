@@ -7,12 +7,14 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {log} from 'shared/logging/config';
 import {useOutbreakService} from 'services/OutbreakService';
+import {useOrientation} from 'shared/useOrientation';
 
 import {handleOpenURL} from '../utils';
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
   const {addCheckIn} = useOutbreakService();
+  const {orientation} = useOrientation();
   const [scanned, setScanned] = useState<boolean>(false);
 
   const i18n = useI18n();
@@ -41,7 +43,7 @@ export const QRCodeScanner = () => {
           <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} showBackButton />
         </Box>
 
-        <Box style={styles.info} paddingTop="s" paddingHorizontal="m">
+        <Box style={styles.info} paddingTop="s" paddingHorizontal="m" height={orientation === 'landscape' ? 30 : '40%'}>
           <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
             {i18n.translate(`QRCode.Reader.Title`)}
           </Text>
@@ -64,7 +66,9 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     width: '100%',
-    paddingBottom: '40%',
+    // paddingBottom: '50%',
+    // height: '40%',
+    // flex: 1,
   },
   toolbar: {
     backgroundColor: 'black',
