@@ -1,13 +1,12 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useI18n, I18n} from 'locale';
-import {CombinedExposureHistoryData} from 'shared/qr';
+import {CombinedExposureHistoryData, getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon, Toolbar} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
-import {getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 import {formatExposedDate} from 'shared/date-fns';
 
 const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
@@ -21,14 +20,17 @@ const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}
   }
 };
 
-const toCombinedExposureHistoryData = (
-  currentOutbreakHistory: OutbreakHistoryItem[],
-): CombinedExposureHistoryData[] => {
-  const i18n = useI18n();
-  return currentOutbreakHistory.map(outbreak => {
+const toCombinedExposureHistoryData = ({
+  history,
+  i18n,
+}: {
+  history: OutbreakHistoryItem[];
+  i18n: I18n;
+}): CombinedExposureHistoryData[] => {
+  return history.map(outbreak => {
     return {
       id: outbreak.locationId,
-      type: severityText({severity: Number(outbreak.severity), i18n: i18n}),
+      type: severityText({severity: Number(outbreak.severity), i18n}),
       timestamp: outbreak.checkInTimestamp,
     };
   });
@@ -106,7 +108,9 @@ export const ExposureHistoryScreen = () => {
           ) : (
             <>
               <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
-                <ExposureList exposureHistoryData={toCombinedExposureHistoryData(currentOutbreakHistory)} />
+                <ExposureList
+                  exposureHistoryData={toCombinedExposureHistoryData({history: currentOutbreakHistory, i18n})}
+                />
               </Box>
             </>
           )}

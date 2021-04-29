@@ -57,7 +57,8 @@ export interface OutbreakHistoryItem {
 
 export interface CombinedExposureHistoryData {
   timestamp: number;
-  type: string; //proximity or outbreak
+  // proximity or outbreak
+  type: string;
 }
 
 /** returns a new outbreakHistory with the `isExpired` property updated */
