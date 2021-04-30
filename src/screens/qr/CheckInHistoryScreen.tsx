@@ -127,7 +127,7 @@ export const CheckInHistoryScreen = () => {
         <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('PlacesLog.Back')} onIconClicked={back} />
         <ScrollView style={styles.flex}>
           <Box paddingHorizontal="m">
-            <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+            <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
               {i18n.translate('PlacesLog.Title')}
             </Text>
             <Text>{i18n.translate('PlacesLog.Body1')}</Text>
