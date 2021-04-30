@@ -111,7 +111,10 @@ export const Button = ({
             </Box>
           )}
 
-          <Text style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}>
+          <Text
+            maxFontSizeMultiplier={1.5}
+            style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}
+          >
             {text}
           </Text>
           <Box style={{...styles.chevronOffset}}>
