@@ -73,14 +73,6 @@ describe('Demo menu test', () => {
    */
   const FSacceleration = isDeviceFruity ? 0.41 : 0.31;
 
-<<<<<<< Updated upstream
-  screens.forEach((scr, here) => {
-    it(`force ${scr} screen`, async () => {
-      await expect(element(by.id('DemoMenu'))).toBeVisible();
-      await element(by.id('ClearNotificationReceipts')).swipe('up', 'slow', isDeviceFruity ? 0.26 : 0.4);
-      await expect(element(by.id(scr))).toBeVisible();
-      await element(by.id(scr)).tap();
-=======
   describe('Visits forceable screens', () => {
     ForceScreens.forEach((scr, here) => {
       it(`show ${scr} screen`, async () => {
@@ -107,7 +99,6 @@ describe('Demo menu test', () => {
     it('close', async () => {
       if (isDeviceFruity) await expect(element(by.id('headerButton'))).not.toBeVisible();
       await expect(element(by.id('toolbarCloseButton'))).toBeVisible();
->>>>>>> Stashed changes
       await element(by.id('toolbarCloseButton')).tap();
       // We should now be on the expected forced screen
       await device.takeScreenshot(`ForceScreen.${scr}${weScroll[here] ? '-top' : ''}`);
