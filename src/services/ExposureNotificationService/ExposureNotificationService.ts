@@ -840,7 +840,7 @@ export class ExposureNotificationService {
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
-      log.error({category: 'exposure-check', message: 'performExposureStatusUpdate', error});
+      log.debug({category: 'exposure-check', message: 'performExposureStatusUpdate', error});
     }
 
     return this.finalize();
