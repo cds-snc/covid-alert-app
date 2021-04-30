@@ -59,6 +59,7 @@ export interface CombinedExposureHistoryData {
   timestamp: number;
   // proximity or outbreak
   type: string;
+  subtitle: string;
 }
 
 /** returns a new outbreakHistory with the `isExpired` property updated */
