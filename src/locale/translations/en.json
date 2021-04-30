@@ -543,7 +543,7 @@
     },
     "ScanAPlace": {
       "Title": "Add a visit",
-      "Body": "Get notified if someone from today tests positive later.\n\nThe app saves your visits on your phone, including the dates and times you were there. **Your visits are not shared** with anyone.",
+      "Body": "Get notified if someone from today tests positive later.\n\nThe app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits are not shared** with anyone.",
       "CTA": "Next",
       "CTA2": "About adding a visit"
     },
