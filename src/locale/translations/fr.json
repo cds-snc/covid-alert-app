@@ -537,7 +537,7 @@
     },
     "ScanAPlace": {
       "Title": "Ajouter une visite",
-      "Body": "Vous serez avisé si quelqu’un présent pendant votre visite est déclaré positif prochainement.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\n**Vos visites ne sont communiquées à personne.**",
+      "Body": "Vous serez avisé si quelqu’un présent pendant votre visite est déclaré positif prochainement.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },
