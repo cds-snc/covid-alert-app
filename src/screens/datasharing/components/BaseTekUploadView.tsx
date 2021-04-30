@@ -9,6 +9,8 @@ import {xhrError} from 'shared/fetch';
 import {ContagiousDateInfo, ContagiousDateType} from 'shared/DataSharing';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
+import {useOutbreakService} from 'services/OutbreakService';
+import {isExposedToOutbreak} from 'shared/qr';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -38,6 +40,7 @@ export const BaseTekUploadView = ({
   const [loading, setLoading] = useState(false);
   const {fetchAndSubmitKeys, setIsUploading} = useReportDiagnosis();
   const exposureHistory = useExposureHistory();
+  const {outbreakHistory} = useOutbreakService();
 
   const onSuccess = useCallback(() => {
     DefaultStorageService.sharedInstance().save(StorageDirectory.GlobalInitialTekUploadCompleteKey, 'true');
@@ -88,7 +91,8 @@ export const BaseTekUploadView = ({
         FilteredMetricsService.sharedInstance().addEvent({
           type: EventTypeMetric.OtkEntered,
           withDate: contagiousDateInfo.dateType !== ContagiousDateType.None,
-          isUserExposed: exposureHistory.length > 0,
+          isUserExposedProximity: exposureHistory.length > 0,
+          isUserExposedOutbreak: isExposedToOutbreak(outbreakHistory),
         });
       }
 
@@ -104,6 +108,7 @@ export const BaseTekUploadView = ({
     fetchAndSubmitKeys,
     onError,
     onSuccess,
+    outbreakHistory,
     setIsUploading,
     uploadOtkEntryMetric,
   ]);

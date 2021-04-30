@@ -7,12 +7,15 @@ import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {log} from 'shared/logging/config';
 import {useOutbreakService} from 'services/OutbreakService';
+import {useOrientation} from 'shared/useOrientation';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 import {handleOpenURL} from '../utils';
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
   const {addCheckIn} = useOutbreakService();
+  const {orientation} = useOrientation();
   const [scanned, setScanned] = useState<boolean>(false);
 
   const i18n = useI18n();
@@ -22,6 +25,9 @@ export const QRCodeScanner = () => {
       const checkInData = await handleOpenURL({url: data});
       setScanned(true);
       addCheckIn(checkInData);
+
+      FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.QrCodeSuccessfullyScanned});
+
       navigation.navigate('CheckInSuccessfulScreen', checkInData);
     } catch (error) {
       log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`, payload: {error}});
@@ -41,7 +47,12 @@ export const QRCodeScanner = () => {
           <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} showBackButton />
         </Box>
 
-        <Box style={styles.info} paddingTop="s" paddingHorizontal="m">
+        <Box
+          style={styles.info}
+          paddingVertical="s"
+          paddingHorizontal="m"
+          height={orientation === 'landscape' ? 40 : '25%'}
+        >
           <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
             {i18n.translate(`QRCode.Reader.Title`)}
           </Text>
@@ -64,7 +75,6 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     width: '100%',
-    paddingBottom: '40%',
   },
   toolbar: {
     backgroundColor: 'black',

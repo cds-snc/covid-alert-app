@@ -1,4 +1,4 @@
-package app.covidshield.storage
+package app.covidshield.services.storage
 
 import android.content.Context
 import app.covidshield.utils.SingletonHolder

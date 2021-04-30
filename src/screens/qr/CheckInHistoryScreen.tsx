@@ -17,7 +17,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
   const checkIns = sortedCheckInArray(scannedCheckInData);
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
 
-  const deleteConfirmationAlert = (id: string) => {
+  const deleteConfirmationAlert = (locationId: string, timestamp: number) => {
     Alert.alert(i18n.translate('PlacesLog.Alert.Title'), i18n.translate('PlacesLog.Alert.Subtitle'), [
       {
         text: i18n.translate('PlacesLog.Alert.Cancel'),
@@ -26,7 +26,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
       {
         text: i18n.translate('PlacesLog.Alert.ConfirmDelete'),
         onPress: () => {
-          deleteScannedPlace(id);
+          deleteScannedPlace(locationId, timestamp);
         },
         style: 'cancel',
       },
@@ -68,7 +68,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                           accessibilityLabel={`${i18n.translate('PlacesLog.DeleteIcon')} ${data.checkIns.name}`}
                           style={styles.deleteIcon}
                           onPress={() => {
-                            deleteConfirmationAlert(data.checkIns.id);
+                            deleteConfirmationAlert(data.checkIns.id, data.checkIns.timestamp);
                           }}
                         >
                           <Icon size={40} name="delete-icon" />
@@ -139,7 +139,7 @@ export const CheckInHistoryScreen = () => {
             </Text>
           </Box>
 
-          {checkInHistory.length === 0 ? (
+          {!checkInHistory.length || checkInHistory.length === 0 ? (
             <NoVisitsScreen />
           ) : (
             <>

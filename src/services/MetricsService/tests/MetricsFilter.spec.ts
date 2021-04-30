@@ -70,6 +70,72 @@ describe('MetricsFilter', () => {
     expect(filteredEvent3).toBeNull();
   });
 
+  it('otk entered event has valid isUserExposed associated value', async () => {
+    const filteredEvent1 = await sut.filterEvent({
+      type: EventTypeMetric.OtkEntered,
+      withDate: true,
+      isUserExposedProximity: true,
+      isUserExposedOutbreak: true,
+    });
+
+    expect(filteredEvent1).toStrictEqual({
+      eventType: EventTypeMetric.OtkEntered,
+      payload: [
+        ['withDate', 'true'],
+        ['isUserExposed', 'proximity,outbreak'],
+      ],
+      shouldBePushedToServerRightAway: false,
+    });
+
+    const filteredEvent2 = await sut.filterEvent({
+      type: EventTypeMetric.OtkEntered,
+      withDate: true,
+      isUserExposedProximity: false,
+      isUserExposedOutbreak: false,
+    });
+
+    expect(filteredEvent2).toStrictEqual({
+      eventType: EventTypeMetric.OtkEntered,
+      payload: [
+        ['withDate', 'true'],
+        ['isUserExposed', ''],
+      ],
+      shouldBePushedToServerRightAway: false,
+    });
+
+    const filteredEvent3 = await sut.filterEvent({
+      type: EventTypeMetric.OtkEntered,
+      withDate: true,
+      isUserExposedProximity: false,
+      isUserExposedOutbreak: true,
+    });
+
+    expect(filteredEvent3).toStrictEqual({
+      eventType: EventTypeMetric.OtkEntered,
+      payload: [
+        ['withDate', 'true'],
+        ['isUserExposed', 'outbreak'],
+      ],
+      shouldBePushedToServerRightAway: false,
+    });
+
+    const filteredEvent4 = await sut.filterEvent({
+      type: EventTypeMetric.OtkEntered,
+      withDate: true,
+      isUserExposedProximity: true,
+      isUserExposedOutbreak: false,
+    });
+
+    expect(filteredEvent4).toStrictEqual({
+      eventType: EventTypeMetric.OtkEntered,
+      payload: [
+        ['withDate', 'true'],
+        ['isUserExposed', 'proximity'],
+      ],
+      shouldBePushedToServerRightAway: false,
+    });
+  });
+
   it('exposed-clear event is only published if in exposed state', async () => {
     const filteredEvent1 = await sut.filterEvent({
       type: EventTypeMetric.ExposedClear,

@@ -18,7 +18,7 @@ import {RegionCase} from 'shared/Region';
 import {getRegionCase} from 'shared/RegionLogic';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
-import {isExposedToOutbreak} from 'shared/qr';
+import {getCurrentOutbreakHistory, isExposedToOutbreak} from 'shared/qr';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useNotificationPermissionStatus} from 'shared/NotificationPermissionStatus';
 
@@ -47,7 +47,7 @@ const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
 };
 
 const Content = () => {
-  const {region, userStopped} = useCachedStorage();
+  const {region, userStopped, qrEnabled} = useCachedStorage();
 
   const regionalI18n = useRegionalI18n();
   const regionCase = getRegionCase(region, regionalI18n.activeRegions);
@@ -95,10 +95,6 @@ const Content = () => {
     }
   }
 
-  if (isExposedToOutbreak(outbreakHistory)) {
-    return <OutbreakExposedView />;
-  }
-
   if (userStopped && systemStatus !== SystemStatus.Active) {
     return <ExposureNotificationsUserStoppedView />;
   }
@@ -112,6 +108,19 @@ const Content = () => {
       return <ExposureNotificationsDisabledView />;
     case SystemStatus.PlayServicesNotAvailable:
       return <FrameworkUnavailableView />;
+  }
+
+  if (qrEnabled && isExposedToOutbreak(outbreakHistory)) {
+    if (exposureStatus.type === ExposureStatusType.Monitoring) {
+      return <OutbreakExposedView />;
+    } else if (exposureStatus.type === ExposureStatusType.Exposed) {
+      const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
+      const outbreakTimestamp = currentOutbreakHistory[currentOutbreakHistory.length - 1].checkInTimestamp;
+      const proximityTimestamp = exposureStatus.summary.lastExposureTimestamp;
+      if (outbreakTimestamp > proximityTimestamp) {
+        return <OutbreakExposedView />;
+      }
+    }
   }
 
   switch (exposureStatus.type) {

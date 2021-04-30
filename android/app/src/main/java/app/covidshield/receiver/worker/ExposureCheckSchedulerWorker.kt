@@ -7,10 +7,10 @@ import androidx.work.WorkerParameters
 import app.covidshield.extensions.log
 import app.covidshield.models.ExposureStatus
 import app.covidshield.services.metrics.MetricType
-import app.covidshield.services.metrics.MetricsService
-import app.covidshield.shared.DateFns
-import app.covidshield.storage.StorageDirectory
-import app.covidshield.storage.StorageService
+import app.covidshield.services.metrics.FilteredMetricsService
+import app.covidshield.services.storage.StorageDirectory
+import app.covidshield.services.storage.StorageService
+import app.covidshield.utils.DateUtils
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter
@@ -37,18 +37,22 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
     override suspend fun doWork(): Result {
         Log.d("background", "ExposureCheckSchedulerWorker - doWork")
 
-        MetricsService.publishMetric(MetricType.ScheduledCheckStartedToday, true, context)
+        val filteredMetricsService = FilteredMetricsService.getInstance(context)
+
+        filteredMetricsService.sendDailyMetrics()
+
+        filteredMetricsService.addMetric(MetricType.ScheduledCheckStartedToday, true)
 
         try {
             val status = storageService.retrieve(StorageDirectory.ExposureStatus)
             val exposureStatus = Gson().fromJson(status, ExposureStatus::class.java)
-            val minutesSinceLastCheck = (DateFns.getCurrentDate().time - exposureStatus.lastChecked.timestamp) / 1000 / 60
+            val minutesSinceLastCheck = (DateUtils.getCurrentLocalDate().time - exposureStatus.lastChecked.timestamp) / 1000 / 60
             val backgroundCheck = storageService.retrieve(StorageDirectory.MetricsFilterStateStorageBackgroundCheckEventMarkerKey)?.split(",")?.count() ?: 0
             Log.d("background", "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
-            MetricsService.publishDebugMetric(2.0, context, "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
+            filteredMetricsService.addDebugMetric(2.0, "LastChecked: $minutesSinceLastCheck, BackgroundCheck: $backgroundCheck")
         } catch (exception: Exception) {
             Log.e("exception", exception.message ?: "Exception message not available")
-            MetricsService.publishDebugMetric(2.0, context, "LastChecked: n/a, BackgroundCheck: n/a")
+            filteredMetricsService.addDebugMetric(2.0, "LastChecked: n/a, BackgroundCheck: n/a")
         }
 
         try {
@@ -56,37 +60,37 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
             val enStatus = exposureNotificationClient.status.await()
 
             if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
-                MetricsService.publishDebugMetric(200.1, context, oncePerUTCDay = true)
+                filteredMetricsService.addDebugMetric(200.1, oncePerUTCDay = true)
                 Log.d("background", "ExposureCheckSchedulerWorker - ExposureNotification: Not enabled or not activated")
-                MetricsService.publishDebugMetric(2.1, context, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
+                filteredMetricsService.addDebugMetric(2.1, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
                 return Result.success()
             }
             val currentReactContext = getCurrentReactContext(context)
             if (currentReactContext != null) {
-                MetricsService.publishDebugMetric(3.1, context);
+                filteredMetricsService.addDebugMetric(3.1)
                 currentReactContext.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("initiateExposureCheckEvent", "data")
             } else {
                 try {
                     withTimeout(HEADLESS_JS_TASK_TIMEOUT_MS) {
                         withContext(Dispatchers.Main) {
-                            MetricsService.publishDebugMetric(3.2, context);
+                            filteredMetricsService.addDebugMetric(3.2)
                             val completer = CompletableDeferred<Unit>()
                             CustomHeadlessTask(applicationContext, HEADLESS_JS_TASK_NAME) { completer.complete(Unit) }
                             completer.await()
                         }
                     }
                 } catch (exception: TimeoutCancellationException) {
-                    MetricsService.publishDebugMetric(101.0, context, exception.message ?: "Unknown");
+                    filteredMetricsService.addDebugMetric(101.0, exception.message ?: "Unknown")
                     log("doWork exception", mapOf("message" to "Timeout"))
                     return Result.failure()
                 } catch (exception: Exception) {
-                    MetricsService.publishDebugMetric(102.0, context, exception.message ?: "Unknown");
+                    filteredMetricsService.addDebugMetric(102.0, exception.message ?: "Unknown")
                     log("doWork exception", mapOf("message" to (exception.message ?: "Unknown")))
                     return Result.failure()
                 }
             }
         } catch (exception: Exception) {
-            MetricsService.publishDebugMetric(103.0, context, exception.message ?: "Unknown");
+            filteredMetricsService.addDebugMetric(103.0, exception.message ?: "Unknown")
             Log.d("exception", "exception")
             return Result.failure()
         }

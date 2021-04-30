@@ -6,13 +6,11 @@ import androidx.work.*
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
 import app.covidshield.extensions.launch
-import app.covidshield.extensions.log
 import app.covidshield.extensions.parse
 import app.covidshield.extensions.toJson
 import app.covidshield.receiver.worker.ExposureCheckNotificationWorker
 import app.covidshield.receiver.worker.ExposureCheckSchedulerWorker
-import app.covidshield.services.metrics.DebugMetricsHelper
-import app.covidshield.services.metrics.MetricsService
+import app.covidshield.services.metrics.FilteredMetricsService
 import com.facebook.react.bridge.*
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.CoroutineScope
@@ -40,8 +38,11 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
     fun scheduleExposureCheck(data: ReadableMap, promise: Promise) {
         promise.launch(this){
             Log.d("background", "scheduleExposureCheck")
+
+            val filteredMetricsService = FilteredMetricsService.getInstance(context)
+
             try {
-                MetricsService.publishDebugMetric(1.0, context);
+                filteredMetricsService.addDebugMetric(1.0)
 
                 val config = data.toHashMap().toJson().parse(PeriodicWorkPayload::class.java)
                 Log.d("Minimum Repeat Interval", MIN_PERIODIC_INTERVAL_MILLIS.toString())
@@ -55,7 +56,7 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
                 workManager.enqueueUniquePeriodicWork("exposureCheckSchedulerWorker", ExistingPeriodicWorkPolicy.REPLACE, workerRequest)
                 promise.resolve(null)
             } catch (exception: Exception) {
-                MetricsService.publishDebugMetric(108.0, context, exception.message ?: "Unknown");
+                filteredMetricsService.addDebugMetric(108.0, exception.message ?: "Unknown")
                 promise.reject(exception)
             }
         }
@@ -65,8 +66,11 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
     fun executeExposureCheck(data: ReadableMap, promise: Promise) {
         promise.launch(this) {
             Log.d("background", "executeExposureCheck")
+
+            val filteredMetricsService = FilteredMetricsService.getInstance(context)
+
             try {
-                MetricsService.publishDebugMetric(7.0, context)
+                filteredMetricsService.addDebugMetric(7.0)
 
                 val config = data.toHashMap().toJson().parse(NotificationPayload::class.java)
 
@@ -85,7 +89,7 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
                 workManager.enqueueUniqueWork("exposureCheckNotificationWorker", ExistingWorkPolicy.REPLACE, workerRequest)
                 promise.resolve(null)
             } catch (exception: Exception) {
-                MetricsService.publishDebugMetric(109.0, context, exception.message ?: "Unknown");
+                filteredMetricsService.addDebugMetric(109.0, exception.message ?: "Unknown")
                 promise.reject(exception)
             }
         }

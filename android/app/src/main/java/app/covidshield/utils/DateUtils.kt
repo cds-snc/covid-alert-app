@@ -15,4 +15,12 @@ object DateUtils {
         return sameDay && sameMonth && sameYear
     }
 
+    fun getCurrentLocalDate(): Date {
+        return Date()
+    }
+
+    fun getCurrentUTCDate(): Date {
+        return Date(System.currentTimeMillis())
+    }
+
 }

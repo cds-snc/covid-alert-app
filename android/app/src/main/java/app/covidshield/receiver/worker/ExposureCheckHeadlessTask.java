@@ -15,7 +15,8 @@ import com.facebook.react.jstasks.HeadlessJsTaskContext;
 import com.facebook.react.jstasks.HeadlessJsTaskEventListener;
 import com.facebook.react.common.LifecycleState;
 
-import app.covidshield.services.metrics.MetricsService;
+import app.covidshield.services.metrics.FilteredMetricsService;
+import app.covidshield.services.metrics.JavaFilteredMetricsService;
 
 /**
  * Created by chris on 2018-01-17 for https://github.com/cds-snc/react-native-background-fetch
@@ -29,19 +30,20 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
     private HeadlessJsTaskContext mActiveTaskContext;
 
     public ExposureCheckHeadlessTask(Context context, String taskId) {
-        MetricsService.publishDebugMetric(3.3, context);
+        FilteredMetricsService filteredMetricsService = FilteredMetricsService.Companion.getInstance(context);
+        JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 3.3);
         try {
             ReactApplication reactApplication = ((ReactApplication) context.getApplicationContext());
             mReactNativeHost = reactApplication.getReactNativeHost();
         } catch (AssertionError | ClassCastException e) {
-            MetricsService.publishDebugMetric(100, context, e.getMessage());
+            JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 100, e.getMessage());
             // Log.e(BackgroundFetch.TAG, "Failed to fetch ReactApplication.  Task ignored.");
             return;  // <-- Do nothing.  Just return
         }
         WritableMap clientEvent = new WritableNativeMap();
         clientEvent.putString("taskId", taskId);
         HeadlessJsTaskConfig config = new HeadlessJsTaskConfig(taskId, clientEvent, 30000);
-        MetricsService.publishDebugMetric(3.4, context);
+        JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 3.4);
         startTask(config);
     }
 
@@ -77,12 +79,13 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
             reactInstanceManager.addReactInstanceEventListener(new ReactInstanceManager.ReactInstanceEventListener() {
                 @Override
                 public void onReactContextInitialized(final ReactContext reactContext) {
+                    FilteredMetricsService filteredMetricsService = FilteredMetricsService.Companion.getInstance(reactContext);
                     // Hack to fix unknown problem executing asynchronous BackgroundTask when ReactContext is created *first time*.  Fixed by adding short delay before #invokeStartTask
-                    MetricsService.publishDebugMetric(3.5, reactContext);
+                    JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 3.5);
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            MetricsService.publishDebugMetric(3.6, reactContext);
+                            JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 3.6);
                             invokeStartTask(reactContext, taskConfig);
                         }
                     }, 500);
@@ -93,20 +96,23 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
                 reactInstanceManager.createReactContextInBackground();
             }
         } else {
-            MetricsService.publishDebugMetric(3.8, reactContext);
+            FilteredMetricsService filteredMetricsService = FilteredMetricsService.Companion.getInstance(reactContext);
+            JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 3.8);
             invokeStartTask(reactContext, taskConfig);
         }
     }
 
     private void invokeStartTask(ReactContext reactContext, final HeadlessJsTaskConfig taskConfig) {
 
+        FilteredMetricsService filteredMetricsService = FilteredMetricsService.Companion.getInstance(reactContext);
+
         try {
             if (reactContext.getLifecycleState() == LifecycleState.RESUMED) {
-                MetricsService.publishDebugMetric(3.9, reactContext);
+                JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 3.9);
                 return;
             }
         } catch (Exception exception) {
-            MetricsService.publishDebugMetric(109, reactContext, exception.getMessage());
+            JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 109, exception.getMessage());
             return;
         }
 
@@ -115,21 +121,21 @@ public class ExposureCheckHeadlessTask implements HeadlessJsTaskEventListener {
             headlessJsTaskContext.addTaskEventListener(this);
             mActiveTaskContext = headlessJsTaskContext;
 
-            MetricsService.publishDebugMetric(3.10, reactContext);
+            JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 3.10);
             UiThreadUtil.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    MetricsService.publishDebugMetric(3.11, reactContext);
+                    JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 3.11);
                     try {
                         int taskId = headlessJsTaskContext.startTask(taskConfig);
                     } catch (Exception exception) {
-                        MetricsService.publishDebugMetric(104, reactContext, exception.getMessage());
+                        JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 104, exception.getMessage());
                         return;  // <-- Do nothing.  Just return
                     }
                 }
             });
         } catch (Exception exception) {
-            MetricsService.publishDebugMetric(105, reactContext, exception.getMessage());
+            JavaFilteredMetricsService.addDebugMetric(filteredMetricsService, 105, exception.getMessage());
             return;  // <-- Do nothing.  Just return
         }
 

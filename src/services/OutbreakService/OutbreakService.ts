@@ -9,6 +9,7 @@ import {BackendInterface} from 'services/BackendService';
 import {unzip} from 'react-native-zip-archive';
 import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -90,17 +91,32 @@ export class OutbreakService {
     this.checkInHistory.set(checkInHistory);
   };
 
-  removeCheckIn = async () => {
-    // removes most recent Check In
-    const _checkInHistory =
+  removeCheckIn = async (locationId?: string, timestamp?: number) => {
+    const _checkInHistory: string =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
-    const checkInHistory = JSON.parse(_checkInHistory);
-    const newCheckInHistory = checkInHistory.slice(0, -1);
+    const checkInHistory: CheckInData[] = JSON.parse(_checkInHistory);
+    let newCheckInHistory;
+    if (locationId && timestamp) {
+      // removes a specific Check In
+      newCheckInHistory = checkInHistory.filter(checkInData => {
+        return !(locationId === checkInData.id && timestamp === checkInData.timestamp);
+      });
+    } else {
+      // removes most recent Check In
+      checkInHistory.pop();
+      newCheckInHistory = checkInHistory;
+    }
+
     await this.storageService.save(
       StorageDirectory.OutbreakServiceCheckInHistoryKey,
       JSON.stringify(newCheckInHistory),
     );
     this.checkInHistory.set(newCheckInHistory);
+  };
+
+  clearCheckInHistory = async () => {
+    await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify([]));
+    this.checkInHistory.set([]);
   };
 
   init = async () => {
@@ -109,7 +125,7 @@ export class OutbreakService {
     this.outbreakHistory.set(JSON.parse(outbreakHistory));
 
     const checkInHistory =
-      (await this.storageService.retrieve(StorageDirectory.OutbreakProviderOutbreaksLastCheckedStorageKey)) || '[]';
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 
@@ -152,7 +168,10 @@ export class OutbreakService {
 
           const outbreakHistory = this.outbreakHistory.get();
 
-          this.processOutbreakNotification(outbreakHistory);
+          if (isExposedToOutbreak(outbreakHistory)) {
+            FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedToOutbreak});
+            this.processOutbreakNotification();
+          }
         } catch (error) {
           log.error({category: 'qr-code', error});
         }
@@ -213,14 +232,12 @@ export class OutbreakService {
     return this.convertOutbreakEvents(outbreakEvents);
   };
 
-  processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {
-    if (isExposedToOutbreak(outbreakHistory)) {
-      PushNotification.presentLocalNotification({
-        alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
-        alertBody: this.i18n.translate('Notification.OutbreakMessageBody'),
-        channelName: this.i18n.translate('Notification.AndroidChannelName'),
-      });
-    }
+  processOutbreakNotification = () => {
+    PushNotification.presentLocalNotification({
+      alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
+      alertBody: this.i18n.translate('Notification.OutbreakMessageBody'),
+      channelName: this.i18n.translate('Notification.AndroidChannelName'),
+    });
   };
 
   // TODO: refactor this method to share logic with getPeriodsSinceLastFetch method found in ExposureNotificationService.

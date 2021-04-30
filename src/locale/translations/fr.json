@@ -229,7 +229,7 @@
     "step-1": "Le lieu et le moment où il y a un risque d’exposition est déterminé par les autorités de santé publique.\n\nChaque jour, Alerte COVID télécharge une liste de ces lieux et moments.\n\nS’il y a correspondance avec l’une de vos visites, l’application vous enverra une notification et vous expliquera quoi faire.",
     "step-2Title": "Votre vie privée est protégée",
     "step-2AltText": "-",
-    "step-2": "L’application enregistre la date, l’heure et le lieu de vos visites sur votre téléphone. **Vos visites et vos expositions ne sont communiquées à personne.**\n\nVous pouvez consulter la liste de vos visites récentes à partir du menu. Au besoin, vous pouvez aussi supprimer des visites.",
+    "step-2": "L’application enregistre la date, l’heure et le lieu de vos visites sur votre téléphone. Vos visites et vos expositions ne sont communiquées à personne.\n\nVous pouvez consulter la liste de vos visites récentes à partir du menu. Au besoin, vous pouvez aussi supprimer des visites.",
     "step-3Title": "Facilitons la recherche de contacts",
     "step-3AltText": "-",
     "step-3": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu risque d’exposition pendant celles-ci.",
@@ -537,12 +537,11 @@
     },
     "ScanAPlace": {
       "Title": "Ajouter une visite",
-      "Body": "Vous serez avisé si quelqu’un présent pendant votre visite est déclaré positif prochainement.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.",
-      "Body2": "Vos visites ",
-      "Body3": "ne sont communiquées à personne.",
+      "Body": "Vous serez avisé si quelqu’un présent pendant votre visite est déclaré positif prochainement.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },
+    "ProximityExposure": "Passez un test",
     "OutbreakExposed": {
       "Title": "Exposition possible lors d’une visite",
       "Body": "Une personne déclarée positive était présente lors d’une de vos visites.",
