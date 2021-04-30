@@ -3,6 +3,7 @@ import {ForceScreen} from 'shared/ForceScreen';
 import {Region} from 'shared/Region';
 import {getSystemLocale} from 'locale/utils';
 import {StorageService, DefaultStorageService, StorageDirectory} from 'services/StorageService';
+import {QR_ENABLED} from 'env';
 
 export enum Key {
   IsOnboarded = 'IsOnboarded',
@@ -40,7 +41,7 @@ export class CachedStorageService {
     this.skipAllSet = new Observable<boolean>(false);
     this.userStopped = new Observable<boolean>(false);
     this.hasViewedQrInstructions = new Observable<boolean>(false);
-    this.qrEnabled = new Observable<boolean>(false);
+    this.qrEnabled = new Observable<boolean>(QR_ENABLED);
     this.storageService = storageService;
   }
 
