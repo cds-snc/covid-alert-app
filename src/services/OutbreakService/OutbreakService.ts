@@ -125,7 +125,7 @@ export class OutbreakService {
     this.outbreakHistory.set(JSON.parse(outbreakHistory));
 
     const checkInHistory =
-      (await this.storageService.retrieve(StorageDirectory.OutbreakProviderOutbreaksLastCheckedStorageKey)) || '[]';
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 
