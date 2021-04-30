@@ -1,4 +1,6 @@
 /* eslint-disable jest/no-if, no-undef */
+import {ForceScreen} from '../src/shared/ForceScreen';
+
 import {onboard} from './shared';
 
 /**
