@@ -29,23 +29,7 @@ describe('Demo menu test', () => {
   });
 
   /**
-   * List of app view names
-   *
-   * @typedef screenData const in TestScreen.tsx, line 33
-   * @type {[String]}
-   */
-  const screens = [
-    'None',
-    'NoExposureView',
-    'ExposureView',
-    'DiagnosedShareView',
-    'DiagnosedView',
-    'DiagnosedShareUploadView',
-    'FrameworkUnavailableView',
-  ];
-
-  /**
-   * Array representation of the values of the enum @ForceScreen
+   * Array representation of the forcable app view names enum @ForceScreen
    */
   const ForceScreens = Object.values(ForceScreen);
 
