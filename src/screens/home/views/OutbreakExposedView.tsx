@@ -20,7 +20,7 @@ export const OutbreakExposedView = () => {
     <BaseHomeView iconName="hand-caution-yellow" testID="outbreakExposure">
       <RoundedBox isFirstBox>
         <HomeScreenTitle>{i18n.translate(`QRCode.OutbreakExposed.Title`)}</HomeScreenTitle>
-        <Text marginBottom="m">{i18n.translate(`QRCode.OutbreakExposed.Body`)}</Text>
+        <Text testID="bodyText" marginBottom="m">{i18n.translate(`QRCode.OutbreakExposed.Body`)}</Text>
       </RoundedBox>
       <RoundedBox isFirstBox={false}>
         <ConditionalText severity={severity} i18n={i18n} />
