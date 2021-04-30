@@ -9,6 +9,7 @@ import {BackendInterface} from 'services/BackendService';
 import {unzip} from 'react-native-zip-archive';
 import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -152,7 +153,10 @@ export class OutbreakService {
 
           const outbreakHistory = this.outbreakHistory.get();
 
-          this.processOutbreakNotification(outbreakHistory);
+          if (isExposedToOutbreak(outbreakHistory)) {
+            FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedToOutbreak});
+            this.processOutbreakNotification();
+          }
         } catch (error) {
           log.error({category: 'qr-code', error});
         }
@@ -213,14 +217,12 @@ export class OutbreakService {
     return this.convertOutbreakEvents(outbreakEvents);
   };
 
-  processOutbreakNotification = (outbreakHistory: OutbreakHistoryItem[]) => {
-    if (isExposedToOutbreak(outbreakHistory)) {
-      PushNotification.presentLocalNotification({
-        alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
-        alertBody: this.i18n.translate('Notification.OutbreakMessageBody'),
-        channelName: this.i18n.translate('Notification.AndroidChannelName'),
-      });
-    }
+  processOutbreakNotification = () => {
+    PushNotification.presentLocalNotification({
+      alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
+      alertBody: this.i18n.translate('Notification.OutbreakMessageBody'),
+      channelName: this.i18n.translate('Notification.AndroidChannelName'),
+    });
   };
 
   // TODO: refactor this method to share logic with getPeriodsSinceLastFetch method found in ExposureNotificationService.
