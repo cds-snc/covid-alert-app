@@ -112,7 +112,7 @@ export const Button = ({
           )}
 
           <Text
-            maxFontSizeMultiplier={1.5}
+            maxFontSizeMultiplier={1.3}
             style={{...styles.content, color: textColor || buttonColor, fontWeight, fontFamily, fontSize}}
           >
             {text}

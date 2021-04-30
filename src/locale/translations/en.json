@@ -224,16 +224,19 @@
     "Close": "Close"
   },
   "QRCodeOnboarding": {
-    "step-1Title": "How QR code notifications work",
+    "step-1Title": "New pilot in Mooseville only: exposures from public places",
     "step-1AltText": "-",
-    "step-1": "Public health identifies when a place has an exposure risk.\n\nEvery day, your app downloads a list of those places and times.\n\nIf there’s a match with one of your visits, the app notifies you and explains what to do next.",
-    "step-2Title": "Your privacy is protected",
+    "step-1": "The app can notify you if you’ve been at a place at the same time as an exposure.\n\nThis kind of exposure notification uses QR codes you scan as you go about your day.\n\nIt’s more private than sharing your contact details with the places you visit.",
+    "step-2Title": "How QR code notifications work",
     "step-2AltText": "-",
-    "step-2": "The app saves your visits on your phone, including the dates and times you were there. **Your visits and exposures are not shared** with anyone.\n\nYou can get to your recent visits from the menu. If you need to, you can delete any visit.",
-    "step-3Title": "Help make contact tracing easier",
+    "step-2": "Public health identifies when a place has an exposure risk.\n\nEvery day, your app downloads a list of those places and times.\n\nIf there’s a match with one of your visits, the app notifies you and explains what to do next.",
+    "step-3Title": "Your privacy is protected",
     "step-3AltText": "-",
-    "step-3": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from them.",
-    "step-3-banner": "Right now, posters with QR codes are only available in _____ as part of a small-scale pilot project.",
+    "step-3": "The app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits and exposures are not shared** with anyone.\n\nYou can get to your recent visits from the menu. If you need to, you can delete any visit.",
+    "step-4Title": "Help make contact tracing easier",
+    "step-4AltText": "-",
+    "step-4": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from them.",
+    "step-4-banner": "Right now, posters with QR codes are only available in _____ as part of a small-scale pilot project.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -527,7 +530,7 @@
     },
     "CheckInView": {
       "Title": "Thank you for adding a visit",
-      "Body1": "You’ll only be notified if someone from today tests positive. ",
+      "Body1": "You’ll only be notified if public health finds an exposure risk from your visit. ",
       "Body2": "Your visits are not shared ",
       "Body3": "with anyone.\n\nRemember to scan each time you visit.",
       "Body4": "You can delete this visit any time by going into Your visits.",
@@ -542,8 +545,9 @@
       "Title": "Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Add a visit",
+      "Title": "Add a visit: Mooseville only",
       "Body": "Get notified if someone from today tests positive later.\n\nThe app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits are not shared** with anyone.",
+      "Banner": "Right now, posters with QR codes are only available in Mooseville as part of a small-scale pilot project.",
       "CTA": "Next",
       "CTA2": "About adding a visit"
     },
