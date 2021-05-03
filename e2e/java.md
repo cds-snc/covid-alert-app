@@ -1,8 +1,8 @@
 # Java setup
 
-## jdk switching
+## jdk switching (optional)
 
-This will enable you to switch between Java versions when you have multiple versions installed.
+This is useful but not required for the Detox tests to run. From your current terminal session, it lets you switch between Java versions, when you have multiple versions installed.
 
 Add the following to `~/.zshrc` (or `~/.bashrc`):
 
@@ -23,12 +23,10 @@ https://github.com/AdoptOpenJDK/homebrew-openjdk
 see available versions at the link above, but you probably want `adoptopenjdk8`
 
 ```bash
-$ brew tap AdoptOpenJDK/openjdk
+brew tap AdoptOpenJDK/openjdk
 
-$ brew install --cask <version>
+brew install --cask <version>
 ```
-
-
 
 now you can switch jdk by typing `jdk <version>` (to get Java versions below 8, we type 1.X ) example:
 
