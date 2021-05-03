@@ -32,7 +32,7 @@ export const RecentExposureScreen = () => {
   const i18n = useI18n();
 
   const navigation = useNavigation();
-  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
+  const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
   return (
     <SafeAreaView style={styles.flex}>
       <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} showBackButton onClose={close} />

@@ -78,7 +78,7 @@ export const ExposureHistoryScreen = () => {
   }, [clearExposedStatus]);
 
   const navigation = useNavigation();
-  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
+  const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
 
   const deleteAllPlaces = () => {
     Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
@@ -100,7 +100,7 @@ export const ExposureHistoryScreen = () => {
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
-        <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} showBackButton onClose={close} />
+        <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} showBackButton={false} onClose={close} />
         <ScrollView style={styles.flex}>
           <Box paddingHorizontal="m" paddingBottom="m">
             <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
