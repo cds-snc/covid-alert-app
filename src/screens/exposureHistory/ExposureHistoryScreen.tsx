@@ -38,8 +38,7 @@ const toOutbreakExposureHistoryData = ({
 }): CombinedExposureHistoryData[] => {
   return history.map(outbreak => {
     return {
-      locationId: outbreak.locationId,
-      type: ExposureType.Outbreak,
+      exposureType: ExposureType.Outbreak,
       subtitle: severityText({severity: Number(outbreak.severity), i18n}),
       timestamp: outbreak.checkInTimestamp,
     };
@@ -55,7 +54,7 @@ const toProximityExposureHistoryData = ({
 }): CombinedExposureHistoryData[] => {
   return proximityExposureTimestamps.map(timestamp => {
     return {
-      type: ExposureType.Proximity,
+      exposureType: ExposureType.Proximity,
       subtitle: i18n.translate('QRCode.ProximityExposure'),
       timestamp,
     };
