@@ -80,6 +80,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Tutorial: undefined;
   QROnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
+  RecentExposureScreen: {id: string; type: string};
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
@@ -203,7 +204,11 @@ const MainNavigator = () => {
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
       <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
       <MainStack.Screen name="ExposureHistoryScreen" component={ExposureHistoryScreenWithNavBar} />
-      <MainStack.Screen name="RecentExposureScreen" component={RecentExposureScreenWithNavBar} />
+      <MainStack.Screen
+        name="RecentExposureScreen"
+        initialParams={{id: false, type: false}}
+        component={RecentExposureScreenWithNavBar}
+      />
       <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
       <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
     </MainStack.Navigator>
