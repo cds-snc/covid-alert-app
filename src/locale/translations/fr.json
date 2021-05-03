@@ -588,7 +588,13 @@
   "ExposureHistory": {
     "Title": "Vos expositions récentes",
     "Body": "Voici la liste de vos expositions pour les 14 derniers jours.",
-    "NoExposures": "Aucune exposition"
+    "NoExposures": "Aucune exposition",
+    "Alert": {
+      "TitleDeleteAll": "Voulez-vous vraiment supprimer toutes les expositions?",
+      "SubtitleDeleteAll": "Vous ne pourrez plus voir les consignes qui vous ont été données.",
+      "Cancel": "Annuler",
+      "ConfirmDeleteAll": "Oui, tout supprimer"
+    }
   },
   "Errors": {
     "Action": "OK",

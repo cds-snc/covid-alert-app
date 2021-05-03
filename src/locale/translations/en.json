@@ -594,7 +594,13 @@
   "ExposureHistory": {
     "Title": "Your recent exposures",
     "Body": "This list shows your exposures from the last 14 days.",
-    "NoExposures": "No exposures"
+    "NoExposures": "No exposures",
+    "Alert": {
+      "TitleDeleteAll": "Are you sure you want to delete all exposures?",
+      "SubtitleDeleteAll": "You will not be able to see the instructions you’ve been given.",
+      "Cancel": "Cancel",
+      "ConfirmDeleteAll": "Yes, delete all"
+    }
   },
   "Errors": {
     "Action": "OK",

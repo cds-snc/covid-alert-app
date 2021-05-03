@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 import {useI18n, I18n} from 'locale';
 import {
@@ -13,6 +13,7 @@ import {Box, Text, ToolbarWithClose, Button} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
+import {getCurrentDate} from 'shared/date-fns';
 import {useExposureHistory, useClearExposedStatus} from 'services/ExposureNotificationService';
 
 import {ExposureList} from './views/ExposureList';
@@ -63,7 +64,12 @@ const toProximityExposureHistoryData = ({
   });
 };
 
+export const ExposureHistoryScreenState = {
+  exposureHistoryClearedDate: getCurrentDate(),
+};
+
 export const ExposureHistoryScreen = () => {
+  const [state, setState] = useState(ExposureHistoryScreenState);
   const i18n = useI18n();
   const outbreaks = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
@@ -81,20 +87,25 @@ export const ExposureHistoryScreen = () => {
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
 
   const deleteAllPlaces = () => {
-    Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
-      {
-        text: i18n.translate('PlacesLog.Alert.Cancel'),
-        onPress: () => {},
-      },
-      {
-        text: i18n.translate('PlacesLog.Alert.ConfirmDeleteAll'),
-        onPress: () => {
-          outbreaks.deleteAllScannedPlaces();
-          clearProximityExposure();
+    Alert.alert(
+      i18n.translate('ExposureHistory.Alert.TitleDeleteAll'),
+      i18n.translate('ExposureHistory.Alert.SubtitleDeleteAll'),
+      [
+        {
+          text: i18n.translate('ExposureHistory.Alert.Cancel'),
+          onPress: () => {},
         },
-        style: 'cancel',
-      },
-    ]);
+        {
+          text: i18n.translate('ExposureHistory.Alert.ConfirmDeleteAll'),
+          onPress: () => {
+            outbreaks.clearOutbreakHistory();
+            clearProximityExposure();
+            setState({...state, exposureHistoryClearedDate: getCurrentDate()});
+          },
+          style: 'cancel',
+        },
+      ],
+    );
   };
 
   return (
