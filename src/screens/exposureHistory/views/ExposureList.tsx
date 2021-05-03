@@ -14,6 +14,9 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
     ({id, exposureType}) => navigation.navigate('RecentExposureScreen', {id, exposureType}),
     [navigation],
   );
+  exposureHistoryData.sort(function (first, second) {
+    return second.timestamp - first.timestamp;
+  });
 
   return (
     <>
