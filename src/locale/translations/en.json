@@ -596,7 +596,7 @@
     "NoExposures": "No exposures",
     "Alert": {
       "TitleDeleteAll": "Are you sure you want to delete all exposures?",
-      "SubtitleDeleteAll": "You will not be able to see the instructions you've been given.",
+      "SubtitleDeleteAll": "You will not be able to see the instructions you’ve been given.",
       "Cancel": "Cancel",
       "ConfirmDeleteAll": "Yes, delete all"
     }
