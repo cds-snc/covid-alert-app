@@ -61,9 +61,8 @@ export interface OutbreakHistoryItem {
 }
 
 export interface CombinedExposureHistoryData {
-  id?: string | number;
   timestamp: number;
-  type: ExposureType;
+  exposureType: ExposureType;
   subtitle: string;
 }
 

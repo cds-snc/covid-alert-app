@@ -39,8 +39,7 @@ const toOutbreakExposureHistoryData = ({
 }): CombinedExposureHistoryData[] => {
   return history.map(outbreak => {
     return {
-      id: outbreak.locationId,
-      type: ExposureType.Outbreak,
+      exposureType: ExposureType.Outbreak,
       subtitle: severityText({severity: Number(outbreak.severity), i18n}),
       timestamp: outbreak.checkInTimestamp,
     };
@@ -48,18 +47,17 @@ const toOutbreakExposureHistoryData = ({
 };
 
 const toProximityExposureHistoryData = ({
-  history,
+  proximityExposureTimestamps,
   i18n,
 }: {
-  history: number[];
+  proximityExposureTimestamps: number[];
   i18n: I18n;
 }): CombinedExposureHistoryData[] => {
-  return history.map(outbreak => {
+  return proximityExposureTimestamps.map(timestamp => {
     return {
-      id: outbreak,
-      type: ExposureType.Proximity,
+      exposureType: ExposureType.Proximity,
       subtitle: i18n.translate('QRCode.ProximityExposure'),
-      timestamp: outbreak,
+      timestamp,
     };
   });
 };
@@ -74,10 +72,10 @@ export const ExposureHistoryScreen = () => {
   const outbreaks = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
-  const proximityExposure = useExposureHistory();
+  const proximityExposureTimestamps = useExposureHistory();
   const mergedArray = [
     ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
-    ...toProximityExposureHistoryData({history: proximityExposure, i18n}),
+    ...toProximityExposureHistoryData({proximityExposureTimestamps, i18n}),
   ];
   const clearProximityExposure = useCallback(() => {
     clearExposedStatus();

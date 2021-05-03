@@ -10,7 +10,7 @@ import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 import {NegativeOutbreakTestButton} from './ClearOutbreakExposureView';
 
-export const OutbreakExposedView = ({id}: {id?: string}) => {
+export const OutbreakExposedView = ({timestamp}: {timestamp?: number}) => {
   const i18n = useI18n();
   const {outbreakHistory} = useOutbreakService();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
@@ -18,9 +18,9 @@ export const OutbreakExposedView = ({id}: {id?: string}) => {
 
   let historyItem: OutbreakHistoryItem = currentOutbreakHistory[0];
 
-  if (id) {
+  if (timestamp) {
     currentOutbreakHistory.forEach(item => {
-      if (item.outbreakId === id) {
+      if (item.checkInTimestamp === timestamp) {
         historyItem = item;
       }
     });
@@ -28,11 +28,7 @@ export const OutbreakExposedView = ({id}: {id?: string}) => {
 
   const severity = historyItem?.severity;
   const exposureDate = formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
-  let props = {};
-
-  if (id) {
-    props = {header: false};
-  }
+  const props = timestamp ? {header: false} : {};
 
   return (
     <BaseHomeView iconName="hand-caution-yellow" testID="outbreakExposure" {...props}>
