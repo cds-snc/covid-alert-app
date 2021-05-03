@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useI18n} from 'locale';
-import {CombinedExposureHistoryData} from 'shared/qr';
+import {CombinedExposureHistoryData, ExposureType} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon} from 'components';
 import {formatExposedDate} from 'shared/date-fns';
@@ -33,7 +33,10 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
                 >
                   <Box paddingVertical="m" style={styles.exposureList}>
                     <Box style={styles.typeIconBox}>
-                      <Icon size={20} name={item.type === 'proximity' ? 'exposure-proximity' : 'exposure-outbreak'} />
+                      <Icon
+                        size={20}
+                        name={item.type === ExposureType.Proximity ? 'exposure-proximity' : 'exposure-outbreak'}
+                      />
                     </Box>
                     <Box style={styles.boxFlex}>
                       <Text fontWeight="bold">{formatExposedDate(new Date(item.timestamp), dateLocale)}</Text>

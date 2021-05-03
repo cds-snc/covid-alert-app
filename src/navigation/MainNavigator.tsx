@@ -34,8 +34,8 @@ import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
 import {MenuScreen} from 'screens/menu/MenuScreen';
 import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
 import {RecentExposureScreen} from 'screens/exposureHistory/RecentExposureView';
-
-import {FormContext, FormContextDefaults} from '../shared/FormContext';
+import {FormContext, FormContextDefaults} from 'shared/FormContext';
+import {ExposureType} from 'shared/qr';
 
 const MainStack = createStackNavigator<MainStackParamList>();
 
@@ -80,8 +80,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Tutorial: undefined;
   QROnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
-  // @todo add proper type for exposureType i.e. outbreak or proximity
-  RecentExposureScreen: {id: string; exposureType: string};
+  RecentExposureScreen: {id: string; exposureType: ExposureType};
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
