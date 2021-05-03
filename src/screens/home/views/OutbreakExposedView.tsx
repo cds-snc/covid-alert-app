@@ -2,19 +2,30 @@ import React from 'react';
 import {RoundedBox, Text, TextMultiline} from 'components';
 import {useI18n, I18n} from 'locale';
 import {useOutbreakService} from 'services/OutbreakService';
-import {getCurrentOutbreakHistory, OutbreakSeverity} from 'shared/qr';
+import {getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 import {NegativeOutbreakTestButton} from './ClearOutbreakExposureView';
 
-export const OutbreakExposedView = () => {
+export const OutbreakExposedView = ({id}: {id: string}) => {
   const i18n = useI18n();
   const {outbreakHistory} = useOutbreakService();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
-  const mostRecentHistoryItem = currentOutbreakHistory[0];
-  const severity = mostRecentHistoryItem?.severity;
+
+  console.log(currentOutbreakHistory);
+
+  let historyItem: OutbreakHistoryItem = currentOutbreakHistory[0];
+  if (id) {
+    currentOutbreakHistory.forEach(item => {
+      if (item.outbreakId === id) {
+        historyItem = item;
+      }
+    });
+  }
+
+  const severity = historyItem?.severity;
 
   return (
     <BaseHomeView iconName="hand-caution-yellow" testID="outbreakExposure">
