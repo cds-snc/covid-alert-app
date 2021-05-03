@@ -120,20 +120,24 @@ export const ExposureHistoryScreen = () => {
   const back = useCallback(() => navigation.goBack(), [navigation]);
 
   const deleteAllPlaces = () => {
-    Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
-      {
-        text: i18n.translate('PlacesLog.Alert.Cancel'),
-        onPress: () => {},
-      },
-      {
-        text: i18n.translate('PlacesLog.Alert.ConfirmDeleteAll'),
-        onPress: () => {
-          outbreaks.clearOutbreakHistory();
-          clearProximityExposure();
+    Alert.alert(
+      i18n.translate('ExposureHistory.Alert.TitleDeleteAll'),
+      i18n.translate('ExposureHistory.Alert.SubtitleDeleteAll'),
+      [
+        {
+          text: i18n.translate('ExposureHistory.Alert.Cancel'),
+          onPress: () => {},
         },
-        style: 'cancel',
-      },
-    ]);
+        {
+          text: i18n.translate('ExposureHistory.Alert.ConfirmDeleteAll'),
+          onPress: () => {
+            outbreaks.clearOutbreakHistory();
+            clearProximityExposure();
+          },
+          style: 'cancel',
+        },
+      ],
+    );
   };
 
   return (
