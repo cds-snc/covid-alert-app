@@ -142,7 +142,7 @@ export const ExposureHistoryScreen = () => {
         <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('PlacesLog.Back')} onIconClicked={back} />
         <ScrollView style={styles.flex}>
           <Box paddingHorizontal="m" paddingBottom="m">
-            <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header">
+            <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
               {i18n.translate('ExposureHistory.Title')}
             </Text>
             <Text>{i18n.translate('ExposureHistory.Body')}</Text>

@@ -224,16 +224,19 @@
     "Close": "Fermer"
   },
   "QRCodeOnboarding": {
-    "step-1Title": "Fonctionnement des notifications par code QR",
+    "step-1Title": "Projet pilote à Mooseville : expositions dans des lieux publics",
     "step-1AltText": "-",
-    "step-1": "Le lieu et le moment où il y a un risque d’exposition est déterminé par les autorités de santé publique.\n\nChaque jour, Alerte COVID télécharge une liste de ces lieux et moments.\n\nS’il y a correspondance avec l’une de vos visites, l’application vous enverra une notification et vous expliquera quoi faire.",
-    "step-2Title": "Votre vie privée est protégée",
+    "step-1": "L’application peut vous aviser si vous avez visité un lieu pendant qu’il y avait un risque d’exposition.\n\nCe type de notifications fonctionne à partir de codes QR que vous scannez lors de vos allées et venues.\n\nLes codes QR vous évitent de laisser vos renseignements personnels aux lieux visités, ce qui offre plus de vie privée.",
+    "step-2Title": "Fonctionnement des notifications par code QR",
     "step-2AltText": "-",
-    "step-2": "L’application enregistre la date, l’heure et le lieu de vos visites sur votre téléphone. Vos visites et vos expositions ne sont communiquées à personne.\n\nVous pouvez consulter la liste de vos visites récentes à partir du menu. Au besoin, vous pouvez aussi supprimer des visites.",
-    "step-3Title": "Facilitons la recherche de contacts",
+    "step-2": "Le lieu et le moment où il y a un risque d’exposition est déterminé par les autorités de santé publique.\n\nChaque jour, Alerte COVID télécharge une liste de ces lieux et moments.\n\nS’il y a correspondance avec l’une de vos visites, l’application vous enverra une notification et vous expliquera quoi faire.",
+    "step-3Title": "Votre vie privée est protégée",
     "step-3AltText": "-",
-    "step-3": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu risque d’exposition pendant celles-ci.",
-    "step-3-banner": "Pour l’instant, les affiches à code QR ne sont présentes qu’à ________ pour un projet-pilote à petite échelle.",
+    "step-3": "L’application enregistre la date, l’heure et le lieu de vos visites sur votre téléphone.\n\nVos visites et vos expositions **ne sont communiquées à personne**.\n\nVous pouvez consulter la liste de vos visites récentes à partir du menu. Au besoin, vous pouvez aussi supprimer des visites.",
+    "step-4Title": "Facilitons la recherche de contacts",
+    "step-4AltText": "-",
+    "step-4": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu risque d’exposition pendant celles-ci.",
+    "step-4-banner": "Pour l’instant, les affiches à code QR ne sont présentes qu’à ________ pour un projet-pilote à petite échelle.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -493,7 +496,7 @@
     },
     "CheckInView": {
       "Title": "Merci d’avoir ajouté une visite",
-      "Body1": "Vous ne serez avisé que si quelqu’un présent pendant votre visite est déclaré positif prochainement. Vos visites ",
+      "Body1": "Vous ne serez avisé que si la santé publique détecte un risque d’exposition lié à votre visite. Vos visites ",
       "Body2": "ne sont communiquées à personne.\n\n",
       "Body3": "N’oubliez pas de scanner à chaque visite.",
       "Body4": "Vous pouvez supprimer cette visite en tout temps en allant dans Vos visites.",
@@ -536,8 +539,9 @@
       "Title": "FR Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Ajouter une visite",
+      "Title": "Ajouter une visite: Mooseville seulement",
       "Body": "Vous serez avisé si quelqu’un présent pendant votre visite est déclaré positif prochainement.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
+      "Banner": "Pour l’instant, les affiches à code QR ne sont présentes qu’à Mooseville pour un projet-pilote à petite échelle.",
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },

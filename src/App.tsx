@@ -11,10 +11,10 @@ import React, {useMemo, useEffect, useState} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {DefaultStorageService, CachedStorageServiceProvider} from 'services/StorageService';
+import {DefaultStorageService, CachedStorageServiceProvider, useCachedStorage} from 'services/StorageService';
 import {AppState, AppStateStatus, Platform, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY} from 'env';
+import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY, QR_ENABLED} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
 import {I18nProvider, RegionalProvider} from 'locale';
@@ -50,6 +50,13 @@ const App = () => {
   );
 
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
+  const {setQrEnabled} = useCachedStorage();
+
+  useEffect(() => {
+    if (QR_ENABLED) {
+      setQrEnabled(true);
+    }
+  }, [setQrEnabled]);
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
