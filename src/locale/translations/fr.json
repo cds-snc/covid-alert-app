@@ -550,6 +550,7 @@
       "Title": "Exposition possible lors d’une visite",
       "Body": "Une personne déclarée positive était présente lors d’une de vos visites.",
       "CTA": "Résultat de test négatif?",
+      "DateDesc": "Date d’exposition : ",
       "SelfIsolate": {
         "Title": "Isolez-vous et passez un test",
         "Body": "Vous êtes un contact à risque élevé. Si vous avez des symptômes, faites-vous tester immédiatement. Si vous n’en avez pas, attendez 7 jours après la date d’exposition pour vous faire tester.\n\nVous devez vous isoler pendant 14 jours à partir de la date d’exposition.\n\nPour toute question, contactez le bureau de santé de votre région."
