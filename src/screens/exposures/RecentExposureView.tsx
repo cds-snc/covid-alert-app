@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
-import {Box, Toolbar} from 'components';
+import {Toolbar} from 'components';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
