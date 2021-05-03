@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
-import {Box, Text, Toolbar2} from 'components';
+import {Box, Text, ToolbarWithClose} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {log} from 'shared/logging/config';
@@ -44,7 +44,12 @@ export const QRCodeScanner = () => {
         <Box style={styles.boxLeft} />
         <Box style={styles.boxRight} />
         <Box marginBottom="m" style={styles.toolbar}>
-          <Toolbar2 navText={i18n.translate('DataUpload.Close')} useWhiteText onIconClicked={close} showBackButton />
+          <ToolbarWithClose
+            closeText={i18n.translate('DataUpload.Close')}
+            useWhiteText
+            onClose={close}
+            showBackButton
+          />
         </Box>
 
         <Box
