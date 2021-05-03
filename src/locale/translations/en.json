@@ -555,6 +555,7 @@
     "OutbreakExposed": {
       "Title": "Possible exposure at a visit",
       "Body": "Someone tested positive from one of your visits.",
+      "DateDesc": "Date of exposure: ",
       "CTA": "Negative test?",
       "SelfIsolate": {
         "Title": "Isolate and get tested",
