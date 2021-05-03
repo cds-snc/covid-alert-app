@@ -3,12 +3,12 @@ import {RoundedBox, Text, TextMultiline} from 'components';
 import {useI18n, I18n} from 'locale';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
+import {formatExposedDate} from 'shared/date-fns';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 import {NegativeOutbreakTestButton} from './ClearOutbreakExposureView';
-import {formatExposedDate} from 'shared/date-fns';
 
 export const OutbreakExposedView = ({id}: {id?: string}) => {
   const i18n = useI18n();
