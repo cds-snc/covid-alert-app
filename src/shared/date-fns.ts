@@ -85,15 +85,19 @@ export const formatExposedDate = (date: Date, locale: string) => {
     year: 'numeric',
   };
   const _formattedDate = date.toLocaleString(locale, dateFormatOptions);
+  const _formattedDateLong = date.toLocaleString(locale, {...dateFormatOptions, month: 'long'});
   const parts = _formattedDate.split(' ');
   const year = parts[2];
-
   // @note \u00a0 is a non breaking space so the date doesn't wrap
   // remove non-alpha chars from month
   if (locale === 'en-CA') {
-    const month = parts[0].replace(/\W/g, '');
+    const shortMonth = parts[0].replace(/\W/g, '');
+    const longMonth = _formattedDateLong.split(' ')[0].replace(/\W/g, '');
     const day = parts[1];
-    return `${month}.\u00a0${day}\u00a0${year}`;
+    if (longMonth === shortMonth) {
+      return `${shortMonth}\u00a0${day}\u00a0${year}`;
+    }
+    return `${shortMonth}.\u00a0${day}\u00a0${year}`;
   } else if (locale === 'fr-CA') {
     const month = parts[1].replace(/\W/g, '');
     const day = parts[0];
