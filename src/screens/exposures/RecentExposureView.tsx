@@ -5,17 +5,18 @@ import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
+
 import {OutbreakExposedView} from '../home/views/OutbreakExposedView';
 import {MainStackParamList} from '../../navigation/MainNavigator';
+
 type RecentExposureScreenProps = RouteProp<MainStackParamList, 'RecentExposureScreen'>;
 
 const ExposureView = () => {
   const route = useRoute<RecentExposureScreenProps>();
 
   if (route.params?.id) {
-    console.log('id', route.params?.id, 'type', route.params?.exposureType);
     const id = route.params.id;
-    <OutbreakExposedView id={id} />;
+    return <OutbreakExposedView id={id} />;
   }
 
   return <OutbreakExposedView />;

@@ -59,7 +59,7 @@ const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExpos
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const navigation = useNavigation();
-  const onDetails = useCallback(id => navigation.navigate('RecentExposureScreen', {id: id, exposureType: 'outbreak'}), [
+  const onDetails = useCallback(id => navigation.navigate('RecentExposureScreen', {id, exposureType: 'outbreak'}), [
     navigation,
   ]);
 
@@ -73,7 +73,7 @@ const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExpos
                 <TouchableOpacity
                   style={styles.chevronIcon}
                   onPress={() => {
-                    onDetails(item.id);
+                    onDetails(`${item.id}-${item.timestamp}`);
                   }}
                 >
                   <Box paddingVertical="m" style={styles.exposureList}>
