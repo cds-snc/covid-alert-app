@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {useI18n, I18n} from 'locale';
 import {CombinedExposureHistoryData, getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
@@ -7,7 +7,7 @@ import {Box, Text, Icon, Toolbar, Button} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
-import {formatExposedDate} from 'shared/date-fns';
+import {formatExposedDate, getCurrentDate} from 'shared/date-fns';
 import {useExposureHistory, useClearExposedStatus} from 'services/ExposureNotificationService';
 
 const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
@@ -102,7 +102,12 @@ const NoExposureHistoryScreen = () => {
   );
 };
 
+export const ExposureHistoryScreenState = {
+  exposureHistoryClearedDate: getCurrentDate(),
+};
+
 export const ExposureHistoryScreen = () => {
+  const [state, setState] = useState(ExposureHistoryScreenState);
   const i18n = useI18n();
   const outbreaks = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
@@ -133,6 +138,7 @@ export const ExposureHistoryScreen = () => {
           onPress: () => {
             outbreaks.clearOutbreakHistory();
             clearProximityExposure();
+            setState({...state, exposureHistoryClearedDate: getCurrentDate()});
           },
           style: 'cancel',
         },
