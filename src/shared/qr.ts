@@ -56,6 +56,7 @@ export interface OutbreakHistoryItem {
 }
 
 export interface CombinedExposureHistoryData {
+  id?: string | number;
   timestamp: number;
   // proximity or outbreak
   type: string;

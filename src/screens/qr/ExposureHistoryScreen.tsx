@@ -58,6 +58,8 @@ const toProximityExposureHistoryData = ({
 const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExposureHistoryData[]}) => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
+  const navigation = useNavigation();
+  const onDetails = useCallback(() => navigation.navigate('RecentExposureScreen'), [navigation]);
 
   return (
     <>
@@ -66,20 +68,20 @@ const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExpos
           <Box key={item.timestamp}>
             <Box backgroundColor="gray5" style={styles.radius}>
               <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
-                <Box paddingVertical="m" style={styles.exposureList}>
-                  <Box style={styles.typeIconBox}>
-                    <Icon size={20} name={item.type === 'proximity' ? 'exposure-proximity' : 'exposure-outbreak'} />
-                  </Box>
-                  <Box style={styles.boxFlex}>
-                    <Text fontWeight="bold">{formatExposedDate(new Date(item.timestamp), dateLocale)}</Text>
-                    <Text>{item.subtitle}</Text>
-                  </Box>
-                  <Box style={styles.chevronIconBox}>
-                    <TouchableOpacity style={styles.chevronIcon}>
+                <TouchableOpacity style={styles.chevronIcon} onPress={onDetails}>
+                  <Box paddingVertical="m" style={styles.exposureList}>
+                    <Box style={styles.typeIconBox}>
+                      <Icon size={20} name={item.type === 'proximity' ? 'exposure-proximity' : 'exposure-outbreak'} />
+                    </Box>
+                    <Box style={styles.boxFlex}>
+                      <Text fontWeight="bold">{formatExposedDate(new Date(item.timestamp), dateLocale)}</Text>
+                      <Text>{item.subtitle}</Text>
+                    </Box>
+                    <Box style={styles.chevronIconBox}>
                       <Icon size={30} name="icon-chevron" />
-                    </TouchableOpacity>
+                    </Box>
                   </Box>
-                </Box>
+                </TouchableOpacity>
               </Box>
             </Box>
           </Box>

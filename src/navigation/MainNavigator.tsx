@@ -33,6 +33,7 @@ import {ExposureHistoryScreen} from 'screens/qr/ExposureHistoryScreen';
 import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
 import {MenuScreen} from 'screens/menu/MenuScreen';
 import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
+import {RecentExposureScreen} from 'screens/exposures/RecentExposureView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -108,6 +109,7 @@ const ExposureHistoryScreenWithNavBar = withDarkNav(ExposureHistoryScreen);
 const QRCodeIntroScreenWithNavBar = withDarkNav(QRCodeIntroScreen);
 const MenuScreenWithNavBar = withDarkNav(MenuScreen);
 const ClearOutbreakExposureScreenWithNavBar = withDarkNav(ClearOutbreakExposureScreen);
+const RecentExposureScreenWithNavBar = withDarkNav(RecentExposureScreen);
 
 const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
@@ -201,6 +203,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
       <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
       <MainStack.Screen name="ExposureHistoryScreen" component={ExposureHistoryScreenWithNavBar} />
+      <MainStack.Screen name="RecentExposureScreen" component={RecentExposureScreenWithNavBar} />
       <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
       <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
     </MainStack.Navigator>
