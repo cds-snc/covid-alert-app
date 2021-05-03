@@ -8,6 +8,7 @@ interface BaseHomeViewProps {
   iconName?: IconName;
   primaryIconStyles?: {marginLeft: number; marginBottom: number};
   testID?: string;
+  header?: boolean;
 }
 
 export const BaseHomeView = ({
@@ -15,12 +16,15 @@ export const BaseHomeView = ({
   iconName,
   primaryIconStyles = {marginLeft: -35, marginBottom: 32},
   testID,
+  header = true,
 }: BaseHomeViewProps) => {
   return (
     <>
-      <SafeAreaView edges={['top']}>
-        <Header />
-      </SafeAreaView>
+      {header ? (
+        <SafeAreaView edges={['top']}>
+          <Header />
+        </SafeAreaView>
+      ) : null}
       <ScrollView
         alwaysBounceVertical={false}
         style={styles.scrollView}
