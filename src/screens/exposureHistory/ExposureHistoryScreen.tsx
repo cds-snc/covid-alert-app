@@ -3,7 +3,7 @@ import {StyleSheet, Alert} from 'react-native';
 import {useI18n, I18n} from 'locale';
 import {CombinedExposureHistoryData, getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Text, Toolbar, Button} from 'components';
+import {Box, Text, Toolbar2, Button} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
@@ -72,7 +72,7 @@ export const ExposureHistoryScreen = () => {
   }, [clearExposedStatus]);
 
   const navigation = useNavigation();
-  const back = useCallback(() => navigation.goBack(), [navigation]);
+  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
 
   const deleteAllPlaces = () => {
     Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
@@ -94,7 +94,7 @@ export const ExposureHistoryScreen = () => {
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
-        <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('PlacesLog.Back')} onIconClicked={back} />
+        <Toolbar2 navText={i18n.translate('DataUpload.Close')} showBackButton onIconClicked={close} />
         <ScrollView style={styles.flex}>
           <Box paddingHorizontal="m" paddingBottom="m">
             <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
