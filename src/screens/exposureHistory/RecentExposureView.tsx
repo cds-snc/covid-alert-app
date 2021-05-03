@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
-import {Toolbar} from 'components';
+import {ToolbarWithClose} from 'components';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -26,10 +26,10 @@ export const RecentExposureScreen = () => {
   const i18n = useI18n();
 
   const navigation = useNavigation();
-  const back = useCallback(() => navigation.goBack(), [navigation]);
+  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
   return (
     <SafeAreaView style={styles.flex}>
-      <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('PlacesLog.Back')} onIconClicked={back} />
+      <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} showBackButton onClose={close} />
       <ScrollView style={styles.flex}>
         <ExposureView />
       </ScrollView>
