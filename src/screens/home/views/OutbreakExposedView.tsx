@@ -9,7 +9,7 @@ import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 import {NegativeOutbreakTestButton} from './ClearOutbreakExposureView';
 
-export const OutbreakExposedView = ({id}: {id: string}) => {
+export const OutbreakExposedView = ({id}: {id?: string}) => {
   const i18n = useI18n();
   const {outbreakHistory} = useOutbreakService();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
