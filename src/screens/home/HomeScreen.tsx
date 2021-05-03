@@ -31,7 +31,7 @@ import {DiagnosedView} from './views/DiagnosedView';
 import {DiagnosedShareUploadView} from './views/DiagnosedShareUploadView';
 import {ExposureNotificationsDisabledView} from './views/ExposureNotificationsDisabledView';
 import {ExposureNotificationsUnauthorizedView} from './views/ExposureNotificationsUnauthorizedView';
-import {ExposureView} from './views/ExposureView';
+import {ProximityExposureView} from './views/ProximityExposureView';
 import {NoExposureUncoveredRegionView} from './views/NoExposureUncoveredRegionView';
 import {NoExposureCoveredRegionView} from './views/NoExposureCoveredRegionView';
 import {NoExposureNoRegionView} from './views/NoExposureNoRegionView';
@@ -79,7 +79,7 @@ const Content = () => {
       case ForceScreen.NoExposureView:
         return getNoExposureView(regionCase);
       case ForceScreen.ExposureView:
-        return <ExposureView />;
+        return <ProximityExposureView />;
       case ForceScreen.DiagnosedShareView:
         return <DiagnosedShareView />;
       case ForceScreen.DiagnosedView:
@@ -125,7 +125,7 @@ const Content = () => {
 
   switch (exposureStatus.type) {
     case ExposureStatusType.Exposed:
-      return <ExposureView />;
+      return <ProximityExposureView />;
     case ExposureStatusType.Diagnosed:
       if (!network.isConnected) {
         return <NetworkDisabledView />;

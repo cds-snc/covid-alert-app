@@ -1,7 +1,13 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 import {useI18n, I18n} from 'locale';
-import {CombinedExposureHistoryData, getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
+import {
+  CombinedExposureHistoryData,
+  ExposureType,
+  getCurrentOutbreakHistory,
+  OutbreakHistoryItem,
+  OutbreakSeverity,
+} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, ToolbarWithClose, Button} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -33,7 +39,7 @@ const toOutbreakExposureHistoryData = ({
   return history.map(outbreak => {
     return {
       id: outbreak.locationId,
-      type: 'exposure',
+      type: ExposureType.Outbreak,
       subtitle: severityText({severity: Number(outbreak.severity), i18n}),
       timestamp: outbreak.checkInTimestamp,
     };
@@ -50,7 +56,7 @@ const toProximityExposureHistoryData = ({
   return history.map(outbreak => {
     return {
       id: outbreak,
-      type: 'proximity',
+      type: ExposureType.Proximity,
       subtitle: i18n.translate('QRCode.ProximityExposure'),
       timestamp: outbreak,
     };
@@ -72,7 +78,7 @@ export const ExposureHistoryScreen = () => {
   }, [clearExposedStatus]);
 
   const navigation = useNavigation();
-  const close = useCallback(() => navigation.navigate('Home'), [navigation]);
+  const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
 
   const deleteAllPlaces = () => {
     Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
@@ -94,7 +100,7 @@ export const ExposureHistoryScreen = () => {
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
-        <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} showBackButton onClose={close} />
+        <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} showBackButton={false} onClose={close} />
         <ScrollView style={styles.flex}>
           <Box paddingHorizontal="m" paddingBottom="m">
             <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
