@@ -39,6 +39,9 @@ const ConditionalText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I1
       return <IsolateText i18n={i18n} />;
     case OutbreakSeverity.SelfMonitor:
       return <MonitorText i18n={i18n} />;
+    // Needed for Detox testing
+    default:
+      return <MonitorText i18n={i18n} />;
   }
 };
 
