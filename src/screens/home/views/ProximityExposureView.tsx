@@ -53,7 +53,7 @@ const ExposureText = () => {
   );
 };
 
-export const ExposureView = () => {
+export const ProximityExposureView = () => {
   return (
     <BaseHomeView iconName="hand-caution" testID="exposure">
       <ExposureText />

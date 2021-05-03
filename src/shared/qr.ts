@@ -11,6 +11,11 @@ export enum OutbreakSeverity {
   GetTested = 3,
 }
 
+export enum ExposureType {
+  Proximity = 'proximity',
+  Outbreak = 'outbreak',
+}
+
 export interface CheckInData {
   id: string;
   name: string;
@@ -56,9 +61,9 @@ export interface OutbreakHistoryItem {
 }
 
 export interface CombinedExposureHistoryData {
+  id?: string | number;
   timestamp: number;
-  // proximity or outbreak
-  type: string;
+  type: ExposureType;
   subtitle: string;
 }
 
