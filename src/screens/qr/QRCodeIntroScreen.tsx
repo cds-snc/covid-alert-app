@@ -7,6 +7,15 @@ import {StyleSheet} from 'react-native';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
+const Banner = () => {
+  const i18n = useI18n();
+  return (
+    <Box style={{...styles.banner}} marginBottom="l">
+      <Text>{i18n.translate('QRCode.ScanAPlace.Banner')}</Text>
+    </Box>
+  );
+};
+
 export const QRCodeIntroScreen = () => {
   const navigation = useNavigation();
   const i18n = useI18n();
@@ -22,6 +31,7 @@ export const QRCodeIntroScreen = () => {
         <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.ScanAPlace.Title')}
         </Text>
+        <Banner />
         <TextMultiline marginBottom="s" detectBold text={i18n.translate('QRCode.ScanAPlace.Body')} />
         <Box paddingTop="m" marginBottom="m">
           <Button text={i18n.translate('QRCode.ScanAPlace.CTA')} variant="thinFlatNoBorder" onPress={toQRScreen} />
@@ -45,5 +55,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 150,
+  },
+  banner: {
+    borderLeftColor: '#003678',
+    borderLeftWidth: 5,
+    width: '100%',
+    padding: 15,
+    backgroundColor: '#DAEEFE',
   },
 });
