@@ -13,13 +13,13 @@ type RecentExposureScreenProps = RouteProp<MainStackParamList, 'RecentExposureSc
 
 const ExposureView = () => {
   const route = useRoute<RecentExposureScreenProps>();
-
-  if (route.params?.id) {
+  // @todo add proper type checking here -> exposureType
+  if (route.params?.id && route.params?.exposureType === 'exposure') {
     const id = route.params.id;
     return <OutbreakExposedView id={id} />;
   }
-
-  return <OutbreakExposedView />;
+  // return proximity Exposure
+  return null;
 };
 
 export const RecentExposureScreen = () => {
