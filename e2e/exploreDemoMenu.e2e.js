@@ -30,6 +30,14 @@ describe('Demo menu test', () => {
     await device.takeScreenshot('DemoMenu');
   });
 
+  it('trigger sample notification', async () => {
+    await expect(element(by.id('ShowSampleNotification'))).toBeVisible();
+    await element(by.id('ShowSampleNotification')).tap();
+    await device.takeScreenshot('SampleNotification');
+    // next line waits for notification to fade
+    await sleep(7000);
+  });
+
   /**
    * Array representation of the forcable app view names enum @ForceScreen
    */
@@ -86,32 +94,9 @@ describe('Demo menu test', () => {
       if (isDeviceFruity) await expect(element(by.id('headerButton'))).not.toBeVisible();
       await expect(element(by.id('toolbarCloseButton'))).toBeVisible();
       await element(by.id('toolbarCloseButton')).tap();
-      // We should now be on the expected forced screen
-      await device.takeScreenshot(`ForceScreen.${scr}${weScroll[here] ? '-top' : ''}`);
-      if (weScroll[here]) {
-        await expect(element(by.id('bodyTitle'))).toBeVisible();
-        await element(by.id('bodyText')).swipe('up', 'fast');
-        await device.takeScreenshot(`ForceScreen.${scr}-bottom`);
-      }
+      // We should now be on the home screen
+      await device.takeScreenshot(`HomeScreen`);
       await expect(element(by.id('headerButton'))).toBeVisible();
-      await expect(element(by.id('headerButton'))).toBeVisible();
-      await element(by.id('headerButton')).tap();
     });
-  });
-
-  it('trigger sample notification', async () => {
-    await expect(element(by.id('ShowSampleNotification'))).toBeVisible();
-    await element(by.id('ShowSampleNotification')).tap();
-    await device.takeScreenshot('SampleNotification');
-    // next line waits for notification to fade
-    await sleep(7000);
-  });
-
-  it('close demo menu', async () => {
-    if (isDeviceFruity) await expect(element(by.id('headerButton'))).not.toBeVisible();
-    await expect(element(by.id('toolbarCloseButton'))).toBeVisible();
-    await element(by.id('toolbarCloseButton')).tap();
-    await expect(element(by.id('ShowSampleNotification'))).not.toBeVisible();
-    await expect(element(by.id('headerButton'))).toBeVisible();
   });
 });
