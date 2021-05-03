@@ -35,7 +35,7 @@ export const MenuScreen = () => {
   const onLanguage = useCallback(() => navigation.navigate('LanguageSelect'), [navigation]);
   const onRegion = useCallback(() => navigation.navigate('RegionSelect'), [navigation]);
   const onYourVisits = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
-  const onRecentExposures = useCallback(() => navigation.navigate('ExposureHistoryScreen'), [navigation]);
+  const onRecentExposures = useCallback(() => navigation.navigate('ExposureHistory'), [navigation]);
   const onHelp = useCallback(() => {
     Linking.openURL(i18n.translate('Info.HelpUrl')).catch(error => captureException('An error occurred', error));
   }, [i18n]);

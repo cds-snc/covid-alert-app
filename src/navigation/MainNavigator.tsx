@@ -33,7 +33,7 @@ import {ExposureHistoryScreen} from 'screens/exposureHistory/ExposureHistoryScre
 import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
 import {MenuScreen} from 'screens/menu/MenuScreen';
 import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
-import {RecentExposureScreen} from 'screens/exposures/RecentExposureView';
+import {RecentExposureScreen} from 'screens/exposureHistory/RecentExposureView';
 
 import {FormContext, FormContextDefaults} from '../shared/FormContext';
 
@@ -167,6 +167,20 @@ const QRCodeNavigator = () => {
   );
 };
 
+const ExposureHistoryStack = createStackNavigator();
+const ExposureHistoryNavigator = () => {
+  const {hasViewedQrInstructions} = useCachedStorage();
+  return (
+    <ExposureHistoryStack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={hasViewedQrInstructions ? 'QRCodeReaderScreen' : 'QRCodeIntroScreen'}
+    >
+      <ExposureHistoryStack.Screen name="ExposureHistoryScreen" component={ExposureHistoryScreenWithNavBar} />
+      <ExposureHistoryStack.Screen name="RecentExposureScreen" component={RecentExposureScreenWithNavBar} />
+    </ExposureHistoryStack.Navigator>
+  );
+};
+
 const forFade = ({current}: {current: any}) => ({
   cardStyle: {
     opacity: current.progress,
@@ -204,8 +218,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="FrameworkUnavailableScreen" component={FrameworkUnavailableView} />
       <MainStack.Screen name="QRCodeFlow" component={QRCodeNavigator} />
       <MainStack.Screen name="CheckInHistoryScreen" component={CheckInHistoryScreenWithNavBar} />
-      <MainStack.Screen name="ExposureHistoryScreen" component={ExposureHistoryScreenWithNavBar} />
-      <MainStack.Screen name="RecentExposureScreen" component={RecentExposureScreenWithNavBar} />
+      <MainStack.Screen name="ExposureHistory" component={ExposureHistoryNavigator} />
       <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
       <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
     </MainStack.Navigator>
