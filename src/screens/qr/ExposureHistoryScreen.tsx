@@ -128,7 +128,7 @@ export const ExposureHistoryScreen = () => {
       {
         text: i18n.translate('PlacesLog.Alert.ConfirmDeleteAll'),
         onPress: () => {
-          outbreaks.deleteAllScannedPlaces();
+          outbreaks.clearOutbreakHistory();
           clearProximityExposure();
         },
         style: 'cancel',

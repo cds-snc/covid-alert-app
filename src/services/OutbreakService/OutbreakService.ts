@@ -66,8 +66,13 @@ export class OutbreakService {
   }
 
   clearOutbreakHistory = async () => {
-    await this.storageService.save(StorageDirectory.OutbreakServiceOutbreakHistoryKey, JSON.stringify([]));
-    this.outbreakHistory.set([]);
+    this.outbreakHistory.get().forEach(outbreak => {
+      outbreak.isIgnored = true;
+    });
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
+      JSON.stringify(this.outbreakHistory.get()),
+    );
   };
 
   addToOutbreakHistory = async (value: OutbreakHistoryItem[]) => {
