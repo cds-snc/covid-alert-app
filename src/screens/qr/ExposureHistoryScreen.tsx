@@ -64,13 +64,20 @@ const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExpos
     [navigation],
   );
 
+  const sortedExposureHistoryData = exposureHistoryData.sort(function (first, second) {
+    return second.timestamp - first.timestamp;
+  });
+
   return (
     <>
-      {exposureHistoryData.map((item, index) => {
+      {sortedExposureHistoryData.map((item, index) => {
         return (
           <Box key={item.timestamp}>
             <Box backgroundColor="gray5" style={styles.radius}>
-              <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
+              <Box
+                paddingHorizontal="m"
+                style={[sortedExposureHistoryData.length !== index + 1 && styles.bottomBorder]}
+              >
                 <TouchableOpacity
                   style={styles.chevronIcon}
                   onPress={() => {
