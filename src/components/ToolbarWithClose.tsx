@@ -5,13 +5,13 @@ import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 
 export interface ToolbarProps2 {
-  onIconClicked(): void;
-  navText?: string;
+  onClose(): void;
+  closeText?: string;
   showBackButton?: boolean;
   useWhiteText?: boolean;
 }
 
-export const Toolbar2 = ({navText, onIconClicked, showBackButton, useWhiteText = false}: ToolbarProps2) => {
+export const ToolbarWithClose = ({closeText, onClose, showBackButton = true, useWhiteText = false}: ToolbarProps2) => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const onBack = useCallback(() => navigation.goBack(), [navigation]);
@@ -31,9 +31,9 @@ export const Toolbar2 = ({navText, onIconClicked, showBackButton, useWhiteText =
       <Box style={styles.right}>
         <Button
           testID="toolbarCloseButton"
-          text={navText}
+          text={closeText}
           variant={useWhiteText ? 'whiteText' : 'text'}
-          onPress={onIconClicked}
+          onPress={onClose}
         />
       </Box>
     </Box>

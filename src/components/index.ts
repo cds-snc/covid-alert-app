@@ -18,7 +18,7 @@ export * from './Text';
 export * from './TextInput';
 export * from './TextMultiline';
 export * from './Toolbar';
-export * from './Toolbar2';
+export * from './ToolbarWithClose';
 export * from './TouchableIcon';
 export * from './LanguageToggle';
 export * from './ErrorBox';
