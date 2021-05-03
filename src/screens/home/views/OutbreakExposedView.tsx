@@ -28,11 +28,7 @@ export const OutbreakExposedView = ({timestamp}: {timestamp?: number}) => {
 
   const severity = historyItem?.severity;
   const exposureDate = formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
-  let props = {};
-
-  if (timestamp) {
-    props = {header: false};
-  }
+  const props = timestamp ? {header: false} : {};
 
   return (
     <BaseHomeView iconName="hand-caution-yellow" testID="outbreakExposure" {...props}>

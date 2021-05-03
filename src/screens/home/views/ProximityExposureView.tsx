@@ -54,8 +54,9 @@ const ExposureText = ({timestamp}: {timestamp?: number}) => {
 };
 
 export const ProximityExposureView = ({timestamp}: {timestamp?: number}) => {
+  const props = timestamp ? {header: false} : {};
   return (
-    <BaseHomeView iconName="hand-caution" testID="exposure">
+    <BaseHomeView iconName="hand-caution" testID="exposure" {...props}>
       <ExposureText timestamp={timestamp} />
     </BaseHomeView>
   );
