@@ -18,6 +18,8 @@
 #import <UMReactNativeAdapter/UMNativeModulesProxy.h>
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
 
+#import "MetricsService.h"
+
 static void patchBGTaskSubmission(void);
 
 @interface AppDelegate () <RCTBridgeDelegate>
@@ -82,7 +84,6 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
   self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
@@ -119,7 +120,11 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     patchBGTaskSubmission();
     [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   }
-
+  
+  [[TSBackgroundFetch sharedInstance] addListener:@"scheduled-check-started-listener" callback:^(NSString *componentName) {
+    [[MetricsService sharedInstance] publishScheduledCheckMetricWithType:Start];
+  }];
+  
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
