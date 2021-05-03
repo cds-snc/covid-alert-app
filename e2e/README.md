@@ -1,10 +1,18 @@
 # End to end testing with Detox
 
+## Environment Setup
+
+It is reccomended these tests are run from a terminal prompt with unlimited lines of scroll-back.
+
+Instructions for iTerm2: open Preferences -> open "Profiles" tab -> *your profile* -> open "Terminla" sub top-bar tab -> ✓ check "Unlimited Scrollback"
+
 ## iOS setup
 
-1. Follow main repo install instructions, then from a shell open in the repo run:
-2. `brew tap wix/brew && brew  install applesimutils`
-3. Ensure project builds in Xcode
+1. Follow main repo install instructions
+2. then, from a shell open in the repo run:
+
+   `brew tap wix/brew && brew install applesimutils`
+3. be sure the project builds in Xcode
 
 ## Android setup
 
@@ -24,6 +32,7 @@ Read instructions on how to install older versions of Java alongside modern Java
 ## Tests
 
 ### Onboarding
+
 A common tests to get through the onboarding. Often used before other test to get deeper into the app.
 
 ### ExploreDemoMenu
@@ -82,17 +91,25 @@ or
 
 from the root fo the project will execute all `.e2e.js` tests containted in the `/e2e` folder. They are all run in parallel by Jest, and thus order of execution is not guaranteed.
 
-## Troubleshooting
+## TROUBLESHOOTING
 
 Sorted by "deeper into the rabbit hole":
 
 ### Simulator Errors/Warnings
 
-You can dismiss warnings, and they should go away for the lifetime of the simulator.
+You can dismiss these warnings, and they should go away for the lifetime of the simulator.
 
-If Errors pop up they will overlap the visual items the simulator is trying to show, and thus block the items below them. If your issues persist, please file an [Issue on Github](https://github.com/cds-snc/covid-alert-app/issues) to see if the error(s) can be remedied or handled differently.
+*IMPORTANT*
+
+When Errors pop up, they will overlay ontop the app the simulator is trying to show, and thus block Detox from interacting with items below the warnings/errors.
+
+This is a common fault from exposure-checks failing at the start of Onboarding because the automated test can't click through the onboarding carousel...
+
+If your issues persist, please file an [Issue on Github](https://github.com/cds-snc/covid-alert-app/issues) to see if the error(s) can be remedied or handled differently.
 
 ### (iOS) Detox builds fail unexpectedly
+
+Many things can cause builds to fail. Basically, the app must succesfully build in Xcode, deploy to and open the simulator in Xcode (or with `yarn run-ios`), otherwise Detox builds won't work... but here are some things to try:
 
 1. Open the app project in Xcode
 2. (optional) NavBar -> Product -> Clean Build Folder (accept to kill any running instances)
@@ -100,7 +117,11 @@ If Errors pop up they will overlap the visual items the simulator is trying to s
 4. Top bar -> ensure Active Scheme set to "Staging"
 5. Top bar -> ensure Target Device set to preferred simulator (iPhone 8 reccomended)
 
-Project must succesfully build in Xcode, deploy to and open the simulator in Xcode, otherwise it'll never work on the command-line...
+### (iOS) Detox builds fail with specific message
+
+***xcodebuild: error: The workspace named "CovidShield" does not contain a scheme named "SchemeName".***
+
+The Xcode build schema was changed and needs to be updated in `.detoxrc.json`.
 
 ### (Android) Detox builds fail unexpectedly
 
@@ -110,11 +131,11 @@ Project must succesfully build in Xcode, deploy to and open the simulator in Xco
 
 Project must succesfully build in Android Studio, otherwise it'll never work on the command-line...
 
-### Tests Fail
+### Tests Failing
 
 #### Randomly
 
-just re-run the test once more...
+just run the test once more... this is pretty common.
 
 #### with Specific Messages
 
