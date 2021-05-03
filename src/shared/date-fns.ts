@@ -99,9 +99,13 @@ export const formatExposedDate = (date: Date, locale: string) => {
     }
     return `${shortMonth}.\u00a0${day}\u00a0${year}`;
   } else if (locale === 'fr-CA') {
-    const month = parts[1].replace(/\W/g, '');
+    const shortMonth = parts[1].replace(/\W/g, '');
+    const longMonth = _formattedDateLong.split(' ')[1].replace(/\W/g, '');
     const day = parts[0];
-    return `${day}\u00a0${month}.\u00a0${year}`;
+    if (longMonth === shortMonth) {
+      return `${day}\u00a0${shortMonth}\u00a0${year}`;
+    }
+    return `${day}\u00a0${shortMonth}.\u00a0${year}`;
   }
   return _formattedDate;
 };
