@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Box, Toolbar2} from 'components';
+import {Box, ToolbarWithClose} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 
@@ -19,10 +19,10 @@ export const BaseQRCodeScreen = ({children, showBackButton}: BaseQRCodeScreenPro
       <SafeAreaView style={styles.flex}>
         <ScrollView>
           <Box marginBottom="m">
-            <Toolbar2
-              navText={i18n.translate('DataUpload.Close')}
+            <ToolbarWithClose
+              closeText={i18n.translate('DataUpload.Close')}
               showBackButton={showBackButton}
-              onIconClicked={close}
+              onClose={close}
             />
           </Box>
           <View style={styles.flex}>{children}</View>
