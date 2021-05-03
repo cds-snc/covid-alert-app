@@ -14,8 +14,6 @@ export const OutbreakExposedView = ({id}: {id: string}) => {
   const {outbreakHistory} = useOutbreakService();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
 
-  console.log(currentOutbreakHistory);
-
   let historyItem: OutbreakHistoryItem = currentOutbreakHistory[0];
   if (id) {
     currentOutbreakHistory.forEach(item => {
