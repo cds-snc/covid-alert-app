@@ -7,7 +7,7 @@ import {ForceScreen} from 'shared/ForceScreen';
 import {useCachedStorage} from 'services/StorageService';
 import {log} from 'shared/logging/config';
 
-export const ExposureDateView = () => {
+export const ExposureDateView = ({timestamp}: {timestamp?: number}) => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const {forceScreen} = useCachedStorage();
@@ -18,10 +18,13 @@ export const ExposureDateView = () => {
     if (forceScreen && forceScreen !== ForceScreen.None) {
       return [getCurrentDate()];
     }
+    if (timestamp) {
+      return [new Date(timestamp)];
+    }
     const _dates = exposureNotificationService.getExposureDetectedAt();
     log.debug({message: '_dates', payload: {_dates}});
     return _dates;
-  }, [exposureNotificationService, forceScreen]);
+  }, [exposureNotificationService, forceScreen, timestamp]);
 
   const formattedDates = dates.map(date => {
     return formatExposedDate(date, dateLocale);

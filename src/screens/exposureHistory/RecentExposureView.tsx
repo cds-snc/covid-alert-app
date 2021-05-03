@@ -15,12 +15,8 @@ type RecentExposureScreenProps = RouteProp<MainStackParamList, 'RecentExposureSc
 
 const ExposureView = () => {
   const route = useRoute<RecentExposureScreenProps>();
-  if (!route.params?.id || !route.params?.exposureType) {
-    return null;
-  }
-  const id = route.params.id;
-  if (route.params.exposureType === ExposureType.Outbreak) {
-    return <OutbreakExposedView id={id} />;
+  if (route.params?.locationId || route.params.exposureType === ExposureType.Outbreak) {
+    return <OutbreakExposedView locationId={route.params.locationId} />;
   }
   if (route.params.exposureType === ExposureType.Proximity) {
     return <ProximityExposureView />;

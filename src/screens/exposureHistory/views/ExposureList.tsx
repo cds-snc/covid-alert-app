@@ -11,7 +11,8 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const navigation = useNavigation();
   const onDetails = useCallback(
-    ({id, exposureType}) => navigation.navigate('RecentExposureScreen', {id, exposureType}),
+    ({locationId, timestamp, exposureType}) =>
+      navigation.navigate('RecentExposureScreen', {locationId, timestamp, exposureType}),
     [navigation],
   );
   exposureHistoryData.sort(function (first, second) {
@@ -28,7 +29,7 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
                 <TouchableOpacity
                   style={styles.chevronIcon}
                   onPress={() => {
-                    onDetails({id: `${item.id}-${item.timestamp}`, exposureType: item.type});
+                    onDetails({locationId: item.locationId, timestamp: item.timestamp, exposureType: item.type});
                   }}
                 >
                   <Box paddingVertical="m" style={styles.exposureList}>
