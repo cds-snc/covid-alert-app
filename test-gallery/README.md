@@ -10,10 +10,12 @@ Original author Tim Arney, with contributions by Andréas K.LeF.
 
 We can use the test-gallery script to get before/after images. Ex: run once on latest master, and again on feature branch.
 
-This node script will take those two runs (two HTML files) from the test-gallery script, parse them, and merges them into one single continuous file. It displays two version of the app side-by-side, for easy visual difference identification.
+This node script will take the two output HTML files from the test-gallery script, parse them, and merge them into one single continuous file. Displaying two versions of the app, ideally from two different features branhes, side-by-side, for easy visual inspection.
 
 Original Andréas K.LeF.
 
 ## Future Work
 
-It would be really nice to be able to pass a flag
+### to visual-diff
+
+be able to pass a `--latest` flag to visual-diff that automatically grabs the two most recent  `*.html` files from `/artifacts` would be very convenient. That would mean sorting through the files and getting the lastest couple by "most recently created" date.

@@ -44,37 +44,43 @@ or
 
 ### Metro server
 
-If you haven't recently run a `yarn pre:test:ios` command, or if you've run it but closed the many   prompts it opened, you might not have metro server running. *Metro must be running* for Detox to talk with React and to interact with the app.
+If you haven't recently run `yarn pre:test:ios`, or if you've run it, but closed the many prompts it opens, you might not have a metro server running. *Metro must be running* for Detox to interact with the app.
 
 From a separate terminal tab, or prompt, navigate to the app repo and run `npx react-native start`
 
 ![Setup to run Detox](SetupToRunDetox.png)
 
-**BUILDING THE BUNDLE TAKES A WHILE**
-See progress bar on bottom of Metro server window.
+**BUNDLE BUILDING TAKES TIME**
+-> progress bar on bottom of Metro server window for progress.
 
 ### Individual tests
 
 *As outilned in `.detoxrc.json`*
 
-From the main repo, for example, run:
+From a command prompt, navigate to the main repo directory, and for example, run:
 
 `detox test e2e/exploreDemoMenu.e2e.js --configuration=ios`
 
-or `android.aosp` for android simulator
+or use `--configuration=android.aosp` to test with the android AOSP simulator.
+
+A succesful run of this test will look like this:
 
 ![Succesful Detox run of exploreDemoMenu.e2e.js](SuccesfulDemoMenuTest.png)
-Took 100s on a 2017 13-inch Macbook Pro.
+This test ran in 100 seconds on a 2017, 13-inch Macbook Pro laptop.
 
-### Run the entire test suite
+### Running the entire test suite
 
-This takes many minutes, and binds up most of your computer ressources while at it...
+This may take several minutes, and heavily uses computer resources while running.
 
-`yarn test:android`
+Executing either
+
+ `yarn test:android`
 
 or
 
 `yarn test:ios`
+
+from the root fo the project will execute all `.e2e.js` tests containted in the `/e2e` folder. They are all run in parallel by Jest, and thus order of execution is not guaranteed.
 
 ## Troubleshooting
 
@@ -83,7 +89,8 @@ Sorted by "deeper into the rabbit hole":
 ### Simulator Errors/Warnings
 
 You can dismiss warnings, and they should go away for the lifetime of the simulator.
-If Errors pop up they will overlap the visual items the simulator is trying to show, and thus block the items below them. This is a pain, you need to bring this up with a Dev so those errors can be remedied or handled differently.
+
+If Errors pop up they will overlap the visual items the simulator is trying to show, and thus block the items below them. If your issues persist, please file an [Issue on Github](https://github.com/cds-snc/covid-alert-app/issues) to see if the error(s) can be remedied or handled differently.
 
 ### (iOS) Detox builds fail unexpectedly
 
