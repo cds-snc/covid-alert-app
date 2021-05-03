@@ -3,13 +3,14 @@ import {StyleSheet, Alert} from 'react-native';
 import {useI18n, I18n} from 'locale';
 import {CombinedExposureHistoryData, getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Text, Icon, Toolbar, Button} from 'components';
+import {Box, Text, Toolbar, Button} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useExposureHistory, useClearExposedStatus} from 'services/ExposureNotificationService';
 
 import {ExposureList} from './views/ExposureList';
+import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
 
 const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
   switch (severity) {
@@ -54,19 +55,6 @@ const toProximityExposureHistoryData = ({
       timestamp: outbreak,
     };
   });
-};
-
-const NoExposureHistoryScreen = () => {
-  const i18n = useI18n();
-
-  return (
-    <Box style={styles.noExposureHistoryScreen} marginTop="xl">
-      <Icon height={120} width={150} name="exposure-history-thumb" />
-      <Text paddingTop="s" fontWeight="bold">
-        {i18n.translate('ExposureHistory.NoExposures')}
-      </Text>
-    </Box>
-  );
 };
 
 export const ExposureHistoryScreen = () => {
@@ -134,10 +122,6 @@ export const ExposureHistoryScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  noExposureHistoryScreen: {
-    flex: 1,
-    alignItems: 'center',
-  },
   flex: {
     flex: 1,
   },
