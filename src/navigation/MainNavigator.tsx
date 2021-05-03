@@ -29,7 +29,7 @@ import {FrameworkUnavailableView} from 'screens/home/views/FrameworkUnavailableV
 import {CheckInSuccessfulScreen} from 'screens/qr/CheckInSuccessfulScreen';
 import {InvalidQRCodeScreen} from 'screens/qr/InvalidQRCodeScreen';
 import {CheckInHistoryScreen} from 'screens/qr/CheckInHistoryScreen';
-import {ExposureHistoryScreen} from 'screens/qr/ExposureHistoryScreen';
+import {ExposureHistoryScreen} from 'screens/exposureHistory/ExposureHistoryScreen';
 import {QRCodeIntroScreen} from 'screens/qr/QRCodeIntroScreen';
 import {MenuScreen} from 'screens/menu/MenuScreen';
 import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
