@@ -18,7 +18,7 @@ const ExposureView = () => {
     const id = route.params.id;
     return <OutbreakExposedView id={id} />;
   }
-  // return proximity Exposure
+  // @todo return proximity Exposure
   return null;
 };
 

@@ -80,6 +80,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Tutorial: undefined;
   QROnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
+  // @todo add proper type for exposureType i.e. outbreak or proximity
   RecentExposureScreen: {id: string; exposureType: string};
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
