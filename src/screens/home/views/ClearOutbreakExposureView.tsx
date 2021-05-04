@@ -10,6 +10,7 @@ import {getCurrentDate} from 'shared/date-fns';
 export const ClearOutbreakExposureScreen = () => {
   const [state, setState] = useState(ClearOutbreakExposureViewState);
   const navigation = useNavigation();
+  const i18n = useI18n();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const {clearOutbreakHistory} = useOutbreakService();
   const onClearOutbreak = useCallback(async () => {
@@ -17,21 +18,21 @@ export const ClearOutbreakExposureScreen = () => {
     setState({...state, exposureHistoryClearedDate: getCurrentDate()});
   }, [clearOutbreakHistory, state]);
   const onClearOutbreakExposed = useCallback(() => {
-    Alert.alert('Are you sure you want to clear outbreak exposure history?', undefined, [
+    Alert.alert(i18n.translate('ClearOutbreakExposure.Alert.Title'), undefined, [
       {
-        text: 'Confirm',
+        text: i18n.translate('ClearOutbreakExposure.Alert.Confirm'),
         onPress: () => {
           onClearOutbreak();
           close();
         },
       },
       {
-        text: 'Cancel',
+        text: i18n.translate('ClearOutbreakExposure.Alert.Cancel'),
         onPress: () => {},
         style: 'cancel',
       },
     ]);
-  }, [close, onClearOutbreak]);
+  }, [close, i18n, onClearOutbreak]);
 
   return (
     <Box backgroundColor="overlayBackground" style={styles.flex}>
@@ -40,13 +41,15 @@ export const ClearOutbreakExposureScreen = () => {
         <ScrollView>
           <Box paddingHorizontal="m" paddingBottom="l">
             <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-              Clear Outbreak Exposure History
+              {i18n.translate('ClearOutbreakExposure.Title')}
             </Text>
-            <Text marginBottom="m">
-              If you have recieved a negative test result, you may clear your outbreak exposure history
-            </Text>
+            <Text marginBottom="m">{i18n.translate('ClearOutbreakExposure.Body')}</Text>
 
-            <Button text="Clear Exposure" onPress={onClearOutbreakExposed} variant="thinFlat" />
+            <Button
+              text={i18n.translate('ClearOutbreakExposure.Button')}
+              onPress={onClearOutbreakExposed}
+              variant="thinFlat"
+            />
           </Box>
         </ScrollView>
       </SafeAreaView>
