@@ -600,6 +600,16 @@
       "ConfirmDeleteAll": "Oui, tout supprimer"
     }
   },
+  "ClearOutbreakExposure": {
+    "Title": "Résultat de test négatif?",
+    "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif.",
+    "Button": "Mettre fin à l’alerte",
+    "Alert": {
+      "Title": "Voulez-vous vraiment mettre fin à l’alerte?",
+      "Cancel": "Annuler",
+      "Confirm": "Oui, mettre fin à l’alerte"
+    }
+  },
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {
