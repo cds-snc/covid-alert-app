@@ -31,7 +31,7 @@
       "Title2": "What next?",
       "Body2": "You’re at risk of being infected.",
       "Notification": {
-        "Received": "Notification received"
+        "Received": "Notification received:"
       },
       "NegativeTest": {
         "CTA": "Negative test?"
@@ -92,8 +92,8 @@
       "CTA": "Enable COVID Alert",
       "AndroidTitle2": "Not sure about turning on Location?",
       "AndroidBody1": "You need to have Location turned on for COVID Alert to work. To use Bluetooth scanning, Android phones need Location setting on for all apps.",
-      "AndroidBody2a": "Despite that, COVID Alert has ",
-      "AndroidBody2b": "no way of knowing where you are. ",
+      "AndroidBody2a": "Despite that, ",
+      "AndroidBody2b": "COVID Alert does not use GPS to track your location. ",
       "AndroidBody2c": "You can check the app’s permissions in your phone’s settings. You’ll see it does not have permission for location services."
     },
     "FrameworkUnavailable": {
@@ -236,7 +236,7 @@
     "step-4Title": "Help make contact tracing easier",
     "step-4AltText": "-",
     "step-4": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from them.",
-    "step-4-banner": "Right now, posters with QR codes are only available in _____ as part of a small-scale pilot project.",
+    "step-4-banner": "Right now, posters with QR codes are **only available in Mooseville** as part of a small-scale pilot project.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -264,13 +264,13 @@
     "Anonymous": {
       "Title": "Your privacy is protected",
       "ImageAltText": "A hand-drawn illustration of shaded glasses and hat to go incognito. Above the hat, a location pin icon is crossed out.",
-      "Body1": "COVID Alert **does not use GPS** or track your location.",
+      "Body1": "COVID Alert **does not use GPS** to track your location.",
       "Body2": "It has **no way of knowing**:",
-      "Bullet1": "Your location.",
-      "Bullet2": "Your name or address.",
-      "Bullet3": "Your phone’s contacts.",
-      "Bullet4": "Your health information, except what you decide to share.",
-      "Bullet5": "The health information of anyone you’re near."
+      "Bullet1": "Your name or address.",
+      "Bullet2": "Your phone’s contacts.",
+      "Bullet3": "Your health information, except what you decide to share.",
+      "Bullet4": "The health information of anyone you’re near."
+      
     },
     "HowItWorks": {
       "Title": "How it works",
@@ -419,7 +419,7 @@
   },
   "Notification": {
     "ExposedMessageTitle": "You’ve been exposed",
-    "ExposedMessageBody": "You’ve had close contact with someone who reported a COVID-19 diagnosis through the app. Learn more about what to do next.",
+    "ExposedMessageBody": "You’ve been near at least one person who reported a COVID-19 diagnosis through the app. Learn more about what to do next.",
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
@@ -432,8 +432,8 @@
     "OTKNotSharedTitle": "Not quite done",
     "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet.",
     "AndroidChannelName": "COVID Alert",
-    "OutbreakMessageTitle": "You have been exposed to an Outbreak",
-    "OutbreakMessageBody": "There was an outbreak at one of the locations you scanned"
+    "OutbreakMessageTitle": "You have been exposed",
+    "OutbreakMessageBody": "Someone tested positive from a place you visited. You need to isolate and get tested. Learn more..."
   },
   "Partners": {
     "Label": "Developed in partnership with"
@@ -546,28 +546,28 @@
     },
     "ScanAPlace": {
       "Title": "Add a visit: Mooseville only",
-      "Body": "Get notified if someone from today tests positive later.\n\nThe app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits are not shared** with anyone.",
-      "Banner": "Right now, posters with QR codes are only available in Mooseville as part of a small-scale pilot project.",
+      "Body": "Get notified if public health finds an exposure risk from your visit.\n\nThe app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits are not shared** with anyone.",
+      "Banner": "Right now, posters with QR codes are **only available in Mooseville** as part of a small-scale pilot project.",
       "CTA": "Next",
       "CTA2": "About adding a visit"
     },
     "ProximityExposure": "Get tested",
     "OutbreakExposed": {
-      "Title": "Possible exposure at a visit",
-      "Body": "Someone tested positive from one of your visits.",
-      "DateDesc": "Date of exposure: ",
+      "Title": "You’ve been exposed",
+      "Body": "You visited a place at the same time as at least one person who tested positive for COVID-19.\n\nPublic health identified this exposure.",
+      "DateDesc": "Notification received: ",
       "CTA": "Negative test?",
       "SelfIsolate": {
         "Title": "Isolate and get tested",
-        "Body": "You’re a high-risk contact. If you have symptoms, get tested right away. If you do not have symptoms, wait to get tested at least 7 days after the date of exposure.\n\nYou also need to isolate for 14 days from the date of exposure.\n\nIf you have questions, contact your local public health unit."
+        "Body": "Continue to self-isolate until you get your test result."
       },
       "GetTested": {
         "Title": "Get tested",
         "Body": "You need to get tested as soon as possible.\n\nIn the meantime, avoid contact with vulnerable people.\n\nIf you have questions, contact your local public health unit."
       },
       "SelfMonitor": {
-        "Title": "Avoid people and self-monitor",
-        "Body": "You need to avoid contact with vulnerable people and watch yourself carefully for symptoms. If you get symptoms, take a self-assessment.\n\nIf you have questions, contact your local public health unit."
+        "Title": "Self-monitor for 14 days",
+        "Body": "If you develop symptoms, get tested and self-isolate until you get your test result."
       }
     }
   },
