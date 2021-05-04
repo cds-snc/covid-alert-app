@@ -575,6 +575,7 @@
     "DeleteIcon": "Supprimer",
     "NoVisit": "Aucune visite",
     "Back": "Précédent",
+    "Close": "Fermer",
     "Alert": {
       "Title": "Voulez-vous vraiment supprimer cette visite?",
       "TitleDeleteAll": "Voulez-vous vraiment supprimer toutes les visites?",
