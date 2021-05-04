@@ -36,7 +36,7 @@
       "Title2": "Et ensuite?",
       "Body2": "Vous pourriez avoir contracté le virus.",
       "Notification": {
-        "Received": "Date de la notification"
+        "Received": "Date de la notification "
       },
       "NegativeTest": {
         "CTA": "Résultat de test négatif?"
@@ -92,8 +92,8 @@
       "CTA": "Activer Alerte COVID",
       "AndroidTitle2": "Vous hésitez à activer la localisation?",
       "AndroidBody1": "Il faut activer la localisation pour qu’Alerte COVID fonctionne. Avec Android, la recherche Bluetooth n’est possible que si la localisation est activée pour toutes les applications.",
-      "AndroidBody2a": "Malgré cela, Alerte COVID ",
-      "AndroidBody2b": "ne peut pas savoir où vous êtes. ",
+      "AndroidBody2a": "Malgré cela, ",
+      "AndroidBody2b": "Alerte COVID n’utilise pas le GPS pour suivre votre emplacement. ",
       "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
     },
     "FrameworkUnavailable": {
@@ -229,14 +229,14 @@
     "step-1": "L’application peut vous aviser si vous avez visité un lieu pendant qu’il y avait un risque d’exposition.\n\nCe type de notifications fonctionne à partir de codes QR que vous scannez lors de vos allées et venues.\n\nLes codes QR vous évitent de laisser vos renseignements personnels aux lieux visités, ce qui offre plus de vie privée.",
     "step-2Title": "Fonctionnement des notifications par code QR",
     "step-2AltText": "-",
-    "step-2": "Le lieu et le moment où il y a un risque d’exposition est déterminé par les autorités de santé publique.\n\nChaque jour, Alerte COVID télécharge une liste de ces lieux et moments.\n\nS’il y a correspondance avec l’une de vos visites, l’application vous enverra une notification et vous expliquera quoi faire.",
+    "step-2": "Le lieu et le moment où il y a un risque d’exposition est déterminé par les autorités de santé publique.\n\nChaque jour, Alerte COVID télécharge une liste de ces lieux et moments.\n\nS’il y a correspondance avec l’une de vos visites, l’application vous enverra une notification qui vous explique quoi faire.",
     "step-3Title": "Votre vie privée est protégée",
     "step-3AltText": "-",
     "step-3": "L’application enregistre la date, l’heure et le lieu de vos visites sur votre téléphone.\n\nVos visites et vos expositions **ne sont communiquées à personne**.\n\nVous pouvez consulter la liste de vos visites récentes à partir du menu. Au besoin, vous pouvez aussi supprimer des visites.",
     "step-4Title": "Facilitons la recherche de contacts",
     "step-4AltText": "-",
-    "step-4": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu risque d’exposition pendant celles-ci.",
-    "step-4-banner": "Pour l’instant, les affiches à code QR ne sont présentes qu’à ________ pour un projet-pilote à petite échelle.",
+    "step-4": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu un risque d’exposition pendant celles-ci.",
+    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet-pilote à petite échelle.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -264,13 +264,13 @@
     "Anonymous": {
       "Title": "Votre vie privée est protégée",
       "ImageAltText": "Dessin à la main d’une paire de lunettes de soleil et d’un chapeau pour passer incognito. Au-dessus du chapeau, une icône de marqueur de géolocalisation est biffée.",
-      "Body1": "Alerte COVID **n’utilise pas le GPS** et ne suit pas votre emplacement.",
+      "Body1": "Alerte COVID **n’utilise pas le GPS** pour suivre votre emplacement.",
       "Body2": "L’application **n’a aucun moyen** de connaître\u00A0:",
-      "Bullet1": "Votre emplacement.",
-      "Bullet2": "Votre nom ou votre adresse.",
-      "Bullet3": "Les contacts de votre téléphone.",
-      "Bullet4": "Vos renseignements de santé, sauf ceux que vous acceptez de fournir.",
-      "Bullet5": "Les renseignements de santé des personnes à proximité."
+      "Bullet1": "Votre nom ou votre adresse.",
+      "Bullet2": "Les contacts de votre téléphone.",
+      "Bullet3": "Vos renseignements de santé, sauf ceux que vous acceptez de fournir.",
+      "Bullet4": "Les renseignements de santé des personnes à proximité."
+      
     },
     "HowItWorks": {
       "Title": "Fonctionnement",
@@ -418,7 +418,7 @@
   },
   "Notification": {
     "ExposedMessageTitle": "Vous avez été exposé",
-    "ExposedMessageBody": "Vous avez eu un contact étroit avec une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Informez-vous sur les étapes à suivre.",
+    "ExposedMessageBody": "Vous avez été près d’au moins une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Informez-vous sur les étapes à suivre.",
     "OffMessageTitle": "Alerte COVID est désactivée",
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
     "DailyUploadNotificationTitle": "Téléversez vos nouveaux codes aléatoires",
@@ -539,29 +539,29 @@
       "Title": "FR Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Ajouter une visite: Mooseville seulement",
-      "Body": "Vous serez avisé si quelqu’un présent pendant votre visite est déclaré positif prochainement.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
-      "Banner": "Pour l’instant, les affiches à code QR ne sont présentes qu’à Mooseville pour un projet-pilote à petite échelle.",
+      "Title": "Ajouter une visite : Mooseville seulement",
+      "Body": "Vous serez avisé si la santé publique détecte un risque d’exposition lié à votre visite.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
+      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet-pilote à petite échelle.",
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },
     "ProximityExposure": "Passez un test",
     "OutbreakExposed": {
-      "Title": "Exposition possible lors d’une visite",
-      "Body": "Une personne déclarée positive était présente lors d’une de vos visites.",
+      "Title": "Vous avez été exposé",
+      "Body": "Vous avez visité un lieu au même moment qu’au moins une personne déclarée positive.\n\nCe risque d’exposition a été établi par la santé publique.",
       "CTA": "Résultat de test négatif?",
-      "DateDesc": "Date d’exposition : ",
+      "DateDesc": "Date de la notification : ",
       "SelfIsolate": {
         "Title": "Isolez-vous et passez un test",
-        "Body": "Vous êtes un contact à risque élevé. Si vous avez des symptômes, faites-vous tester immédiatement. Si vous n’en avez pas, attendez 7 jours après la date d’exposition pour vous faire tester.\n\nVous devez vous isoler pendant 14 jours à partir de la date d’exposition.\n\nPour toute question, contactez le bureau de santé de votre région."
+        "Body": "Continuez à vous isoler jusqu’à ce que vous receviez le résultat de votre test de dépistage."
       },
       "GetTested": {
         "Title": "Passez un test",
         "Body": "Vous devez passer un test de dépistage dès que possible.\n\nEntre-temps, évitez les contacts avec les personnes vulnérables.\n\nPour toute question, contactez le bureau de santé de votre région."
       },
       "SelfMonitor": {
-        "Title": "Évitez les contacts et surveillez vos symptômes",
-        "Body": "Vous devez éviter les contacts avec les personnes vulnérables et surveiller vos symptômes. Si vous en développez, remplissez une autoévaluation.\n\nPour toute question, contactez le bureau de santé de votre région."
+        "Title": "Surveillez vos symptômes pendant 14 jours",
+        "Body": "Si vous développez des symptômes, passez un test de dépistage et isolez-vous jusqu’à ce que vous receviez le résultat du test."
       }
     }
   },
