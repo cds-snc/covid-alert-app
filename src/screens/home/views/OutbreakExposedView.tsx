@@ -10,28 +10,19 @@ import {HomeScreenTitle} from '../components/HomeScreenTitle';
 
 import {NegativeOutbreakTestButton} from './ClearOutbreakExposureView';
 
-export const OutbreakExposedView = ({timestamp}: {timestamp?: number}) => {
+export const OutbreakExposedView = () => {
   const i18n = useI18n();
   const {outbreakHistory} = useOutbreakService();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
 
-  let historyItem: OutbreakHistoryItem = currentOutbreakHistory[0];
-
-  if (timestamp) {
-    currentOutbreakHistory.forEach(item => {
-      if (item.checkInTimestamp === timestamp) {
-        historyItem = item;
-      }
-    });
-  }
+  const historyItem: OutbreakHistoryItem = currentOutbreakHistory[0];
 
   const severity = historyItem?.severity;
   const exposureDate = formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
-  const props = timestamp ? {header: false} : {};
 
   return (
-    <BaseHomeView iconName="hand-caution" testID="outbreakExposure" {...props}>
+    <BaseHomeView iconName="hand-caution" testID="outbreakExposure">
       <RoundedBox isFirstBox>
         <HomeScreenTitle>{i18n.translate(`QRCode.OutbreakExposed.Title`)}</HomeScreenTitle>
         <Text marginBottom="m">{i18n.translate(`QRCode.OutbreakExposed.Body`)}</Text>
@@ -41,31 +32,39 @@ export const OutbreakExposedView = ({timestamp}: {timestamp?: number}) => {
         </Text>
       </RoundedBox>
       <RoundedBox isFirstBox={false}>
-        <ConditionalText severity={severity} i18n={i18n} />
+        <OutbreakConditionalText severity={severity} i18n={i18n} />
       </RoundedBox>
     </BaseHomeView>
   );
 };
 
-const ConditionalText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
+export const OutbreakConditionalText = ({
+  severity,
+  i18n,
+  showNegativeTestButton = true,
+}: {
+  severity: OutbreakSeverity;
+  i18n: I18n;
+  showNegativeTestButton?: boolean;
+}) => {
   switch (severity) {
     case OutbreakSeverity.GetTested:
-      return <GetTestedText i18n={i18n} />;
+      return <GetTestedText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
     case OutbreakSeverity.SelfIsolate:
-      return <IsolateText i18n={i18n} />;
+      return <IsolateText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
     case OutbreakSeverity.SelfMonitor:
       return <MonitorText i18n={i18n} />;
   }
 };
 
-const IsolateText = ({i18n}: {i18n: I18n}) => {
+const IsolateText = ({i18n, showNegativeTestButton}: {i18n: I18n; showNegativeTestButton: boolean}) => {
   return (
     <>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate('QRCode.OutbreakExposed.SelfIsolate.Title')}
       </Text>
       <TextMultiline marginBottom="m" text={i18n.translate('QRCode.OutbreakExposed.SelfIsolate.Body')} />
-      <NegativeOutbreakTestButton />
+      {showNegativeTestButton ? <NegativeOutbreakTestButton /> : null}
     </>
   );
 };
@@ -81,14 +80,14 @@ const MonitorText = ({i18n}: {i18n: I18n}) => {
   );
 };
 
-const GetTestedText = ({i18n}: {i18n: I18n}) => {
+const GetTestedText = ({i18n, showNegativeTestButton}: {i18n: I18n; showNegativeTestButton: boolean}) => {
   return (
     <>
       <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
         {i18n.translate('QRCode.OutbreakExposed.GetTested.Title')}
       </Text>
       <TextMultiline marginBottom="m" text={i18n.translate('QRCode.OutbreakExposed.GetTested.Body')} />
-      <NegativeOutbreakTestButton />
+      {showNegativeTestButton ? <NegativeOutbreakTestButton /> : null}
     </>
   );
 };

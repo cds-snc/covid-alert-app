@@ -47,7 +47,7 @@ const ExposureText = ({timestamp}: {timestamp?: number}) => {
           <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body2')}</Text>
         )}
         <ExposedHelpButton />
-        <NegativeTestButton />
+        {timestamp ? null : <NegativeTestButton />}
       </RoundedBox>
     </>
   );
