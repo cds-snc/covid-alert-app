@@ -31,7 +31,7 @@ export const OutbreakExposedView = ({timestamp}: {timestamp?: number}) => {
   const props = timestamp ? {header: false} : {};
 
   return (
-    <BaseHomeView iconName="hand-caution-yellow" testID="outbreakExposure" {...props}>
+    <BaseHomeView iconName="hand-caution" testID="outbreakExposure" {...props}>
       <RoundedBox isFirstBox>
         <HomeScreenTitle>{i18n.translate(`QRCode.OutbreakExposed.Title`)}</HomeScreenTitle>
         <Text marginBottom="m">{i18n.translate(`QRCode.OutbreakExposed.Body`)}</Text>
