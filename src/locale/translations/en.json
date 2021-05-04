@@ -602,6 +602,16 @@
       "ConfirmDeleteAll": "Yes, delete all"
     }
   },
+  "ClearOutbreakExposure": {
+    "Title": "Negative test result?",
+    "Body": "You can dismiss the alert when you get a negative test.",
+    "Button": "Dismiss alert",
+    "Alert": {
+      "Title": "Are you sure you want to dismiss this alert?",
+      "Cancel": "Cancel",
+      "Confirm": "Yes, dismiss"
+    }
+  },
   "Errors": {
     "Action": "OK",
     "TekUploadNoDate": {
