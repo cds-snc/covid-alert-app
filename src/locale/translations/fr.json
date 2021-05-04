@@ -270,7 +270,7 @@
       "Bullet2": "Les contacts de votre téléphone.",
       "Bullet3": "Vos renseignements de santé, sauf ceux que vous acceptez de fournir.",
       "Bullet4": "Les renseignements de santé des personnes à proximité."
-      
+
     },
     "HowItWorks": {
       "Title": "Fonctionnement",
@@ -430,7 +430,10 @@
     "PausedMessageBody": "L’application ne peut pas enregistrer d’expositions puisque vous l’avez désactivée.",
     "OTKNotSharedTitle": "Pas tout à fait fini",
     "OTKNotSharedBody": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions. Les personnes que vous avez côtoyées n’ont pas encore été notifiées.",
-    "AndroidChannelName": "Alerte COVID"
+    "AndroidChannelName": "Alerte COVID",
+    "OutbreakMessageTitle": "Vous avez été exposé",
+    "OutbreakMessageIsolate": "Une personne déclarée positive a visité le même lieu que vous. Vous devez vous isoler et passer un test.",
+    "OutbreakMessageMonitor": "Une personne déclarée positive a visité le même lieu que vous. Vous devez surveiller vos symptômes pendant 14 jours."
   },
   "Partners": {
     "Label": "Conçu en partenariat avec"

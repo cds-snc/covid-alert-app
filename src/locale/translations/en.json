@@ -270,7 +270,7 @@
       "Bullet2": "Your phone’s contacts.",
       "Bullet3": "Your health information, except what you decide to share.",
       "Bullet4": "The health information of anyone you’re near."
-      
+
     },
     "HowItWorks": {
       "Title": "How it works",
@@ -433,7 +433,8 @@
     "OTKNotSharedBody": "You entered your one-time key but you have not shared any exposures yet. People who were near you have not been notified yet.",
     "AndroidChannelName": "COVID Alert",
     "OutbreakMessageTitle": "You have been exposed",
-    "OutbreakMessageBody": "Someone tested positive from a place you visited. You need to isolate and get tested. Learn more..."
+    "OutbreakMessageIsolate": "Someone tested positive from a place you visited. You need to isolate and get tested. Learn more...",
+    "OutbreakMessageMonitor": "Someone tested positive from a place you visited. You need to self-monitor for 14 days. Learn more..."
   },
   "Partners": {
     "Label": "Developed in partnership with"

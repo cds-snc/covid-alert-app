@@ -11,7 +11,7 @@ const Banner = () => {
   const i18n = useI18n();
   return (
     <Box style={{...styles.banner}} marginBottom="l">
-      <Text>{i18n.translate('QRCode.ScanAPlace.Banner')}</Text>
+      <TextMultiline detectBold text={i18n.translate('QRCode.ScanAPlace.Banner')} />
     </Box>
   );
 };
