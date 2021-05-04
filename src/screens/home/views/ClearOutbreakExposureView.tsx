@@ -1,18 +1,21 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {ScrollView, Alert, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useI18n} from 'locale';
+import {getCurrentDate} from 'shared/date-fns';
 
 export const ClearOutbreakExposureScreen = () => {
+  const [state, setState] = useState(ClearOutbreakExposureViewState);
   const navigation = useNavigation();
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const {clearOutbreakHistory} = useOutbreakService();
   const onClearOutbreak = useCallback(async () => {
     clearOutbreakHistory();
-  }, [clearOutbreakHistory]);
+    setState({...state, exposureHistoryClearedDate: getCurrentDate()});
+  }, [clearOutbreakHistory, state]);
   const onClearOutbreakExposed = useCallback(() => {
     Alert.alert('Are you sure you want to clear outbreak exposure history?', undefined, [
       {
@@ -71,3 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+const ClearOutbreakExposureViewState = {
+  exposureHistoryClearedDate: getCurrentDate(),
+};
