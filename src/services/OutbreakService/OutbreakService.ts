@@ -240,7 +240,7 @@ export class OutbreakService {
   processOutbreakNotification = () => {
     PushNotification.presentLocalNotification({
       alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
-      alertBody: this.i18n.translate('Notification.OutbreakMessageBody'),
+      alertBody: this.i18n.translate('Notification.OutbreakMessageIsolate'),
       channelName: this.i18n.translate('Notification.AndroidChannelName'),
     });
   };
