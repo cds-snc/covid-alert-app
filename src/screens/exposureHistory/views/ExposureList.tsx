@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useI18n} from 'locale';
-import {CombinedExposureHistoryData, ExposureType} from 'shared/qr';
+import {CombinedExposureHistoryData} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon} from 'components';
 import {formatExposedDate} from 'shared/date-fns';
@@ -17,13 +17,21 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
   exposureHistoryData.sort(function (first, second) {
     return second.timestamp - first.timestamp;
   });
+  const getRadiusStyle = (index: number) => {
+    if (index === 0) {
+      return styles.radiusTop;
+    }
+    if (index === exposureHistoryData.length - 1) {
+      return styles.radiusBottom;
+    }
+  };
 
   return (
     <>
       {exposureHistoryData.map((item, index) => {
         return (
           <Box key={item.timestamp}>
-            <Box backgroundColor="gray5" style={styles.radius}>
+            <Box backgroundColor="gray5" style={getRadiusStyle(index)}>
               <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
                 <TouchableOpacity
                   style={styles.chevronIcon}
@@ -32,17 +40,11 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
                   }}
                 >
                   <Box paddingVertical="m" style={styles.exposureList}>
-                    <Box style={styles.typeIconBox}>
-                      <Icon
-                        size={20}
-                        name={item.exposureType === ExposureType.Proximity ? 'exposure-proximity' : 'exposure-outbreak'}
-                      />
-                    </Box>
                     <Box style={styles.boxFlex}>
                       <Text fontWeight="bold">{formatExposedDate(new Date(item.timestamp), dateLocale)}</Text>
                       <Text>{item.subtitle}</Text>
                     </Box>
-                    <Box style={styles.chevronIconBox}>
+                    <Box style={styles.chevronIconBox} paddingRight="s">
                       <Icon size={30} name="icon-chevron" />
                     </Box>
                   </Box>
@@ -61,8 +63,13 @@ const styles = StyleSheet.create({
     borderBottomColor: '#8a8a8a',
     borderBottomWidth: 1,
   },
-  radius: {
-    borderRadius: 10,
+  radiusTop: {
+    borderTopStartRadius: 10,
+    borderTopEndRadius: 10,
+  },
+  radiusBottom: {
+    borderBottomStartRadius: 10,
+    borderBottomEndRadius: 10,
   },
   exposureList: {
     flexDirection: 'row',
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   chevronIconBox: {
-    flex: 1,
+    flex: 0,
     justifyContent: 'center',
   },
   typeIconBox: {

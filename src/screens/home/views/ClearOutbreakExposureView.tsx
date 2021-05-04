@@ -67,7 +67,7 @@ export const NegativeOutbreakTestButton = () => {
   return (
     <Box>
       <Box alignSelf="stretch">
-        <ButtonSingleLine iconName="icon-chevron" text={text} onPress={toClearOutbreakExposure} variant="scan25" />
+        <ButtonSingleLine iconName="icon-chevron" text={text} onPress={toClearOutbreakExposure} variant="exposure25" />
       </Box>
     </Box>
   );
