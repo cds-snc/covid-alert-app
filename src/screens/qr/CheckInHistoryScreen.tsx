@@ -1,13 +1,14 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {useI18n} from 'locale';
-import {useNavigation} from '@react-navigation/native';
-import {Box, Text, Icon, Button, Toolbar} from 'components';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {Box, Text, Icon, Button, ToolbarWithClose} from 'components';
 import {CheckInData} from 'shared/qr';
 import {formatExposedDate, formateScannedDate, accessibilityReadableDate} from 'shared/date-fns';
 import {useOutbreakService} from 'services/OutbreakService/OutbreakProvider';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
+import {MainStackParamList} from 'navigation/MainNavigator';
 
 import {sortedCheckInArray} from './utils';
 
@@ -99,11 +100,15 @@ const NoVisitsScreen = () => {
   );
 };
 
+type CheckInHistoryScreenProps = RouteProp<MainStackParamList, 'CheckInHistoryScreen'>;
+
 export const CheckInHistoryScreen = () => {
+  const route = useRoute<CheckInHistoryScreenProps>();
   const i18n = useI18n();
   const {checkInHistory, deleteAllScannedPlaces} = useOutbreakService();
   const navigation = useNavigation();
-  const back = useCallback(() => navigation.goBack(), [navigation]);
+  const closeRoute = route.params?.closeRoute ? route.params.closeRoute : 'Menu';
+  const close = useCallback(() => navigation.navigate(closeRoute), [closeRoute, navigation]);
 
   const deleteAllPlaces = () => {
     Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
@@ -124,7 +129,7 @@ export const CheckInHistoryScreen = () => {
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
-        <Toolbar title="" navIcon="icon-back-arrow" navText={i18n.translate('PlacesLog.Back')} onIconClicked={back} />
+        <ToolbarWithClose closeText={i18n.translate('PlacesLog.Close')} onClose={close} showBackButton={false} />
         <ScrollView style={styles.flex}>
           <Box paddingHorizontal="m">
             <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>

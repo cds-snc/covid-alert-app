@@ -28,7 +28,7 @@ export const palette = {
   green2: '#C9E7DE',
   info100: '#005B99',
   focus: '#44BBEE',
-  exposure25: '#DED8FB',
+  exposure25: '#C1BFFF',
   scan25: '#FEEFB8',
 
   greyCanada25: '#D0D7DE',

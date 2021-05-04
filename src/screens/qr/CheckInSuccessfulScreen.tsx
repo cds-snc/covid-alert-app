@@ -19,7 +19,9 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
   const i18n = useI18n();
   const navigation = useNavigation();
   const navigateHome = useCallback(() => navigation.navigate('Home'), [navigation]);
-  const navigateYourVisits = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
+  const navigateYourVisits = useCallback(() => navigation.navigate('CheckInHistoryScreen', {closeRoute: 'Home'}), [
+    navigation,
+  ]);
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const readableDate = accessibilityReadableDate(new Date(timestamp));
   const scannedTime = getScannedTime(new Date(timestamp), dateLocale);
