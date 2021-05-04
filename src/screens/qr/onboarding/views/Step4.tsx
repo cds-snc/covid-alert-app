@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Box} from 'components';
+import {Box, TextMultiline} from 'components';
 import {useI18n} from 'locale';
 import {StyleSheet} from 'react-native';
 
@@ -9,7 +9,7 @@ const Banner = () => {
   const i18n = useI18n();
   return (
     <Box style={{...styles.banner}} marginBottom="l">
-      <Text>{i18n.translate('QRCodeOnboarding.step-4-banner')}</Text>
+      <TextMultiline detectBold text={i18n.translate('QRCode.ScanAPlace.Banner')} />
     </Box>
   );
 };
