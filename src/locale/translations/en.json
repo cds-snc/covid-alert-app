@@ -563,8 +563,8 @@
         "Body": "Continue to self-isolate until you get your test result."
       },
       "GetTested": {
-        "Title": "Get tested",
-        "Body": "You need to get tested as soon as possible.\n\nIn the meantime, avoid contact with vulnerable people.\n\nIf you have questions, contact your local public health unit."
+        "Title": "Isolate and get tested",
+        "Body": "Continue to self-isolate until you get your test result."
       },
       "SelfMonitor": {
         "Title": "Self-monitor for 14 days",

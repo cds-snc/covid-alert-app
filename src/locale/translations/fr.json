@@ -559,8 +559,8 @@
         "Body": "Continuez à vous isoler jusqu’à ce que vous receviez le résultat de votre test de dépistage."
       },
       "GetTested": {
-        "Title": "Passez un test",
-        "Body": "Vous devez passer un test de dépistage dès que possible.\n\nEntre-temps, évitez les contacts avec les personnes vulnérables.\n\nPour toute question, contactez le bureau de santé de votre région."
+        "Title": "Isolez-vous et passez un test",
+        "Body": "Continuez à vous isoler jusqu’à ce que vous receviez le résultat de votre test de dépistage."
       },
       "SelfMonitor": {
         "Title": "Surveillez vos symptômes pendant 14 jours",
