@@ -81,6 +81,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   QROnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
   RecentExposureScreen: {timestamp: number; exposureType: ExposureType};
+  CheckInHistoryScreen: {closeRoute: string};
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);
 const HomeScreenWithNavBar = withDarkNav(HomeScreen);
