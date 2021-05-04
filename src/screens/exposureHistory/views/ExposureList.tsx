@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useI18n} from 'locale';
-import {CombinedExposureHistoryData, ExposureType} from 'shared/qr';
+import {CombinedExposureHistoryData} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon} from 'components';
 import {formatExposedDate} from 'shared/date-fns';
