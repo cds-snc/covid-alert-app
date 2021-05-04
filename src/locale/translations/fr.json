@@ -553,7 +553,7 @@
       "Title": "Vous avez été exposé",
       "Body": "Vous avez visité un lieu au même moment qu’au moins une personne déclarée positive.\n\nCe risque d’exposition a été établi par la santé publique.",
       "CTA": "Résultat de test négatif?",
-      "DateDesc": "Date de la notification : ",
+      "DateDesc": "Date d’exposition: ",
       "SelfIsolate": {
         "Title": "Isolez-vous et passez un test",
         "Body": "Continuez à vous isoler jusqu’à ce que vous receviez le résultat de votre test de dépistage."
