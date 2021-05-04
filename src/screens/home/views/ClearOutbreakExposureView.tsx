@@ -41,9 +41,9 @@ export const ClearOutbreakExposureScreen = () => {
         <ScrollView>
           <Box paddingHorizontal="m" paddingBottom="l">
             <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-              i18n.translate('ClearOutbreakExposure.Title')
+              {i18n.translate('ClearOutbreakExposure.Title')}
             </Text>
-            <Text marginBottom="m">i18n.translate('ClearOutbreakExposure.Body')</Text>
+            <Text marginBottom="m">{i18n.translate('ClearOutbreakExposure.Body')}</Text>
 
             <Button
               text={i18n.translate('ClearOutbreakExposure.Button')}
