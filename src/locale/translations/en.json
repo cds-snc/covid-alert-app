@@ -31,7 +31,7 @@
       "Title2": "What next?",
       "Body2": "You’re at risk of being infected.",
       "Notification": {
-        "Received": "Notification received:"
+        "Received": "Notification received"
       },
       "NegativeTest": {
         "CTA": "Negative test?"
