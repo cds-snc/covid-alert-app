@@ -19,7 +19,10 @@ export const OutbreakExposedView = () => {
   const historyItem: OutbreakHistoryItem = currentOutbreakHistory[0];
 
   const severity = historyItem?.severity;
-  const exposureDate = formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
+  const exposureDate =
+    historyItem?.checkInTimestamp === undefined
+      ? formatExposedDate(new Date(), dateLocale)
+      : formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
 
   return (
     <BaseHomeView iconName="hand-caution" testID="outbreakExposure">
@@ -54,6 +57,8 @@ export const OutbreakConditionalText = ({
       return <IsolateText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
     case OutbreakSeverity.SelfMonitor:
       return <MonitorText i18n={i18n} />;
+    default:
+      return <GetTestedText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
   }
 };
 
