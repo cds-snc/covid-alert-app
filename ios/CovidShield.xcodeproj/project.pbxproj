@@ -18,6 +18,11 @@
 		92B51DEAB84B429696C44822 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190AEBD50CE3434EBCFCFBB4 /* NotoSans-Bold.ttf */; };
 		9DCF98527548A48AED34959C /* libPods-CovidShield-CovidShieldTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */; };
 		A40D59F9258A44E6009DA167 /* ExposureNotification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A40D59F8258A44E6009DA167 /* ExposureNotification.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A48FF3FF26402ABB00536E12 /* MetricsService.m in Sources */ = {isa = PBXBuildFile; fileRef = A48FF3FE26402ABB00536E12 /* MetricsService.m */; };
+		A49FB8BB26398A9100BE63CC /* MetricsPusher.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FB8BA26398A9100BE63CC /* MetricsPusher.m */; };
+		A49FB8BE26399AAF00BE63CC /* MetricsJsonSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FB8BD26399AAF00BE63CC /* MetricsJsonSerializer.m */; };
+		A49FB8C126399BB000BE63CC /* Metric.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FB8C026399BB000BE63CC /* Metric.m */; };
+		A4D281F626384C26003084CF /* DebugMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D281F526384C26003084CF /* DebugMetrics.m */; };
 		A4E2F5EF258A84B50037F403 /* ENActivityHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E2F5EE258A84B50037F403 /* ENActivityHandling.m */; };
 		BA054BD27C1A8657F6BF95BB /* libPods-CovidShield.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52445CBEB4F2B88669022976 /* libPods-CovidShield.a */; };
 		E1EAAA13E1C84385A63D42EA /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E93E71E0D77549B3926CABCB /* NotoSans-Regular.ttf */; };
@@ -69,10 +74,20 @@
 		77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-CovidShieldTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83A9E3B8A86E1B360304383E /* Pods-CovidShield-CovidShieldTests.diawi-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.diawi-release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.diawi-release.xcconfig"; sourceTree = "<group>"; };
 		A40D59F8258A44E6009DA167 /* ExposureNotification.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExposureNotification.framework; path = System/Library/Frameworks/ExposureNotification.framework; sourceTree = SDKROOT; };
+		A48FF3FD26402ABB00536E12 /* MetricsService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetricsService.h; sourceTree = "<group>"; };
+		A48FF3FE26402ABB00536E12 /* MetricsService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetricsService.m; sourceTree = "<group>"; };
+		A49FB8B926398A9100BE63CC /* MetricsPusher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetricsPusher.h; sourceTree = "<group>"; };
+		A49FB8BA26398A9100BE63CC /* MetricsPusher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetricsPusher.m; sourceTree = "<group>"; };
+		A49FB8BC26399AAF00BE63CC /* MetricsJsonSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetricsJsonSerializer.h; sourceTree = "<group>"; };
+		A49FB8BD26399AAF00BE63CC /* MetricsJsonSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetricsJsonSerializer.m; sourceTree = "<group>"; };
+		A49FB8BF26399BB000BE63CC /* Metric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Metric.h; sourceTree = "<group>"; };
+		A49FB8C026399BB000BE63CC /* Metric.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Metric.m; sourceTree = "<group>"; };
+		A4D281F426384C26003084CF /* DebugMetrics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DebugMetrics.h; path = CovidShield/DebugMetrics.h; sourceTree = "<group>"; };
+		A4D281F526384C26003084CF /* DebugMetrics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DebugMetrics.m; path = CovidShield/DebugMetrics.m; sourceTree = "<group>"; };
 		A4E2F5ED258A84B50037F403 /* ENActivityHandling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ENActivityHandling.h; path = CovidShield/ENActivityHandling.h; sourceTree = "<group>"; };
 		A4E2F5EE258A84B50037F403 /* ENActivityHandling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ENActivityHandling.m; path = CovidShield/ENActivityHandling.m; sourceTree = "<group>"; };
-		C418ECF725D04B91004B0FBD /* Info-debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-debug.plist"; path = "CovidShield/Info-debug.plist"; sourceTree = "<group>"; };
 		C40A5C5B25CF35DE00396B56 /* CovidShieldDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CovidShieldDebug.entitlements; path = CovidShield/CovidShieldDebug.entitlements; sourceTree = "<group>"; };
+		C418ECF725D04B91004B0FBD /* Info-debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-debug.plist"; path = "CovidShield/Info-debug.plist"; sourceTree = "<group>"; };
 		DB9A1444C934C41C93EB531F /* Pods-CovidShield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.debug.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.debug.xcconfig"; sourceTree = "<group>"; };
 		DF927FC69F850C41EFC51F89 /* Pods-CovidShield.diawi-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield.diawi-release.xcconfig"; path = "Target Support Files/Pods-CovidShield/Pods-CovidShield.diawi-release.xcconfig"; sourceTree = "<group>"; };
 		E93E71E0D77549B3926CABCB /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSans-Regular.ttf"; path = "../src/assets/fonts/NotoSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -180,6 +195,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A4D281E926384A1C003084CF /* Services */,
 				74B6941C245F15B20077B9DA /* ExposureNotification.h */,
 				74B6941D245F15B20077B9DA /* ExposureNotification.m */,
 				7482404D246F9C0E009F68EA /* CovidShield.h */,
@@ -213,6 +229,31 @@
 				00E356EE1AD99517003FC87E /* CovidShieldTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A4D281E926384A1C003084CF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A4D281EA26384A48003084CF /* Metrics */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		A4D281EA26384A48003084CF /* Metrics */ = {
+			isa = PBXGroup;
+			children = (
+				A4D281F426384C26003084CF /* DebugMetrics.h */,
+				A4D281F526384C26003084CF /* DebugMetrics.m */,
+				A49FB8BF26399BB000BE63CC /* Metric.h */,
+				A49FB8C026399BB000BE63CC /* Metric.m */,
+				A49FB8BC26399AAF00BE63CC /* MetricsJsonSerializer.h */,
+				A49FB8BD26399AAF00BE63CC /* MetricsJsonSerializer.m */,
+				A49FB8B926398A9100BE63CC /* MetricsPusher.h */,
+				A49FB8BA26398A9100BE63CC /* MetricsPusher.m */,
+				A48FF3FD26402ABB00536E12 /* MetricsService.h */,
+				A48FF3FE26402ABB00536E12 /* MetricsService.m */,
+			);
+			name = Metrics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -469,10 +510,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				A49FB8BB26398A9100BE63CC /* MetricsPusher.m in Sources */,
+				A49FB8C126399BB000BE63CC /* Metric.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				7482404F246F9C0E009F68EA /* CovidShield.m in Sources */,
+				A48FF3FF26402ABB00536E12 /* MetricsService.m in Sources */,
 				74B6941E245F15B20077B9DA /* ExposureNotification.m in Sources */,
+				A49FB8BE26399AAF00BE63CC /* MetricsJsonSerializer.m in Sources */,
 				A4E2F5EF258A84B50037F403 /* ENActivityHandling.m in Sources */,
+				A4D281F626384C26003084CF /* DebugMetrics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,7 +612,9 @@
 				DEVELOPMENT_TEAM = J7J9Q6KTWJ;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)"
+					"$(inherited)",
+					"PM_METRICS_URL=@\\\"$(METRICS_URL)\\\"",
+					"PM_METRICS_API_KEY=@\\\"$(METRICS_API_KEY)\\\"",
 				);
 				INFOPLIST_FILE = "CovidShield/Info-debug.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
@@ -595,6 +643,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = "$(APP_VERSION_CODE)";
 				DEVELOPMENT_TEAM = J7J9Q6KTWJ;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"PM_METRICS_URL=@\\\"$(METRICS_URL)\\\"",
+					"PM_METRICS_API_KEY=@\\\"$(METRICS_API_KEY)\\\"",
+				);
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -788,6 +841,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = "$(APP_VERSION_CODE)";
 				DEVELOPMENT_TEAM = J7J9Q6KTWJ;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"PM_METRICS_URL=@\\\"$(METRICS_URL)\\\"",
+					"PM_METRICS_API_KEY=@\\\"$(METRICS_API_KEY)\\\"",
+				);
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -887,6 +945,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = "$(APP_VERSION_CODE)";
 				DEVELOPMENT_TEAM = J7J9Q6KTWJ;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"PM_METRICS_URL=@\\\"$(METRICS_URL)\\\"",
+					"PM_METRICS_API_KEY=@\\\"$(METRICS_API_KEY)\\\"",
+				);
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
