@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {StyleSheet} from 'react-native';
-import {Box, Button, Text, Icon, Header} from 'components';
+import {Box, Button, Text, Icon, Header, TextMultiline} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {CheckInData} from 'shared/qr';
@@ -62,11 +62,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
               </Text>
             </Box>
             <Box paddingBottom="m">
-              <Text>
-                {i18n.translate('QRCode.CheckInView.Body1')}
-                <Text fontWeight="bold">{i18n.translate('QRCode.CheckInView.Body2')}</Text>
-                {i18n.translate('QRCode.CheckInView.Body3')}
-              </Text>
+              <TextMultiline detectBold text={i18n.translate('QRCode.CheckInView.Body1')} />
             </Box>
             <Box paddingBottom="l">
               <Box backgroundColor="gray5" padding="m" style={styles.boxStyle}>
@@ -80,7 +76,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
               </Box>
             </Box>
             <Box paddingBottom="l">
-              <Text>{i18n.translate('QRCode.CheckInView.Body4')}</Text>
+              <Text>{i18n.translate('QRCode.CheckInView.Body2')}</Text>
             </Box>
           </Box>
 
