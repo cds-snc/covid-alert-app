@@ -81,6 +81,13 @@ export const useOutbreakService = () => {
     [outbreakService],
   );
 
+  const ignoreOutbreak = useMemo(
+    () => (outbreakId: string) => {
+      outbreakService.ignoreOutbreak(outbreakId);
+    },
+    [outbreakService],
+  );
+
   useEffect(() => outbreakService.checkInHistory.observe(addCheckInInternal), [outbreakService.checkInHistory]);
   useEffect(() => outbreakService.outbreakHistory.observe(setOutbreakHistoryInternal), [
     outbreakService.outbreakHistory,
@@ -90,6 +97,7 @@ export const useOutbreakService = () => {
     () => ({
       outbreakHistory,
       clearOutbreakHistory,
+      ignoreOutbreak,
       checkForOutbreaks,
       addCheckIn,
       removeCheckIn,
@@ -100,6 +108,7 @@ export const useOutbreakService = () => {
     [
       outbreakHistory,
       clearOutbreakHistory,
+      ignoreOutbreak,
       checkForOutbreaks,
       addCheckIn,
       removeCheckIn,

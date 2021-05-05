@@ -6,6 +6,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Alert, StyleSheet} from 'react-native';
 import {ExposureType} from 'shared/qr';
+import {useOutbreakService} from 'services/OutbreakService';
+import {log} from 'shared/logging/config';
 
 import {MainStackParamList} from '../../navigation/MainNavigator';
 
@@ -14,39 +16,55 @@ import {ProximityExposureContent} from './views/ProximityExposureContent';
 
 type RecentExposureScreenProps = RouteProp<MainStackParamList, 'RecentExposureScreen'>;
 
-const ExposureContent = () => {
-  const route = useRoute<RecentExposureScreenProps>();
-  if (route.params.exposureType === ExposureType.Outbreak) {
-    return <OutbreakExposureContent timestamp={route.params.timestamp} />;
+const ExposureContent = ({exposureType, timestamp}: {exposureType: ExposureType; timestamp: number}) => {
+  if (exposureType === ExposureType.Outbreak) {
+    return <OutbreakExposureContent timestamp={timestamp} />;
   }
-  if (route.params.exposureType === ExposureType.Proximity) {
-    return <ProximityExposureContent timestamp={route.params.timestamp} />;
+  if (exposureType === ExposureType.Proximity) {
+    return <ProximityExposureContent timestamp={timestamp} />;
   }
   return null;
 };
 
 export const RecentExposureScreen = () => {
+  const route = useRoute<RecentExposureScreenProps>();
+  const exposureType = route.params?.exposureType;
+  const timestamp = route.params?.timestamp;
   const i18n = useI18n();
-
+  const {ignoreOutbreak} = useOutbreakService();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
-
-  const deleteExposure = () => {
+  const popAlert = () => {
     Alert.alert(i18n.translate('RecentExposures.Alert.Title'), i18n.translate('RecentExposures.Alert.Body'), [
       {
-        text: i18n.translate('ExposureHistory.Alert.Cancel'),
+        text: i18n.translate('RecentExposures.Alert.Cancel'),
         onPress: () => {},
       },
       {
-        text: i18n.translate('ExposureHistory.Alert.ConfirmDeleteAll'),
-        onPress: () => {
-          // outbreaks.clearOutbreakHistory();
-          // clearProximityExposure();
-          // setState({...state, exposureHistoryClearedDate: getCurrentDate()});
-        },
+        text: i18n.translate('RecentExposures.Alert.Confirm'),
+        onPress: deleteExposure,
         style: 'cancel',
       },
     ]);
+  };
+
+  const deleteExposure = () => {
+    if (exposureType === ExposureType.Outbreak) {
+      if (route.params?.historyItem === undefined) {
+        throw Error('outbreak history item not defined');
+      }
+      const outbreakHistoryItem = route.params.historyItem;
+      ignoreOutbreak(outbreakHistoryItem.outbreakId);
+      log.debug({
+        category: 'debug',
+        message: `clearing ${exposureType} exposure with id: ${outbreakHistoryItem.outbreakId}`,
+      });
+    } else if (exposureType === ExposureType.Proximity) {
+      log.debug({
+        category: 'debug',
+        message: `clearing ${exposureType} exposure with timestamp: ${timestamp}`,
+      });
+    }
   };
 
   return (
@@ -60,13 +78,13 @@ export const RecentExposureScreen = () => {
             </Box>
           </Box>
           <Box marginHorizontal="m">
-            <ExposureContent />
+            <ExposureContent exposureType={exposureType} timestamp={timestamp} />
             <Box marginTop="m">
               <ButtonSingleLine
                 iconName="icon-chevron"
                 variant="opaqueGrey"
                 text={i18n.translate('RecentExposures.DeleteExposure')}
-                onPress={deleteExposure}
+                onPress={popAlert}
               />
             </Box>
           </Box>
