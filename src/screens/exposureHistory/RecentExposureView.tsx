@@ -4,7 +4,7 @@ import {Box, ButtonSingleLine, Icon, ToolbarWithClose} from 'components';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
-import {StyleSheet} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import {ExposureType} from 'shared/qr';
 
 import {MainStackParamList} from '../../navigation/MainNavigator';
@@ -31,6 +31,24 @@ export const RecentExposureScreen = () => {
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
 
+  const deleteExposure = () => {
+    Alert.alert(i18n.translate('RecentExposures.Alert.Title'), i18n.translate('RecentExposures.Alert.Body'), [
+      {
+        text: i18n.translate('ExposureHistory.Alert.Cancel'),
+        onPress: () => {},
+      },
+      {
+        text: i18n.translate('ExposureHistory.Alert.ConfirmDeleteAll'),
+        onPress: () => {
+          // outbreaks.clearOutbreakHistory();
+          // clearProximityExposure();
+          // setState({...state, exposureHistoryClearedDate: getCurrentDate()});
+        },
+        style: 'cancel',
+      },
+    ]);
+  };
+
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
@@ -47,8 +65,8 @@ export const RecentExposureScreen = () => {
               <ButtonSingleLine
                 iconName="icon-chevron"
                 variant="opaqueGrey"
-                text={i18n.translate('ExposureHistory.DeleteExposure')}
-                onPress={() => {}}
+                text={i18n.translate('RecentExposures.DeleteExposure')}
+                onPress={deleteExposure}
               />
             </Box>
           </Box>
