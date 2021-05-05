@@ -19,7 +19,7 @@ const ActiveContent = ({text}: {text: string}) => {
   return <Text marginBottom="m">{text}</Text>;
 };
 
-const ExposureText = ({timestamp}: {timestamp?: number}) => {
+const ExposureText = () => {
   const {region} = useCachedStorage();
   const regionalI18n = useRegionalI18n();
   const regionActive = isRegionActive(region, regionalI18n.activeRegions);
@@ -32,7 +32,7 @@ const ExposureText = ({timestamp}: {timestamp?: number}) => {
         <Text testID="bodyText" marginBottom="m">
           {i18n.translate('Home.ExposureDetected.Body1')}
         </Text>
-        <ExposureDateView timestamp={timestamp} />
+        <ExposureDateView />
       </RoundedBox>
 
       <RoundedBox isFirstBox={false}>
@@ -53,11 +53,10 @@ const ExposureText = ({timestamp}: {timestamp?: number}) => {
   );
 };
 
-export const ProximityExposureView = ({timestamp}: {timestamp?: number}) => {
-  const props = timestamp ? {header: false} : {};
+export const ProximityExposureView = () => {
   return (
-    <BaseHomeView iconName="hand-caution" testID="exposure" {...props}>
-      <ExposureText timestamp={timestamp} />
+    <BaseHomeView iconName="hand-caution" testID="exposure">
+      <ExposureText />
     </BaseHomeView>
   );
 };
