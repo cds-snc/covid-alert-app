@@ -1,6 +1,6 @@
 import React from 'react';
 import {useI18n} from 'locale';
-import {Text} from 'components';
+import {Text, TextMultiline} from 'components';
 import {HomeScreenTitle} from 'screens/home/components/HomeScreenTitle';
 import {OutbreakConditionalText} from 'screens/home/views/OutbreakExposedView';
 import {useOutbreakService} from 'services/OutbreakService';
@@ -16,8 +16,8 @@ export const OutbreakExposureContent = ({timestamp}: {timestamp: number}) => {
   return (
     <>
       <HomeScreenTitle>{i18n.translate(`QRCode.OutbreakExposed.Title`)}</HomeScreenTitle>
-      <Text marginBottom="m">{i18n.translate(`QRCode.OutbreakExposed.Body`)}</Text>
-      <Text marginBottom="m">
+      <TextMultiline marginBottom="s" text={i18n.translate(`QRCode.OutbreakExposed.Body`)} />
+      <Text marginBottom="l">
         {i18n.translate(`QRCode.OutbreakExposed.DateDesc`)}
         <Text fontWeight="bold">{exposureDate}</Text>
       </Text>
