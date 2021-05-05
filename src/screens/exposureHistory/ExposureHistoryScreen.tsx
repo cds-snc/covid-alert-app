@@ -125,7 +125,11 @@ export const ExposureHistoryScreen = () => {
               <Box paddingHorizontal="xxs" marginLeft="m" marginRight="m" paddingBottom="m">
                 <ExposureList exposureHistoryData={mergedArray} />
                 <Box marginTop="m">
-                  <Button variant="opaqueGrey" text="Delete All" onPress={deleteAllPlaces} />
+                  <Button
+                    variant="opaqueGrey"
+                    text={i18n.translate('ExposureHistory.DeleteAllExposures')}
+                    onPress={deleteAllPlaces}
+                  />
                 </Box>
               </Box>
             </>
