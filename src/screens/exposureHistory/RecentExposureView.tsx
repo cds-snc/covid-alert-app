@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
-import {Box, Button, Icon, ToolbarWithClose} from 'components';
+import {Box, ButtonSingleLine, Icon, ToolbarWithClose} from 'components';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -44,7 +44,12 @@ export const RecentExposureScreen = () => {
           <Box marginHorizontal="m">
             <ExposureContent />
             <Box marginTop="m">
-              <Button variant="opaqueGrey" text={i18n.translate('ExposureHistory.DeleteExposure')} onPress={() => {}} />
+              <ButtonSingleLine
+                iconName="icon-chevron"
+                variant="opaqueGrey"
+                text={i18n.translate('ExposureHistory.DeleteExposure')}
+                onPress={() => {}}
+              />
             </Box>
           </Box>
         </ScrollView>
