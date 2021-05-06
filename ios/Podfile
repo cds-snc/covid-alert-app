@@ -5,7 +5,7 @@ require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 platform :ios, '12.5'
 
 target 'CovidShield' do
-  use_unimodules!(exclude: ['unimodules-face-detector-interface'])
+  use_unimodules!(exclude: ['unimodules-face-detector-interface','expo-constants','expo-file-system','expo-image-loader','unimodules-app-loader','unimodules-camera-interface','unimodules-constants-interface','unimodules-file-system-interface','unimodules-sensors-interface','unimodules-task-manager-interface'])
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
