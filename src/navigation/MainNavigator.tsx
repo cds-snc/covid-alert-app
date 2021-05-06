@@ -35,7 +35,7 @@ import {MenuScreen} from 'screens/menu/MenuScreen';
 import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExposureView';
 import {RecentExposureScreen} from 'screens/exposureHistory/RecentExposureView';
 import {FormContext, FormContextDefaults} from 'shared/FormContext';
-import {ExposureType} from 'shared/qr';
+import {ExposureType, OutbreakHistoryItem} from 'shared/qr';
 
 const MainStack = createStackNavigator<MainStackParamList>();
 
@@ -80,7 +80,8 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Tutorial: undefined;
   QROnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
-  RecentExposureScreen: {timestamp: number; exposureType: ExposureType};
+  ExposureHistoryScreen: {refreshAt?: number};
+  RecentExposureScreen: {timestamp: number; exposureType: ExposureType; historyItem?: OutbreakHistoryItem};
   CheckInHistoryScreen: {closeRoute: string};
 }
 const LandingScreenWithNavBar = withDarkNav(LandingScreen);

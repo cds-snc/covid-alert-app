@@ -598,12 +598,20 @@
     "Body": "This list shows your exposures from the last 14 days.",
     "NoExposures": "No exposures",
     "DeleteAllExposures": "Delete all exposures",
-    "DeleteExposure": "Delete exposure",
     "Alert": {
       "TitleDeleteAll": "Are you sure you want to delete all exposures?",
       "SubtitleDeleteAll": "You will not be able to see the instructions you’ve been given.",
       "Cancel": "Cancel",
       "ConfirmDeleteAll": "Yes, delete all"
+    }
+  },
+  "RecentExposures": {
+    "DeleteExposure": "Delete exposure",
+    "Alert": {
+      "Title": "Are you sure you want to delete this exposure?",
+      "Body": "You will not be able to see the instructions you’ve been given.",
+      "Cancel": "Cancel",
+      "Confirm": "Yes, delete"
     }
   },
   "ClearOutbreakExposure": {

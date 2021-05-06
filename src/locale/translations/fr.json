@@ -594,12 +594,20 @@
     "Body": "Voici la liste de vos expositions pour les 14 derniers jours.",
     "NoExposures": "Aucune exposition",
     "DeleteAllExposures": "Supprimer toutes les expositions",
-    "DeleteExposure": "Supprimer l’exposition",
     "Alert": {
       "TitleDeleteAll": "Voulez-vous vraiment supprimer toutes les expositions?",
       "SubtitleDeleteAll": "Vous ne pourrez plus voir les consignes qui vous ont été données.",
       "Cancel": "Annuler",
       "ConfirmDeleteAll": "Oui, tout supprimer"
+    }
+  },
+  "RecentExposures": {
+    "DeleteExposure": "Supprimer l’exposition",
+    "Alert": {
+      "Title": "Voulez-vous vraiment supprimer cette exposition?",
+      "Body": "Vous ne pourrez plus voir les consignes qui vous ont été données.",
+      "Cancel": "Annuler",
+      "Confirm": "Oui, supprimer"
     }
   },
   "ClearOutbreakExposure": {
