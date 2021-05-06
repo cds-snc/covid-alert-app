@@ -78,7 +78,7 @@ export class OutbreakService {
   ignoreOutbreak = async (outbreakId: string) => {
     this.outbreakHistory
       .get()
-      .filter(outbreak => outbreak.outbreakId === outbreakId)
+      .filter(outbreak => outbreak.id === outbreakId)
       .forEach(outbreak => {
         outbreak.isIgnored = true;
       });

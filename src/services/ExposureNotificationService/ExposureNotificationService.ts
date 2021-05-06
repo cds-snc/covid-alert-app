@@ -979,6 +979,20 @@ export class ExposureNotificationService {
     return {summary: currentSummary, isNext: false};
   }
 
+  public async ignoreExposure(id: string) {
+    // this function is only for use on the ExposureHistoryScreen - it only effects the display logic
+    this.displayExposureHistory
+      .get()
+      .filter(item => item.id === id)
+      .forEach(item => {
+        item.isIgnored = true;
+      });
+    await this.storageService.save(
+      StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
+      JSON.stringify(this.displayExposureHistory.get()),
+    );
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse(
       (await this.storageService.retrieve(StorageDirectory.ExposureNotificationServiceExposureStatusKey)) || 'null',

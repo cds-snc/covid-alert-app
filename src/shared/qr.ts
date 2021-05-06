@@ -48,7 +48,7 @@ interface MatchData {
 }
 
 export interface OutbreakHistoryItem {
-  outbreakId: string /* unique to your checkin during the outbreak event */;
+  id: string /* unique to your checkin during the outbreak event */;
   isExpired: boolean /* after 14 days the outbreak expires */;
   isIgnored: boolean /* if user has a negative test result */;
   locationId: string;
@@ -61,12 +61,19 @@ export interface OutbreakHistoryItem {
   severity: OutbreakSeverity;
 }
 
-export interface CombinedExposureHistoryData {
-  timestamp: number;
-  exposureType: ExposureType;
-  subtitle: string;
-  historyItem: OutbreakHistoryItem | ProximityExposureHistoryItem;
-}
+export type CombinedExposureHistoryData =
+  | {
+      timestamp: number;
+      exposureType: ExposureType.Outbreak;
+      subtitle: string;
+      historyItem: OutbreakHistoryItem;
+    }
+  | {
+      timestamp: number;
+      exposureType: ExposureType.Proximity;
+      subtitle: string;
+      historyItem: ProximityExposureHistoryItem;
+    };
 
 /** returns a new outbreakHistory with the `isExpired` property updated */
 export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
@@ -88,7 +95,7 @@ export const ignoreHistoryItems = (
   outbreakHistory: OutbreakHistoryItem[],
 ): OutbreakHistoryItem[] => {
   return outbreakHistory.map(historyItem => {
-    if (outbreakIds.indexOf(historyItem.outbreakId) > -1) {
+    if (outbreakIds.indexOf(historyItem.id) > -1) {
       return {...historyItem, isIgnored: true};
     }
     return {...historyItem};
@@ -220,7 +227,7 @@ export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistory
   const locationId = matchData.checkIn.id;
   const checkInTimestamp = matchData.checkIn.timestamp;
   const newItem: OutbreakHistoryItem = {
-    outbreakId: `${locationId}-${checkInTimestamp}`,
+    id: `${locationId}-${checkInTimestamp}`,
     isExpired: false,
     isIgnored: false,
     locationId,
@@ -239,10 +246,10 @@ export const getNewOutbreakExposures = (
   detectedExposures: OutbreakHistoryItem[],
   outbreakHistory: OutbreakHistoryItem[],
 ): OutbreakHistoryItem[] => {
-  const detectedIds = detectedExposures.map(item => item.outbreakId);
-  const oldIds = outbreakHistory.map(item => item.outbreakId);
+  const detectedIds = detectedExposures.map(item => item.id);
+  const oldIds = outbreakHistory.map(item => item.id);
   // are there any Ids in detectedIds that are new?
   const newIds = detectedIds.filter(id => oldIds.indexOf(id) === -1);
-  const newOutbreakExposures = detectedExposures.filter(item => newIds.indexOf(item.outbreakId) > -1);
+  const newOutbreakExposures = detectedExposures.filter(item => newIds.indexOf(item.id) > -1);
   return newOutbreakExposures;
 };

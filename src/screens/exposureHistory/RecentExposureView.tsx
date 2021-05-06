@@ -9,6 +9,7 @@ import {ExposureType} from 'shared/qr';
 import {useOutbreakService} from 'services/OutbreakService';
 import {log} from 'shared/logging/config';
 import {getCurrentDate} from 'shared/date-fns';
+import {useDisplayExposureHistory} from 'services/ExposureNotificationService';
 
 import {MainStackParamList} from '../../navigation/MainNavigator';
 
@@ -33,6 +34,7 @@ export const RecentExposureScreen = () => {
   const timestamp = route.params?.timestamp;
   const i18n = useI18n();
   const {ignoreOutbreak} = useOutbreakService();
+  const {ignoreProximityExposure} = useDisplayExposureHistory();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
   const popAlert = () => {
@@ -50,22 +52,23 @@ export const RecentExposureScreen = () => {
   };
 
   const deleteExposure = () => {
+    if (route.params?.historyItem === undefined) {
+      log.error({category: 'qr-code', message: 'outbreak history item not defined'});
+      return;
+    }
+    const historyItem = route.params.historyItem;
     if (exposureType === ExposureType.Outbreak) {
-      if (route.params?.historyItem === undefined) {
-        log.error({category: 'qr-code', message: 'outbreak history item not defined'});
-        return;
-      }
-      const outbreakHistoryItem = route.params.historyItem;
-      ignoreOutbreak(outbreakHistoryItem.outbreakId);
+      ignoreOutbreak(historyItem.id);
       log.debug({
         category: 'debug',
-        message: `clearing ${exposureType} exposure with id: ${outbreakHistoryItem.outbreakId}`,
+        message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,
       });
     } else if (exposureType === ExposureType.Proximity) {
       // todo: implement something to clear an individual proximity exposure
+      ignoreProximityExposure(historyItem.id);
       log.debug({
         category: 'debug',
-        message: `clearing ${exposureType} exposure with timestamp: ${timestamp}`,
+        message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,
       });
     }
     navigation.navigate('ExposureHistoryScreen', {refreshAt: getCurrentDate().getTime()});

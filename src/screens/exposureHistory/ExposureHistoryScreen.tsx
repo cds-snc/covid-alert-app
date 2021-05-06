@@ -15,7 +15,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentDate} from 'shared/date-fns';
 import {
-  useExposureHistory,
   useDisplayExposureHistory,
   useClearExposedStatus,
   ProximityExposureHistoryItem,
@@ -82,7 +81,7 @@ export const ExposureHistoryScreen = () => {
   const [clearExposedStatus] = useClearExposedStatus();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
   // const proximityExposureTimestamps = useExposureHistory();
-  const proximityExposureHistory = useDisplayExposureHistory();
+  const {proximityExposureHistory} = useDisplayExposureHistory();
   const mergedArray = [
     ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
     ...toProximityExposureHistoryData({proximityExposureHistory, i18n}),
