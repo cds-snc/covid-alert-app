@@ -52,7 +52,8 @@ export const RecentExposureScreen = () => {
   const deleteExposure = () => {
     if (exposureType === ExposureType.Outbreak) {
       if (route.params?.historyItem === undefined) {
-        throw Error('outbreak history item not defined');
+        log.error({category: 'qr-code', message: 'outbreak history item not defined'});
+        return;
       }
       const outbreakHistoryItem = route.params.historyItem;
       ignoreOutbreak(outbreakHistoryItem.outbreakId);
@@ -61,6 +62,7 @@ export const RecentExposureScreen = () => {
         message: `clearing ${exposureType} exposure with id: ${outbreakHistoryItem.outbreakId}`,
       });
     } else if (exposureType === ExposureType.Proximity) {
+      // todo: implement something to clear an individual proximity exposure
       log.debug({
         category: 'debug',
         message: `clearing ${exposureType} exposure with timestamp: ${timestamp}`,
