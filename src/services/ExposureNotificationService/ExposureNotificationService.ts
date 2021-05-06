@@ -148,7 +148,7 @@ export class ExposureNotificationService {
     });
     this.displayExposureHistory.observe(history => {
       this.storageService.save(
-        StorageDirectory.ExposureNotificationServiceProximityExposureHistoryKey,
+        StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
         JSON.stringify(history),
       );
     });
@@ -1000,6 +1000,24 @@ export class ExposureNotificationService {
       this.exposureHistory.set(exposureHistory);
     } catch (error) {
       log.debug({message: "'No EXPOSURE_HISTORY found"});
+    }
+    await this.loadDisplayExposureHistory();
+  }
+
+  private async loadDisplayExposureHistory() {
+    try {
+      const _displayExposureHistory = await this.storageService.retrieve(
+        StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
+      );
+      if (!_displayExposureHistory) {
+        log.debug({message: "'Unable to retrieve displayExposureHistory"});
+        return;
+      }
+      const displayExposureHistory = JSON.parse(_displayExposureHistory);
+      log.debug({message: 'displayExposureHistory', payload: displayExposureHistory});
+      this.displayExposureHistory.set(displayExposureHistory);
+    } catch (error) {
+      log.debug({message: "'No displayExposureHistory found"});
     }
   }
 
