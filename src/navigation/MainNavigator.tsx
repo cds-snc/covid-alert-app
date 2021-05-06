@@ -80,6 +80,7 @@ export interface MainStackParamList extends Record<string, object | undefined> {
   Tutorial: undefined;
   QROnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
+  ExposureHistoryScreen: {refreshAt?: number};
   RecentExposureScreen: {timestamp: number; exposureType: ExposureType; historyItem?: OutbreakHistoryItem};
   CheckInHistoryScreen: {closeRoute: string};
 }

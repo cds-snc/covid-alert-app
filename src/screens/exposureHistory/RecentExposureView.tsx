@@ -8,6 +8,7 @@ import {Alert, StyleSheet} from 'react-native';
 import {ExposureType} from 'shared/qr';
 import {useOutbreakService} from 'services/OutbreakService';
 import {log} from 'shared/logging/config';
+import {getCurrentDate} from 'shared/date-fns';
 
 import {MainStackParamList} from '../../navigation/MainNavigator';
 
@@ -65,6 +66,7 @@ export const RecentExposureScreen = () => {
         message: `clearing ${exposureType} exposure with timestamp: ${timestamp}`,
       });
     }
+    navigation.navigate('ExposureHistoryScreen', {refreshAt: getCurrentDate().getTime()});
   };
 
   return (
