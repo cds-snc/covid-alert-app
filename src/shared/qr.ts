@@ -1,3 +1,4 @@
+import {ProximityExposureHistoryItem} from 'services/ExposureNotificationService';
 import {OutbreakEvent} from 'services/OutbreakService';
 import {log} from 'shared/logging/config';
 
@@ -64,7 +65,7 @@ export interface CombinedExposureHistoryData {
   timestamp: number;
   exposureType: ExposureType;
   subtitle: string;
-  historyItem?: OutbreakHistoryItem;
+  historyItem: OutbreakHistoryItem | ProximityExposureHistoryItem;
 }
 
 /** returns a new outbreakHistory with the `isExpired` property updated */

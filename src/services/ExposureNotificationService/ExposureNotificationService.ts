@@ -31,6 +31,7 @@ import {PollNotifications} from 'services/PollNotificationService';
 import {OutbreakService} from 'services/OutbreakService';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
+import {getLogUUID} from 'shared/logging/uuid';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -56,6 +57,13 @@ export enum ExposureStatusType {
   Monitoring = 'monitoring',
   Exposed = 'exposed',
   Diagnosed = 'diagnosed',
+}
+
+export interface ProximityExposureHistoryItem {
+  id: string;
+  isIgnored: boolean;
+  notificationTimestamp: number;
+  exposureTimestamp: number;
 }
 
 export interface LastChecked {
@@ -94,6 +102,7 @@ export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: MapObservable<ExposureStatus>;
   exposureHistory: Observable<number[]>;
+  displayExposureHistory: Observable<ProximityExposureHistoryItem[]>;
 
   /**
    * Visible for testing only
@@ -126,6 +135,7 @@ export class ExposureNotificationService {
     this.systemStatus = new Observable<SystemStatus>(SystemStatus.Undefined);
     this.exposureStatus = new MapObservable<ExposureStatus>({type: ExposureStatusType.Monitoring});
     this.exposureHistory = new Observable<number[]>([]);
+    this.displayExposureHistory = new Observable<ProximityExposureHistoryItem[]>([]);
     this.backendInterface = backendInterface;
     this.storageService = storageService;
     this.filteredMetricsService = filteredMetricsService;
@@ -135,6 +145,12 @@ export class ExposureNotificationService {
     });
     this.exposureHistory.observe(history => {
       this.storageService.save(StorageDirectory.ExposureNotificationServiceExposureHistoryKey, history.join(','));
+    });
+    this.displayExposureHistory.observe(history => {
+      this.storageService.save(
+        StorageDirectory.ExposureNotificationServiceProximityExposureHistoryKey,
+        JSON.stringify(history),
+      );
     });
 
     if (Platform.OS === 'android') {
@@ -920,6 +936,16 @@ export class ExposureNotificationService {
     const exposureHistory = this.exposureHistory.get();
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
+
+    const displayExposureHistory = this.displayExposureHistory.get();
+    const newHistoryItem: ProximityExposureHistoryItem = {
+      id: await getLogUUID(),
+      exposureTimestamp: summary.lastExposureTimestamp,
+      notificationTimestamp: exposureDetectedAt,
+      isIgnored: false,
+    };
+    displayExposureHistory.push(newHistoryItem);
+    this.displayExposureHistory.set(displayExposureHistory);
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {

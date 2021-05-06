@@ -14,7 +14,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentDate} from 'shared/date-fns';
-import {useExposureHistory, useClearExposedStatus} from 'services/ExposureNotificationService';
+import {
+  useExposureHistory,
+  useDisplayExposureHistory,
+  useClearExposedStatus,
+  ProximityExposureHistoryItem,
+} from 'services/ExposureNotificationService';
 import {log} from 'shared/logging/config';
 
 import {ExposureList} from './views/ExposureList';
@@ -49,17 +54,19 @@ const toOutbreakExposureHistoryData = ({
 };
 
 const toProximityExposureHistoryData = ({
-  proximityExposureTimestamps,
+  proximityExposureHistory,
   i18n,
 }: {
-  proximityExposureTimestamps: number[];
+  proximityExposureHistory: ProximityExposureHistoryItem[];
   i18n: I18n;
 }): CombinedExposureHistoryData[] => {
-  return proximityExposureTimestamps.map(timestamp => {
+  return proximityExposureHistory.map(item => {
     return {
       exposureType: ExposureType.Proximity,
       subtitle: i18n.translate('QRCode.ProximityExposure'),
-      timestamp,
+      // timestamp: item.notificationTimestamp,
+      timestamp: item.exposureTimestamp,
+      historyItem: item,
     };
   });
 };
@@ -74,10 +81,11 @@ export const ExposureHistoryScreen = () => {
   const outbreaks = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
-  const proximityExposureTimestamps = useExposureHistory();
+  // const proximityExposureTimestamps = useExposureHistory();
+  const proximityExposureHistory = useDisplayExposureHistory();
   const mergedArray = [
     ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
-    ...toProximityExposureHistoryData({proximityExposureTimestamps, i18n}),
+    ...toProximityExposureHistoryData({proximityExposureHistory, i18n}),
   ];
   const clearProximityExposure = useCallback(() => {
     clearExposedStatus();
