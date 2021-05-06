@@ -1,4 +1,6 @@
 /* eslint-disable jest/no-if, no-undef */
+import {ForceScreen} from '../src/shared/ForceScreen';
+
 import {onboard} from './shared';
 
 /**
@@ -28,53 +30,6 @@ describe('Demo menu test', () => {
     await device.takeScreenshot('DemoMenu');
   });
 
-  /**
-   * List of app view names
-   *
-   * @typedef screenData const in TestScreen.tsx, line 33
-   * @type {[String]}
-   */
-  const screens = [
-    'None',
-    'NoExposureView',
-    'ExposureView',
-    'DiagnosedShareView',
-    'DiagnosedView',
-    'DiagnosedShareUploadView',
-    'FrameworkUnavailableView',
-  ];
-
-  /**
-   * Respective to @screens - truthy list denoting if the respective view is long enough to
-   * warrant being swiped on, to better screenshot it.
-   *
-   * Ex. 'Exposure' and 'Diagnosed' views currently have lots of text and required swiping
-   *
-   * @type {[boolean]}
-   */
-  const weScroll = [0, 0, 1, 1, 1, 0, 0];
-  if (isDeviceFruity) weScroll[3] = 0;
-
-  screens.forEach((scr, here) => {
-    it(`force ${scr} screen`, async () => {
-      await expect(element(by.id('DemoMenu'))).toBeVisible();
-      await element(by.id('ClearNotificationReceipts')).swipe('up', 'slow', isDeviceFruity ? 0.26 : 0.4);
-      await expect(element(by.id(scr))).toBeVisible();
-      await element(by.id(scr)).tap();
-      await element(by.id('toolbarCloseButton')).tap();
-      // We should now be on the expected forced screen
-      await device.takeScreenshot(`ForceScreen.${scr}${weScroll[here] ? '-top' : ''}`);
-      if (weScroll[here]) {
-        await expect(element(by.id('bodyTitle'))).toBeVisible();
-        await element(by.id('bodyText')).swipe('up', 'fast');
-        await device.takeScreenshot(`ForceScreen.${scr}-bottom`);
-      }
-      await expect(element(by.id('headerButton'))).toBeVisible();
-      await expect(element(by.id('headerButton'))).toBeVisible();
-      await element(by.id('headerButton')).tap();
-    });
-  });
-
   it('trigger sample notification', async () => {
     await expect(element(by.id('ShowSampleNotification'))).toBeVisible();
     await element(by.id('ShowSampleNotification')).tap();
@@ -83,11 +38,65 @@ describe('Demo menu test', () => {
     await sleep(7000);
   });
 
-  it('close demo menu', async () => {
-    if (isDeviceFruity) await expect(element(by.id('headerButton'))).not.toBeVisible();
-    await expect(element(by.id('toolbarCloseButton'))).toBeVisible();
-    await element(by.id('toolbarCloseButton')).tap();
-    await expect(element(by.id('ShowSampleNotification'))).not.toBeVisible();
-    await expect(element(by.id('headerButton'))).toBeVisible();
+  /**
+   * Array representation of the forcable app view names enum @ForceScreen
+   */
+  const ForceScreens = Object.values(ForceScreen);
+
+  /**
+   * Respective to @ForceScreen - truthy list denoting if the respective view is long enough to
+   * warrant being swiped on, to better screenshot it.
+   *
+   * Ex. 'Exposure' and 'Diagnosed' views currently have lots of text and require swiping down
+   *
+   * @type {[boolean]}
+   */
+  const weScroll = new Array(ForceScreens.length).fill(false);
+  // scroll on Exposed, not on Android Diagnosed, on Outbreak
+  weScroll[2] = true;
+  weScroll[4] = isDeviceFruity;
+  weScroll[7] = true;
+
+  /**
+   * The scroll speed of the ForceScreen swipe.
+   */
+  const FSspeed = isDeviceFruity ? 'slow' : 'fast';
+
+  /**
+   * The scroll acceleration of the ForceScreen swipe.
+   */
+  const FSacceleration = isDeviceFruity ? 0.41 : 0.31;
+
+  describe('Visits forceable screens', () => {
+    ForceScreens.forEach((scr, here) => {
+      it(`show ${scr} screen`, async () => {
+        await expect(element(by.id('DemoMenu'))).toBeVisible();
+        await element(by.id('ClearNotificationReceipts')).swipe('up', FSspeed, FSacceleration);
+        await expect(element(by.id(scr))).toBeVisible();
+        await element(by.id(scr)).tap();
+        await element(by.id('toolbarCloseButton')).tap();
+        // We should now be on the expected forced screen
+        await device.takeScreenshot(`ForceScreen.${scr}${weScroll[here] ? '-high' : ''}`);
+        if (weScroll[here]) {
+          await expect(element(by.id('bodyTitle'))).toBeVisible();
+          await element(by.id('bodyText')).swipe('up', 'fast');
+          await device.takeScreenshot(`ForceScreen.${scr}-low`);
+        }
+        await expect(element(by.id('headerButton'))).toBeVisible();
+        await expect(element(by.id('headerButton'))).toBeVisible();
+        await element(by.id('headerButton')).tap();
+      });
+    });
+  });
+
+  describe('Closing Demo menu', () => {
+    it('close', async () => {
+      if (isDeviceFruity) await expect(element(by.id('headerButton'))).not.toBeVisible();
+      await expect(element(by.id('toolbarCloseButton'))).toBeVisible();
+      await element(by.id('toolbarCloseButton')).tap();
+      // We should now be on the home screen
+      await device.takeScreenshot(`HomeScreen`);
+      await expect(element(by.id('headerButton'))).toBeVisible();
+    });
   });
 });

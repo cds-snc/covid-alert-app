@@ -62,8 +62,6 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>COVID Alert needs access to your camera so it can read the QR code.</string>
-  <key>NSMicrophoneUsageDescription</key>
-  <string>Allow $(PRODUCT_NAME) to use the microphone</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
