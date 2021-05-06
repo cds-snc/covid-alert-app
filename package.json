@@ -16,7 +16,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pod-install": "pushd ios; bundle exec pod install; popd",
     "run-android": "react-native run-android --variant debug",
-    "run-ios": "react-native run-ios --scheme Staging",
+    "run-ios": "react-native run-ios --scheme Staging --simulator='iPhone 8'",
     "start": "react-native start --reset-cache",
     "test": "jest --coverage",
     "test:ios": "detox test --configuration=ios",
