@@ -4,6 +4,7 @@ import {useI18n, I18n} from 'locale';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 import {formatExposedDate} from 'shared/date-fns';
+import {TEST_MODE} from 'env';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
@@ -19,7 +20,9 @@ export const OutbreakExposedView = () => {
   const historyItem: OutbreakHistoryItem = currentOutbreakHistory[0];
 
   const severity = historyItem?.severity;
-  const exposureDate = formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
+  const exposureDate = TEST_MODE
+    ? formatExposedDate(new Date(), dateLocale)
+    : formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
 
   return (
     <BaseHomeView iconName="hand-caution" testID="outbreakExposure">
@@ -56,7 +59,6 @@ export const OutbreakConditionalText = ({
       return <IsolateText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
     case OutbreakSeverity.SelfMonitor:
       return <MonitorText i18n={i18n} />;
-    // Needed for Detox testing
     default:
       return <MonitorText i18n={i18n} />;
   }
