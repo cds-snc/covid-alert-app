@@ -25,7 +25,9 @@ export const OutbreakExposedView = () => {
     <BaseHomeView iconName="hand-caution" testID="outbreakExposure">
       <RoundedBox isFirstBox>
         <HomeScreenTitle>{i18n.translate(`QRCode.OutbreakExposed.Title`)}</HomeScreenTitle>
-        <Text marginBottom="m">{i18n.translate(`QRCode.OutbreakExposed.Body`)}</Text>
+        <Text testID="bodyText" marginBottom="m">
+          {i18n.translate(`QRCode.OutbreakExposed.Body`)}
+        </Text>
         <Text marginBottom="m">
           {i18n.translate(`QRCode.OutbreakExposed.DateDesc`)}
           <Text fontWeight="bold">{exposureDate}</Text>
@@ -53,6 +55,9 @@ export const OutbreakConditionalText = ({
     case OutbreakSeverity.SelfIsolate:
       return <IsolateText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
     case OutbreakSeverity.SelfMonitor:
+      return <MonitorText i18n={i18n} />;
+    // Needed for Detox testing
+    default:
       return <MonitorText i18n={i18n} />;
   }
 };
