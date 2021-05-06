@@ -12,7 +12,7 @@ export const OutbreakExposureContent = ({timestamp}: {timestamp: number}) => {
   const historyItem = outbreakHistory.filter(item => item.checkInTimestamp === timestamp)[0];
   const severity = historyItem?.severity;
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
-  const exposureDate = formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
+  const exposureDate = formatExposedDate(new Date(historyItem?.notificationTimestamp), dateLocale);
   return (
     <>
       <HomeScreenTitle>{i18n.translate(`QRCode.OutbreakExposed.Title`)}</HomeScreenTitle>

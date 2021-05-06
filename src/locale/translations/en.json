@@ -556,7 +556,7 @@
     "OutbreakExposed": {
       "Title": "You’ve been exposed",
       "Body": "You visited a place at the same time as at least one person who tested positive for COVID-19.\n\nPublic health identified this exposure.",
-      "DateDesc": "Date of exposure: ",
+      "DateDesc": "Notification received: ",
       "CTA": "Negative test?",
       "SelfIsolate": {
         "Title": "Isolate and get tested",
