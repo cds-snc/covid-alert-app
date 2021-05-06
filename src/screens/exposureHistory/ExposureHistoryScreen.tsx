@@ -63,8 +63,7 @@ const toProximityExposureHistoryData = ({
     return {
       exposureType: ExposureType.Proximity,
       subtitle: i18n.translate('QRCode.ProximityExposure'),
-      // timestamp: item.notificationTimestamp,
-      timestamp: item.exposureTimestamp,
+      timestamp: item.notificationTimestamp,
       historyItem: item,
     };
   });
@@ -80,7 +79,6 @@ export const ExposureHistoryScreen = () => {
   const outbreaks = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
-  // const proximityExposureTimestamps = useExposureHistory();
   const {proximityExposureHistory} = useDisplayExposureHistory();
   const mergedArray = [
     ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
