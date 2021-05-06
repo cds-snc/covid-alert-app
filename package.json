@@ -18,6 +18,7 @@
     "run-android": "react-native run-android --variant debug",
     "run-ios": "react-native run-ios --scheme Staging",
     "start": "react-native start --reset-cache",
+    "clean": "react-native-clean-project",
     "test": "jest --coverage",
     "test:ios": "detox test --configuration=ios",
     "test:android": "detox test --configuration=android",
