@@ -339,7 +339,7 @@ describe('outbreakHistory functions', () => {
       expect(newItems).toHaveLength(1);
       expect(newItems[0]).toStrictEqual(
         expect.objectContaining({
-          outbreakId: '123-1612180800001',
+          id: '123-1612180800001',
         }),
       );
     });

@@ -64,7 +64,6 @@ export const RecentExposureScreen = () => {
         message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,
       });
     } else if (exposureType === ExposureType.Proximity) {
-      // todo: implement something to clear an individual proximity exposure
       ignoreProximityExposure(historyItem.id);
       log.debug({
         category: 'debug',
