@@ -22,7 +22,7 @@ export const OutbreakExposedView = () => {
   const severity = historyItem?.severity;
   const exposureDate = TEST_MODE
     ? formatExposedDate(new Date(), dateLocale)
-    : formatExposedDate(new Date(historyItem?.checkInTimestamp), dateLocale);
+    : formatExposedDate(new Date(historyItem?.notificationTimestamp), dateLocale);
 
   return (
     <BaseHomeView iconName="hand-caution" testID="outbreakExposure">
