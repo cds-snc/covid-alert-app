@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "visual-diff": "node visual-diff.js"
   },
-  "author": "",
+  "author": "Tim Arney, contributions by Andréas K.LeF.",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "1.0.0-rc.5",
+    "current-git-branch": "^1.1.0",
     "globby": "^11.0.1",
+    "html-pdf-node": "^1.0.7",
     "yargs": "^15.4.1"
   }
 }
