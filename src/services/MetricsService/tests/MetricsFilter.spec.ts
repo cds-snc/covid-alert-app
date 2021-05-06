@@ -84,7 +84,7 @@ describe('MetricsFilter', () => {
         ['withDate', 'true'],
         ['isUserExposed', 'proximity,outbreak'],
       ],
-      shouldBePushedToServerRightAway: false,
+      shouldBePushedToServerRightAway: true,
     });
 
     const filteredEvent2 = await sut.filterEvent({
@@ -100,7 +100,7 @@ describe('MetricsFilter', () => {
         ['withDate', 'true'],
         ['isUserExposed', ''],
       ],
-      shouldBePushedToServerRightAway: false,
+      shouldBePushedToServerRightAway: true,
     });
 
     const filteredEvent3 = await sut.filterEvent({
@@ -116,7 +116,7 @@ describe('MetricsFilter', () => {
         ['withDate', 'true'],
         ['isUserExposed', 'outbreak'],
       ],
-      shouldBePushedToServerRightAway: false,
+      shouldBePushedToServerRightAway: true,
     });
 
     const filteredEvent4 = await sut.filterEvent({
@@ -132,7 +132,7 @@ describe('MetricsFilter', () => {
         ['withDate', 'true'],
         ['isUserExposed', 'proximity'],
       ],
-      shouldBePushedToServerRightAway: false,
+      shouldBePushedToServerRightAway: true,
     });
   });
 

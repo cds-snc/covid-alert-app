@@ -138,13 +138,13 @@ export class DefaultMetricsFilter implements MetricsFilter {
         return Promise.resolve({
           eventType: EventTypeMetric.QrCodeSuccessfullyScanned,
           payload: [],
-          shouldBePushedToServerRightAway: false,
+          shouldBePushedToServerRightAway: true,
         });
       case EventTypeMetric.ExposedToOutbreak:
         return Promise.resolve({
           eventType: EventTypeMetric.ExposedToOutbreak,
           payload: [],
-          shouldBePushedToServerRightAway: false,
+          shouldBePushedToServerRightAway: true,
         });
       default:
         break;
@@ -210,7 +210,7 @@ export class DefaultMetricsFilter implements MetricsFilter {
         ['withDate', String(withDate)],
         ['isUserExposed', serializeIsUserExposed()],
       ],
-      shouldBePushedToServerRightAway: false,
+      shouldBePushedToServerRightAway: true,
     });
   }
 

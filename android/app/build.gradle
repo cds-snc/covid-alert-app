@@ -228,11 +228,24 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesPlayServicesVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
-    addUnimodulesDependencies(
+    addUnimodulesDependencies([
       exclude: [
         'unimodules-face-detector-interface',
+        'expo-constants',
+        'expo-file-system',
+        'expo-image-loader',
+        'unimodules-app-loader',
+        'unimodules-barcode-scanner-interface',
+        'unimodules-camera-interface',
+        'unimodules-constants-interface',
+        'unimodules-file-system-interface',
+        'unimodules-font-interface',
+        'unimodules-image-loader-interface',
+        'unimodules-permissions-interface',
+        'unimodules-sensors-interface',
+        'unimodules-task-manager-interface'
       ]
-    )
+    ])
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
