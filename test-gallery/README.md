@@ -9,7 +9,7 @@ then `yarn install`, to install dependencies
 
 You are now able to run:
 
-```node
+```bash
 node index.js --dir 'ios.2021-01-29 14-17-59Z'
 node index.js --dir 'android.aosp.2021-01-28 23-28-22Z'
 ```
@@ -18,7 +18,7 @@ Original author Tim Arney, with contributions by Andréas K.LeF.
 
 ## visual-diff
 
-The premise is that we use the test-gallery script to get before/after images of the app. Ex: run once on latest master, and again on feature branch.
+The premise is that we use the test-gallery script to get before/after images of the app. Ex: run once on latest master, and again on feature branch, then:
 
 This node script will take the two output HTML files from the test-gallery script in our scenario above, parse them, and merge them into one single continuous file. Displaying two versions of the app, ideally from two different features branhes, side-by-side, for easy visual inspection.
 
@@ -44,4 +44,4 @@ be able to pass a `--latest` flag to visual-diff that automatically grabs the tw
 
 #### PDF output
 
-
+Work on PDF output was interruped by #1548, and may yet be incomplete.
