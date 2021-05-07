@@ -15,6 +15,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentDate} from 'shared/date-fns';
 import {useExposureHistory, useClearExposedStatus} from 'services/ExposureNotificationService';
+import {log} from 'shared/logging/config';
 
 import {ExposureList} from './views/ExposureList';
 import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
@@ -42,6 +43,7 @@ const toOutbreakExposureHistoryData = ({
       exposureType: ExposureType.Outbreak,
       subtitle: severityText({severity: Number(outbreak.severity), i18n}),
       timestamp: outbreak.checkInTimestamp,
+      historyItem: outbreak,
     };
   });
 };
@@ -83,8 +85,8 @@ export const ExposureHistoryScreen = () => {
 
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
-
-  const deleteAllPlaces = () => {
+  log.debug({category: 'debug', message: 'creating merged exposure history array', payload: {mergedArray}});
+  const deleteAllExposures = () => {
     Alert.alert(
       i18n.translate('ExposureHistory.Alert.TitleDeleteAll'),
       i18n.translate('ExposureHistory.Alert.SubtitleDeleteAll'),
@@ -128,7 +130,7 @@ export const ExposureHistoryScreen = () => {
                   <Button
                     variant="opaqueGrey"
                     text={i18n.translate('ExposureHistory.DeleteAllExposures')}
-                    onPress={deleteAllPlaces}
+                    onPress={deleteAllExposures}
                   />
                 </Box>
               </Box>

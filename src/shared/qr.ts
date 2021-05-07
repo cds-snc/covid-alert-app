@@ -64,6 +64,7 @@ export interface CombinedExposureHistoryData {
   timestamp: number;
   exposureType: ExposureType;
   subtitle: string;
+  historyItem?: OutbreakHistoryItem;
 }
 
 /** returns a new outbreakHistory with the `isExpired` property updated */

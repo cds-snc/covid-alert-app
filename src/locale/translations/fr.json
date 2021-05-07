@@ -553,7 +553,7 @@
       "Title": "Vous avez été exposé",
       "Body": "Vous avez visité un lieu au même moment qu’au moins une personne déclarée positive.\n\nCe risque d’exposition a été établi par la santé publique.",
       "CTA": "Résultat de test négatif?",
-      "DateDesc": "Date d’exposition: ",
+      "DateDesc": "Date de notification: ",
       "SelfIsolate": {
         "Title": "Isolez-vous et passez un test",
         "Body": "Continuez à vous isoler jusqu’à ce que vous receviez le résultat de votre test de dépistage."
@@ -594,12 +594,20 @@
     "Body": "Voici la liste de vos expositions pour les 14 derniers jours.",
     "NoExposures": "Aucune exposition",
     "DeleteAllExposures": "Supprimer toutes les expositions",
-    "DeleteExposure": "Supprimer l’exposition",
     "Alert": {
       "TitleDeleteAll": "Voulez-vous vraiment supprimer toutes les expositions?",
       "SubtitleDeleteAll": "Vous ne pourrez plus voir les consignes qui vous ont été données.",
       "Cancel": "Annuler",
       "ConfirmDeleteAll": "Oui, tout supprimer"
+    }
+  },
+  "RecentExposures": {
+    "DeleteExposure": "Supprimer l’exposition",
+    "Alert": {
+      "Title": "Voulez-vous vraiment supprimer cette exposition?",
+      "Body": "Vous ne pourrez plus voir les consignes qui vous ont été données.",
+      "Cancel": "Annuler",
+      "Confirm": "Oui, supprimer"
     }
   },
   "ClearOutbreakExposure": {

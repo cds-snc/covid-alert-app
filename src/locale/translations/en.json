@@ -556,7 +556,7 @@
     "OutbreakExposed": {
       "Title": "You’ve been exposed",
       "Body": "You visited a place at the same time as at least one person who tested positive for COVID-19.\n\nPublic health identified this exposure.",
-      "DateDesc": "Date of exposure: ",
+      "DateDesc": "Notification received: ",
       "CTA": "Negative test?",
       "SelfIsolate": {
         "Title": "Isolate and get tested",
@@ -598,12 +598,20 @@
     "Body": "This list shows your exposures from the last 14 days.",
     "NoExposures": "No exposures",
     "DeleteAllExposures": "Delete all exposures",
-    "DeleteExposure": "Delete exposure",
     "Alert": {
       "TitleDeleteAll": "Are you sure you want to delete all exposures?",
       "SubtitleDeleteAll": "You will not be able to see the instructions you’ve been given.",
       "Cancel": "Cancel",
       "ConfirmDeleteAll": "Yes, delete all"
+    }
+  },
+  "RecentExposures": {
+    "DeleteExposure": "Delete exposure",
+    "Alert": {
+      "Title": "Are you sure you want to delete this exposure?",
+      "Body": "You will not be able to see the instructions you’ve been given.",
+      "Cancel": "Cancel",
+      "Confirm": "Yes, delete"
     }
   },
   "ClearOutbreakExposure": {
