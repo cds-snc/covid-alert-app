@@ -10,8 +10,8 @@ then `yarn install`, to install dependencies
 You are now able to run:
 
 ```bash
-node index.js --dir 'ios.2021-01-29 14-17-59Z'
-node index.js --dir 'android.aosp.2021-01-28 23-28-22Z'
+yarn test-gallery --dir 'ios.2021-01-29 14-17-59Z'
+yarn test-gallery --dir 'android.aosp.2021-01-28 23-28-22Z'
 ```
 
 Original author Tim Arney, with contributions by Andréas K.LeF.
@@ -21,6 +21,8 @@ Original author Tim Arney, with contributions by Andréas K.LeF.
 The premise is that we use the test-gallery script to get before/after images of the app. Ex: run once on latest master, and again on feature branch, then:
 
 This node script will take the two output HTML files from the test-gallery script in our scenario above, parse them, and merge them into one single continuous file. Displaying two versions of the app, ideally from two different features branhes, side-by-side, for easy visual inspection.
+
+This script's output is intended to be made into a single PDF for easy distribution and consumption.
 
 example:
 
