@@ -1,7 +1,10 @@
 /* eslint-disable no-console */
+const {resolve} = require('path');
 const fs = require('fs');
+const execSync = require('child_process').execSync;
 
 const {argv} = require('yargs');
+const globby = require('globby');
 const cheerio = require('cheerio');
 const htmlToPDF = require('html-pdf-node');
 
@@ -11,13 +14,70 @@ const artifactDir = '../artifacts';
  * Filename of base (source) file to compare agaisnt (displayed on the left).
  * @type String
  */
-const base = argv.base;
+let base = argv.base;
 
 /**
  * Filename of target file to compare with (displayed on the right).
  * @type String
  */
-const target = argv.target;
+let target = argv.target;
+
+/**
+ * The number of Forceable screens
+ */
+const ForceScreens = calcForceScreens();
+
+/**
+ * Gets the number of forcable screen dynamically.
+ * Note that loading TypeScript, in Node, is complicated,
+ *  and this is a workaround.
+ * @returns the number of forcable screens in ForceScreen.ts
+ */
+function calcForceScreens() {
+  const sharedFile = fs.readFileSync('../src/shared/ForceScreen.ts', 'utf8');
+  let screens = 0;
+
+  for (const line of sharedFile.trim().split('\n')) {
+    if (!line.includes('=')) continue;
+    screens++;
+  }
+  return screens;
+}
+
+/**
+ * The number of screenshots of the app to parse.
+ * We don't know this in advance, but default to minimum.
+ */
+let screenshots = 11;
+
+/**
+ * Will check the target directory for the number of files they contain
+ */
+function calcAppScreens(baseDir, targetDir) {
+  const baseIMGs = globby.sync(`${artifactDir}/${baseDir}/**/*.png`, {}, (err, files) => {
+    if (err) return console.log(err);
+
+    console.log(files);
+  }).length;
+
+  const targetIMGs = globby.sync(`${artifactDir}/${targetDir}/**/*.png`, {}, (err, files) => {
+    if (err) return console.log(err);
+
+    console.log(files);
+  }).length;
+
+  setAppScreens(Math.max(screenshots, baseIMGs, targetIMGs));
+}
+
+function setAppScreens(screens) {
+  console.log(`...need ${screens} screens of vertical height in PDF`);
+  screenshots = screens;
+}
+
+/**
+ * The margin amount of the output PDF.
+ */
+const PDFmargin = '0.5cm';
 
 /**
  * Wraps creation of final .PDF file with Puppeteer
@@ -29,16 +89,27 @@ const target = argv.target;
 function writePDF(fileName, html) {
   const options = {
     path: `${artifactDir}/${fileName}.pdf`,
+    preferCSSPageSize: true,
+    printBackground: true,
     // 210mm is the standard width of an A4 document
-    width: '210mm',
+    width: '8.5in',
     // 297 (the standard height of an A4 document in mm)
-    height: '3861mm',
+    height: `${ForceScreens * 20.4 + (screenshots - ForceScreens) * 17}cm`,
+    margin: {
+      top: PDFmargin,
+      left: PDFmargin,
+      right: PDFmargin,
+      bottom: PDFmargin,
+    },
   };
 
-  const file = {content: html};
+  const fileURL = `file://${resolve(`${artifactDir}/${fileName}.html`)}`;
+  console.log(`Attempting to write PDF (${options.width} x ${options.height})...
+              \nfile location: ${fileURL}`);
+
   // eslint-disable-next-line promise/catch-or-return
-  htmlToPDF.generatePdf(file, options).then(pdfBuffer => {
-    console.log('PDF Buffer:-', pdfBuffer);
+  htmlToPDF.generatePdf({url: fileURL}, options).then(pdfBuffer => {
+    console.log('PDF Buffer:', pdfBuffer ? 'has many bytes' : 'totally empty');
   });
 }
 
@@ -59,7 +130,7 @@ function writeHMTL(fileName, comparisonInfo) {
         margin: 0px;
       }
       img {
-        height: 600px;
+        width: 22em;
         border: 1px solid #000;
         border-radius: 5px;
         display: block;
@@ -95,9 +166,9 @@ function writeHMTL(fileName, comparisonInfo) {
     </html>
   `);
 
-  // Read the two input files asynchronously and load them into the master file.
-
+  // Read the two input files asynchronously and load them into the output file.
   const leftSideFile = fs.readFileSync(`${artifactDir}/${base}`, {encoding: 'utf8'});
+
   const left = cheerio.load(leftSideFile);
   $('#leftSide').html(left('body').html());
 
@@ -105,9 +176,16 @@ function writeHMTL(fileName, comparisonInfo) {
   const right = cheerio.load(rightSideFile);
   $('#rightSide').html(right('body').html());
 
-  fs.writeFileSync(`${fileName}.html`, $.html(), {encoding: 'utf8'});
+  if (!screenshots) {
+    const leftIMGs = left('body img').length;
+    const rightIMGs = right('body img').length;
+    setAppScreens(Math.max(screenshots, leftIMGs, rightIMGs));
+  }
 
-  writePDF();
+  const content = $.html();
+  fs.writeFileSync(`${fileName}.html`, content, {encoding: 'utf8'});
+
+  return writePDF(fileName, content);
 }
 
 /**
@@ -137,16 +215,36 @@ function timestampOf(name) {
   // This script is called as follows:
   // node visual-diff.js --base "android.aosp.2021-02-12 20-15-24Z.html" --target "ios.2021-02-12 20-10-56Z.html"
   if (!base && !target) {
-    console.log(
-      'you need to pass filenames as arguments ex. `node visual-diff.js --base "original.html" --target "feature.html"`',
-    );
-    return;
+    console.log(`No --base and --target parameters!
+    \nYou need to provide either folder names from the ../artifacts directory,
+    \nor HTML files output by the test-gallery ex:
+    \n\t node visual-diff.js --base 'original[.html]' --target 'feature[.html]'
+    `);
+    process.exit(9);
   } else if (base && !target) {
-    console.log('you need to pass a target filename `--target=""`');
-    return;
+    console.log('No --target argument received');
+    process.exit(9);
   } else if (!base && target) {
-    console.log('you need to pass a base filename `--target=""`');
-    return;
+    console.log('No --base argument received');
+    process.exit(9);
+  } else if (!base.endsWith('.html') && !target.endsWith('.html')) {
+    // This is the case where folder names are passed
+    calcAppScreens(base, target);
+    execSync(`yarn test-gallery --dir "${base}" --silent`, {stdio: 'inherit'});
+    base = `${base}.html`;
+    execSync(`yarn test-gallery --dir "${target}" --silent`, {stdio: 'inherit'});
+    target = `${target}.html`;
+  } else if (!fs.existsSync(base) && !fs.existsSync(target)) {
+    console.log(`Invalid --base and --target parameters! Files not found
+    \nVerify files exist and are not empty.
+    `);
+    process.exit(9);
+  } else if (!fs.existsSync(base) && fs.existsSync(target)) {
+    console.log('Invalid --base argument, file not found');
+    process.exit(9);
+  } else if (fs.existsSync(base) && !fs.existsSync(target)) {
+    console.log('Invalid --target argument, file not found');
+    process.exit(9);
   }
 
   const sourceId = IdOf(base);
@@ -156,8 +254,6 @@ function timestampOf(name) {
   // should give ex. "visual-diff.2021-01-28 23-28-22Z [ios vs ios].html"
   const comparisonInfo = `${sourceId} vs ${targetId}`;
   const fileName = `${artifactDir}/visualdiff.${timestamp} [${comparisonInfo}]`;
-  console.log(`...rendering visual-diff file for files: ${base} && ${target}`);
-  writeHMTL(fileName, comparisonInfo);
-  console.log(`Done!`);
-  return true;
+  console.log(`...rendering visual-diff for : ${base} && ${target}`);
+  return writeHMTL(fileName, comparisonInfo);
 })();
