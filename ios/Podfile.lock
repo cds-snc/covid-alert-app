@@ -3,7 +3,7 @@ PODS:
   - BVLinearGradient (2.5.6):
     - React
   - DoubleConversion (1.1.6)
-  - EXBarCodeScanner (10.0.0):
+  - EXBarCodeScanner (10.1.2):
     - UMBarCodeScannerInterface
     - UMCore
     - UMImageLoaderInterface
@@ -331,7 +331,7 @@ PODS:
   - UMCore (6.0.0)
   - UMFontInterface (5.4.0)
   - UMImageLoaderInterface (5.4.0)
-  - UMPermissionsInterface (5.4.0):
+  - UMPermissionsInterface (6.1.0):
     - UMCore
   - UMReactNativeAdapter (5.7.0):
     - React-Core
@@ -401,7 +401,7 @@ DEPENDENCIES:
   - "UMCore (from `../node_modules/@unimodules/core/ios`)"
   - UMFontInterface (from `../node_modules/unimodules-font-interface/ios`)
   - UMImageLoaderInterface (from `../node_modules/unimodules-image-loader-interface/ios`)
-  - UMPermissionsInterface (from `../node_modules/unimodules-permissions-interface/ios`)
+  - UMPermissionsInterface (from `../node_modules/expo-barcode-scanner/node_modules/unimodules-permissions-interface/ios`)
   - "UMReactNativeAdapter (from `../node_modules/@unimodules/react-native-adapter/ios`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -521,7 +521,7 @@ EXTERNAL SOURCES:
   UMImageLoaderInterface:
     :path: "../node_modules/unimodules-image-loader-interface/ios"
   UMPermissionsInterface:
-    :path: "../node_modules/unimodules-permissions-interface/ios"
+    :path: "../node_modules/expo-barcode-scanner/node_modules/unimodules-permissions-interface/ios"
   UMReactNativeAdapter:
     :path: "../node_modules/@unimodules/react-native-adapter/ios"
   Yoga:
@@ -531,7 +531,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
-  EXBarCodeScanner: 6bfdcce1733157b1c023053da15f3c5e6e7f4958
+  EXBarCodeScanner: 38e025a8d508f40a96c44dc87bd4f8765f8002cd
   EXPermissions: 17d4846ad1880f6891c74ae58ca1acb43e47ed47
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
   FBReactNativeSpec: 2a59be1c614979e9ea801a28227667b4618abf8c
@@ -584,11 +584,11 @@ SPEC CHECKSUMS:
   UMCore: 97ba5041c9c92317ce61739f6d126a692c8ef4a8
   UMFontInterface: 85fe1b845fb7caab45e04d9ce47e1677a5ce90a5
   UMImageLoaderInterface: 18f37df089b7e6d301e3acac025a8264d26b66d6
-  UMPermissionsInterface: 807e5733b4c6607f35757b1dd128f370718d2f94
+  UMPermissionsInterface: 40b72935a7d12a3f60dc6b7bb99ce47908380cb1
   UMReactNativeAdapter: 172def7895b2cb44a7dd021336e316d5fa8ea958
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   ZXingObjC: fdbb269f25dd2032da343e06f10224d62f537bdb
 
-PODFILE CHECKSUM: 07bc9591c25f93fe8fb89ee37d8e0a4deaf72ee5
+PODFILE CHECKSUM: 5d7ebc41534a5eb660016dc96f7649b80258fbf7
 
 COCOAPODS: 1.10.1
