@@ -135,13 +135,6 @@ export const CheckInHistoryScreen = () => {
             <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
               {i18n.translate('PlacesLog.Title')}
             </Text>
-            <Text>{i18n.translate('PlacesLog.Body1')}</Text>
-
-            <Text marginTop="s">
-              <Text fontWeight="bold">{i18n.translate('PlacesLog.Body2a')}</Text>
-
-              {i18n.translate('PlacesLog.Body2b')}
-            </Text>
           </Box>
 
           {!checkInHistory.length || checkInHistory.length === 0 ? (

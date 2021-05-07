@@ -53,7 +53,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
         <Header />
         <ScrollView style={styles.flex}>
           <Box paddingHorizontal="m" paddingTop="m">
-            <Icon name="successful-checkin" height={75} width={75} />
+            <Icon name="check-in-successful" height={75} width={75} />
           </Box>
           <Box paddingHorizontal="m">
             <Box paddingBottom="l">

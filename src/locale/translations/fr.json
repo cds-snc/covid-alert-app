@@ -8,7 +8,7 @@
     "NoExposureDetected": {
       "AllSetTitle": "Vous voilà prêt!",
       "RegionCovered": {
-        "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.",
+        "Body": "L’application n’a pas trouvé de risque d’exposition lors de ses vérifications quotidiennes.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
         "Title": "Aucune exposition détectée",
         "AllSetBody": "Votre téléphone utilise maintenant Bluetooth pour collecter les codes provenant des téléphones voisins."
@@ -224,7 +224,7 @@
     "Close": "Fermer"
   },
   "QRCodeOnboarding": {
-    "step-1Title": "Projet pilote à Mooseville : expositions dans des lieux publics",
+    "step-1Title": "Projet pilote à Mooseville : expositions dans des lieux visités",
     "step-1AltText": "-",
     "step-1": "L’application peut vous aviser si vous avez visité un lieu pendant qu’il y avait un risque d’exposition.\n\nCe type de notifications fonctionne à partir de codes QR que vous scannez lors de vos allées et venues.\n\nLes codes QR vous évitent de laisser vos renseignements personnels aux lieux visités, ce qui offre plus de vie privée.",
     "step-2Title": "Fonctionnement des notifications par code QR",
@@ -236,7 +236,7 @@
     "step-4Title": "Facilitons la recherche de contacts",
     "step-4AltText": "-",
     "step-4": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu un risque d’exposition pendant celles-ci.",
-    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet-pilote à petite échelle.",
+    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet-pilote.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -522,7 +522,7 @@
       "Cancel": "Pas maintenant"
     },
     "CameraPermissionDenied": {
-      "Title": "Autorisation refusée",
+      "Title": "Accès à l’appareil photo refusé",
       "Body": "Vous avez refusé qu’Alerte COVID utilise votre appareil photo.\n\nPour scanner un lieu, vous devez autoriser Alerte COVID à utiliser l’appareil photo dans les paramètres de votre téléphone.\n\nVous pouvez aussi utiliser directement votre appareil photo ou une application de lecture de codes QR.",
       "CTA": "Autoriser l’accès dans les paramètres",
       "CTA2": "À propos de l’ajout d’une visite"
@@ -544,7 +544,7 @@
     "ScanAPlace": {
       "Title": "Ajouter une visite : Mooseville seulement",
       "Body": "Vous serez avisé si la santé publique détecte un risque d’exposition lié à votre visite.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
-      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet-pilote à petite échelle.",
+      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet-pilote.",
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },
@@ -571,7 +571,7 @@
 
   "PlacesLog": {
     "Title": "Vos visites",
-    "Body1": "Vous serez avisé s’il y a eu un risque d’exposition lors des visites qui suivent.",
+    "Body1": "Vous serez avisé si la santé publique détecte un risque d’exposition lié aux visites suivantes.",
     "Body2a": "Vos visites ne sont communiquées ",
     "Body2b": "à personne. Elles sont uniquement conservées sur votre téléphone.",
     "DeleteBtnCTA": "Supprimer toutes les visites",
@@ -582,8 +582,8 @@
     "Alert": {
       "Title": "Voulez-vous vraiment supprimer cette visite?",
       "TitleDeleteAll": "Voulez-vous vraiment supprimer toutes les visites?",
-      "Subtitle": "S’il y a un risque d’exposition dans ce lieu, vous n’en serez pas avisé.",
-      "SubtitleDeleteAll": "S’il y a un risque d’exposition dans un de ces lieux, vous n’en serez pas avisé.",
+      "Subtitle": "S’il y a un risque d’exposition lié à cette visite, vous n’en serez pas avisé.",
+      "SubtitleDeleteAll": "S’il y a un risque d’exposition lié à l’une de ces visites, vous n’en serez pas avisé.",
       "Cancel": "Annuler",
       "ConfirmDelete": "Oui, supprimer",
       "ConfirmDeleteAll": "Oui, tout supprimer"

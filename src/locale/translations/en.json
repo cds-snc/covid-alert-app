@@ -9,7 +9,7 @@
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
-        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.",
+        "Body": "The app has not found a risk of exposure. The app checks for exposures daily.",
         "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
         "AllSetBody": "Your phone is now running Bluetooth to collect codes from nearby phones."
       },
@@ -172,7 +172,7 @@
     "Help": "Help",
     "HelpUrl": "https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert/help.html",
     "GetCode": "Get a one-time key",
-    "YourVisits": "Your Visits",
+    "YourVisits": "Your visits",
     "YourRecentExposures": "Your recent exposures",
     "ChangeLanguage": "Change language",
     "ToggleCovidAlert": {
@@ -224,7 +224,7 @@
     "Close": "Close"
   },
   "QRCodeOnboarding": {
-    "step-1Title": "New pilot in Mooseville only: exposures from public places",
+    "step-1Title": "Pilot project in Mooseville: exposures from places visited",
     "step-1AltText": "-",
     "step-1": "The app can notify you if you’ve been at a place at the same time as an exposure.\n\nThis kind of exposure notification uses QR codes you scan as you go about your day.\n\nIt’s more private than sharing your contact details with the places you visit.",
     "step-2Title": "How QR code notifications work",
@@ -235,8 +235,8 @@
     "step-3": "The app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits and exposures are not shared** with anyone.\n\nYou can get to your recent visits from the menu. If you need to, you can delete any visit.",
     "step-4Title": "Help make contact tracing easier",
     "step-4AltText": "-",
-    "step-4": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from them.",
-    "step-4-banner": "Right now, posters with QR codes are **only available in Mooseville** as part of a small-scale pilot project.",
+    "step-4": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from the places you visited.",
+    "step-4-banner": "Right now, posters with QR codes are **only available in Mooseville** as part of a pilot project.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -507,8 +507,8 @@
       "Cancel": "Not now"
     },
     "CameraPermissionDenied": {
-      "Title": "Access denied",
-      "Body": "You said no to COVID Alert using your phone’s camera.\n\nTo scan a place, you’ll need to update your phone’s settings to let COVID Alert  use the camera.\n\nYou can also use your phone’s camera directly or a QR scanning app.",
+      "Title": "Camera access denied",
+      "Body": "You said no to COVID Alert using your phone’s camera.\n\nTo scan a place, you’ll need to update your phone’s settings to let COVID Alert use the camera.\n\nYou can also use your phone’s camera directly or a QR code scanning app.",
       "CTA": "Allow camera access in settings",
       "CTA2": "About adding a visit"
     },
@@ -548,7 +548,7 @@
     "ScanAPlace": {
       "Title": "Add a visit: Mooseville only",
       "Body": "Get notified if public health finds an exposure risk from your visit.\n\nThe app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits are not shared** with anyone.",
-      "Banner": "Right now, posters with QR codes are **only available in Mooseville** as part of a small-scale pilot project.",
+      "Banner": "Right now, posters with QR codes are **only available in Mooseville** as part of a pilot project.",
       "CTA": "Next",
       "CTA2": "About adding a visit"
     },
@@ -575,7 +575,7 @@
 
   "PlacesLog": {
     "Title": "Your Visits",
-    "Body1": "You’ll get notified if there’s a possible exposure from the following visits.",
+    "Body1": "You’ll get notified if public health finds an exposure risk from the following visits.",
     "Body2a": "Your visits are not shared ",
     "Body2b": "with anyone. They’re only on your phone.",
     "DeleteBtnCTA": "Delete all visits",
@@ -586,8 +586,8 @@
     "Alert": {
       "Title": "Are you sure you want to delete this visit?",
       "TitleDeleteAll": "Are you sure you want to delete all visits?",
-      "Subtitle": "If there’s a possible exposure at this place, you will not be notified.",
-      "SubtitleDeleteAll": "If there’s a possible exposure at any of these places, you will not be notified.",
+      "Subtitle": "If there’s a possible exposure from this visit, you will not be notified.",
+      "SubtitleDeleteAll": "If there’s a possible exposure from any of these visits, you will not be notified.",
       "Cancel": "Cancel",
       "ConfirmDelete": "Yes, delete",
       "ConfirmDeleteAll": "Yes, delete all"
