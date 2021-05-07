@@ -18,6 +18,8 @@
 		92B51DEAB84B429696C44822 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190AEBD50CE3434EBCFCFBB4 /* NotoSans-Bold.ttf */; };
 		9DCF98527548A48AED34959C /* libPods-CovidShield-CovidShieldTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */; };
 		A40D59F9258A44E6009DA167 /* ExposureNotification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A40D59F8258A44E6009DA167 /* ExposureNotification.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A4548FA72645AE510077891F /* UniqueDailyMetricsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A4548FA62645AE510077891F /* UniqueDailyMetricsHelper.m */; };
+		A4548FAB2645B7190077891F /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A4548FAA2645B7190077891F /* DateUtils.m */; };
 		A48FF3FF26402ABB00536E12 /* MetricsService.m in Sources */ = {isa = PBXBuildFile; fileRef = A48FF3FE26402ABB00536E12 /* MetricsService.m */; };
 		A49FB8BB26398A9100BE63CC /* MetricsPusher.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FB8BA26398A9100BE63CC /* MetricsPusher.m */; };
 		A49FB8BE26399AAF00BE63CC /* MetricsJsonSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FB8BD26399AAF00BE63CC /* MetricsJsonSerializer.m */; };
@@ -74,6 +76,10 @@
 		77A1C8C77A874BCC9042935F /* libPods-CovidShield-CovidShieldTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CovidShield-CovidShieldTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83A9E3B8A86E1B360304383E /* Pods-CovidShield-CovidShieldTests.diawi-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovidShield-CovidShieldTests.diawi-release.xcconfig"; path = "Target Support Files/Pods-CovidShield-CovidShieldTests/Pods-CovidShield-CovidShieldTests.diawi-release.xcconfig"; sourceTree = "<group>"; };
 		A40D59F8258A44E6009DA167 /* ExposureNotification.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExposureNotification.framework; path = System/Library/Frameworks/ExposureNotification.framework; sourceTree = SDKROOT; };
+		A4548FA52645AE510077891F /* UniqueDailyMetricsHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UniqueDailyMetricsHelper.h; sourceTree = "<group>"; };
+		A4548FA62645AE510077891F /* UniqueDailyMetricsHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UniqueDailyMetricsHelper.m; sourceTree = "<group>"; };
+		A4548FA92645B7190077891F /* DateUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateUtils.h; sourceTree = "<group>"; };
+		A4548FAA2645B7190077891F /* DateUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateUtils.m; sourceTree = "<group>"; };
 		A48FF3FD26402ABB00536E12 /* MetricsService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetricsService.h; sourceTree = "<group>"; };
 		A48FF3FE26402ABB00536E12 /* MetricsService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetricsService.m; sourceTree = "<group>"; };
 		A49FB8B926398A9100BE63CC /* MetricsPusher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetricsPusher.h; sourceTree = "<group>"; };
@@ -195,13 +201,14 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				A4D281E926384A1C003084CF /* Services */,
-				74B6941C245F15B20077B9DA /* ExposureNotification.h */,
-				74B6941D245F15B20077B9DA /* ExposureNotification.m */,
 				7482404D246F9C0E009F68EA /* CovidShield.h */,
 				7482404E246F9C0E009F68EA /* CovidShield.m */,
 				A4E2F5ED258A84B50037F403 /* ENActivityHandling.h */,
 				A4E2F5EE258A84B50037F403 /* ENActivityHandling.m */,
+				74B6941C245F15B20077B9DA /* ExposureNotification.h */,
+				74B6941D245F15B20077B9DA /* ExposureNotification.m */,
+				A4D281E926384A1C003084CF /* Services */,
+				A4548FA82645B6F90077891F /* Utils */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -231,6 +238,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A4548FA82645B6F90077891F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A4548FA92645B7190077891F /* DateUtils.h */,
+				A4548FAA2645B7190077891F /* DateUtils.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		A4D281E926384A1C003084CF /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +268,8 @@
 				A49FB8BA26398A9100BE63CC /* MetricsPusher.m */,
 				A48FF3FD26402ABB00536E12 /* MetricsService.h */,
 				A48FF3FE26402ABB00536E12 /* MetricsService.m */,
+				A4548FA52645AE510077891F /* UniqueDailyMetricsHelper.h */,
+				A4548FA62645AE510077891F /* UniqueDailyMetricsHelper.m */,
 			);
 			name = Metrics;
 			sourceTree = "<group>";
@@ -510,6 +528,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				A4548FAB2645B7190077891F /* DateUtils.m in Sources */,
+				A4548FA72645AE510077891F /* UniqueDailyMetricsHelper.m in Sources */,
 				A49FB8BB26398A9100BE63CC /* MetricsPusher.m in Sources */,
 				A49FB8C126399BB000BE63CC /* Metric.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
