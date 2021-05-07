@@ -66,8 +66,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to use the camera</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to use the microphone</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NotoSans-Bold.ttf</string>
