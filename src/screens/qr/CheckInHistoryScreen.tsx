@@ -9,9 +9,9 @@ import {useOutbreakService} from 'services/OutbreakService/OutbreakProvider';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MainStackParamList} from 'navigation/MainNavigator';
+import {BoldText} from 'shared/BoldText';
 
 import {sortedCheckInArray} from './utils';
-import {BoldText} from 'shared/BoldText';
 
 const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) => {
   const i18n = useI18n();
