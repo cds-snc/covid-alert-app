@@ -11,6 +11,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {MainStackParamList} from 'navigation/MainNavigator';
 
 import {sortedCheckInArray} from './utils';
+import {BoldText} from 'shared/BoldText';
 
 const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) => {
   const i18n = useI18n();
@@ -38,7 +39,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
       {Object.keys(checkIns).map(item => {
         return (
           <Box key={item}>
-            <Box marginTop="m" paddingBottom="m">
+            <Box marginTop="m" paddingBottom="m" paddingHorizontal="xs">
               <Text accessibilityLabel={`${accessibilityReadableDate(formateScannedDate(item))}`} variant="bodyTitle">
                 {formatExposedDate(formateScannedDate(item), dateLocale)}
               </Text>
@@ -141,6 +142,10 @@ export const CheckInHistoryScreen = () => {
             <NoVisitsScreen />
           ) : (
             <>
+              <Box paddingHorizontal="m">
+                <Text>{i18n.translate('PlacesLog.Body1')}</Text>
+                <Text marginTop="s">{BoldText(i18n.translate('PlacesLog.Body2'))}</Text>
+              </Box>
               <Box paddingHorizontal="xxs" marginLeft="s" marginRight="s" paddingBottom="m">
                 <CheckInList scannedCheckInData={checkInHistory} />
               </Box>

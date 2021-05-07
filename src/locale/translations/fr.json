@@ -572,8 +572,7 @@
   "PlacesLog": {
     "Title": "Vos visites",
     "Body1": "Vous serez avisé si la santé publique détecte un risque d’exposition lié aux visites suivantes.",
-    "Body2a": "Vos visites ne sont communiquées ",
-    "Body2b": "à personne. Elles sont uniquement conservées sur votre téléphone.",
+    "Body2": "**Vos visites ne sont communiquées** à personne. Elles sont uniquement conservées sur votre téléphone.",
     "DeleteBtnCTA": "Supprimer toutes les visites",
     "DeleteIcon": "Supprimer",
     "NoVisit": "Aucune visite",
