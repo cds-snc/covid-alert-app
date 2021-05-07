@@ -17,7 +17,7 @@ const styledTitle = val => {
   if (val.indexOf('✗') !== -1) {
     style = 'color:red;';
   }
-  return `<h3 style="${style}">${val}</h3>`;
+  return `\n\t<h3 style="${style}">${val}</h3>`;
 };
 
 const imgHTML = async path => {
@@ -29,7 +29,7 @@ const imgHTML = async path => {
 
   if (images.length >= 1) {
     images.forEach(img => {
-      html += `<img src="${img}">`;
+      html += `\n\t\t<img src="${img}">`;
     });
   } else {
     html += `no images for test`;
@@ -68,7 +68,7 @@ const writeFile = content => {
     `;
 
   html += content;
-  html += '</body></html>';
+  html += '\n</body>\n\n</html>';
 
   fs.writeFile(fileName, html, function (err) {
     if (err) return console.log(err);
