@@ -31,7 +31,7 @@
       "ButtonCTA": "Finir le partage d’expositions"
     },
     "ExposureDetected": {
-      "Title": "Vous avez été exposé",
+      "Title": "Vous avez été exposé par contact étroit",
       "Body1": "Vous avez côtoyé au moins une personne qui a signalé un diagnostic de COVID-19 au moyen de l’application. Le contact a duré 15 minutes ou plus.",
       "Title2": "Et ensuite?",
       "Body2": "Vous pourriez avoir contracté le virus.",
@@ -550,10 +550,10 @@
     },
     "ProximityExposure": "Passez un test",
     "OutbreakExposed": {
-      "Title": "Vous avez été exposé",
+      "Title": "Vous avez été exposé pendant une visite",
       "Body": "Vous avez visité un lieu au même moment qu’au moins une personne déclarée positive.\n\nCe risque d’exposition a été établi par la santé publique.",
       "CTA": "Résultat de test négatif?",
-      "DateDesc": "Date de notification: ",
+      "DateDesc": "Date de la notification: ",
       "SelfIsolate": {
         "Title": "Isolez-vous et passez un test",
         "Body": "Continuez à vous isoler jusqu’à ce que vous receviez le résultat de votre test de dépistage."
