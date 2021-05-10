@@ -11,7 +11,8 @@ export const ClearOutbreakExposureScreen = () => {
   const [state, setState] = useState(ClearOutbreakExposureViewState);
   const navigation = useNavigation();
   const i18n = useI18n();
-  const close = useCallback(() => navigation.goBack(), [navigation]);
+
+  const close = useCallback(() => navigation.navigate('Home', {timestamp: new Date()}), [navigation]);
   const {clearOutbreakHistory} = useOutbreakService();
   const onClearOutbreak = useCallback(async () => {
     clearOutbreakHistory();
