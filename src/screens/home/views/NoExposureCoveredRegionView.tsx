@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextMultiline, RoundedBox} from 'components';
+import {TextMultiline, RoundedBox, Text} from 'components';
 import {useI18n} from 'locale';
 import {useCachedStorage} from 'services/StorageService';
 import {hoursFromNow} from 'shared/date-fns';
@@ -18,12 +18,9 @@ const TextContent = () => {
         <HomeScreenTitle testID="coveredRegionHeader">
           {i18n.translate('Home.NoExposureDetected.RegionCovered.Title')}
         </HomeScreenTitle>
-        <TextMultiline
-          variant="bodyText"
-          color="bodyText"
-          marginBottom="m"
-          text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
-        />
+        <Text variant="bodyText" color="bodyText" marginBottom="m">
+          {i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
+        </Text>
       </RoundedBox>
     </>
   );
