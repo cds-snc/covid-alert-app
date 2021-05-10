@@ -5,14 +5,14 @@ import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useI18n} from 'locale';
-import {getCurrentDate} from 'shared/date-fns';
+import {getCurrentDate, getMillisSinceUTCEpoch} from 'shared/date-fns';
 
 export const ClearOutbreakExposureScreen = () => {
   const [state, setState] = useState(ClearOutbreakExposureViewState);
   const navigation = useNavigation();
   const i18n = useI18n();
 
-  const close = useCallback(() => navigation.navigate('Home', {timestamp: new Date()}), [navigation]);
+  const close = useCallback(() => navigation.navigate('Home', {timestamp: getMillisSinceUTCEpoch()}), [navigation]);
   const {clearOutbreakHistory} = useOutbreakService();
   const onClearOutbreak = useCallback(async () => {
     clearOutbreakHistory();

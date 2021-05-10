@@ -75,7 +75,7 @@ const withDarkNavNonModal = (Component: React.ElementType) => {
 // };
 
 export interface MainStackParamList extends Record<string, object | undefined> {
-  Home: undefined;
+  Home: {timestamp?: number};
   Onboarding: undefined;
   Tutorial: undefined;
   QROnboard: undefined;
