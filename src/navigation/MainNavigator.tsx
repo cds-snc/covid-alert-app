@@ -3,7 +3,7 @@ import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
-import {QRCodeOnboardScreen} from 'screens/qr/onboarding/Tutorial';
+import {QRCodeOnboardScreen} from 'screens/qr-onboarding/Tutorial';
 import {
   FormScreen,
   Step0Screen,
@@ -163,7 +163,6 @@ const QRCodeNavigator = () => {
       <QRCodeStack.Screen name="InvalidQRCodeScreen" component={InvalidQRCodeScreenWithNavBar} />
       <QRCodeStack.Screen name="CheckInSuccessfulScreen" component={CheckInSuccessfulScreenWithNavBar} />
       <QRCodeStack.Screen name="QRCodeIntroScreen" component={QRCodeIntroScreenWithNavBar} />
-      <QRCodeStack.Screen name="QRCodeOnboard" component={QRCodeOnboardScreenWithNavBar} />
     </QRCodeStack.Navigator>
   );
 };
@@ -222,6 +221,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="ExposureHistory" component={ExposureHistoryNavigator} />
       <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
       <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
+      <MainStack.Screen name="QRCodeOnboard" component={QRCodeOnboardScreenWithNavBar} />
     </MainStack.Navigator>
   );
 };
