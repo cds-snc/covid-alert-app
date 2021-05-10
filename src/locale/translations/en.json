@@ -26,7 +26,7 @@
       }
     },
     "ExposureDetected": {
-      "Title": "You’ve been exposed",
+      "Title": "You’ve been exposed from close contact",
       "Body1": "You’ve been near at least one person who reported a COVID-19 diagnosis through the app. You were near them for at least 15 minutes.",
       "Title2": "What next?",
       "Body2": "You’re at risk of being infected.",
@@ -554,7 +554,7 @@
     },
     "ProximityExposure": "Get tested",
     "OutbreakExposed": {
-      "Title": "You’ve been exposed",
+      "Title": "You’ve been exposed at a visit",
       "Body": "You visited a place at the same time as at least one person who tested positive for COVID-19.\n\nPublic health identified this exposure.",
       "DateDesc": "Notification received: ",
       "CTA": "Negative test?",

@@ -36,11 +36,12 @@ export const ExposureDateView = ({timestamp}: {timestamp?: number}) => {
     <Box marginBottom="m">
       {qrEnabled ? (
         <Text>
-          {i18n.translate('Home.ExposureDetected.Notification.Received')}:{firstThreeUniqueDates[0]}
+          {i18n.translate('Home.ExposureDetected.Notification.Received')}:{' '}
+          <Text fontWeight="bold">{firstThreeUniqueDates[0]}</Text>
         </Text>
       ) : (
         <>
-          <Text>{i18n.translate('Home.ExposureDetected.Notification.Received')}:</Text>
+          <Text>{i18n.translate('Home.ExposureDetected.Notification.Received')}: </Text>
 
           {firstThreeUniqueDates.map((date, index) => (
             <Text fontWeight={index === 0 ? 'bold' : 'normal'} key={date}>
