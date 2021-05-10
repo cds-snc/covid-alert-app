@@ -4,7 +4,7 @@ import {useI18n} from 'locale';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {Box, Text, Icon, Button, ToolbarWithClose} from 'components';
 import {CheckInData} from 'shared/qr';
-import {formatExposedDate, formateScannedDate, accessibilityReadableDate} from 'shared/date-fns';
+import {formatExposedDate, formateScannedDate, accessibilityReadableDate, getScannedTime} from 'shared/date-fns';
 import {useOutbreakService} from 'services/OutbreakService/OutbreakProvider';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -58,11 +58,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                         <Text variant="bodySubTitle">{data.checkIns.name}</Text>
                         <Text paddingTop="s">
                           {data.checkIns.address} {'\n'}
-                          {new Date(data.checkIns.timestamp).toLocaleString('default', {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: true,
-                          })}
+                          {getScannedTime(new Date(data.checkIns.timestamp), dateLocale)}
                         </Text>
                       </Box>
                       <Box style={styles.deleteIconBox}>
@@ -112,7 +108,7 @@ export const CheckInHistoryScreen = () => {
   const close = useCallback(() => navigation.navigate(closeRoute), [closeRoute, navigation]);
 
   const deleteAllPlaces = () => {
-    Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
+    Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.SubtitleDeleteAll'), [
       {
         text: i18n.translate('PlacesLog.Alert.Cancel'),
         onPress: () => {},
