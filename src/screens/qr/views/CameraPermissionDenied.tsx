@@ -35,9 +35,9 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
         </Text>
 
         <Box style={styles.flex}>
-          <Text marginBottom="l"> {i18n.translate('QRCode.CameraPermissionDenied.Body')}</Text>
+          <Text marginBottom="s">{i18n.translate('QRCode.CameraPermissionDenied.Body')}</Text>
         </Box>
-        <Box paddingHorizontal="s" paddingTop="xl" marginBottom="m">
+        <Box paddingTop="xl" marginBottom="m">
           <Button
             variant="thinFlatNoBorder"
             text={i18n.translate('QRCode.CameraPermissionDenied.CTA')}
@@ -45,7 +45,7 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
           />
         </Box>
 
-        <Box paddingHorizontal="s" marginBottom="m">
+        <Box marginBottom="m">
           <InfoShareItem
             text={i18n.translate('QRCode.ScanAPlace.CTA2')}
             onPress={() => {
