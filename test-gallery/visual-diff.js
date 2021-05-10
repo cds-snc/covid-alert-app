@@ -103,12 +103,12 @@ function writePDF(fileName, html) {
     },
   };
 
-  const fileURL = `file://${resolve(`${artifactDir}/${fileName}.html`)}`;
+  const pdfURL = `file://${resolve(`${artifactDir}/${fileName}.html`)}`;
   console.log(`Attempting to write PDF (${options.width} x ${options.height})...
-              \nfile location: ${fileURL}`);
+              \nfile location: ${pdfURL}`);
 
   // eslint-disable-next-line promise/catch-or-return
-  htmlToPDF.generatePdf({url: fileURL}, options).then(pdfBuffer => {
+  htmlToPDF.generatePdf({url: pdfURL}, options).then(pdfBuffer => {
     console.log('PDF Buffer:', pdfBuffer ? 'has many bytes' : 'totally empty');
   });
 }
@@ -227,22 +227,26 @@ function timestampOf(name) {
   } else if (!base && target) {
     console.log('No --base argument received');
     process.exit(9);
-  } else if (!base.endsWith('.html') && !target.endsWith('.html')) {
-    // This is the case where folder names are passed
+  }
+  const baseResolved = fs.existsSync(`${resolve(`${artifactDir}/${base}`)}`);
+  const targetResolved = fs.existsSync(`${resolve(`${artifactDir}/${target}`)}`);
+
+  if (!base.endsWith('.html') && !target.endsWith('.html')) {
+    console.log(`Assuming --base and --target are folder names...`);
     calcAppScreens(base, target);
     execSync(`yarn test-gallery --dir "${base}" --silent`, {stdio: 'inherit'});
     base = `${base}.html`;
     execSync(`yarn test-gallery --dir "${target}" --silent`, {stdio: 'inherit'});
     target = `${target}.html`;
-  } else if (!fs.existsSync(base) && !fs.existsSync(target)) {
+  } else if (!baseResolved && !targetResolved) {
     console.log(`Invalid --base and --target parameters! Files not found
     \nVerify files exist and are not empty.
     `);
     process.exit(9);
-  } else if (!fs.existsSync(base) && fs.existsSync(target)) {
+  } else if (!baseResolved && targetResolved) {
     console.log('Invalid --base argument, file not found');
     process.exit(9);
-  } else if (fs.existsSync(base) && !fs.existsSync(target)) {
+  } else if (baseResolved && !targetResolved) {
     console.log('Invalid --target argument, file not found');
     process.exit(9);
   }
