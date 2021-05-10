@@ -22,6 +22,7 @@ const TextContent = () => {
           variant="bodyText"
           color="bodyText"
           marginBottom="m"
+          marginRight="xxl"
           text={i18n.translate('Home.NoExposureDetected.RegionCovered.Body')}
         />
       </RoundedBox>
