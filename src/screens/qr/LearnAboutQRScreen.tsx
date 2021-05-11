@@ -29,7 +29,7 @@ export const LearnAboutQRScreen = ({updatePermissions}: {updatePermissions: () =
 
         <Text marginVertical="s">{i18n.translate('QRCode.LearnAboutQRScan.Body1')}</Text>
         <Text>{i18n.translate('QRCode.LearnAboutQRScan.Body2')}</Text>
-        <Box marginTop="xl">
+        <Box marginTop="xl" marginBottom="l">
           <Button
             text={i18n.translate('QRCode.ScanAPlace.CTA')}
             variant="thinFlatNoBorder"

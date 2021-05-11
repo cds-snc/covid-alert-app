@@ -56,7 +56,7 @@ export const MenuBar = () => {
             </Box>
           ) : (
             <>
-              <Box flex={qrEnabled ? 1.85 : 1} marginRight="s">
+              <Box flex={qrEnabled ? 1.82 : 1} marginRight="s">
                 {qrEnabled ? <QrButton /> : appStatus}
               </Box>
 

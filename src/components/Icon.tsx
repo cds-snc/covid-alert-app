@@ -44,6 +44,7 @@ import QRCodeInvalid from 'assets/qr-code-invalid.svg';
 import ExposureHistoryThumb from 'assets/exposure-history-thumb.svg';
 import ExposureOutbreak from 'assets/exposure-outbreak-icon.svg';
 import ExposureProximity from 'assets/exposure-proximity-icon.svg';
+import CheckInSuccessfulIcon from 'assets/check-in-successful-icon.svg';
 
 const ICONS = {
   'icon-x': IconX,
@@ -91,6 +92,7 @@ const ICONS = {
   'exposure-history-thumb': ExposureHistoryThumb,
   'exposure-proximity': ExposureProximity,
   'exposure-outbreak': ExposureOutbreak,
+  'check-in-successful': CheckInSuccessfulIcon,
 };
 
 export type IconName = keyof typeof ICONS;

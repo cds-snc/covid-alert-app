@@ -13,6 +13,16 @@ target 'CovidShield' do
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
 
+  # https://github.com/expo/expo/issues/11736#issuecomment-833891364
+  # thanks @brentvatne
+
+  # Compile this from source rather than using prebuilt xcframework.
+  # Alternatively, set the `EXPO_USE_SOURCE=1` env var to disable prebuilds for
+  # all modules.
+  $ExpoUseSources = [
+    'expo-barcode-scanner',
+  ]
+
   target 'CovidShieldTests' do
     inherit! :complete
     # Pods for testing
