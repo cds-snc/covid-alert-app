@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <React/RCTBridge.h>
 
 typedef NS_ENUM(NSUInteger, MetricType) {
   ScheduledCheckStartedToday,
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
-- (void)publishMetric:(MetricType)type;
+- (void)publishMetric:(MetricType)type bridge:(RCTBridge *)bridge;
 
 @end
 

@@ -15,7 +15,7 @@ RCT_EXPORT_MODULE();
 RCT_REMAP_METHOD(publishDebugMetric, stepNumber:(double)stepNumber message:(NSString *)message withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
   if (stepNumber == 8.0) {
-    [[MetricsService sharedInstance] publishMetric:ScheduledCheckSuccessfulToday];
+    [[MetricsService sharedInstance] publishMetric:ScheduledCheckSuccessfulToday bridge:self.bridge];
   }
   
   resolve(nil);
