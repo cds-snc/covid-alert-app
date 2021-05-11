@@ -94,7 +94,7 @@ function writePDF(fileName, html) {
     // 210mm is the standard width of an A4 document
     width: '8.5in',
     // 297 (the standard height of an A4 document in mm)
-    height: `${ForceScreens * 20.4 + (screenshots - ForceScreens) * 17}cm`,
+    height: `${ForceScreens * 21 + (screenshots - ForceScreens) * 17.5}cm`,
     margin: {
       top: PDFmargin,
       left: PDFmargin,
@@ -104,12 +104,11 @@ function writePDF(fileName, html) {
   };
 
   const pdfURL = `file://${resolve(`${artifactDir}/${fileName}.html`)}`;
-  console.log(`Attempting to write PDF (${options.width} x ${options.height})...
-              \nfile location: ${pdfURL}`);
+  console.log(`${pdfURL}\nnow attempting to write PDF (${options.width} x ${options.height})...`);
 
   // eslint-disable-next-line promise/catch-or-return
   htmlToPDF.generatePdf({url: pdfURL}, options).then(pdfBuffer => {
-    console.log('PDF Buffer:', pdfBuffer ? 'has many bytes' : 'totally empty');
+    console.log('PDF Buffer:', pdfBuffer ? 'has many succesful bytes.' : 'totally empty');
   });
 }
 
@@ -256,8 +255,8 @@ function timestampOf(name) {
   const timestamp = timestampOf(target);
 
   // should give ex. "visual-diff.2021-01-28 23-28-22Z [ios vs ios].html"
-  const comparisonInfo = `${sourceId} vs ${targetId}`.replace(/@/g, '/');
+  const comparisonInfo = `${sourceId} vs ${targetId}`;
   const fileName = `${artifactDir}/visualdiff.${timestamp} [${comparisonInfo}]`;
   console.log(`...rendering visual-diff for : ${base} && ${target}`);
-  return writeHMTL(fileName, comparisonInfo);
+  return writeHMTL(fileName, comparisonInfo.replace(/@/g, '/'));
 })();

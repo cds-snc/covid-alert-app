@@ -39,11 +39,12 @@ const imgHTML = async path => {
 };
 
 const writeFile = content => {
+  const title = `${argv.dir}`.replace(/@/g, '/');
   let html = `
   <html lang="en-CA">
   <head>
     <meta charset="UTF-8">
-    <title>Test-Gallery - ${argv.dir}</title>
+    <title>Test-Gallery - ${title}</title>
     <style>
       body {
         margin: 20px;
@@ -63,7 +64,7 @@ const writeFile = content => {
     </head>
     <body>
       <header >
-        <h1 class='Titre'>${argv.dir}</h1>
+        <h1 class='Titre'>${title}</h1>
       </header>
     `;
 
