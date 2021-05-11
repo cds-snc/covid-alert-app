@@ -54,6 +54,10 @@ Original author Andréas K.LeF.
 
 ## Future Work
 
+### provide folder and file names mixed
+
+This could be useful, but is not currently supported.
+
 ### to visual-diff
 
 #### --latest flag
