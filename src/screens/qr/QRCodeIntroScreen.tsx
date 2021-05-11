@@ -23,7 +23,7 @@ export const QRCodeIntroScreen = () => {
     navigation.navigate('QRCodeReaderScreen');
   }, [navigation]);
   return (
-    <BaseQRCodeScreen>
+    <BaseQRCodeScreen showBackButton={false}>
       <Box paddingHorizontal="m">
         <Box marginBottom="s">
           <Image
