@@ -125,6 +125,9 @@ function writeHMTL(fileName, comparisonInfo) {
       <meta charset="UTF-8">
       <title>Visual Diff - ${comparisonInfo}</title>
       <style>
+      h3 {
+        padding-left: 2em;
+      }
       body {
         margin: 0px;
       }
@@ -155,7 +158,7 @@ function writeHMTL(fileName, comparisonInfo) {
     </head>
     <body>
       <header >
-        <h1 class='Titre'>visual-diff</h1>
+        <h1 class='titre'>visual-diff</h1>
       </header>
       <div class='split'>
         <div id='leftSide'  class='side'> </div>

@@ -46,6 +46,9 @@ const writeFile = content => {
     <meta charset="UTF-8">
     <title>Test-Gallery - ${title}</title>
     <style>
+      h3 {
+        padding-left: 2em;
+      }
       body {
         margin: 20px;
         font-family: sans-serif;
@@ -60,11 +63,17 @@ const writeFile = content => {
         margin-top: 10px;
         margin-bottom: 10px;
       }
+      .titre {
+        font-family: sans-serif;
+        margin: 0px;
+        text-align: center;
+        font-size: large;
+      }
     </style>
     </head>
     <body>
       <header >
-        <h1 class='Titre'>${title}</h1>
+        <h1 class='titre'>${title}</h1>
       </header>
     `;
 
