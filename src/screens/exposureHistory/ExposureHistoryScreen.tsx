@@ -79,7 +79,7 @@ export const ExposureHistoryScreen = () => {
   const outbreaks = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
-  const {proximityExposureHistory} = useDisplayExposureHistory();
+  const {proximityExposureHistory, ignoreAllProximityExposures} = useDisplayExposureHistory();
   const mergedArray = [
     ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
     ...toProximityExposureHistoryData({proximityExposureHistory, i18n}),
@@ -104,6 +104,7 @@ export const ExposureHistoryScreen = () => {
           text: i18n.translate('ExposureHistory.Alert.ConfirmDeleteAll'),
           onPress: () => {
             outbreaks.clearOutbreakHistory();
+            ignoreAllProximityExposures();
             clearProximityExposure();
             setState({...state, exposureHistoryClearedDate: getCurrentDate()});
           },

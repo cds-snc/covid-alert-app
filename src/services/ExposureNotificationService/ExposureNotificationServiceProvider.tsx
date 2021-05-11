@@ -220,7 +220,12 @@ export function useDisplayExposureHistory() {
     },
     [exposureNotificationService],
   );
-  return {proximityExposureHistory, ignoreProximityExposure};
+  const ignoreAllProximityExposures = useCallback(() => {
+    proximityExposureHistory.forEach(item => {
+      exposureNotificationService.ignoreExposure(item.id);
+    });
+  }, [exposureNotificationService, proximityExposureHistory]);
+  return {proximityExposureHistory, ignoreProximityExposure, ignoreAllProximityExposures};
 }
 
 export function useUpdateExposureStatus(): (forceCheck?: boolean) => void {
