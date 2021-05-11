@@ -2,6 +2,8 @@ package app.covidshield.services.metrics
 
 import android.content.Context
 import app.covidshield.BuildConfig
+import app.covidshield.services.storage.StorageDirectory
+import app.covidshield.services.storage.StorageService
 import app.covidshield.utils.DateUtils
 import app.covidshield.utils.SingletonHolder
 import kotlinx.coroutines.runBlocking
@@ -40,7 +42,8 @@ class DefaultFilteredMetricsService constructor(private val context: Context) : 
     override suspend fun addMetric(metricType: MetricType, oncePerUTCDay: Boolean) {
 
         suspend fun pushMetric() {
-            val metric = Metric(DateUtils.getCurrentLocalDate().time, metricType.identifier, "None", emptyMap())
+            val region = StorageService.getInstance(context).retrieve(StorageDirectory.Region) ?: "None"
+            val metric = Metric(DateUtils.getCurrentLocalDate().time, metricType.identifier, region, emptyMap())
             metricsService.publishMetric(metric, metricType.shouldBePushedToServerRightAway)
         }
 
