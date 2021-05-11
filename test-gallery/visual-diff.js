@@ -256,7 +256,7 @@ function timestampOf(name) {
   const timestamp = timestampOf(target);
 
   // should give ex. "visual-diff.2021-01-28 23-28-22Z [ios vs ios].html"
-  const comparisonInfo = `${sourceId} vs ${targetId}`;
+  const comparisonInfo = `${sourceId} vs ${targetId}`.replace(/@/g, '/');
   const fileName = `${artifactDir}/visualdiff.${timestamp} [${comparisonInfo}]`;
   console.log(`...rendering visual-diff for : ${base} && ${target}`);
   return writeHMTL(fileName, comparisonInfo);
