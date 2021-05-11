@@ -1,21 +1,65 @@
-# Using Detox test artifacts
+# Scripts for parsing Detox test artifacts
+
+## install
+
+First `cd test-gallery`
+then `yarn install`, to install the required dependencies.
+
+You are now able to run the following two scripts:
 
 ## test-gallery
 
-Uses e2e tests' output from the `artifacts` folder, and outputs back to that folder, this is a node script thast will generate a single, vertical-view html page of that test's screenshots.
+This is a node script thast will generate a single, vertical-view html page of a Detox test's screenshots.
+
+Uses e2e tests' output from the `artifacts` folder, and outputs back to that folder.
+
+```bash
+yarn test-gallery --dir 'ios.2021-01-29 14-17-59Z'
+yarn test-gallery --dir 'android.aosp.2021-01-28 23-28-22Z'
+```
 
 Original author Tim Arney, with contributions by Andréas K.LeF.
 
 ## visual-diff
 
-We can use the test-gallery script to get before/after images. Ex: run once on latest master, and again on feature branch.
+This node script will take the two output HTML files from the test-gallery script, parse them, and merge them into one single continuous file.
 
-This node script will take the two output HTML files from the test-gallery script, parse them, and merge them into one single continuous file. Displaying two versions of the app, ideally from two different features branhes, side-by-side, for easy visual inspection.
+This allows one to easily view two versions of the app, ideally from two different features branhes, side-by-side, for easy visual inspection.
 
-Original Andréas K.LeF.
+For convenience, this script's output is also made into a single PDF, for easy distribution and consumption.
+
+examples:
+
+### provide two folder names
+
+where each folder will contain the output of one run of the `exploreDemoMenu.e2e.js` Detox test:
+
+`yarn visual-diff --base "ios.2021-05-06 16-18-53Z" --target "ios.2021-05-06 18-56-43Z`
+
+or
+
+### provide two file names
+
+where each file is the output of one run of the `test-gallery` script:
+
+`yarn visual-diff --base 'android.aosp.2021-02-12 20-15-24Z.html' --target 'ios.2021-02-12 20-10-56Z.html'`
+
+Which should generate a visual-diff file of the following format:
+
+>`visual-diff.2021-02-12 20-10-56Z [android.aosp vs ios].html`
+
+This file will also be placed in the `../artifacts` folder.
+
+Original author Andréas K.LeF.
 
 ## Future Work
 
+### provide folder and file names mixed
+
+This could be useful, but is not currently supported.
+
 ### to visual-diff
 
-be able to pass a `--latest` flag to visual-diff that automatically grabs the two most recent  `*.html` files from `/artifacts` would be very convenient. That would mean sorting through the files and getting the lastest couple by "most recently created" date.
+#### --latest flag
+
+be able to pass a `--latest` flag to visual-diff that automatically grabs the two most recent  `*.html` files or folders from `/artifacts`, would be very convenient. That would mean sorting through the files and folders, and getting the lastest couple by "most recently created" date.

@@ -54,7 +54,7 @@ describe('Demo menu test', () => {
   const weScroll = new Array(ForceScreens.length).fill(false);
   // scroll on Exposed, not on Android Diagnosed, on Outbreak
   weScroll[2] = true;
-  weScroll[4] = isDeviceFruity;
+  weScroll[4] = true;
   weScroll[7] = true;
 
   /**

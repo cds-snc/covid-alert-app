@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const fs = require('fs');
 
 const globby = require('globby');
@@ -16,7 +17,7 @@ const styledTitle = val => {
   if (val.indexOf('✗') !== -1) {
     style = 'color:red;';
   }
-  return `<h3 style="${style}">${val}</h3>`;
+  return `\n\t<h3 style="${style}">${val}</h3>`;
 };
 
 const imgHTML = async path => {
@@ -28,7 +29,7 @@ const imgHTML = async path => {
 
   if (images.length >= 1) {
     images.forEach(img => {
-      html += `<img src="${img}">`;
+      html += `\n\t\t<img src="${img}">`;
     });
   } else {
     html += `no images for test`;
@@ -38,25 +39,59 @@ const imgHTML = async path => {
 };
 
 const writeFile = content => {
-  let html =
-    '<html><head><style>body { margin: 20px; font-family: sans-serif; } img{ width: 150px;border:1px solid #000; margin: 10px}</style></head><body>';
+  const title = `${argv.dir}`.replace(/@/g, '/');
+  let html = `
+  <html lang="en-CA">
+  <head>
+    <meta charset="UTF-8">
+    <title>Test-Gallery - ${title}</title>
+    <style>
+      h3 {
+        padding-left: 1em;
+      }
+      body {
+        margin: 20px;
+        font-family: sans-serif;
+      }
+      img {
+        height: 800px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .titre {
+        font-family: sans-serif;
+        margin: 0px;
+        text-align: center;
+        font-size: large;
+      }
+    </style>
+    </head>
+    <body>
+      <header >
+        <h1 class='titre'>${title}</h1>
+      </header>
+    `;
 
   html += content;
-  html += '</body></html>';
+  html += '\n</body>\n\n</html>';
 
   fs.writeFile(fileName, html, function (err) {
-    if (err) return console.log(err); // eslint-disable-line no-console
+    if (err) return console.log(err);
   });
 };
 
 (async () => {
   //  node index.js --dir="ios.2020-08-19 17-21-59Z"
   if (!argv.dir) {
-    console.log('you need to pass a directory name'); // eslint-disable-line no-console
-    return;
+    console.log('you need to pass a directory name');
+    return -1;
   }
-
-  console.log('render file for: ', argv.dir); // eslint-disable-line no-console
+  console.log('render file for: ', argv.dir);
 
   const paths = await globby(dirPattern, {
     onlyFiles: false,
@@ -74,5 +109,5 @@ const writeFile = content => {
     html += styledTitle(path) + img;
   });
 
-  writeFile(html);
+  return writeFile(html);
 })();

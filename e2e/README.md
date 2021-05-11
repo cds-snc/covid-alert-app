@@ -43,6 +43,10 @@ A shared test that gets through onboarding. Used before other tests to get deepe
 
 Staging app build only: iterates through every page of the app using the debug menu, taking screenshots as it goes. Find the output in `artifacts` folder.
 
+## test-gallery and visual-diff
+
+Useful scripts that parse test output to produce image galleries and easily shareable PDFs. See the test-gallery/[README.md](../test-gallery/README.md)
+
 ## Running Tests
 
 ### Preparation
