@@ -652,7 +652,7 @@ export class ExposureNotificationService {
       }
       return this.finalize({}, lastCheckedPeriod);
     } catch (error) {
-      log.error({category: 'exposure-check', message: 'performExposureStatusUpdateV2', error});
+      log.debug({category: 'exposure-check', message: 'performExposureStatusUpdateV2', error});
     }
 
     return this.finalize();
