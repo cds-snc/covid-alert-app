@@ -10,7 +10,7 @@ import {BackendService} from 'services/BackendService';
 import {BackgroundScheduler} from 'services/BackgroundSchedulerService';
 import {ExposureNotificationService} from 'services/ExposureNotificationService';
 import {createBackgroundI18n} from 'locale';
-import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
+import {FilteredMetricsService} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import {DefaultStorageService} from './services/StorageService';
@@ -20,8 +20,6 @@ AppRegistry.registerComponent('CovidShield', () => App);
 
 if (Platform.OS === 'android') {
   BackgroundScheduler.registerAndroidHeadlessPeriodicTask(async () => {
-    await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
-
     const backendService = new BackendService(
       RETRIEVE_URL,
       SUBMIT_URL,
@@ -42,7 +40,6 @@ if (Platform.OS === 'android') {
 
   BackgroundScheduler.registerAndroidHeadlessExposureCheckPeriodicTask(async () => {
     publishDebugMetric(4.3);
-    await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
 
     const backendService = new BackendService(
       RETRIEVE_URL,

@@ -167,21 +167,6 @@ describe('MetricsFilter', () => {
     expect(filteredEvent2).not.toBeNull();
   });
 
-  it('active-user event is only published once a day', async () => {
-    today = new OriginalDate('2019-01-01T12:00:00.000Z');
-
-    const filteredEvent1 = await sut.filterEvent({type: EventTypeMetric.ActiveUser});
-    expect(filteredEvent1).not.toBeNull();
-
-    const filteredEvent2 = await sut.filterEvent({type: EventTypeMetric.ActiveUser});
-    expect(filteredEvent2).toBeNull();
-
-    today = new OriginalDate('2019-01-02T00:00:00.000Z');
-
-    const filteredEvent3 = await sut.filterEvent({type: EventTypeMetric.ActiveUser});
-    expect(filteredEvent3).not.toBeNull();
-  });
-
   it('background-check event is only published once a day', async () => {
     // day 1
     today = new OriginalDate('2019-01-01T12:00:00.000Z');
