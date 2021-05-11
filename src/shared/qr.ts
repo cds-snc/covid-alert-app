@@ -134,11 +134,13 @@ export const getMatchedOutbreakHistoryItems = (
   const matchedOutbreakIdsNotUnique = checkInLocationMatches.map(data => data.id);
   const matchedOutbreakIds = Array.from(new Set(matchedOutbreakIdsNotUnique));
 
-  const matches = getMatches({outbreakEvents, checkInHistory, matchedOutbreakIds});
+  const allMatches = getMatches({outbreakEvents, checkInHistory, matchedOutbreakIds});
 
-  log.debug({message: 'outbreak matches', payload: {matches}});
+  log.debug({message: 'outbreak matches', payload: {allMatches}});
 
-  return matches.map(match => createOutbreakHistoryItem(match));
+  const matchTimestampDict = getMatchTimestampDict(allMatches);
+  const filteredMatches = allMatches.filter(match => filterDuplicateMatches(match, matchTimestampDict));
+  return filteredMatches.map(match => createOutbreakHistoryItem(match));
 };
 
 export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) => {
@@ -244,4 +246,35 @@ export const getNewOutbreakExposures = (
   const newIds = detectedIds.filter(id => oldIds.indexOf(id) === -1);
   const newOutbreakExposures = detectedExposures.filter(item => newIds.indexOf(item.outbreakId) > -1);
   return newOutbreakExposures;
+};
+
+interface MaxEndTimeDict {
+  [key: string]: number;
+}
+
+export const getMatchTimestampDict = (allMatches: MatchData[]) => {
+  const maxEndDateDict: MaxEndTimeDict = {};
+  for (let i = 0; i < allMatches.length; i++) {
+    const match = allMatches[i];
+    const timestampStr = match.timestamp.toString();
+    if (Object.keys(maxEndDateDict).indexOf(timestampStr) === -1) {
+      maxEndDateDict[timestampStr] = match.outbreakEvent.endTime;
+      continue;
+    }
+    if (maxEndDateDict[timestampStr] < match.outbreakEvent.endTime) {
+      maxEndDateDict[timestampStr] = match.outbreakEvent.endTime;
+    }
+  }
+  return maxEndDateDict;
+};
+
+export const filterDuplicateMatches = (match: MatchData, maxEndDateDict: MaxEndTimeDict) => {
+  const timestampStr = match.timestamp.toString();
+  if (Object.keys(maxEndDateDict).indexOf(timestampStr) === -1) {
+    throw Error(`you built the maxEndDateDict wrong, it is missing timestamp: ${timestampStr}`);
+  }
+  if (maxEndDateDict[timestampStr] === match.outbreakEvent.endTime) {
+    return true;
+  }
+  return false;
 };
