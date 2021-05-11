@@ -4,11 +4,12 @@ import {useI18n} from 'locale';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {Box, Text, Icon, Button, ToolbarWithClose} from 'components';
 import {CheckInData} from 'shared/qr';
-import {formatExposedDate, formateScannedDate, accessibilityReadableDate} from 'shared/date-fns';
+import {formatExposedDate, formateScannedDate, accessibilityReadableDate, getScannedTime} from 'shared/date-fns';
 import {useOutbreakService} from 'services/OutbreakService/OutbreakProvider';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MainStackParamList} from 'navigation/MainNavigator';
+import {BoldText} from 'shared/BoldText';
 
 import {sortedCheckInArray} from './utils';
 
@@ -38,7 +39,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
       {Object.keys(checkIns).map(item => {
         return (
           <Box key={item}>
-            <Box marginTop="m" paddingBottom="m">
+            <Box marginTop="m" paddingBottom="m" paddingHorizontal="xs">
               <Text accessibilityLabel={`${accessibilityReadableDate(formateScannedDate(item))}`} variant="bodyTitle">
                 {formatExposedDate(formateScannedDate(item), dateLocale)}
               </Text>
@@ -57,11 +58,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                         <Text variant="bodySubTitle">{data.checkIns.name}</Text>
                         <Text paddingTop="s">
                           {data.checkIns.address} {'\n'}
-                          {new Date(data.checkIns.timestamp).toLocaleString('default', {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: true,
-                          })}
+                          {getScannedTime(new Date(data.checkIns.timestamp), dateLocale)}
                         </Text>
                       </Box>
                       <Box style={styles.deleteIconBox}>
@@ -111,7 +108,7 @@ export const CheckInHistoryScreen = () => {
   const close = useCallback(() => navigation.navigate(closeRoute), [closeRoute, navigation]);
 
   const deleteAllPlaces = () => {
-    Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.Subtitle'), [
+    Alert.alert(i18n.translate('PlacesLog.Alert.TitleDeleteAll'), i18n.translate('PlacesLog.Alert.SubtitleDeleteAll'), [
       {
         text: i18n.translate('PlacesLog.Alert.Cancel'),
         onPress: () => {},
@@ -135,19 +132,16 @@ export const CheckInHistoryScreen = () => {
             <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
               {i18n.translate('PlacesLog.Title')}
             </Text>
-            <Text>{i18n.translate('PlacesLog.Body1')}</Text>
-
-            <Text marginTop="s">
-              <Text fontWeight="bold">{i18n.translate('PlacesLog.Body2a')}</Text>
-
-              {i18n.translate('PlacesLog.Body2b')}
-            </Text>
           </Box>
 
           {!checkInHistory.length || checkInHistory.length === 0 ? (
             <NoVisitsScreen />
           ) : (
             <>
+              <Box paddingHorizontal="m">
+                <Text>{i18n.translate('PlacesLog.Body1')}</Text>
+                <Text marginTop="s">{BoldText(i18n.translate('PlacesLog.Body2'))}</Text>
+              </Box>
               <Box paddingHorizontal="xxs" marginLeft="s" marginRight="s" paddingBottom="m">
                 <CheckInList scannedCheckInData={checkInHistory} />
               </Box>

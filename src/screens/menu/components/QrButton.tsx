@@ -14,7 +14,7 @@ export const QrButton = () => {
   return (
     <ButtonWrapper color="qrButton" borderRadius={8} onPress={openScan}>
       <Box style={styles.box}>
-        <Box marginRight="s">
+        <Box marginRight="xs">
           <Icon name="qr-code-icon" size={25} />
         </Box>
         <Box flex={1}>

@@ -14,11 +14,13 @@ export const MenuButton = () => {
   return (
     <ButtonWrapper color="gray5" borderRadius={8} onPress={openMenu}>
       <Box style={styles.box}>
-        <Box marginRight="s">
+        <Box marginRight="xs">
           <Icon name="hamburger-menu" size={25} />
         </Box>
         <Box flex={1}>
-          <Text>{i18n.translate('MenuButton')}</Text>
+          <Box style={styles.menuBoxWrap}>
+            <Text>{i18n.translate('MenuButton')}</Text>
+          </Box>
         </Box>
       </Box>
     </ButtonWrapper>
@@ -32,5 +34,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  menuBoxWrap: {
+    minWidth: 200,
   },
 });

@@ -2,7 +2,7 @@ import React, {useState, useCallback, useRef} from 'react';
 import {ListRenderItem, StyleSheet, useWindowDimensions, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Button, Toolbar, ProgressCircles} from 'components';
+import {Box, Button, ToolbarWithClose, ProgressCircles} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
 import {useAccessibilityService} from 'services/AccessibilityService';
@@ -53,13 +53,7 @@ export const QRCodeOnboardScreen = () => {
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Toolbar
-          title=""
-          navIcon="icon-back-arrow"
-          navText={i18n.translate('Tutorial.Close')}
-          navLabel={i18n.translate('Tutorial.Close')}
-          onIconClicked={close}
-        />
+        <ToolbarWithClose closeText={i18n.translate('Tutorial.Close')} onClose={close} showBackButton={false} />
         <View style={styles.flex}>
           <Carousel
             ref={carouselRef}

@@ -17,14 +17,14 @@ export const BaseQRCodeScreen = ({children, showBackButton}: BaseQRCodeScreenPro
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
+        <Box marginBottom="m">
+          <ToolbarWithClose
+            closeText={i18n.translate('DataUpload.Close')}
+            showBackButton={showBackButton}
+            onClose={close}
+          />
+        </Box>
         <ScrollView>
-          <Box marginBottom="m">
-            <ToolbarWithClose
-              closeText={i18n.translate('DataUpload.Close')}
-              showBackButton={showBackButton}
-              onClose={close}
-            />
-          </Box>
           <View style={styles.flex}>{children}</View>
         </ScrollView>
       </SafeAreaView>

@@ -10,7 +10,7 @@ import {log} from 'shared/logging/config';
 export const ExposureDateView = ({timestamp}: {timestamp?: number}) => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
-  const {forceScreen} = useCachedStorage();
+  const {forceScreen, qrEnabled} = useCachedStorage();
 
   const exposureNotificationService = useExposureNotificationService();
 
@@ -34,14 +34,22 @@ export const ExposureDateView = ({timestamp}: {timestamp?: number}) => {
   log.debug({message: 'firstThreeUniqueDates', payload: {firstThreeUniqueDates}});
   return firstThreeUniqueDates ? (
     <Box marginBottom="m">
-      <Text>{i18n.translate('Home.ExposureDetected.Notification.Received')}:</Text>
-      <>
-        {firstThreeUniqueDates.map((date, index) => (
-          <Text fontWeight={index === 0 ? 'bold' : 'normal'} key={date}>
-            {date}
-          </Text>
-        ))}
-      </>
+      {qrEnabled ? (
+        <Text>
+          {i18n.translate('Home.ExposureDetected.Notification.Received')}:{' '}
+          <Text fontWeight="bold">{firstThreeUniqueDates[0]}</Text>
+        </Text>
+      ) : (
+        <>
+          <Text>{i18n.translate('Home.ExposureDetected.Notification.Received')}: </Text>
+
+          {firstThreeUniqueDates.map((date, index) => (
+            <Text fontWeight={index === 0 ? 'bold' : 'normal'} key={date}>
+              {date}
+            </Text>
+          ))}
+        </>
+      )}
     </Box>
   ) : null;
 };
