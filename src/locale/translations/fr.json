@@ -270,7 +270,6 @@
       "Bullet2": "Les contacts de votre téléphone.",
       "Bullet3": "Vos renseignements de santé, sauf ceux que vous acceptez de fournir.",
       "Bullet4": "Les renseignements de santé des personnes à proximité."
-
     },
     "HowItWorks": {
       "Title": "Fonctionnement",
@@ -490,6 +489,9 @@
   },
   "MenuButton": "Menu",
   "QRCode": {
+    "Intro": {
+      "AltText": ""
+    },
     "CTA": "Ajouter une visite",
     "Reader": {
       "Title": "Placez votre appareil photo devant le code QR",
