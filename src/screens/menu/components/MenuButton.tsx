@@ -37,6 +37,5 @@ const styles = StyleSheet.create({
   },
   menuBoxWrap: {
     minWidth: 200,
-    flexWrap: 'nowrap',
   },
 });
