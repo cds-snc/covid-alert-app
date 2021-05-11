@@ -396,7 +396,6 @@ describe('outbreakHistory functions', () => {
         checkIn: checkIn1,
         outbreakEvent: outbreakEvent2,
       };
-
       expect(deduplicateMatches([match1, match2])).toStrictEqual([match2]);
     });
 
