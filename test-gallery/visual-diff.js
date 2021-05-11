@@ -155,7 +155,7 @@ function writeHMTL(fileName, comparisonInfo) {
     </head>
     <body>
       <header >
-        <h1 class='Titre'>${comparisonInfo}</h1>
+        <h1 class='Titre'>visual-diff</h1>
       </header>
       <div class='split'>
         <div id='leftSide'  class='side'> </div>
