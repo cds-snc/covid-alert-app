@@ -46,6 +46,14 @@ interface MatchData {
   outbreakEvent: OutbreakEvent;
 }
 
+interface MatchDeduplicationDict {
+  [checkInTimestamp: string]: {
+    outbreakEventId: string;
+    maxOutbreakEndTimestamp: number;
+    maxSeverity: OutbreakSeverity;
+  };
+}
+
 export interface OutbreakHistoryItem {
   outbreakId: string /* unique to your checkin during the outbreak event */;
   isExpired: boolean /* after 14 days the outbreak expires */;
@@ -138,9 +146,9 @@ export const getMatchedOutbreakHistoryItems = (
 
   log.debug({message: 'outbreak matches', payload: {allMatches}});
 
-  const matchTimestampDict = getMatchTimestampDict(allMatches);
-  const filteredMatches = allMatches.filter(match => filterDuplicateMatches(match, matchTimestampDict));
-  return filteredMatches.map(match => createOutbreakHistoryItem(match));
+  const validOutbreakEventIds = getValidOutbreakEventIds(allMatches);
+  const deduplicatedMatches = allMatches.filter(match => validOutbreakEventIds.indexOf(match.outbreakEvent.id) > -1);
+  return deduplicatedMatches.map(match => createOutbreakHistoryItem(match));
 };
 
 export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) => {
@@ -248,33 +256,22 @@ export const getNewOutbreakExposures = (
   return newOutbreakExposures;
 };
 
-interface MaxEndTimeDict {
-  [key: string]: number;
-}
-
-export const getMatchTimestampDict = (allMatches: MatchData[]) => {
-  const maxEndDateDict: MaxEndTimeDict = {};
-  for (let i = 0; i < allMatches.length; i++) {
-    const match = allMatches[i];
+export const getValidOutbreakEventIds = (allMatches: MatchData[]) => {
+  const deduplicationDict: MatchDeduplicationDict = {};
+  for (const match of allMatches) {
     const timestampStr = match.timestamp.toString();
-    if (Object.keys(maxEndDateDict).indexOf(timestampStr) === -1) {
-      maxEndDateDict[timestampStr] = match.outbreakEvent.endTime;
-      continue;
+    if (
+      Object.keys(deduplicationDict).indexOf(timestampStr) === -1 ||
+      deduplicationDict[timestampStr].maxOutbreakEndTimestamp < match.outbreakEvent.endTime ||
+      deduplicationDict[timestampStr].maxSeverity < match.outbreakEvent.severity
+    ) {
+      deduplicationDict[timestampStr] = {
+        maxOutbreakEndTimestamp: match.outbreakEvent.endTime,
+        maxSeverity: match.outbreakEvent.severity,
+        outbreakEventId: match.outbreakEvent.id,
+      };
     }
-    if (maxEndDateDict[timestampStr] < match.outbreakEvent.endTime) {
-      maxEndDateDict[timestampStr] = match.outbreakEvent.endTime;
-    }
   }
-  return maxEndDateDict;
-};
-
-export const filterDuplicateMatches = (match: MatchData, maxEndDateDict: MaxEndTimeDict) => {
-  const timestampStr = match.timestamp.toString();
-  if (Object.keys(maxEndDateDict).indexOf(timestampStr) === -1) {
-    throw Error(`you built the maxEndDateDict wrong, it is missing timestamp: ${timestampStr}`);
-  }
-  if (maxEndDateDict[timestampStr] === match.outbreakEvent.endTime) {
-    return true;
-  }
-  return false;
+  const validOutbreakEventIds = Object.values(deduplicationDict).map(item => item.outbreakEventId);
+  return validOutbreakEventIds;
 };

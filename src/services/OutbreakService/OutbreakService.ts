@@ -10,6 +10,7 @@ import {unzip} from 'react-native-zip-archive';
 import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+import {getRandomString} from 'shared/logging/uuid';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -31,6 +32,7 @@ export const HOURS_PER_PERIOD = 24;
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
 export interface OutbreakEvent {
+  id: string;
   locationId: string;
   // ms
   startTime: number;
@@ -212,6 +214,7 @@ export class OutbreakService {
   convertOutbreakEvents = (outbreakEvents: covidshield.OutbreakEvent[]): OutbreakEvent[] => {
     return outbreakEvents.map(event => {
       return {
+        id: getRandomString(8),
         locationId: event.locationId,
         endTime: 1000 * Number(event.endTime?.seconds),
         startTime: 1000 * Number(event.startTime?.seconds),
