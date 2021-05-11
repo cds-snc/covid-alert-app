@@ -28,9 +28,15 @@ This allows one to easily view two versions of the app, ideally from two differe
 
 For convenience, this script's output is also made into a single PDF, for easy distribution and consumption.
 
-## Calling the script
+examples:
 
+### provide two folder names
 
+where each folder will contain the output of one run of the `exploreDemoMenu.e2e.js` Detox test:
+
+`yarn visual-diff --base "ios.2021-05-06 16-18-53Z" --target "ios.2021-05-06 18-56-43Z`
+
+or
 
 ### provide two file names
 
@@ -44,11 +50,7 @@ Which should generate a visual-diff file of the following format:
 
 This file will also be placed in the `../artifacts` folder.
 
-### provide two folder names (you lose the branch naming )
-
-where each folder will contain the output of one run of the `exploreDemoMenu.e2e.js` Detox test:
-
-`yarn visual-diff --base "ios.2021-05-06 16-18-53Z" --target "ios.2021-05-06 18-56-43Z`
+Original author Andréas K.LeF.
 
 ## Future Work
 
@@ -56,4 +58,4 @@ where each folder will contain the output of one run of the `exploreDemoMenu.e2e
 
 #### --latest flag
 
-be able to pass a `--latest` flag to visual-diff that automatically grabs the two most recent  `*.html` files `/artifacts`, would be very convenient. That would mean sorting through the files, and getting the lastest couple by "most recently created" date.
+be able to pass a `--latest` flag to visual-diff that automatically grabs the two most recent  `*.html` files or folders from `/artifacts`, would be very convenient. That would mean sorting through the files and folders, and getting the lastest couple by "most recently created" date.
