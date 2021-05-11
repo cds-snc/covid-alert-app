@@ -110,7 +110,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
   });
 
   it('returns not exposed if isIgnored or expired', () => {
-    const history = {
+    const history: OutbreakHistoryItem = {
       outbreakId: '123-1612180800000',
       isExpired: false,
       isIgnored: false,
@@ -121,6 +121,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
       outbreakEndTimestamp: 1612195200000,
       checkInTimestamp: 1612180800000,
       notificationTimestamp: 1613758680944,
+      severity: 3,
     };
 
     expect(isExposedToOutbreak([history])).toStrictEqual(true);
@@ -324,6 +325,7 @@ describe('outbreakHistory functions', () => {
         outbreakEndTimestamp: 1612195200000,
         checkInTimestamp: 1612180800001,
         notificationTimestamp: 1613758680944,
+        severity: 3,
       };
 
       const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);

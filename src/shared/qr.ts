@@ -146,8 +146,7 @@ export const getMatchedOutbreakHistoryItems = (
 
   log.debug({message: 'outbreak matches', payload: {allMatches}});
 
-  const validOutbreakEventIds = getValidOutbreakEventIds(allMatches);
-  const deduplicatedMatches = allMatches.filter(match => validOutbreakEventIds.indexOf(match.outbreakEvent.id) > -1);
+  const deduplicatedMatches = deduplicateMatches(allMatches);
   return deduplicatedMatches.map(match => createOutbreakHistoryItem(match));
 };
 
@@ -256,7 +255,11 @@ export const getNewOutbreakExposures = (
   return newOutbreakExposures;
 };
 
-export const getValidOutbreakEventIds = (allMatches: MatchData[]) => {
+/**
+ * Look at all outbreak/checkin matches and remove duplicate matches
+ * so the same checkin never results in more than one exposure
+ */
+export const deduplicateMatches = (allMatches: MatchData[]) => {
   const deduplicationDict: MatchDeduplicationDict = {};
   for (const match of allMatches) {
     const timestampStr = match.timestamp.toString();
@@ -273,5 +276,6 @@ export const getValidOutbreakEventIds = (allMatches: MatchData[]) => {
     }
   }
   const validOutbreakEventIds = Object.values(deduplicationDict).map(item => item.outbreakEventId);
-  return validOutbreakEventIds;
+  const deduplicatedMatches = allMatches.filter(match => validOutbreakEventIds.indexOf(match.outbreakEvent.id) > -1);
+  return deduplicatedMatches;
 };
