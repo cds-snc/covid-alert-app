@@ -270,7 +270,6 @@
       "Bullet2": "Your phone’s contacts.",
       "Bullet3": "Your health information, except what you decide to share.",
       "Bullet4": "The health information of anyone you’re near."
-
     },
     "HowItWorks": {
       "Title": "How it works",
@@ -491,6 +490,9 @@
   },
   "MenuButton": "Menu",
   "QRCode": {
+    "Intro": {
+      "AltText": ""
+    },
     "CTA": "Add a visit",
     "Reader": {
       "Title": "Point the camera at the QR code",

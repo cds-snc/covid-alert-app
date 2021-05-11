@@ -3,7 +3,7 @@ import {Box, Text, Button, TextMultiline} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Image} from 'react-native';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
@@ -25,8 +25,13 @@ export const QRCodeIntroScreen = () => {
   return (
     <BaseQRCodeScreen>
       <Box paddingHorizontal="m">
-        <Box backgroundColor="gray5" style={styles.illustrationStyle} marginBottom="l">
-          <Text>Placeholder for illustration</Text>
+        <Box marginBottom="s">
+          <Image
+            accessible
+            style={styles.image}
+            source={require('assets/qr-code-intro.png')}
+            accessibilityLabel={i18n.translate(`QRCode.Intro.AltText`)}
+          />
         </Box>
         <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.ScanAPlace.Title')}
@@ -51,10 +56,11 @@ export const QRCodeIntroScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  illustrationStyle: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 150,
+  image: {
+    width: '100%',
+    height: 189,
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
   banner: {
     borderLeftColor: '#003678',
