@@ -47,7 +47,7 @@ const writeFile = content => {
     <title>Test-Gallery - ${title}</title>
     <style>
       h3 {
-        padding-left: 2em;
+        padding-left: 1em;
       }
       body {
         margin: 20px;

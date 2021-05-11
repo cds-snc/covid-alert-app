@@ -125,7 +125,11 @@ function writeHMTL(fileName, comparisonInfo) {
       <meta charset="UTF-8">
       <title>Visual Diff - ${comparisonInfo}</title>
       <style>
-      h3 {
+      #leftSide h3 {
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+      #rightSide h3 {
         padding-left: 2em;
       }
       body {
