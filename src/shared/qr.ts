@@ -40,7 +40,7 @@ interface MatchCalculationData {
   checkIns: CheckInData[];
 }
 
-interface MatchData {
+export interface MatchData {
   timestamp: number;
   checkIn: CheckInData;
   outbreakEvent: OutbreakEvent;
