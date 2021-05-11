@@ -45,9 +45,9 @@
   return self;
 }
 
-- (void)publishScheduledCheckMetricWithType:(ScheduledCheckMetricType)type
+- (void)publishMetric:(MetricType)type
 {
-  NSString *identifier = type == Start ? @"scheduled-check-started-today" : @"scheduled-check-successful-today";
+  NSString *identifier = [self identifierFromMetricType:type];
   
   if ([self.uniqueDailyMetricsHelper canPublishMetricWithIdentifier:identifier]) {
     
@@ -63,6 +63,18 @@
       }
     }];
     
+  }
+}
+
+- (NSString *)identifierFromMetricType:(MetricType)type
+{
+  switch (type) {
+    case ScheduledCheckStartedToday:
+      return @"scheduled-check-started-today";
+    case ScheduledCheckSuccessfulToday:
+      return @"scheduled-check-successful-today";
+    case ActiveUser:
+      return @"active-user";
   }
 }
 

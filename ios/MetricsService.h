@@ -7,9 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, ScheduledCheckMetricType) {
-  Start,
-  End
+typedef NS_ENUM(NSUInteger, MetricType) {
+  ScheduledCheckStartedToday,
+  ScheduledCheckSuccessfulToday,
+  ActiveUser
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
-- (void)publishScheduledCheckMetricWithType:(ScheduledCheckMetricType)type;
+- (void)publishMetric:(MetricType)type;
 
 @end
 
