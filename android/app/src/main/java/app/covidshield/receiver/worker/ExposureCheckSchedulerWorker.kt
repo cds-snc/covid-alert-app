@@ -39,6 +39,8 @@ class ExposureCheckSchedulerWorker (val context: Context, parameters: WorkerPara
 
         val filteredMetricsService = FilteredMetricsService.getInstance(context)
 
+        filteredMetricsService.addMetric(MetricType.ActiveUser, true)
+
         filteredMetricsService.sendDailyMetrics()
 
         filteredMetricsService.addMetric(MetricType.ScheduledCheckStartedToday, true)
