@@ -833,6 +833,7 @@ export class ExposureNotificationService {
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
+    this.migrateDisplayHistory();
     this.expireDisplayHistoryItems();
     // @todo confirm how equality works here
     if (updatedExposure !== currentExposureStatus) {
@@ -998,18 +999,22 @@ export class ExposureNotificationService {
     return {summary: currentSummary, isNext: false};
   }
 
+  public async saveDisplayExposureHistory() {
+    await this.storageService.save(
+      StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
+      JSON.stringify(this.displayExposureHistory.get()),
+    );
+  }
+
+  /** this function is only for use on the ExposureHistoryScreen - it only effects the display logic */
   public async ignoreExposure(id: string) {
-    // this function is only for use on the ExposureHistoryScreen - it only effects the display logic
     this.displayExposureHistory
       .get()
       .filter(item => item.id === id)
       .forEach(item => {
         item.isIgnored = true;
       });
-    await this.storageService.save(
-      StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
-      JSON.stringify(this.displayExposureHistory.get()),
-    );
+    await this.saveDisplayExposureHistory();
   }
 
   /** updates the `isExpired` property on the displayExposureHistory */
@@ -1020,10 +1025,36 @@ export class ExposureNotificationService {
         item.isExpired = true;
       }
     });
-    await this.storageService.save(
-      StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
-      JSON.stringify(this.displayExposureHistory.get()),
-    );
+    await this.saveDisplayExposureHistory();
+  }
+
+  /** for users who are upgrading to an app version w/ QR codes enabled, we need to
+   * populate the displayExposureHistory with timestamps from the exposureHistory */
+  public async migrateDisplayHistory() {
+    const exposureHistory = this.exposureHistory.get();
+    const exposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type !== ExposureStatusType.Exposed || exposureHistory.length === 0) {
+      return;
+    }
+    const displayExposureHistory = this.displayExposureHistory.get();
+    if (displayExposureHistory.length > 0) {
+      return;
+    }
+    exposureHistory.forEach(timestamp => {
+      const newItem: ProximityExposureHistoryItem = {
+        id: getRandomString(8),
+        isIgnored: false,
+        isExpired: false,
+        notificationTimestamp: timestamp,
+        // we have to guess at exposureTimestamp because we were not saving this
+        // for past exposures. If we guess wrong, it will just mean the past
+        // exposures will disappear from the history page a few days later than
+        // they would have.
+        exposureTimestamp: exposureStatus.summary.lastExposureTimestamp,
+      };
+      displayExposureHistory.push(newItem);
+    });
+    await this.saveDisplayExposureHistory();
   }
 
   private async loadExposureStatus() {
