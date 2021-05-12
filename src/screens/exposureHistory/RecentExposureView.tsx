@@ -72,13 +72,14 @@ export const RecentExposureScreen = () => {
         message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,
       });
     } else if (exposureType === ExposureType.Proximity) {
-      ignoreProximityExposure(historyItem.id);
-      if (proximityExposureHistory.length === 0) {
+      if (proximityExposureHistory.length === 1) {
         // if nothing left in displayProximityHistory, do the clear all thing
+        ignoreProximityExposure(historyItem.id);
         clearExposedStatus();
       } else {
         // if there are still valid entries in displayProximityHistory, just remove the one timestamp from
         // home screen
+        ignoreProximityExposure(historyItem.id);
         removeFromExposureHistory(historyItem.notificationTimestamp);
       }
 

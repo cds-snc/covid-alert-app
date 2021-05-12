@@ -213,7 +213,7 @@ export function useExposureHistory(): number[] {
 export function useDisplayExposureHistory() {
   const exposureNotificationService = useExposureNotificationService();
   const [history] = useState<ProximityExposureHistoryItem[]>(exposureNotificationService.displayExposureHistory.get());
-  const proximityExposureHistory = history.filter(item => item.isIgnored === false);
+  const proximityExposureHistory = history.filter(item => item.isIgnored === false && item.isExpired === false);
   const ignoreProximityExposure = useCallback(
     (exposureId: string) => {
       exposureNotificationService.ignoreExposure(exposureId);
