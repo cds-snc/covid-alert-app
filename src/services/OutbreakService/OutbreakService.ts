@@ -46,9 +46,20 @@ export interface OutbreakEvent {
 export class OutbreakService {
   private static instance: OutbreakService;
 
-  static sharedInstance(i18n: I18n, backendService: BackendInterface): OutbreakService {
+  static async sharedInstance(i18n: I18n, backendService: BackendInterface): Promise<OutbreakService> {
     if (!this.instance) {
-      this.instance = new this(i18n, backendService);
+      const storageService = DefaultStorageService.sharedInstance();
+      const outbreakHistory =
+        (await storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';
+      const checkInHistory = (await storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
+
+      this.instance = new this(
+        i18n,
+        backendService,
+        storageService,
+        JSON.parse(outbreakHistory),
+        JSON.parse(checkInHistory),
+      );
     }
     return this.instance;
   }
@@ -60,13 +71,19 @@ export class OutbreakService {
   private serialPromiseQueue: PQueue;
   private storageService: StorageService;
 
-  constructor(i18n: I18n, backendService: BackendInterface) {
-    this.outbreakHistory = new Observable<OutbreakHistoryItem[]>([]);
-    this.checkInHistory = new Observable<CheckInData[]>([]);
+  private constructor(
+    i18n: I18n,
+    backendService: BackendInterface,
+    storageService: StorageService,
+    outbreakHistory: OutbreakHistoryItem[],
+    checkInHistory: CheckInData[],
+  ) {
+    this.outbreakHistory = new Observable<OutbreakHistoryItem[]>(outbreakHistory);
+    this.checkInHistory = new Observable<CheckInData[]>(checkInHistory);
     this.i18n = i18n;
     this.backendService = backendService;
     this.serialPromiseQueue = new PQueue({concurrency: 1});
-    this.storageService = DefaultStorageService.sharedInstance();
+    this.storageService = storageService;
   }
 
   clearOutbreakHistory = async () => {
@@ -139,16 +156,6 @@ export class OutbreakService {
   clearCheckInHistory = async () => {
     await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify([]));
     this.checkInHistory.set([]);
-  };
-
-  init = async () => {
-    const outbreakHistory =
-      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';
-    this.outbreakHistory.set(JSON.parse(outbreakHistory));
-
-    const checkInHistory =
-      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
-    this.checkInHistory.set(JSON.parse(checkInHistory));
   };
 
   checkForOutbreaks = async (forceCheck?: boolean) => {
