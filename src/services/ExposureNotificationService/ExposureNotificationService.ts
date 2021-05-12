@@ -546,6 +546,16 @@ export class ExposureNotificationService {
     return this.finalize();
   }
 
+  async removeFromExposureHistory(exposureNotificationTimestamp: number) {
+    const exposureHistory = this.exposureHistory.get();
+    const indexToRemove = exposureHistory.indexOf(exposureNotificationTimestamp);
+    if (indexToRemove === -1) {
+      return;
+    }
+    exposureHistory.splice(indexToRemove, 1);
+    this.exposureHistory.set(exposureHistory);
+  }
+
   public getTotalSeconds = (scanInstances: ScanInstance[]) => {
     const totalSeconds = scanInstances
       .map(scan => scan.secondsSinceLastScan)

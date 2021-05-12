@@ -306,3 +306,16 @@ export function useClearExposedStatus(): [() => void] {
 
   return [clearExposedStatus];
 }
+
+export function useRemoveFromExposureHistory(): [(exposureNotificationTimestamp: number) => void] {
+  const exposureNotificationService = useExposureNotificationService();
+
+  const removeFromExposureHistory = useCallback(
+    (exposureNotificationTimestamp: number) => {
+      exposureNotificationService.removeFromExposureHistory(exposureNotificationTimestamp);
+    },
+    [exposureNotificationService],
+  );
+
+  return [removeFromExposureHistory];
+}

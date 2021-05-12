@@ -9,7 +9,11 @@ import {ExposureType} from 'shared/qr';
 import {useOutbreakService} from 'services/OutbreakService';
 import {log} from 'shared/logging/config';
 import {getCurrentDate} from 'shared/date-fns';
-import {useDisplayExposureHistory} from 'services/ExposureNotificationService';
+import {
+  useClearExposedStatus,
+  useDisplayExposureHistory,
+  useRemoveFromExposureHistory,
+} from 'services/ExposureNotificationService';
 
 import {MainStackParamList} from '../../navigation/MainNavigator';
 
@@ -34,7 +38,10 @@ export const RecentExposureScreen = () => {
   const timestamp = route.params?.timestamp;
   const i18n = useI18n();
   const {ignoreOutbreak} = useOutbreakService();
-  const {ignoreProximityExposure} = useDisplayExposureHistory();
+  const [clearExposedStatus] = useClearExposedStatus();
+  const [removeFromExposureHistory] = useRemoveFromExposureHistory();
+
+  const {proximityExposureHistory, ignoreProximityExposure} = useDisplayExposureHistory();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
   const popAlert = () => {
@@ -65,6 +72,16 @@ export const RecentExposureScreen = () => {
       });
     } else if (exposureType === ExposureType.Proximity) {
       ignoreProximityExposure(historyItem.id);
+      const validHistoryItems = proximityExposureHistory.filter(item => item.isIgnored === false);
+      if (validHistoryItems.length === 0) {
+        // if nothing left in displayProximityHistory, do the clear all thing
+        clearExposedStatus();
+      } else {
+        // if there are still valid entries in displayProximityHistory, just remove the one timestamp from
+        // home screen
+        removeFromExposureHistory(historyItem.notificationTimestamp);
+      }
+
       log.debug({
         category: 'debug',
         message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,
