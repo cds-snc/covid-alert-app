@@ -31,7 +31,7 @@ import {PollNotifications} from 'services/PollNotificationService';
 import {OutbreakService} from 'services/OutbreakService';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
-import {getLogUUID} from 'shared/logging/uuid';
+import {getRandomString} from 'shared/logging/uuid';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -955,7 +955,7 @@ export class ExposureNotificationService {
 
     const displayExposureHistory = this.displayExposureHistory.get();
     const newHistoryItem: ProximityExposureHistoryItem = {
-      id: await getLogUUID(),
+      id: getRandomString(8),
       exposureTimestamp: summary.lastExposureTimestamp,
       notificationTimestamp: exposureDetectedAt,
       isIgnored: false,
