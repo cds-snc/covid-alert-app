@@ -42,7 +42,6 @@ export const RecentExposureScreen = () => {
   const [removeFromExposureHistory] = useRemoveFromExposureHistory();
 
   const {proximityExposureHistory, ignoreProximityExposure} = useDisplayExposureHistory();
-  console.log('proximityExposureHistory', proximityExposureHistory);
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
   const popAlert = () => {
