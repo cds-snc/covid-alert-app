@@ -42,6 +42,7 @@ export const RecentExposureScreen = () => {
   const [removeFromExposureHistory] = useRemoveFromExposureHistory();
 
   const {proximityExposureHistory, ignoreProximityExposure} = useDisplayExposureHistory();
+  console.log('proximityExposureHistory', proximityExposureHistory);
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
   const popAlert = () => {
@@ -72,8 +73,7 @@ export const RecentExposureScreen = () => {
       });
     } else if (exposureType === ExposureType.Proximity) {
       ignoreProximityExposure(historyItem.id);
-      const validHistoryItems = proximityExposureHistory.filter(item => item.isIgnored === false);
-      if (validHistoryItems.length === 0) {
+      if (proximityExposureHistory.length === 0) {
         // if nothing left in displayProximityHistory, do the clear all thing
         clearExposedStatus();
       } else {

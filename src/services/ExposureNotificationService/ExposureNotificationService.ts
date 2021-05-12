@@ -62,6 +62,7 @@ export enum ExposureStatusType {
 export interface ProximityExposureHistoryItem {
   id: string;
   isIgnored: boolean;
+  isExpired: boolean;
   notificationTimestamp: number;
   exposureTimestamp: number;
 }
@@ -953,6 +954,7 @@ export class ExposureNotificationService {
       exposureTimestamp: summary.lastExposureTimestamp,
       notificationTimestamp: exposureDetectedAt,
       isIgnored: false,
+      isExpired: false,
     };
     displayExposureHistory.push(newHistoryItem);
     this.displayExposureHistory.set(displayExposureHistory);
