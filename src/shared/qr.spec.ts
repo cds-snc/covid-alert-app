@@ -364,21 +364,21 @@ describe('outbreakHistory functions', () => {
       timestamp: new Date(2021, 1, 11, 12).getTime(),
     };
     const outbreakEvent1: OutbreakEvent = {
-      id: 'outbreakEvent1',
+      dedupeId: 'outbreakEvent1',
       locationId,
       startTime: new Date(2021, 1, 10).getTime(),
       endTime: new Date(2021, 1, 11).getTime(),
       severity: 2,
     };
     const outbreakEvent2: OutbreakEvent = {
-      id: 'outbreakEvent2',
+      dedupeId: 'outbreakEvent2',
       locationId,
       startTime: new Date(2021, 1, 10).getTime(),
       endTime: new Date(2021, 1, 11).getTime(),
       severity: 3,
     };
     const outbreakEvent3: OutbreakEvent = {
-      id: 'outbreakEvent2',
+      dedupeId: 'outbreakEvent2',
       locationId,
       startTime: new Date(2021, 1, 11).getTime(),
       endTime: new Date(2021, 1, 12).getTime(),
