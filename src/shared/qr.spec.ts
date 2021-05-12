@@ -1,6 +1,9 @@
+import {OutbreakEvent} from '../services/OutbreakService';
+
 import {
   CheckInData,
   createOutbreakHistoryItem,
+  deduplicateMatches,
   doTimeWindowsOverlap,
   getMatchedOutbreakHistoryItems,
   isExposedToOutbreak,
@@ -9,6 +12,7 @@ import {
   getNewOutbreakExposures,
   expireHistoryItems,
   OutbreakHistoryItem,
+  MatchData,
 } from './qr';
 
 const getTimes = (startTimestamp, durationInMinutes: number) => {
@@ -110,7 +114,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
   });
 
   it('returns not exposed if isIgnored or expired', () => {
-    const history = {
+    const history: OutbreakHistoryItem = {
       outbreakId: '123-1612180800000',
       isExpired: false,
       isIgnored: false,
@@ -121,6 +125,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
       outbreakEndTimestamp: 1612195200000,
       checkInTimestamp: 1612180800000,
       notificationTimestamp: 1613758680944,
+      severity: 3,
     };
 
     expect(isExposedToOutbreak([history])).toStrictEqual(true);
@@ -324,6 +329,7 @@ describe('outbreakHistory functions', () => {
         outbreakEndTimestamp: 1612195200000,
         checkInTimestamp: 1612180800001,
         notificationTimestamp: 1613758680944,
+        severity: 3,
       };
 
       const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
@@ -340,6 +346,71 @@ describe('outbreakHistory functions', () => {
           outbreakId: '123-1612180800001',
         }),
       );
+    });
+  });
+
+  describe('deduplicateMatches', () => {
+    const locationId = 'abc123';
+    const checkIn1: CheckInData = {
+      id: locationId,
+      name: 'Burgers',
+      address: '123 King St',
+      timestamp: new Date(2021, 1, 10, 12).getTime(),
+    };
+    const checkIn2: CheckInData = {
+      id: locationId,
+      name: 'Burgers',
+      address: '123 King St',
+      timestamp: new Date(2021, 1, 11, 12).getTime(),
+    };
+    const outbreakEvent1: OutbreakEvent = {
+      dedupeId: 'outbreakEvent1',
+      locationId,
+      startTime: new Date(2021, 1, 10).getTime(),
+      endTime: new Date(2021, 1, 11).getTime(),
+      severity: 2,
+    };
+    const outbreakEvent2: OutbreakEvent = {
+      dedupeId: 'outbreakEvent2',
+      locationId,
+      startTime: new Date(2021, 1, 10).getTime(),
+      endTime: new Date(2021, 1, 11).getTime(),
+      severity: 3,
+    };
+    const outbreakEvent3: OutbreakEvent = {
+      dedupeId: 'outbreakEvent2',
+      locationId,
+      startTime: new Date(2021, 1, 11).getTime(),
+      endTime: new Date(2021, 1, 12).getTime(),
+      severity: 3,
+    };
+
+    it('filters out duplicate matches with a lower severity', () => {
+      const match1: MatchData = {
+        timestamp: checkIn1.timestamp,
+        checkIn: checkIn1,
+        outbreakEvent: outbreakEvent1,
+      };
+      const match2: MatchData = {
+        timestamp: checkIn1.timestamp,
+        checkIn: checkIn1,
+        outbreakEvent: outbreakEvent2,
+      };
+      expect(deduplicateMatches([match1, match2])).toStrictEqual([match2]);
+    });
+
+    it('does not filter out non duplicate matches', () => {
+      const match1: MatchData = {
+        timestamp: checkIn1.timestamp,
+        checkIn: checkIn1,
+        outbreakEvent: outbreakEvent1,
+      };
+      const match2: MatchData = {
+        timestamp: checkIn2.timestamp,
+        checkIn: checkIn2,
+        outbreakEvent: outbreakEvent3,
+      };
+      expect(deduplicateMatches([match1, match2])).toStrictEqual([match1, match2]);
     });
   });
 

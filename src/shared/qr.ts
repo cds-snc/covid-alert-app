@@ -40,10 +40,18 @@ interface MatchCalculationData {
   checkIns: CheckInData[];
 }
 
-interface MatchData {
+export interface MatchData {
   timestamp: number;
   checkIn: CheckInData;
   outbreakEvent: OutbreakEvent;
+}
+
+interface MatchDeduplicationDict {
+  [checkInTimestamp: string]: {
+    outbreakEventId: string;
+    maxOutbreakEndTimestamp: number;
+    maxSeverity: OutbreakSeverity;
+  };
 }
 
 export interface OutbreakHistoryItem {
@@ -134,11 +142,12 @@ export const getMatchedOutbreakHistoryItems = (
   const matchedOutbreakIdsNotUnique = checkInLocationMatches.map(data => data.id);
   const matchedOutbreakIds = Array.from(new Set(matchedOutbreakIdsNotUnique));
 
-  const matches = getMatches({outbreakEvents, checkInHistory, matchedOutbreakIds});
+  const allMatches = getMatches({outbreakEvents, checkInHistory, matchedOutbreakIds});
 
-  log.debug({message: 'outbreak matches', payload: {matches}});
+  log.debug({message: 'outbreak matches', payload: {allMatches}});
 
-  return matches.map(match => createOutbreakHistoryItem(match));
+  const deduplicatedMatches = deduplicateMatches(allMatches);
+  return deduplicatedMatches.map(match => createOutbreakHistoryItem(match));
 };
 
 export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) => {
@@ -244,4 +253,36 @@ export const getNewOutbreakExposures = (
   const newIds = detectedIds.filter(id => oldIds.indexOf(id) === -1);
   const newOutbreakExposures = detectedExposures.filter(item => newIds.indexOf(item.outbreakId) > -1);
   return newOutbreakExposures;
+};
+
+const isKeyInObject = (key: string, object: object) => {
+  return Object.keys(object).indexOf(key) === -1;
+};
+
+const isSeverityHigher = (match: MatchData, deduplicationDict: MatchDeduplicationDict) => {
+  const timestampStr = match.timestamp.toString();
+  return deduplicationDict[timestampStr].maxSeverity < match.outbreakEvent.severity;
+};
+
+/**
+ * Look at all outbreak/checkin matches and remove duplicate matches
+ * so the same checkin never results in more than one exposure
+ */
+export const deduplicateMatches = (allMatches: MatchData[]) => {
+  const deduplicationDict: MatchDeduplicationDict = {};
+  for (const match of allMatches) {
+    const timestampStr = match.timestamp.toString();
+    if (isKeyInObject(timestampStr, deduplicationDict) || isSeverityHigher(match, deduplicationDict)) {
+      deduplicationDict[timestampStr] = {
+        maxOutbreakEndTimestamp: match.outbreakEvent.endTime,
+        maxSeverity: match.outbreakEvent.severity,
+        outbreakEventId: match.outbreakEvent.dedupeId,
+      };
+    }
+  }
+  const validOutbreakEventIds = Object.values(deduplicationDict).map(item => item.outbreakEventId);
+  const deduplicatedMatches = allMatches.filter(
+    match => validOutbreakEventIds.indexOf(match.outbreakEvent.dedupeId) > -1,
+  );
+  return deduplicatedMatches;
 };
