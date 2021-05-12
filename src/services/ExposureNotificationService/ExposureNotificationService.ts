@@ -17,6 +17,7 @@ import {
   daysBetween,
   parseSavedTimestamps,
   secondsBetween,
+  getHoursBetween,
 } from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
@@ -832,6 +833,7 @@ export class ExposureNotificationService {
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
+    this.expireDisplayHistoryItems();
     // @todo confirm how equality works here
     if (updatedExposure !== currentExposureStatus) {
       log.debug({
@@ -1004,6 +1006,20 @@ export class ExposureNotificationService {
       .forEach(item => {
         item.isIgnored = true;
       });
+    await this.storageService.save(
+      StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
+      JSON.stringify(this.displayExposureHistory.get()),
+    );
+  }
+
+  /** updates the `isExpired` property on the displayExposureHistory */
+  public async expireDisplayHistoryItems() {
+    this.displayExposureHistory.get().forEach(item => {
+      const hoursSinceExposure = getHoursBetween(new Date(item.exposureTimestamp), getCurrentDate());
+      if (hoursSinceExposure > HOURS_PER_PERIOD * EXPOSURE_NOTIFICATION_CYCLE) {
+        item.isExpired = true;
+      }
+    });
     await this.storageService.save(
       StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
       JSON.stringify(this.displayExposureHistory.get()),
