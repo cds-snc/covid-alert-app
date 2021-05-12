@@ -1,6 +1,10 @@
 {
   "testRunner": "jest",
-  "runnerConfig": "e2e/config.json",
+  "runnerConfig": "e2e/runnerConfig.json",
+  "artifacts": {
+    "rootDir": "artifacts",
+    "pathBuilder": "./e2e/pathbuilder.js"
+  },
   "configurations": {
     "ios": {
       "type": "ios.simulator",

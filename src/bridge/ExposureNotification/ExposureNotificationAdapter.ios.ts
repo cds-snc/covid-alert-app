@@ -43,14 +43,7 @@ export default function ExposureNotificationAdapter(exposureNotificationAPI: Exp
       });
 
       captureMessage('summaries', {summaries});
-      const fakeSummary: ExposureSummary = {
-        attenuationDurations: [20 * 60, 20 * 60, 0],
-        maximumRiskScore: 1,
-        daysSinceLastExposure: 8,
-        matchedKeyCount: 1,
-      };
-      fakeSummary.lastExposureTimestamp = getLastExposureTimestamp(fakeSummary);
-      return [fakeSummary];
+      return summaries;
     },
     getPendingExposureSummary: async () => undefined,
     getExposureWindowsIos: async (configuration: ExposureConfiguration, diagnosisKeysURLs: string[]) => {
