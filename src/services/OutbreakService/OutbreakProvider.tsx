@@ -9,8 +9,7 @@ import {CheckInData} from '../../shared/qr';
 import {OutbreakService} from './OutbreakService';
 
 export const createOutbreakService = async (i18n: I18n, backendService: BackendInterface) => {
-  const service = new OutbreakService(i18n, backendService);
-  await service.init();
+  const service = await OutbreakService.sharedInstance(i18n, backendService);
   return service;
 };
 

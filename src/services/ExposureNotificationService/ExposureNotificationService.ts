@@ -280,7 +280,8 @@ export class ExposureNotificationService {
       await this.processNotification();
       const qrEnabled = (await this.storageService.retrieve(StorageDirectory.GlobalQrEnabledKey)) === '1';
       if (qrEnabled) {
-        OutbreakService.sharedInstance(this.i18n, this.backendInterface).checkForOutbreaks();
+        const outbreakService = await OutbreakService.sharedInstance(this.i18n, this.backendInterface);
+        await outbreakService.checkForOutbreaks();
       }
 
       const exposureStatus = this.exposureStatus.get();
