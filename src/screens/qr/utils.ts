@@ -49,7 +49,7 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
       base64Str = base64.encodeFromByteArray(data);
     }
 
-    const _locationData = b64Decodeutf8(base64.decode(base64Str));
+    const _locationData = b64DecodeUtf8(base64.decode(base64Str));
 
     const locationData = parseData(_locationData);
 
@@ -136,7 +136,7 @@ const combine = (array: GroupedCheckInData[]) => {
   return groupedArray;
 };
 
-const b64Decodeutf8 = (b64str: string) => {
+const b64DecodeUtf8 = (b64str: string) => {
   // @ts-ignore
   return decodeURIComponent(
     b64str
