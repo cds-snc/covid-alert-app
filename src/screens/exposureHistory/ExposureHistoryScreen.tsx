@@ -14,11 +14,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentDate} from 'shared/date-fns';
-import {
-  useDisplayExposureHistory,
-  useClearExposedStatus,
-  ProximityExposureHistoryItem,
-} from 'services/ExposureNotificationService';
+import {useDisplayExposureHistory, ProximityExposureHistoryItem} from 'services/ExposureNotificationService';
 import {log} from 'shared/logging/config';
 
 import {ExposureList} from './views/ExposureList';
@@ -77,16 +73,12 @@ export const ExposureHistoryScreen = () => {
   const [state, setState] = useState(ExposureHistoryScreenState);
   const i18n = useI18n();
   const outbreaks = useOutbreakService();
-  const [clearExposedStatus] = useClearExposedStatus();
   const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
   const {proximityExposureHistory, ignoreAllProximityExposures} = useDisplayExposureHistory();
   const mergedArray = [
     ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
     ...toProximityExposureHistoryData({proximityExposureHistory, i18n}),
   ];
-  const clearProximityExposure = useCallback(() => {
-    clearExposedStatus();
-  }, [clearExposedStatus]);
 
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
@@ -105,7 +97,6 @@ export const ExposureHistoryScreen = () => {
           onPress: () => {
             outbreaks.clearOutbreakHistory();
             ignoreAllProximityExposures();
-            clearProximityExposure();
             setState({...state, exposureHistoryClearedDate: getCurrentDate()});
           },
           style: 'cancel',
