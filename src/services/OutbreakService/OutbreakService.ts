@@ -86,7 +86,7 @@ export class OutbreakService {
     this.storageService = storageService;
   }
 
-  clearOutbreakHistory = async () => {
+  ignoreAllOutbreaks = async () => {
     this.outbreakHistory.get().forEach(outbreak => {
       outbreak.isIgnored = true;
     });
@@ -103,6 +103,29 @@ export class OutbreakService {
       .forEach(outbreak => {
         outbreak.isIgnored = true;
       });
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
+      JSON.stringify(this.outbreakHistory.get()),
+    );
+  };
+
+  ignoreOutbreakFromHistory = async (outbreakId: string) => {
+    this.outbreakHistory
+      .get()
+      .filter(outbreak => outbreak.id === outbreakId)
+      .forEach(outbreak => {
+        outbreak.isIgnoredFromHistory = true;
+      });
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
+      JSON.stringify(this.outbreakHistory.get()),
+    );
+  };
+
+  ignoreAllOutbreaksFromHistory = async () => {
+    this.outbreakHistory.get().forEach(outbreak => {
+      outbreak.isIgnoredFromHistory = true;
+    });
     await this.storageService.save(
       StorageDirectory.OutbreakServiceOutbreakHistoryKey,
       JSON.stringify(this.outbreakHistory.get()),

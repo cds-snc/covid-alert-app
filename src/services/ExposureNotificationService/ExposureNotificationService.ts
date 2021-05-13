@@ -62,7 +62,7 @@ export enum ExposureStatusType {
 
 export interface ProximityExposureHistoryItem {
   id: string;
-  isIgnored: boolean;
+  isIgnoredFromHistory: boolean;
   isExpired: boolean;
   notificationTimestamp: number;
   exposureTimestamp: number;
@@ -951,7 +951,7 @@ export class ExposureNotificationService {
       id: getRandomString(8),
       exposureTimestamp: summary.lastExposureTimestamp,
       notificationTimestamp: exposureDetectedAt,
-      isIgnored: false,
+      isIgnoredFromHistory: false,
       isExpired: false,
     };
     displayExposureHistory.push(newHistoryItem);
@@ -997,12 +997,12 @@ export class ExposureNotificationService {
   }
 
   /** this function is only for use on the ExposureHistoryScreen - it only effects the display logic */
-  public async ignoreExposure(id: string) {
+  public async ignoreExposureFromHistory(id: string) {
     this.displayExposureHistory
       .get()
       .filter(item => item.id === id)
       .forEach(item => {
-        item.isIgnored = true;
+        item.isIgnoredFromHistory = true;
       });
     await this.saveDisplayExposureHistory();
   }
@@ -1038,10 +1038,11 @@ export class ExposureNotificationService {
       await this.setHasMigratedDisplayHistory();
       return;
     }
+    log.debug({category: 'debug', message: 'migrating exposureHistory to displayExposureHistory'});
     for (const timestamp of exposureHistory) {
       const newItem: ProximityExposureHistoryItem = {
         id: getRandomString(8),
-        isIgnored: false,
+        isIgnoredFromHistory: false,
         isExpired: false,
         notificationTimestamp: timestamp,
         // we have to guess at exposureTimestamp because we were not saving this

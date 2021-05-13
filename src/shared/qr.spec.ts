@@ -8,7 +8,6 @@ import {
   getMatchedOutbreakHistoryItems,
   isExposedToOutbreak,
   TimeWindow,
-  ignoreHistoryItems,
   getNewOutbreakExposures,
   expireHistoryItems,
   OutbreakHistoryItem,
@@ -266,50 +265,6 @@ describe('outbreakHistory functions', () => {
         expect.objectContaining({
           id: getOutbreakId(checkIns[2]),
           isExpired: false,
-        }),
-      );
-    });
-  });
-
-  // Ignore
-  describe('ignoreHistoryItems', () => {
-    it('ignores items with ids that are passed in', () => {
-      const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
-      const updatedHistory = ignoreHistoryItems(
-        [getOutbreakId(checkIns[0]), getOutbreakId(checkIns[1])],
-        ignoreHistoryItems([], history),
-      );
-
-      expect(updatedHistory[0]).toStrictEqual(
-        expect.objectContaining({
-          id: getOutbreakId(checkIns[0]),
-          isIgnored: true,
-        }),
-      );
-
-      expect(updatedHistory[1]).toStrictEqual(
-        expect.objectContaining({
-          id: getOutbreakId(checkIns[1]),
-          isIgnored: true,
-        }),
-      );
-    });
-
-    it('does not ignore items with ids not passed in', () => {
-      const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
-      const updatedHistory = ignoreHistoryItems([getOutbreakId(checkIns[0])], history);
-
-      expect(updatedHistory[0]).toStrictEqual(
-        expect.objectContaining({
-          id: getOutbreakId(checkIns[0]),
-          isIgnored: true,
-        }),
-      );
-
-      expect(updatedHistory[1]).toStrictEqual(
-        expect.objectContaining({
-          id: getOutbreakId(checkIns[1]),
-          isIgnored: false,
         }),
       );
     });

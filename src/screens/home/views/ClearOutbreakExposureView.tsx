@@ -13,11 +13,11 @@ export const ClearOutbreakExposureScreen = () => {
   const i18n = useI18n();
 
   const close = useCallback(() => navigation.navigate('Home', {timestamp: getMillisSinceUTCEpoch()}), [navigation]);
-  const {clearOutbreakHistory} = useOutbreakService();
+  const {ignoreAllOutbreaks} = useOutbreakService();
   const onClearOutbreak = useCallback(async () => {
-    clearOutbreakHistory();
+    ignoreAllOutbreaks();
     setState({...state, exposureHistoryClearedDate: getCurrentDate()});
-  }, [clearOutbreakHistory, state]);
+  }, [ignoreAllOutbreaks, state]);
   const onClearOutbreakExposed = useCallback(() => {
     Alert.alert(i18n.translate('ClearOutbreakExposure.Alert.Title'), undefined, [
       {

@@ -59,6 +59,7 @@ export interface OutbreakHistoryItem {
   id: string /* unique to your checkin during the outbreak event */;
   isExpired: boolean /* after 14 days the outbreak expires */;
   isIgnored: boolean /* if user has a negative test result */;
+  isIgnoredFromHistory: boolean /* if user deletes from history page */;
   locationId: string;
   locationAddress: string;
   locationName: string;
@@ -97,20 +98,7 @@ export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): Outb
   });
 };
 
-/** returns a new outbreakHistory with the `isIgnored` property updated */
-export const ignoreHistoryItems = (
-  outbreakIds: string[],
-  outbreakHistory: OutbreakHistoryItem[],
-): OutbreakHistoryItem[] => {
-  return outbreakHistory.map(historyItem => {
-    if (outbreakIds.indexOf(historyItem.id) > -1) {
-      return {...historyItem, isIgnored: true};
-    }
-    return {...historyItem};
-  });
-};
-
-export const getCurrentOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
+export const getNonIgnoredOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
   return outbreakHistory.filter(outbreak => {
     if (outbreak.isExpired || outbreak.isIgnored) {
       return false;
@@ -119,8 +107,17 @@ export const getCurrentOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]
   });
 };
 
+export const getNonIgnoredFromHistoryOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
+  return outbreakHistory.filter(outbreak => {
+    if (outbreak.isExpired || outbreak.isIgnoredFromHistory) {
+      return false;
+    }
+    return true;
+  });
+};
+
 export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
-  const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
+  const currentOutbreakHistory = getNonIgnoredOutbreakHistory(outbreakHistory);
 
   if (currentOutbreakHistory.length > 0) {
     return true;
@@ -239,6 +236,7 @@ export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistory
     id: `${locationId}-${checkInTimestamp}`,
     isExpired: false,
     isIgnored: false,
+    isIgnoredFromHistory: false,
     locationId,
     locationAddress: matchData.checkIn.address,
     locationName: matchData.checkIn.name,

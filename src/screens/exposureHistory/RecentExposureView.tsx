@@ -10,8 +10,7 @@ import {useOutbreakService} from 'services/OutbreakService';
 import {log} from 'shared/logging/config';
 import {getCurrentDate} from 'shared/date-fns';
 import {useDisplayExposureHistory} from 'services/ExposureNotificationService';
-
-import {MainStackParamList} from '../../navigation/MainNavigator';
+import {MainStackParamList} from 'navigation/MainNavigator';
 
 import {OutbreakExposureContent} from './views/OutbreakExposureContent';
 import {ProximityExposureContent} from './views/ProximityExposureContent';
@@ -33,9 +32,9 @@ export const RecentExposureScreen = () => {
   const exposureType = route.params?.exposureType;
   const timestamp = route.params?.timestamp;
   const i18n = useI18n();
-  const {ignoreOutbreak} = useOutbreakService();
+  const {ignoreOutbreakFromHistory} = useOutbreakService();
 
-  const {ignoreProximityExposure} = useDisplayExposureHistory();
+  const {ignoreProximityExposureFromHistory} = useDisplayExposureHistory();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
   const popAlert = () => {
@@ -59,13 +58,13 @@ export const RecentExposureScreen = () => {
     }
     const historyItem = route.params.historyItem;
     if (exposureType === ExposureType.Outbreak) {
-      ignoreOutbreak(historyItem.id);
+      ignoreOutbreakFromHistory(historyItem.id);
       log.debug({
         category: 'debug',
         message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,
       });
     } else if (exposureType === ExposureType.Proximity) {
-      ignoreProximityExposure(historyItem.id);
+      ignoreProximityExposureFromHistory(historyItem.id);
       log.debug({
         category: 'debug',
         message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,
