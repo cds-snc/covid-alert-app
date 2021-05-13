@@ -501,9 +501,8 @@
     },
     "CheckInView": {
       "Title": "Merci d’avoir ajouté une visite",
-      "Body1": "Vous ne serez avisé que si la santé publique détecte un risque d’exposition lié à votre visite. Vos visites ",
-      "Body2": "ne sont communiquées à personne.\n\n",
-      "Body3": "N’oubliez pas de scanner à chaque visite.",
+      "Body1": "Vous ne serez avisé que si la santé publique détecte un risque d’exposition lié à votre visite.",
+      "Body2": "Vos visites **ne sont communiquées à personne.**\n\nN’oubliez pas de scanner à chaque visite.",
       "Body4": "Vous pouvez supprimer cette visite en tout temps en allant dans Vos visites.",
       "CTA1": "Retour à l’écran d’accueil",
       "CTA2": "Vos visites",

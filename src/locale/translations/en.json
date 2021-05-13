@@ -534,8 +534,7 @@
     "CheckInView": {
       "Title": "Thank you for adding a visit",
       "Body1": "You’ll only be notified if public health finds an exposure risk from your visit. ",
-      "Body2": "Your visits are not shared ",
-      "Body3": "with anyone.\n\nRemember to scan each time you visit.",
+      "Body2": "**Your visits are not shared** with anyone.\n\nRemember to scan each time you visit.",
       "Body4": "You can delete this visit any time by going into Your visits.",
       "CTA1": "Back to home",
       "CTA2": "Your visits",

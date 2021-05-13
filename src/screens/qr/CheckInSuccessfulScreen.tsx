@@ -8,6 +8,7 @@ import {accessibilityReadableDate, getScannedTime, formatExposedDate} from 'shar
 import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
+import {BoldText} from 'shared/BoldText';
 
 interface CheckInSuccessfulRoute {
   route: {
@@ -64,8 +65,7 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
             <Box paddingBottom="m">
               <Text>
                 {i18n.translate('QRCode.CheckInView.Body1')}
-                <Text fontWeight="bold">{i18n.translate('QRCode.CheckInView.Body2')}</Text>
-                {i18n.translate('QRCode.CheckInView.Body3')}
+                <Text>{BoldText(i18n.translate('QRCode.CheckInView.Body2'))}</Text>
               </Text>
             </Box>
             <Box paddingBottom="l">
