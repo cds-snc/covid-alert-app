@@ -28,9 +28,19 @@ export const QRCodeScanner = () => {
 
       FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.QrCodeSuccessfullyScanned});
 
+      log.debug({
+        category: 'qr-code',
+        message: 'successful scan',
+        payload: {checkInData},
+      });
+
       navigation.navigate('CheckInSuccessfulScreen', checkInData);
     } catch (error) {
-      log.debug({message: `Incorrect code with type ${type} and data ${data} has been scanned!`, payload: {error}});
+      log.debug({
+        category: 'qr-code',
+        message: `Incorrect code with type ${type} and data ${data} has been scanned!`,
+        payload: {error},
+      });
       navigation.navigate('InvalidQRCodeScreen');
     }
   };
