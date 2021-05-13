@@ -53,7 +53,7 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
                         .setConstraints(workerConstraints)
                         .build()
 
-                workManager.enqueueUniquePeriodicWork("exposureCheckSchedulerWorker", ExistingPeriodicWorkPolicy.REPLACE, workerRequest)
+                workManager.enqueueUniquePeriodicWork("exposureCheckSchedulerWorker", ExistingPeriodicWorkPolicy.KEEP, workerRequest)
                 promise.resolve(null)
             } catch (exception: Exception) {
                 filteredMetricsService.addDebugMetric(108.0, exception.message ?: "Unknown")
