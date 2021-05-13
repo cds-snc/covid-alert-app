@@ -3,10 +3,10 @@ import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {Text, ButtonSingleLine, Box, RoundedBox} from 'components';
 import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
+import {BoldText} from 'shared/BoldText';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
-import {BoldText} from 'shared/BoldText';
 
 export const DiagnosedShareView = () => {
   const i18n = useI18n();

@@ -3,9 +3,9 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button, ButtonSingleLine} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import {BoldText} from 'shared/BoldText';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
-import {BoldText} from 'shared/BoldText';
 
 export const Step0Screen = () => {
   const i18n = useI18n();
