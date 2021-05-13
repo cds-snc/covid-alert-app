@@ -126,7 +126,6 @@ export const getMatchedOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
   outbreakEvents: OutbreakEvent[],
 ): OutbreakHistoryItem[] => {
-  log.debug({message: 'fetching outbreak locations', payload: {outbreakEvents}});
   const outbreakIds = outbreakEvents.map(event => event.locationId);
 
   const checkInLocationMatches = checkInHistory.filter(checkIn => {
@@ -144,7 +143,7 @@ export const getMatchedOutbreakHistoryItems = (
 
   const allMatches = getMatches({outbreakEvents, checkInHistory, matchedOutbreakIds});
 
-  log.debug({message: 'outbreak matches', payload: {allMatches}});
+  log.debug({category: 'qr-code', message: 'outbreak matches', payload: {allMatches}});
 
   const deduplicatedMatches = deduplicateMatches(allMatches);
   return deduplicatedMatches.map(match => createOutbreakHistoryItem(match));

@@ -123,50 +123,19 @@ const fetchNotifications = async (): Promise<NotificationMessage[]> => {
   try {
     if (etag) {
       headers['If-None-Match'] = etag;
-      log.debug({
-        category: 'debug',
-        message: 'headers',
-        payload: headers,
-      });
-      log.debug({
-        category: 'debug',
-        message: 'Received etag from storage',
-        payload: etag,
-      });
     }
-    log.debug({
-      category: 'debug',
-      message: 'NOTIFICATION_FEED_URL',
-      payload: NOTIFICATION_FEED_URL,
-    });
+
     const response = await fetch(NOTIFICATION_FEED_URL.toString(), {
       method: 'GET',
       headers,
     });
-    log.debug({
-      category: 'debug',
-      message: 'fetchNotifications() response status',
-      payload: {status: response.status},
-    });
 
     if (response.status === 304) {
-      log.debug({
-        category: 'debug',
-        message: 'No feed changes, skipping',
-      });
       return [];
     }
-    log.debug({
-      category: 'debug',
-      message: 'Feed updated',
-    });
     const newEtag = response.headers.get('Etag');
 
     if (newEtag) {
-      log.debug({
-        category: 'debug',
-        message: 'Storing etag',
-      });
       await DefaultStorageService.sharedInstance().save(
         StorageDirectory.PollNotificationServiceEtagStorageKey,
         newEtag,
@@ -174,18 +143,8 @@ const fetchNotifications = async (): Promise<NotificationMessage[]> => {
     }
 
     const json = await response.json();
-    log.debug({
-      category: 'debug',
-      message: response.toString(),
-      payload: json.messages,
-    });
     return json.messages as [NotificationMessage];
   } catch (error) {
-    log.error({
-      category: 'debug',
-      message: 'PollNotificationService fetchNotifications() error',
-      error,
-    });
     return [];
   }
 };
@@ -195,11 +154,6 @@ const shouldPollNotifications = (lastPollNotificationDateTime: Date | null): boo
 
   const today = getCurrentDate();
   const minutesSinceLastPollNotification = minutesBetween(new Date(Number(lastPollNotificationDateTime)), today);
-
-  log.debug({
-    category: 'debug',
-    message: `Minutes Since Last Poll Notification: ${minutesSinceLastPollNotification}, MinimumUploadMinutes: ${MIN_POLL_NOTIFICATION_MINUTES}`,
-  });
 
   return minutesSinceLastPollNotification > MIN_POLL_NOTIFICATION_MINUTES;
 };
