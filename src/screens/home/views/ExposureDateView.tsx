@@ -29,6 +29,7 @@ export const ExposureDateView = ({timestamp}: {timestamp?: number}) => {
   const formattedDates = dates.map(date => {
     return formatExposedDate(date, dateLocale);
   });
+  log.debug({message: 'allExposedDates', payload: {allExposedDates: formattedDates}});
   const firstThreeUniqueDates = getFirstThreeUniqueDates(formattedDates);
   log.debug({message: 'firstThreeUniqueDates', payload: {firstThreeUniqueDates}});
   return firstThreeUniqueDates ? (
