@@ -1031,16 +1031,24 @@ export class ExposureNotificationService {
   /** for users who are upgrading to an app version w/ QR codes enabled, we need to
    * populate the displayExposureHistory with timestamps from the exposureHistory */
   public async migrateDisplayHistory() {
+    const hasMigratedDisplayHistory = await this.storageService.retrieve(
+      StorageDirectory.ExposureNotificationServiceHasMigratedDisplayHistory,
+    );
+    if (hasMigratedDisplayHistory === '1') {
+      return;
+    }
     const exposureHistory = this.exposureHistory.get();
     const exposureStatus = this.exposureStatus.get();
     if (exposureStatus.type !== ExposureStatusType.Exposed || exposureHistory.length === 0) {
+      await this.setHasMigratedDisplayHistory();
       return;
     }
     const displayExposureHistory = this.displayExposureHistory.get();
     if (displayExposureHistory.length > 0) {
+      await this.setHasMigratedDisplayHistory();
       return;
     }
-    exposureHistory.forEach(timestamp => {
+    for (const timestamp of exposureHistory) {
       const newItem: ProximityExposureHistoryItem = {
         id: getRandomString(8),
         isIgnored: false,
@@ -1053,8 +1061,13 @@ export class ExposureNotificationService {
         exposureTimestamp: exposureStatus.summary.lastExposureTimestamp,
       };
       displayExposureHistory.push(newItem);
-    });
+    }
     await this.saveDisplayExposureHistory();
+    await this.setHasMigratedDisplayHistory();
+  }
+
+  private async setHasMigratedDisplayHistory() {
+    await this.storageService.save(StorageDirectory.ExposureNotificationServiceHasMigratedDisplayHistory, '1');
   }
 
   private async loadExposureStatus() {

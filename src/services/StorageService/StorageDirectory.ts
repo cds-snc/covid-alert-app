@@ -77,6 +77,11 @@ export class StorageDirectory {
     storageType: StorageType.Unsecure,
   };
 
+  static readonly ExposureNotificationServiceHasMigratedDisplayHistory: KeyDefinition = {
+    keyIdentifier: 'hasMigratedDisplayHistory',
+    storageType: StorageType.Unsecure,
+  };
+
   static readonly ExposureNotificationServiceSubmissionAuthKeysKey: KeyDefinition = {
     keyIdentifier: 'submissionAuthKeys',
     storageType: StorageType.Secure,
