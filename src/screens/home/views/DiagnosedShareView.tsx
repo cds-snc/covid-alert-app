@@ -6,6 +6,7 @@ import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
+import {BoldText} from 'shared/BoldText';
 
 export const DiagnosedShareView = () => {
   const i18n = useI18n();
@@ -25,8 +26,7 @@ export const DiagnosedShareView = () => {
           {i18n.translate('Home.DiagnosedShareView.Body1')}
         </Text>
         <Text variant="bodyText" testID="bodyText" color="bodyText">
-          <Text fontWeight="bold">{i18n.translate('Home.DiagnosedShareView.Body2')}</Text>
-          {i18n.translate('Home.DiagnosedShareView.Body3')}
+          <Text>{BoldText(i18n.translate('Home.DiagnosedShareView.Body2'))}</Text>
         </Text>
         <Box alignSelf="stretch" marginTop="l" marginBottom="m">
           <ButtonSingleLine

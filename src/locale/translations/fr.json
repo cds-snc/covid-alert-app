@@ -74,8 +74,7 @@
     "DiagnosedShareView": {
       "Title": "Partager les nouvelles expositions",
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel : ",
-      "Body3": "Pour contribuer à la sécurité des autres, vous devez partager vos nouvelles expositions tous les jours, surtout si vous avez à sortir de la maison.",
+      "Body2": "**Rappel:** Pour contribuer à la sécurité des autres, vous devez partager vos nouvelles expositions tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Partager les nouvelles expositions"
     },
     "BluetoothDisabled": "Bluetooth désactivé",

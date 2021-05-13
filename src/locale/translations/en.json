@@ -69,8 +69,7 @@
     "DiagnosedShareView": {
       "Title": "Share new exposures",
       "Body1": "Thanks for helping slow the spread!",
-      "Body2": "Reminder: ",
-      "Body3": "To help keep people safe, you need to share your new exposures every day, especially if you have to leave your home.",
+      "Body2": "**Reminder:** To help keep people safe, you need to share your new exposures every day, especially if you have to leave your home.",
       "ButtonCTA": "Share new exposures"
     },
     "DiagnosedShareUploadView": {
