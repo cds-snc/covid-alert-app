@@ -31,7 +31,6 @@ const parseData = (data: string) => {
 
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
   const [scheme, , host] = url.split('/');
-
   if (scheme !== 'https:' || host !== QR_HOST) {
     throw new Error('bad URL from QR code');
   }
@@ -50,11 +49,12 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
       base64Str = base64.encodeFromByteArray(data);
     }
 
-    const _locationData = base64.decode(base64Str);
+    const _locationData = b64DecodeUtf8(base64.decode(base64Str));
 
     const locationData = parseData(_locationData);
 
     log.debug({message: 'decoded and parsed location data', payload: {locationData}});
+
     const checkInData: CheckInData = {
       id: locationData.id,
       name: locationData.name,
@@ -134,4 +134,16 @@ const combine = (array: GroupedCheckInData[]) => {
     return arr;
   }, {});
   return groupedArray;
+};
+
+const b64DecodeUtf8 = (b64str: string) => {
+  // @ts-ignore
+  return decodeURIComponent(
+    b64str
+      .split('')
+      .map(function (str) {
+        return `%${`00${str.charCodeAt(0).toString(16)}`.slice(-2)}`;
+      })
+      .join(''),
+  );
 };

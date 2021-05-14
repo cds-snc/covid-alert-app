@@ -183,6 +183,7 @@ export class OutbreakService {
 
   checkForOutbreaks = async (forceCheck?: boolean) => {
     return this.serialPromiseQueue.add(async () => {
+      log.debug({category: 'qr-code', message: 'fetching outbreak locations...'});
       if ((await this.shouldPerformOutbreaksCheck()) || forceCheck === true) {
         const outbreaksFileUrls: string[] = [];
         const outbreaksLastCheckedDate = await getOutbreaksLastCheckedDateTime(this.storageService);
@@ -199,6 +200,13 @@ export class OutbreakService {
           }
 
           const outbreakEvents = await this.extractOutbreakEventsFromZipFiles(outbreaksFileUrls);
+
+          log.debug({
+            category: 'qr-code',
+            message: 'checkForOutbreaks',
+            payload: {outbreakEvents, checkInHistory: this.checkInHistory.get()},
+          });
+
           if (outbreakEvents.length === 0) {
             return;
           }
@@ -208,11 +216,19 @@ export class OutbreakService {
           const detectedOutbreakExposures = getMatchedOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
 
           if (detectedOutbreakExposures.length === 0) {
+            log.debug({
+              category: 'qr-code',
+              message: 'detectedOutbreakExposures === 0',
+            });
             return;
           }
 
           const newOutbreakExposures = getNewOutbreakExposures(detectedOutbreakExposures, this.outbreakHistory.get());
           if (newOutbreakExposures.length === 0) {
+            log.debug({
+              category: 'qr-code',
+              message: 'newOutbreakExposures === 0',
+            });
             return;
           }
 
@@ -221,6 +237,10 @@ export class OutbreakService {
           const outbreakHistory = this.outbreakHistory.get();
 
           if (isExposedToOutbreak(outbreakHistory)) {
+            log.debug({
+              category: 'qr-code',
+              message: 'exposed',
+            });
             FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedToOutbreak});
             this.processOutbreakNotification();
           }
@@ -237,6 +257,11 @@ export class OutbreakService {
       if (outbreaksLastCheckedDateTime === null) return true;
       const today = getCurrentDate();
       const minutesSinceLastOutbreaksCheck = minutesBetween(outbreaksLastCheckedDateTime, today);
+      log.debug({
+        category: 'qr-code',
+        message: 'shouldPerformOutbreaksCheck-minutesSinceLastOutbreaksCheck',
+        payload: {minutesSinceLastOutbreaksCheck},
+      });
       return minutesSinceLastOutbreaksCheck > MIN_OUTBREAKS_CHECK_MINUTES;
     } catch {
       return true;
@@ -278,7 +303,8 @@ export class OutbreakService {
     }
 
     log.debug({
-      category: 'exposure-check',
+      category: 'qr-code',
+      message: 'extractOutbreakEventsFromZipFiles',
       payload: outbreaks,
     });
 
@@ -286,6 +312,11 @@ export class OutbreakService {
   };
 
   processOutbreakNotification = () => {
+    log.debug({
+      category: 'qr-code',
+      message: 'processOutbreakNotification',
+    });
+
     PushNotification.presentLocalNotification({
       alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
       alertBody: this.i18n.translate('Notification.OutbreakMessageIsolate'),
