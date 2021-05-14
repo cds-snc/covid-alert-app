@@ -11,12 +11,12 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const navigation = useNavigation();
   const onDetails = useCallback(
-    ({timestamp, exposureType, historyItem}) =>
-      navigation.navigate('RecentExposureScreen', {timestamp, exposureType, historyItem}),
+    ({notificationTimestamp, exposureType, historyItem}) =>
+      navigation.navigate('RecentExposureScreen', {notificationTimestamp, exposureType, historyItem}),
     [navigation],
   );
   exposureHistoryData.sort(function (first, second) {
-    return second.timestamp - first.timestamp;
+    return second.notificationTimestamp - first.notificationTimestamp;
   });
   const getRadiusStyle = (index: number) => {
     if (index === 0) {
@@ -31,14 +31,14 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
     <>
       {exposureHistoryData.map((item, index) => {
         return (
-          <Box key={item.timestamp}>
+          <Box key={item.notificationTimestamp}>
             <Box backgroundColor="gray5" style={getRadiusStyle(index)}>
               <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
                 <TouchableOpacity
                   style={styles.chevronIcon}
                   onPress={() => {
                     onDetails({
-                      timestamp: item.timestamp,
+                      notificationTimestamp: item.notificationTimestamp,
                       exposureType: item.exposureType,
                       historyItem: item.historyItem,
                     });
@@ -46,7 +46,9 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
                 >
                   <Box paddingVertical="m" style={styles.exposureList}>
                     <Box style={styles.boxFlex}>
-                      <Text fontWeight="bold">{formatExposedDate(new Date(item.timestamp), dateLocale)}</Text>
+                      <Text fontWeight="bold">
+                        {formatExposedDate(new Date(item.notificationTimestamp), dateLocale)}
+                      </Text>
                       <Text>{item.subtitle}</Text>
                     </Box>
                     <Box style={styles.chevronIconBox} paddingRight="s">

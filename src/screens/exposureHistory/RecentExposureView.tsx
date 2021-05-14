@@ -30,7 +30,7 @@ const ExposureContent = ({exposureType, timestamp}: {exposureType: ExposureType;
 export const RecentExposureScreen = () => {
   const route = useRoute<RecentExposureScreenProps>();
   const exposureType = route.params?.exposureType;
-  const timestamp = route.params?.timestamp;
+  const notificationTimestamp = route.params?.notificationTimestamp;
   const i18n = useI18n();
   const {ignoreOutbreakFromHistory} = useOutbreakService();
 
@@ -84,7 +84,7 @@ export const RecentExposureScreen = () => {
             </Box>
           </Box>
           <Box marginHorizontal="m">
-            <ExposureContent exposureType={exposureType} timestamp={timestamp} />
+            <ExposureContent exposureType={exposureType} timestamp={notificationTimestamp} />
             <Box marginTop="m">
               <ButtonSingleLine
                 iconName="icon-chevron"

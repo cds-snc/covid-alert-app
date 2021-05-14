@@ -42,7 +42,7 @@ const toOutbreakExposureHistoryData = ({
     return {
       exposureType: ExposureType.Outbreak,
       subtitle: severityText({severity: Number(outbreak.severity), i18n}),
-      timestamp: outbreak.checkInTimestamp,
+      notificationTimestamp: outbreak.notificationTimestamp,
       historyItem: outbreak,
     };
   });
@@ -59,7 +59,7 @@ const toProximityExposureHistoryData = ({
     return {
       exposureType: ExposureType.Proximity,
       subtitle: i18n.translate('QRCode.ProximityExposure'),
-      timestamp: item.notificationTimestamp,
+      notificationTimestamp: item.notificationTimestamp,
       historyItem: item,
     };
   });

@@ -72,13 +72,13 @@ export interface OutbreakHistoryItem {
 
 export type CombinedExposureHistoryData =
   | {
-      timestamp: number;
+      notificationTimestamp: number;
       exposureType: ExposureType.Outbreak;
       subtitle: string;
       historyItem: OutbreakHistoryItem;
     }
   | {
-      timestamp: number;
+      notificationTimestamp: number;
       exposureType: ExposureType.Proximity;
       subtitle: string;
       historyItem: ProximityExposureHistoryItem;
