@@ -996,7 +996,10 @@ export class ExposureNotificationService {
     );
   }
 
-  /** this function is only for use on the ExposureHistoryScreen - it only effects the display logic */
+  /** this function is only for use on the ExposureHistoryScreen - it only effects the display logic
+   * this function is so we can delete an exposure from the history screen without effecting the
+   * home screen.
+   */
   public async ignoreExposureFromHistory(id: string) {
     this.displayExposureHistory
       .get()
