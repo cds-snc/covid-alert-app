@@ -4,7 +4,7 @@ import {useI18n, I18n} from 'locale';
 import {
   CombinedExposureHistoryData,
   ExposureType,
-  getNonIgnoredFromHistoryOutbreakHistory,
+  getNonIgnoredOutbreakHistory,
   OutbreakHistoryItem,
   OutbreakSeverity,
 } from 'shared/qr';
@@ -73,10 +73,10 @@ export const ExposureHistoryScreen = () => {
   const [state, setState] = useState(ExposureHistoryScreenState);
   const i18n = useI18n();
   const outbreaks = useOutbreakService();
-  const nonIgnoredFromHistoryOutbreakHistory = getNonIgnoredFromHistoryOutbreakHistory(outbreaks.outbreakHistory);
-  const {proximityExposureHistory, ignoreAllProximityExposuresFromHistory} = useDisplayExposureHistory();
+  const nonIgnoredOutbreakHistory = getNonIgnoredOutbreakHistory(outbreaks.outbreakHistory);
+  const {proximityExposureHistory, ignoreAllProximityExposures} = useDisplayExposureHistory();
   const mergedArray = [
-    ...toOutbreakExposureHistoryData({history: nonIgnoredFromHistoryOutbreakHistory, i18n}),
+    ...toOutbreakExposureHistoryData({history: nonIgnoredOutbreakHistory, i18n}),
     ...toProximityExposureHistoryData({proximityExposureHistory, i18n}),
   ];
 
@@ -95,8 +95,8 @@ export const ExposureHistoryScreen = () => {
         {
           text: i18n.translate('ExposureHistory.Alert.ConfirmDeleteAll'),
           onPress: () => {
-            outbreaks.ignoreAllOutbreaksFromHistory();
-            ignoreAllProximityExposuresFromHistory();
+            outbreaks.ignoreAllOutbreaks();
+            ignoreAllProximityExposures();
             setState({...state, exposureHistoryClearedDate: getCurrentDate()});
           },
           style: 'cancel',

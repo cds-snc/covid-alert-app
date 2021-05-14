@@ -59,7 +59,6 @@ export interface OutbreakHistoryItem {
   id: string /* unique to your checkin during the outbreak event */;
   isExpired: boolean /* after 14 days the outbreak expires */;
   isIgnored: boolean /* if user has a negative test result */;
-  isIgnoredFromHistory: boolean /* if user deletes from history page */;
   locationId: string;
   locationAddress: string;
   locationName: string;
@@ -101,15 +100,6 @@ export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): Outb
 export const getNonIgnoredOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
   return outbreakHistory.filter(outbreak => {
     if (outbreak.isExpired || outbreak.isIgnored) {
-      return false;
-    }
-    return true;
-  });
-};
-
-export const getNonIgnoredFromHistoryOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
-  return outbreakHistory.filter(outbreak => {
-    if (outbreak.isExpired || outbreak.isIgnoredFromHistory) {
       return false;
     }
     return true;
@@ -235,7 +225,6 @@ export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistory
     id: `${locationId}-${checkInTimestamp}`,
     isExpired: false,
     isIgnored: false,
-    isIgnoredFromHistory: false,
     locationId,
     locationAddress: matchData.checkIn.address,
     locationName: matchData.checkIn.name,

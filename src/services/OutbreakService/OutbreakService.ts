@@ -109,29 +109,6 @@ export class OutbreakService {
     );
   };
 
-  ignoreOutbreakFromHistory = async (outbreakId: string) => {
-    this.outbreakHistory
-      .get()
-      .filter(outbreak => outbreak.id === outbreakId)
-      .forEach(outbreak => {
-        outbreak.isIgnoredFromHistory = true;
-      });
-    await this.storageService.save(
-      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
-      JSON.stringify(this.outbreakHistory.get()),
-    );
-  };
-
-  ignoreAllOutbreaksFromHistory = async () => {
-    this.outbreakHistory.get().forEach(outbreak => {
-      outbreak.isIgnoredFromHistory = true;
-    });
-    await this.storageService.save(
-      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
-      JSON.stringify(this.outbreakHistory.get()),
-    );
-  };
-
   addToOutbreakHistory = async (value: OutbreakHistoryItem[]) => {
     const _outbreakHistory =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceOutbreakHistoryKey)) || '[]';

@@ -62,7 +62,7 @@ export enum ExposureStatusType {
 
 export interface ProximityExposureHistoryItem {
   id: string;
-  isIgnoredFromHistory: boolean;
+  isIgnored: boolean;
   isExpired: boolean;
   notificationTimestamp: number;
   exposureTimestamp: number;
@@ -951,7 +951,7 @@ export class ExposureNotificationService {
       id: getRandomString(8),
       exposureTimestamp: summary.lastExposureTimestamp,
       notificationTimestamp: exposureDetectedAt,
-      isIgnoredFromHistory: false,
+      isIgnored: false,
       isExpired: false,
     };
     displayExposureHistory.push(newHistoryItem);
@@ -1000,12 +1000,12 @@ export class ExposureNotificationService {
    * this function is so we can delete an exposure from the history screen without effecting the
    * home screen.
    */
-  public async ignoreExposureFromHistory(id: string) {
+  public async ignoreExposure(id: string) {
     this.displayExposureHistory
       .get()
       .filter(item => item.id === id)
       .forEach(item => {
-        item.isIgnoredFromHistory = true;
+        item.isIgnored = true;
       });
     await this.saveDisplayExposureHistory();
   }
@@ -1045,7 +1045,7 @@ export class ExposureNotificationService {
     for (const timestamp of exposureHistory) {
       const newItem: ProximityExposureHistoryItem = {
         id: getRandomString(8),
-        isIgnoredFromHistory: false,
+        isIgnored: false,
         isExpired: false,
         notificationTimestamp: timestamp,
         // we have to guess at exposureTimestamp because we were not saving this

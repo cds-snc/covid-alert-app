@@ -32,9 +32,9 @@ export const RecentExposureScreen = () => {
   const exposureType = route.params?.exposureType;
   const notificationTimestamp = route.params?.notificationTimestamp;
   const i18n = useI18n();
-  const {ignoreOutbreakFromHistory} = useOutbreakService();
+  const {ignoreOutbreak} = useOutbreakService();
 
-  const {ignoreProximityExposureFromHistory} = useDisplayExposureHistory();
+  const {ignoreProximityExposure} = useDisplayExposureHistory();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
   const popAlert = () => {
@@ -58,13 +58,13 @@ export const RecentExposureScreen = () => {
     }
     const historyItem = route.params.historyItem;
     if (exposureType === ExposureType.Outbreak) {
-      ignoreOutbreakFromHistory(historyItem.id);
+      ignoreOutbreak(historyItem.id);
       log.debug({
         category: 'debug',
         message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,
       });
     } else if (exposureType === ExposureType.Proximity) {
-      ignoreProximityExposureFromHistory(historyItem.id);
+      ignoreProximityExposure(historyItem.id);
       log.debug({
         category: 'debug',
         message: `clearing ${exposureType} exposure with id: ${historyItem.id}`,

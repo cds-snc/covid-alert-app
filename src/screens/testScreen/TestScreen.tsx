@@ -107,11 +107,11 @@ const Content = () => {
   const navigation = useNavigation();
 
   const {reset, qrEnabled, setQrEnabled} = useCachedStorage();
-  const {checkForOutbreaks, ignoreAllOutbreaksFromHistory} = useOutbreakService();
+  const {checkForOutbreaks, ignoreAllOutbreaks} = useOutbreakService();
   const [toggleState, setToggleState] = useState<boolean>(qrEnabled);
   const onClearOutbreak = useCallback(async () => {
-    ignoreAllOutbreaksFromHistory();
-  }, [ignoreAllOutbreaksFromHistory]);
+    ignoreAllOutbreaks();
+  }, [ignoreAllOutbreaks]);
 
   const onCheckForOutbreak = useCallback(async () => {
     checkForOutbreaks(true);
