@@ -14,8 +14,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentDate} from 'shared/date-fns';
-import {useDisplayExposureHistory, ProximityExposureHistoryItem} from 'services/ExposureNotificationService';
+import {
+  useDisplayExposureHistory,
+  ProximityExposureHistoryItem,
+  useClearExposedStatus,
+  useExposureStatus,
+} from 'services/ExposureNotificationService';
 import {log} from 'shared/logging/config';
+import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 
 import {ExposureList} from './views/ExposureList';
 import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
@@ -72,6 +78,8 @@ export const ExposureHistoryScreenState = {
 export const ExposureHistoryScreen = () => {
   const [state, setState] = useState(ExposureHistoryScreenState);
   const i18n = useI18n();
+  const [clearExposedStatus] = useClearExposedStatus();
+  const exposureStatus = useExposureStatus();
   const outbreaks = useOutbreakService();
   const nonIgnoredFromHistoryOutbreakHistory = getNonIgnoredFromHistoryOutbreakHistory(outbreaks.outbreakHistory);
   const {proximityExposureHistory, ignoreAllProximityExposuresFromHistory} = useDisplayExposureHistory();
@@ -96,7 +104,10 @@ export const ExposureHistoryScreen = () => {
           text: i18n.translate('ExposureHistory.Alert.ConfirmDeleteAll'),
           onPress: () => {
             outbreaks.ignoreAllOutbreaksFromHistory();
+            outbreaks.ignoreAllOutbreaks();
             ignoreAllProximityExposuresFromHistory();
+            clearExposedStatus();
+            FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
             setState({...state, exposureHistoryClearedDate: getCurrentDate()});
           },
           style: 'cancel',
