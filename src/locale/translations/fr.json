@@ -326,15 +326,11 @@
     "IntermediateStep": {
       "Title": "Finir le partage d’expositions",
       "List": {
-        "1a": "1. ",
-        "1b": "Fait.",
-        "2a": "2. Vous fournissez quelques précisions ",
-        "2b": "qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
-        "3a": "3. Vous autorisez votre téléphone ",
-        "3b": "à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
+        "1": "**1.** Fait.",
+        "2": "**2. Vous fournissez quelques précisions** qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
+        "3": "**3. Vous autorisez votre téléphone** à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
       },
-      "Body1": "Personne n’obtiendra de renseignements sur vous ",
-      "Body2": "ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
+      "Body": "**Personne n’obtiendra de renseignements sur vous** ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
       "CTA": "Suivant"
     },
     "Step2": {
