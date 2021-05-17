@@ -216,18 +216,12 @@ export function useDisplayExposureHistory() {
   const proximityExposureHistory = history.filter(
     item => item.isIgnoredFromHistory === false && item.isExpired === false,
   );
-  const ignoreProximityExposureFromHistory = useCallback(
-    (exposureId: string) => {
-      exposureNotificationService.ignoreExposureFromHistory(exposureId);
-    },
-    [exposureNotificationService],
-  );
   const ignoreAllProximityExposuresFromHistory = useCallback(() => {
     proximityExposureHistory.forEach(item => {
       exposureNotificationService.ignoreExposureFromHistory(item.id);
     });
   }, [exposureNotificationService, proximityExposureHistory]);
-  return {proximityExposureHistory, ignoreProximityExposureFromHistory, ignoreAllProximityExposuresFromHistory};
+  return {proximityExposureHistory, ignoreAllProximityExposuresFromHistory};
 }
 
 export function useUpdateExposureStatus(): (forceCheck?: boolean) => void {

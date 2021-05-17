@@ -87,13 +87,6 @@ export const useOutbreakService = () => {
     [outbreakService],
   );
 
-  const ignoreOutbreakFromHistory = useMemo(
-    () => (outbreakId: string) => {
-      outbreakService.ignoreOutbreakFromHistory(outbreakId);
-    },
-    [outbreakService],
-  );
-
   const ignoreAllOutbreaksFromHistory = useMemo(
     () => () => {
       outbreakService.ignoreAllOutbreaksFromHistory();
@@ -111,7 +104,6 @@ export const useOutbreakService = () => {
       outbreakHistory,
       ignoreAllOutbreaks,
       ignoreOutbreak,
-      ignoreOutbreakFromHistory,
       ignoreAllOutbreaksFromHistory,
       checkForOutbreaks,
       addCheckIn,
@@ -124,7 +116,6 @@ export const useOutbreakService = () => {
       outbreakHistory,
       ignoreAllOutbreaks,
       ignoreOutbreak,
-      ignoreOutbreakFromHistory,
       ignoreAllOutbreaksFromHistory,
       checkForOutbreaks,
       addCheckIn,
