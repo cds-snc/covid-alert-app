@@ -10,6 +10,7 @@
 #import "MetricsPusher.h"
 #import <UIKit/UIDevice.h>
 #import "UniqueDailyMetricsHelper.h"
+#import <RNCAsyncStorage/RNCAsyncStorage.h>
 
 @interface MetricsService ()
 
@@ -45,15 +46,17 @@
   return self;
 }
 
-- (void)publishScheduledCheckMetricWithType:(ScheduledCheckMetricType)type
+- (void)publishMetric:(MetricType)type bridge:(RCTBridge *)bridge
 {
-  NSString *identifier = type == Start ? @"scheduled-check-started-today" : @"scheduled-check-successful-today";
+  NSString *identifier = [self identifierFromMetricType:type];
   
   if ([self.uniqueDailyMetricsHelper canPublishMetricWithIdentifier:identifier]) {
     
+    NSString *region = [self getRegionWithBridge:bridge];
+    
     NSNumber *timestamp = @((long long)([[NSDate date] timeIntervalSince1970] * 1000.0));
     
-    Metric *metric = [[Metric alloc] initWithTimestamp:timestamp identifier:identifier region:@"None"];
+    Metric *metric = [[Metric alloc] initWithTimestamp:timestamp identifier:identifier region:region];
     
     NSData *jsonPayload = [self.jsonSerializer serializeToJsonWithTimestamp:timestamp metric:metric];
     
@@ -64,6 +67,35 @@
     }];
     
   }
+}
+
+- (NSString *)identifierFromMetricType:(MetricType)type
+{
+  switch (type) {
+    case ScheduledCheckStartedToday:
+      return @"scheduled-check-started-today";
+    case ScheduledCheckSuccessfulToday:
+      return @"scheduled-check-successful-today";
+    case ActiveUser:
+      return @"active-user";
+  }
+}
+
+- (NSString *)getRegionWithBridge:(RCTBridge *)bridge
+{
+  __block NSString *region = @"None";
+  
+  RNCAsyncStorage *asyncStorage = [bridge moduleForClass:[RNCAsyncStorage class]];
+  
+  dispatch_sync(asyncStorage.methodQueue, ^{
+    [asyncStorage multiGet:@[@"Region"] callback:^(NSArray *response) {
+        if (![response[0] isKindOfClass:[NSError class]] && ![response[1][0][1] isKindOfClass:[NSNull class]]) {
+          region = response[1][0][1];
+        }
+    }];
+  });
+  
+  return region;
 }
 
 @end

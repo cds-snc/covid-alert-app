@@ -13,7 +13,6 @@ export enum EventTypeMetric {
   EnToggle = 'en-toggle',
   ExposedClear = 'exposed-clear',
   BackgroundCheck = 'background-check',
-  ActiveUser = 'active-user',
   BackgroundProcess = 'background-process',
   QrCodeSuccessfullyScanned = 'qr-code-successfully-scanned',
   ExposedToOutbreak = 'exposed-outbreak',
@@ -46,9 +45,6 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.BackgroundCheck;
-    }
-  | {
-      type: EventTypeMetric.ActiveUser;
     }
   | {
       type: EventTypeMetric.BackgroundProcess;
@@ -123,8 +119,6 @@ export class DefaultMetricsFilter implements MetricsFilter {
         break;
       case EventTypeMetric.BackgroundCheck:
         return this.processBackgroundCheckEvent();
-      case EventTypeMetric.ActiveUser:
-        return this.processActiveUserEvent();
       case EventTypeMetric.BackgroundProcess:
         return Promise.resolve({
           eventType: EventTypeMetric.BackgroundProcess,
@@ -237,30 +231,6 @@ export class DefaultMetricsFilter implements MetricsFilter {
       } else {
         return this.stateStorage.saveBackgroundCheckEvents([newBackgroundCheckEvent]).then(() => null);
       }
-    });
-  }
-
-  private processActiveUserEvent(): Promise<FilteredEvent | null> {
-    const markAndCreateEvent = (): Promise<FilteredEvent> => {
-      return this.stateStorage.updateLastActiveUserSentDateToNow().then(() => {
-        return {
-          eventType: EventTypeMetric.ActiveUser,
-          payload: [],
-          shouldBePushedToServerRightAway: true,
-        };
-      });
-    };
-
-    return this.stateStorage.getLastActiveUserEventSentDate().then(lastActiveUserEventSentDate => {
-      if (lastActiveUserEventSentDate) {
-        if (daysBetweenUTC(lastActiveUserEventSentDate, getCurrentDate()) > 0) {
-          return markAndCreateEvent();
-        }
-      } else {
-        return markAndCreateEvent();
-      }
-
-      return null;
     });
   }
 }

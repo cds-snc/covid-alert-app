@@ -186,8 +186,6 @@ export class ExposureNotificationService {
   };
 
   executeExposureCheck = async () => {
-    await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
-
     try {
       await this.updateExposureStatusInBackground();
     } catch (error) {

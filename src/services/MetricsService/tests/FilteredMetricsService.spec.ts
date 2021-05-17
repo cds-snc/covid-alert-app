@@ -52,32 +52,6 @@ describe('FilteredMetricsService', () => {
     jest.clearAllMocks();
   });
 
-  it('addEvent does not publish metric if filtered event is null', async () => {
-    metricsFilter.filterEvent.mockReturnValue(Promise.resolve(null));
-
-    await sut.addEvent({type: EventTypeMetric.ActiveUser});
-    expect(metricsService.publishMetric).not.toHaveBeenCalled();
-  });
-
-  it('addEvent publishes metric if filtered event is not null', async () => {
-    metricsFilter.filterEvent.mockReturnValue(
-      Promise.resolve({eventType: EventTypeMetric.ActiveUser, payload: [], shouldBePushedToServerRightAway: true}),
-    );
-
-    await sut.addEvent({type: EventTypeMetric.ActiveUser});
-    expect(metricsService.publishMetric).toHaveBeenCalled();
-  });
-
-  it('sendDailyMetrics publishes delayed metric if there is one and sends daily metrics', async () => {
-    metricsFilter.getDelayedOnboardedEventIfPublishable.mockReturnValue(
-      Promise.resolve({eventType: EventTypeMetric.ActiveUser, payload: [], shouldBePushedToServerRightAway: true}),
-    );
-
-    await sut.sendDailyMetrics('', '');
-    expect(metricsService.publishMetric).toHaveBeenCalled();
-    expect(metricsService.sendDailyMetrics).toHaveBeenCalled();
-  });
-
   it('sendDailyMetrics does not publish delayed metric if there is none and still sends daily metrics', async () => {
     metricsFilter.getDelayedOnboardedEventIfPublishable.mockReturnValue(Promise.resolve(null));
 

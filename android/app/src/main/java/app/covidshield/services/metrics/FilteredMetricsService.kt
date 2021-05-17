@@ -2,14 +2,17 @@ package app.covidshield.services.metrics
 
 import android.content.Context
 import app.covidshield.BuildConfig
+import app.covidshield.services.storage.StorageDirectory
+import app.covidshield.services.storage.StorageService
 import app.covidshield.utils.DateUtils
 import app.covidshield.utils.SingletonHolder
 import kotlinx.coroutines.runBlocking
 
-enum class MetricType(val identifier: String) {
-    PackageUpdated("android-package-replaced"),
-    ScheduledCheckStartedToday("scheduled-check-started-today"),
-    ScheduledCheckSuccessfulToday("scheduled-check-successful-today")
+enum class MetricType(val identifier: String, val shouldBePushedToServerRightAway: Boolean) {
+    PackageUpdated("android-package-replaced", false),
+    ScheduledCheckStartedToday("scheduled-check-started-today", false),
+    ScheduledCheckSuccessfulToday("scheduled-check-successful-today", false),
+    ActiveUser("active-user", true)
 }
 
 interface FilteredMetricsService {
@@ -39,8 +42,9 @@ class DefaultFilteredMetricsService constructor(private val context: Context) : 
     override suspend fun addMetric(metricType: MetricType, oncePerUTCDay: Boolean) {
 
         suspend fun pushMetric() {
-            val metric = Metric(DateUtils.getCurrentLocalDate().time, metricType.identifier, "None", emptyMap())
-            metricsService.publishMetric(metric)
+            val region = StorageService.getInstance(context).retrieve(StorageDirectory.Region) ?: "None"
+            val metric = Metric(DateUtils.getCurrentLocalDate().time, metricType.identifier, region, emptyMap())
+            metricsService.publishMetric(metric, metricType.shouldBePushedToServerRightAway)
         }
 
         if (oncePerUTCDay) {

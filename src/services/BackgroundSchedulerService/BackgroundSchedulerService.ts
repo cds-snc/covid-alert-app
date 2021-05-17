@@ -1,7 +1,7 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {AppRegistry, Platform} from 'react-native';
 import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
-import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
+import {FilteredMetricsService} from 'services/MetricsService';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 
@@ -137,7 +137,6 @@ const registerAndroidHeadlessPeriodicTask = (task: PeriodicTask) => {
         FilteredMetricsService.sharedInstance(),
       );
       registerPeriodicTask(async () => {
-        await FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ActiveUser});
         await exposureNotificationService.updateExposureStatusInBackground();
       }, exposureNotificationService);
     } catch (error) {

@@ -1,4 +1,3 @@
-import {getCurrentDate} from 'shared/date-fns';
 import {StorageService, StorageDirectory} from 'services/StorageService';
 
 export interface MetricsFilterStateStorage {
@@ -11,9 +10,6 @@ export interface MetricsFilterStateStorage {
 
   getBackgroundCheckEvents(): Promise<Date[]>;
   saveBackgroundCheckEvents(events: Date[]): Promise<void>;
-
-  getLastActiveUserEventSentDate(): Promise<Date | null>;
-  updateLastActiveUserSentDateToNow(): Promise<void>;
 }
 
 export class DefaultMetricsFilterStateStorage implements MetricsFilterStateStorage {
@@ -76,19 +72,6 @@ export class DefaultMetricsFilterStateStorage implements MetricsFilterStateStora
     return this.storageService.save(
       StorageDirectory.MetricsFilterStateStorageBackgroundCheckEventMarkerKey,
       eventsAsListOfTimestamps.join(','),
-    );
-  }
-
-  getLastActiveUserEventSentDate(): Promise<Date | null> {
-    return this.storageService
-      .retrieve(StorageDirectory.MetricsFilterStateStorageActiveUserEventMarkerKey)
-      .then(value => (value ? new Date(Number(value)) : null));
-  }
-
-  updateLastActiveUserSentDateToNow(): Promise<void> {
-    return this.storageService.save(
-      StorageDirectory.MetricsFilterStateStorageActiveUserEventMarkerKey,
-      `${getCurrentDate().getTime()}`,
     );
   }
 }
