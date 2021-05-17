@@ -225,6 +225,7 @@ export class ExposureNotificationService {
     try {
       await this.loadExposureStatus();
       await this.loadExposureHistory();
+      await this.loadDisplayExposureHistory();
       if (Platform.OS === 'ios') {
         await this.exposureNotification.activate();
       }
@@ -1086,7 +1087,6 @@ export class ExposureNotificationService {
     } catch (error) {
       log.debug({message: "'No EXPOSURE_HISTORY found"});
     }
-    await this.loadDisplayExposureHistory();
   }
 
   private async loadDisplayExposureHistory() {
