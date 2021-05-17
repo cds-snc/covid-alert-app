@@ -91,9 +91,7 @@
       "CTA": "Enable COVID Alert",
       "AndroidTitle2": "Not sure about turning on Location?",
       "AndroidBody1": "You need to have Location turned on for COVID Alert to work. To use Bluetooth scanning, Android phones need Location setting on for all apps.",
-      "AndroidBody2a": "Despite that, ",
-      "AndroidBody2b": "COVID Alert does not use GPS to track your location. ",
-      "AndroidBody2c": "You can check the app’s permissions in your phone’s settings. You’ll see it does not have permission for location services."
+      "AndroidBody2": "Despite that, **COVID Alert does not use GPS to track your location.** You can check the app’s permissions in your phone’s settings. You’ll see it does not have permission for location services."
     },
     "FrameworkUnavailable": {
       "Title": "Something went wrong",
