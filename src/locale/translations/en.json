@@ -367,8 +367,7 @@
     "ConsentView": {
       "Title": "Now you can upload your codes",
       "Body1": "Your phone will ask your permission to upload your most recent random codes or “random IDs”.",
-      "Body2a": "Nobody will get any information about you ",
-      "Body2b": "or the time you were near them.",
+      "Body2": "**Nobody will get any information about you** or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
       "Action": "Agree"
     },
