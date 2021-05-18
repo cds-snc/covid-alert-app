@@ -11,8 +11,7 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const navigation = useNavigation();
   const onDetails = useCallback(
-    ({notificationTimestamp, exposureType, historyItem}) =>
-      navigation.navigate('RecentExposureScreen', {notificationTimestamp, exposureType, historyItem}),
+    ({exposureHistoryItem}) => navigation.navigate('RecentExposureScreen', {exposureHistoryItem}),
     [navigation],
   );
   exposureHistoryData.sort(function (first, second) {
@@ -38,9 +37,7 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
                   style={styles.chevronIcon}
                   onPress={() => {
                     onDetails({
-                      notificationTimestamp: item.notificationTimestamp,
-                      exposureType: item.exposureType,
-                      historyItem: item.historyItem,
+                      exposureHistoryItem: item,
                     });
                   }}
                 >

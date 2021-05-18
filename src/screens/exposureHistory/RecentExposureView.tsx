@@ -5,7 +5,7 @@ import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
-import {ExposureType} from 'shared/qr';
+import {CombinedExposureHistoryData, ExposureType} from 'shared/qr';
 import {MainStackParamList} from 'navigation/MainNavigator';
 
 import {OutbreakExposureContent} from './views/OutbreakExposureContent';
@@ -13,20 +13,19 @@ import {ProximityExposureContent} from './views/ProximityExposureContent';
 
 type RecentExposureScreenProps = RouteProp<MainStackParamList, 'RecentExposureScreen'>;
 
-const ExposureContent = ({exposureType, timestamp}: {exposureType: ExposureType; timestamp: number}) => {
-  if (exposureType === ExposureType.Outbreak) {
-    return <OutbreakExposureContent timestamp={timestamp} />;
+const ExposureContent = ({exposureHistoryItem}: {exposureHistoryItem: CombinedExposureHistoryData}) => {
+  if (exposureHistoryItem.exposureType === ExposureType.Outbreak) {
+    return <OutbreakExposureContent historyItem={exposureHistoryItem.historyItem} />;
   }
-  if (exposureType === ExposureType.Proximity) {
-    return <ProximityExposureContent timestamp={timestamp} />;
+  if (exposureHistoryItem.exposureType === ExposureType.Proximity) {
+    return <ProximityExposureContent timestamp={exposureHistoryItem.notificationTimestamp} />;
   }
   return null;
 };
 
 export const RecentExposureScreen = () => {
   const route = useRoute<RecentExposureScreenProps>();
-  const exposureType = route.params?.exposureType;
-  const notificationTimestamp = route.params?.notificationTimestamp;
+  const exposureHistoryItem = route.params?.exposureHistoryItem;
   const i18n = useI18n();
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
@@ -42,7 +41,7 @@ export const RecentExposureScreen = () => {
             </Box>
           </Box>
           <Box marginHorizontal="m">
-            <ExposureContent exposureType={exposureType} timestamp={notificationTimestamp} />
+            <ExposureContent exposureHistoryItem={exposureHistoryItem} />
           </Box>
         </ScrollView>
       </SafeAreaView>
