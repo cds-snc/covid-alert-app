@@ -6,6 +6,18 @@ import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon} from 'components';
 import {formatExposedDate} from 'shared/date-fns';
 
+const getRadiusStyle = (index: number, listLength: number) => {
+  if (listLength === 1) {
+    return styles.fullRadius;
+  }
+  if (index === 0) {
+    return styles.radiusTop;
+  }
+  if (index === listLength - 1) {
+    return styles.radiusBottom;
+  }
+};
+
 export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExposureHistoryData[]}) => {
   const i18n = useI18n();
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
@@ -17,21 +29,13 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
   exposureHistoryData.sort(function (first, second) {
     return second.notificationTimestamp - first.notificationTimestamp;
   });
-  const getRadiusStyle = (index: number) => {
-    if (index === 0) {
-      return styles.radiusTop;
-    }
-    if (index === exposureHistoryData.length - 1) {
-      return styles.radiusBottom;
-    }
-  };
 
   return (
     <>
       {exposureHistoryData.map((item, index) => {
         return (
           <Box key={item.historyItem.id}>
-            <Box backgroundColor="gray5" style={getRadiusStyle(index)}>
+            <Box backgroundColor="gray5" style={getRadiusStyle(index, exposureHistoryData.length)}>
               <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
                 <TouchableOpacity
                   style={styles.chevronIcon}
@@ -66,6 +70,9 @@ const styles = StyleSheet.create({
   bottomBorder: {
     borderBottomColor: '#8a8a8a',
     borderBottomWidth: 1,
+  },
+  fullRadius: {
+    borderRadius: 10,
   },
   radiusTop: {
     borderTopStartRadius: 10,
