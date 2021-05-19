@@ -69,8 +69,7 @@
     "DiagnosedShareView": {
       "Title": "Share new exposures",
       "Body1": "Thanks for helping slow the spread!",
-      "Body2": "Reminder: ",
-      "Body3": "To help keep people safe, you need to share your new exposures every day, especially if you have to leave your home.",
+      "Body2": "**Reminder:** To help keep people safe, you need to share your new exposures every day, especially if you have to leave your home.",
       "ButtonCTA": "Share new exposures"
     },
     "DiagnosedShareUploadView": {
@@ -92,9 +91,7 @@
       "CTA": "Enable COVID Alert",
       "AndroidTitle2": "Not sure about turning on Location?",
       "AndroidBody1": "You need to have Location turned on for COVID Alert to work. To use Bluetooth scanning, Android phones need Location setting on for all apps.",
-      "AndroidBody2a": "Despite that, ",
-      "AndroidBody2b": "COVID Alert does not use GPS to track your location. ",
-      "AndroidBody2c": "You can check the app’s permissions in your phone’s settings. You’ll see it does not have permission for location services."
+      "AndroidBody2": "Despite that, **COVID Alert does not use GPS to track your location.** You can check the app’s permissions in your phone’s settings. You’ll see it does not have permission for location services."
     },
     "FrameworkUnavailable": {
       "Title": "Something went wrong",
@@ -316,30 +313,22 @@
     "Step0": {
       "Title": "Notify people they’ve been exposed",
       "List": {
-        "1a": "1. Enter the one-time key ",
-        "1b": "you got when you were diagnosed.",
-        "2a": "2. Give the app details ",
-        "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
-        "3a": "3. Allow your phone to share ",
-        "3b": "your random codes. These codes notify people you’ve been near."
+        "1": "**1. Enter the one-time key** you got when you were diagnosed.",
+        "2": "**2. Give the app details** to help narrow down when you were likely most contagious. You can choose not to give any details.",
+        "3": "**3. Allow your phone to share** your random codes. These codes notify people you’ve been near."
       },
-      "Body1": "Exposed people will not get any information about you ",
-      "Body2": "or the time you were near them. They will only get a notification that they were exposed recently.",
+      "Body1": "**Exposed people will not get any information about you** or the time you were near them. They will only get a notification that they were exposed recently.",
       "CTA": "Next",
       "NoCode": "Need a one-time key?"
     },
     "IntermediateStep": {
       "Title": "Finish sharing exposures",
       "List": {
-        "1a": "1. ",
-        "1b": "Done.",
-        "2a": "2. Give the app details ",
-        "2b": "to help narrow down when you were likely most contagious. You can choose not to give any details.",
-        "3a": "3. Allow your phone to share ",
-        "3b": "your random codes. These codes notify people you’ve been near."
+        "1": "**1.** Done.",
+        "2": "**2. Give the app details** to help narrow down when you were likely most contagious. You can choose not to give any details.",
+        "3": "**3. Allow your phone to share** your random codes. These codes notify people you’ve been near."
       },
-      "Body1": "Nobody will get any information about you ",
-      "Body2": "or the time you were near them. They will only get a notification that they were exposed recently.",
+      "Body": "**Nobody will get any information about you** or the time you were near them. They will only get a notification that they were exposed recently.",
       "CTA": "Next"
     },
     "Step2": {
@@ -376,8 +365,7 @@
     "ConsentView": {
       "Title": "Now you can upload your codes",
       "Body1": "Your phone will ask your permission to upload your most recent random codes or “random IDs”.",
-      "Body2a": "Nobody will get any information about you ",
-      "Body2b": "or the time you were near them.",
+      "Body2": "**Nobody will get any information about you** or the time you were near them.",
       "Body3": "You can help slow the spread of COVID-19 if you agree.",
       "Action": "Agree"
     },
@@ -534,8 +522,7 @@
     "CheckInView": {
       "Title": "Thank you for adding a visit",
       "Body1": "You’ll only be notified if public health finds an exposure risk from your visit. ",
-      "Body2": "Your visits are not shared ",
-      "Body3": "with anyone.\n\nRemember to scan each time you visit.",
+      "Body2": "**Your visits are not shared** with anyone.\n\nRemember to scan each time you visit.",
       "Body4": "You can delete this visit any time by going into Your visits.",
       "CTA1": "Back to home",
       "CTA2": "Your visits",

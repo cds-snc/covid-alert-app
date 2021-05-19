@@ -3,6 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useI18n} from 'locale';
 import {Text, ButtonSingleLine, Box, RoundedBox} from 'components';
 import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
+import {BoldText} from 'shared/BoldText';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
@@ -25,8 +26,7 @@ export const DiagnosedShareView = () => {
           {i18n.translate('Home.DiagnosedShareView.Body1')}
         </Text>
         <Text variant="bodyText" testID="bodyText" color="bodyText">
-          <Text fontWeight="bold">{i18n.translate('Home.DiagnosedShareView.Body2')}</Text>
-          {i18n.translate('Home.DiagnosedShareView.Body3')}
+          <Text>{BoldText(i18n.translate('Home.DiagnosedShareView.Body2'))}</Text>
         </Text>
         <Box alignSelf="stretch" marginTop="l" marginBottom="m">
           <ButtonSingleLine

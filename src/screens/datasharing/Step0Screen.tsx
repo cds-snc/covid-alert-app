@@ -3,6 +3,7 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {Box, Text, Button, ButtonSingleLine} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import {BoldText} from 'shared/BoldText';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
@@ -22,20 +23,16 @@ export const Step0Screen = () => {
           </Text>
 
           <Text marginBottom="l">
-            <Text fontWeight="bold">{i18n.translate('DataUpload.Step0.List.1a')}</Text>
-            <Text>{i18n.translate('DataUpload.Step0.List.1b')}</Text>
+            <Text>{BoldText(i18n.translate('DataUpload.Step0.List.1'))}</Text>
           </Text>
           <Text marginBottom="l">
-            <Text fontWeight="bold">{i18n.translate('DataUpload.Step0.List.2a')}</Text>
-            <Text>{i18n.translate('DataUpload.Step0.List.2b')}</Text>
+            <Text>{BoldText(i18n.translate('DataUpload.Step0.List.2'))}</Text>
           </Text>
           <Text marginBottom="l">
-            <Text fontWeight="bold">{i18n.translate('DataUpload.Step0.List.3a')}</Text>
-            <Text>{i18n.translate('DataUpload.Step0.List.3b')}</Text>
+            <Text>{BoldText(i18n.translate('DataUpload.Step0.List.3'))}</Text>
           </Text>
           <Text marginBottom="l" testID="Step0Body">
-            <Text fontWeight="bold">{i18n.translate('DataUpload.Step0.Body1')}</Text>
-            <Text>{i18n.translate('DataUpload.Step0.Body2')}</Text>
+            <Text>{BoldText(i18n.translate('DataUpload.Step0.Body1'))}</Text>
           </Text>
 
           <Box marginTop="m">

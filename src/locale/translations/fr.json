@@ -74,8 +74,7 @@
     "DiagnosedShareView": {
       "Title": "Partager les nouvelles expositions",
       "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
-      "Body2": "Rappel : ",
-      "Body3": "Pour contribuer à la sécurité des autres, vous devez partager vos nouvelles expositions tous les jours, surtout si vous avez à sortir de la maison.",
+      "Body2": "**Rappel:** Pour contribuer à la sécurité des autres, vous devez partager vos nouvelles expositions tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Partager les nouvelles expositions"
     },
     "BluetoothDisabled": "Bluetooth désactivé",
@@ -92,9 +91,7 @@
       "CTA": "Activer Alerte COVID",
       "AndroidTitle2": "Vous hésitez à activer la localisation?",
       "AndroidBody1": "Il faut activer la localisation pour qu’Alerte COVID fonctionne. Avec Android, la recherche Bluetooth n’est possible que si la localisation est activée pour toutes les applications.",
-      "AndroidBody2a": "Malgré cela, ",
-      "AndroidBody2b": "Alerte COVID n’utilise pas le GPS pour suivre votre emplacement. ",
-      "AndroidBody2c": "Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
+      "AndroidBody2": "Malgré cela, **Alerte COVID n’utilise pas le GPS pour suivre votre emplacement.** Vous pouvez vous en assurer en vérifiant les autorisations d’Alerte COVID dans les paramètres de votre téléphone. La localisation n’est pas autorisée."
     },
     "FrameworkUnavailable": {
       "Title": "Une erreur s’est produite",
@@ -316,30 +313,22 @@
     "Step0": {
       "Title": "Aviser les personnes d’une exposition",
       "List": {
-        "1a": "1. Vous entrez la clé à usage unique ",
-        "1b": "reçue lors de votre diagnostic.",
-        "2a": "2. Vous fournissez quelques précisions ",
-        "2b": "qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
-        "3a": "3. Vous autorisez votre téléphone ",
-        "3b": "à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
+        "1": "**1. Vous entrez la clé à usage unique** reçue lors de votre diagnostic.",
+        "2": "**2. Vous fournissez quelques précisions** qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
+        "3": "**3. Vous autorisez votre téléphone** à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
       },
-      "Body1": "Les personnes exposées n’obtiendront aucun renseignement sur vous ",
-      "Body2": "ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
+      "Body1": "**Les personnes exposées n’obtiendront aucun renseignement sur vous** ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
       "CTA": "Suivant",
       "NoCode": "Vous n’avez pas de clé à usage unique?"
     },
     "IntermediateStep": {
       "Title": "Finir le partage d’expositions",
       "List": {
-        "1a": "1. ",
-        "1b": "Fait.",
-        "2a": "2. Vous fournissez quelques précisions ",
-        "2b": "qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
-        "3a": "3. Vous autorisez votre téléphone ",
-        "3b": "à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
+        "1": "**1.** Fait.",
+        "2": "**2. Vous fournissez quelques précisions** qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
+        "3": "**3. Vous autorisez votre téléphone** à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
       },
-      "Body1": "Personne n’obtiendra de renseignements sur vous ",
-      "Body2": "ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
+      "Body": "**Personne n’obtiendra de renseignements sur vous** ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
       "CTA": "Suivant"
     },
     "Step2": {
@@ -375,8 +364,7 @@
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
       "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires les plus récents.",
-      "Body2a": "Personne ne recevra d’information sur vous ",
-      "Body2b": "ou sur le moment de votre proximité.",
+      "Body2": "**Personne ne recevra d’information sur vous** ou sur le moment de votre proximité.",
       "Body3": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
       "Action": "Accepter"
     },
@@ -501,9 +489,8 @@
     },
     "CheckInView": {
       "Title": "Merci d’avoir ajouté une visite",
-      "Body1": "Vous ne serez avisé que si la santé publique détecte un risque d’exposition lié à votre visite. Vos visites ",
-      "Body2": "ne sont communiquées à personne.\n\n",
-      "Body3": "N’oubliez pas de scanner à chaque visite.",
+      "Body1": "Vous ne serez avisé que si la santé publique détecte un risque d’exposition lié à votre visite.",
+      "Body2": "Vos visites **ne sont communiquées à personne.**\n\nN’oubliez pas de scanner à chaque visite.",
       "Body4": "Vous pouvez supprimer cette visite en tout temps en allant dans Vos visites.",
       "CTA1": "Retour à l’écran d’accueil",
       "CTA2": "Vos visites",

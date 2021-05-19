@@ -3,6 +3,7 @@ import {Box, ButtonSingleLine, Text} from 'components';
 import React, {useCallback} from 'react';
 import {Linking, Platform} from 'react-native';
 import {useStartExposureNotificationService} from 'services/ExposureNotificationService';
+import {BoldText} from 'shared/BoldText';
 
 import {BaseHomeView} from '../components/BaseHomeView';
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
@@ -45,11 +46,7 @@ export const LocationOffView = () => {
           {i18n.translate('Home.EnDisabled.AndroidTitle2')}
         </Text>
         <Text marginBottom="m">{i18n.translate('Home.EnDisabled.AndroidBody1')}</Text>
-        <Text>
-          <Text>{i18n.translate('Home.EnDisabled.AndroidBody2a')}</Text>
-          <Text fontWeight="bold">{i18n.translate('Home.EnDisabled.AndroidBody2b')}</Text>
-          <Text>{i18n.translate('Home.EnDisabled.AndroidBody2c')}</Text>
-        </Text>
+        <Text>{BoldText(i18n.translate('Home.EnDisabled.AndroidBody2'))}</Text>
       </Box>
     </BaseHomeView>
   );
