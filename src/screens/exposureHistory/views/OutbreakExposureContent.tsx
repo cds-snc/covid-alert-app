@@ -3,13 +3,11 @@ import {useI18n} from 'locale';
 import {Text, TextMultiline} from 'components';
 import {HomeScreenTitle} from 'screens/home/components/HomeScreenTitle';
 import {OutbreakConditionalText} from 'screens/home/views/OutbreakExposedView';
-import {useOutbreakService} from 'services/OutbreakService';
 import {formatExposedDate} from 'shared/date-fns';
+import {OutbreakHistoryItem} from 'shared/qr';
 
-export const OutbreakExposureContent = ({timestamp}: {timestamp: number}) => {
+export const OutbreakExposureContent = ({historyItem}: {historyItem: OutbreakHistoryItem}) => {
   const i18n = useI18n();
-  const {outbreakHistory} = useOutbreakService();
-  const historyItem = outbreakHistory.filter(item => item.checkInTimestamp === timestamp)[0];
   const severity = historyItem?.severity;
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const exposureDate = formatExposedDate(new Date(historyItem?.notificationTimestamp), dateLocale);

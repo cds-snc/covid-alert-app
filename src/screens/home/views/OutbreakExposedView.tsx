@@ -2,7 +2,7 @@ import React from 'react';
 import {RoundedBox, Text, TextMultiline} from 'components';
 import {useI18n, I18n} from 'locale';
 import {useOutbreakService} from 'services/OutbreakService';
-import {getCurrentOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
+import {getNonIgnoredOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 import {formatExposedDate} from 'shared/date-fns';
 import {TEST_MODE} from 'env';
 
@@ -14,10 +14,10 @@ import {NegativeOutbreakTestButton} from './ClearOutbreakExposureView';
 export const OutbreakExposedView = () => {
   const i18n = useI18n();
   const {outbreakHistory} = useOutbreakService();
-  const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
+  const nonIgnoredOutbreakHistory = getNonIgnoredOutbreakHistory(outbreakHistory);
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
 
-  const historyItem: OutbreakHistoryItem = currentOutbreakHistory[0];
+  const historyItem: OutbreakHistoryItem = nonIgnoredOutbreakHistory[0];
 
   const severity = historyItem?.severity;
   const exposureDate = TEST_MODE

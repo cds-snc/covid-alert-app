@@ -1,3 +1,4 @@
+import {ProximityExposureHistoryItem} from 'services/ExposureNotificationService';
 import {OutbreakEvent} from 'services/OutbreakService';
 import {log} from 'shared/logging/config';
 
@@ -55,9 +56,10 @@ interface MatchDeduplicationDict {
 }
 
 export interface OutbreakHistoryItem {
-  outbreakId: string /* unique to your checkin during the outbreak event */;
+  id: string /* unique to your checkin during the outbreak event */;
   isExpired: boolean /* after 14 days the outbreak expires */;
   isIgnored: boolean /* if user has a negative test result */;
+  isIgnoredFromHistory: boolean /* if user deletes from history page */;
   locationId: string;
   locationAddress: string;
   locationName: string;
@@ -68,12 +70,19 @@ export interface OutbreakHistoryItem {
   severity: OutbreakSeverity;
 }
 
-export interface CombinedExposureHistoryData {
-  timestamp: number;
-  exposureType: ExposureType;
-  subtitle: string;
-  historyItem?: OutbreakHistoryItem;
-}
+export type CombinedExposureHistoryData =
+  | {
+      notificationTimestamp: number;
+      exposureType: ExposureType.Outbreak;
+      subtitle: string;
+      historyItem: OutbreakHistoryItem;
+    }
+  | {
+      notificationTimestamp: number;
+      exposureType: ExposureType.Proximity;
+      subtitle: string;
+      historyItem: ProximityExposureHistoryItem;
+    };
 
 /** returns a new outbreakHistory with the `isExpired` property updated */
 export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
@@ -89,20 +98,7 @@ export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): Outb
   });
 };
 
-/** returns a new outbreakHistory with the `isIgnored` property updated */
-export const ignoreHistoryItems = (
-  outbreakIds: string[],
-  outbreakHistory: OutbreakHistoryItem[],
-): OutbreakHistoryItem[] => {
-  return outbreakHistory.map(historyItem => {
-    if (outbreakIds.indexOf(historyItem.outbreakId) > -1) {
-      return {...historyItem, isIgnored: true};
-    }
-    return {...historyItem};
-  });
-};
-
-export const getCurrentOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
+export const getNonIgnoredOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
   return outbreakHistory.filter(outbreak => {
     if (outbreak.isExpired || outbreak.isIgnored) {
       return false;
@@ -111,8 +107,17 @@ export const getCurrentOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]
   });
 };
 
+export const getNonIgnoredFromHistoryOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
+  return outbreakHistory.filter(outbreak => {
+    if (outbreak.isExpired || outbreak.isIgnoredFromHistory) {
+      return false;
+    }
+    return true;
+  });
+};
+
 export const isExposedToOutbreak = (outbreakHistory: OutbreakHistoryItem[]) => {
-  const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
+  const currentOutbreakHistory = getNonIgnoredOutbreakHistory(outbreakHistory);
 
   if (currentOutbreakHistory.length > 0) {
     return true;
@@ -227,9 +232,10 @@ export const createOutbreakHistoryItem = (matchData: MatchData): OutbreakHistory
   const locationId = matchData.checkIn.id;
   const checkInTimestamp = matchData.checkIn.timestamp;
   const newItem: OutbreakHistoryItem = {
-    outbreakId: `${locationId}-${checkInTimestamp}`,
+    id: `${locationId}-${checkInTimestamp}`,
     isExpired: false,
     isIgnored: false,
+    isIgnoredFromHistory: false,
     locationId,
     locationAddress: matchData.checkIn.address,
     locationName: matchData.checkIn.name,
@@ -246,11 +252,11 @@ export const getNewOutbreakExposures = (
   detectedExposures: OutbreakHistoryItem[],
   outbreakHistory: OutbreakHistoryItem[],
 ): OutbreakHistoryItem[] => {
-  const detectedIds = detectedExposures.map(item => item.outbreakId);
-  const oldIds = outbreakHistory.map(item => item.outbreakId);
+  const detectedIds = detectedExposures.map(item => item.id);
+  const oldIds = outbreakHistory.map(item => item.id);
   // are there any Ids in detectedIds that are new?
   const newIds = detectedIds.filter(id => oldIds.indexOf(id) === -1);
-  const newOutbreakExposures = detectedExposures.filter(item => newIds.indexOf(item.outbreakId) > -1);
+  const newOutbreakExposures = detectedExposures.filter(item => newIds.indexOf(item.id) > -1);
   return newOutbreakExposures;
 };
 

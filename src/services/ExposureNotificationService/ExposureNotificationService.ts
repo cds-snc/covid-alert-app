@@ -17,6 +17,7 @@ import {
   daysBetween,
   parseSavedTimestamps,
   secondsBetween,
+  getHoursBetween,
 } from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
@@ -31,6 +32,7 @@ import {PollNotifications} from 'services/PollNotificationService';
 import {OutbreakService} from 'services/OutbreakService';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
+import {getRandomString} from 'shared/logging/uuid';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -56,6 +58,14 @@ export enum ExposureStatusType {
   Monitoring = 'monitoring',
   Exposed = 'exposed',
   Diagnosed = 'diagnosed',
+}
+
+export interface ProximityExposureHistoryItem {
+  id: string;
+  isIgnoredFromHistory: boolean;
+  isExpired: boolean;
+  notificationTimestamp: number;
+  exposureTimestamp: number;
 }
 
 export interface LastChecked {
@@ -94,6 +104,7 @@ export class ExposureNotificationService {
   systemStatus: Observable<SystemStatus>;
   exposureStatus: MapObservable<ExposureStatus>;
   exposureHistory: Observable<number[]>;
+  displayExposureHistory: Observable<ProximityExposureHistoryItem[]>;
 
   /**
    * Visible for testing only
@@ -126,6 +137,7 @@ export class ExposureNotificationService {
     this.systemStatus = new Observable<SystemStatus>(SystemStatus.Undefined);
     this.exposureStatus = new MapObservable<ExposureStatus>({type: ExposureStatusType.Monitoring});
     this.exposureHistory = new Observable<number[]>([]);
+    this.displayExposureHistory = new Observable<ProximityExposureHistoryItem[]>([]);
     this.backendInterface = backendInterface;
     this.storageService = storageService;
     this.filteredMetricsService = filteredMetricsService;
@@ -135,6 +147,12 @@ export class ExposureNotificationService {
     });
     this.exposureHistory.observe(history => {
       this.storageService.save(StorageDirectory.ExposureNotificationServiceExposureHistoryKey, history.join(','));
+    });
+    this.displayExposureHistory.observe(history => {
+      this.storageService.save(
+        StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
+        JSON.stringify(history),
+      );
     });
 
     if (Platform.OS === 'android') {
@@ -205,6 +223,7 @@ export class ExposureNotificationService {
     try {
       await this.loadExposureStatus();
       await this.loadExposureHistory();
+      await this.loadDisplayExposureHistory();
       if (Platform.OS === 'ios') {
         await this.exposureNotification.activate();
       }
@@ -803,6 +822,8 @@ export class ExposureNotificationService {
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
+    this.migrateDisplayHistory();
+    this.expireDisplayHistoryItems();
     // @todo confirm how equality works here
     if (updatedExposure !== currentExposureStatus) {
       log.debug({
@@ -923,6 +944,17 @@ export class ExposureNotificationService {
     const exposureHistory = this.exposureHistory.get();
     exposureHistory.push(exposureDetectedAt);
     this.exposureHistory.set(exposureHistory);
+
+    const displayExposureHistory = this.displayExposureHistory.get();
+    const newHistoryItem: ProximityExposureHistoryItem = {
+      id: getRandomString(8),
+      exposureTimestamp: summary.lastExposureTimestamp,
+      notificationTimestamp: exposureDetectedAt,
+      isIgnoredFromHistory: false,
+      isExpired: false,
+    };
+    displayExposureHistory.push(newHistoryItem);
+    this.displayExposureHistory.set(displayExposureHistory);
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {
@@ -956,6 +988,81 @@ export class ExposureNotificationService {
     return {summary: currentSummary, isNext: false};
   }
 
+  public async saveDisplayExposureHistory() {
+    await this.storageService.save(
+      StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
+      JSON.stringify(this.displayExposureHistory.get()),
+    );
+  }
+
+  /** this function is only for use on the ExposureHistoryScreen - it only effects the display logic
+   * this function is so we can delete an exposure from the history screen without effecting the
+   * home screen.
+   */
+  public async ignoreExposureFromHistory(id: string) {
+    this.displayExposureHistory
+      .get()
+      .filter(item => item.id === id)
+      .forEach(item => {
+        item.isIgnoredFromHistory = true;
+      });
+    await this.saveDisplayExposureHistory();
+  }
+
+  /** updates the `isExpired` property on the displayExposureHistory */
+  public async expireDisplayHistoryItems() {
+    this.displayExposureHistory.get().forEach(item => {
+      const hoursSinceExposure = getHoursBetween(new Date(item.exposureTimestamp), getCurrentDate());
+      if (hoursSinceExposure > HOURS_PER_PERIOD * EXPOSURE_NOTIFICATION_CYCLE) {
+        item.isExpired = true;
+      }
+    });
+    await this.saveDisplayExposureHistory();
+  }
+
+  /** for users who are upgrading to an app version w/ QR codes enabled, we need to
+   * populate the displayExposureHistory with timestamps from the exposureHistory */
+  public async migrateDisplayHistory() {
+    const hasMigratedDisplayHistory = await this.storageService.retrieve(
+      StorageDirectory.ExposureNotificationServiceHasMigratedDisplayHistory,
+    );
+    if (hasMigratedDisplayHistory === '1') {
+      return;
+    }
+    const exposureHistory = this.exposureHistory.get();
+    const exposureStatus = this.exposureStatus.get();
+    if (exposureStatus.type !== ExposureStatusType.Exposed || exposureHistory.length === 0) {
+      await this.setHasMigratedDisplayHistory();
+      return;
+    }
+    const displayExposureHistory = this.displayExposureHistory.get();
+    if (displayExposureHistory.length > 0) {
+      await this.setHasMigratedDisplayHistory();
+      return;
+    }
+    log.debug({category: 'debug', message: 'migrating exposureHistory to displayExposureHistory'});
+    for (const timestamp of exposureHistory) {
+      const newItem: ProximityExposureHistoryItem = {
+        id: getRandomString(8),
+        isIgnoredFromHistory: false,
+        isExpired: false,
+        notificationTimestamp: timestamp,
+        // we have to guess at exposureTimestamp because we were not saving this
+        // for past exposures. If we guess wrong, it will just mean the past
+        // exposures will disappear from the history page a few days later than
+        // they would have.
+        exposureTimestamp: exposureStatus.summary.lastExposureTimestamp,
+      };
+      displayExposureHistory.push(newItem);
+    }
+    await this.saveDisplayExposureHistory();
+    await this.setHasMigratedDisplayHistory();
+  }
+
+  private async setHasMigratedDisplayHistory() {
+    await this.storageService.save(StorageDirectory.ExposureNotificationServiceHasMigratedDisplayHistory, '1');
+  }
+
   private async loadExposureStatus() {
     const exposureStatus = JSON.parse(
       (await this.storageService.retrieve(StorageDirectory.ExposureNotificationServiceExposureStatusKey)) || 'null',
@@ -977,6 +1084,23 @@ export class ExposureNotificationService {
       this.exposureHistory.set(exposureHistory);
     } catch (error) {
       log.debug({message: "'No EXPOSURE_HISTORY found"});
+    }
+  }
+
+  private async loadDisplayExposureHistory() {
+    try {
+      const _displayExposureHistory = await this.storageService.retrieve(
+        StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
+      );
+      if (!_displayExposureHistory) {
+        log.debug({message: "'Unable to retrieve displayExposureHistory"});
+        return;
+      }
+      const displayExposureHistory = JSON.parse(_displayExposureHistory);
+      log.debug({message: 'displayExposureHistory', payload: displayExposureHistory});
+      this.displayExposureHistory.set(displayExposureHistory);
+    } catch (error) {
+      log.debug({message: "'No displayExposureHistory found"});
     }
   }
 

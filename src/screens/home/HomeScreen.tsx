@@ -18,7 +18,7 @@ import {RegionCase} from 'shared/Region';
 import {getRegionCase} from 'shared/RegionLogic';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
-import {getCurrentOutbreakHistory, isExposedToOutbreak} from 'shared/qr';
+import {getNonIgnoredOutbreakHistory, isExposedToOutbreak} from 'shared/qr';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useNotificationPermissionStatus} from 'shared/NotificationPermissionStatus';
 
@@ -114,7 +114,7 @@ const Content = () => {
     if (exposureStatus.type === ExposureStatusType.Monitoring) {
       return <OutbreakExposedView />;
     } else if (exposureStatus.type === ExposureStatusType.Exposed) {
-      const currentOutbreakHistory = getCurrentOutbreakHistory(outbreakHistory);
+      const currentOutbreakHistory = getNonIgnoredOutbreakHistory(outbreakHistory);
       const outbreakTimestamp = currentOutbreakHistory[currentOutbreakHistory.length - 1].checkInTimestamp;
       const proximityTimestamp = exposureStatus.summary.lastExposureTimestamp;
       if (outbreakTimestamp > proximityTimestamp) {

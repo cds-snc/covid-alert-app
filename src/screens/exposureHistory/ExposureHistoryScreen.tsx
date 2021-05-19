@@ -4,7 +4,7 @@ import {useI18n, I18n} from 'locale';
 import {
   CombinedExposureHistoryData,
   ExposureType,
-  getCurrentOutbreakHistory,
+  getNonIgnoredFromHistoryOutbreakHistory,
   OutbreakHistoryItem,
   OutbreakSeverity,
 } from 'shared/qr';
@@ -14,8 +14,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentDate} from 'shared/date-fns';
-import {useExposureHistory, useClearExposedStatus} from 'services/ExposureNotificationService';
+import {
+  useDisplayExposureHistory,
+  ProximityExposureHistoryItem,
+  useClearExposedStatus,
+  useExposureStatus,
+} from 'services/ExposureNotificationService';
 import {log} from 'shared/logging/config';
+import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 
 import {ExposureList} from './views/ExposureList';
 import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
@@ -42,24 +48,25 @@ const toOutbreakExposureHistoryData = ({
     return {
       exposureType: ExposureType.Outbreak,
       subtitle: severityText({severity: Number(outbreak.severity), i18n}),
-      timestamp: outbreak.checkInTimestamp,
+      notificationTimestamp: outbreak.notificationTimestamp,
       historyItem: outbreak,
     };
   });
 };
 
 const toProximityExposureHistoryData = ({
-  proximityExposureTimestamps,
+  proximityExposureHistory,
   i18n,
 }: {
-  proximityExposureTimestamps: number[];
+  proximityExposureHistory: ProximityExposureHistoryItem[];
   i18n: I18n;
 }): CombinedExposureHistoryData[] => {
-  return proximityExposureTimestamps.map(timestamp => {
+  return proximityExposureHistory.map(item => {
     return {
       exposureType: ExposureType.Proximity,
       subtitle: i18n.translate('QRCode.ProximityExposure'),
-      timestamp,
+      notificationTimestamp: item.notificationTimestamp,
+      historyItem: item,
     };
   });
 };
@@ -71,17 +78,15 @@ export const ExposureHistoryScreenState = {
 export const ExposureHistoryScreen = () => {
   const [state, setState] = useState(ExposureHistoryScreenState);
   const i18n = useI18n();
-  const outbreaks = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
-  const currentOutbreakHistory = getCurrentOutbreakHistory(outbreaks.outbreakHistory);
-  const proximityExposureTimestamps = useExposureHistory();
+  const exposureStatus = useExposureStatus();
+  const outbreaks = useOutbreakService();
+  const nonIgnoredFromHistoryOutbreakHistory = getNonIgnoredFromHistoryOutbreakHistory(outbreaks.outbreakHistory);
+  const {proximityExposureHistory, ignoreAllProximityExposuresFromHistory} = useDisplayExposureHistory();
   const mergedArray = [
-    ...toOutbreakExposureHistoryData({history: currentOutbreakHistory, i18n}),
-    ...toProximityExposureHistoryData({proximityExposureTimestamps, i18n}),
+    ...toOutbreakExposureHistoryData({history: nonIgnoredFromHistoryOutbreakHistory, i18n}),
+    ...toProximityExposureHistoryData({proximityExposureHistory, i18n}),
   ];
-  const clearProximityExposure = useCallback(() => {
-    clearExposedStatus();
-  }, [clearExposedStatus]);
 
   const navigation = useNavigation();
   const close = useCallback(() => navigation.navigate('Menu'), [navigation]);
@@ -98,8 +103,11 @@ export const ExposureHistoryScreen = () => {
         {
           text: i18n.translate('ExposureHistory.Alert.ConfirmDeleteAll'),
           onPress: () => {
-            outbreaks.clearOutbreakHistory();
-            clearProximityExposure();
+            outbreaks.ignoreAllOutbreaksFromHistory();
+            outbreaks.ignoreAllOutbreaks();
+            ignoreAllProximityExposuresFromHistory();
+            clearExposedStatus();
+            FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
             setState({...state, exposureHistoryClearedDate: getCurrentDate()});
           },
           style: 'cancel',

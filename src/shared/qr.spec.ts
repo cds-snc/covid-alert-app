@@ -8,7 +8,6 @@ import {
   getMatchedOutbreakHistoryItems,
   isExposedToOutbreak,
   TimeWindow,
-  ignoreHistoryItems,
   getNewOutbreakExposures,
   expireHistoryItems,
   OutbreakHistoryItem,
@@ -115,9 +114,10 @@ describe('getMatchedOutbreakHistoryItems', () => {
 
   it('returns not exposed if isIgnored or expired', () => {
     const history: OutbreakHistoryItem = {
-      outbreakId: '123-1612180800000',
+      id: '123-1612180800000',
       isExpired: false,
       isIgnored: false,
+      isIgnoredFromHistory: false,
       locationId: '123',
       locationAddress: '123 King St.',
       locationName: 'Location name',
@@ -168,7 +168,7 @@ describe('outbreakHistory functions', () => {
 
       expect(historyItem).toStrictEqual(
         expect.objectContaining({
-          outbreakId: getOutbreakId(checkIn),
+          id: getOutbreakId(checkIn),
           isExpired: false,
           isIgnored: false,
           locationId: checkIn.id,
@@ -193,7 +193,7 @@ describe('outbreakHistory functions', () => {
 
       expect(historyItem).toStrictEqual(
         expect.objectContaining({
-          outbreakId: getOutbreakId(checkIn),
+          id: getOutbreakId(checkIn),
           outbreakStartTimestamp: 0,
           outbreakEndTimestamp: 0,
         }),
@@ -257,59 +257,15 @@ describe('outbreakHistory functions', () => {
 
       expect(history[0]).toStrictEqual(
         expect.objectContaining({
-          outbreakId: getOutbreakId(checkIns[0]),
+          id: getOutbreakId(checkIns[0]),
           isExpired: true,
         }),
       );
 
       expect(history[1]).toStrictEqual(
         expect.objectContaining({
-          outbreakId: getOutbreakId(checkIns[2]),
+          id: getOutbreakId(checkIns[2]),
           isExpired: false,
-        }),
-      );
-    });
-  });
-
-  // Ignore
-  describe('ignoreHistoryItems', () => {
-    it('ignores items with ids that are passed in', () => {
-      const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
-      const updatedHistory = ignoreHistoryItems(
-        [getOutbreakId(checkIns[0]), getOutbreakId(checkIns[1])],
-        ignoreHistoryItems([], history),
-      );
-
-      expect(updatedHistory[0]).toStrictEqual(
-        expect.objectContaining({
-          outbreakId: getOutbreakId(checkIns[0]),
-          isIgnored: true,
-        }),
-      );
-
-      expect(updatedHistory[1]).toStrictEqual(
-        expect.objectContaining({
-          outbreakId: getOutbreakId(checkIns[1]),
-          isIgnored: true,
-        }),
-      );
-    });
-
-    it('does not ignore items with ids not passed in', () => {
-      const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
-      const updatedHistory = ignoreHistoryItems([getOutbreakId(checkIns[0])], history);
-
-      expect(updatedHistory[0]).toStrictEqual(
-        expect.objectContaining({
-          outbreakId: getOutbreakId(checkIns[0]),
-          isIgnored: true,
-        }),
-      );
-
-      expect(updatedHistory[1]).toStrictEqual(
-        expect.objectContaining({
-          outbreakId: getOutbreakId(checkIns[1]),
-          isIgnored: false,
         }),
       );
     });
@@ -319,9 +275,10 @@ describe('outbreakHistory functions', () => {
   describe('getNewOutbreakExposures', () => {
     it('returns only new exposure', () => {
       const item: OutbreakHistoryItem = {
-        outbreakId: '123-1612180800001',
+        id: '123-1612180800001',
         isExpired: false,
         isIgnored: false,
+        isIgnoredFromHistory: false,
         locationId: '123',
         locationAddress: '123 King St.',
         locationName: 'Location name',
@@ -343,7 +300,7 @@ describe('outbreakHistory functions', () => {
       expect(newItems).toHaveLength(1);
       expect(newItems[0]).toStrictEqual(
         expect.objectContaining({
-          outbreakId: '123-1612180800001',
+          id: '123-1612180800001',
         }),
       );
     });

@@ -13,7 +13,7 @@ import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
 
-import {ExposureNotificationService, ExposureStatus} from './ExposureNotificationService';
+import {ExposureNotificationService, ExposureStatus, ProximityExposureHistoryItem} from './ExposureNotificationService';
 
 const ExposureNotificationServiceContext = createContext<ExposureNotificationService | undefined>(undefined);
 
@@ -199,6 +199,20 @@ export function useExposureHistory(): number[] {
   const exposureNotificationService = useExposureNotificationService();
   const [history] = useState<number[]>(exposureNotificationService.exposureHistory.get());
   return history;
+}
+
+export function useDisplayExposureHistory() {
+  const exposureNotificationService = useExposureNotificationService();
+  const [history] = useState<ProximityExposureHistoryItem[]>(exposureNotificationService.displayExposureHistory.get());
+  const proximityExposureHistory = history.filter(
+    item => item.isIgnoredFromHistory === false && item.isExpired === false,
+  );
+  const ignoreAllProximityExposuresFromHistory = useCallback(() => {
+    proximityExposureHistory.forEach(item => {
+      exposureNotificationService.ignoreExposureFromHistory(item.id);
+    });
+  }, [exposureNotificationService, proximityExposureHistory]);
+  return {proximityExposureHistory, ignoreAllProximityExposuresFromHistory};
 }
 
 export function useUpdateExposureStatus(): (forceCheck?: boolean) => void {
