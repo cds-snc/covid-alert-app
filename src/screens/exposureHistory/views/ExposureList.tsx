@@ -30,7 +30,7 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
     <>
       {exposureHistoryData.map((item, index) => {
         return (
-          <Box key={item.notificationTimestamp}>
+          <Box key={item.historyItem.id}>
             <Box backgroundColor="gray5" style={getRadiusStyle(index)}>
               <Box paddingHorizontal="m" style={[exposureHistoryData.length !== index + 1 && styles.bottomBorder]}>
                 <TouchableOpacity
