@@ -955,6 +955,7 @@ export class ExposureNotificationService {
     };
     displayExposureHistory.push(newHistoryItem);
     this.displayExposureHistory.set(displayExposureHistory);
+    this.saveDisplayExposureHistory();
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {
