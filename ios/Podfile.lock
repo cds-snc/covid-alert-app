@@ -223,6 +223,8 @@ PODS:
     - react-native-config/App (= 1.4.2)
   - react-native-config/App (1.4.2):
     - React-Core
+  - react-native-crypto (1.0.1):
+    - React
   - react-native-netinfo (5.9.5):
     - React
   - react-native-safe-area-context (3.2.0):
@@ -366,6 +368,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-config (from `../node_modules/react-native-config`)
+  - "react-native-crypto (from `../node_modules/@trackforce/react-native-crypto`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -451,6 +454,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-config:
     :path: "../node_modules/react-native-config"
+  react-native-crypto:
+    :path: "../node_modules/@trackforce/react-native-crypto"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
@@ -525,12 +530,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  DoubleConversion: cde416483dac037923206447da6e1454df403714
+  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   EXBarCodeScanner: 38e025a8d508f40a96c44dc87bd4f8765f8002cd
   EXPermissions: 17d4846ad1880f6891c74ae58ca1acb43e47ed47
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 9b7bebeb96ad1cec965025af43dd825a55a75c72
-  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  FBReactNativeSpec: 2a59be1c614979e9ea801a28227667b4618abf8c
+  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   Permission-Notifications: d437cafc026900006d35981d35a2d694f883f44e
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
@@ -545,6 +550,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 06a9c77b56902ae7ffcdd7a4905f664adc5d237b
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
   react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
+  react-native-crypto: b97786125284ad34f983a76d2cf1015df69572e9
   react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
