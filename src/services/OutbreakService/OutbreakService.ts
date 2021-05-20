@@ -1,6 +1,6 @@
 import {Buffer} from 'buffer';
 
-import {TEST_MODE} from 'env';
+import {TEST_MODE, OUTBREAK_PUBLIC_KEY} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {I18n} from 'locale';
@@ -11,7 +11,7 @@ import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getRandomString} from 'shared/logging/uuid';
-import {Rsa, Pbkdf2} from '@trackforce/react-native-crypto';
+import {Rsa} from '@trackforce/react-native-crypto';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -284,21 +284,16 @@ export class OutbreakService {
       const unzippedLocation = await unzip(outbreaksZipUrl, targetDir);
       const outbreakFileBin = await readFile(`${unzippedLocation}/export.bin`, 'base64');
       const outbreakFileSig = await readFile(`${unzippedLocation}/export.sig`, 'base64');
-
-      const iterations = 4096;
-      const keyInBytes = 32;
-      const key = await Pbkdf2.hash('a0', 'a1b4efst', iterations, keyInBytes, 'SHA1');
-
       const outbreakBinBuffer = Buffer.from(outbreakFileBin, 'base64');
 
-      if (Rsa.verify(outbreakFileSig, outbreakFileBin, key, 'SHA256')) {
-        console.log('verified');
-      } else {
-        console.log('failed to verify');
+      try {
+        const result = await Rsa.verify(outbreakFileSig, outbreakFileBin, OUTBREAK_PUBLIC_KEY, 'SHA256');
+        console.log(result);
+      } catch (err) {
+        console.log(err.message);
       }
 
       const outbreakEventExport = covidshield.OutbreakEventExport.decode(outbreakBinBuffer);
-      console.log('outbreakEventExport', outbreakFileSig);
       for (const location of outbreakEventExport.locations) {
         outbreakEvents.push(location as covidshield.OutbreakEvent);
       }
