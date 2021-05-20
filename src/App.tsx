@@ -26,8 +26,6 @@ import regionContentDefault from './locale/translations/region.json';
 import {RegionContent, RegionContentResponse} from './shared/Region';
 import {OutbreakProvider} from './services/OutbreakService';
 
-import {Aes, Sha, Hmac, Pbkdf2, Rsa} from '@trackforce/react-native-crypto';
-
 // this allows us to use new Date().toLocaleString() for date formatting on android
 // https://github.com/facebook/react-native/issues/19410#issuecomment-482804142
 if (Platform.OS === 'android') {
@@ -45,6 +43,7 @@ const appInit = async () => {
 };
 
 const testCrypto = async () => {
+  /*
   const iterations = 4096;
   const keyInBytes = 32;
   const message = 'data to encrypt';
@@ -72,6 +71,8 @@ const testCrypto = async () => {
 
   const rsaDecryptedMessage = await Rsa.decrypt(rsaEncryptedMessage, rsaKeys.private);
   console.log('rsa Decrypt:', rsaDecryptedMessage);
+  */
+  console.log('test');
 };
 
 const App = () => {
