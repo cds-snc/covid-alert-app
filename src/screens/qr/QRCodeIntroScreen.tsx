@@ -29,7 +29,7 @@ export const QRCodeIntroScreen = () => {
           <Image
             accessible
             style={styles.image}
-            source={require('assets/qr-code-intro.png')}
+            source={require('assets/QR-Add-A-Visit.png')}
             accessibilityLabel={i18n.translate(`QRCode.Intro.AltText`)}
           />
         </Box>
