@@ -42,39 +42,6 @@ const appInit = async () => {
   SplashScreen.hide();
 };
 
-const testCrypto = async () => {
-  /*
-  const iterations = 4096;
-  const keyInBytes = 32;
-  const message = 'data to encrypt';
-  const key = await Pbkdf2.hash('a0', 'a1b4efst', iterations, keyInBytes, 'SHA1');
-  console.log(`pbkdf2 key: ${key}`);
-
-  const hmac256Hash = await Hmac.hmac256(message, key);
-  console.log(`hmac256: ${hmac256Hash}`);
-
-  const sha1hash = await Sha.sha1('test');
-  console.log(`sha1: ${sha1hash}`);
-
-  const rsaKeys = await Rsa.generateKeys(1024);
-  console.log('1024 private:', rsaKeys.private);
-  console.log('1024 public:', rsaKeys.public);
-
-  const rsaEncryptedMessage = await Rsa.encrypt(message, rsaKeys.public);
-  console.log('rsa Encrypt:', rsaEncryptedMessage);
-
-  const rsaSignature = await Rsa.sign(rsaEncryptedMessage, rsaKeys.private, 'SHA256');
-  console.log('rsa Signature:', rsaSignature);
-
-  const validSignature = await Rsa.verify(rsaSignature, rsaEncryptedMessage, rsaKeys.public, 'SHA256');
-  console.log('rsa signature verified:', validSignature);
-
-  const rsaDecryptedMessage = await Rsa.decrypt(rsaEncryptedMessage, rsaKeys.private);
-  console.log('rsa Decrypt:', rsaDecryptedMessage);
-  */
-  console.log('test');
-};
-
 const App = () => {
   const initialRegionContent: RegionContent = regionContentDefault as RegionContent;
   const backendService = useMemo(
