@@ -60,7 +60,6 @@ const App = () => {
 
   useEffect(() => {
     const onAppStateChange = async (newState: AppStateStatus) => {
-      testCrypto();
       if (newState === 'active') {
         await fetchData();
       }
