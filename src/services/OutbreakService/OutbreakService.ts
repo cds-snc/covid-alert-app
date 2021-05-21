@@ -296,15 +296,15 @@ export class OutbreakService {
 
         const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
 
-        let PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----\n';
+        let publicKey = '-----BEGIN PUBLIC KEY-----\n';
         // repect newline chars in key
-        PUBLIC_KEY += OUTBREAK_PUBLIC_KEY.replace(/\\n/g, '\n') + '\n';
-        PUBLIC_KEY += '-----END PUBLIC KEY-----\n';
+        publicKey += `${OUTBREAK_PUBLIC_KEY.replace(/\\n/g, '\n')}\n`;
+        publicKey += '-----END PUBLIC KEY-----\n';
         // output for local debug
-        if (__DEV__) {
+        if (__DEV__ && !TEST_MODE) {
           log.debug({
             category: 'qr-code',
-            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, key: PUBLIC_KEY},
+            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, key: publicKey},
           });
         }
       } catch (err) {
