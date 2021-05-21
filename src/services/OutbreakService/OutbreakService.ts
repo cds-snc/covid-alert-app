@@ -11,8 +11,6 @@ import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getRandomString} from 'shared/logging/uuid';
-import {base64ToUint8Array} from '../../screens/qr/utils';
-import base64 from 'react-native-base64';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -32,6 +30,10 @@ const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 export const HOURS_PER_PERIOD = 24;
 
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
+
+const base64ToUint8Array = (str: string) => {
+  return new Uint8Array(Array.prototype.slice.call(Buffer.from(str, 'base64'), 0));
+};
 
 export interface OutbreakEvent {
   // Don't use this for anything besides the dedup code.
@@ -295,18 +297,21 @@ export class OutbreakService {
         const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
 
         let PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----\n';
+        // repect newline chars in key
         PUBLIC_KEY += OUTBREAK_PUBLIC_KEY.replace(/\\n/g, '\n') + '\n';
         PUBLIC_KEY += '-----END PUBLIC KEY-----\n';
-
-        console.log('***********************************');
-        console.log(PUBLIC_KEY);
-        console.log();
-        console.log('SIG:', typeof outbreakFileSigDecodedJSON.signature, outbreakFileSigDecodedJSON.signature);
-        console.log();
-        console.log('MESSAGE', typeof outbreakFileBin, outbreakFileBin);
-        console.log('***********************************');
+        // output for local debug
+        if (__DEV__) {
+          log.debug({
+            category: 'qr-code',
+            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, key: PUBLIC_KEY},
+          });
+        }
       } catch (err) {
-        console.log(err.message);
+        log.error({
+          category: 'qr-code',
+          message: err.message,
+        });
       }
 
       const outbreakEventExport = covidshield.OutbreakEventExport.decode(outbreakBinBuffer);
