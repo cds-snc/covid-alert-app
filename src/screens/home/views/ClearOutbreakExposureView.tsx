@@ -5,11 +5,7 @@ import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useI18n} from 'locale';
-import {
-  useClearExposedStatus,
-  useExposureStatus,
-  useDisplayExposureHistory,
-} from 'services/ExposureNotificationService';
+import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getCurrentDate, getMillisSinceUTCEpoch} from 'shared/date-fns';
 
@@ -19,10 +15,9 @@ export const ClearOutbreakExposureScreen = () => {
   const i18n = useI18n();
 
   const close = useCallback(() => navigation.navigate('Home', {timestamp: getMillisSinceUTCEpoch()}), [navigation]);
-  const {ignoreAllOutbreaks, ignoreAllOutbreaksFromHistory} = useOutbreakService();
+  const {ignoreAllOutbreaks} = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
   const exposureStatus = useExposureStatus();
-  const {ignoreAllProximityExposuresFromHistory} = useDisplayExposureHistory();
   const onClearOutbreak = useCallback(async () => {
     ignoreAllOutbreaks();
     setState({...state, exposureHistoryClearedDate: getCurrentDate()});
@@ -33,9 +28,7 @@ export const ClearOutbreakExposureScreen = () => {
         text: i18n.translate('ClearOutbreakExposure.Alert.Confirm'),
         onPress: () => {
           onClearOutbreak();
-          ignoreAllOutbreaksFromHistory();
           clearExposedStatus();
-          ignoreAllProximityExposuresFromHistory();
           FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
           close();
         },
@@ -46,15 +39,7 @@ export const ClearOutbreakExposureScreen = () => {
         style: 'cancel',
       },
     ]);
-  }, [
-    close,
-    i18n,
-    onClearOutbreak,
-    clearExposedStatus,
-    ignoreAllProximityExposuresFromHistory,
-    exposureStatus,
-    ignoreAllOutbreaksFromHistory,
-  ]);
+  }, [close, i18n, onClearOutbreak, clearExposedStatus, exposureStatus]);
 
   return (
     <Box backgroundColor="overlayBackground" style={styles.flex}>
