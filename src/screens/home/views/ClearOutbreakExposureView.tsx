@@ -46,7 +46,15 @@ export const ClearOutbreakExposureScreen = () => {
         style: 'cancel',
       },
     ]);
-  }, [close, i18n, onClearOutbreak, clearExposedStatus, ignoreAllProximityExposuresFromHistory, exposureStatus]);
+  }, [
+    close,
+    i18n,
+    onClearOutbreak,
+    clearExposedStatus,
+    ignoreAllProximityExposuresFromHistory,
+    exposureStatus,
+    ignoreAllOutbreaksFromHistory,
+  ]);
 
   return (
     <Box backgroundColor="overlayBackground" style={styles.flex}>
