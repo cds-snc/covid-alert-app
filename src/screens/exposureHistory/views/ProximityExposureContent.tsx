@@ -5,6 +5,7 @@ import {HomeScreenTitle} from 'screens/home/components/HomeScreenTitle';
 import {ExposureDateView} from 'screens/home/views/ExposureDateView';
 import {useCachedStorage} from 'services/StorageService';
 import {isRegionActive} from 'shared/RegionLogic';
+import {ExposedHelpButton} from 'components/ExposedHelpButton';
 
 const ActiveContent = ({text}: {text: string}) => {
   if (text === '') {
@@ -35,6 +36,7 @@ export const ProximityExposureContent = ({timestamp}: {timestamp: number}) => {
       ) : (
         <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Body2')}</Text>
       )}
+      <ExposedHelpButton />
     </>
   );
 };

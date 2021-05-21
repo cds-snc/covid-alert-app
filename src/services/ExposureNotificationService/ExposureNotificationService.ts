@@ -148,12 +148,6 @@ export class ExposureNotificationService {
     this.exposureHistory.observe(history => {
       this.storageService.save(StorageDirectory.ExposureNotificationServiceExposureHistoryKey, history.join(','));
     });
-    this.displayExposureHistory.observe(history => {
-      this.storageService.save(
-        StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
-        JSON.stringify(history),
-      );
-    });
 
     if (Platform.OS === 'android') {
       DeviceEventEmitter.removeAllListeners('initiateExposureCheckEvent');
@@ -293,6 +287,7 @@ export class ExposureNotificationService {
     try {
       await this.loadExposureStatus();
       await this.loadExposureHistory();
+      await this.loadDisplayExposureHistory();
       await this.updateExposureStatus();
       await this.processNotification();
       const qrEnabled = (await this.storageService.retrieve(StorageDirectory.GlobalQrEnabledKey)) === '1';
@@ -955,6 +950,7 @@ export class ExposureNotificationService {
     };
     displayExposureHistory.push(newHistoryItem);
     this.displayExposureHistory.set(displayExposureHistory);
+    this.saveDisplayExposureHistory();
   }
 
   public selectExposureSummary(nextSummary: ExposureSummary): {summary: ExposureSummary; isNext: boolean} {
@@ -989,9 +985,11 @@ export class ExposureNotificationService {
   }
 
   public async saveDisplayExposureHistory() {
+    const displayExposureHistory = this.displayExposureHistory.get();
+    log.debug({category: 'debug', message: 'saving displayExposureHistory', payload: {displayExposureHistory}});
     await this.storageService.save(
       StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
-      JSON.stringify(this.displayExposureHistory.get()),
+      JSON.stringify(displayExposureHistory),
     );
   }
 
