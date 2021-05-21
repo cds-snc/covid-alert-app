@@ -41,7 +41,7 @@ export const DismissAlertScreen = () => {
         style: 'default',
       },
     ]);
-  }, [clearExposedStatus, close, exposureStatus, i18n]);
+  }, [clearExposedStatus, close, exposureStatus, i18n, ignoreAllProximityExposuresFromHistory, outbreaks]);
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
