@@ -15,7 +15,7 @@ interface EventURL {
   url: string;
 }
 
-const base64ToUint8Array = (str: string) => {
+export const base64ToUint8Array = (str: string) => {
   return new Uint8Array(Array.prototype.slice.call(Buffer.from(str, 'base64'), 0));
 };
 

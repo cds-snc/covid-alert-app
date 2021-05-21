@@ -11,7 +11,8 @@ import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getRandomString} from 'shared/logging/uuid';
-import {Rsa} from '@trackforce/react-native-crypto';
+import {base64ToUint8Array} from '../../screens/qr/utils';
+import base64 from 'react-native-base64';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -287,8 +288,23 @@ export class OutbreakService {
       const outbreakBinBuffer = Buffer.from(outbreakFileBin, 'base64');
 
       try {
-        const result = await Rsa.verify(outbreakFileSig, outbreakFileBin, OUTBREAK_PUBLIC_KEY, 'SHA256');
-        console.log(result);
+        const outbreakFileSigDecoded = covidshield.OutbreakEventExportSignature.decode(
+          base64ToUint8Array(outbreakFileSig),
+        );
+
+        const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
+
+        let PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----\n';
+        PUBLIC_KEY += OUTBREAK_PUBLIC_KEY.replace(/\\n/g, '\n') + '\n';
+        PUBLIC_KEY += '-----END PUBLIC KEY-----\n';
+
+        console.log('***********************************');
+        console.log(PUBLIC_KEY);
+        console.log();
+        console.log('SIG:', typeof outbreakFileSigDecodedJSON.signature, outbreakFileSigDecodedJSON.signature);
+        console.log();
+        console.log('MESSAGE', typeof outbreakFileBin, outbreakFileBin);
+        console.log('***********************************');
       } catch (err) {
         console.log(err.message);
       }
