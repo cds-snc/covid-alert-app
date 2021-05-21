@@ -986,6 +986,11 @@ export class ExposureNotificationService {
 
   public async saveDisplayExposureHistory() {
     const displayExposureHistory = this.displayExposureHistory.get();
+    // don't save displayExposureHistory if it is empty,
+    // this is to avoid over-writing the history if it hasn't been loaded yet
+    if (displayExposureHistory.length === 0) {
+      return;
+    }
     log.debug({category: 'debug', message: 'saving displayExposureHistory', payload: {displayExposureHistory}});
     await this.storageService.save(
       StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
