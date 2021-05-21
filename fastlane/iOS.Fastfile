@@ -34,6 +34,15 @@ platform :ios do
     buildType = options[:type]
     release = options[:type] === 'production'
 
+
+    # Create a Github release (if it's a release)
+    if release
+      # Run yarn install
+      yarn(
+        command: 'run-ios:production'
+      )
+    end
+
     # Load env file
     load_env_file(buildType:buildType)
 
@@ -86,13 +95,13 @@ platform :ios do
   lane :devices_file_exists do
     File.exist? File.expand_path "../fastlane/devices.txt"
   end
-  
+
   desc "Ensure that there are no NSAppTransportSecurity keys in the Info.plist"
   lane :ensure_nsapptransportsecurity_is_not_set do |options|
     atskey = get_ipa_info_plist_value( ipa:options[:ipa], key:"NSAppTransportSecurity")
     UI.user_error!("IPA has NSAppTransportSecurity set") unless atskey.nil?
   end
-  
+
   desc "Adhoc build, upload to Diawi"
   lane :adhoc do |options|
     env = (options[:env] ? options[:env] : "local")
