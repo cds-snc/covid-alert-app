@@ -19,10 +19,9 @@ export const ClearOutbreakExposureScreen = () => {
   const i18n = useI18n();
 
   const close = useCallback(() => navigation.navigate('Home', {timestamp: getMillisSinceUTCEpoch()}), [navigation]);
-  const {ignoreAllOutbreaks} = useOutbreakService();
+  const {ignoreAllOutbreaks, ignoreAllOutbreaksFromHistory} = useOutbreakService();
   const [clearExposedStatus] = useClearExposedStatus();
   const exposureStatus = useExposureStatus();
-  const outbreaks = useOutbreakService();
   const {ignoreAllProximityExposuresFromHistory} = useDisplayExposureHistory();
   const onClearOutbreak = useCallback(async () => {
     ignoreAllOutbreaks();
@@ -34,8 +33,7 @@ export const ClearOutbreakExposureScreen = () => {
         text: i18n.translate('ClearOutbreakExposure.Alert.Confirm'),
         onPress: () => {
           onClearOutbreak();
-          outbreaks.ignoreAllOutbreaksFromHistory();
-          outbreaks.ignoreAllOutbreaks();
+          ignoreAllOutbreaksFromHistory();
           clearExposedStatus();
           ignoreAllProximityExposuresFromHistory();
           FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
@@ -48,15 +46,7 @@ export const ClearOutbreakExposureScreen = () => {
         style: 'cancel',
       },
     ]);
-  }, [
-    close,
-    i18n,
-    onClearOutbreak,
-    outbreaks,
-    clearExposedStatus,
-    ignoreAllProximityExposuresFromHistory,
-    exposureStatus,
-  ]);
+  }, [close, i18n, onClearOutbreak, clearExposedStatus, ignoreAllProximityExposuresFromHistory, exposureStatus]);
 
   return (
     <Box backgroundColor="overlayBackground" style={styles.flex}>
