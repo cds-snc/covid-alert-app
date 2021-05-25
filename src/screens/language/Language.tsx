@@ -1,10 +1,11 @@
 import React, {useCallback} from 'react';
 import {TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Icon, Toolbar} from 'components';
+import {Box, Text, Icon} from 'components';
 import {useCachedStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
+import {Toolbar} from 'screens/datasharing/components/Toolbar';
 
 interface LanguageSelectItemProps {
   onPress: () => void;
@@ -59,13 +60,7 @@ export const LanguageScreen = () => {
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Toolbar
-          title=""
-          navIcon="icon-back-arrow"
-          navText={i18n.translate('LanguageSelect.Close')}
-          navLabel={i18n.translate('LanguageSelect.Close')}
-          onIconClicked={close}
-        />
+        <Toolbar navText={i18n.translate('DataUpload.Close')} onIconClicked={close} />
         <ScrollView>
           <Text
             paddingHorizontal="m"
