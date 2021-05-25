@@ -1,11 +1,12 @@
 import React, {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Box, Toolbar, Text, TextMultiline} from 'components';
+import {Box, Text, TextMultiline} from 'components';
 import {ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useCachedStorage} from 'services/StorageService';
 import {useI18n} from 'locale';
 import {Region} from 'shared/Region';
+import {Toolbar} from 'screens/datasharing/components/Toolbar';
 
 import {regionData, RegionItem, regionStyles} from './RegionPickerShared';
 
@@ -24,13 +25,7 @@ export const RegionPickerSettingsScreen = () => {
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={regionStyles.flex}>
-        <Toolbar
-          title=""
-          navIcon="icon-back-arrow"
-          navText={i18n.translate('RegionPicker.Close')}
-          navLabel={i18n.translate('RegionPicker.Close')}
-          onIconClicked={close}
-        />
+        <Toolbar navText={i18n.translate('DataUpload.Close')} onIconClicked={close} />
         <ScrollView style={regionStyles.flex} testID="RegionPickerSettings-ScrollView">
           <Text
             paddingHorizontal="m"
