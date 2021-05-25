@@ -5,6 +5,8 @@ import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useI18n} from 'locale';
+import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotificationService';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getCurrentDate, getMillisSinceUTCEpoch} from 'shared/date-fns';
 
 export const ClearOutbreakExposureScreen = () => {
@@ -14,6 +16,8 @@ export const ClearOutbreakExposureScreen = () => {
 
   const close = useCallback(() => navigation.navigate('Home', {timestamp: getMillisSinceUTCEpoch()}), [navigation]);
   const {ignoreAllOutbreaks} = useOutbreakService();
+  const [clearExposedStatus] = useClearExposedStatus();
+  const exposureStatus = useExposureStatus();
   const onClearOutbreak = useCallback(async () => {
     ignoreAllOutbreaks();
     setState({...state, exposureHistoryClearedDate: getCurrentDate()});
@@ -24,6 +28,8 @@ export const ClearOutbreakExposureScreen = () => {
         text: i18n.translate('ClearOutbreakExposure.Alert.Confirm'),
         onPress: () => {
           onClearOutbreak();
+          clearExposedStatus();
+          FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
           close();
         },
       },
@@ -33,7 +39,7 @@ export const ClearOutbreakExposureScreen = () => {
         style: 'cancel',
       },
     ]);
-  }, [close, i18n, onClearOutbreak]);
+  }, [close, i18n, onClearOutbreak, clearExposedStatus, exposureStatus]);
 
   return (
     <Box backgroundColor="overlayBackground" style={styles.flex}>

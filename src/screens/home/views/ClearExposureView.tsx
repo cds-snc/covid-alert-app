@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {useI18n} from 'locale';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+import {useOutbreakService} from 'services/OutbreakService';
 
 export const DismissAlertScreen = () => {
   const i18n = useI18n();
@@ -13,6 +14,7 @@ export const DismissAlertScreen = () => {
   const close = useCallback(() => navigation.goBack(), [navigation]);
   const [clearExposedStatus] = useClearExposedStatus();
   const exposureStatus = useExposureStatus();
+  const outbreaks = useOutbreakService();
 
   const onClearExposedState = useCallback(() => {
     Alert.alert(i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Body'), undefined, [
@@ -24,6 +26,7 @@ export const DismissAlertScreen = () => {
       {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
         onPress: () => {
+          outbreaks.ignoreAllOutbreaks();
           clearExposedStatus();
           FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
           close();
@@ -31,7 +34,7 @@ export const DismissAlertScreen = () => {
         style: 'default',
       },
     ]);
-  }, [clearExposedStatus, close, exposureStatus, i18n]);
+  }, [clearExposedStatus, close, exposureStatus, i18n, outbreaks]);
 
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
