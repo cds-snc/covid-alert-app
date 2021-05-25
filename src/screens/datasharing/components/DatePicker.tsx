@@ -60,6 +60,7 @@ const DatePickerInternal = ({dateOptions, pickerStyles, selectedDate, setDate}: 
       selectedValue={selectedDate}
       onValueChange={value => setDate(value.toString())}
       mode="dialog"
+      accessible={true}
     >
       {dateOptions.map(x => (
         <Picker.Item key={x.value} label={x.label} value={x.value} />
