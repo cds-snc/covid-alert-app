@@ -32,11 +32,12 @@ export const ClearOutbreakExposureScreen = () => {
           FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
           close();
         },
+        style: 'cancel',
       },
       {
         text: i18n.translate('ClearOutbreakExposure.Alert.Cancel'),
         onPress: () => {},
-        style: 'cancel',
+        style: 'default',
       },
     ]);
   }, [close, i18n, onClearOutbreak, clearExposedStatus, exposureStatus]);

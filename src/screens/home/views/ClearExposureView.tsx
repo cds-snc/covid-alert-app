@@ -21,7 +21,7 @@ export const DismissAlertScreen = () => {
       {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Cancel'),
         onPress: () => {},
-        style: 'cancel',
+        style: 'default',
       },
       {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
@@ -31,7 +31,7 @@ export const DismissAlertScreen = () => {
           FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
           close();
         },
-        style: 'default',
+        style: 'cancel',
       },
     ]);
   }, [clearExposedStatus, close, exposureStatus, i18n, outbreaks]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, ButtonSingleLine, Icon, Text} from 'components';
+import {Box, ButtonSingleLine, Icon, Text, Button} from 'components';
 import {Linking} from 'react-native';
 import {useI18n} from 'locale';
 import {useCachedStorage} from 'services/StorageService';
@@ -17,10 +17,10 @@ export const Tip = () => {
   }
 
   return (
-    <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="m" marginBottom="m">
-      <Box flexDirection="row" paddingLeft="s" paddingRight="m">
+    <Box>
+      <Box flexDirection="row">
         <Box flex={0} paddingTop="xxs" marginRight="xxs">
-          <Icon name="icon-light-bulb" size={40} />
+          <Icon name="icon-light-bulb" size={60} />
         </Box>
         <Box flex={1}>
           <Text>
@@ -30,8 +30,8 @@ export const Tip = () => {
         </Box>
       </Box>
 
-      <Box paddingHorizontal="m" paddingTop="s">
-        <ButtonSingleLine text={cta} variant="thinFlatNeutralGrey" externalLink onPress={() => Linking.openURL(url)} />
+      <Box paddingTop="s">
+        <ButtonSingleLine text={cta} variant="bigFlatDarkGrey" externalLink onPress={() => Linking.openURL(url)} />
       </Box>
     </Box>
   );
