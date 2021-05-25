@@ -16,13 +16,13 @@
       "NoRegion": {
         "Title": "Aucune exposition détectée",
         "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
-        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+        "AllSetBody": "Dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nPour savoir si c’est votre cas, vous devrez sélectionner votre région."
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
         "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\n**Il est tout de même utile de garder Alerte COVID activée.**\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       }
     },
     "DiagnosedShareUploadView": {
@@ -43,8 +43,7 @@
       },
       "Dismiss": {
         "Title": "Résultat négatif au test de dépistage?",
-        "Body": "Vous pouvez mettre fin à l’alerte pour continuer à recevoir des notifications d’exposition. Aucune information d’exposition ne sera supprimée de votre téléphone.",
-        "Body2": "Vous pouvez aussi mettre fin à l’alerte si vous suivez les consignes de votre région.",
+        "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif.",
         "CTA": "Mettre fin à l’alerte",
         "Confirm": {
           "Body": "Voulez-vous vraiment mettre fin à l’alerte?",
@@ -103,7 +102,7 @@
       "CTA": "Trouver de l’aide"
     },
     "NoConnectivity": "Alerte COVID est hors ligne",
-    "NoConnectivityDetailed": "Alerte COVID vérifie s’il y a des expositions seulement quand votre téléphone est connecté à Internet.",
+    "NoConnectivityDetailed": "Alerte COVID peut vérifier s’il y a des expositions seulement si votre téléphone est connecté à Internet.",
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
     "LastCheckedMinutes": {
       "One": "Dernière vérification il y a {number} minute",
@@ -146,7 +145,7 @@
     },
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
-    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
+    "NotificationCardBody": "Vous ne recevrez pas de notification si vous avez été près d’une personne qui a signalé un diagnostic de COVID-19. Être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
     "NotificationCardAction": "Activer les notifications",
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "ExposureNotificationCardBody": "Alerte COVID ne peut pas vous aviser de la découverte d’une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
@@ -328,7 +327,7 @@
         "2": "**2. Vous fournissez quelques précisions** qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
         "3": "**3. Vous autorisez votre téléphone** à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
       },
-      "Body": "**Personne n’obtiendra de renseignements sur vous** ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
+      "Body": "**Les personnes exposées n’obtiendront aucun renseignement sur vous** ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
       "CTA": "Suivant"
     },
     "Step2": {

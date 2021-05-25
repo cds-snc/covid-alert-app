@@ -16,13 +16,13 @@
       "NoRegion": {
         "Title": "No exposure detected",
         "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
-        "AllSetBody": "We’ll let you know as soon as people outside Ontario can report a diagnosis through COVID Alert.\n\nIt’s still helpful to keep COVID Alert on.\n\nThat way, when people are able to report a diagnosis, you’ll find out if you were near them."
+        "AllSetBody": "In some provinces and territories, people cannot yet report a COVID-19 diagnosis through this app.\n\nTo find out if that’s your case, you’ll need to choose your area."
       },
       "RegionNotCovered": {
         "Title": "No reporting yet in your area",
         "Body": "People in your province or territory are not yet able to report a COVID-19 diagnosis through this app.\n\nIt’s still helpful to turn COVID Alert on. That way, when people are able to report a diagnosis, you’ll be notified if you were near them.",
         "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
-        "AllSetBody": "We’ll let you know as soon as people in your area can report a diagnosis through COVID Alert.\n\nIt’s still helpful to keep COVID Alert on.\n\nThat way, when people are able to report a diagnosis, you’ll find out if you were near them."
+        "AllSetBody": "We’ll let you know as soon as people in your area can report a diagnosis through COVID Alert.\n\n**It’s still helpful to keep COVID Alert on.**\n\nThat way, when people are able to report a diagnosis, you’ll find out if you were near them."
       }
     },
     "ExposureDetected": {
@@ -38,8 +38,7 @@
       },
       "Dismiss": {
         "Title": "Negative test result?",
-        "Body": "Dismiss this alert to receive any new exposure notifications. Dismissing this alert will not delete the exposure logs on your phone.",
-        "Body2": "You can also dismiss the alert if you’re following your area’s guidance.",
+        "Body": "You can dismiss the alert when you get a negative test.",
         "CTA": "Dismiss alert",
         "Confirm": {
           "Body": "Are you sure you want to dismiss this alert?",
@@ -328,7 +327,7 @@
         "2": "**2. Give the app details** to help narrow down when you were likely most contagious. You can choose not to give any details.",
         "3": "**3. Allow your phone to share** your random codes. These codes notify people you’ve been near."
       },
-      "Body": "**Nobody will get any information about you** or the time you were near them. They will only get a notification that they were exposed recently.",
+      "Body": "**Exposed people will not get any information about you** or the time you were near them. They will only get a notification that they were exposed recently.",
       "CTA": "Next"
     },
     "Step2": {
