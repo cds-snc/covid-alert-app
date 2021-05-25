@@ -45,6 +45,8 @@ export const METRICS_URL = Config.METRICS_URL || false;
 
 export const METRICS_API_KEY = Config.METRICS_API_KEY;
 
+export const OUTBREAK_PUBLIC_KEY = Config.OUTBREAK_PUBLIC_KEY || '';
+
 /**
  * Set reachability check url to empty to prevent
  * unnecessary background network activity

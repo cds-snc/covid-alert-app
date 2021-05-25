@@ -1,6 +1,6 @@
 import {Buffer} from 'buffer';
 
-import {TEST_MODE} from 'env';
+import {TEST_MODE, OUTBREAK_PUBLIC_KEY} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {I18n} from 'locale';
@@ -30,6 +30,10 @@ const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 export const HOURS_PER_PERIOD = 24;
 
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
+
+const base64ToUint8Array = (str: string) => {
+  return new Uint8Array(Array.prototype.slice.call(Buffer.from(str, 'base64'), 0));
+};
 
 export interface OutbreakEvent {
   // Don't use this for anything besides the dedup code.
@@ -282,7 +286,34 @@ export class OutbreakService {
       const targetDir = components.join('/');
       const unzippedLocation = await unzip(outbreaksZipUrl, targetDir);
       const outbreakFileBin = await readFile(`${unzippedLocation}/export.bin`, 'base64');
+      const outbreakFileSig = await readFile(`${unzippedLocation}/export.sig`, 'base64');
       const outbreakBinBuffer = Buffer.from(outbreakFileBin, 'base64');
+
+      try {
+        const outbreakFileSigDecoded = covidshield.OutbreakEventExportSignature.decode(
+          base64ToUint8Array(outbreakFileSig),
+        );
+
+        const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
+
+        let publicKey = '-----BEGIN PUBLIC KEY-----\n';
+        // repect newline chars in key
+        publicKey += `${OUTBREAK_PUBLIC_KEY.replace(/\\n/g, '\n')}\n`;
+        publicKey += '-----END PUBLIC KEY-----\n';
+        // output for local debug
+        if (__DEV__ && !TEST_MODE) {
+          log.debug({
+            category: 'qr-code',
+            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, key: publicKey},
+          });
+        }
+      } catch (err) {
+        log.error({
+          category: 'qr-code',
+          message: err.message,
+        });
+      }
+
       const outbreakEventExport = covidshield.OutbreakEventExport.decode(outbreakBinBuffer);
       for (const location of outbreakEventExport.locations) {
         outbreakEvents.push(location as covidshield.OutbreakEvent);
