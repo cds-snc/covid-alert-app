@@ -41,6 +41,10 @@ platform :ios do
       yarn(
         command: 'run-ios:production'
       )
+    else
+      yarn(
+        command: 'run-ios'
+      )
     end
 
     # Load env file
