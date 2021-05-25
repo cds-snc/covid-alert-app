@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, ButtonSingleLine, Icon, Text, Button} from 'components';
+import {Box, ButtonSingleLine, Icon, Text} from 'components';
 import {Linking} from 'react-native';
 import {useI18n} from 'locale';
 import {useCachedStorage} from 'services/StorageService';
