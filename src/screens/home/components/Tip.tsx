@@ -31,7 +31,7 @@ export const Tip = () => {
       </Box>
 
       <Box paddingTop="s">
-        <ButtonSingleLine text={cta} variant="bigFlatDarkGrey" externalLink onPress={() => Linking.openURL(url)} />
+        <ButtonSingleLine text={cta} variant="thinFlatNeutralGrey" externalLink onPress={() => Linking.openURL(url)} />
       </Box>
     </Box>
   );

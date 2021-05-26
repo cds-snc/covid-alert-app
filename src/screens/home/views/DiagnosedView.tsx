@@ -53,7 +53,7 @@ export const DiagnosedView = () => {
               {i18n.translate('Home.DiagnosedView.Body3')}
             </Text>
           </RoundedBox>
-          <RoundedBox isFirstBox={false}>
+          <RoundedBox isFirstBox={false} backgroundColor="green2">
             {isRegionActive(region, regionalI18n.activeRegions) ? <Tip /> : null}
           </RoundedBox>
         </>
