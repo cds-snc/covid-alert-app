@@ -22,7 +22,8 @@ class CustomPackage : ReactPackage, ActivityResultHelper, ExposureNotificationBr
                 CovidShieldModule(reactContext),
                 ExposureCheckSchedulerModule(reactContext),
                 DebugMetricsModule(reactContext),
-                StorageModule(reactContext)
+                StorageModule(reactContext),
+                OutbreakSignatureValidationModule(reactContext)
         )
         this.nativeModules = nativeModules
         return nativeModules
