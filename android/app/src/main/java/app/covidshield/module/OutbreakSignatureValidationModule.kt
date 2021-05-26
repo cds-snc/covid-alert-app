@@ -26,13 +26,11 @@ class OutbreakSignatureValidationModule(private val context: ReactApplicationCon
     fun isSignatureValid(packageMessage: String, packageSignature: String, promise: Promise) {
         promise.launch(this) {
           try {
-            val decodedKey = Base64.decode(PUBLIC_KEY,0)
-
+            val decodedKey = Base64.decode(PUBLIC_KEY,Base64.DEFAULT)
             val kf = KeyFactory.getInstance("EC")
             val outbreakPublicKey: PublicKey = kf.generatePublic(X509EncodedKeySpec(decodedKey))
-            val decodedMessage: ByteArray = Base64.decode(packageMessage,0)
-            val decodedSignature: ByteArray = Base64.decode(packageSignature,0)
-
+            val decodedMessage: ByteArray = Base64.decode(packageMessage, Base64.DEFAULT)
+            val decodedSignature: ByteArray = Base64.decode(packageSignature,Base64.DEFAULT)
             val s = Signature.getInstance("SHA256withECDSA")
                   .apply {
                       initVerify(outbreakPublicKey)

@@ -1,9 +1,9 @@
 import {NativeModules} from 'react-native';
 
 const OutbreakSignatureValidationBridge = NativeModules.OutbreakSignatureValidation as {
-  isSignatureValid(message: string, signature: string): Promise<boolean>;
+  isSignatureValid(packageMessage: string, packageSignature: string): Promise<boolean>;
 };
 
-export function isOutbreakSignatureValid(message: string, signature: string): Promise<boolean> {
-  return OutbreakSignatureValidationBridge.isSignatureValid(message, signature);
+export function isOutbreakSignatureValid(packageMessage: string, packageSignature: string): Promise<boolean> {
+  return OutbreakSignatureValidationBridge.isSignatureValid(packageMessage, packageSignature);
 }
