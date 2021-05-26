@@ -1,4 +1,5 @@
 import {Buffer} from 'buffer';
+import {Platform} from 'react-native';
 
 import {TEST_MODE} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
@@ -288,7 +289,6 @@ export class OutbreakService {
       const unzippedLocation = await unzip(outbreaksZipUrl, targetDir);
       const outbreakFileBin = await readFile(`${unzippedLocation}/export.bin`, 'base64');
       const outbreakFileSig = await readFile(`${unzippedLocation}/export.sig`, 'base64');
-      const outbreakBinBuffer = Buffer.from(outbreakFileBin, 'base64');
 
       try {
         const outbreakFileSigDecoded = covidshield.OutbreakEventExportSignature.decode(
@@ -296,14 +296,21 @@ export class OutbreakService {
         );
 
         const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
-        // need to add for iOS
-        const isValid = await isOutbreakSignatureValid(outbreakFileBin, outbreakFileSigDecodedJSON.signature);
 
-        log.debug({
-          category: 'qr-code',
-          message: 'has valid signature',
-          payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, isValid},
-        });
+        // need to add for iOS
+        if (Platform.OS === 'android') {
+          const isValid = await isOutbreakSignatureValid(outbreakFileBin, outbreakFileSigDecodedJSON.signature);
+
+          if (!isValid) {
+            throw new Error('outbreak data signature match failed');
+          }
+
+          log.debug({
+            category: 'qr-code',
+            message: 'has valid signature',
+            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, isValid},
+          });
+        }
       } catch (err) {
         log.error({
           category: 'qr-code',
