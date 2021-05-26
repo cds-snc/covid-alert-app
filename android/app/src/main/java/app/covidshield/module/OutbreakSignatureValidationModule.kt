@@ -14,15 +14,31 @@ class OutbreakSignatureValidationModule(private val context: ReactApplicationCon
 
     override val coroutineContext: CoroutineContext = Dispatchers.IO
 
+    private const val publicKey = BuildConfig.OUTBREAK_PUBLIC_KEY;
+
     @ReactMethod
-    fun isSignatureValid(message: String, signature: String, promise: Promise) {
+    fun isSignatureValid(packageMessage: String, packageSignature: String, promise: Promise) {
         promise.launch(this) {
+          try {
+            val decodedBytes = Base64.getDecoder().decode(publicKey);
+            val kf = KeyFactory.getInstance("EC")
+            val outbreakPublicKey: PublicKey = kf.generatePublic(X509EncodedKeySpec(decodedBytes))
+            val decodedMessage: ByteArray = Base64.getDecoder().decode(packageMessage)
+            val decodedSignature: ByteArray = Base64.getDecoder().decode(packageSignature)
 
-            val isValid = true
-            
-            // logic goes here
+            val s = Signature.getInstance("SHA256withECDSA")
+                  .apply {
+                      initVerify(outbreakPublicKey)
+                      update(decodedMessage)
+                  }
 
+            val isValid: Boolean = s.verify(decodedSignature)
             promise.resolve(isValid)
+
+          } catch (e: Exception) {
+              println(e.message)
+              promise.resolve(false)
+          }
         }
     }
 }
