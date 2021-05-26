@@ -289,6 +289,7 @@ export class OutbreakService {
       const unzippedLocation = await unzip(outbreaksZipUrl, targetDir);
       const outbreakFileBin = await readFile(`${unzippedLocation}/export.bin`, 'base64');
       const outbreakFileSig = await readFile(`${unzippedLocation}/export.sig`, 'base64');
+      const outbreakBinBuffer = Buffer.from(outbreakFileBin, 'base64');
 
       try {
         const outbreakFileSigDecoded = covidshield.OutbreakEventExportSignature.decode(
