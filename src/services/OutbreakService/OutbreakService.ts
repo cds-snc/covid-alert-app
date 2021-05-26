@@ -297,7 +297,7 @@ export class OutbreakService {
 
         const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
         // need to add for iOS
-        const isValid = await isOutbreakSignatureValid(outbreakFileSigDecodedJSON.signature, outbreakFileBin);
+        const isValid = await isOutbreakSignatureValid(outbreakFileBin, outbreakFileSigDecodedJSON.signature);
 
         log.debug({
           category: 'qr-code',
