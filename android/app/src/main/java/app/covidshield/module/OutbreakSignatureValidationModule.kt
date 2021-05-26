@@ -8,23 +8,29 @@ import com.facebook.react.bridge.ReactMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
+import app.covidshield.BuildConfig
+import java.security.KeyFactory
+import java.security.PublicKey
+import java.security.Signature
+import java.security.spec.X509EncodedKeySpec
+import android.util.Base64
+
+private const val PUBLIC_KEY = BuildConfig.OUTBREAK_PUBLIC_KEY;
 
 class OutbreakSignatureValidationModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context), CoroutineScope {
     override fun getName(): String = "OutbreakSignatureValidation"
 
     override val coroutineContext: CoroutineContext = Dispatchers.IO
 
-    private const val publicKey = BuildConfig.OUTBREAK_PUBLIC_KEY;
-
     @ReactMethod
     fun isSignatureValid(packageMessage: String, packageSignature: String, promise: Promise) {
         promise.launch(this) {
           try {
-            val decodedBytes = Base64.getDecoder().decode(publicKey);
+            val decodedBytes = Base64.decode(PUBLIC_KEY,0);
             val kf = KeyFactory.getInstance("EC")
             val outbreakPublicKey: PublicKey = kf.generatePublic(X509EncodedKeySpec(decodedBytes))
-            val decodedMessage: ByteArray = Base64.getDecoder().decode(packageMessage)
-            val decodedSignature: ByteArray = Base64.getDecoder().decode(packageSignature)
+            val decodedMessage: ByteArray = Base64.decode(packageMessage,0)
+            val decodedSignature: ByteArray = Base64.decode(packageSignature,0)
 
             val s = Signature.getInstance("SHA256withECDSA")
                   .apply {
