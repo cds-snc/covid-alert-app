@@ -1,6 +1,6 @@
 import {Buffer} from 'buffer';
-import {Platform} from 'react-native';
 
+import {Platform} from 'react-native';
 import {TEST_MODE} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
@@ -12,6 +12,7 @@ import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getRandomString} from 'shared/logging/uuid';
+import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -25,7 +26,6 @@ import {getCurrentDate, minutesBetween, periodSinceEpoch} from '../../shared/dat
 import {log} from '../../shared/logging/config';
 
 import {getOutbreaksLastCheckedDateTime, markOutbreaksLastCheckedDateTime} from './OutbreakStorage';
-import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
 
 const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 
