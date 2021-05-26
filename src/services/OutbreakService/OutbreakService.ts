@@ -1,6 +1,6 @@
 import {Buffer} from 'buffer';
 
-import {TEST_MODE, OUTBREAK_PUBLIC_KEY} from 'env';
+import {TEST_MODE} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {I18n} from 'locale';
@@ -24,6 +24,7 @@ import {getCurrentDate, minutesBetween, periodSinceEpoch} from '../../shared/dat
 import {log} from '../../shared/logging/config';
 
 import {getOutbreaksLastCheckedDateTime, markOutbreaksLastCheckedDateTime} from './OutbreakStorage';
+import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
 
 const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 
@@ -295,18 +296,14 @@ export class OutbreakService {
         );
 
         const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
+        // need to add for iOS
+        const isValid = await isOutbreakSignatureValid(outbreakFileSigDecodedJSON.signature, outbreakFileBin);
 
-        let publicKey = '-----BEGIN PUBLIC KEY-----\n';
-        // repect newline chars in key
-        publicKey += `${OUTBREAK_PUBLIC_KEY.replace(/\\n/g, '\n')}\n`;
-        publicKey += '-----END PUBLIC KEY-----\n';
-        // output for local debug
-        if (__DEV__ && !TEST_MODE) {
-          log.debug({
-            category: 'qr-code',
-            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, key: publicKey},
-          });
-        }
+        log.debug({
+          category: 'qr-code',
+          message: 'has valid signature',
+          payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, isValid},
+        });
       } catch (err) {
         log.error({
           category: 'qr-code',
