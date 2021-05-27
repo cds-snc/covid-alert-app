@@ -103,15 +103,17 @@ export const MenuScreen = () => {
               icon="icon-chevron"
             />
 
-            <InfoShareItem
-              text={i18n.translate('Home.ExposedHelpCTA')}
-              onPress={onExposedHelp}
-              icon={regionIcon}
-              accessibilityRole="link"
-              accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate(
-                'Home.ExternalLinkHint',
-              )}`}
-            />
+            {!qrEnabled && (
+              <InfoShareItem
+                text={i18n.translate('Home.ExposedHelpCTA')}
+                onPress={onExposedHelp}
+                icon={regionIcon}
+                accessibilityRole="link"
+                accessibilityHint={`${i18n.translate('Home.ExposedHelpCTA')} . ${i18n.translate(
+                  'Home.ExternalLinkHint',
+                )}`}
+              />
+            )}
           </Box>
 
           <Box marginTop="m" marginBottom="s">

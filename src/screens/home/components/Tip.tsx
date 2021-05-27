@@ -17,8 +17,8 @@ export const Tip = () => {
   }
 
   return (
-    <Box>
-      <Box flexDirection="row">
+    <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="xs" marginBottom="m">
+      <Box flexDirection="row" paddingLeft="s" paddingRight="m">
         <Box flex={0} paddingTop="xxs" marginRight="xxs">
           <Icon name="icon-light-bulb" size={60} />
         </Box>

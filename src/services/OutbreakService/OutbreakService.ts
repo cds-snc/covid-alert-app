@@ -1,6 +1,7 @@
 import {Buffer} from 'buffer';
 
-import {TEST_MODE, OUTBREAK_PUBLIC_KEY} from 'env';
+import {Platform} from 'react-native';
+import {TEST_MODE} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {I18n} from 'locale';
@@ -11,6 +12,7 @@ import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getRandomString} from 'shared/logging/uuid';
+import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -296,15 +298,18 @@ export class OutbreakService {
 
         const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
 
-        let publicKey = '-----BEGIN PUBLIC KEY-----\n';
-        // repect newline chars in key
-        publicKey += `${OUTBREAK_PUBLIC_KEY.replace(/\\n/g, '\n')}\n`;
-        publicKey += '-----END PUBLIC KEY-----\n';
-        // output for local debug
-        if (__DEV__ && !TEST_MODE) {
+        // need to add for iOS
+        if (Platform.OS === 'android') {
+          const isValid = await isOutbreakSignatureValid(outbreakFileBin, outbreakFileSigDecodedJSON.signature);
+
+          if (!isValid) {
+            throw new Error('outbreak data signature match failed');
+          }
+
           log.debug({
             category: 'qr-code',
-            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, key: publicKey},
+            message: 'has valid signature',
+            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, isValid},
           });
         }
       } catch (err) {

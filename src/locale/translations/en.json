@@ -148,8 +148,8 @@
     "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
     "NotificationCardAction": "Turn on notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
-    "ExposureNotificationCardBody": "COVID Alert cannot notify you as soon as it learns of a possible exposure. Finding out right away is essential to slowing the spread of COVID-19.",
-    "ExposureNotificationCardAction": "Turn on exposure notifications",
+    "ExposureNotificationCardBody": "You did not enable COVID Alert. The app needs your permission to work.",
+    "ExposureNotificationCardAction": "Enable COVID Alert",
     "NoConnectivityCardAction": "COVID Alert is offline",
     "NoConnectivityCardBody": "Connect to the Internet to notify people or check for exposures.",
     "EnUnauthorizedCardAction": "Enable COVID Alert",
@@ -582,7 +582,7 @@
   },
   "ExposureHistory": {
     "Title": "Your recent exposures",
-    "Body": "This list shows your exposures from the last 14 days.",
+    "Body": "Your exposures are ordered based on the date of notification.\n\nExposures are deleted after 14 days.",
     "NoExposures": "No exposures",
     "DeleteAllExposures": "Delete all exposures",
     "Alert": {
