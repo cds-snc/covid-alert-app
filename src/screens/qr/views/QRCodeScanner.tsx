@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {Box, Text, ToolbarWithClose} from 'components';
@@ -46,40 +46,42 @@ export const QRCodeScanner = () => {
   };
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
 
+  const {width} = useWindowDimensions();
+
   return (
-    <BarCodeScanner onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned} style={styles.barcodeScanner}>
+    <>
       <Box style={styles.top} />
+      <Box marginBottom="m" style={styles.toolbar}>
+        <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} useWhiteText onClose={close} showBackButton />
+      </Box>
 
       <SafeAreaView style={styles.flex}>
-        <Box style={styles.boxLeft} />
-        <Box style={styles.boxRight} />
-        <Box marginBottom="m" style={styles.toolbar}>
-          <ToolbarWithClose
-            closeText={i18n.translate('DataUpload.Close')}
-            useWhiteText
-            onClose={close}
-            showBackButton
-          />
-        </Box>
-
-        <Box
-          style={styles.info}
-          paddingVertical="s"
-          paddingHorizontal="m"
-          height={orientation === 'landscape' ? 40 : '25%'}
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+          style={{...styles.barcodeScanner, height: width}}
         >
-          <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
-            {i18n.translate(`QRCode.Reader.Title`)}
-          </Text>
-        </Box>
+          <Box
+            style={styles.info}
+            paddingVertical="s"
+            paddingHorizontal="m"
+            height={orientation === 'landscape' ? 40 : '25%'}
+          >
+            <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
+              {i18n.translate(`QRCode.Reader.Title`)}
+            </Text>
+          </Box>
+        </BarCodeScanner>
       </SafeAreaView>
-    </BarCodeScanner>
+    </>
   );
 };
+
+/* {"bottom": 0, "left": 0, "position": "absolute", "right": 0, "top": 0} */
 
 const styles = StyleSheet.create({
   top: {
     position: 'absolute',
+    top: 0,
     height: 30,
     backgroundColor: 'black',
     width: '100%',
@@ -92,22 +94,25 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   toolbar: {
+    top: 30,
     backgroundColor: 'black',
   },
   flex: {
     flex: 1,
+    marginTop: 10,
+    backgroundColor: 'black',
   },
   barcodeScanner: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'black',
+    top: 30,
   },
   boxLeft: {
     top: 0,
     height: '100%',
     left: 0,
     position: 'absolute',
-    width: '4%',
-    paddingBottom: '40%',
+    width: '2%',
     backgroundColor: 'black',
   },
   boxRight: {
@@ -115,8 +120,7 @@ const styles = StyleSheet.create({
     height: '100%',
     right: 0,
     position: 'absolute',
-    width: '4%',
-    paddingBottom: '40%',
+    width: '2%',
     backgroundColor: 'black',
   },
 });
