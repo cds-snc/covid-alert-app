@@ -32,6 +32,7 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
 
   return (
     <>
+      <Text paddingBottom="m">{i18n.translate('ExposureHistory.Body')}</Text>
       {exposureHistoryData.map((item, index) => {
         return (
           <Box key={item.historyItem.id}>
