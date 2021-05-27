@@ -9,7 +9,7 @@
       "AllSetTitle": "You’re all set",
       "RegionCovered": {
         "Title": "No exposure detected",
-        "Body": "The app has not found a risk of exposure. The app checks for exposures daily.",
+        "Body": "The app has not found a risk of exposure. It checks for exposures every day.",
         "GuidanceUrl": "https://www.canada.ca/en/public-health/services/publications/diseases-conditions/covid-19-how-to-isolate-at-home.html",
         "AllSetBody": "Your phone is now running Bluetooth to collect codes from nearby phones."
       },
@@ -38,7 +38,7 @@
       },
       "Dismiss": {
         "Title": "Negative test result?",
-        "Body": "You can dismiss the alert when you get a negative test.",
+        "Body": "You can dismiss the alert when you get a negative test. You’ll still be able to see it in your recent exposures.",
         "CTA": "Dismiss alert",
         "Confirm": {
           "Body": "Are you sure you want to dismiss this alert?",
@@ -603,7 +603,7 @@
   },
   "ClearOutbreakExposure": {
     "Title": "Negative test result?",
-    "Body": "You can dismiss the alert when you get a negative test.",
+    "Body": "You can dismiss the alert when you get a negative test. You’ll still be able to see it in your recent exposures.",
     "Button": "Dismiss alert",
     "Alert": {
       "Title": "Are you sure you want to dismiss this alert?",

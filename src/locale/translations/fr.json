@@ -42,8 +42,8 @@
         "CTA": "Résultat de test négatif?"
       },
       "Dismiss": {
-        "Title": "Résultat négatif au test de dépistage?",
-        "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif.",
+        "Title": "Résultat de test négatif?",
+        "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif. Cette exposition restera visible dans vos expositions récentes.",
         "CTA": "Mettre fin à l’alerte",
         "Confirm": {
           "Body": "Voulez-vous vraiment mettre fin à l’alerte?",
@@ -599,7 +599,7 @@
   },
   "ClearOutbreakExposure": {
     "Title": "Résultat de test négatif?",
-    "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif.",
+    "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif. Cette exposition restera visible dans vos expositions récentes.",
     "Button": "Mettre fin à l’alerte",
     "Alert": {
       "Title": "Voulez-vous vraiment mettre fin à l’alerte?",

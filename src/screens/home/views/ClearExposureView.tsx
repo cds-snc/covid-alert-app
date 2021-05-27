@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
+import {Text, Box, Button, ButtonSingleLine, Toolbar, ToolbarWithClose} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {useI18n} from 'locale';
@@ -39,13 +39,7 @@ export const DismissAlertScreen = () => {
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Toolbar
-          title=""
-          navIcon="icon-back-arrow"
-          navText={i18n.translate('LanguageSelect.Close')}
-          navLabel={i18n.translate('LanguageSelect.Close')}
-          onIconClicked={close}
-        />
+        <ToolbarWithClose closeText={i18n.translate('LanguageSelect.Close')} showBackButton={false} onClose={close} />
         <ScrollView>
           <Box paddingHorizontal="m" paddingBottom="l">
             <Box>

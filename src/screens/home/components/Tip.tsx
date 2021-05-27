@@ -30,7 +30,7 @@ export const Tip = () => {
         </Box>
       </Box>
 
-      <Box paddingTop="s">
+      <Box padding="s">
         <ButtonSingleLine text={cta} variant="thinFlatNeutralGrey" externalLink onPress={() => Linking.openURL(url)} />
       </Box>
     </Box>
