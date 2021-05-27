@@ -583,7 +583,7 @@
   },
   "ExposureHistory": {
     "Title": "Your recent exposures",
-    "Body": "This list shows your exposures from the last 14 days.",
+    "Body": "Your exposures are ordered based on the date of notification.\n\nExposures are deleted after 14 days.",
     "NoExposures": "No exposures",
     "DeleteAllExposures": "Delete all exposures",
     "Alert": {
