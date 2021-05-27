@@ -21,11 +21,9 @@ export const TekUploadSubsequentDays = () => {
         <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('DataUpload.ConsentView.Title')}
         </Text>
-        <Text marginBottom="m">{i18n.translate('DataUpload.ConsentView.Body1')}</Text>
+        <Text marginBottom="m">{BoldText(i18n.translate('DataUpload.ConsentView.Body1'))}</Text>
 
-        <Text marginBottom="m">{BoldText(i18n.translate('DataUpload.ConsentView.Body2'))}</Text>
-
-        <Text marginBottom="l">{i18n.translate('DataUpload.ConsentView.Body3')}</Text>
+        <Text marginBottom="l">{i18n.translate('DataUpload.ConsentView.Body2')}</Text>
       </Box>
     </BaseTekUploadView>
   );
