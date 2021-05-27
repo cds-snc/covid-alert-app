@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
-import {Box, Text, Icon, Toolbar} from 'components';
+import {Box, Text, Icon, ToolbarWithClose} from 'components';
 import {useCachedStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -59,13 +59,7 @@ export const LanguageScreen = () => {
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Toolbar
-          title=""
-          navIcon="icon-back-arrow"
-          navText={i18n.translate('LanguageSelect.Close')}
-          navLabel={i18n.translate('LanguageSelect.Close')}
-          onIconClicked={close}
-        />
+        <ToolbarWithClose closeText={i18n.translate('LanguageSelect.Close')} showBackButton={false} onClose={close} />
         <ScrollView>
           <Text
             paddingHorizontal="m"
