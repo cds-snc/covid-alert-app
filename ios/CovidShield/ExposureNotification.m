@@ -11,12 +11,15 @@
 
 #import <React/RCTConvert.h>
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
+#import "MetricsService.h"
 
 @interface ExposureNotification ()
 @property (nonatomic) NSMutableArray *reportedSummaries;
 @end
 
 @implementation ExposureNotification
+
+@synthesize bridge = _bridge;
 @synthesize reportedSummaries;
 
 - (instancetype)init {
@@ -68,6 +71,12 @@ RCT_REMAP_METHOD(activate, activateWithCompletionHandler:(RCTPromiseResolveBlock
   if ([ExposureNotification exposureNotificationSupportType] == ENSupportTypeVersion12dot5) {
     [self.enManager setLaunchActivityHandler:^(ENActivityFlags activityFlags) {
       if (activityFlags & ENActivityFlagsPeriodicRun) {
+        
+        MetricsService *metricsService = [MetricsService sharedInstance];
+        
+        [metricsService publishMetric:ActiveUser bridge:self->_bridge];
+        [metricsService publishMetric:ScheduledCheckStartedToday bridge:self->_bridge];
+        
         // Your app now has 3.5 minutes to perform download and detection.
         TSBackgroundFetch *fetchManager = [TSBackgroundFetch sharedInstance];
         [fetchManager performFetchWithCompletionHandler:^void(UIBackgroundFetchResult r) {}
