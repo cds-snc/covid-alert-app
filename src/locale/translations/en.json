@@ -15,7 +15,7 @@
       },
       "NoRegion": {
         "Title": "No exposure detected",
-        "Body": "You have not been near anyone who reported a COVID-19 diagnosis through this app.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
+        "Body": "The app has not found a risk of exposure. It checks for exposures every day.\n\nHowever, in some provinces and territories, people cannot yet report COVID-19 diagnoses through this app.",
         "AllSetBody": "In some provinces and territories, people cannot yet report a COVID-19 diagnosis through this app.\n\nChoose your area from the menu to find out if it supports the app."
       },
       "RegionNotCovered": {

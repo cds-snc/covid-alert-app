@@ -15,7 +15,7 @@
       },
       "NoRegion": {
         "Title": "Aucune exposition détectée",
-        "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
+        "Body": "L’application n’a pas trouvé de risque d’exposition lors de ses vérifications quotidiennes.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
         "AllSetBody": "Dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nPour savoir si c’est votre cas, vous devrez sélectionner votre région à partir du menu."
       },
       "RegionNotCovered": {
