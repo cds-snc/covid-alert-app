@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import {Box, Toolbar} from 'components';
+import {Box, ToolbarWithClose} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {useCachedStorage} from 'services/StorageService';
@@ -38,13 +38,7 @@ export const NoCodeScreen = () => {
   return (
     <Box flex={1} backgroundColor="overlayBackground">
       <SafeAreaView style={styles.flex}>
-        <Toolbar
-          title=""
-          navIcon="icon-back-arrow"
-          navText={i18n.translate('DataUpload.Cancel')}
-          navLabel={i18n.translate('DataUpload.Cancel')}
-          onIconClicked={close}
-        />
+        <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} showBackButton={false} onClose={close} />
         <ScrollView style={styles.flex}>
           <Box paddingHorizontal="m" paddingBottom="l">
             <Content />

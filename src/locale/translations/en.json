@@ -220,7 +220,7 @@
     "Close": "Close"
   },
   "QRCodeOnboarding": {
-    "step-1Title": "Pilot project in Mooseville: exposures from places visited",
+    "step-1Title": "Pilot project in Ottawa: exposures from places visited",
     "step-1AltText": "-",
     "step-1": "The app can notify you if you’ve been at a place at the same time as an exposure.\n\nThis kind of exposure notification uses QR codes you scan as you go about your day.\n\nIt’s more private than sharing your contact details with the places you visit.",
     "step-2Title": "How QR code notifications work",
@@ -232,7 +232,7 @@
     "step-4Title": "Help make contact tracing easier",
     "step-4AltText": "-",
     "step-4": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from the places you visited.",
-    "step-4-banner": "Right now, posters with QR codes are **only available in Mooseville** as part of a pilot project.",
+    "step-4-banner": "Right now, posters with QR codes are **only available in Ottawa** as part of a pilot project.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -533,9 +533,9 @@
       "Title": "Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Add a visit: Mooseville only",
+      "Title": "Add a visit: Ottawa only",
       "Body": "Get notified if public health finds an exposure risk from your visit.\n\nThe app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits are not shared** with anyone.",
-      "Banner": "Right now, posters with QR codes are **only available in Mooseville** as part of a pilot project.",
+      "Banner": "Right now, posters with QR codes are **only available in Ottawa** as part of a pilot project.",
       "CTA": "Next",
       "CTA2": "About adding a visit"
     },

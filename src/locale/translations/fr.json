@@ -220,7 +220,7 @@
     "Close": "Fermer"
   },
   "QRCodeOnboarding": {
-    "step-1Title": "Projet pilote à Mooseville : expositions dans des lieux visités",
+    "step-1Title": "Projet pilote à Ottawa : expositions dans des lieux visités",
     "step-1AltText": "-",
     "step-1": "L’application peut vous aviser si vous avez visité un lieu pendant qu’il y avait un risque d’exposition.\n\nCe type de notifications fonctionne à partir de codes QR que vous scannez lors de vos allées et venues.\n\nLes codes QR vous évitent de laisser vos renseignements personnels aux lieux visités, ce qui offre plus de vie privée.",
     "step-2Title": "Fonctionnement des notifications par code QR",
@@ -232,7 +232,7 @@
     "step-4Title": "Facilitons la recherche de contacts",
     "step-4AltText": "-",
     "step-4": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu un risque d’exposition pendant celles-ci.",
-    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet pilote.",
+    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -529,9 +529,9 @@
       "Title": "FR Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Ajouter une visite : Mooseville seulement",
+      "Title": "Ajouter une visite : Ottawa seulement",
       "Body": "Vous serez avisé si la santé publique détecte un risque d’exposition lié à votre visite.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
-      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet pilote.",
+      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote.",
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },
