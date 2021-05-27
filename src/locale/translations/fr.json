@@ -579,7 +579,7 @@
   },
   "ExposureHistory": {
     "Title": "Vos expositions récentes",
-    "Body": "Voici la liste de vos expositions pour les 14 derniers jours.",
+    "Body": "Vos expositions sont classées selon la date d’envoi des notifications.\n\nElles sont supprimées après 14 jours.",
     "NoExposures": "Aucune exposition",
     "DeleteAllExposures": "Supprimer toutes les expositions",
     "Alert": {
