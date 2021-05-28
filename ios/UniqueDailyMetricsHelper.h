@@ -11,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UniqueDailyMetricsHelper : NSObject
 
-- (BOOL)canPublishMetricWithIdentifier:(NSString *)identifier;
-- (void)markMetricAsPublishedWithIdentifier:(NSString *)identifier;
+- (BOOL)canPublishMetricWithIdentifier:(NSString *)identifier currentDate:(NSDate *)currentDate;
+- (void)markMetricAsPublishedWithIdentifier:(NSString *)identifier currentDate:(NSDate *)currentDate;
 
 @end
 

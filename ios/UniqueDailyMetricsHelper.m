@@ -25,19 +25,19 @@
   return self;
 }
 
-- (BOOL)canPublishMetricWithIdentifier:(NSString *)identifier
+- (BOOL)canPublishMetricWithIdentifier:(NSString *)identifier currentDate:(NSDate *)currentDate
 {
   NSDate *retrieveUTCDate = [self.userDefaults objectForKey:identifier];
   if (retrieveUTCDate != nil) {
-    return ![DateUtils isSameDay:retrieveUTCDate date2:[DateUtils getCurrentUTCDate]];
+    return ![DateUtils isSameDay:retrieveUTCDate date2:currentDate];
   } else {
     return YES;
   }
 }
 
-- (void)markMetricAsPublishedWithIdentifier:(NSString *)identifier
+- (void)markMetricAsPublishedWithIdentifier:(NSString *)identifier currentDate:(NSDate *)currentDate
 {
-  [self.userDefaults setObject:[DateUtils getCurrentUTCDate] forKey:identifier];
+  [self.userDefaults setObject:currentDate forKey:identifier];
 }
 
 @end
