@@ -50,77 +50,51 @@ export const QRCodeScanner = () => {
 
   return (
     <>
-      <Box style={styles.top} />
-      <Box marginBottom="m" style={styles.toolbar}>
-        <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} useWhiteText onClose={close} showBackButton />
-      </Box>
-
       <SafeAreaView style={styles.flex}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
-          style={{...styles.barcodeScanner, height: width}}
-        >
-          <Box
-            style={styles.info}
-            paddingVertical="s"
-            paddingHorizontal="m"
-            height={orientation === 'landscape' ? 40 : '25%'}
+        <Box style={styles.toolbar}>
+          <ToolbarWithClose
+            closeText={i18n.translate('DataUpload.Close')}
+            useWhiteText
+            onClose={close}
+            showBackButton
+          />
+        </Box>
+        <Box paddingVertical="m" paddingHorizontal="m" style={{...styles.scanWrapper}}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+            style={{...styles.barcodeScanner}}
           >
-            <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
-              {i18n.translate(`QRCode.Reader.Title`)}
-            </Text>
-          </Box>
-        </BarCodeScanner>
+            <Box style={{...styles.mask, top: orientation === 'portrait' ? width : '85%'}}>
+              <Box paddingTop="m">
+                <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
+                  {i18n.translate(`QRCode.Reader.Title`)}
+                </Text>
+              </Box>
+            </Box>
+          </BarCodeScanner>
+        </Box>
       </SafeAreaView>
     </>
   );
 };
 
-/* {"bottom": 0, "left": 0, "position": "absolute", "right": 0, "top": 0} */
-
 const styles = StyleSheet.create({
-  top: {
-    position: 'absolute',
-    top: 0,
-    height: 30,
-    backgroundColor: 'black',
-    width: '100%',
-  },
-  info: {
-    backgroundColor: 'black',
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    width: '100%',
-  },
-  toolbar: {
-    top: 30,
-    backgroundColor: 'black',
-  },
   flex: {
     flex: 1,
-    marginTop: 10,
     backgroundColor: 'black',
+    alignContent: 'flex-start',
+  },
+  toolbar: {
+    top: 0,
+    backgroundColor: 'black',
+  },
+  scanWrapper: {
+    flex: 1,
   },
   barcodeScanner: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'black',
-    top: 30,
+    flex: 0.8,
+    backgroundColor: 'transparent',
   },
-  boxLeft: {
-    top: 0,
-    height: '100%',
-    left: 0,
-    position: 'absolute',
-    width: '2%',
-    backgroundColor: 'black',
-  },
-  boxRight: {
-    top: 0,
-    height: '100%',
-    right: 0,
-    position: 'absolute',
-    width: '2%',
-    backgroundColor: 'black',
-  },
+  /* top:value -> for portrait is offset by width of screen */
+  mask: {bottom: 0, left: 0, right: 0, position: 'absolute', backgroundColor: 'black'},
 });
