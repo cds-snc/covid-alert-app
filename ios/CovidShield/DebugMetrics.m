@@ -23,4 +23,11 @@ RCT_REMAP_METHOD(publishDebugMetric, stepNumber:(double)stepNumber message:(NSSt
   resolve(nil);
 }
 
+RCT_REMAP_METHOD(publishNativeActiveUserMetric, withResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [[MetricsService sharedInstance] publishMetric:ActiveUser bridge:_bridge];
+  
+  resolve(nil);
+}
+
 @end
