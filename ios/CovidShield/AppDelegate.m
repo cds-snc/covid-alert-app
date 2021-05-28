@@ -137,6 +137,11 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   return YES;
 }
 
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+  [[MetricsService sharedInstance] waitUntilAllMetricsAreSent];
+}
+
 - (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge
 {
     NSArray<id<RCTBridgeModule>> *extraModules = [_moduleRegistryAdapter extraModulesForBridge:bridge];

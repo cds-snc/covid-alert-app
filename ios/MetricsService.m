@@ -79,6 +79,11 @@
   }];
 }
 
+- (void)waitUntilAllMetricsAreSent
+{
+  [self.operationQueue waitUntilAllOperationsAreFinished];
+}
+
 - (NSString *)identifierFromMetricType:(MetricType)type
 {
   switch (type) {
