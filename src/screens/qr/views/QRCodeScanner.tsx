@@ -48,7 +48,7 @@ export const QRCodeScanner = () => {
 
   const {width} = useWindowDimensions();
 
-  const maskProps = orientation === 'portrait' ? {top: width - 10} : {top: '85%', width: '100%', height: 50};
+  const maskProps = orientation === 'portrait' ? {top: width - 10} : {};
 
   return (
     <>
@@ -61,20 +61,44 @@ export const QRCodeScanner = () => {
             showBackButton
           />
         </Box>
-        <Box paddingVertical="xs" paddingHorizontal="xs" style={{...styles.scanWrapper}}>
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
-            style={{...styles.barcodeScanner}}
-          >
-            <Box style={{...styles.mask, ...maskProps}}>
-              <Box paddingTop="m">
-                <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
-                  {i18n.translate(`QRCode.Reader.Title`)}
-                </Text>
+
+        {orientation === 'portrait' ? (
+          <Box paddingVertical="xs" paddingHorizontal="xs" style={portrait.scanWrapper}>
+            <BarCodeScanner
+              onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+              style={portrait.barcodeScanner}
+            >
+              <Box style={{...portrait.mask, ...maskProps}}>
+                <Box paddingTop="m">
+                  <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
+                    {i18n.translate(`QRCode.Reader.Title`)}
+                  </Text>
+                </Box>
               </Box>
+            </BarCodeScanner>
+          </Box>
+        ) : (
+          <Box paddingVertical="xs" paddingHorizontal="xs" style={landscape.scanWrapper}>
+            <BarCodeScanner
+              onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+              style={landscape.barcodeScanner}
+            >
+              <Box paddingVertical="xs" paddingHorizontal="xs" />
+            </BarCodeScanner>
+
+            <Box style={landscape.textWrap}>
+              <Text
+                variant="bodyText"
+                paddingHorizontal="m"
+                accessibilityRole="header"
+                accessibilityAutoFocus
+                color="bodyTitleWhite"
+              >
+                {i18n.translate(`QRCode.Reader.Title`)}
+              </Text>
             </Box>
-          </BarCodeScanner>
-        </Box>
+          </Box>
+        )}
       </SafeAreaView>
     </>
   );
@@ -90,6 +114,9 @@ const styles = StyleSheet.create({
     top: 0,
     backgroundColor: 'black',
   },
+});
+
+const portrait = StyleSheet.create({
   scanWrapper: {
     flex: 0.8,
   },
@@ -100,4 +127,23 @@ const styles = StyleSheet.create({
 
   /* top:value -> for portrait is offset by width of screen */
   mask: {bottom: 0, left: 0, right: 0, position: 'absolute', backgroundColor: 'black'},
+});
+
+const landscape = StyleSheet.create({
+  scanWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginTop: -10,
+  },
+  barcodeScanner: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+    height: '100%',
+    marginTop: -10,
+  },
+  textWrap: {
+    marginTop: -8,
+  },
 });
