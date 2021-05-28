@@ -48,7 +48,7 @@ export const QRCodeScanner = () => {
 
   const {width} = useWindowDimensions();
 
-  const maskProps = orientation === 'portrait' ? {top: width} : {top: '85%', width: '100%', height: 50};
+  const maskProps = orientation === 'portrait' ? {top: width - 10} : {top: '85%', width: '100%', height: 50};
 
   return (
     <>
