@@ -144,6 +144,7 @@ const landscape = StyleSheet.create({
     marginTop: -10,
   },
   textWrap: {
+    flex: 1,
     marginTop: -8,
   },
 });
