@@ -126,12 +126,9 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   // Will be called when the app starts from either foreground or background
   [metricsService publishMetric:ActiveUser bridge:bridge];
   
-  /* If we feel like this listener is not doing the job properly we can try a different solution:
-   "Immediately upon launch, you can check if applicationState equals UIApplicationStateBackground in order to determine whether your app was launched into the background."
-   */
-  [[TSBackgroundFetch sharedInstance] addListener:@"scheduled-check-started-listener" callback:^(NSString *componentName) {
+  if(application.applicationState == UIApplicationStateBackground) {
     [metricsService publishMetric:ScheduledCheckStartedToday bridge:bridge];
-  }];
+  }
   
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];

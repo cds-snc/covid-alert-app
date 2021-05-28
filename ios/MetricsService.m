@@ -17,6 +17,7 @@
 @property (strong, nonatomic) MetricsJsonSerializer *jsonSerializer;
 @property (strong, nonatomic) MetricsPusher *pusher;
 @property (strong, nonatomic) UniqueDailyMetricsHelper *uniqueDailyMetricsHelper;
+@property (strong, nonatomic) NSOperationQueue *operationQueue;
 
 @end
 
@@ -42,31 +43,40 @@
     self.pusher = [[MetricsPusher alloc] initWithApiEndpointUrl:PM_METRICS_URL
                                                  apiEndpointKey:PM_METRICS_API_KEY];
     self.uniqueDailyMetricsHelper = [[UniqueDailyMetricsHelper alloc] init];
+    self.operationQueue = [NSOperationQueue new];
+    self.operationQueue.maxConcurrentOperationCount = 1;
   }
   return self;
 }
 
 - (void)publishMetric:(MetricType)type bridge:(RCTBridge *)bridge
 {
-  NSString *identifier = [self identifierFromMetricType:type];
-  
-  if ([self.uniqueDailyMetricsHelper canPublishMetricWithIdentifier:identifier]) {
+  [self.operationQueue addOperationWithBlock:^{
+    [self.operationQueue setSuspended:YES];
     
-    NSString *region = [self getRegionWithBridge:bridge];
+    NSString *identifier = [self identifierFromMetricType:type];
     
-    NSNumber *timestamp = @((long long)([[NSDate date] timeIntervalSince1970] * 1000.0));
-    
-    Metric *metric = [[Metric alloc] initWithTimestamp:timestamp identifier:identifier region:region];
-    
-    NSData *jsonPayload = [self.jsonSerializer serializeToJsonWithTimestamp:timestamp metric:metric];
-    
-    [self.pusher pushJsonData:jsonPayload completion:^(MetricsPusherResult result) {
-      if (result == Success) {
-        [self.uniqueDailyMetricsHelper markMetricAsPublishedWithIdentifier:identifier];
-      }
-    }];
-    
-  }
+    if ([self.uniqueDailyMetricsHelper canPublishMetricWithIdentifier:identifier]) {
+      
+      NSString *region = [self getRegionWithBridge:bridge];
+      
+      NSNumber *timestamp = @((long long)([[NSDate date] timeIntervalSince1970] * 1000.0));
+      
+      Metric *metric = [[Metric alloc] initWithTimestamp:timestamp identifier:identifier region:region];
+      
+      NSData *jsonPayload = [self.jsonSerializer serializeToJsonWithTimestamp:timestamp metric:metric];
+      
+      [self.pusher pushJsonData:jsonPayload completion:^(MetricsPusherResult result) {
+        if (result == Success) {
+          [self.uniqueDailyMetricsHelper markMetricAsPublishedWithIdentifier:identifier];
+        }
+        [self.operationQueue setSuspended:NO];
+      }];
+      
+    } else {
+      [self.operationQueue setSuspended:NO];
+    }
+  }];
 }
 
 - (NSString *)identifierFromMetricType:(MetricType)type
