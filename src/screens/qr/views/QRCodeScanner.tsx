@@ -48,6 +48,8 @@ export const QRCodeScanner = () => {
 
   const {width} = useWindowDimensions();
 
+  const maskProps = orientation === 'portrait' ? {top: width} : {top: '85%', width: '100%', height: 50};
+
   return (
     <>
       <SafeAreaView style={styles.flex}>
@@ -59,12 +61,12 @@ export const QRCodeScanner = () => {
             showBackButton
           />
         </Box>
-        <Box paddingVertical="m" paddingHorizontal="m" style={{...styles.scanWrapper}}>
+        <Box paddingVertical="xs" paddingHorizontal="xs" style={{...styles.scanWrapper}}>
           <BarCodeScanner
             onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
             style={{...styles.barcodeScanner}}
           >
-            <Box style={{...styles.mask, top: orientation === 'portrait' ? width : '85%'}}>
+            <Box style={{...styles.mask, ...maskProps}}>
               <Box paddingTop="m">
                 <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
                   {i18n.translate(`QRCode.Reader.Title`)}
@@ -89,12 +91,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   scanWrapper: {
-    flex: 1,
+    flex: 0.8,
   },
   barcodeScanner: {
-    flex: 0.8,
+    flex: 1,
     backgroundColor: 'transparent',
   },
+
   /* top:value -> for portrait is offset by width of screen */
   mask: {bottom: 0, left: 0, right: 0, position: 'absolute', backgroundColor: 'black'},
 });
