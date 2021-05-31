@@ -1,6 +1,6 @@
 import BackgroundFetch from 'react-native-background-fetch';
 import {AppRegistry, Platform} from 'react-native';
-import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
+import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL} from 'env';
 import {FilteredMetricsService} from 'services/MetricsService';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
@@ -20,8 +20,10 @@ interface PeriodicTask {
   (): Promise<void>;
 }
 
-export const PERIODIC_TASK_INTERVAL_IN_MINUTES = TEST_MODE ? 15 : 240;
-export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 1 : PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
+// export const PERIODIC_TASK_INTERVAL_IN_MINUTES = TEST_MODE ? 15 : 240;
+// export const PERIODIC_TASK_DELAY_IN_MINUTES = TEST_MODE ? 1 : PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
+export const PERIODIC_TASK_INTERVAL_IN_MINUTES = 120;
+export const PERIODIC_TASK_DELAY_IN_MINUTES = PERIODIC_TASK_INTERVAL_IN_MINUTES + 5;
 
 const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationService?: ExposureNotificationService) => {
   publishDebugMetric(0);

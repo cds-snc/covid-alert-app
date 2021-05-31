@@ -1,7 +1,6 @@
 import {Buffer} from 'buffer';
 
 import {Platform} from 'react-native';
-import {TEST_MODE} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {I18n} from 'locale';
@@ -29,7 +28,8 @@ import {log} from '../../shared/logging/config';
 
 import {getOutbreaksLastCheckedDateTime, markOutbreaksLastCheckedDateTime} from './OutbreakStorage';
 
-const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
+// const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
+const MIN_OUTBREAKS_CHECK_MINUTES = 120;
 
 export const HOURS_PER_PERIOD = 24;
 
