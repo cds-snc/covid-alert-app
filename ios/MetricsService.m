@@ -11,6 +11,7 @@
 #import <UIKit/UIDevice.h>
 #import "UniqueDailyMetricsHelper.h"
 #import <RNCAsyncStorage/RNCAsyncStorage.h>
+#import "DateUtils.h"
 
 @interface MetricsService ()
 
@@ -56,7 +57,9 @@
     
     NSString *identifier = [self identifierFromMetricType:type];
     
-    if ([self.uniqueDailyMetricsHelper canPublishMetricWithIdentifier:identifier]) {
+    NSDate *currentDate = [DateUtils getCurrentUTCDate];
+    
+    if ([self.uniqueDailyMetricsHelper canPublishMetricWithIdentifier:identifier currentDate:currentDate]) {
       
       NSString *region = [self getRegionWithBridge:bridge];
       
@@ -68,7 +71,7 @@
       
       [self.pusher pushJsonData:jsonPayload completion:^(MetricsPusherResult result) {
         if (result == Success) {
-          [self.uniqueDailyMetricsHelper markMetricAsPublishedWithIdentifier:identifier];
+          [self.uniqueDailyMetricsHelper markMetricAsPublishedWithIdentifier:identifier currentDate:currentDate];
         }
         [self.operationQueue setSuspended:NO];
       }];
@@ -77,6 +80,11 @@
       [self.operationQueue setSuspended:NO];
     }
   }];
+}
+
+- (void)waitUntilAllMetricsAreSent
+{
+  [self.operationQueue waitUntilAllOperationsAreFinished];
 }
 
 - (NSString *)identifierFromMetricType:(MetricType)type

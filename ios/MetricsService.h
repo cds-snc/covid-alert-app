@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 - (void)publishMetric:(MetricType)type bridge:(RCTBridge *)bridge;
+- (void)waitUntilAllMetricsAreSent;
 
 @end
 

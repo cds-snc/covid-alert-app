@@ -9,6 +9,7 @@ import {log} from 'shared/logging/config';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'shared/NotificationPermissionStatus';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+import {publishNativeActiveUserMetric} from 'bridge/DebugMetrics';
 
 import {BackendInterface} from '../BackendService';
 import {BackgroundScheduler} from '../BackgroundSchedulerService';
@@ -47,6 +48,7 @@ export const ExposureNotificationServiceProvider = ({
 
   useEffect(() => {
     backgroundScheduler.registerPeriodicTask(async () => {
+      publishNativeActiveUserMetric();
       await exposureNotificationService.updateExposureStatusInBackground();
     }, exposureNotificationService);
   }, [backgroundScheduler, exposureNotificationService]);
