@@ -194,7 +194,7 @@ export const HomeScreen = () => {
   }, [userStopped, startExposureNotificationService, qrEnabled, checkForOutbreaks, updateExposureStatus]);
 
   useEffect(() => {
-    if (isDiagnosed(exposureStatus.type) === false) {
+    if (!isDiagnosed(exposureStatus.type)) {
       startAndUpdate();
     }
   }, [startAndUpdate, startExposureNotificationService, updateExposureStatus]);

@@ -290,7 +290,7 @@ export class ExposureNotificationService {
 
       const exposureStatus = this.exposureStatus.get();
 
-      if (isDiagnosed(exposureStatus.type) === false) {
+      if (!isDiagnosed(exposureStatus.type)) {
         await this.updateExposureStatus();
         await this.loadExposureStatus();
         await this.loadExposureHistory();
@@ -1292,8 +1292,8 @@ export class ExposureNotificationService {
   }
 }
 export const isDiagnosed = (status: string) => {
-  //for testing change to '==='
-  if (status !== ExposureStatusType.Diagnosed) {
-    return false;
+  //for testing change to false
+  if (status === ExposureStatusType.Diagnosed) {
+    return true;
   }
 }

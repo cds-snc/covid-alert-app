@@ -118,7 +118,7 @@ const Content = () => {
   }, [ignoreAllOutbreaksFromHistory]);
 
   const onCheckForOutbreak = useCallback(async () => {
-    if (isDiagnosed(exposureStatus.type) === false) {
+    if (!isDiagnosed(exposureStatus.type)) {
       checkForOutbreaks(true);
     }
   }, [checkForOutbreaks, isDiagnosed]);
@@ -273,7 +273,7 @@ const Content = () => {
           text="Force exposure check"
           variant="bigFlat"
           onPress={async () => {
-            if (isDiagnosed(exposureStatus.type) === false) {
+            if (!isDiagnosed(exposureStatus.type)) {
               updateExposureStatus(true);
             }
           }}
