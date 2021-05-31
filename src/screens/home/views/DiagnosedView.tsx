@@ -39,7 +39,7 @@ export const DiagnosedView = () => {
             <Text testID="bodyText" variant="bodyText" color="bodyText" marginBottom="m">
               {i18n.translate(pluralizeKey('Home.DiagnosedView.Body1', daysLeft), {number: daysLeft})}
             </Text>
-            <Text variant="bodyText" color="bodyText" marginBottom="xl">
+            <Text variant="bodyText" color="bodyText" marginBottom="m">
               {i18n.translate('Home.DiagnosedView.Body2')}
             </Text>
             <Text variant="bodyText" color="bodyText" marginBottom="m">

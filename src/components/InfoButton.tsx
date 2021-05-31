@@ -79,9 +79,10 @@ export const InfoButton = ({
       ) : (
         <>
           <Box>
-            <Text variant="menuItemTitle" fontWeight="bold" marginBottom="s">
+            <Text fontWeight="bold" marginBottom="s" marginRight="m">
               {title}
             </Text>
+
             <Text variant="menuItemTitle">{text}</Text>
           </Box>
           <Box style={{...styles.chevronOffset}}>
