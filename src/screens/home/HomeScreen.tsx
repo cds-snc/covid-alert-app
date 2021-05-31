@@ -12,6 +12,7 @@ import {
   useStartExposureNotificationService,
   useExposureNotificationSystemStatusAutomaticUpdater,
   useSystemStatus,
+  isDiagnosed,
 } from 'services/ExposureNotificationService';
 import {useCachedStorage} from 'services/StorageService';
 import {RegionCase} from 'shared/Region';
@@ -159,6 +160,7 @@ export const HomeScreen = () => {
   const {checkForOutbreaks} = useOutbreakService();
   const navigation = useNavigation();
   const {userStopped, qrEnabled} = useCachedStorage();
+  const exposureStatus = useExposureStatus();
 
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
@@ -192,7 +194,9 @@ export const HomeScreen = () => {
   }, [userStopped, startExposureNotificationService, qrEnabled, checkForOutbreaks, updateExposureStatus]);
 
   useEffect(() => {
-    startAndUpdate();
+    if (isDiagnosed(exposureStatus.type) === false) {
+      startAndUpdate();
+    }
   }, [startAndUpdate, startExposureNotificationService, updateExposureStatus]);
 
   return (

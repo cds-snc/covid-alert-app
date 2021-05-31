@@ -285,18 +285,21 @@ export class ExposureNotificationService {
     };
 
     try {
-      await this.loadExposureStatus();
-      await this.loadExposureHistory();
-      await this.loadDisplayExposureHistory();
-      await this.updateExposureStatus();
       await this.processNotification();
       const qrEnabled = (await this.storageService.retrieve(StorageDirectory.GlobalQrEnabledKey)) === '1';
-      if (qrEnabled) {
-        const outbreakService = await OutbreakService.sharedInstance(this.i18n, this.backendInterface);
-        await outbreakService.checkForOutbreaks();
-      }
 
       const exposureStatus = this.exposureStatus.get();
+
+      if (isDiagnosed(exposureStatus.type) === false) {
+        await this.updateExposureStatus();
+        await this.loadExposureStatus();
+        await this.loadExposureHistory();
+        await this.loadDisplayExposureHistory();
+        if (qrEnabled) {
+          const outbreakService = await OutbreakService.sharedInstance(this.i18n, this.backendInterface);
+          await outbreakService.checkForOutbreaks();
+        }
+      }
       log.debug({
         category: 'exposure-check',
         message: 'updatedExposureStatusInBackground',
@@ -1286,5 +1289,11 @@ export class ExposureNotificationService {
         uploadReminderLastSentAt: getCurrentDate().getTime(),
       });
     }
+  }
+}
+export const isDiagnosed = (status: string) => {
+  //for testing change to '==='
+  if (status !== ExposureStatusType.Diagnosed) {
+    return false;
   }
 }

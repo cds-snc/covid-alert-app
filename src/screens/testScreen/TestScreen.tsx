@@ -12,6 +12,7 @@ import {
   useExposureNotificationService,
   useReportDiagnosis,
   useUpdateExposureStatus,
+  isDiagnosed,
 } from 'services/ExposureNotificationService';
 import {APP_VERSION_NAME, APP_VERSION_CODE} from 'env';
 import {captureMessage} from 'shared/log';
@@ -19,7 +20,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
-import {useOutbreakService, isDiagnosed} from 'services/OutbreakService';
+import {useOutbreakService} from 'services/OutbreakService';
 import {PollNotifications} from 'services/PollNotificationService';
 import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 import {log} from 'shared/logging/config';
@@ -272,7 +273,9 @@ const Content = () => {
           text="Force exposure check"
           variant="bigFlat"
           onPress={async () => {
-            updateExposureStatus(true);
+            if (isDiagnosed(exposureStatus.type) === false) {
+              updateExposureStatus(true);
+            }
           }}
         />
       </Section>

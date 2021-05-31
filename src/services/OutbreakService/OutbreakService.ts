@@ -365,12 +365,3 @@ export class OutbreakService {
   };
 
 }
-
-export const isDiagnosed = (status: string) => {
-  //maybe try to make it like if status !== diagnosed
-  if (status === ExposureStatusType.Diagnosed) {
-    return true;
-  } else {
-    return false;
-  }
-}
