@@ -291,12 +291,12 @@ export class ExposureNotificationService {
       await this.updateExposureStatus();
       await this.processNotification();
       const qrEnabled = (await this.storageService.retrieve(StorageDirectory.GlobalQrEnabledKey)) === '1';
-      if (qrEnabled && !isDiagnosed(this.exposureStatus.get().type)) {
+      const exposureStatus = this.exposureStatus.get();
+      if (qrEnabled && !isDiagnosed(exposureStatus.type)) {
         const outbreakService = await OutbreakService.sharedInstance(this.i18n, this.backendInterface);
         await outbreakService.checkForOutbreaks();
       }
 
-      const exposureStatus = this.exposureStatus.get();
       log.debug({
         category: 'exposure-check',
         message: 'updatedExposureStatusInBackground',
