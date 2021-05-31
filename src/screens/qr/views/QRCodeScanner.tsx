@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {Box, Text, ToolbarWithClose} from 'components';
@@ -46,14 +46,14 @@ export const QRCodeScanner = () => {
   };
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
 
-  return (
-    <BarCodeScanner onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned} style={styles.barcodeScanner}>
-      <Box style={styles.top} />
+  const {width} = useWindowDimensions();
 
+  const maskProps = orientation === 'portrait' ? {top: width - 10} : {};
+
+  return (
+    <>
       <SafeAreaView style={styles.flex}>
-        <Box style={styles.boxLeft} />
-        <Box style={styles.boxRight} />
-        <Box marginBottom="m" style={styles.toolbar}>
+        <Box style={styles.toolbar}>
           <ToolbarWithClose
             closeText={i18n.translate('DataUpload.Close')}
             useWhiteText
@@ -62,61 +62,89 @@ export const QRCodeScanner = () => {
           />
         </Box>
 
-        <Box
-          style={styles.info}
-          paddingVertical="s"
-          paddingHorizontal="m"
-          height={orientation === 'landscape' ? 40 : '25%'}
-        >
-          <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
-            {i18n.translate(`QRCode.Reader.Title`)}
-          </Text>
-        </Box>
+        {orientation === 'portrait' ? (
+          <Box paddingVertical="xs" paddingHorizontal="xs" style={portrait.scanWrapper}>
+            <BarCodeScanner
+              onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+              style={portrait.barcodeScanner}
+            >
+              <Box style={{...portrait.mask, ...maskProps}}>
+                <Box paddingTop="m">
+                  <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
+                    {i18n.translate(`QRCode.Reader.Title`)}
+                  </Text>
+                </Box>
+              </Box>
+            </BarCodeScanner>
+          </Box>
+        ) : (
+          <Box paddingVertical="xs" paddingHorizontal="xs" style={landscape.scanWrapper}>
+            <BarCodeScanner
+              onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+              style={landscape.barcodeScanner}
+            >
+              <Box paddingVertical="xs" paddingHorizontal="xs" />
+            </BarCodeScanner>
+
+            <Box style={landscape.textWrap}>
+              <Text
+                variant="bodyText"
+                paddingHorizontal="m"
+                accessibilityRole="header"
+                accessibilityAutoFocus
+                color="bodyTitleWhite"
+              >
+                {i18n.translate(`QRCode.Reader.Title`)}
+              </Text>
+            </Box>
+          </Box>
+        )}
       </SafeAreaView>
-    </BarCodeScanner>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  top: {
-    position: 'absolute',
-    height: 30,
-    backgroundColor: 'black',
-    width: '100%',
-  },
-  info: {
-    backgroundColor: 'black',
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    width: '100%',
-  },
-  toolbar: {
-    backgroundColor: 'black',
-  },
   flex: {
     flex: 1,
+    backgroundColor: 'black',
+    alignContent: 'flex-start',
+  },
+  toolbar: {
+    top: 0,
+    backgroundColor: 'black',
+  },
+});
+
+const portrait = StyleSheet.create({
+  scanWrapper: {
+    flex: 0.8,
   },
   barcodeScanner: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'black',
+    flex: 1,
+    backgroundColor: 'transparent',
   },
-  boxLeft: {
-    top: 0,
-    height: '100%',
-    left: 0,
-    position: 'absolute',
-    width: '4%',
-    paddingBottom: '40%',
-    backgroundColor: 'black',
+
+  /* top:value -> for portrait is offset by width of screen */
+  mask: {bottom: 0, left: 0, right: 0, position: 'absolute', backgroundColor: 'black'},
+});
+
+const landscape = StyleSheet.create({
+  scanWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginTop: -10,
   },
-  boxRight: {
-    top: 0,
+  barcodeScanner: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
     height: '100%',
-    right: 0,
-    position: 'absolute',
-    width: '4%',
-    paddingBottom: '40%',
-    backgroundColor: 'black',
+    marginTop: -10,
+  },
+  textWrap: {
+    flex: 1,
+    marginTop: -8,
   },
 });
