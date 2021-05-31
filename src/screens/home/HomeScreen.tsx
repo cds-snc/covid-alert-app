@@ -196,7 +196,7 @@ export const HomeScreen = () => {
     qrEnabled,
     checkForOutbreaks,
     updateExposureStatus,
-    exposureStatus,
+    exposureStatus.type,
   ]);
 
   useEffect(() => {
