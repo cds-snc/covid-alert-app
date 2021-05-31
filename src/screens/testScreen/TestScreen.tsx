@@ -8,6 +8,7 @@ import {Box, Button, LanguageToggle, Text, Toolbar} from 'components';
 import {useCachedStorage} from 'services/StorageService';
 import {
   ExposureStatusType,
+  useExposureStatus,
   useExposureNotificationService,
   useReportDiagnosis,
   useUpdateExposureStatus,
@@ -18,7 +19,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {getLogUUID, setLogUUID} from 'shared/logging/uuid';
 import {ForceScreen} from 'shared/ForceScreen';
-import {useOutbreakService} from 'services/OutbreakService';
+import {useOutbreakService, isDiagnosed} from 'services/OutbreakService';
 import {PollNotifications} from 'services/PollNotificationService';
 import {FilteredMetricsService} from 'services/MetricsService/FilteredMetricsService';
 import {log} from 'shared/logging/config';
@@ -108,14 +109,18 @@ const Content = () => {
 
   const {reset, qrEnabled, setQrEnabled} = useCachedStorage();
   const {checkForOutbreaks, ignoreAllOutbreaksFromHistory} = useOutbreakService();
+  const exposureStatus = useExposureStatus();
+
   const [toggleState, setToggleState] = useState<boolean>(qrEnabled);
   const onClearOutbreak = useCallback(async () => {
     ignoreAllOutbreaksFromHistory();
   }, [ignoreAllOutbreaksFromHistory]);
 
   const onCheckForOutbreak = useCallback(async () => {
-    checkForOutbreaks(true);
-  }, [checkForOutbreaks]);
+    if (isDiagnosed(exposureStatus.type) === false) {
+      checkForOutbreaks(true);
+    }
+  }, [checkForOutbreaks, isDiagnosed]);
 
   const goToCheckInHistory = useCallback(() => navigation.navigate('CheckInHistoryScreen'), [navigation]);
 

@@ -13,6 +13,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getRandomString} from 'shared/logging/uuid';
 import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
+import {ExposureStatusType, useExposureStatus} from 'services/ExposureNotificationService';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -362,4 +363,14 @@ export class OutbreakService {
     }
     return periodsToFetch;
   };
+
+}
+
+export const isDiagnosed = (status: string) => {
+  //maybe try to make it like if status !== diagnosed
+  if (status === ExposureStatusType.Diagnosed) {
+    return true;
+  } else {
+    return false;
+  }
 }
