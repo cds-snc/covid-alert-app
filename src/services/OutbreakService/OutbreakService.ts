@@ -13,6 +13,7 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getRandomString} from 'shared/logging/uuid';
 import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
+import {ExposureStatusType} from 'services/ExposureNotificationService';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -363,3 +364,10 @@ export class OutbreakService {
     return periodsToFetch;
   };
 }
+
+export const isDiagnosed = (status: string): boolean => {
+  if (status === ExposureStatusType.Diagnosed) {
+    return true;
+  }
+  return false;
+};

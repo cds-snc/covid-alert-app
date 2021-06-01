@@ -19,7 +19,7 @@ import {getRegionCase} from 'shared/RegionLogic';
 import {ForceScreen} from 'shared/ForceScreen';
 import {useRegionalI18n} from 'locale';
 import {getNonIgnoredOutbreakHistory, isExposedToOutbreak} from 'shared/qr';
-import {useOutbreakService} from 'services/OutbreakService';
+import {useOutbreakService, isDiagnosed} from 'services/OutbreakService';
 import {useNotificationPermissionStatus} from 'shared/NotificationPermissionStatus';
 
 import {useDeepLinks} from '../qr/utils';
@@ -159,6 +159,7 @@ export const HomeScreen = () => {
   const {checkForOutbreaks} = useOutbreakService();
   const navigation = useNavigation();
   const {userStopped, qrEnabled} = useCachedStorage();
+  const exposureStatus = useExposureStatus();
 
   useEffect(() => {
     if (__DEV__ && TEST_MODE) {
@@ -183,13 +184,20 @@ export const HomeScreen = () => {
   const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
     const success = await startExposureNotificationService(false);
-    if (qrEnabled) {
+    if (qrEnabled && !isDiagnosed(exposureStatus.type)) {
       checkForOutbreaks();
     }
     if (success) {
       updateExposureStatus();
     }
-  }, [userStopped, startExposureNotificationService, qrEnabled, checkForOutbreaks, updateExposureStatus]);
+  }, [
+    userStopped,
+    startExposureNotificationService,
+    qrEnabled,
+    checkForOutbreaks,
+    updateExposureStatus,
+    exposureStatus.type,
+  ]);
 
   useEffect(() => {
     startAndUpdate();

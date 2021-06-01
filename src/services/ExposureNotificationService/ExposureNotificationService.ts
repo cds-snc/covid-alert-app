@@ -29,7 +29,7 @@ import {EN_API_VERSION} from 'env';
 import {checkNotifications} from 'react-native-permissions';
 import {Status} from 'shared/NotificationPermissionStatus';
 import {PollNotifications} from 'services/PollNotificationService';
-import {OutbreakService} from 'services/OutbreakService';
+import {OutbreakService, isDiagnosed} from 'services/OutbreakService';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 import {getRandomString} from 'shared/logging/uuid';
@@ -291,12 +291,12 @@ export class ExposureNotificationService {
       await this.updateExposureStatus();
       await this.processNotification();
       const qrEnabled = (await this.storageService.retrieve(StorageDirectory.GlobalQrEnabledKey)) === '1';
-      if (qrEnabled) {
+      const exposureStatus = this.exposureStatus.get();
+      if (qrEnabled && !isDiagnosed(exposureStatus.type)) {
         const outbreakService = await OutbreakService.sharedInstance(this.i18n, this.backendInterface);
         await outbreakService.checkForOutbreaks();
       }
 
-      const exposureStatus = this.exposureStatus.get();
       log.debug({
         category: 'exposure-check',
         message: 'updatedExposureStatusInBackground',
