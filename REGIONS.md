@@ -1,3 +1,31 @@
+# Editing regional content
+
+Update the regional content:
+
+- src/locale/translations/regional/en.json
+- src/locale/translations/regional/fr.json
+
+Run `generate-translations:regional` to create auto generate the region.json file `src/locale/translations/region.json`
+
+The generated `region.json` file within the repo is used as a "fallback". The default content gets pulled from the server dynamically.
+
+## Update "dynamic region" content from the server
+
+### Staging
+
+The content of the region.json (from the repo) should be copied to the [staging](https://github.com/cds-snc/covid-alert-exposure-configuration-staging/blob/master/exposure-configuration/region.json)
+
+> Note: When copying remove the generated warning message
+
+```
+// remove
+{"Warning":"THIS IS A GENERATED FILE - DO NOT EDIT")
+```
+
+### Production
+
+Once tested on staging the same content needs to be moved to [production](https://github.com/cds-snc/covid-alert-exposure-configuration-production/blob/master/exposure-configuration/region.json)
+
 # Testing changes to Regional config and EN config
 
 ## Testing region content
