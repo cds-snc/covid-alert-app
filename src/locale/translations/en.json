@@ -562,8 +562,7 @@
 
   "PlacesLog": {
     "Title": "Your visits",
-    "Body1": "You’ll get notified if public health finds an exposure risk from the following visits.",
-    "Body2": "**Your visits are not shared** with anyone. They’re only on your phone.",
+    "Body": "You’ll get notified if public health finds an exposure risk from the following visits.\n\n**Your visits are not shared** with anyone. They’re only on your phone.",
     "DeleteBtnCTA": "Delete all visits",
     "DeleteIcon": "Delete",
     "NoVisit": "No visits yet",
