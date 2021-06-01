@@ -365,8 +365,9 @@ export class OutbreakService {
   };
 }
 
-export const isDiagnosed = (status: string) => {
+export const isDiagnosed = (status: string): boolean => {
   if (status === ExposureStatusType.Diagnosed) {
     return true;
   }
+  return false;
 };
