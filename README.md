@@ -146,6 +146,8 @@ After modifying the content you must run the `generate-translations` command in 
 yarn generate-translations
 ```
 
+Note: For regional content please see [updating regional content](https://github.com/cds-snc/covid-alert-app/blob/master/REGIONS.md)
+
 ### Add new translation
 
 1. Create a new i18n file in [src/locale/translations/](./src/locale/translations/).
