@@ -26,7 +26,9 @@ export const IntermediateInstructionScreen = () => {
 
           <Text marginBottom="l">{BoldText(i18n.translate('DataUpload.IntermediateStep.List.3'))}</Text>
 
-          <Text marginBottom="l">{BoldText(i18n.translate('DataUpload.IntermediateStep.Body'))}</Text>
+          <Text marginBottom="l" marginHorizontal="-s">
+            {BoldText(i18n.translate('DataUpload.IntermediateStep.Body'))}
+          </Text>
 
           <Box marginTop="m">
             <Button variant="thinFlat" text={i18n.translate('DataUpload.Step0.CTA')} onPress={onNext} />

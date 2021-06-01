@@ -121,11 +121,10 @@ export const ExposureHistoryScreen = () => {
       <SafeAreaView style={styles.flex}>
         <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} showBackButton={false} onClose={close} />
         <ScrollView style={styles.flex}>
-          <Box paddingHorizontal="m" paddingBottom="m">
+          <Box paddingHorizontal="m">
             <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
               {i18n.translate('ExposureHistory.Title')}
             </Text>
-            <Text>{i18n.translate('ExposureHistory.Body')}</Text>
           </Box>
 
           {mergedArray.length === 0 ? (

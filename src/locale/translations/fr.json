@@ -15,14 +15,14 @@
       },
       "NoRegion": {
         "Title": "Aucune exposition détectée",
-        "Body": "Vous n’avez été près d’aucune personne ayant signalé un diagnostic de COVID-19 avec cette application.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
-        "AllSetBody": "Nous vous informerons dès que les personnes en dehors de l’Ontario peuvent signaler des diagnostics avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+        "Body": "L’application n’a pas trouvé de risque d’exposition lors de ses vérifications quotidiennes.\n\nToutefois, dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.",
+        "AllSetBody": "Dans certaines provinces et certains territoires, on ne peut pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nPour savoir si c’est votre cas, vous devrez sélectionner votre région à partir du menu."
       },
       "RegionNotCovered": {
         "Title": "Pas encore de signalement dans votre région",
         "Body": "Les personnes de votre province ou territoire ne peuvent pas encore signaler de diagnostics de COVID-19 avec cette application.\n\nIl est tout de même utile d’activer Alerte COVID. Quand les personnes pourront signaler un diagnostic, vous serez ainsi avisé si jamais vous avez été près d’elles.",
         "GuidanceUrl": "https://www.canada.ca/fr/sante-publique/services/publications/maladies-et-affections/covid-19-comment-isoler-chez-soi.html",
-        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\nIl est tout de même utile de garder Alerte COVID activée.\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
+        "AllSetBody": "Nous vous informerons dès que les personnes de votre région peuvent signaler un diagnostic avec Alerte COVID.\n\n**Il est tout de même utile de garder Alerte COVID activée.**\n\nDe cette façon, vous pourrez être avisé dès que les personnes dont vous avez été près signalent un diagnostic."
       }
     },
     "DiagnosedShareUploadView": {
@@ -42,9 +42,8 @@
         "CTA": "Résultat de test négatif?"
       },
       "Dismiss": {
-        "Title": "Résultat négatif au test de dépistage?",
-        "Body": "Vous pouvez mettre fin à l’alerte pour continuer à recevoir des notifications d’exposition. Aucune information d’exposition ne sera supprimée de votre téléphone.",
-        "Body2": "Vous pouvez aussi mettre fin à l’alerte si vous suivez les consignes de votre région.",
+        "Title": "Résultat de test négatif?",
+        "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif. Cette exposition restera visible dans vos expositions récentes.",
         "CTA": "Mettre fin à l’alerte",
         "Confirm": {
           "Body": "Voulez-vous vraiment mettre fin à l’alerte?",
@@ -103,7 +102,7 @@
       "CTA": "Trouver de l’aide"
     },
     "NoConnectivity": "Alerte COVID est hors ligne",
-    "NoConnectivityDetailed": "Alerte COVID vérifie s’il y a des expositions seulement quand votre téléphone est connecté à Internet.",
+    "NoConnectivityDetailed": "Alerte COVID peut vérifier s’il y a des expositions seulement si votre téléphone est connecté à Internet.",
     "ExternalLinkHint": "Ouvre dans une nouvelle fenêtre",
     "LastCheckedMinutes": {
       "One": "Dernière vérification il y a {number} minute",
@@ -146,7 +145,7 @@
     },
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
-    "NotificationCardBody": "Alerte COVID ne peut pas vous aviser dès qu’il découvre une exposition potentielle. Le fait d’être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
+    "NotificationCardBody": "Vous ne recevrez pas de notification si vous avez été près d’une personne qui a signalé un diagnostic de COVID-19. Être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
     "NotificationCardAction": "Activer les notifications",
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "ExposureNotificationCardBody": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
@@ -221,7 +220,7 @@
     "Close": "Fermer"
   },
   "QRCodeOnboarding": {
-    "step-1Title": "Projet pilote à Mooseville : expositions dans des lieux visités",
+    "step-1Title": "Projet pilote à Ottawa : expositions dans des lieux visités",
     "step-1AltText": "-",
     "step-1": "L’application peut vous aviser si vous avez visité un lieu pendant qu’il y avait un risque d’exposition.\n\nCe type de notifications fonctionne à partir de codes QR que vous scannez lors de vos allées et venues.\n\nLes codes QR vous évitent de laisser vos renseignements personnels aux lieux visités, ce qui offre plus de vie privée.",
     "step-2Title": "Fonctionnement des notifications par code QR",
@@ -233,7 +232,7 @@
     "step-4Title": "Facilitons la recherche de contacts",
     "step-4AltText": "-",
     "step-4": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu un risque d’exposition pendant celles-ci.",
-    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet pilote.",
+    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -328,7 +327,7 @@
         "2": "**2. Vous fournissez quelques précisions** qui aideront l’application à déterminer la période où vous étiez probablement le plus contagieux. Vous n’êtes pas obligé de le faire.",
         "3": "**3. Vous autorisez votre téléphone** à partager vos codes aléatoires. Ceux-ci permettent d’aviser les personnes que vous avez côtoyées."
       },
-      "Body": "**Personne n’obtiendra de renseignements sur vous** ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
+      "Body": "**Les personnes exposées n’obtiendront aucun renseignement sur vous** ni sur le moment de votre contact. Les personnes recevront uniquement une notification disant qu’elles ont récemment été exposées.",
       "CTA": "Suivant"
     },
     "Step2": {
@@ -363,9 +362,8 @@
     },
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
-      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires les plus récents.",
-      "Body2": "**Personne ne recevra d’information sur vous** ou sur le moment de votre proximité.",
-      "Body3": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
+      "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires les plus récents.\n\n**Les personnes exposées n’obtiendront aucun renseignement sur vous** ni sur le moment de votre contact.",
+      "Body2": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
       "Action": "Accepter"
     },
     "TekUploadNoDate": {
@@ -531,9 +529,9 @@
       "Title": "FR Scan cancelled"
     },
     "ScanAPlace": {
-      "Title": "Ajouter une visite : Mooseville seulement",
+      "Title": "Ajouter une visite : Ottawa seulement",
       "Body": "Vous serez avisé si la santé publique détecte un risque d’exposition lié à votre visite.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
-      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Mooseville** pour un projet pilote.",
+      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote.",
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },
@@ -600,7 +598,7 @@
   },
   "ClearOutbreakExposure": {
     "Title": "Résultat de test négatif?",
-    "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif.",
+    "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif. Cette exposition restera visible dans vos expositions récentes.",
     "Button": "Mettre fin à l’alerte",
     "Alert": {
       "Title": "Voulez-vous vraiment mettre fin à l’alerte?",

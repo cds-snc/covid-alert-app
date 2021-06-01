@@ -20,7 +20,7 @@ export const Tip = () => {
     <Box backgroundColor="green2" borderRadius={10} paddingVertical="m" marginTop="xs" marginBottom="m">
       <Box flexDirection="row" paddingLeft="s" paddingRight="m">
         <Box flex={0} paddingTop="xxs" marginRight="xxs">
-          <Icon name="icon-light-bulb" size={40} />
+          <Icon name="icon-light-bulb" size={60} />
         </Box>
         <Box flex={1}>
           <Text>
@@ -30,7 +30,7 @@ export const Tip = () => {
         </Box>
       </Box>
 
-      <Box paddingHorizontal="m" paddingTop="s">
+      <Box padding="s">
         <ButtonSingleLine text={cta} variant="thinFlatNeutralGrey" externalLink onPress={() => Linking.openURL(url)} />
       </Box>
     </Box>

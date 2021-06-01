@@ -16,7 +16,7 @@ export const AllSetView = ({titleText, bodyText, testID}: {titleText: string; bo
       >
         {titleText}
       </Text>
-      <TextMultiline text={bodyText} marginBottom="m" />
+      <TextMultiline text={bodyText} marginBottom="m" detectBold />
     </>
   );
 };

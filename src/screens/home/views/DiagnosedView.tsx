@@ -42,21 +42,14 @@ export const DiagnosedView = () => {
             <Text variant="bodyText" color="bodyText" marginBottom="m">
               {i18n.translate('Home.DiagnosedView.Body2')}
             </Text>
+            <Text variant="bodyText" color="bodyText" marginBottom="m">
+              {i18n.translate('Home.DiagnosedView.Body3')}
+            </Text>
           </>
         )}
       </RoundedBox>
 
-      {daysLeft < 1 ? null : (
-        <>
-          <RoundedBox isFirstBox>
-            <Text variant="bodyText" color="bodyText" marginBottom="m">
-              {i18n.translate('Home.DiagnosedView.Body3')}
-            </Text>
-          </RoundedBox>
-
-          {isRegionActive(region, regionalI18n.activeRegions) ? <Tip /> : null}
-        </>
-      )}
+      {daysLeft < 1 ? null : <>{isRegionActive(region, regionalI18n.activeRegions) ? <Tip /> : null}</>}
     </BaseHomeView>
   );
 };

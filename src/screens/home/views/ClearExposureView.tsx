@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {ScrollView, StyleSheet, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text, Box, Button, ButtonSingleLine, Toolbar} from 'components';
+import {Text, Box, Button, ButtonSingleLine, ToolbarWithClose} from 'components';
 import {useNavigation} from '@react-navigation/native';
 import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {useI18n} from 'locale';
@@ -21,7 +21,7 @@ export const DismissAlertScreen = () => {
       {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Cancel'),
         onPress: () => {},
-        style: 'cancel',
+        style: 'default',
       },
       {
         text: i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Accept'),
@@ -31,7 +31,7 @@ export const DismissAlertScreen = () => {
           FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedClear, exposureStatus});
           close();
         },
-        style: 'default',
+        style: 'cancel',
       },
     ]);
   }, [clearExposedStatus, close, exposureStatus, i18n, outbreaks]);
@@ -39,13 +39,7 @@ export const DismissAlertScreen = () => {
   return (
     <Box backgroundColor="overlayBackground" flex={1}>
       <SafeAreaView style={styles.flex}>
-        <Toolbar
-          title=""
-          navIcon="icon-back-arrow"
-          navText={i18n.translate('LanguageSelect.Close')}
-          navLabel={i18n.translate('LanguageSelect.Close')}
-          onIconClicked={close}
-        />
+        <ToolbarWithClose closeText={i18n.translate('LanguageSelect.Close')} showBackButton={false} onClose={close} />
         <ScrollView>
           <Box paddingHorizontal="m" paddingBottom="l">
             <Box>
@@ -53,8 +47,7 @@ export const DismissAlertScreen = () => {
                 {i18n.translate('Home.ExposureDetected.Dismiss.Title')}
               </Text>
 
-              <Text marginBottom="m">{i18n.translate('Home.ExposureDetected.Dismiss.Body')}</Text>
-              <Text marginBottom="l">{i18n.translate('Home.ExposureDetected.Dismiss.Body2')}</Text>
+              <Text marginBottom="l">{i18n.translate('Home.ExposureDetected.Dismiss.Body')}</Text>
 
               <Button
                 text={i18n.translate('Home.ExposureDetected.Dismiss.CTA')}
