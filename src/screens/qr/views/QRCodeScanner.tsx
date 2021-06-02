@@ -69,7 +69,7 @@ export const QRCodeScanner = () => {
               style={portrait.barcodeScanner}
             >
               <Box style={{...portrait.mask, ...maskProps}}>
-                <Box paddingTop="m">
+                <Box paddingTop="m" paddingBottom="m">
                   <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
                     {i18n.translate(`QRCode.Reader.Title`)}
                   </Text>
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 
 const portrait = StyleSheet.create({
   scanWrapper: {
-    flex: 0.8,
+    flex: 1,
   },
   barcodeScanner: {
     flex: 1,
