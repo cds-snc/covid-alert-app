@@ -14,6 +14,7 @@ export interface ButtonSelectProps {
   disabled?: boolean;
   iconName?: IconName;
   testID?: string;
+  accessibilityLabel?: string;
 }
 
 export const ButtonSelect = ({
@@ -24,6 +25,7 @@ export const ButtonSelect = ({
   disabled,
   iconName,
   testID,
+  accessibilityLabel,
 }: ButtonSelectProps) => {
   const theme = useTheme<Theme>();
   const variantProps = theme.buttonVariants[variant];
@@ -66,6 +68,7 @@ export const ButtonSelect = ({
       disabled={disabled}
       testID={testID}
       {...accessibilityProps}
+      accessibilityLabel={accessibilityLabel}
     >
       {content}
     </TouchableOpacity>

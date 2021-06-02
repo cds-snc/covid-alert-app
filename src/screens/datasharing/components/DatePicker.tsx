@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Picker} from '@react-native-community/picker';
+import {Picker} from '@react-native-picker/picker';
 import {Platform, Modal, StyleSheet} from 'react-native';
 import {Box, Button, ButtonSelect} from 'components';
 import {addDays, getCurrentDate} from 'shared/date-fns';
@@ -18,6 +18,7 @@ interface ModalWrapperProps {
 
 const ModalWrapper = ({labelDict, children, selectedDate, buttonText}: ModalWrapperProps) => {
   const {data, toggleModal} = useContext(FormContext);
+  const i18n = useI18n();
   return (
     <>
       <Modal animationType="slide" transparent visible={data.modalVisible}>
@@ -41,6 +42,7 @@ const ModalWrapper = ({labelDict, children, selectedDate, buttonText}: ModalWrap
           toggleModal(true);
         }}
         text={`${labelDict[selectedDate]}`}
+        accessibilityLabel={i18n.translate('DataUpload.DatePicker')}
       />
     </>
   );
@@ -54,13 +56,15 @@ interface DatePickerInternalProps {
 }
 
 const DatePickerInternal = ({dateOptions, pickerStyles, selectedDate, setDate}: DatePickerInternalProps) => {
+  const i18n = useI18n();
   return (
     <Picker
       style={{...pickerStyles}}
       selectedValue={selectedDate}
       onValueChange={value => setDate(value.toString())}
       mode="dialog"
-      accessible
+      // accessibilityLabel="Date Picker"
+      accessibilityLabel={i18n.translate('DataUpload.DatePicker')}
     >
       {dateOptions.map(x => (
         <Picker.Item key={x.value} label={x.label} value={x.value} />
