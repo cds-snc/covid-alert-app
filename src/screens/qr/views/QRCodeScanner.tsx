@@ -48,7 +48,7 @@ export const QRCodeScanner = () => {
 
   const {width} = useWindowDimensions();
 
-  const maskProps = orientation === 'portrait' ? {top: width - 10} : {};
+  const maskProps = orientation === 'portrait' ? {top: width} : {};
 
   return (
     <>
@@ -63,7 +63,7 @@ export const QRCodeScanner = () => {
         </Box>
 
         {orientation === 'portrait' ? (
-          <Box paddingVertical="xs" paddingHorizontal="xs" style={portrait.scanWrapper}>
+          <Box paddingHorizontal="xs" style={portrait.scanWrapper}>
             <BarCodeScanner
               onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
               style={portrait.barcodeScanner}
@@ -118,7 +118,11 @@ const styles = StyleSheet.create({
 
 const portrait = StyleSheet.create({
   scanWrapper: {
-    flex: 1,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
   },
   barcodeScanner: {
     flex: 1,
