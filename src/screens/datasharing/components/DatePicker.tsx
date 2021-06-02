@@ -63,7 +63,6 @@ const DatePickerInternal = ({dateOptions, pickerStyles, selectedDate, setDate}: 
       selectedValue={selectedDate}
       onValueChange={value => setDate(value.toString())}
       mode="dialog"
-      // accessibilityLabel="Date Picker"
       accessibilityLabel={i18n.translate('DataUpload.DatePicker')}
     >
       {dateOptions.map(x => (
