@@ -22,6 +22,7 @@ import {
   getNewOutbreakExposures,
   isExposedToOutbreak,
   OutbreakHistoryItem,
+  expireHistoryItems,
 } from '../../shared/qr';
 import {getCurrentDate, minutesBetween, periodSinceEpoch} from '../../shared/date-fns';
 import {log} from '../../shared/logging/config';
@@ -175,7 +176,20 @@ export class OutbreakService {
     this.checkInHistory.set([]);
   };
 
+  expireHistoryItemsAndSave = async (outbreakHistory: OutbreakHistoryItem[]) => {
+    if (!outbreakHistory.length) return;
+
+    const expireHistory = expireHistoryItems(outbreakHistory);
+
+    expireHistory.forEach((historyItem: OutbreakHistoryItem) => {
+      if (historyItem.isIgnored) {
+        this.ignoreOutbreak(historyItem.id);
+      }
+    });
+  };
+
   checkForOutbreaks = async (forceCheck?: boolean) => {
+    this.expireHistoryItemsAndSave(this.outbreakHistory.get());
     return this.serialPromiseQueue.add(async () => {
       log.debug({category: 'qr-code', message: 'fetching outbreak locations...'});
       if ((await this.shouldPerformOutbreaksCheck()) || forceCheck === true) {
