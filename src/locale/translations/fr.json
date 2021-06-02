@@ -43,7 +43,8 @@
       },
       "Dismiss": {
         "Title": "Résultat de test négatif?",
-        "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif. Cette exposition restera visible dans vos expositions récentes.",
+        "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif.",
+        "Body1": "Cette exposition restera visible dans vos expositions récentes.",
         "CTA": "Mettre fin à l’alerte",
         "Confirm": {
           "Body": "Voulez-vous vraiment mettre fin à l’alerte?",
@@ -488,7 +489,7 @@
     "CheckInView": {
       "Title": "Merci d’avoir ajouté une visite",
       "Body1": "Vous ne serez avisé que si la santé publique détecte un risque d’exposition lié à votre visite.",
-      "Body2": "Vos visites **ne sont communiquées à personne.**\n\nN’oubliez pas de scanner à chaque visite.",
+      "Body2": " Vos visites **ne sont communiquées à personne.**\n\nN’oubliez pas de scanner à chaque visite.",
       "Body4": "Vous pouvez supprimer cette visite en tout temps en allant dans Vos visites.",
       "CTA1": "Retour à l’écran d’accueil",
       "CTA2": "Vos visites",

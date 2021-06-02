@@ -7,6 +7,7 @@ import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotific
 import {useI18n} from 'locale';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {useOutbreakService} from 'services/OutbreakService';
+import {useCachedStorage} from 'services/StorageService';
 
 export const DismissAlertScreen = () => {
   const i18n = useI18n();
@@ -15,6 +16,7 @@ export const DismissAlertScreen = () => {
   const [clearExposedStatus] = useClearExposedStatus();
   const exposureStatus = useExposureStatus();
   const outbreaks = useOutbreakService();
+  const {qrEnabled} = useCachedStorage();
 
   const onClearExposedState = useCallback(() => {
     Alert.alert(i18n.translate('Home.ExposureDetected.Dismiss.Confirm.Body'), undefined, [
@@ -47,7 +49,10 @@ export const DismissAlertScreen = () => {
                 {i18n.translate('Home.ExposureDetected.Dismiss.Title')}
               </Text>
 
-              <Text marginBottom="l">{i18n.translate('Home.ExposureDetected.Dismiss.Body')}</Text>
+              <Text marginBottom="l">
+                {i18n.translate('Home.ExposureDetected.Dismiss.Body')}
+                {qrEnabled && i18n.translate('Home.ExposureDetected.Dismiss.Body1')}
+              </Text>
 
               <Button
                 text={i18n.translate('Home.ExposureDetected.Dismiss.CTA')}
