@@ -21,6 +21,13 @@ lane :load_env_file do |options|
   env_file=".env.#{buildType}"
   ensure_env_file_exists(file: env_file)
 
+  env_data = File.read(File.expand_path "../#{env_file}")
+  UI.message("==============================================================")
+  UI.message("----- ENV FILE: #{File.expand_path "../#{env_file}"}")
+  UI.message("==============================================================")
+  UI.message(env_data)
+  UI.message("==============================================================")
+
   # Load the environment
   Dotenv.overload "../#{env_file}"
   ENV["ENVFILE"] = env_file
