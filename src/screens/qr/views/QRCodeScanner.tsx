@@ -116,12 +116,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 8,
   },
-  barcodeScanner: {
-    width: '104%',
-    height: '133%',
-    top: '-16.5%',
-    left: '-2%',
-  },
 });
 
 const portrait = StyleSheet.create({
