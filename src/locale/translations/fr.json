@@ -301,6 +301,7 @@
     "Dismiss": "OK"
   },
   "DataUpload": {
+    "DatePicker": "Sélecteur de date",
     "Cancel": "Annuler",
     "Close": "Fermer",
     "Back": "Précédent",
