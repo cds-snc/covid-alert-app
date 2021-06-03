@@ -68,7 +68,7 @@
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
       "Title": "Share new exposures",
-      "Body1": "Thanks for helping slow the spread!",
+      "Body1": "Thanks for helping limit the spread!",
       "Body2": "**Reminder:** To help keep people safe, you need to share your new exposures every day, especially if you have to leave your home.",
       "ButtonCTA": "Share new exposures"
     },
@@ -133,20 +133,20 @@
     "EnterCodeCardTitle": "Diagnosed with COVID-19?",
     "EnterCodeCardBody": "To let people know they’ve been exposed, you need a one-time key. We’ll also ask for details to help narrow down when you were likely most contagious.",
     "EnterCodeCardAction": "Enter your one-time key",
-    "EnterCodeCardTitleDiagnosed": "You’re helping stop COVID-19",
-    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to slow the spread. ",
+    "EnterCodeCardTitleDiagnosed": "You’re helping limit COVID-19",
+    "EnterCodeCardBodyDiagnosed": "Thank you for doing your part to limit the spread. ",
     "EnterCodeCardDiagnosedCountdown": {
       "One": "{number} day left!",
       "Other": "{number} days left!"
     },
     "CodeNotShared": {
-      "Title": "Help slow the spread",
+      "Title": "Help limit the spread",
       "Body": "You entered your one-time key but you have not shared any exposures yet.",
       "CTA": "Finish sharing exposures"
     },
     "NotificationCardStatus": "Notifications are off",
     "NotificationCardStatusOff": "OFF",
-    "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to slowing the spread of COVID-19.",
+    "NotificationCardBody": "You will not receive notifications if you’ve been near anyone who has reported a COVID-19 diagnosis. Finding out potential exposures right away is essential to limiting the spread of COVID-19.",
     "NotificationCardAction": "Turn on notifications",
     "ExposureNotificationCardStatus": "Exposure notifications are ",
     "ExposureNotificationCardBody": "You did not enable COVID Alert. The app needs your permission to work.",
@@ -247,7 +247,7 @@
     "ActionEnd": "Done",
     "ActionBack": "Back",
     "Start": {
-      "Title": "Together, let’s stop the spread of COVID-19",
+      "Title": "Together, let’s limit the spread of COVID-19",
       "ImageAltText": "A hand-drawn illustration with lots of different people in it. Dotted lines show their paths crossing and leading to a smartphone below.",
       "Body1": "COVID Alert helps us break the cycle of infection. The app can let people know of possible exposures before any symptoms appear. ",
       "Body2": "That way, we can take care of ourselves and protect our communities."
@@ -279,7 +279,7 @@
     "PartOf": {
       "Title": "One part of public health",
       "ImageAltText": "A hand-drawn illustration of different ways of fighting COVID-19, including hand sanitizer, handwashing, face mask and the COVID Alert app.",
-      "Body1": "COVID Alert is just one part of the public health effort to stop the spread of COVID-19.",
+      "Body1": "COVID Alert is just one part of the public health effort to limit the spread of COVID-19.",
       "Body2": "Follow all public health guidelines in your area.",
       "Body3": "COVID Alert does not replace medical advice. If you get sick, contact your doctor or other healthcare provider."
     },
@@ -366,7 +366,7 @@
     "ConsentView": {
       "Title": "Now you can upload your codes",
       "Body1": "Your phone will ask your permission to upload your most recent random codes or “random IDs”.\n\n**Exposed people will not get any information about you** or the time you were near them.",
-      "Body2": "You can help slow the spread of COVID-19 if you agree.",
+      "Body2": "You can help limit the spread of COVID-19 if you agree.",
       "Action": "Agree"
     },
     "TekUploadNoDate": {
@@ -410,7 +410,7 @@
     "OffMessageTitle": "COVID Alert is off",
     "OffMessageBody": "Turn on COVID Alert to get notified if you’ve been near someone who has reported a COVID-19 diagnosis.",
     "DailyUploadNotificationTitle": "Upload new random codes",
-    "DailyUploadNotificationBody": "Help slow the spread of COVID-19 and upload your new random codes.",
+    "DailyUploadNotificationBody": "Help limit the spread of COVID-19 and upload your new random codes.",
     "ExposureChecksTitle": "COVID Alert",
     "ExposureChecksBody": "Checking for exposures",
     "ExposureChecksAndroidChannelName": "Checking for exposures",
@@ -483,7 +483,7 @@
     },
     "CTA": "Add a visit",
     "Reader": {
-      "Title": "Point the camera at the QR code",
+      "Title": "Point the camera at the QR\u00A0code",
       "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",
       "Back": "Back",
       "Learn": "Learn more about QR codes and COVID Alert"

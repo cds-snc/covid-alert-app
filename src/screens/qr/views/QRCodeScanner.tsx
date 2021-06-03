@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, useWindowDimensions} from 'react-native';
+import {StatusBar, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {Box, Text, ToolbarWithClose} from 'components';
@@ -46,12 +46,9 @@ export const QRCodeScanner = () => {
   };
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
 
-  const {width} = useWindowDimensions();
-
-  const maskProps = orientation === 'portrait' ? {top: width - 10} : {};
-
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.flex}>
         <Box style={styles.toolbar}>
           <ToolbarWithClose
@@ -63,37 +60,31 @@ export const QRCodeScanner = () => {
         </Box>
 
         {orientation === 'portrait' ? (
-          <Box paddingVertical="xs" paddingHorizontal="xs" style={portrait.scanWrapper}>
-            <BarCodeScanner
-              onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
-              style={portrait.barcodeScanner}
-            >
-              <Box style={{...portrait.mask, ...maskProps}}>
-                <Box paddingTop="m">
-                  <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
-                    {i18n.translate(`QRCode.Reader.Title`)}
-                  </Text>
-                </Box>
-              </Box>
-            </BarCodeScanner>
+          <Box padding="m" flex={1} flexDirection="column">
+            <Box style={{...styles.scanWrapper, ...portrait.scanWrapper}}>
+              <BarCodeScanner
+                onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+                style={{...StyleSheet.absoluteFillObject, ...portrait.barcodeScanner}}
+              />
+            </Box>
+
+            <Box marginTop="m" style={styles.textWrap}>
+              <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
+                {i18n.translate(`QRCode.Reader.Title`)}
+              </Text>
+            </Box>
           </Box>
         ) : (
-          <Box paddingVertical="xs" paddingHorizontal="xs" style={landscape.scanWrapper}>
-            <BarCodeScanner
-              onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
-              style={landscape.barcodeScanner}
-            >
-              <Box paddingVertical="xs" paddingHorizontal="xs" />
-            </BarCodeScanner>
+          <Box padding="m" flex={1} flexDirection="row">
+            <Box style={{...styles.scanWrapper, ...landscape.scanWrapper}}>
+              <BarCodeScanner
+                onBarCodeScanned={scanned ? () => {} : handleBarCodeScanned}
+                style={{...StyleSheet.absoluteFillObject, ...landscape.barcodeScanner}}
+              />
+            </Box>
 
-            <Box style={landscape.textWrap}>
-              <Text
-                variant="bodyText"
-                paddingHorizontal="m"
-                accessibilityRole="header"
-                accessibilityAutoFocus
-                color="bodyTitleWhite"
-              >
+            <Box marginLeft="m" style={styles.textWrap}>
+              <Text variant="bodyText" accessibilityRole="header" accessibilityAutoFocus color="bodyTitleWhite">
                 {i18n.translate(`QRCode.Reader.Title`)}
               </Text>
             </Box>
@@ -111,40 +102,44 @@ const styles = StyleSheet.create({
     alignContent: 'flex-start',
   },
   toolbar: {
-    top: 0,
+    flex: 0,
     backgroundColor: 'black',
+  },
+  textWrap: {
+    flex: 1,
+  },
+  scanWrapper: {
+    aspectRatio: 1,
+    alignItems: 'flex-start',
+    backgroundColor: '#333',
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 8,
   },
 });
 
 const portrait = StyleSheet.create({
   scanWrapper: {
-    flex: 0.8,
+    width: '100%',
   },
+  // These magic numbers are based on a camera ratio of 16:9, and can work with thicker camera ratios without creating crop effects
+  // They have no crop effect on iOS either
   barcodeScanner: {
-    flex: 1,
-    backgroundColor: 'transparent',
+    width: '104%',
+    height: '180%',
+    top: '-40%',
+    left: '-2%',
   },
-
-  /* top:value -> for portrait is offset by width of screen */
-  mask: {bottom: 0, left: 0, right: 0, position: 'absolute', backgroundColor: 'black'},
 });
 
 const landscape = StyleSheet.create({
   scanWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginTop: -10,
+    height: '100%',
   },
   barcodeScanner: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-    height: '100%',
-    marginTop: -10,
-  },
-  textWrap: {
-    flex: 1,
-    marginTop: -8,
+    width: '180%',
+    height: '104%',
+    left: '-40%',
+    top: '-2%',
   },
 });
