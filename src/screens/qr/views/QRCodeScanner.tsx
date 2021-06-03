@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StatusBar, StyleSheet, useWindowDimensions} from 'react-native';
+import {StatusBar, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {Box, Text, ToolbarWithClose} from 'components';
