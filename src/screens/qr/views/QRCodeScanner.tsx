@@ -66,12 +66,7 @@ export const QRCodeScanner = () => {
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.flex}>
         <Box style={styles.toolbar}>
-          <ToolbarWithClose
-            closeText={i18n.translate('DataUpload.Close')}
-            useWhiteText
-            onClose={close}
-            showBackButton
-          />
+          <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} useWhiteText onClose={close} />
         </Box>
 
         {orientation === 'portrait' ? (
