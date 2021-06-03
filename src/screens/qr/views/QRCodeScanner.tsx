@@ -122,12 +122,12 @@ const portrait = StyleSheet.create({
   scanWrapper: {
     width: '100%',
   },
-  // These magic numbers are based on a camera ratio of 4:3
-  //They have no crop effect on iOS
+  // These magic numbers are based on a camera ratio of 16:9, and can work with thicker camera ratios without creating crop effects
+  // They have no crop effect on iOS either
   barcodeScanner: {
     width: '104%',
-    height: '140%',
-    top: '-20%',
+    height: '180%',
+    top: '-40%',
     left: '-2%',
   },
 });
@@ -137,9 +137,9 @@ const landscape = StyleSheet.create({
     height: '100%',
   },
   barcodeScanner: {
-    width: '140%',
+    width: '180%',
     height: '104%',
-    left: '-20%',
+    left: '-40%',
     top: '-2%',
   },
 });
