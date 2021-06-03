@@ -9,7 +9,6 @@ export const OUTBREAK_EXPOSURE_DURATION_DAYS = 14;
 export enum OutbreakSeverity {
   SelfIsolate = 1,
   SelfMonitor = 2,
-
 }
 
 export enum ExposureType {

@@ -250,7 +250,7 @@ export class OutbreakService {
               message: 'exposed',
             });
             FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedToOutbreak});
-            this.processOutbreakNotification();
+            this.processOutbreakNotification(this.getSeverity());
           }
         } catch (error) {
           log.error({category: 'qr-code', error});
@@ -349,7 +349,7 @@ export class OutbreakService {
     return this.convertOutbreakEvents(outbreakEvents);
   };
 
-  processOutbreakNotification = () => {
+  processOutbreakNotification = (severity: number) => {
     log.debug({
       category: 'qr-code',
       message: 'processOutbreakNotification',
@@ -357,7 +357,10 @@ export class OutbreakService {
 
     PushNotification.presentLocalNotification({
       alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
-      alertBody: this.i18n.translate('Notification.OutbreakMessageIsolate'),
+      alertBody:
+        severity === 1
+          ? this.i18n.translate('Notification.OutbreakMessageIsolate')
+          : this.i18n.translate('Notification.OutbreakMessageMonitor'),
       channelName: this.i18n.translate('Notification.AndroidChannelName'),
     });
   };
@@ -376,6 +379,15 @@ export class OutbreakService {
       runningPeriod -= 1;
     }
     return periodsToFetch;
+  };
+
+  getSeverity = (): number => {
+    const outbreakHistory = this.outbreakHistory.get();
+    const severityArray = outbreakHistory.map(data => {
+      return data.severity;
+    });
+
+    return severityArray[severityArray.length - 1];
   };
 }
 

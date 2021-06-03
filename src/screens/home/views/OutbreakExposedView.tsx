@@ -84,15 +84,3 @@ const MonitorText = ({i18n}: {i18n: I18n}) => {
     </>
   );
 };
-
-const GetTestedText = ({i18n, showNegativeTestButton}: {i18n: I18n; showNegativeTestButton: boolean}) => {
-  return (
-    <>
-      <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
-        {i18n.translate('QRCode.OutbreakExposed.GetTested.Title')}
-      </Text>
-      <TextMultiline marginBottom="m" text={i18n.translate('QRCode.OutbreakExposed.GetTested.Body')} />
-      {showNegativeTestButton ? <NegativeOutbreakTestButton /> : null}
-    </>
-  );
-};
