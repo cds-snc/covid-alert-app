@@ -7,9 +7,9 @@ import {getCurrentDate, getHoursBetween} from './date-fns';
 export const OUTBREAK_EXPOSURE_DURATION_DAYS = 14;
 
 export enum OutbreakSeverity {
-  SelfMonitor = 1,
-  SelfIsolate = 2,
-  GetTested = 3,
+  SelfIsolate = 1,
+  SelfMonitor = 2,
+
 }
 
 export enum ExposureType {

@@ -53,8 +53,6 @@ export const OutbreakConditionalText = ({
   showNegativeTestButton?: boolean;
 }) => {
   switch (severity) {
-    case OutbreakSeverity.GetTested:
-      return <GetTestedText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
     case OutbreakSeverity.SelfIsolate:
       return <IsolateText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
     case OutbreakSeverity.SelfMonitor:
