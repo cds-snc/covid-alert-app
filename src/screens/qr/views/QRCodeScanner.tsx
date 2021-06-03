@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from 'react';
-import {StatusBar, StyleSheet} from 'react-native';
+import React, {useCallback, useState, useEffect} from 'react';
+import {AppState, AppStateStatus, StatusBar, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {Box, Text, ToolbarWithClose} from 'components';
@@ -45,6 +45,21 @@ export const QRCodeScanner = () => {
     }
   };
   const close = useCallback(() => navigation.navigate('Home'), [navigation]);
+
+  useEffect(() => {
+    const onAppStateChange = async (newState: AppStateStatus) => {
+      if (newState !== 'active') {
+        // auto navigate to home screen to unmount Camera / Scanner
+        // see: https://github.com/cds-snc/covid-alert-app/issues/1663
+        navigation.navigate('Home');
+      }
+    };
+
+    AppState.addEventListener('change', onAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', onAppStateChange);
+    };
+  }, []);
 
   return (
     <>
