@@ -73,7 +73,7 @@
     "SymptomTrackerUrl": "https://ca.thrive.health/covid19app/action/88a5e9a7-db9e-487b-bc87-ce35035f8e5c?from=/home&navigateTo=/tracker/complete",
     "DiagnosedShareView": {
       "Title": "Partager les nouvelles expositions",
-      "Body1": "Merci d’aider à ralentir la propagation de la COVID-19!",
+      "Body1": "Merci d’aider à limiter la propagation de la COVID-19!",
       "Body2": "**Rappel:** Pour contribuer à la sécurité des autres, vous devez partager vos nouvelles expositions tous les jours, surtout si vous avez à sortir de la maison.",
       "ButtonCTA": "Partager les nouvelles expositions"
     },
@@ -133,20 +133,20 @@
     "EnterCodeCardTitle": "Avez-vous reçu un diagnostic de COVID-19?",
     "EnterCodeCardBody": "Vous devez avoir une clé à usage unique pour aviser les personnes exposées. Nous vous demanderons aussi quelques précisions pour déterminer la période où vous étiez probablement le plus contagieux.",
     "EnterCodeCardAction": "Entrer votre clé",
-    "EnterCodeCardTitleDiagnosed": "Vous contribuez à freiner la COVID",
-    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour freiner la propagation de la COVID-19. ",
+    "EnterCodeCardTitleDiagnosed": "Vous contribuez à limiter la COVID",
+    "EnterCodeCardBodyDiagnosed": "Merci de faire votre part pour limiter la propagation de la COVID-19. ",
     "EnterCodeCardDiagnosedCountdown": {
       "One": "Il vous reste {number}\u00A0jour!",
       "Other": "Il vous reste {number}\u00A0jours!"
     },
     "CodeNotShared": {
-      "Title": "Aidez à ralentir la propagation de la COVID-19 ",
+      "Title": "Aidez à limiter la propagation de la COVID-19 ",
       "Body": "Vous avez entré votre clé à usage unique, mais vous n’avez pas encore partagé vos expositions.",
       "CTA": "Finir le partage d’expositions"
     },
     "NotificationCardStatus": "Les notifications sont désactivées",
     "NotificationCardStatusOff": "DÉSACTIVÉES",
-    "NotificationCardBody": "Vous ne recevrez pas de notification si vous avez été près d’une personne qui a signalé un diagnostic de COVID-19. Être notifié rapidement est essentiel pour ralentir la propagation de la COVID-19.",
+    "NotificationCardBody": "Vous ne recevrez pas de notification si vous avez été près d’une personne qui a signalé un diagnostic de COVID-19. Être notifié rapidement est essentiel pour limiter la propagation de la COVID-19.",
     "NotificationCardAction": "Activer les notifications",
     "ExposureNotificationCardStatus": "Les notifications d’exposition à la COVID-19 sont ",
     "ExposureNotificationCardBody": "Vous n’avez pas activé Alerte COVID. L’application a besoin de votre autorisation pour fonctionner.",
@@ -247,7 +247,7 @@
     "ActionEnd": "Terminé",
     "ActionBack": "Précédent",
     "Start": {
-      "Title": "Unissons-nous pour freiner la propagation de la COVID-19",
+      "Title": "Unissons-nous pour limiter la propagation de la COVID-19",
       "ImageAltText": "Dessin à la main avec plusieurs personnes différentes dedans. Leurs chemins en lignes pointillées se croisent et mènent à un téléphone intelligent plus bas.",
       "Body1": "Alerte COVID nous aide à briser le cycle d’infection. L’application permet d’aviser les personnes en cas d’exposition potentielle avant même que des symptômes apparaissent. ",
       "Body2": "Nous pouvons ainsi prendre soin de nous et protéger nos communautés."
@@ -279,7 +279,7 @@
     "PartOf": {
       "Title": "L’un des efforts de santé publique",
       "ImageAltText": "Dessin à la main de divers moyens de lutter contre la COVID-19, dont un désinfectant pour les mains, un couvre-visage, des mains avec du savon et l’application Alerte COIVID.",
-      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à freiner la propagation de la COVID-19.",
+      "Body1": "Alerte COVID n’est qu’une partie des efforts de santé publique visant à limiter la propagation de la COVID-19.",
       "Body2": "Continuez à suivre les recommandations de santé publique de votre région.",
       "Body3": "Alerte COVID ne remplace pas un avis médical. Si vous tombez malade, contactez votre médecin ou un professionnel de la santé."
     },
@@ -364,7 +364,7 @@
     "ConsentView": {
       "Title": "Vous pouvez maintenant téléverser vos codes",
       "Body1": "Votre téléphone vous demandera l’autorisation de téléverser vos codes ou « identifiants » aléatoires les plus récents.\n\n**Les personnes exposées n’obtiendront aucun renseignement sur vous** ni sur le moment de votre contact.",
-      "Body2": "Vous pouvez aider à ralentir la propagation de la COVID-19 si vous acceptez.",
+      "Body2": "Vous pouvez aider à limiter la propagation de la COVID-19 si vous acceptez.",
       "Action": "Accepter"
     },
     "TekUploadNoDate": {
@@ -408,7 +408,7 @@
     "OffMessageTitle": "Alerte COVID est désactivée",
     "OffMessageBody": "Activez Alerte COVID pour être avisé en cas d’exposition potentielle à la COVID-19.",
     "DailyUploadNotificationTitle": "Téléversez vos nouveaux codes aléatoires",
-    "DailyUploadNotificationBody": "Aidez à ralentir la propagation de la COVID-19 en téléversant vos nouveaux codes aléatoires.",
+    "DailyUploadNotificationBody": "Aidez à limiter la propagation de la COVID-19 en téléversant vos nouveaux codes aléatoires.",
     "ExposureChecksTitle": "Alerte COVID",
     "ExposureChecksBody": "Vérification d’exposition en cours",
     "ExposureChecksAndroidChannelName": "Vérifications d’exposition",
