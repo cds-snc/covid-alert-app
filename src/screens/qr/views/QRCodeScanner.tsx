@@ -9,6 +9,7 @@ import {log} from 'shared/logging/config';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useOrientation} from 'shared/useOrientation';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
+import {useCachedStorage} from 'services/StorageService';
 
 import {handleOpenURL} from '../utils';
 
@@ -17,6 +18,7 @@ export const QRCodeScanner = () => {
   const {addCheckIn} = useOutbreakService();
   const {orientation} = useOrientation();
   const [scanned, setScanned] = useState<boolean>(false);
+  const {hasViewedQrInstructions} = useCachedStorage();
 
   const i18n = useI18n();
   const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
@@ -60,13 +62,19 @@ export const QRCodeScanner = () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
   }, []);
+  const toolBarProps = hasViewedQrInstructions ? {} : {showBackButton: true};
 
   return (
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.flex}>
         <Box style={styles.toolbar}>
-          <ToolbarWithClose closeText={i18n.translate('DataUpload.Close')} useWhiteText onClose={close} />
+          <ToolbarWithClose
+            closeText={i18n.translate('DataUpload.Close')}
+            useWhiteText
+            onClose={close}
+            {...toolBarProps}
+          />
         </Box>
 
         {orientation === 'portrait' ? (
