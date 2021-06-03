@@ -62,7 +62,7 @@ export const QRCodeScanner = () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
   }, []);
-  const toolBarProps = hasViewedQrInstructions ? {} : {showBackButton: true};
+  const toolBarProps = hasViewedQrInstructions === true ? {showBackButton: false} : {showBackButton: true};
 
   return (
     <>
