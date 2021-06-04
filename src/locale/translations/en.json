@@ -233,7 +233,7 @@
     "step-4Title": "Help make contact tracing easier",
     "step-4AltText": "-",
     "step-4": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from the places you visited.",
-    "step-4-banner": "Right now, posters with QR codes are **only available in Ottawa** as part of a pilot project.",
+    "step-4-banner": "Right now, posters with QR codes are **only available in Ottawa** as part of a pilot project with the City of Ottawa.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -537,7 +537,7 @@
     "ScanAPlace": {
       "Title": "Add a visit: Ottawa only",
       "Body": "Get notified if public health finds an exposure risk from your visit.\n\nThe app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits are not shared** with anyone.",
-      "Banner": "Right now, posters with QR codes are **only available in Ottawa** as part of a pilot project.",
+      "Banner": "Right now, posters with QR codes are **only available in Ottawa** as part of a pilot project with the City of Ottawa.",
       "CTA": "Next",
       "CTA2": "About adding a visit"
     },
