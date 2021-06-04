@@ -34,8 +34,7 @@ export const QRCodeScanner = () => {
       const checkInData = await handleOpenURL({url: data});
       setScanned(true);
       addCheckIn(checkInData);
-      // ensure has view has been set to stop
-      // tutorial from showing again
+      // ensure hasViewedQrInstructions has been set to stop <LearnAboutQRScreen /> from showing again
       await setHasViewedQr(true);
 
       FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.QrCodeSuccessfullyScanned});
