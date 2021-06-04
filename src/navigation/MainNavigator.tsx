@@ -64,23 +64,13 @@ const withDarkNavNonModal = (Component: React.ElementType) => {
   return ComponentWithDarkNav;
 };
 
-// const withLightNav = (Component: React.ElementType) => {
-//   const ComponentWithLightNav = (props: any) => (
-//     <SafeAreaProvider>
-//       <StatusBar barStyle="light-content" />
-//       <Component {...props} />
-//     </SafeAreaProvider>
-//   );
-//   return ComponentWithLightNav;
-// };
-
 export interface MainStackParamList extends Record<string, object | undefined> {
   Home: {timestamp?: number};
   Onboarding: undefined;
   Tutorial: undefined;
-  QROnboard: undefined;
+  QRcodeOnboard: undefined;
   RegionSelectExposedNoPT: {drawerMenu: boolean} | undefined;
-  ExposureHistoryScreen: {refreshAt?: number};
+  ExposureHistoryScreen: undefined;
   RecentExposureScreen: {exposureHistoryItem: CombinedExposureHistoryData};
   CheckInHistoryScreen: {closeRoute: string};
 }
