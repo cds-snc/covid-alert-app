@@ -250,7 +250,7 @@ export class OutbreakService {
               message: 'exposed',
             });
             FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedToOutbreak});
-            this.processOutbreakNotification(this.getSeverity());
+            this.processOutbreakNotification(getSortedOutbreakArrayByTimestamp(outbreakHistory)[0].severity);
           }
         } catch (error) {
           log.error({category: 'qr-code', error});
@@ -380,15 +380,6 @@ export class OutbreakService {
     }
     return periodsToFetch;
   };
-
-  getSeverity = (): number => {
-    const outbreakHistory = this.outbreakHistory.get();
-    const severityArray = outbreakHistory.map(data => {
-      return data.severity;
-    });
-
-    return severityArray[severityArray.length - 1];
-  };
 }
 
 export const isDiagnosed = (status: string): boolean => {
@@ -397,3 +388,9 @@ export const isDiagnosed = (status: string): boolean => {
   }
   return false;
 };
+
+export const getSortedOutbreakArrayByTimestamp = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
+const orderedTimestampArray = outbreakHistory.sort((first, second) => second.notificationTimestamp - first.notificationTimestamp)
+
+return orderedTimestampArray;
+}
