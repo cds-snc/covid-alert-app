@@ -390,7 +390,9 @@ export const isDiagnosed = (status: string): boolean => {
 };
 
 export const getSortedOutbreakArrayByTimestamp = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
-const orderedTimestampArray = outbreakHistory.sort((first, second) => second.notificationTimestamp - first.notificationTimestamp)
+  const orderedTimestampArray = outbreakHistory.sort(
+    (first, second) => second.notificationTimestamp - first.notificationTimestamp,
+  );
 
-return orderedTimestampArray;
-}
+  return orderedTimestampArray;
+};
