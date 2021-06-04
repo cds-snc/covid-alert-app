@@ -17,9 +17,9 @@ export const OutbreakExposedView = () => {
   const nonIgnoredOutbreakHistory = getNonIgnoredOutbreakHistory(outbreakHistory);
   const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
 
-  const historyItem: OutbreakHistoryItem = nonIgnoredOutbreakHistory[0];
-
+  const historyItem: OutbreakHistoryItem = nonIgnoredOutbreakHistory[nonIgnoredOutbreakHistory.length - 1];
   const severity = historyItem?.severity;
+
   const exposureDate = TEST_MODE
     ? formatExposedDate(new Date(), dateLocale)
     : formatExposedDate(new Date(historyItem?.notificationTimestamp), dateLocale);
