@@ -20,7 +20,7 @@ export const QRCodeIntroScreen = () => {
   const navigation = useNavigation();
   const i18n = useI18n();
   const toQRScreen = useCallback(async () => {
-    navigation.navigate('QRCodeReaderScreen');
+    navigation.navigate('QRCodeReaderScreen', {fromScreen: 'QRCodeIntroScreen'});
   }, [navigation]);
   return (
     <BaseQRCodeScreen showBackButton={false}>

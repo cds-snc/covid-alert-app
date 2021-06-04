@@ -152,6 +152,11 @@ const DataSharingNavigator = () => {
 };
 
 const QRCodeStack = createStackNavigator();
+
+export interface QRCodeStackParamList extends Record<string, object | undefined> {
+  QRCodeReaderScreen: {fromScreen?: string};
+}
+
 const QRCodeNavigator = () => {
   const {hasViewedQrInstructions} = useCachedStorage();
   return (

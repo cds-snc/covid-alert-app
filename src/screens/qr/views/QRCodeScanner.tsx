@@ -4,14 +4,17 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import {Box, Text, ToolbarWithClose} from 'components';
 import {useI18n} from 'locale';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {log} from 'shared/logging/config';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useOrientation} from 'shared/useOrientation';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {useCachedStorage} from 'services/StorageService';
+import {QRCodeStackParamList} from 'navigation/MainNavigator';
 
 import {handleOpenURL} from '../utils';
+
+type QRCodeReaderScreenProps = RouteProp<QRCodeStackParamList, 'QRCodeReaderScreen'>;
 
 export const QRCodeScanner = () => {
   const navigation = useNavigation();
@@ -19,6 +22,10 @@ export const QRCodeScanner = () => {
   const {orientation} = useOrientation();
   const [scanned, setScanned] = useState<boolean>(false);
   const {hasViewedQrInstructions} = useCachedStorage();
+
+  const route = useRoute<QRCodeReaderScreenProps>();
+
+  const fromScreen = route.params?.fromScreen;
 
   const i18n = useI18n();
   const handleBarCodeScanned = async (scanningResult: BarCodeScannerResult) => {
@@ -61,8 +68,12 @@ export const QRCodeScanner = () => {
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, []);
-  const toolBarProps = hasViewedQrInstructions === true ? {showBackButton: false} : {showBackButton: true};
+  }, [navigation]);
+
+  const toolBarProps =
+    hasViewedQrInstructions === true && fromScreen !== 'QRCodeIntroScreen'
+      ? {showBackButton: false}
+      : {showBackButton: true};
 
   return (
     <>
