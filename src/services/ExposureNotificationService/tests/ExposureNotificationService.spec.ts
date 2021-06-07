@@ -186,7 +186,6 @@ describe('ExposureNotificationService', () => {
       .mockResolvedValue(today.getTime());
 
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
 
   afterEach(() => {
