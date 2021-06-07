@@ -152,6 +152,8 @@ export class OutbreakService {
     const _checkInHistory: string =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     const checkInHistory: CheckInData[] = JSON.parse(_checkInHistory);
+    console.log('history');
+    console.log(checkInHistory);
     let newCheckInHistory;
     if (locationId && timestamp) {
       // removes a specific Check In
