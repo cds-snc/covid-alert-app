@@ -1,3 +1,6 @@
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
+
 import {OutbreakService} from './OutbreakService';
 
 const checkIns = [
@@ -68,7 +71,7 @@ describe('OutbreakService', () => {
   global.Date.UTC = realDateUTC;
 
   beforeEach(async () => {
-    service = await OutbreakService.sharedInstance(i18n, bridge);
+    service = new OutbreakService(i18n, bridge, new StorageServiceMock(), [], []);
     // @ts-ignore
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
@@ -83,5 +86,34 @@ describe('OutbreakService', () => {
     const checkInHistory = service.checkInHistory.get();
     expect(checkInHistory[0].id).toStrictEqual('123');
     expect(checkInHistory).toHaveLength(2);
+  });
+
+  it('removes a checkin', async () => {
+    // add checkins
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.addCheckIn(checkIns[2]);
+
+    let checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory[2].id).toStrictEqual('125');
+    expect(checkInHistory).toHaveLength(3);
+
+    // remove a checkin
+    await service.removeCheckIn(checkInHistory[2].id, checkInHistory[2].timestamp);
+    checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory).toHaveLength(2);
+  });
+
+  it('clears checkin history', async () => {
+    // add checkins
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    let checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory).toHaveLength(2);
+
+    // clear the history
+    await service.clearCheckInHistory();
+    checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory).toHaveLength(0);
   });
 });
