@@ -2,81 +2,24 @@
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 import {OutbreakService} from './OutbreakService';
-
-const checkIns = [
-  {
-    id: '123',
-    timestamp: new Date('2021-02-01T12:00Z').getTime(),
-    address: '123 King St.',
-    name: 'Location name',
-  },
-  {
-    id: '124',
-    timestamp: new Date('2021-02-01T14:00Z').getTime(),
-    address: '124 King St.',
-    name: 'Location name',
-  },
-  {
-    id: '125',
-    timestamp: new Date('2021-02-04T12:00Z').getTime(),
-    address: '125 King St.',
-    name: 'Location name',
-  },
-];
-
-const outbreaks = [
-  {
-    id: '123',
-    isExpired: false,
-    isIgnored: false,
-    isIgnoredFromHistory: false,
-    locationId: 'location123',
-    locationAddress: '123 King St.',
-    locationName: 'Location name',
-    outbreakStartTimestamp: new Date('2021-06-06T12:00Z').getTime(),
-    outbreakEndTimestamp: new Date('2021-06-06T23:00Z').getTime(),
-    checkInTimestamp: new Date('2021-06-06T12:30Z').getTime(),
-    notificationTimestamp: new Date('2021-06-06T22:00Z').getTime(),
-    severity: 1,
-  },
-  {
-    id: '124',
-    isExpired: false,
-    isIgnored: false,
-    isIgnoredFromHistory: false,
-    locationId: 'location124',
-    locationAddress: '123 King St.',
-    locationName: 'Location name',
-    outbreakStartTimestamp: new Date('2021-02-01T15:00Z').getTime(),
-    outbreakEndTimestamp: new Date('2021-02-01T23:00Z').getTime(),
-    checkInTimestamp: new Date('2021-02-01T14:00Z').getTime(),
-    notificationTimestamp: new Date('2021-02-01T22:00Z').getTime(),
-    severity: 1,
-  },
-  {
-    id: '126',
-    isExpired: false,
-    isIgnored: false,
-    isIgnoredFromHistory: false,
-    locationId: '123',
-    locationAddress: '123 King St. 126',
-    locationName: 'Location name',
-    outbreakStartTimestamp: new Date('2021-06-06T12:00Z').getTime(),
-    outbreakEndTimestamp: new Date('2021-06-06T23:00Z').getTime(),
-    checkInTimestamp: new Date('2021-06-06T12:30Z').getTime(),
-    notificationTimestamp: new Date('2021-06-06T20:00Z').getTime(),
-    severity: 2,
-  }
-
-]
+import {checkIns, getTimes} from './tests/utils';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
 };
 
 const bridge: any = {
-  retrieveOutbreakEvents: jest.fn().mockResolvedValue((() => {
-    console.log('was called')
+  retrieveOutbreakEvents: jest.fn().mockImplementation((() => {
+    var d = new Date();
+
+    var datestring = d.getDate()  + "-" + (d.getMonth() + 1) + "-" + d.getFullYear() + " " +
+    d.getHours() + ":" + d.getMinutes();
+    const startTime = new Date('2021-02-01T04:10:00+0000').getTime()
+    const endTime = getTimes(new Date('2021-02-01T04:10:00+0000').getTime(), 60)
+    console.log('was called', d.getTime());
+    console.log('startTime', startTime);
+    console.log('endTime', endTime.end);
+    return {locationId: '130', startTime: new Date('2021-02-01T04:10:00+0000').getTime(), endTime: getTimes(new Date('2021-02-01T04:10:00+0000').getTime(), 120), severity: 1}
   })),
 };
 
@@ -115,7 +58,6 @@ describe('OutbreakService', () => {
   const realDateUTC = Date.UTC.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
   const today = new OriginalDate('2021-02-01T04:10:00+0000');
-  console.log('today', today.getTime());
   global.Date.now = realDateNow;
   global.Date.UTC = realDateUTC;
 
@@ -166,19 +108,24 @@ describe('OutbreakService', () => {
     expect(checkInHistory).toHaveLength(0);
   });
 
-  it('expire history items and save', async () => {
+  // it('expire history items and save', async () => {
 
-    // await service.addToOutbreakHistory(outbreaks)
-    // const outbreakHistory = service.outbreakHistory.get()
-    // const convertedOutbreaks = service.convertOutbreakEvents(outbreaks)
-    // console.log('convertOutbreakEvents', convertedOutbreaks);
-    // await service.expireHistoryItemsAndSave(outbreakHistory);
+  //   await service.addToOutbreakHistory(outbreaks)
+  //   const outbreakHistory = service.outbreakHistory.get()
+  //   const convertedOutbreaks = service.convertOutbreakEvents(outbreaks)
+  //   console.log('convertOutbreakEvents', convertedOutbreaks);
+  //   await service.expireHistoryItemsAndSave(outbreakHistory);
 
-    // expect(outbreakHistory).toHaveLength(2);
-  })
+  //   expect(outbreakHistory).toHaveLength(2);
+  // })
 
   it('check for outbreaks', async () => {
+    await service.addCheckIn(checkIns[0])
+    await service.addCheckIn(checkIns[1])
     await service.checkForOutbreaks();
+
     const outbreakHistory = service.outbreakHistory.get();
+    console.log('outbreak', outbreakHistory);
+
   })
 });

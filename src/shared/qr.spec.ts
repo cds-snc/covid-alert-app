@@ -1,4 +1,6 @@
 import {OutbreakEvent} from '../services/OutbreakService';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {getTimes, checkIns, outbreaks} from '../services/OutbreakService/tests/utils';
 
 import {
   CheckInData,
@@ -14,57 +16,9 @@ import {
   MatchData,
 } from './qr';
 
-const getTimes = (startTimestamp, durationInMinutes: number) => {
-  const endTime = new Date(startTimestamp);
-  endTime.setMinutes(endTime.getMinutes() + durationInMinutes);
-  return {start: startTimestamp, end: endTime.getTime()};
-};
-
 const getOutbreakId = checkIn => {
   return `${checkIn.id}-${checkIn.timestamp}`;
 };
-
-const checkIns = [
-  {
-    id: '123',
-    timestamp: new Date('2021-02-01T12:00Z').getTime(),
-    address: '123 King St.',
-    name: 'Location name',
-  },
-  {
-    id: '123',
-    timestamp: new Date('2021-02-01T14:00Z').getTime(),
-    address: '123 King St.',
-    name: 'Location name',
-  },
-  {
-    id: '123',
-    timestamp: new Date('2021-02-04T12:00Z').getTime(),
-    address: '123 King St.',
-    name: 'Location name',
-  },
-];
-
-const outbreaks = [
-  {
-    locationId: '123',
-    startTime: new Date('2021-02-01T09:00Z').getTime(),
-    endTime: new Date('2021-02-01T16:00Z').getTime(),
-    severity: 1,
-  },
-  {
-    locationId: '456',
-    startTime: null,
-    endTime: null,
-    severity: 1,
-  },
-  {
-    locationId: '123',
-    startTime: new Date('2021-03-01T09:00Z').getTime(),
-    endTime: new Date('2021-03-01T16:00Z').getTime(),
-    severity: 1,
-  },
-];
 
 describe('doTimeWindowsOverlap', () => {
   const dateStr = '2021-01-05';
