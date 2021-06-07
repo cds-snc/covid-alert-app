@@ -81,7 +81,7 @@ describe('OutbreakService', () => {
     await service.addCheckIn(checkIns[0]);
     await service.addCheckIn(checkIns[1]);
     const checkInHistory = service.checkInHistory.get();
-    expect(checkInHistory[0].id).toEqual('123');
-    expect(checkInHistory.length).toEqual(2);
+    expect(checkInHistory[0].id).toStrictEqual('123');
+    expect(checkInHistory).toHaveLength(2);
   });
 });
