@@ -2,27 +2,7 @@
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 import {OutbreakService} from './OutbreakService';
-
-const checkIns = [
-  {
-    id: '123',
-    timestamp: new Date('2021-02-01T12:00Z').getTime(),
-    address: '123 King St.',
-    name: 'Location name',
-  },
-  {
-    id: '124',
-    timestamp: new Date('2021-02-01T14:00Z').getTime(),
-    address: '124 King St.',
-    name: 'Location name',
-  },
-  {
-    id: '125',
-    timestamp: new Date('2021-02-04T12:00Z').getTime(),
-    address: '125 King St.',
-    name: 'Location name',
-  },
-];
+import {checkIns} from './tests/utils';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
