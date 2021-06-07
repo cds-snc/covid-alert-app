@@ -1,6 +1,4 @@
 import {OutbreakService} from './OutbreakService';
-import {StorageService} from '../../services/StorageService';
-import {getRandomBytes, downloadDiagnosisKeysFile} from '../../bridge/CovidShield';
 
 const checkIns = [
   {
@@ -10,37 +8,25 @@ const checkIns = [
     name: 'Location name',
   },
   {
-    id: '123',
+    id: '124',
     timestamp: new Date('2021-02-01T14:00Z').getTime(),
-    address: '123 King St.',
+    address: '124 King St.',
     name: 'Location name',
   },
   {
-    id: '123',
+    id: '125',
     timestamp: new Date('2021-02-04T12:00Z').getTime(),
-    address: '123 King St.',
+    address: '125 King St.',
     name: 'Location name',
   },
 ];
-
-const storageService: StorageService = {
-  retrieve: jest.fn().mockResolvedValue(null),
-  save: jest.fn().mockResolvedValueOnce(undefined),
-  delete: jest.fn(),
-  deteleAll: jest.fn(),
-};
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
 };
 
 const bridge: any = {
-  detectExposure: jest.fn().mockResolvedValue({matchedKeyCount: 0}),
-  activate: jest.fn().mockResolvedValue(undefined),
-  start: jest.fn().mockResolvedValue(undefined),
-  getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
-  getStatus: jest.fn().mockResolvedValue('active'),
-  getPendingExposureSummary: jest.fn().mockResolvedValue(undefined),
+  retrieveOutbreakEvents: jest.fn().mockResolvedValue(undefined),
 };
 
 jest.mock('react-native-zip-archive', () => ({
@@ -77,19 +63,25 @@ describe('OutbreakService', () => {
   const realDateNow = Date.now.bind(global.Date);
   const realDateUTC = Date.UTC.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
+  const today = new OriginalDate('2020-05-18T04:10:00+0000');
   global.Date.now = realDateNow;
   global.Date.UTC = realDateUTC;
 
   beforeEach(async () => {
     service = await OutbreakService.sharedInstance(i18n, bridge);
+    // @ts-ignore
+    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-    dateSpy.mockReset();
   });
 
   it('adds a checkin', async () => {
     await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    const checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory[0].id).toEqual('123');
+    expect(checkInHistory.length).toEqual(2);
   });
 });
