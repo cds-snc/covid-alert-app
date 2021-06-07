@@ -25,7 +25,7 @@ export const checkIns = [
   },
   {
     id: '130',
-    timestamp: new Date('2021-02-04T13:00:00Z').getTime(),
+    timestamp: new Date('2021-02-01T04:10:00Z').getTime(),
     address: '123 King St.',
     name: 'Location name',
   },
@@ -49,5 +49,11 @@ export const outbreaks = [
     startTime: new Date('2021-03-01T09:00Z').getTime(),
     endTime: new Date('2021-03-01T16:00Z').getTime(),
     severity: 1,
+  },
+  {
+    id: '130',
+    timestamp: new Date('2021-02-04T13:00:00Z').getTime(),
+    address: '123 King St.',
+    name: 'Location name',
   },
 ];
