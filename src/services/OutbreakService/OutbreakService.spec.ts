@@ -1,3 +1,4 @@
+// eslint-disable-next-line @shopify/strict-component-boundaries
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 import {OutbreakService} from './OutbreakService';
