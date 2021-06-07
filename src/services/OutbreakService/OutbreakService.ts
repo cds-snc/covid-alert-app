@@ -79,7 +79,7 @@ export class OutbreakService {
   private serialPromiseQueue: PQueue;
   private storageService: StorageService;
 
-  private constructor(
+  public constructor(
     i18n: I18n,
     backendService: BackendInterface,
     storageService: StorageService,
@@ -152,8 +152,6 @@ export class OutbreakService {
     const _checkInHistory: string =
       (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
     const checkInHistory: CheckInData[] = JSON.parse(_checkInHistory);
-    console.log('history');
-    console.log(checkInHistory);
     let newCheckInHistory;
     if (locationId && timestamp) {
       // removes a specific Check In

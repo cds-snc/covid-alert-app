@@ -1,4 +1,5 @@
 import {OutbreakService} from './OutbreakService';
+import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 const checkIns = [
   {
@@ -68,8 +69,7 @@ describe('OutbreakService', () => {
   global.Date.UTC = realDateUTC;
 
   beforeEach(async () => {
-    service = await OutbreakService.sharedInstance(i18n, bridge);
-    service.clearCheckInHistory();
+    service = new OutbreakService(i18n, bridge, new StorageServiceMock(), [], []);
     // @ts-ignore
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
@@ -100,7 +100,7 @@ describe('OutbreakService', () => {
     expect(checkInHistory).toHaveLength(3);
 
     // remove a checkin
-    service.removeCheckIn(checkInHistory[2].id, checkInHistory[2].timestamp);
+    await service.removeCheckIn(checkInHistory[2].id, checkInHistory[2].timestamp);
     checkInHistory = service.checkInHistory.get();
     expect(checkInHistory).toHaveLength(2);
   });
@@ -111,7 +111,9 @@ describe('OutbreakService', () => {
     await service.addCheckIn(checkIns[1]);
     let checkInHistory = service.checkInHistory.get();
     expect(checkInHistory).toHaveLength(2);
-    service.clearCheckInHistory();
+
+    // clear the history
+    await service.clearCheckInHistory();
     checkInHistory = service.checkInHistory.get();
     expect(checkInHistory).toHaveLength(0);
   });
