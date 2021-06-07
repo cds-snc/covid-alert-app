@@ -1,5 +1,6 @@
-import {OutbreakService} from './OutbreakService';
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
+
+import {OutbreakService} from './OutbreakService';
 
 const checkIns = [
   {
@@ -84,9 +85,6 @@ describe('OutbreakService', () => {
     const checkInHistory = service.checkInHistory.get();
     expect(checkInHistory[0].id).toStrictEqual('123');
     expect(checkInHistory).toHaveLength(2);
-
-    service.removeCheckIn;
-    service.clearCheckInHistory;
   });
 
   it('removes a checkin', async () => {
