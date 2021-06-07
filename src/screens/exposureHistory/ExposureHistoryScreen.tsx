@@ -28,8 +28,6 @@ import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
 
 const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
   switch (severity) {
-    case OutbreakSeverity.GetTested:
-      return i18n.translate('QRCode.OutbreakExposed.GetTested.Title');
     case OutbreakSeverity.SelfIsolate:
       return i18n.translate('QRCode.OutbreakExposed.SelfIsolate.Title');
     case OutbreakSeverity.SelfMonitor:
