@@ -233,7 +233,7 @@
     "step-4Title": "Facilitons la recherche de contacts",
     "step-4AltText": "-",
     "step-4": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu un risque d’exposition pendant celles-ci.",
-    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote.",
+    "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote avec la Ville d’Ottawa.",
     "ActionBack": "Back",
     "ActionNext": "Next",
     "ActionEnd": "Done",
@@ -533,7 +533,7 @@
     "ScanAPlace": {
       "Title": "Ajouter une visite : Ottawa seulement",
       "Body": "Vous serez avisé si la santé publique détecte un risque d’exposition lié à votre visite.\n\nL’application enregistrera vos visites sur votre téléphone, en plus de leur date et heure.\n\nVos visites **ne sont communiquées à personne.**",
-      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote.",
+      "Banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote avec la Ville d’Ottawa.",
       "CTA": "Suivant",
       "CTA2": "À propos de l’ajout d’une visite"
     },
