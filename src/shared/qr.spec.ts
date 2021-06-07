@@ -1,4 +1,6 @@
 import {OutbreakEvent} from '../services/OutbreakService';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {getTimes, checkIns, outbreaks} from '../services/OutbreakService/tests/utils';
 
 import {
   CheckInData,
@@ -13,8 +15,6 @@ import {
   OutbreakHistoryItem,
   MatchData,
 } from './qr';
-
-import {getTimes, checkIns, outbreaks} from '../services/OutbreakService/tests/utils';
 
 const getOutbreakId = checkIn => {
   return `${checkIn.id}-${checkIn.timestamp}`;
