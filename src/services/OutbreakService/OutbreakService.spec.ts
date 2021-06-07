@@ -9,18 +9,22 @@ const i18n: any = {
 };
 
 const bridge: any = {
-  retrieveOutbreakEvents: jest.fn().mockImplementation((() => {
-    var d = new Date();
+  retrieveOutbreakEvents: jest.fn().mockImplementation(() => {
+    const date = new Date();
 
-    var datestring = d.getDate()  + "-" + (d.getMonth() + 1) + "-" + d.getFullYear() + " " +
-    d.getHours() + ":" + d.getMinutes();
-    const startTime = new Date('2021-02-01T04:10:00+0000').getTime()
-    const endTime = getTimes(new Date('2021-02-01T04:10:00+0000').getTime(), 60)
-    console.log('was called', d.getTime());
-    console.log('startTime', startTime);
-    console.log('endTime', endTime.end);
-    return {locationId: '130', startTime: new Date('2021-02-01T04:10:00+0000').getTime(), endTime: getTimes(new Date('2021-02-01T04:10:00+0000').getTime(), 120), severity: 1}
-  })),
+    const datestring = `${date.getDate()}-${
+      date.getMonth() + 1
+    }-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+    const startTime = new Date('2021-02-01T04:10:00+0000').getTime();
+    const endTime = getTimes(new Date('2021-02-01T04:10:00+0000').getTime(), 60);
+
+    return {
+      locationId: '130',
+      startTime: new Date('2021-02-01T04:10:00+0000').getTime(),
+      endTime: getTimes(new Date('2021-02-01T04:10:00+0000').getTime(), 120),
+      severity: 1,
+    };
+  }),
 };
 
 jest.mock('react-native-zip-archive', () => ({
@@ -108,24 +112,12 @@ describe('OutbreakService', () => {
     expect(checkInHistory).toHaveLength(0);
   });
 
-  // it('expire history items and save', async () => {
-
-  //   await service.addToOutbreakHistory(outbreaks)
-  //   const outbreakHistory = service.outbreakHistory.get()
-  //   const convertedOutbreaks = service.convertOutbreakEvents(outbreaks)
-  //   console.log('convertOutbreakEvents', convertedOutbreaks);
-  //   await service.expireHistoryItemsAndSave(outbreakHistory);
-
-  //   expect(outbreakHistory).toHaveLength(2);
-  // })
-
   it('check for outbreaks', async () => {
-    await service.addCheckIn(checkIns[0])
-    await service.addCheckIn(checkIns[1])
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
     await service.checkForOutbreaks();
 
     const outbreakHistory = service.outbreakHistory.get();
-    console.log('outbreak', outbreakHistory);
-
-  })
+    expect(false).toStrictEqual(true);
+  });
 });

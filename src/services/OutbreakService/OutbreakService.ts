@@ -186,7 +186,6 @@ export class OutbreakService {
         this.ignoreOutbreak(historyItem.id);
       }
     });
-    console.log('expireHistory', expireHistory);
   };
 
   checkForOutbreaks = async (forceCheck?: boolean) => {
