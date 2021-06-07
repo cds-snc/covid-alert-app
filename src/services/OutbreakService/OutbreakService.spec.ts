@@ -21,6 +21,38 @@ const checkIns = [
   },
 ];
 
+const outbreaks = [
+  {
+    id: '123',
+    isExpired: false,
+    isIgnored: false,
+    isIgnoredFromHistory: false,
+    locationId: 'location123',
+    locationAddress: '123 King St.',
+    locationName: 'Location name',
+    outbreakStartTimestamp: new Date('2021-06-06T12:00Z').getTime(),
+    outbreakEndTimestamp: new Date('2021-06-06T23:00Z').getTime(),
+    checkInTimestamp: new Date('2021-06-06T12:30Z').getTime(),
+    notificationTimestamp: new Date('2021-06-06T22:00Z').getTime(),
+    severity: 1,
+  },
+  {
+    id: '124',
+    isExpired: true,
+    isIgnored: false,
+    isIgnoredFromHistory: false,
+    locationId: 'location124',
+    locationAddress: '123 King St.',
+    locationName: 'Location name',
+    outbreakStartTimestamp: new Date('2021-05-22T12:00Z').getTime(),
+    outbreakEndTimestamp: new Date('2021-05-22T23:00Z').getTime(),
+    checkInTimestamp: new Date('2021-05-22T12:30Z').getTime(),
+    notificationTimestamp: new Date('2021-05-22T22:00Z').getTime(),
+    severity: 1,
+  },
+
+]
+
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
 };
@@ -84,4 +116,13 @@ describe('OutbreakService', () => {
     expect(checkInHistory[0].id).toStrictEqual('123');
     expect(checkInHistory).toHaveLength(2);
   });
+
+  it('expire history items and save', async () => {
+
+    await service.addToOutbreakHistory(outbreaks)
+    const outbreakHistory = service.outbreakHistory.get()
+    await service.expireHistoryItemsAndSave(outbreakHistory);
+
+    console.log('outbreakHistory', outbreakHistory);
+  })
 });
