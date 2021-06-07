@@ -1,3 +1,6 @@
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
+
 import {OutbreakService} from './OutbreakService';
 
 const checkIns = [
@@ -38,18 +41,32 @@ const outbreaks = [
   },
   {
     id: '124',
-    isExpired: true,
+    isExpired: false,
     isIgnored: false,
     isIgnoredFromHistory: false,
     locationId: 'location124',
     locationAddress: '123 King St.',
     locationName: 'Location name',
-    outbreakStartTimestamp: new Date('2021-05-22T12:00Z').getTime(),
-    outbreakEndTimestamp: new Date('2021-05-22T23:00Z').getTime(),
-    checkInTimestamp: new Date('2021-05-22T12:30Z').getTime(),
-    notificationTimestamp: new Date('2021-05-22T22:00Z').getTime(),
+    outbreakStartTimestamp: new Date('2021-02-01T15:00Z').getTime(),
+    outbreakEndTimestamp: new Date('2021-02-01T23:00Z').getTime(),
+    checkInTimestamp: new Date('2021-02-01T14:00Z').getTime(),
+    notificationTimestamp: new Date('2021-02-01T22:00Z').getTime(),
     severity: 1,
   },
+  {
+    id: '126',
+    isExpired: false,
+    isIgnored: false,
+    isIgnoredFromHistory: false,
+    locationId: '123',
+    locationAddress: '123 King St. 126',
+    locationName: 'Location name',
+    outbreakStartTimestamp: new Date('2021-06-06T12:00Z').getTime(),
+    outbreakEndTimestamp: new Date('2021-06-06T23:00Z').getTime(),
+    checkInTimestamp: new Date('2021-06-06T12:30Z').getTime(),
+    notificationTimestamp: new Date('2021-06-06T20:00Z').getTime(),
+    severity: 2,
+  }
 
 ]
 
@@ -95,12 +112,13 @@ describe('OutbreakService', () => {
   const realDateNow = Date.now.bind(global.Date);
   const realDateUTC = Date.UTC.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
-  const today = new OriginalDate('2020-05-18T04:10:00+0000');
+  const today = new OriginalDate('2021-02-01T04:10:00+0000');
+  console.log('today', today.getTime());
   global.Date.now = realDateNow;
   global.Date.UTC = realDateUTC;
 
   beforeEach(async () => {
-    service = await OutbreakService.sharedInstance(i18n, bridge);
+    service = new OutbreakService(i18n, bridge, new StorageServiceMock(), [], []);
     // @ts-ignore
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
@@ -117,12 +135,48 @@ describe('OutbreakService', () => {
     expect(checkInHistory).toHaveLength(2);
   });
 
+  it('removes a checkin', async () => {
+    // add checkins
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.addCheckIn(checkIns[2]);
+
+    let checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory[2].id).toStrictEqual('125');
+    expect(checkInHistory).toHaveLength(3);
+
+    // remove a checkin
+    await service.removeCheckIn(checkInHistory[2].id, checkInHistory[2].timestamp);
+    checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory).toHaveLength(2);
+  });
+
+  it('clears checkin history', async () => {
+    // add checkins
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    let checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory).toHaveLength(2);
+
+    // clear the history
+    await service.clearCheckInHistory();
+    checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory).toHaveLength(0);
+  });
+
   it('expire history items and save', async () => {
 
     await service.addToOutbreakHistory(outbreaks)
     const outbreakHistory = service.outbreakHistory.get()
+    const convertedOutbreaks = service.convertOutbreakEvents(outbreaks)
+    console.log('convertOutbreakEvents', convertedOutbreaks);
     await service.expireHistoryItemsAndSave(outbreakHistory);
 
-    console.log('outbreakHistory', outbreakHistory);
+    expect(outbreakHistory).toHaveLength(2);
+  })
+
+  it('check for outbreaks', async () => {
+    await service.checkForOutbreaks();
+    const outbreakHistory = service.outbreakHistory.get();
   })
 });

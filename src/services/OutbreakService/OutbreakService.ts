@@ -79,7 +79,7 @@ export class OutbreakService {
   private serialPromiseQueue: PQueue;
   private storageService: StorageService;
 
-  private constructor(
+  public constructor(
     i18n: I18n,
     backendService: BackendInterface,
     storageService: StorageService,
@@ -186,6 +186,7 @@ export class OutbreakService {
         this.ignoreOutbreak(historyItem.id);
       }
     });
+    console.log('expireHistory', expireHistory);
   };
 
   checkForOutbreaks = async (forceCheck?: boolean) => {
