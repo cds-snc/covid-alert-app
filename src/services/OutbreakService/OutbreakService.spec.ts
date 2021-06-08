@@ -9,22 +9,7 @@ const i18n: any = {
 };
 
 const bridge: any = {
-  retrieveOutbreakEvents: jest.fn().mockImplementation(() => {
-    const date = new Date();
-
-    const datestring = `${date.getDate()}-${
-      date.getMonth() + 1
-    }-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-    const startTime = new Date('2021-02-01T04:10:00+0000').getTime();
-    const endTime = getTimes(new Date('2021-02-01T04:10:00+0000').getTime(), 60);
-
-    return {
-      locationId: '130',
-      startTime: new Date('2021-02-01T04:10:00+0000').getTime(),
-      endTime: getTimes(new Date('2021-02-01T04:10:00+0000').getTime(), 120),
-      severity: 1,
-    };
-  }),
+  retrieveOutbreakEvents: jest.fn(),
 };
 
 jest.mock('react-native-zip-archive', () => ({
@@ -61,12 +46,26 @@ describe('OutbreakService', () => {
   const realDateNow = Date.now.bind(global.Date);
   const realDateUTC = Date.UTC.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
-  const today = new OriginalDate('2021-02-01T04:10:00+0000');
+  const today = new OriginalDate('2021-02-01T04:06:00+0000');
   global.Date.now = realDateNow;
   global.Date.UTC = realDateUTC;
 
   beforeEach(async () => {
     service = new OutbreakService(i18n, bridge, new StorageServiceMock(), [], []);
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      const times = getTimes(checkIns[0].timestamp, 60);
+
+      const events = service.convertOutbreakEvents([
+        {
+          locationId: '130',
+          startTime: {seconds: times.start},
+          endTime: {seconds: times.end},
+          severity: 1,
+        },
+      ]);
+
+      return events;
+    });
     // @ts-ignore
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
@@ -118,6 +117,7 @@ describe('OutbreakService', () => {
     await service.checkForOutbreaks();
 
     const outbreakHistory = service.outbreakHistory.get();
+    console.log(outbreakHistory);
     expect(false).toStrictEqual(true);
   });
 });
