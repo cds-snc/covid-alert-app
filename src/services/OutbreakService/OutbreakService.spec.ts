@@ -147,7 +147,7 @@ describe('OutbreakService', () => {
     MockDate.set('2021-02-01T12:00Z');
   });
 
-  it('no outbreaks', async () => {
+  it('no outbreaks if checkins outside time window', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
         {
