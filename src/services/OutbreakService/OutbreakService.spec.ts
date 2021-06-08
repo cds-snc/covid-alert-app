@@ -2,7 +2,7 @@
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 import {OutbreakService} from './OutbreakService';
-import {checkIns, getTimes} from './tests/utils';
+import {checkIns, addHours, subtractHours} from './tests/utils';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
@@ -46,23 +46,23 @@ describe('OutbreakService', () => {
   const realDateNow = Date.now.bind(global.Date);
   const realDateUTC = Date.UTC.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
-  const today = new OriginalDate('2021-02-01T04:06:00+0000');
+  const today = new OriginalDate('2021-02-01T12:00Z');
   global.Date.now = realDateNow;
   global.Date.UTC = realDateUTC;
 
   beforeEach(async () => {
     service = new OutbreakService(i18n, bridge, new StorageServiceMock(), [], []);
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
-      const times = getTimes(checkIns[0].timestamp, 60);
-
       const events = service.convertOutbreakEvents([
         {
-          locationId: '130',
-          startTime: {seconds: times.start},
-          endTime: {seconds: times.end},
+          locationId: '123',
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2)},
+          endTime: {seconds: addHours(checkIns[0].timestamp, 4)},
           severity: 1,
         },
       ]);
+
+      console.log('events', events);
 
       return events;
     });
@@ -117,7 +117,7 @@ describe('OutbreakService', () => {
     await service.checkForOutbreaks();
 
     const outbreakHistory = service.outbreakHistory.get();
-    console.log(outbreakHistory);
+    console.log('outbreakHistory', outbreakHistory);
     expect(false).toStrictEqual(true);
   });
 });

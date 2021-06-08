@@ -4,6 +4,18 @@ export const getTimes = (startTimestamp: number, durationInMinutes: number) => {
   return {start: startTimestamp, end: endTime.getTime()};
 };
 
+export const subtractHours = (startTimestamp: number, hours: number) => {
+  const newTime = new Date(startTimestamp);
+  newTime.setHours(newTime.getHours() - hours);
+  return newTime.getTime();
+};
+
+export const addHours = (startTimestamp: number, hours: number) => {
+  const newTime = new Date(startTimestamp);
+  newTime.setHours(newTime.getHours() + hours);
+  return newTime.getTime();
+};
+
 export const checkIns = [
   {
     id: '123',

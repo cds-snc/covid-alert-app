@@ -223,6 +223,8 @@ export class OutbreakService {
 
           const detectedOutbreakExposures = getMatchedOutbreakHistoryItems(this.checkInHistory.get(), outbreakEvents);
 
+          console.log('detectedOutbreakExposures', detectedOutbreakExposures);
+
           if (detectedOutbreakExposures.length === 0) {
             log.debug({
               category: 'qr-code',

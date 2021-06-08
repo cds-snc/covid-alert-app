@@ -168,6 +168,7 @@ export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) =
   if (window2.end >= window1.start && window2.end <= window1.end) {
     return true;
   }
+
   return false;
 };
 
@@ -209,6 +210,15 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
         end: checkIn.timestamp + ONE_HOUR_IN_MS,
       };
       const window2: TimeWindow = timeWindowFromOutbreakEvent(outbreak);
+
+      console.log('=== checkIn ===');
+      console.log(new Date(window1.start));
+      console.log(new Date(window1.end));
+
+      console.log('=== outbreak ===');
+      console.log(new Date(window2.start));
+      console.log(new Date(window2.end));
+
       if (doTimeWindowsOverlap(window1, window2)) {
         const match: MatchData = {
           timestamp: checkIn.timestamp,
@@ -219,6 +229,9 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
       }
     }
   }
+
+  console.log('matches', matches);
+
   return matches;
 };
 
