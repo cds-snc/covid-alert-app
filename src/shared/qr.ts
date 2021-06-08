@@ -90,11 +90,13 @@ export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): Outb
       return {...historyItem};
     }
     const currentDate = getCurrentDate();
+
     const hoursSinceCheckIn = getHoursBetween(new Date(historyItem.checkInTimestamp), currentDate);
 
     if (hoursSinceCheckIn > 24 * OUTBREAK_EXPOSURE_DURATION_DAYS) {
       return {...historyItem, isExpired: true};
     }
+
     return {...historyItem};
   });
 };

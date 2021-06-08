@@ -104,6 +104,19 @@ export class OutbreakService {
     );
   };
 
+  expireOutbreak = async (outbreakId: string) => {
+    this.outbreakHistory
+      .get()
+      .filter(outbreak => outbreak.id === outbreakId)
+      .forEach(outbreak => {
+        outbreak.isExpired = true;
+      });
+    await this.storageService.save(
+      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
+      JSON.stringify(this.outbreakHistory.get()),
+    );
+  };
+
   ignoreOutbreak = async (outbreakId: string) => {
     this.outbreakHistory
       .get()
@@ -182,8 +195,8 @@ export class OutbreakService {
     const expireHistory = expireHistoryItems(outbreakHistory);
 
     expireHistory.forEach((historyItem: OutbreakHistoryItem) => {
-      if (historyItem.isIgnored) {
-        this.ignoreOutbreak(historyItem.id);
+      if (historyItem.isExpired) {
+        this.expireOutbreak(historyItem.id);
       }
     });
   };
