@@ -121,21 +121,29 @@ describe('OutbreakService', () => {
         },
       ]);
     });
+
     MockDate.set('2021-02-01T12:00Z');
     await service.addCheckIn(checkIns[0]);
     await service.addCheckIn(checkIns[1]);
 
+    // set as exposed
     await service.checkForOutbreaks(true);
     const outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory[0].isExpired).toStrictEqual(false);
 
+    // move ahead in time to ensure we're not marking as expired too soon
+    MockDate.set('2021-02-05T12:00Z');
+    const outbreakHistoryNotExpired = service.outbreakHistory.get();
+    expect(outbreakHistoryNotExpired[0].isExpired).toStrictEqual(false);
+
+    // move past the EXPOSURE_NOTIFICATION_CYCLE day mark
     MockDate.set('2021-02-15T13:00Z');
     await service.checkForOutbreaks(true);
 
     const outbreakHistoryExpired = service.outbreakHistory.get();
-
     expect(outbreakHistoryExpired[0].isExpired).toStrictEqual(true);
 
+    // reset back to default
     MockDate.set('2021-02-01T12:00Z');
   });
 
