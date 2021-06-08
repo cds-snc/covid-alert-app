@@ -223,11 +223,17 @@ describe('OutbreakService', () => {
     let outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory[0].isIgnored).toStrictEqual(false);
     expect(outbreakHistory[1].isIgnored).toStrictEqual(false);
+    expect(outbreakHistory[0].isIgnoredFromHistory).toStrictEqual(false);
+    expect(outbreakHistory[1].isIgnoredFromHistory).toStrictEqual(false);
 
     // ignore all outbreaks
     await service.ignoreAllOutbreaks();
+    await service.ignoreAllOutbreaksFromHistory();
     outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory[0].isIgnored).toStrictEqual(true);
     expect(outbreakHistory[1].isIgnored).toStrictEqual(true);
+
+    expect(outbreakHistory[0].isIgnoredFromHistory).toStrictEqual(true);
+    expect(outbreakHistory[1].isIgnoredFromHistory).toStrictEqual(true);
   });
 });
