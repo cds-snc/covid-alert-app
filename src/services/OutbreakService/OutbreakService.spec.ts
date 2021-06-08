@@ -5,7 +5,7 @@ import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 import {ExposureStatusType} from '../ExposureNotificationService';
 
 import {OutbreakService, isDiagnosed} from './OutbreakService';
-import {checkIns, addHours, subtractHours, addMinutes, subtractMinutes} from './tests/utils';
+import {checkIns, toSeconds, addHours, subtractHours, addMinutes, subtractMinutes} from './tests/utils';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
@@ -110,8 +110,8 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
           severity: 1,
         },
       ]);
@@ -130,8 +130,8 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
           severity: 1,
         },
       ]);
@@ -168,15 +168,15 @@ describe('OutbreakService', () => {
         {
           // if outbreak started before checkin
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 24) / 1000},
-          endTime: {seconds: subtractHours(checkIns[0].timestamp, 4) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 24))},
+          endTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 4))},
           severity: 1,
         },
         {
           // if outbreak started after checkin
           locationId: checkIns[1].id,
-          startTime: {seconds: addHours(checkIns[1].timestamp, 2) / 1000},
-          endTime: {seconds: addHours(checkIns[1].timestamp, 4) / 1000},
+          startTime: {seconds: toSeconds(addHours(checkIns[1].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[1].timestamp, 4))},
           severity: 1,
         },
       ]);
@@ -202,14 +202,14 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
           severity: 1,
         },
         {
           locationId: checkIns[1].id,
-          startTime: {seconds: subtractHours(checkIns[1].timestamp, 2) / 1000},
-          endTime: {seconds: addHours(checkIns[1].timestamp, 4) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[1].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[1].timestamp, 4))},
           severity: 1,
         },
       ]);
@@ -242,14 +242,14 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
           severity: 1,
         },
         {
           locationId: checkIns[1].id,
-          startTime: {seconds: subtractHours(checkIns[1].timestamp, 2) / 1000},
-          endTime: {seconds: addHours(checkIns[1].timestamp, 4) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[1].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[1].timestamp, 4))},
           severity: 1,
         },
       ]);
