@@ -71,10 +71,24 @@ describe('OutbreakService', () => {
     expect(checkInHistory[2].id).toStrictEqual('125');
     expect(checkInHistory).toHaveLength(3);
 
-    // remove a checkin
+    // remove a checkin with id and timestamp
     await service.removeCheckIn(checkInHistory[2].id, checkInHistory[2].timestamp);
     checkInHistory = service.checkInHistory.get();
     expect(checkInHistory).toHaveLength(2);
+
+    // add another checkin
+    await service.addCheckIn(checkIns[3]);
+
+    checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory).toHaveLength(3);
+    // ensure the new item exists
+    expect(checkInHistory[checkInHistory.length - 1].id).toStrictEqual(checkIns[3].id);
+
+    // remove the latest checkin without using an id / timestamp
+    await service.removeCheckIn();
+    checkInHistory = service.checkInHistory.get();
+    expect(checkInHistory).toHaveLength(2);
+    expect(checkInHistory[checkInHistory.length - 1].id).toStrictEqual(checkIns[1].id);
   });
 
   it('clears checkin history', async () => {
