@@ -147,5 +147,32 @@ describe('OutbreakService', () => {
     MockDate.set('2021-02-01T12:00Z');
   });
 
-  //
+  it('no outbreaks if checkins outside time window', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          // if outbreak started before checkin
+          locationId: checkIns[0].id,
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 24) / 1000},
+          endTime: {seconds: subtractHours(checkIns[0].timestamp, 4) / 1000},
+          severity: 1,
+        },
+        {
+          // if outbreak started after checkin
+          locationId: checkIns[1].id,
+          startTime: {seconds: addHours(checkIns[1].timestamp, 2) / 1000},
+          endTime: {seconds: addHours(checkIns[1].timestamp, 4) / 1000},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+
+    await service.checkForOutbreaks(true);
+
+    const outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory).toHaveLength(0);
+  });
 });
