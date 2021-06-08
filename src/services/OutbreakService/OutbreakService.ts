@@ -35,6 +35,7 @@ export const HOURS_PER_PERIOD = 24;
 
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 
+/* istanbul ignore next */
 const base64ToUint8Array = (str: string) => {
   return new Uint8Array(Array.prototype.slice.call(Buffer.from(str, 'base64'), 0));
 };
@@ -54,6 +55,7 @@ export interface OutbreakEvent {
 export class OutbreakService {
   private static instance: OutbreakService;
 
+  /* istanbul ignore next */
   static async sharedInstance(i18n: I18n, backendService: BackendInterface): Promise<OutbreakService> {
     if (!this.instance) {
       const storageService = DefaultStorageService.sharedInstance();
@@ -301,6 +303,7 @@ export class OutbreakService {
     });
   };
 
+  /* istanbul ignore next */
   extractOutbreakEventsFromZipFiles = async (outbreaksURLs: string[]): Promise<OutbreakEvent[]> => {
     const outbreaks: any[] = [];
     if (outbreaksURLs.length === 0) {
