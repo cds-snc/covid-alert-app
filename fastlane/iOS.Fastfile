@@ -50,6 +50,14 @@ platform :ios do
     # Load env file
     load_env_file(buildType:buildType)
 
+    # Log iOS specific ENV variables
+    ios_env_data = File.read(File.expand_path "../ios/Generated.xcconfig")
+    UI.message("==============================================================")
+    UI.message("----- iOS ENV FILE: #{File.expand_path "../ios/Generated.xcconfig"}")
+    UI.message("==============================================================")
+    UI.message(ios_env_data)
+    UI.message("==============================================================")
+
     # Check required env vars
     UI.user_error!("Missing XCODE_SCHEME environment variable") unless ENV['XCODE_SCHEME']
 
