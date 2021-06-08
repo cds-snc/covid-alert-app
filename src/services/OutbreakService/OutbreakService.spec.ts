@@ -52,18 +52,6 @@ describe('OutbreakService', () => {
 
   beforeEach(async () => {
     service = new OutbreakService(i18n, bridge, new StorageServiceMock(), [], []);
-    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
-      const events = service.convertOutbreakEvents([
-        {
-          locationId: '123',
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
-          severity: 1,
-        },
-      ]);
-
-      return events;
-    });
     // @ts-ignore
     dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
   });
@@ -110,6 +98,17 @@ describe('OutbreakService', () => {
   });
 
   it('check for outbreaks', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: '123',
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
+          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
+          severity: 1,
+        },
+      ]);
+    });
+
     await service.addCheckIn(checkIns[0]);
     await service.addCheckIn(checkIns[1]);
     await service.checkForOutbreaks();
