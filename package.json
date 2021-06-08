@@ -29,13 +29,13 @@
     "onboard": "bundle exec fastlane onboard",
     "onboard:dev_only": "bundle exec fastlane onboard_dev",
     "get_latest_version": "bundle exec fastlane get_latest_version",
-    "deploy-android:staging": "bundle exec fastlane android build_and_deploy type:staging | tee -a ./fastlane/logs/fastlane-deploy-android-staging-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
-    "deploy-android:production": "bundle exec fastlane android build_and_deploy type:production | tee -a ./fastlane/logs/fastlane-deploy-android-production-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
-    "deploy-ios:staging": "bundle exec fastlane ios build_and_deploy type:staging | tee -a ./fastlane/logs/fastlane-deploy-ios-staging-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
-    "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production | tee -a ./fastlane/logs/fastlane-deploy-ios-production-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
-    "deploy-ios:diawi": "bundle exec fastlane ios adhoc env:diawi | tee -a ./fastlane/logs/fastlane-deploy-ios-diawi-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
-    "deploy-android:diawi": "bundle exec fastlane android adhoc env:diawi | tee -a ./fastlane/logs/fastlane-deploy-android-diawi-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
-    "deploy-ios:demo": "bundle exec fastlane ios build_and_deploy type:demo | tee -a ./fastlane/logs/fastlane-deploy-ios-demo-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log"
+    "deploy-android:staging": "bundle exec fastlane android build_and_deploy type:staging | tee -a ./fastlane/logs/fastlane-deploy-android-staging-$(cat .env.staging | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.staging | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
+    "deploy-android:production": "bundle exec fastlane android build_and_deploy type:production | tee -a ./fastlane/logs/fastlane-deploy-android-production-$(cat .env.production | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.production | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
+    "deploy-ios:staging": "bundle exec fastlane ios build_and_deploy type:staging | tee -a ./fastlane/logs/fastlane-deploy-ios-staging-$(cat .env.staging | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.staging | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
+    "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production | tee -a ./fastlane/logs/fastlane-deploy-ios-production-$(cat .env.production | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.production | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
+    "deploy-ios:diawi": "bundle exec fastlane ios adhoc env:diawi | tee -a ./fastlane/logs/fastlane-deploy-ios-diawi-$(cat .env.diawi | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.diawi | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
+    "deploy-android:diawi": "bundle exec fastlane android adhoc env:diawi | tee -a ./fastlane/logs/fastlane-deploy-android-diawi-$(cat .env.diawi | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.diawi | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
+    "deploy-ios:demo": "bundle exec fastlane ios build_and_deploy type:demo | tee -a ./fastlane/logs/fastlane-deploy-ios-demo--$(cat .env | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env | grep APP_VERSION_CODE | cut -d'=' -f2)$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.9.0",
