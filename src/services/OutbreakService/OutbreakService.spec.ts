@@ -97,11 +97,11 @@ describe('OutbreakService', () => {
     expect(checkInHistory).toHaveLength(0);
   });
 
-  it('check for outbreaks', async () => {
+  it('finds outbreak match', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
         {
-          locationId: '123',
+          locationId: checkIns[0].id,
           startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
           endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
           severity: 1,
@@ -114,7 +114,6 @@ describe('OutbreakService', () => {
     await service.checkForOutbreaks();
 
     const outbreakHistory = service.outbreakHistory.get();
-    console.log('outbreakHistory', outbreakHistory);
-    expect(false).toStrictEqual(true);
+    expect(outbreakHistory).toHaveLength(1);
   });
 });
