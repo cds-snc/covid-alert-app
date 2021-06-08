@@ -41,6 +41,10 @@ platform :ios do
       yarn(
         command: 'run-ios:production'
       )
+    elsif options[:type] === 'staging'
+      yarn(
+        command: 'run-ios:staging'
+      )
     else
       yarn(
         command: 'run-ios'
