@@ -24,6 +24,7 @@
 		A49FB8BB26398A9100BE63CC /* MetricsPusher.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FB8BA26398A9100BE63CC /* MetricsPusher.m */; };
 		A49FB8BE26399AAF00BE63CC /* MetricsJsonSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FB8BD26399AAF00BE63CC /* MetricsJsonSerializer.m */; };
 		A49FB8C126399BB000BE63CC /* Metric.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FB8C026399BB000BE63CC /* Metric.m */; };
+		A4C39A8C266FDCD200B44A8A /* OutbreakSignatureValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C39A8B266FDCD200B44A8A /* OutbreakSignatureValidation.m */; };
 		A4D281F626384C26003084CF /* DebugMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D281F526384C26003084CF /* DebugMetrics.m */; };
 		A4E2F5EF258A84B50037F403 /* ENActivityHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E2F5EE258A84B50037F403 /* ENActivityHandling.m */; };
 		BA054BD27C1A8657F6BF95BB /* libPods-CovidShield.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52445CBEB4F2B88669022976 /* libPods-CovidShield.a */; };
@@ -88,6 +89,8 @@
 		A49FB8BD26399AAF00BE63CC /* MetricsJsonSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetricsJsonSerializer.m; sourceTree = "<group>"; };
 		A49FB8BF26399BB000BE63CC /* Metric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Metric.h; sourceTree = "<group>"; };
 		A49FB8C026399BB000BE63CC /* Metric.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Metric.m; sourceTree = "<group>"; };
+		A4C39A8A266FDCD200B44A8A /* OutbreakSignatureValidation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OutbreakSignatureValidation.h; sourceTree = "<group>"; };
+		A4C39A8B266FDCD200B44A8A /* OutbreakSignatureValidation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OutbreakSignatureValidation.m; sourceTree = "<group>"; };
 		A4D281F426384C26003084CF /* DebugMetrics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DebugMetrics.h; path = CovidShield/DebugMetrics.h; sourceTree = "<group>"; };
 		A4D281F526384C26003084CF /* DebugMetrics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DebugMetrics.m; path = CovidShield/DebugMetrics.m; sourceTree = "<group>"; };
 		A4E2F5ED258A84B50037F403 /* ENActivityHandling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ENActivityHandling.h; path = CovidShield/ENActivityHandling.h; sourceTree = "<group>"; };
@@ -247,10 +250,20 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		A4C39A89266FDCB900B44A8A /* Outbreak */ = {
+			isa = PBXGroup;
+			children = (
+				A4C39A8A266FDCD200B44A8A /* OutbreakSignatureValidation.h */,
+				A4C39A8B266FDCD200B44A8A /* OutbreakSignatureValidation.m */,
+			);
+			name = Outbreak;
+			sourceTree = "<group>";
+		};
 		A4D281E926384A1C003084CF /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				A4D281EA26384A48003084CF /* Metrics */,
+				A4C39A89266FDCB900B44A8A /* Outbreak */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -538,6 +551,7 @@
 				74B6941E245F15B20077B9DA /* ExposureNotification.m in Sources */,
 				A49FB8BE26399AAF00BE63CC /* MetricsJsonSerializer.m in Sources */,
 				A4E2F5EF258A84B50037F403 /* ENActivityHandling.m in Sources */,
+				A4C39A8C266FDCD200B44A8A /* OutbreakSignatureValidation.m in Sources */,
 				A4D281F626384C26003084CF /* DebugMetrics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -635,6 +649,7 @@
 					"$(inherited)",
 					"PM_METRICS_URL=@\\\"$(METRICS_URL)\\\"",
 					"PM_METRICS_API_KEY=@\\\"$(METRICS_API_KEY)\\\"",
+					"PM_OUTBREAK_PUBLIC_KEY=@\\\"$(OUTBREAK_PUBLIC_KEY)\\\"",
 				);
 				INFOPLIST_FILE = "CovidShield/Info-debug.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
@@ -667,6 +682,7 @@
 					"$(inherited)",
 					"PM_METRICS_URL=@\\\"$(METRICS_URL)\\\"",
 					"PM_METRICS_API_KEY=@\\\"$(METRICS_API_KEY)\\\"",
+					"PM_OUTBREAK_PUBLIC_KEY=@\\\"$(OUTBREAK_PUBLIC_KEY)\\\"",
 				);
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
@@ -865,6 +881,7 @@
 					"$(inherited)",
 					"PM_METRICS_URL=@\\\"$(METRICS_URL)\\\"",
 					"PM_METRICS_API_KEY=@\\\"$(METRICS_API_KEY)\\\"",
+					"PM_OUTBREAK_PUBLIC_KEY=@\\\"$(OUTBREAK_PUBLIC_KEY)\\\"",
 				);
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
@@ -969,6 +986,7 @@
 					"$(inherited)",
 					"PM_METRICS_URL=@\\\"$(METRICS_URL)\\\"",
 					"PM_METRICS_API_KEY=@\\\"$(METRICS_API_KEY)\\\"",
+					"PM_OUTBREAK_PUBLIC_KEY=@\\\"$(OUTBREAK_PUBLIC_KEY)\\\"",
 				);
 				INFOPLIST_FILE = CovidShield/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.5;
