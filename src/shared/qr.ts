@@ -211,14 +211,6 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
       };
       const window2: TimeWindow = timeWindowFromOutbreakEvent(outbreak);
 
-      console.log('=== checkIn ===');
-      console.log(new Date(window1.start));
-      console.log(new Date(window1.end));
-
-      console.log('=== outbreak ===');
-      console.log(new Date(window2.start));
-      console.log(new Date(window2.end));
-
       if (doTimeWindowsOverlap(window1, window2)) {
         const match: MatchData = {
           timestamp: checkIn.timestamp,
@@ -229,8 +221,6 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
       }
     }
   }
-
-  console.log('matches', matches);
 
   return matches;
 };

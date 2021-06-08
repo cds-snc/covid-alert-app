@@ -56,13 +56,11 @@ describe('OutbreakService', () => {
       const events = service.convertOutbreakEvents([
         {
           locationId: '123',
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2)},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 4)},
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
+          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
           severity: 1,
         },
       ]);
-
-      console.log('events', events);
 
       return events;
     });
