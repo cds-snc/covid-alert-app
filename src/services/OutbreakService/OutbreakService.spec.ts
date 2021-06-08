@@ -5,7 +5,7 @@ import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 import {ExposureStatusType} from '../ExposureNotificationService';
 
 import {OutbreakService, isDiagnosed} from './OutbreakService';
-import {checkIns, addHours, subtractHours} from './tests/utils';
+import {checkIns, addHours, subtractHours, addMinutes, subtractMinutes} from './tests/utils';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
@@ -269,5 +269,65 @@ describe('OutbreakService', () => {
 
     outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory[1].isIgnored).toStrictEqual(true);
+  });
+
+  it('returns outbreak when 10 minute overlap', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: subtractMinutes(checkIns[0].timestamp, 5) / 1000},
+          endTime: {seconds: addMinutes(checkIns[0].timestamp, 5) / 1000},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.checkForOutbreaks();
+
+    const outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory).toHaveLength(1);
+  });
+
+  it('returns outbreak when 2 hour overlap', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 1) / 1000},
+          endTime: {seconds: addHours(checkIns[0].timestamp, 1) / 1000},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.checkForOutbreaks();
+
+    const outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory).toHaveLength(1);
+  });
+
+  it('returns outbreak when 1 day overlap', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 12) / 1000},
+          endTime: {seconds: addHours(checkIns[0].timestamp, 12) / 1000},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.checkForOutbreaks();
+
+    const outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory).toHaveLength(1);
   });
 });
