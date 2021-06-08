@@ -236,4 +236,38 @@ describe('OutbreakService', () => {
     expect(outbreakHistory[0].isIgnoredFromHistory).toStrictEqual(true);
     expect(outbreakHistory[1].isIgnoredFromHistory).toStrictEqual(true);
   });
+
+  it('sets single outbreak to ignored', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
+          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
+          severity: 1,
+        },
+        {
+          locationId: checkIns[1].id,
+          startTime: {seconds: subtractHours(checkIns[1].timestamp, 2) / 1000},
+          endTime: {seconds: addHours(checkIns[1].timestamp, 4) / 1000},
+          severity: 1,
+        },
+      ]);
+    });
+
+    // add checkins
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.checkForOutbreaks(true);
+
+    let outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory[0].isIgnored).toStrictEqual(false);
+    expect(outbreakHistory[1].isIgnored).toStrictEqual(false);
+
+    // ignore the second outbreak
+    await service.ignoreOutbreak(outbreakHistory[1].id);
+
+    outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory[1].isIgnored).toStrictEqual(true);
+  });
 });
