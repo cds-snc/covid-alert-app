@@ -28,6 +28,10 @@ export const subtractMinutes = (startTimestamp: number, minutes: number) => {
   return newTime.getTime();
 };
 
+export const toSeconds = (timestamp: number) => {
+  return timestamp / 1000;
+};
+
 export const checkIns = [
   {
     id: '123',
