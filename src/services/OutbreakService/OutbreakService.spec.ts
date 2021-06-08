@@ -2,8 +2,9 @@ import MockDate from 'mockdate';
 
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
+import {ExposureStatusType} from '../ExposureNotificationService';
 
-import {OutbreakService} from './OutbreakService';
+import {OutbreakService, isDiagnosed} from './OutbreakService';
 import {checkIns, addHours, subtractHours} from './tests/utils';
 
 const i18n: any = {
@@ -188,5 +189,11 @@ describe('OutbreakService', () => {
 
     const outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(0);
+  });
+
+  it('returns proper status when diagnosed', async () => {
+    expect(isDiagnosed(ExposureStatusType.Monitoring)).toStrictEqual(false);
+    expect(isDiagnosed(ExposureStatusType.Exposed)).toStrictEqual(false);
+    expect(isDiagnosed(ExposureStatusType.Diagnosed)).toStrictEqual(true);
   });
 });
