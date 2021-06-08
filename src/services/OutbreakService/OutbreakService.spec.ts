@@ -3,6 +3,7 @@ import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 import {OutbreakService} from './OutbreakService';
 import {checkIns, addHours, subtractHours} from './tests/utils';
+import MockDate from 'mockdate';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
@@ -42,18 +43,9 @@ jest.mock('react-native-system-setting', () => {
 describe('OutbreakService', () => {
   let service: OutbreakService;
 
-  const OriginalDate = global.Date;
-  const realDateNow = Date.now.bind(global.Date);
-  const realDateUTC = Date.UTC.bind(global.Date);
-  const dateSpy = jest.spyOn(global, 'Date');
-  const today = new OriginalDate('2021-02-01T12:00Z');
-  global.Date.now = realDateNow;
-  global.Date.UTC = realDateUTC;
-
   beforeEach(async () => {
     service = new OutbreakService(i18n, bridge, new StorageServiceMock(), [], []);
-    // @ts-ignore
-    dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
+    MockDate.set('2021-02-01T12:00Z');
   });
 
   afterEach(() => {
@@ -116,4 +108,42 @@ describe('OutbreakService', () => {
     const outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(1);
   });
+
+  //
+
+  it('expires outbreaks', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      console.log('extractOutbreakEventsFromZipFiles', new Date().toString());
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
+          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+
+    MockDate.set('2021-02-01T12:00Z');
+    console.log(new Date().toString());
+
+    await service.checkForOutbreaks(true);
+    const outbreakHistory1 = service.outbreakHistory.get();
+    console.log(outbreakHistory1);
+
+    MockDate.set('2021-04-01T12:00Z');
+    console.log(new Date().toString());
+
+    await service.checkForOutbreaks(true);
+
+    const outbreakHistory2 = service.outbreakHistory.get();
+    console.log(outbreakHistory2);
+
+    expect(outbreakHistory1).toHaveLength(1);
+  });
+
+  //
 });
