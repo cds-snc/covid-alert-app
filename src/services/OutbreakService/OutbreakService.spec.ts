@@ -109,11 +109,8 @@ describe('OutbreakService', () => {
     expect(outbreakHistory).toHaveLength(1);
   });
 
-  //
-
   it('expires outbreaks', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
-      console.log('extractOutbreakEventsFromZipFiles', new Date().toString());
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
@@ -123,26 +120,22 @@ describe('OutbreakService', () => {
         },
       ]);
     });
-
+    MockDate.set('2021-02-01T12:00Z');
     await service.addCheckIn(checkIns[0]);
     await service.addCheckIn(checkIns[1]);
 
+    await service.checkForOutbreaks(true);
+    const outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory[0].isExpired).toStrictEqual(false);
+
+    MockDate.set('2021-02-15T13:00Z');
+    await service.checkForOutbreaks(true);
+
+    const outbreakHistoryExpired = service.outbreakHistory.get();
+
+    expect(outbreakHistoryExpired[0].isExpired).toStrictEqual(true);
+
     MockDate.set('2021-02-01T12:00Z');
-    console.log(new Date().toString());
-
-    await service.checkForOutbreaks(true);
-    const outbreakHistory1 = service.outbreakHistory.get();
-    console.log(outbreakHistory1);
-
-    MockDate.set('2021-04-01T12:00Z');
-    console.log(new Date().toString());
-
-    await service.checkForOutbreaks(true);
-
-    const outbreakHistory2 = service.outbreakHistory.get();
-    console.log(outbreakHistory2);
-
-    expect(outbreakHistory1).toHaveLength(1);
   });
 
   //
