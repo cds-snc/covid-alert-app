@@ -1,9 +1,10 @@
+import MockDate from 'mockdate';
+
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 import {OutbreakService} from './OutbreakService';
 import {checkIns, addHours, subtractHours} from './tests/utils';
-import MockDate from 'mockdate';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
