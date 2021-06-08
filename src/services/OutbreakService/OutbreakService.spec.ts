@@ -2,14 +2,14 @@
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 import {OutbreakService} from './OutbreakService';
-import {checkIns} from './tests/utils';
+import {checkIns, addHours, subtractHours} from './tests/utils';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
 };
 
 const bridge: any = {
-  retrieveOutbreakEvents: jest.fn().mockResolvedValue(undefined),
+  retrieveOutbreakEvents: jest.fn(),
 };
 
 jest.mock('react-native-zip-archive', () => ({
@@ -46,7 +46,7 @@ describe('OutbreakService', () => {
   const realDateNow = Date.now.bind(global.Date);
   const realDateUTC = Date.UTC.bind(global.Date);
   const dateSpy = jest.spyOn(global, 'Date');
-  const today = new OriginalDate('2020-05-18T04:10:00+0000');
+  const today = new OriginalDate('2021-02-01T12:00Z');
   global.Date.now = realDateNow;
   global.Date.UTC = realDateUTC;
 
@@ -95,5 +95,25 @@ describe('OutbreakService', () => {
     await service.clearCheckInHistory();
     checkInHistory = service.checkInHistory.get();
     expect(checkInHistory).toHaveLength(0);
+  });
+
+  it('finds outbreak match', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: subtractHours(checkIns[0].timestamp, 2) / 1000},
+          endTime: {seconds: addHours(checkIns[0].timestamp, 4) / 1000},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.checkForOutbreaks();
+
+    const outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory).toHaveLength(1);
   });
 });

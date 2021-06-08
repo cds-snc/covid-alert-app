@@ -89,7 +89,9 @@ export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): Outb
     if (historyItem.isExpired) {
       return {...historyItem};
     }
-    const hoursSinceCheckIn = getHoursBetween(new Date(historyItem.checkInTimestamp), getCurrentDate());
+    const currentDate = getCurrentDate();
+    const hoursSinceCheckIn = getHoursBetween(new Date(historyItem.checkInTimestamp), currentDate);
+
     if (hoursSinceCheckIn > 24 * OUTBREAK_EXPOSURE_DURATION_DAYS) {
       return {...historyItem, isExpired: true};
     }
@@ -166,6 +168,7 @@ export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) =
   if (window2.end >= window1.start && window2.end <= window1.end) {
     return true;
   }
+
   return false;
 };
 
@@ -207,6 +210,7 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
         end: checkIn.timestamp + ONE_HOUR_IN_MS,
       };
       const window2: TimeWindow = timeWindowFromOutbreakEvent(outbreak);
+
       if (doTimeWindowsOverlap(window1, window2)) {
         const match: MatchData = {
           timestamp: checkIn.timestamp,
@@ -217,6 +221,7 @@ const processMatchData = (matchCalucationData: MatchCalculationData) => {
       }
     }
   }
+
   return matches;
 };
 
