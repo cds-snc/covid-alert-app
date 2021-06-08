@@ -1,9 +1,10 @@
 // eslint-disable-next-line @shopify/strict-component-boundaries
+import MockDate from 'mockdate';
+
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 
 import {OutbreakService} from './OutbreakService';
 import {checkIns, addHours, subtractHours} from './tests/utils';
-import MockDate from 'mockdate';
 
 const i18n: any = {
   translate: jest.fn().mockReturnValue('foo'),
@@ -110,11 +111,10 @@ describe('OutbreakService', () => {
   });
 
   it('no outbreaks', async () => {
-
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
         {
-          //if outbreak started before checkin
+          // if outbreak started before checkin
           locationId: checkIns[0].id,
           startTime: {seconds: subtractHours(checkIns[0].timestamp, 24) / 1000},
           endTime: {seconds: subtractHours(checkIns[0].timestamp, 4) / 1000},
@@ -133,11 +133,9 @@ describe('OutbreakService', () => {
     await service.addCheckIn(checkIns[0]);
     await service.addCheckIn(checkIns[1]);
 
-
     await service.checkForOutbreaks(true);
 
     const outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(0);
-
-  })
+  });
 });
