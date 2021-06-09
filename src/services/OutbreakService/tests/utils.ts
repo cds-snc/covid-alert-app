@@ -57,6 +57,18 @@ export const checkIns = [
     address: '123 King St.',
     name: 'Location name',
   },
+  {
+    id: '140',
+    timestamp: new Date('2021-01-01T04:10:00Z').getTime(),
+    address: '140 King St.',
+    name: 'Location name',
+  },
+  {
+    id: '141',
+    timestamp: new Date('2021-01-02T04:10:00Z').getTime(),
+    address: '142 King St.',
+    name: 'Location name',
+  },
 ];
 
 export const outbreaks = [

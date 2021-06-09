@@ -23,7 +23,7 @@ import {
   OutbreakHistoryItem,
   expireHistoryItems,
 } from '../../shared/qr';
-import {getCurrentDate, minutesBetween, periodSinceEpoch} from '../../shared/date-fns';
+import {getCurrentDate, minutesBetween, periodSinceEpoch, getHoursBetween} from '../../shared/date-fns';
 import {log} from '../../shared/logging/config';
 
 import {getOutbreaksLastCheckedDateTime, markOutbreaksLastCheckedDateTime} from './OutbreakStorage';
@@ -33,6 +33,7 @@ const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 export const HOURS_PER_PERIOD = 24;
 
 export const EXPOSURE_NOTIFICATION_CYCLE = 14;
+export const CHECKIN_NOTIFICATION_CYCLE = 28;
 
 /* istanbul ignore next */
 const base64ToUint8Array = (str: string) => {
@@ -185,6 +186,35 @@ export class OutbreakService {
     this.checkInHistory.set(newCheckInHistory);
   };
 
+  autoDeleteCheckinAfterPeriod = async () => {
+    const _checkInHistory: string =
+      (await this.storageService.retrieve(StorageDirectory.OutbreakServiceCheckInHistoryKey)) || '[]';
+
+    const checkInHistory: CheckInData[] = JSON.parse(_checkInHistory);
+    const currentDate = getCurrentDate();
+
+    const newCheckInHistory = checkInHistory.filter(checkInData => {
+      const hoursSinceCheckIn = getHoursBetween(new Date(checkInData.timestamp), currentDate);
+
+      if (hoursSinceCheckIn > 24 * CHECKIN_NOTIFICATION_CYCLE) {
+        return false;
+      }
+
+      return true;
+    });
+
+    if (checkInHistory.length !== newCheckInHistory.length) {
+      await this.storageService.save(
+        StorageDirectory.OutbreakServiceCheckInHistoryKey,
+        JSON.stringify(newCheckInHistory),
+      );
+
+      this.checkInHistory.set(newCheckInHistory);
+    }
+
+    return newCheckInHistory;
+  };
+
   clearCheckInHistory = async () => {
     await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify([]));
     this.checkInHistory.set([]);
@@ -203,7 +233,8 @@ export class OutbreakService {
   };
 
   checkForOutbreaks = async (forceCheck?: boolean) => {
-    this.expireHistoryItemsAndSave(this.outbreakHistory.get());
+    await this.expireHistoryItemsAndSave(this.outbreakHistory.get());
+    await this.autoDeleteCheckinAfterPeriod();
     return this.serialPromiseQueue.add(async () => {
       log.debug({category: 'qr-code', message: 'fetching outbreak locations...'});
       if ((await this.shouldPerformOutbreaksCheck()) || forceCheck === true) {

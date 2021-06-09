@@ -331,6 +331,28 @@ describe('OutbreakService', () => {
     expect(outbreakHistory).toHaveLength(1);
   });
 
+  it('auto deletes checkin after CHECKIN_NOTIFICATION_CYCLE', async () => {
+    await service.addCheckIn(checkIns[4]);
+    await service.addCheckIn(checkIns[5]);
+
+    // day 1
+    MockDate.set('2021-01-01T10:00Z');
+    let checkins = service.checkInHistory.get();
+    expect(checkins).toHaveLength(2);
+
+    // checkForOutbreaks calls autoDeleteCheckinAfterPeriod
+    // this would run from the background task
+    await service.checkForOutbreaks();
+    checkins = service.checkInHistory.get();
+    expect(checkins).toHaveLength(2);
+
+    // move past the CHECKIN_NOTIFICATION_CYCLE day mark
+    MockDate.set('2021-01-30T10:00Z');
+    await service.checkForOutbreaks();
+    checkins = service.checkInHistory.get();
+    expect(checkins).toHaveLength(0);
+  });
+
   it('performs an outbreak check if past the min minutes threshold', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
