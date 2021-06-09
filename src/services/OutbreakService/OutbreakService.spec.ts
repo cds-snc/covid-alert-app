@@ -276,8 +276,8 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractMinutes(checkIns[0].timestamp, 5) / 1000},
-          endTime: {seconds: addMinutes(checkIns[0].timestamp, 5) / 1000},
+          startTime: {seconds: toSeconds(subtractMinutes(checkIns[0].timestamp, 5))},
+          endTime: {seconds: toSeconds(addMinutes(checkIns[0].timestamp, 5))},
           severity: 1,
         },
       ]);
@@ -296,8 +296,8 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 1) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 1) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 1))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 1))},
           severity: 1,
         },
       ]);
@@ -316,8 +316,8 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 12) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 12) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 12))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 12))},
           severity: 1,
         },
       ]);
