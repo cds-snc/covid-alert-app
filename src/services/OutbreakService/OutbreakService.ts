@@ -1,6 +1,5 @@
 import {Buffer} from 'buffer';
 
-import {Platform} from 'react-native';
 import {TEST_MODE} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
@@ -329,20 +328,17 @@ export class OutbreakService {
 
         const outbreakFileSigDecodedJSON = outbreakFileSigDecoded.toJSON();
 
-        // need to add for iOS
-        if (Platform.OS === 'android') {
-          const isValid = await isOutbreakSignatureValid(outbreakFileBin, outbreakFileSigDecodedJSON.signature);
+        const isValid = await isOutbreakSignatureValid(outbreakFileBin, outbreakFileSigDecodedJSON.signature);
 
-          if (!isValid) {
-            throw new Error('outbreak data signature match failed');
-          }
-
-          log.debug({
-            category: 'qr-code',
-            message: 'has valid signature',
-            payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, isValid},
-          });
+        if (!isValid) {
+          throw new Error('outbreak data signature match failed');
         }
+
+        log.debug({
+          category: 'qr-code',
+          message: 'has valid signature',
+          payload: {signature: outbreakFileSigDecodedJSON.signature, bin: outbreakFileBin, isValid},
+        });
       } catch (err) {
         log.error({
           category: 'qr-code',
