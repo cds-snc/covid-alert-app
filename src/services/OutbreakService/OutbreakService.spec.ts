@@ -330,4 +330,32 @@ describe('OutbreakService', () => {
     const outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(1);
   });
+
+  it('perform outbreak check', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+
+    await service.checkForOutbreaks();
+    // Current Date: 2021-02-01T12:00:00.000Z
+    MockDate.set('2021-02-01T12:30Z');
+    // First check 30 minutes later
+    const performOutbreakCheckFalse = await service.shouldPerformOutbreaksCheck();
+    expect(performOutbreakCheckFalse).toStrictEqual(false);
+
+    MockDate.set('2021-02-01T18:00Z');
+    // second check 6 hours later
+    const performOutbreakCheckTrue = await service.shouldPerformOutbreaksCheck();
+    expect(performOutbreakCheckTrue).toStrictEqual(true);
+  });
 });
