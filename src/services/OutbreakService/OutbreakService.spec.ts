@@ -331,7 +331,7 @@ describe('OutbreakService', () => {
     expect(outbreakHistory).toHaveLength(1);
   });
 
-  it('perform outbreak check', async () => {
+  it('performs an outbreak check if past the min minutes threshold', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
         {
@@ -350,12 +350,17 @@ describe('OutbreakService', () => {
     // Current Date: 2021-02-01T12:00:00.000Z
     MockDate.set('2021-02-01T12:30Z');
     // First check 30 minutes later
-    const performOutbreakCheckFalse = await service.shouldPerformOutbreaksCheck();
-    expect(performOutbreakCheckFalse).toStrictEqual(false);
+    const performOutbreakCheck30Mins = await service.shouldPerformOutbreaksCheck();
+    expect(performOutbreakCheck30Mins).toStrictEqual(false);
+
+    MockDate.set('2021-02-01T15:00Z');
+    // Second check 3 hours later
+    const performOutbreakCheck3Hours = await service.shouldPerformOutbreaksCheck();
+    expect(performOutbreakCheck30Mins).toStrictEqual(false);
 
     MockDate.set('2021-02-01T18:00Z');
-    // second check 6 hours later
-    const performOutbreakCheckTrue = await service.shouldPerformOutbreaksCheck();
-    expect(performOutbreakCheckTrue).toStrictEqual(true);
+    // third check 6 hours later
+    const performOutbreakCheck6Hours = await service.shouldPerformOutbreaksCheck();
+    expect(performOutbreakCheck6Hours).toStrictEqual(true);
   });
 });
