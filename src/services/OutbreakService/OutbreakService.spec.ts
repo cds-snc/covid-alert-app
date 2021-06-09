@@ -330,4 +330,26 @@ describe('OutbreakService', () => {
     const outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(1);
   });
+
+  it('auto deletes checkin after CHECKIN_NOTIFICATION_CYCLE', async () => {
+    await service.addCheckIn(checkIns[4]);
+    await service.addCheckIn(checkIns[5]);
+
+    // day 1
+    MockDate.set('2021-01-01T10:00Z');
+    let checkins = service.checkInHistory.get();
+    expect(checkins).toHaveLength(2);
+
+    // checkForOutbreaks calls autoDeleteCheckinAfterPeriod
+    // this would run from the background task
+    await service.checkForOutbreaks();
+    checkins = service.checkInHistory.get();
+    expect(checkins).toHaveLength(2);
+
+    // move past the CHECKIN_NOTIFICATION_CYCLE day mark
+    MockDate.set('2021-01-30T10:00Z');
+    await service.checkForOutbreaks();
+    checkins = service.checkInHistory.get();
+    expect(checkins).toHaveLength(0);
+  });
 });
