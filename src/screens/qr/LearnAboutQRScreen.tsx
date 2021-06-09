@@ -13,7 +13,6 @@ export const LearnAboutQRScreen = ({updatePermissions}: {updatePermissions: () =
   const requestPermissions = useCallback(async () => {
     try {
       await BarCodeScanner.requestPermissionsAsync();
-      await setHasViewedQr(true);
       updatePermissions();
     } catch (err) {
       log.error({category: 'qr-code', message: err.message});
