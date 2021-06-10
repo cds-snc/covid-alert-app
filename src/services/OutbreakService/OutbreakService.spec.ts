@@ -3,6 +3,7 @@ import MockDate from 'mockdate';
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 import {ExposureStatusType} from '../ExposureNotificationService';
+import PushNotification from '../../bridge/PushNotification';
 
 import {OutbreakService, isDiagnosed} from './OutbreakService';
 import {checkIns, toSeconds, addHours, subtractHours, addMinutes, subtractMinutes} from './tests/utils';
@@ -41,6 +42,11 @@ jest.mock('react-native-system-setting', () => {
     addLocationListener: jest.fn(),
   };
 });
+
+jest.mock('../../bridge/PushNotification', () => ({
+  ...jest.requireActual('bridge/PushNotification'),
+  presentLocalNotification: jest.fn(),
+}));
 
 describe('OutbreakService', () => {
   let service: OutbreakService;
@@ -384,5 +390,25 @@ describe('OutbreakService', () => {
     // third check 6 hours later
     const performOutbreakCheck6Hours = await service.shouldPerformOutbreaksCheck();
     expect(performOutbreakCheck6Hours).toStrictEqual(true);
+  });
+
+  it('send notification if there is an outbreak', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.checkForOutbreaks();
+    // console.log('Push notif', PushNotification.presentLocalNotification);
+
+    expect(PushNotification.presentLocalNotification).toHaveBeenCalled();
   });
 });
