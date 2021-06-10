@@ -31,7 +31,8 @@
   NSDictionary *payloadJsonStructure = @{
     @"identifier": metric.identifier,
     @"region": metric.region,
-    @"timestamp": metric.timestamp
+    @"timestamp": metric.timestamp,
+    @"debug": @"clement"
   };
   
   NSDictionary *mainJsonStructure = @{
