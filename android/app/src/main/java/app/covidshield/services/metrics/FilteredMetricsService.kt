@@ -9,7 +9,6 @@ import app.covidshield.utils.SingletonHolder
 import kotlinx.coroutines.runBlocking
 
 enum class MetricType(val identifier: String, val shouldBePushedToServerRightAway: Boolean) {
-    PackageUpdated("android-package-replaced", false),
     ScheduledCheckStartedToday("scheduled-check-started-today", false),
     ScheduledCheckSuccessfulToday("scheduled-check-successful-today", false),
     ActiveUser("active-user", true)

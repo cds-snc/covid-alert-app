@@ -276,8 +276,8 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractMinutes(checkIns[0].timestamp, 5) / 1000},
-          endTime: {seconds: addMinutes(checkIns[0].timestamp, 5) / 1000},
+          startTime: {seconds: toSeconds(subtractMinutes(checkIns[0].timestamp, 5))},
+          endTime: {seconds: toSeconds(addMinutes(checkIns[0].timestamp, 5))},
           severity: 1,
         },
       ]);
@@ -296,8 +296,8 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 1) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 1) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 1))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 1))},
           severity: 1,
         },
       ]);
@@ -316,8 +316,8 @@ describe('OutbreakService', () => {
       return service.convertOutbreakEvents([
         {
           locationId: checkIns[0].id,
-          startTime: {seconds: subtractHours(checkIns[0].timestamp, 12) / 1000},
-          endTime: {seconds: addHours(checkIns[0].timestamp, 12) / 1000},
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 12))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 12))},
           severity: 1,
         },
       ]);
@@ -353,7 +353,38 @@ describe('OutbreakService', () => {
     expect(checkins).toHaveLength(0);
   });
 
-  //A situation where user scans two outbreak locations before an outbreak check has happened
+  it('performs an outbreak check if past the min minutes threshold', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+
+    await service.checkForOutbreaks();
+    // Current Date: 2021-02-01T12:00:00.000Z
+    MockDate.set('2021-02-01T12:30Z');
+    // First check 30 minutes later
+    const performOutbreakCheck30Mins = await service.shouldPerformOutbreaksCheck();
+    expect(performOutbreakCheck30Mins).toStrictEqual(false);
+
+    MockDate.set('2021-02-01T15:00Z');
+    // Second check 3 hours later
+    const performOutbreakCheck3Hours = await service.shouldPerformOutbreaksCheck();
+    expect(performOutbreakCheck30Mins).toStrictEqual(false);
+
+    MockDate.set('2021-02-01T18:00Z');
+    // third check 6 hours later
+    const performOutbreakCheck6Hours = await service.shouldPerformOutbreaksCheck();
+    expect(performOutbreakCheck6Hours).toStrictEqual(true);
+  });
   it('performs one check returns two outbreaks', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
@@ -391,9 +422,5 @@ describe('OutbreakService', () => {
      await service.checkForOutbreaks(performOutbreakCheck);
      outbreakHistory = service.outbreakHistory.get();
      expect(outbreakHistory).toHaveLength(2);
-
-
-
-
-  })
+    });
 });
