@@ -62,7 +62,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
       {id: '1', timestamp: t1200, address: '', name: ''},
       {id: '3', timestamp: t1200, address: '', name: ''},
     ];
-    const history = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents);
+    const history = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents, true);
     expect(isExposedToOutbreak(history)).toStrictEqual(true);
   });
 
@@ -205,7 +205,7 @@ describe('outbreakHistory functions', () => {
         },
       ];
 
-      const matchedHistory = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
+      const matchedHistory = getMatchedOutbreakHistoryItems(checkIns, outbreaks, true);
 
       const history = expireHistoryItems(matchedHistory);
 
