@@ -1,8 +1,24 @@
 # Pull/Poll notifications
 
+**This service is avaiable within the app but isn't in active use**
+
 With traditional Push Notifications, a Device ID and other device meta information is shared with a third-party service, which raises privacy concerns.
 
 To alleviate those concerns, this concept uses Background Fetch as a polling mechanism to check a server for notifications which can be provided in a JSON format. Read receipts are tracked locally to prevent duplicate display. Messages can be scoped by App Version, Region, or Expiry date.
+
+# Implementation
+
+Ensure you have set a feed url in the builds environment files
+
+```
+NOTIFICATION_FEED_URL=
+```
+
+The feed url will be used to retrieve eligible messages (see: Eligible messages for details)
+
+The code for the service has been implemented here:
+
+https://github.com/cds-snc/covid-alert-app/tree/master/src/services/PollNotificationService
 
 ## Eligible messages
 
