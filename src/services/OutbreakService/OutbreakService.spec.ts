@@ -436,7 +436,7 @@ describe('OutbreakService', () => {
     expect(outbreakHistory).toHaveLength(2);
   });
 
-  it('send notification if there is an outbreak', async () => {
+  it('sends a notification if there is an outbreak', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
         {
@@ -460,7 +460,7 @@ describe('OutbreakService', () => {
     expect(PushNotification.presentLocalNotification).toHaveBeenCalledTimes(1);
   });
 
-  it('does not send notification is outbreak history is empty', async () => {
+  it('does not send a notification is outbreak history is empty', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
         {
