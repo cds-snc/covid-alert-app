@@ -435,6 +435,7 @@ describe('OutbreakService', () => {
     outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(2);
   });
+
   it('send notification if there is an outbreak', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
       return service.convertOutbreakEvents([
@@ -456,13 +457,27 @@ describe('OutbreakService', () => {
     await service.addCheckIn(checkIns[0]);
     await service.addCheckIn(checkIns[1]);
     await service.checkForOutbreaks();
-    let outbreakHistory = service.outbreakHistory.get();
-    console.log;
-
     expect(PushNotification.presentLocalNotification).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not send notification is outbreak history is empty', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
+          severity: 1,
+        },
+      ]);
+    });
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
 
     MockDate.set('2021-02-16T12:00Z');
     await service.checkForOutbreaks();
+    const outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory).toHaveLength(0);
     expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
   });
 });
