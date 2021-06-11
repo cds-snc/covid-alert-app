@@ -1,6 +1,8 @@
+import MockDate from 'mockdate';
+
 import {OutbreakEvent} from '../services/OutbreakService';
 // eslint-disable-next-line @shopify/strict-component-boundaries
-import {getTimes, checkIns, outbreaks} from '../services/OutbreakService/tests/utils';
+import {checkIns, outbreaks} from '../services/OutbreakService/tests/utils';
 
 import {
   CheckInData,
@@ -11,7 +13,6 @@ import {
   isExposedToOutbreak,
   TimeWindow,
   getNewOutbreakExposures,
-  expireHistoryItems,
   OutbreakHistoryItem,
   MatchData,
 } from './qr';
@@ -58,11 +59,13 @@ describe('getMatchedOutbreakHistoryItems', () => {
   ];
 
   it('returns exposed if there is a match', () => {
+    MockDate.set('2021-02-01T12:00Z');
+
     const checkInHistory: CheckInData[] = [
       {id: '1', timestamp: t1200, address: '', name: ''},
       {id: '3', timestamp: t1200, address: '', name: ''},
     ];
-    const history = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents, true);
+    const history = getMatchedOutbreakHistoryItems(checkInHistory, outbreakEvents);
     expect(isExposedToOutbreak(history)).toStrictEqual(true);
   });
 
@@ -150,76 +153,6 @@ describe('outbreakHistory functions', () => {
           id: getOutbreakId(checkIn),
           outbreakStartTimestamp: 0,
           outbreakEndTimestamp: 0,
-        }),
-      );
-    });
-  });
-
-  // Expire
-  describe('expireHistoryItems', () => {
-    it('expires items older than 14 days', () => {
-      const OriginalDate = global.Date;
-      const realDateNow = Date.now.bind(global.Date);
-      const today = new OriginalDate('2021-02-01T12:00Z');
-      const dateSpy = jest.spyOn(global, 'Date');
-      // @ts-ignore
-      dateSpy.mockImplementation((...args: any[]) => (args.length > 0 ? new OriginalDate(...args) : today));
-      global.Date.now = realDateNow;
-
-      const checkIns = [
-        {
-          id: '123',
-          timestamp: today.getTime() - 15 * 3600 * 24 * 1000,
-          address: '123 King St.',
-          name: 'Location name',
-        },
-        {
-          id: '123',
-          timestamp: today.getTime() - 14 * 3600 * 24 * 1000,
-          address: '123 King St.',
-          name: 'Location name',
-        },
-        {
-          id: '123',
-          timestamp: today.getTime() - 2 * 3600 * 24 * 1000,
-          address: '123 King St.',
-          name: 'Location name 3',
-        },
-      ];
-
-      const outbreak1 = getTimes(today.getTime() - 15 * 3600 * 24 * 1000, 20);
-      const outbreak2 = getTimes(today.getTime() - 2 * 3600 * 24 * 1000, 20);
-
-      const outbreaks = [
-        {
-          locationId: '123',
-          startTime: outbreak1.start,
-          endTime: outbreak1.end,
-          severity: 1,
-        },
-        {
-          locationId: '123',
-          startTime: outbreak2.start,
-          endTime: outbreak2.end,
-          severity: 1,
-        },
-      ];
-
-      const matchedHistory = getMatchedOutbreakHistoryItems(checkIns, outbreaks, true);
-
-      const history = expireHistoryItems(matchedHistory);
-
-      expect(history[0]).toStrictEqual(
-        expect.objectContaining({
-          id: getOutbreakId(checkIns[0]),
-          isExpired: true,
-        }),
-      );
-
-      expect(history[1]).toStrictEqual(
-        expect.objectContaining({
-          id: getOutbreakId(checkIns[2]),
-          isExpired: false,
         }),
       );
     });
