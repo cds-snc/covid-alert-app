@@ -4,12 +4,12 @@
 
 ![Lint + Typscript](https://github.com/cds-snc/covid-alert-app/workflows/CI/badge.svg)
 
-*Available for iOS and Android:*
+_Available for iOS and Android:_
 
 <a href="https://apps.apple.com/ca/app/id1520284227"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/app-store-eng.png" alt="Download on the App Store"></a>
 <a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/google-play-eng.png" alt="Get it on Google Play"></a>
 
-*Pour iOS et Android:*
+_Pour iOS et Android:_
 
 <a href="https://apps.apple.com/ca/app/id1520284227?l=fr"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/app-store-fra.png" alt="Télécharger dans l'App Store"></a>
 <a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid&hl=fr"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/google-play-fra.png" alt="Disponible sur Google Play"></a>
@@ -140,7 +140,6 @@ Note: For regional content please see [updating regional content](https://github
 
 ## Testing
 
-- [Manual Testing Plan](./TEST_PLAN.md)
 - [End to end testing with Detox](./e2e/README.md)
 
 ## Who built COVID Alert?
