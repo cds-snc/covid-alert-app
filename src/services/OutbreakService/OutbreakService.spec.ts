@@ -401,14 +401,25 @@ describe('OutbreakService', () => {
           endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
           severity: 1,
         },
+        {
+          locationId: checkIns[1].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[1].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[1].timestamp, 4))},
+          severity: 1,
+        },
       ]);
     });
 
     await service.addCheckIn(checkIns[0]);
     await service.addCheckIn(checkIns[1]);
     await service.checkForOutbreaks();
-    // console.log('Push notif', PushNotification.presentLocalNotification);
+    let outbreakHistory = service.outbreakHistory.get();
+    console.log;
 
-    expect(PushNotification.presentLocalNotification).toHaveBeenCalled();
+    expect(PushNotification.presentLocalNotification).toHaveBeenCalledTimes(1);
+
+    MockDate.set('2021-02-16T12:00Z');
+    await service.checkForOutbreaks();
+    expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
   });
 });
