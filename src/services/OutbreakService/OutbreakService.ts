@@ -215,25 +215,46 @@ export class OutbreakService {
     return newCheckInHistory;
   };
 
+  autoDeleteHistoryItemsAfterPeriod = async (): Promise<OutbreakHistoryItem[] | undefined> => {
+    const outbreakHistory: OutbreakHistoryItem[] = this.outbreakHistory.get();
+
+    if (!outbreakHistory.length) return;
+
+    const _outbreakHistory = expireHistoryItems(outbreakHistory);
+
+    _outbreakHistory.forEach((historyItem: OutbreakHistoryItem) => {
+      this.expireOutbreak(historyItem.id);
+    });
+
+    const updatedHistory = this.outbreakHistory.get();
+
+    const newOutbreakHistory = updatedHistory.filter((historyItem: OutbreakHistoryItem) => {
+      if (historyItem.isExpired) {
+        return false;
+      }
+      return true;
+    });
+
+    if (outbreakHistory.length !== newOutbreakHistory.length) {
+      await this.storageService.save(
+        StorageDirectory.OutbreakServiceOutbreakHistoryKey,
+        JSON.stringify(newOutbreakHistory),
+      );
+
+      this.outbreakHistory.set(newOutbreakHistory);
+      return newOutbreakHistory;
+    }
+
+    return updatedHistory;
+  };
+
   clearCheckInHistory = async () => {
     await this.storageService.save(StorageDirectory.OutbreakServiceCheckInHistoryKey, JSON.stringify([]));
     this.checkInHistory.set([]);
   };
 
-  expireHistoryItemsAndSave = async (outbreakHistory: OutbreakHistoryItem[]) => {
-    if (!outbreakHistory.length) return;
-
-    const expireHistory = expireHistoryItems(outbreakHistory);
-
-    expireHistory.forEach((historyItem: OutbreakHistoryItem) => {
-      if (historyItem.isExpired) {
-        this.expireOutbreak(historyItem.id);
-      }
-    });
-  };
-
   checkForOutbreaks = async (forceCheck?: boolean) => {
-    await this.expireHistoryItemsAndSave(this.outbreakHistory.get());
+    await this.autoDeleteHistoryItemsAfterPeriod();
     await this.autoDeleteCheckinAfterPeriod();
     return this.serialPromiseQueue.add(async () => {
       log.debug({category: 'qr-code', message: 'fetching outbreak locations...'});

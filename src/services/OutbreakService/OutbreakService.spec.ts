@@ -125,16 +125,18 @@ describe('OutbreakService', () => {
     expect(outbreakHistory).toHaveLength(1);
   });
 
-  it('expires outbreaks', async () => {
+  it('auto deletes outbreaks after OUTBREAK_EXPOSURE_DURATION_DAYS', async () => {
     jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
-      return service.convertOutbreakEvents([
+      const outbreakData = [
         {
           locationId: checkIns[0].id,
           startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
           endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
           severity: 1,
         },
-      ]);
+      ];
+
+      return service.convertOutbreakEvents(outbreakData);
     });
 
     MockDate.set('2021-02-01T12:00Z');
@@ -145,18 +147,21 @@ describe('OutbreakService', () => {
     await service.checkForOutbreaks(true);
     const outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory[0].isExpired).toStrictEqual(false);
+    expect(outbreakHistory).toHaveLength(1);
 
     // move ahead in time to ensure we're not marking as expired too soon
     MockDate.set('2021-02-05T12:00Z');
+    await service.checkForOutbreaks(true);
     const outbreakHistoryNotExpired = service.outbreakHistory.get();
     expect(outbreakHistoryNotExpired[0].isExpired).toStrictEqual(false);
+    expect(outbreakHistoryNotExpired).toHaveLength(1);
 
-    // move past the EXPOSURE_NOTIFICATION_CYCLE day mark
-    MockDate.set('2021-02-15T13:00Z');
+    // move past the OUTBREAK_EXPOSURE_DURATION_DAYS day mark
+    MockDate.set('2021-02-15T14:00Z');
     await service.checkForOutbreaks(true);
+    const outbreakRemoved = service.outbreakHistory.get();
 
-    const outbreakHistoryExpired = service.outbreakHistory.get();
-    expect(outbreakHistoryExpired[0].isExpired).toStrictEqual(true);
+    expect(outbreakRemoved).toHaveLength(0);
 
     // reset back to default
     MockDate.set('2021-02-01T12:00Z');

@@ -83,17 +83,25 @@ export type CombinedExposureHistoryData =
       historyItem: ProximityExposureHistoryItem;
     };
 
+export const hasExpired = (historyItem: OutbreakHistoryItem): boolean => {
+  const currentDate = getCurrentDate();
+  const hoursSinceCheckIn = getHoursBetween(new Date(historyItem.checkInTimestamp), currentDate);
+
+  if (hoursSinceCheckIn > 24 * OUTBREAK_EXPOSURE_DURATION_DAYS) {
+    return true;
+  }
+
+  return false;
+};
+
 /** returns a new outbreakHistory with the `isExpired` property updated */
 export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
   return outbreakHistory.map(historyItem => {
     if (historyItem.isExpired) {
       return {...historyItem};
     }
-    const currentDate = getCurrentDate();
 
-    const hoursSinceCheckIn = getHoursBetween(new Date(historyItem.checkInTimestamp), currentDate);
-
-    if (hoursSinceCheckIn > 24 * OUTBREAK_EXPOSURE_DURATION_DAYS) {
+    if (hasExpired(historyItem)) {
       return {...historyItem, isExpired: true};
     }
 
@@ -133,6 +141,7 @@ const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 export const getMatchedOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
   outbreakEvents: OutbreakEvent[],
+  keepExpired = false,
 ): OutbreakHistoryItem[] => {
   const outbreakIds = outbreakEvents.map(event => event.locationId);
 
@@ -154,7 +163,19 @@ export const getMatchedOutbreakHistoryItems = (
   log.debug({category: 'qr-code', message: 'outbreak matches', payload: {allMatches}});
 
   const deduplicatedMatches = deduplicateMatches(allMatches);
-  return deduplicatedMatches.map(match => createOutbreakHistoryItem(match));
+  const outbreakHistoryItems = deduplicatedMatches.map(match => createOutbreakHistoryItem(match));
+
+  if (keepExpired) {
+    return outbreakHistoryItems;
+  } else {
+    return outbreakHistoryItems.filter(historyItem => {
+      if (hasExpired(historyItem)) {
+        return false;
+      }
+
+      return true;
+    });
+  }
 };
 
 export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) => {
