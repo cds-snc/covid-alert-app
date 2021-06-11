@@ -9,7 +9,6 @@ import {BackendInterface} from 'services/BackendService';
 import {unzip} from 'react-native-zip-archive';
 import {readFile} from 'react-native-fs';
 import {covidshield} from 'services/BackendService/covidshield';
-import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getRandomString} from 'shared/logging/uuid';
 import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
 import {ExposureStatusType} from 'services/ExposureNotificationService';
@@ -315,7 +314,6 @@ export class OutbreakService {
               category: 'qr-code',
               message: 'exposed',
             });
-            FilteredMetricsService.sharedInstance().addEvent({type: EventTypeMetric.ExposedToOutbreak});
             this.processOutbreakNotification(getSortedOutbreakArrayByTimestamp(outbreakHistory)[0].severity);
           }
         } catch (error) {

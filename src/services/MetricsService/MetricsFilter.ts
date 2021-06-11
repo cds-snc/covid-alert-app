@@ -15,7 +15,6 @@ export enum EventTypeMetric {
   BackgroundCheck = 'background-check',
   BackgroundProcess = 'background-process',
   QrCodeSuccessfullyScanned = 'qr-code-successfully-scanned',
-  ExposedToOutbreak = 'exposed-outbreak',
 }
 
 export type EventWithContext =
@@ -53,9 +52,6 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.QrCodeSuccessfullyScanned;
-    }
-  | {
-      type: EventTypeMetric.ExposedToOutbreak;
     };
 
 export interface FilteredEvent {
@@ -131,12 +127,6 @@ export class DefaultMetricsFilter implements MetricsFilter {
       case EventTypeMetric.QrCodeSuccessfullyScanned:
         return Promise.resolve({
           eventType: EventTypeMetric.QrCodeSuccessfullyScanned,
-          payload: [],
-          shouldBePushedToServerRightAway: true,
-        });
-      case EventTypeMetric.ExposedToOutbreak:
-        return Promise.resolve({
-          eventType: EventTypeMetric.ExposedToOutbreak,
           payload: [],
           shouldBePushedToServerRightAway: true,
         });
