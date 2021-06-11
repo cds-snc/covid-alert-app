@@ -4,12 +4,12 @@
 
 ![Lint + Typscript](https://github.com/cds-snc/covid-alert-app/workflows/CI/badge.svg)
 
-*Available for iOS and Android:*
+_Available for iOS and Android:_
 
 <a href="https://apps.apple.com/ca/app/id1520284227"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/app-store-eng.png" alt="Download on the App Store"></a>
 <a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/google-play-eng.png" alt="Get it on Google Play"></a>
 
-*Pour iOS et Android:*
+_Pour iOS et Android:_
 
 <a href="https://apps.apple.com/ca/app/id1520284227?l=fr"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/app-store-fra.png" alt="Télécharger dans l'App Store"></a>
 <a href="https://play.google.com/store/apps/details?id=ca.gc.hcsc.canada.stopcovid&hl=fr"><img src="https://www.canada.ca/content/dam/phac-aspc/images/services/diseases-maladies/coronavirus-disease-covid-19/covid-alert/google-play-fra.png" alt="Disponible sur Google Play"></a>
@@ -26,7 +26,7 @@ Notification](https://www.apple.com/covid19/contacttracing) framework, informed 
 
 ## Overview
 
-This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Alert Diagnosis Server](https://github.com/cds-snc/covid-alert-server) to provide a reference for how a client application for exposure notifications could work.
+This app is built using React Native and designed to work well with patterns on both Android and iOS devices. It works alongside the [COVID Alert Diagnosis Server](https://github.com/cds-snc/covid-alert-server) & [COVID Alert Portal](https://github.com/cds-snc/covid-alert-portal).
 
 ## Local development
 
@@ -222,7 +222,7 @@ d’exposition](https://www.apple.com/covid19/contacttracing) d’Apple/Google, 
 
 ## Aperçu
 
-Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic Alerte COVID](https://github.com/cds-snc/covid-alert-server) pour fournir une référence sur le fonctionnement possible d’une application client pour les notifications d’exposition.
+Cette application est construite à l’aide de React Native et est conçue pour bien fonctionner avec des modèles sur les appareils Android et iOS. Elle fonctionne de concert avec le [Serveur de diagnostic Alerte COVID](https://github.com/cds-snc/covid-alert-server) & [Portail Alerte COVID](https://github.com/cds-snc/covid-alert-portal).
 
 ## Développement local
 
