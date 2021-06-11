@@ -3,6 +3,7 @@ import MockDate from 'mockdate';
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {StorageServiceMock} from '../StorageService/tests/StorageServiceMock';
 import {ExposureStatusType} from '../ExposureNotificationService';
+import PushNotification from '../../bridge/PushNotification';
 
 import {OutbreakService, isDiagnosed} from './OutbreakService';
 import {checkIns, toSeconds, addHours, subtractHours, addMinutes, subtractMinutes} from './tests/utils';
@@ -41,6 +42,11 @@ jest.mock('react-native-system-setting', () => {
     addLocationListener: jest.fn(),
   };
 });
+
+jest.mock('../../bridge/PushNotification', () => ({
+  ...jest.requireActual('bridge/PushNotification'),
+  presentLocalNotification: jest.fn(),
+}));
 
 describe('OutbreakService', () => {
   let service: OutbreakService;
@@ -428,5 +434,50 @@ describe('OutbreakService', () => {
     await service.checkForOutbreaks(performOutbreakCheck);
     outbreakHistory = service.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(2);
+  });
+
+  it('sends a notification if there is an outbreak', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
+          severity: 1,
+        },
+        {
+          locationId: checkIns[1].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[1].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[1].timestamp, 4))},
+          severity: 1,
+        },
+      ]);
+    });
+
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+    await service.checkForOutbreaks();
+    expect(PushNotification.presentLocalNotification).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not send a notification is outbreak history is empty', async () => {
+    jest.spyOn(service, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return service.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
+          severity: 1,
+        },
+      ]);
+    });
+    await service.addCheckIn(checkIns[0]);
+    await service.addCheckIn(checkIns[1]);
+
+    MockDate.set('2021-02-16T12:00Z');
+    await service.checkForOutbreaks();
+    const outbreakHistory = service.outbreakHistory.get();
+    expect(outbreakHistory).toHaveLength(0);
+    expect(PushNotification.presentLocalNotification).not.toHaveBeenCalled();
   });
 });
