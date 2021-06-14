@@ -58,7 +58,7 @@ export const OutbreakConditionalText = ({
     case OutbreakSeverity.SelfMonitor:
       return <MonitorText i18n={i18n} />;
     default:
-      return <MonitorText i18n={i18n} />;
+      return <IsolateText i18n={i18n} showNegativeTestButton={showNegativeTestButton} />;
   }
 };
 
