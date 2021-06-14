@@ -82,7 +82,7 @@ describe('getMatchedOutbreakHistoryItems', () => {
       outbreakEndTimestamp: 1612195200000,
       checkInTimestamp: 1612180800000,
       notificationTimestamp: 1613758680944,
-      severity: 3,
+      severity: 2,
     };
 
     expect(isExposedToOutbreak([history])).toStrictEqual(true);
@@ -173,7 +173,7 @@ describe('outbreakHistory functions', () => {
         outbreakEndTimestamp: 1612195200000,
         checkInTimestamp: 1612180800001,
         notificationTimestamp: 1613758680944,
-        severity: 3,
+        severity: 2,
       };
 
       const history = getMatchedOutbreakHistoryItems(checkIns, outbreaks);
@@ -212,21 +212,21 @@ describe('outbreakHistory functions', () => {
       locationId,
       startTime: new Date(2021, 1, 10).getTime(),
       endTime: new Date(2021, 1, 11).getTime(),
-      severity: 2,
+      severity: 1,
     };
     const outbreakEvent2: OutbreakEvent = {
       dedupeId: 'outbreakEvent2',
       locationId,
       startTime: new Date(2021, 1, 10).getTime(),
       endTime: new Date(2021, 1, 11).getTime(),
-      severity: 3,
+      severity: 2,
     };
     const outbreakEvent3: OutbreakEvent = {
       dedupeId: 'outbreakEvent2',
       locationId,
       startTime: new Date(2021, 1, 11).getTime(),
       endTime: new Date(2021, 1, 12).getTime(),
-      severity: 3,
+      severity: 2,
     };
 
     it('filters out duplicate matches with a lower severity', () => {
