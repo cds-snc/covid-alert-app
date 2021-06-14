@@ -985,13 +985,17 @@ export class ExposureNotificationService {
   }
 
   public async saveDisplayExposureHistory() {
-    const displayExposureHistory = this.displayExposureHistory.get();
+    const _displayExposureHistory = this.displayExposureHistory.get();
     // don't save displayExposureHistory if it is empty,
     // this is to avoid over-writing the history if it hasn't been loaded yet
-    if (displayExposureHistory.length === 0) {
+    if (_displayExposureHistory.length === 0) {
       return;
     }
+
+    const displayExposureHistory = this.removeProximityExposureHistoryItemAfterPeriod(_displayExposureHistory);
+
     log.debug({category: 'debug', message: 'saving displayExposureHistory', payload: {displayExposureHistory}});
+
     await this.storageService.save(
       StorageDirectory.ExposureNotificationServiceDisplayExposureHistoryKey,
       JSON.stringify(displayExposureHistory),
@@ -1011,6 +1015,17 @@ export class ExposureNotificationService {
       });
     await this.saveDisplayExposureHistory();
   }
+
+  removeProximityExposureHistoryItemAfterPeriod = (
+    displayExposureHistory: ProximityExposureHistoryItem[],
+  ): ProximityExposureHistoryItem[] => {
+    return displayExposureHistory.filter(item => {
+      if (item.isExpired) {
+        return false;
+      }
+      return true;
+    });
+  };
 
   /** updates the `isExpired` property on the displayExposureHistory */
   public async expireDisplayHistoryItems() {
@@ -1101,6 +1116,7 @@ export class ExposureNotificationService {
       }
       const displayExposureHistory = JSON.parse(_displayExposureHistory);
       log.debug({message: 'displayExposureHistory', payload: displayExposureHistory});
+
       this.displayExposureHistory.set(displayExposureHistory);
     } catch (error) {
       log.debug({message: "'No displayExposureHistory found"});
