@@ -1,7 +1,10 @@
 /* eslint-disable require-atomic-updates */
 import {when, resetAllWhenMocks} from 'jest-when';
 import {Platform} from 'react-native';
+import MockDate from 'mockdate';
 
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {StorageServiceMock} from '../../StorageService/tests/StorageServiceMock';
 import {periodSinceEpoch} from '../../../shared/date-fns';
 import {ExposureSummary} from '../../../bridge/ExposureNotification';
 import PushNotification from '../../../bridge/PushNotification';
@@ -16,6 +19,7 @@ import {
   ExposureStatusType,
   HOURS_PER_PERIOD,
   SystemStatus,
+  ProximityExposureHistoryItem,
 } from '../ExposureNotificationService';
 
 jest.mock('react-native-permissions', () => {
@@ -1157,6 +1161,76 @@ describe('ExposureNotificationService', () => {
       const dates = service.getExposureDetectedAt();
       expect(dates).toStrictEqual([may20, may19, may18]);
     });
+  });
+
+  it('removes items from display exposure history', async () => {
+    MockDate.set('2020-05-18T04:10:00+0000');
+
+    // create a new EN service using the StorageServiceMock so we can check the saved values
+    const enService = new ExposureNotificationService(
+      server,
+      i18n,
+      new StorageServiceMock(),
+      bridge,
+      filteredMetricsService,
+    );
+
+    const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+    const nextSummary = {
+      daysSinceLastExposure: 7,
+      lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+      matchedKeyCount: 1,
+      maximumRiskScore: 1,
+      attenuationDurations: [1200, 0, 0],
+    };
+    bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
+    enService.exposureStatus.set({
+      type: ExposureStatusType.Monitoring,
+      lastChecked: {
+        period,
+        timestamp: today.getTime() - PERIODIC_TASK_INTERVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+      },
+    });
+
+    await enService.updateExposureStatus();
+
+    // ensure we have an exposed item
+    expect(enService.exposureStatus.get()).toStrictEqual(
+      expect.objectContaining({
+        type: ExposureStatusType.Exposed,
+        summary: nextSummary,
+      }),
+    );
+
+    let displayExposureHistoryItems: ProximityExposureHistoryItem[] = enService.displayExposureHistory.get();
+
+    expect(displayExposureHistoryItems[0]).toStrictEqual(
+      expect.objectContaining({
+        isIgnoredFromHistory: false,
+        isExpired: false,
+      }),
+    );
+
+    enService.ignoreExposureFromHistory(displayExposureHistoryItems[0].id);
+
+    displayExposureHistoryItems = enService.displayExposureHistory.get();
+
+    // ingore the item from displayExposureHistory
+    expect(displayExposureHistoryItems[0]).toStrictEqual(
+      expect.objectContaining({
+        isIgnoredFromHistory: true,
+        isExpired: false,
+      }),
+    );
+
+    // exposure is May 11
+    MockDate.set('2020-05-27T04:10:00+0000');
+
+    enService.removeProximityExposureHistoryItemAfterPeriod();
+
+    displayExposureHistoryItems = enService.displayExposureHistory.get();
+
+    expect(displayExposureHistoryItems).toHaveLength(0);
   });
 
   describe('testing metrics component', () => {
