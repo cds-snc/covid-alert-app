@@ -108,7 +108,8 @@
   dispatch_sync(asyncStorage.methodQueue, ^{
     [asyncStorage multiGet:@[@"Region"] callback:^(NSArray *response) {
         if (![response[0] isKindOfClass:[NSError class]] && ![response[1][0][1] isKindOfClass:[NSNull class]]) {
-          region = response[1][0][1];
+          NSString *tempRegion = response[1][0][1];
+          region = [tempRegion length] == 0 ? @"None" : tempRegion;
         }
     }];
   });
