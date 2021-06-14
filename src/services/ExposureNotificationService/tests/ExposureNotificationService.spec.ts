@@ -980,7 +980,6 @@ describe('ExposureNotificationService', () => {
   describe('performExposureStatusUpdate', () => {
     const may18 = new OriginalDate('2020-05-18T04:10:00+0000');
     const may19 = new OriginalDate('2020-05-19T04:10:00+0000');
-    const may20 = new OriginalDate('2020-05-20T04:10:00+0000');
     const june18 = new OriginalDate('2020-06-18T04:10:00+0000');
     const summary1 = getSummary({
       today: may18,
