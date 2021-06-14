@@ -141,7 +141,6 @@ const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 export const getMatchedOutbreakHistoryItems = (
   checkInHistory: CheckInData[],
   outbreakEvents: OutbreakEvent[],
-  keepExpired = false,
 ): OutbreakHistoryItem[] => {
   const outbreakIds = outbreakEvents.map(event => event.locationId);
 
@@ -165,17 +164,13 @@ export const getMatchedOutbreakHistoryItems = (
   const deduplicatedMatches = deduplicateMatches(allMatches);
   const outbreakHistoryItems = deduplicatedMatches.map(match => createOutbreakHistoryItem(match));
 
-  if (keepExpired) {
-    return outbreakHistoryItems;
-  } else {
-    return outbreakHistoryItems.filter(historyItem => {
-      if (hasExpired(historyItem)) {
-        return false;
-      }
+  return outbreakHistoryItems.filter(historyItem => {
+    if (hasExpired(historyItem)) {
+      return false;
+    }
 
-      return true;
-    });
-  }
+    return true;
+  });
 };
 
 export const doTimeWindowsOverlap = (window1: TimeWindow, window2: TimeWindow) => {
