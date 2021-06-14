@@ -41,7 +41,9 @@ class DefaultFilteredMetricsService constructor(private val context: Context) : 
     override suspend fun addMetric(metricType: MetricType, oncePerUTCDay: Boolean) {
 
         suspend fun pushMetric() {
-            val region = StorageService.getInstance(context).retrieve(StorageDirectory.Region) ?: "None"
+            val region = StorageService.getInstance(context).retrieve(StorageDirectory.Region)?.let { value ->
+                if (value.isBlank()) "None" else value
+            } ?: "None"
             val metric = Metric(DateUtils.getCurrentLocalDate().time, metricType.identifier, region, emptyMap())
             metricsService.publishMetric(metric, metricType.shouldBePushedToServerRightAway)
         }
