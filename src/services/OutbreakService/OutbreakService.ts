@@ -420,9 +420,9 @@ export class OutbreakService {
     PushNotification.presentLocalNotification({
       alertTitle: this.i18n.translate('Notification.OutbreakMessageTitle'),
       alertBody:
-        severity === 1
-          ? this.i18n.translate('Notification.OutbreakMessageIsolate')
-          : this.i18n.translate('Notification.OutbreakMessageMonitor'),
+        severity === 2
+          ? this.i18n.translate('Notification.OutbreakMessageMonitor')
+          : this.i18n.translate('Notification.OutbreakMessageIsolate'),
       channelName: this.i18n.translate('Notification.AndroidChannelName'),
     });
   };
