@@ -38,6 +38,7 @@ const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 export const HOURS_PER_PERIOD = 24;
 
 export const CHECKIN_NOTIFICATION_CYCLE = 28;
+export const OUTBREAK_NOTIFICATION_CYCLE = 14;
 
 /* istanbul ignore next */
 const base64ToUint8Array = (str: string) => {
@@ -269,7 +270,7 @@ export class OutbreakService {
           ? periodSinceEpoch(outbreaksLastCheckedDate, HOURS_PER_PERIOD)
           : undefined;
 
-        const periodsSinceLastFetch = periodsSinceLastExposureFetch(lastCheckedPeriod);
+        const periodsSinceLastFetch = periodsSinceLastExposureFetch(OUTBREAK_NOTIFICATION_CYCLE, lastCheckedPeriod);
 
         try {
           for (const period of periodsSinceLastFetch) {

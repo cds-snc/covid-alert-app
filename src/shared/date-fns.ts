@@ -157,15 +157,14 @@ export const getUTCMidnight = (date: Date) => {
   return midnight.getTime();
 };
 
-export const periodsSinceLastExposureFetch = (_lastCheckedPeriod?: number): number[] => {
-  const exposureNotificationCycle = 14;
+export const periodsSinceLastExposureFetch = (cycleType: number, _lastCheckedPeriod?: number): number[] => {
   const hoursPerPeriod = 24;
   const runningDate = getCurrentDate();
   let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
   if (!_lastCheckedPeriod) {
     return [0, runningPeriod];
   }
-  const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - exposureNotificationCycle);
+  const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - cycleType);
   const periodsToFetch = [];
   while (runningPeriod > lastCheckedPeriod) {
     periodsToFetch.push(runningPeriod);
