@@ -572,8 +572,6 @@ describe('ExposureNotificationService', () => {
 
   describe('isReminderNeeded', () => {
     it('returns true when missing uploadReminderLastSentAt', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
-
       const status = {
         type: ExposureStatusType.Diagnosed,
         needsSubmission: true,
@@ -584,7 +582,6 @@ describe('ExposureNotificationService', () => {
     });
 
     it('returns true when uploadReminderLastSentAt is a day old', async () => {
-      const today = new OriginalDate('2020-05-18T04:10:00+0000');
       const lastSent = new OriginalDate('2020-05-17T04:10:00+0000');
 
       const status = {
