@@ -156,3 +156,20 @@ export const getUTCMidnight = (date: Date) => {
   const midnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   return midnight.getTime();
 };
+
+export const periodsSinceLastExposureFetch = (_lastCheckedPeriod?: number): number[] => {
+  const exposureNotificationCycle = 14;
+  const hoursPerPeriod = 24;
+  const runningDate = getCurrentDate();
+  let runningPeriod = periodSinceEpoch(runningDate, hoursPerPeriod);
+  if (!_lastCheckedPeriod) {
+    return [0, runningPeriod];
+  }
+  const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - exposureNotificationCycle);
+  const periodsToFetch = [];
+  while (runningPeriod > lastCheckedPeriod) {
+    periodsToFetch.push(runningPeriod);
+    runningPeriod -= 1;
+  }
+  return periodsToFetch;
+};

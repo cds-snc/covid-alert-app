@@ -18,6 +18,7 @@ import {
   parseSavedTimestamps,
   secondsBetween,
   getHoursBetween,
+  periodsSinceLastExposureFetch,
 } from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
@@ -357,21 +358,6 @@ export class ExposureNotificationService {
     const mins = minutesBetween(lastSent, today);
     return mins > MINIMUM_REMINDER_INTERVAL_MINUTES;
   }
-
-  public getPeriodsSinceLastFetch = (_lastCheckedPeriod?: number): number[] => {
-    const runningDate = getCurrentDate();
-    let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-    if (!_lastCheckedPeriod) {
-      return [0, runningPeriod];
-    }
-    const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
-    const periodsToFetch = [];
-    while (runningPeriod > lastCheckedPeriod) {
-      periodsToFetch.push(runningPeriod);
-      runningPeriod -= 1;
-    }
-    return periodsToFetch;
-  };
 
   async updateCycleTimes(contagiousDateInfo: ContagiousDateInfo): Promise<void> {
     if (contagiousDateInfo.dateType === ContagiousDateType.None) {
@@ -1192,7 +1178,7 @@ export class ExposureNotificationService {
     const currentStatus = this.exposureStatus.get();
     const keysFileUrls: string[] = [];
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
-    const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
+    const periodsSinceLastFetch = periodsSinceLastExposureFetch(lastCheckedPeriod);
     try {
       for (const period of periodsSinceLastFetch) {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);

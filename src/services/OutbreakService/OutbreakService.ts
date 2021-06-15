@@ -22,7 +22,13 @@ import {
   OutbreakHistoryItem,
   expireHistoryItems,
 } from '../../shared/qr';
-import {getCurrentDate, minutesBetween, periodSinceEpoch, getHoursBetween} from '../../shared/date-fns';
+import {
+  getCurrentDate,
+  minutesBetween,
+  periodSinceEpoch,
+  getHoursBetween,
+  periodsSinceLastExposureFetch,
+} from '../../shared/date-fns';
 import {log} from '../../shared/logging/config';
 
 import {getOutbreaksLastCheckedDateTime, markOutbreaksLastCheckedDateTime} from './OutbreakStorage';
@@ -31,7 +37,6 @@ const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
 
 export const HOURS_PER_PERIOD = 24;
 
-export const EXPOSURE_NOTIFICATION_CYCLE = 14;
 export const CHECKIN_NOTIFICATION_CYCLE = 28;
 
 /* istanbul ignore next */
@@ -264,7 +269,7 @@ export class OutbreakService {
           ? periodSinceEpoch(outbreaksLastCheckedDate, HOURS_PER_PERIOD)
           : undefined;
 
-        const periodsSinceLastFetch = this.periodsSinceLastOutbreaksCheck(lastCheckedPeriod);
+        const periodsSinceLastFetch = periodsSinceLastExposureFetch(lastCheckedPeriod);
 
         try {
           for (const period of periodsSinceLastFetch) {
@@ -425,22 +430,6 @@ export class OutbreakService {
           : this.i18n.translate('Notification.OutbreakMessageIsolate'),
       channelName: this.i18n.translate('Notification.AndroidChannelName'),
     });
-  };
-
-  // TODO: refactor this method to share logic with getPeriodsSinceLastFetch method found in ExposureNotificationService.
-  periodsSinceLastOutbreaksCheck = (_lastCheckedPeriod?: number): number[] => {
-    const runningDate = getCurrentDate();
-    let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-    if (!_lastCheckedPeriod) {
-      return [0, runningPeriod];
-    }
-    const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
-    const periodsToFetch = [];
-    while (runningPeriod > lastCheckedPeriod) {
-      periodsToFetch.push(runningPeriod);
-      runningPeriod -= 1;
-    }
-    return periodsToFetch;
   };
 }
 
