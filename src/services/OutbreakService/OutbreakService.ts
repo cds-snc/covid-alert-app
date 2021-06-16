@@ -18,7 +18,7 @@ import {
   OUTBREAK_NOTIFICATION_CYCLE,
 } from 'shared/config';
 
-import {Observable} from '../../shared/Observable';
+import {Observable} from 'shared/Observable';
 import {
   CheckInData,
   getMatchedOutbreakHistoryItems,
@@ -26,15 +26,15 @@ import {
   isExposedToOutbreak,
   OutbreakHistoryItem,
   expireHistoryItems,
-} from '../../shared/qr';
+} from 'shared/qr';
 import {
   getCurrentDate,
   minutesBetween,
   periodSinceEpoch,
   getHoursBetween,
   periodsSinceLastExposureFetch,
-} from '../../shared/date-fns';
-import {log} from '../../shared/logging/config';
+} from 'shared/date-fns';
+import {log} from 'shared/logging/config';
 
 import {getOutbreaksLastCheckedDateTime, markOutbreaksLastCheckedDateTime} from './OutbreakStorage';
 

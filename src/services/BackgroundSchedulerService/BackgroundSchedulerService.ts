@@ -7,9 +7,9 @@ import {publishDebugMetric} from 'bridge/DebugMetrics';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
-import {log} from '../../shared/logging/config';
+import {log} from 'shared/logging/config';
 import {ExposureNotificationService} from '../ExposureNotificationService';
-import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
+import {getCurrentDate, minutesBetween} from 'shared/date-fns';
 import {DefaultStorageService} from '../StorageService';
 import {BackendService} from '../BackendService';
 import {createBackgroundI18n} from '../../locale';

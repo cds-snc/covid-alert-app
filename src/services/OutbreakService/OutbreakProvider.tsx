@@ -4,7 +4,7 @@ import {createCancellableCallbackPromise} from 'shared/cancellablePromise';
 import {BackendInterface} from 'services/BackendService';
 import {log} from 'shared/logging/config';
 
-import {CheckInData} from '../../shared/qr';
+import {CheckInData} from 'shared/qr';
 
 import {OutbreakService} from './OutbreakService';
 

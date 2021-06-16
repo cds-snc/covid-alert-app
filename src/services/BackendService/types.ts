@@ -1,7 +1,7 @@
 import {TemporaryExposureKey, ExposureConfiguration} from 'bridge/ExposureNotification';
 import {ContagiousDateInfo} from 'shared/DataSharing';
 
-import {RegionContentResponse} from '../../shared/Region';
+import {RegionContentResponse} from 'shared/Region';
 
 export interface SubmissionKeySet {
   serverPublicKey: string;
