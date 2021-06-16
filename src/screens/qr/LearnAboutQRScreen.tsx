@@ -19,11 +19,11 @@ export const LearnAboutQRScreen = ({updatePermissions}: {updatePermissions: () =
   return (
     <BaseQRCodeScreen showBackButton>
       <Box paddingHorizontal="m">
-        <Text variant="bodyTitle" marginTop="l" accessibilityRole="header" accessibilityAutoFocus>
+        <Text variant="bodyTitle" marginBottom="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.LearnAboutQRScan.Title')}
         </Text>
 
-        <Text marginVertical="s">{i18n.translate('QRCode.LearnAboutQRScan.Body1')}</Text>
+        <Text marginBottom="s">{i18n.translate('QRCode.LearnAboutQRScan.Body1')}</Text>
         <Text>{i18n.translate('QRCode.LearnAboutQRScan.Body2')}</Text>
         <Box marginTop="xl" marginBottom="l">
           <Button
