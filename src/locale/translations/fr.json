@@ -222,16 +222,16 @@
   },
   "QRCodeOnboarding": {
     "step-1Title": "Projet pilote à Ottawa : expositions dans des lieux visités",
-    "step-1AltText": "-",
+    "step-1AltText": "Dessin à la main de plusieurs façades de boutiques.",
     "step-1": "L’application peut vous aviser si vous avez visité un lieu pendant qu’il y avait un risque d’exposition.\n\nCe type de notifications fonctionne à partir de codes QR que vous scannez lors de vos allées et venues.\n\nLes codes QR vous évitent de laisser vos renseignements personnels aux lieux visités, ce qui offre plus de vie privée.",
     "step-2Title": "Fonctionnement des notifications par code QR",
-    "step-2AltText": "-",
+    "step-2AltText": "Dessin à la main d’un téléphone mobile téléchargeant une liste de lieux et d’heures. Une petite icône de loupe met en évidence la combinaison d’un lieu et d’une heure dans la liste.",
     "step-2": "Le lieu et le moment où il y a un risque d’exposition est déterminé par les autorités de santé publique.\n\nChaque jour, Alerte COVID télécharge une liste de ces lieux et moments.\n\nS’il y a correspondance avec l’une de vos visites, l’application vous enverra une notification qui vous explique quoi faire.",
     "step-3Title": "Votre vie privée est protégée",
-    "step-3AltText": "-",
+    "step-3AltText": "Dessin à la main d’un téléphone entouré d’une ligne pointillée et d’un cadenas. Les icônes d’un code QR, d’un calendrier et d’une montre sont enfermées dans le téléphone.",
     "step-3": "L’application enregistre la date, l’heure et le lieu de vos visites sur votre téléphone.\n\nVos visites et vos expositions **ne sont communiquées à personne**.\n\nVous pouvez consulter la liste de vos visites récentes à partir du menu. Au besoin, vous pouvez aussi supprimer des visites.",
     "step-4Title": "Facilitons la recherche de contacts",
-    "step-4AltText": "-",
+    "step-4AltText": "Dessin à la main de plusieurs personnes différentes dans des cercles pointillés. Les contacts entre les personnes sont illustrés par des lignes connectant différents cercles.",
     "step-4": "La prochaine fois que vous sortez, repérez les affiches Alerte COVID avec des codes QR.\n\nPuis, commencez à ajouter vos visites et soyez avisé s’il y a eu un risque d’exposition pendant celles-ci.",
     "step-4-banner": "Pour l’instant, les affiches à code QR **ne sont présentes qu’à Ottawa** pour un projet pilote avec la Ville d’Ottawa.",
     "ActionBack": "Back",
@@ -478,7 +478,7 @@
   "MenuButton": "Menu",
   "QRCode": {
     "Intro": {
-      "AltText": ""
+      "AltText": "Dessin à la main d’une main qui tient un téléphone devant un code QR."
     },
     "CTA": "Ajouter une visite",
     "Reader": {
