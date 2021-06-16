@@ -42,7 +42,10 @@ export const I18nProvider = ({locale: forceLocale, children}: I18nProviderProps)
 export const useI18n = () => {
   return useContext(I18nContext)!!;
 };
-
+export const dateLocale = () => {
+  const i18n = useI18n();
+  return i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
+};
 /**
  * A wrapper for i18n which doesn't return new reference even i18n is updated
  */
