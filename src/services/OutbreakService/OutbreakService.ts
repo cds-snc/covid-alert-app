@@ -1,6 +1,5 @@
 import {Buffer} from 'buffer';
 
-import {TEST_MODE} from 'env';
 import {StorageService, StorageDirectory, DefaultStorageService} from 'services/StorageService';
 import PushNotification from 'bridge/PushNotification';
 import {I18n} from 'locale';
@@ -12,6 +11,12 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {getRandomString} from 'shared/logging/uuid';
 import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
 import {ExposureStatusType} from 'services/ExposureNotificationService';
+import {
+  HOURS_PER_PERIOD,
+  MIN_OUTBREAKS_CHECK_MINUTES,
+  CHECKIN_NOTIFICATION_CYCLE,
+  OUTBREAK_NOTIFICATION_CYCLE,
+} from 'shared/config';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -22,17 +27,16 @@ import {
   OutbreakHistoryItem,
   expireHistoryItems,
 } from '../../shared/qr';
-import {getCurrentDate, minutesBetween, periodSinceEpoch, getHoursBetween} from '../../shared/date-fns';
+import {
+  getCurrentDate,
+  minutesBetween,
+  periodSinceEpoch,
+  getHoursBetween,
+  periodsSinceLastExposureFetch,
+} from '../../shared/date-fns';
 import {log} from '../../shared/logging/config';
 
 import {getOutbreaksLastCheckedDateTime, markOutbreaksLastCheckedDateTime} from './OutbreakStorage';
-
-const MIN_OUTBREAKS_CHECK_MINUTES = TEST_MODE ? 15 : 240;
-
-export const HOURS_PER_PERIOD = 24;
-
-export const EXPOSURE_NOTIFICATION_CYCLE = 14;
-export const CHECKIN_NOTIFICATION_CYCLE = 28;
 
 /* istanbul ignore next */
 const base64ToUint8Array = (str: string) => {
@@ -264,7 +268,7 @@ export class OutbreakService {
           ? periodSinceEpoch(outbreaksLastCheckedDate, HOURS_PER_PERIOD)
           : undefined;
 
-        const periodsSinceLastFetch = this.periodsSinceLastOutbreaksCheck(lastCheckedPeriod);
+        const periodsSinceLastFetch = periodsSinceLastExposureFetch(lastCheckedPeriod, OUTBREAK_NOTIFICATION_CYCLE);
 
         try {
           for (const period of periodsSinceLastFetch) {
@@ -425,22 +429,6 @@ export class OutbreakService {
           : this.i18n.translate('Notification.OutbreakMessageIsolate'),
       channelName: this.i18n.translate('Notification.AndroidChannelName'),
     });
-  };
-
-  // TODO: refactor this method to share logic with getPeriodsSinceLastFetch method found in ExposureNotificationService.
-  periodsSinceLastOutbreaksCheck = (_lastCheckedPeriod?: number): number[] => {
-    const runningDate = getCurrentDate();
-    let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-    if (!_lastCheckedPeriod) {
-      return [0, runningPeriod];
-    }
-    const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
-    const periodsToFetch = [];
-    while (runningPeriod > lastCheckedPeriod) {
-      periodsToFetch.push(runningPeriod);
-      runningPeriod -= 1;
-    }
-    return periodsToFetch;
   };
 }
 

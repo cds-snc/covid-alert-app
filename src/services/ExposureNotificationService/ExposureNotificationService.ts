@@ -18,6 +18,7 @@ import {
   parseSavedTimestamps,
   secondsBetween,
   getHoursBetween,
+  periodsSinceLastExposureFetch,
 } from 'shared/date-fns';
 import {I18n} from 'locale';
 import {Observable, MapObservable} from 'shared/Observable';
@@ -33,6 +34,7 @@ import {OutbreakService, isDiagnosed} from 'services/OutbreakService';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 import {getRandomString} from 'shared/logging/uuid';
+import {HOURS_PER_PERIOD, EXPOSURE_NOTIFICATION_CYCLE, MINIMUM_REMINDER_INTERVAL_MINUTES} from 'shared/config';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -43,12 +45,6 @@ import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 import {doesPlatformSupportV2} from './ExposureNotificationServiceUtils';
-
-export const HOURS_PER_PERIOD = 24;
-
-export const EXPOSURE_NOTIFICATION_CYCLE = 14;
-
-export const MINIMUM_REMINDER_INTERVAL_MINUTES = 180;
 
 export const cannotGetTEKsError = new Error('Unable to retrieve TEKs');
 
@@ -357,21 +353,6 @@ export class ExposureNotificationService {
     const mins = minutesBetween(lastSent, today);
     return mins > MINIMUM_REMINDER_INTERVAL_MINUTES;
   }
-
-  public getPeriodsSinceLastFetch = (_lastCheckedPeriod?: number): number[] => {
-    const runningDate = getCurrentDate();
-    let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
-    if (!_lastCheckedPeriod) {
-      return [0, runningPeriod];
-    }
-    const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - EXPOSURE_NOTIFICATION_CYCLE);
-    const periodsToFetch = [];
-    while (runningPeriod > lastCheckedPeriod) {
-      periodsToFetch.push(runningPeriod);
-      runningPeriod -= 1;
-    }
-    return periodsToFetch;
-  };
 
   async updateCycleTimes(contagiousDateInfo: ContagiousDateInfo): Promise<void> {
     if (contagiousDateInfo.dateType === ContagiousDateType.None) {
@@ -1192,7 +1173,7 @@ export class ExposureNotificationService {
     const currentStatus = this.exposureStatus.get();
     const keysFileUrls: string[] = [];
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
-    const periodsSinceLastFetch = this.getPeriodsSinceLastFetch(lastCheckedPeriod);
+    const periodsSinceLastFetch = periodsSinceLastExposureFetch(lastCheckedPeriod);
     try {
       for (const period of periodsSinceLastFetch) {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);

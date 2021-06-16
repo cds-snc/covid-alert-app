@@ -1,3 +1,5 @@
+import {OUTBREAK_NOTIFICATION_CYCLE, EXPOSURE_NOTIFICATION_CYCLE, HOURS_PER_PERIOD} from 'shared/config';
+
 export function addDays(date: Date, days: number) {
   // https://stackoverflow.com/questions/563406/add-days-to-javascript-date
   const result = new Date(date);
@@ -155,4 +157,27 @@ export const parseSavedTimestamps = (savedTimestamps: string) => {
 export const getUTCMidnight = (date: Date) => {
   const midnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   return midnight.getTime();
+};
+
+export enum CycleType {
+  Outbreak = OUTBREAK_NOTIFICATION_CYCLE,
+  Exposure = EXPOSURE_NOTIFICATION_CYCLE,
+}
+
+export const periodsSinceLastExposureFetch = (
+  _lastCheckedPeriod?: number,
+  cycleType: CycleType = EXPOSURE_NOTIFICATION_CYCLE,
+): number[] => {
+  const runningDate = getCurrentDate();
+  let runningPeriod = periodSinceEpoch(runningDate, HOURS_PER_PERIOD);
+  if (!_lastCheckedPeriod) {
+    return [0, runningPeriod];
+  }
+  const lastCheckedPeriod = Math.max(_lastCheckedPeriod - 1, runningPeriod - cycleType);
+  const periodsToFetch = [];
+  while (runningPeriod > lastCheckedPeriod) {
+    periodsToFetch.push(runningPeriod);
+    runningPeriod -= 1;
+  }
+  return periodsToFetch;
 };

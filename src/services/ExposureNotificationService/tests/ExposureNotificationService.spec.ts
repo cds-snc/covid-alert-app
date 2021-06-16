@@ -5,7 +5,7 @@ import MockDate from 'mockdate';
 
 // eslint-disable-next-line @shopify/strict-component-boundaries
 import {StorageServiceMock} from '../../StorageService/tests/StorageServiceMock';
-import {periodSinceEpoch} from '../../../shared/date-fns';
+import {periodSinceEpoch, periodsSinceLastExposureFetch} from '../../../shared/date-fns';
 import {ExposureSummary} from '../../../bridge/ExposureNotification';
 import PushNotification from '../../../bridge/PushNotification';
 import {StorageService, StorageDirectory} from '../../StorageService';
@@ -17,10 +17,10 @@ import {
   ExposureNotificationService,
   ExposureStatus,
   ExposureStatusType,
-  HOURS_PER_PERIOD,
   SystemStatus,
   ProximityExposureHistoryItem,
 } from '../ExposureNotificationService';
+import {HOURS_PER_PERIOD} from '../../../shared/config';
 
 jest.mock('react-native-permissions', () => {
   return {checkNotifications: jest.fn().mockReturnValue(Promise.reject()), requestNotifications: jest.fn()};
@@ -922,19 +922,19 @@ describe('ExposureNotificationService', () => {
 
   describe('getPeriodsSinceLastFetch', () => {
     it('returns an array of [0, runningPeriod] if _lastCheckedPeriod is undefined', () => {
-      expect(service.getPeriodsSinceLastFetch()).toStrictEqual([0, 18400]);
+      expect(periodsSinceLastExposureFetch()).toStrictEqual([0, 18400]);
     });
 
     it('returns an array of checkdates between lastCheckedPeriod and runningPeriod', () => {
-      expect(service.getPeriodsSinceLastFetch(18395)).toStrictEqual([18400, 18399, 18398, 18397, 18396, 18395]);
+      expect(periodsSinceLastExposureFetch(18395)).toStrictEqual([18400, 18399, 18398, 18397, 18396, 18395]);
     });
 
     it('returns an array of runningPeriod when current runningPeriod == _lastCheckedPeriod', () => {
-      expect(service.getPeriodsSinceLastFetch(18400)).toStrictEqual([18400]);
+      expect(periodsSinceLastExposureFetch(18400)).toStrictEqual([18400]);
     });
 
     it('returns an array of [runningPeriod, runningPeriod - 1] when current runningPeriod = _lastCheckedPeriod + 1', () => {
-      expect(service.getPeriodsSinceLastFetch(18399)).toStrictEqual([18400, 18399]);
+      expect(periodsSinceLastExposureFetch(18399)).toStrictEqual([18400, 18399]);
     });
   });
 
