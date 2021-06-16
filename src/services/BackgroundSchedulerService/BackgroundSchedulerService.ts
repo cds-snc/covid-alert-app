@@ -4,12 +4,12 @@ import {HMAC_KEY, RETRIEVE_URL, SUBMIT_URL, TEST_MODE} from 'env';
 import {FilteredMetricsService} from 'services/MetricsService';
 import ExposureNotification from 'bridge/ExposureNotification';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
+import {log} from 'shared/logging/config';
+import {getCurrentDate, minutesBetween} from 'shared/date-fns';
 
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 import {PeriodicWorkPayload} from '../../bridge/PushNotification';
-import {log} from '../../shared/logging/config';
 import {ExposureNotificationService} from '../ExposureNotificationService';
-import {getCurrentDate, minutesBetween} from '../../shared/date-fns';
 import {DefaultStorageService} from '../StorageService';
 import {BackendService} from '../BackendService';
 import {createBackgroundI18n} from '../../locale';
