@@ -140,10 +140,6 @@ export const CheckInHistoryScreen = () => {
             <NoVisitsScreen />
           ) : (
             <>
-              <Box paddingHorizontal="m">
-                <Text>{i18n.translate('PlacesLog.Body1')}</Text>
-                <Text marginTop="s">{BoldText(i18n.translate('PlacesLog.Body2'))}</Text>
-              </Box>
               <Box paddingHorizontal="xxs" marginLeft="s" marginRight="s" paddingBottom="m">
                 <CheckInList scannedCheckInData={checkInHistory} />
               </Box>
