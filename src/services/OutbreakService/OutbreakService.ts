@@ -11,7 +11,12 @@ import {covidshield} from 'services/BackendService/covidshield';
 import {getRandomString} from 'shared/logging/uuid';
 import {isOutbreakSignatureValid} from 'bridge/OutbreakSignatureValidation';
 import {ExposureStatusType} from 'services/ExposureNotificationService';
-import {HOURS_PER_PERIOD, MIN_OUTBREAKS_CHECK_MINUTES, CHECKIN_NOTIFICATION_CYCLE} from 'shared/config';
+import {
+  HOURS_PER_PERIOD,
+  MIN_OUTBREAKS_CHECK_MINUTES,
+  CHECKIN_NOTIFICATION_CYCLE,
+  OUTBREAK_NOTIFICATION_CYCLE,
+} from 'shared/config';
 
 import {Observable} from '../../shared/Observable';
 import {
@@ -263,7 +268,7 @@ export class OutbreakService {
           ? periodSinceEpoch(outbreaksLastCheckedDate, HOURS_PER_PERIOD)
           : undefined;
 
-        const periodsSinceLastFetch = periodsSinceLastExposureFetch(lastCheckedPeriod);
+        const periodsSinceLastFetch = periodsSinceLastExposureFetch(lastCheckedPeriod, OUTBREAK_NOTIFICATION_CYCLE);
 
         try {
           for (const period of periodsSinceLastFetch) {
