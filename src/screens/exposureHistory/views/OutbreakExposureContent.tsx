@@ -1,5 +1,5 @@
 import React from 'react';
-import {useI18n} from 'locale';
+import {useI18n, dateLocale} from 'locale';
 import {Text, TextMultiline} from 'components';
 import {HomeScreenTitle} from 'screens/home/components/HomeScreenTitle';
 import {OutbreakConditionalText} from 'screens/home/views/OutbreakExposedView';
@@ -9,8 +9,7 @@ import {OutbreakHistoryItem} from 'shared/qr';
 export const OutbreakExposureContent = ({historyItem}: {historyItem: OutbreakHistoryItem}) => {
   const i18n = useI18n();
   const severity = historyItem?.severity;
-  const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
-  const exposureDate = formatExposedDate(new Date(historyItem?.notificationTimestamp), dateLocale);
+  const exposureDate = formatExposedDate(new Date(historyItem?.notificationTimestamp), dateLocale());
   return (
     <>
       <HomeScreenTitle>{i18n.translate(`QRCode.OutbreakExposed.Title`)}</HomeScreenTitle>

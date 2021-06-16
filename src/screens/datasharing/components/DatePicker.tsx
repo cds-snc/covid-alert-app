@@ -83,7 +83,6 @@ export const DatePicker = ({daysBack, selectedDate, setDate}: DatePickerProps) =
   const today = getCurrentDate();
 
   const getLabel = (step: number, date: Date) => {
-    // const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
     switch (step) {
       case 0:
         return i18n.translate('DataUpload.Today');

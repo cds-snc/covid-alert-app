@@ -20,7 +20,6 @@ const getRadiusStyle = (index: number, listLength: number) => {
 
 export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: CombinedExposureHistoryData[]}) => {
   const i18n = useI18n();
-  // const dateLocale = i18n.locale === 'fr' ? 'fr-CA' : 'en-CA';
   const navigation = useNavigation();
   const onDetails = useCallback(
     ({exposureHistoryItem}) => navigation.navigate('RecentExposureScreen', {exposureHistoryItem}),
