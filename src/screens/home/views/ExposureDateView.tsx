@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {Box, Text} from 'components';
-import {useI18n, dateLocale} from 'locale';
+import {useI18n, DateLocale} from 'locale';
 import {useExposureNotificationService} from 'services/ExposureNotificationService';
 import {formatExposedDate, getCurrentDate, getFirstThreeUniqueDates} from 'shared/date-fns';
 import {ForceScreen} from 'shared/ForceScreen';
@@ -26,7 +26,7 @@ export const ExposureDateView = ({timestamp}: {timestamp?: number}) => {
   }, [exposureNotificationService, forceScreen, timestamp]);
 
   const formattedDates = dates.map(date => {
-    return formatExposedDate(date, dateLocale());
+    return formatExposedDate(date, DateLocale());
   });
   log.debug({message: 'allExposedDates', payload: {allExposedDates: formattedDates}});
   const firstThreeUniqueDates = getFirstThreeUniqueDates(formattedDates);

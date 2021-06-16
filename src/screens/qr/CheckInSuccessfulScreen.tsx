@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {StyleSheet} from 'react-native';
 import {Box, Button, Text, Icon, Header} from 'components';
 import {useNavigation} from '@react-navigation/native';
-import {useI18n, dateLocale} from 'locale';
+import {useI18n, DateLocale} from 'locale';
 import {CheckInData} from 'shared/qr';
 import {accessibilityReadableDate, getScannedTime, formatExposedDate} from 'shared/date-fns';
 import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
@@ -24,13 +24,13 @@ export const CheckInSuccessfulScreen = ({route}: CheckInSuccessfulRoute) => {
     navigation,
   ]);
   const readableDate = accessibilityReadableDate(new Date(timestamp));
-  const scannedTime = getScannedTime(new Date(timestamp), dateLocale());
-  const formatDate = formatExposedDate(new Date(timestamp), dateLocale());
+  const scannedTime = getScannedTime(new Date(timestamp), DateLocale());
+  const formatDate = formatExposedDate(new Date(timestamp), DateLocale());
 
   const ScannedDate = () => {
     return (
       <>
-        {dateLocale() === 'en-CA' ? (
+        {DateLocale() === 'en-CA' ? (
           <Text accessibilityLabel={`${scannedTime} on ${readableDate}`}>
             <Text>{scannedTime} on </Text>
 

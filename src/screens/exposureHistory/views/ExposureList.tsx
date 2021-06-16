@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {useI18n, dateLocale} from 'locale';
+import {useI18n, DateLocale} from 'locale';
 import {CombinedExposureHistoryData} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, Icon} from 'components';
@@ -48,7 +48,7 @@ export const ExposureList = ({exposureHistoryData}: {exposureHistoryData: Combin
                   <Box paddingVertical="m" style={styles.exposureList}>
                     <Box style={styles.boxFlex}>
                       <Text fontWeight="bold">
-                        {formatExposedDate(new Date(item.notificationTimestamp), dateLocale())}
+                        {formatExposedDate(new Date(item.notificationTimestamp), DateLocale())}
                       </Text>
                       <Text>{item.subtitle}</Text>
                     </Box>

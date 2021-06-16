@@ -3,7 +3,7 @@ import {Picker} from '@react-native-picker/picker';
 import {Platform, Modal, StyleSheet} from 'react-native';
 import {Box, Button, ButtonSelect} from 'components';
 import {addDays, getCurrentDate} from 'shared/date-fns';
-import {useI18n, dateLocale} from 'locale';
+import {useI18n, DateLocale} from 'locale';
 import {FormContext} from 'shared/FormContext';
 
 const capitalizeFirstLetter = (x: string) => {
@@ -92,7 +92,7 @@ export const DatePicker = ({daysBack, selectedDate, setDate}: DatePickerProps) =
         return i18n.translate('DataUpload.Earlier');
       default:
         return capitalizeFirstLetter(
-          date.toLocaleString(dateLocale(), {
+          date.toLocaleString(DateLocale(), {
             weekday: 'long',
             year: 'numeric',
             month: 'long',

@@ -1,6 +1,6 @@
 import React from 'react';
 import {RoundedBox, Text, TextMultiline} from 'components';
-import {useI18n, I18n, dateLocale} from 'locale';
+import {useI18n, I18n, DateLocale} from 'locale';
 import {useOutbreakService, getSortedOutbreakArrayByTimestamp} from 'services/OutbreakService';
 import {getNonIgnoredOutbreakHistory, OutbreakHistoryItem, OutbreakSeverity} from 'shared/qr';
 import {formatExposedDate} from 'shared/date-fns';
@@ -20,8 +20,8 @@ export const OutbreakExposedView = () => {
   const severity = historyItem?.severity;
 
   const exposureDate = TEST_MODE
-    ? formatExposedDate(new Date(), dateLocale())
-    : formatExposedDate(new Date(historyItem?.notificationTimestamp), dateLocale());
+    ? formatExposedDate(new Date(), DateLocale())
+    : formatExposedDate(new Date(historyItem?.notificationTimestamp), DateLocale());
 
   return (
     <BaseHomeView iconName="hand-caution" testID="outbreakExposure">

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
-import {useI18n, dateLocale} from 'locale';
+import {useI18n, DateLocale} from 'locale';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {Box, Text, Icon, Button, ToolbarWithClose} from 'components';
 import {CheckInData} from 'shared/qr';
@@ -40,7 +40,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
           <Box key={item}>
             <Box marginTop="m" paddingBottom="m" paddingHorizontal="xs">
               <Text accessibilityLabel={`${accessibilityReadableDate(formateScannedDate(item))}`} variant="bodyTitle">
-                {formatExposedDate(formateScannedDate(item), dateLocale())}
+                {formatExposedDate(formateScannedDate(item), DateLocale())}
               </Text>
             </Box>
 
@@ -57,7 +57,7 @@ const CheckInList = ({scannedCheckInData}: {scannedCheckInData: CheckInData[]}) 
                         <Text variant="bodySubTitle">{data.checkIns.name}</Text>
                         <Text paddingTop="s">
                           {data.checkIns.address} {'\n'}
-                          {getScannedTime(new Date(data.checkIns.timestamp), dateLocale())}
+                          {getScannedTime(new Date(data.checkIns.timestamp), DateLocale())}
                         </Text>
                       </Box>
                       <Box style={styles.deleteIconBox}>
