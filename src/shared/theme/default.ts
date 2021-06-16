@@ -226,20 +226,6 @@ const theme = {
         borderBottomColor: palette.gray3,
       },
     },
-    thinFlatGrey: {
-      color: palette.neutralGrey,
-      height: 52,
-      textColor: palette.black,
-      fontFamily: 'notosans',
-      fontSize: 18,
-      borderBottomWidth: 4,
-      borderBottomColor: palette.darkGrey,
-      disabled: {
-        color: palette.gray4,
-        textColor: palette.bodyBlack,
-        borderBottomColor: palette.gray3,
-      },
-    },
     bigFlatNeutralGrey: {
       color: palette.neutralGrey,
       height: 52,
