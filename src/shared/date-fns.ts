@@ -160,8 +160,8 @@ export const getUTCMidnight = (date: Date) => {
 };
 
 export enum CycleType {
-  OUTBREAK = OUTBREAK_NOTIFICATION_CYCLE,
-  EXPOSURE = EXPOSURE_NOTIFICATION_CYCLE,
+  Outbreak = OUTBREAK_NOTIFICATION_CYCLE,
+  Exposure = EXPOSURE_NOTIFICATION_CYCLE,
 }
 
 export const periodsSinceLastExposureFetch = (
