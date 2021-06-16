@@ -19,7 +19,6 @@ export const LearnAboutQRScreen = ({updatePermissions}: {updatePermissions: () =
   return (
     <BaseQRCodeScreen showBackButton>
       <Box paddingHorizontal="m">
-        <Icon height={120} width={150} name="no-visit-icon" />
         <Text variant="bodyTitle" marginTop="l" accessibilityRole="header" accessibilityAutoFocus>
           {i18n.translate('QRCode.LearnAboutQRScan.Title')}
         </Text>
