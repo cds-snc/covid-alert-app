@@ -34,6 +34,7 @@ import {OutbreakService, isDiagnosed} from 'services/OutbreakService';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {publishDebugMetric} from 'bridge/DebugMetrics';
 import {getRandomString} from 'shared/logging/uuid';
+import {HOURS_PER_PERIOD, EXPOSURE_NOTIFICATION_CYCLE, MINIMUM_REMINDER_INTERVAL_MINUTES} from 'shared/config';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
 import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
@@ -44,12 +45,6 @@ import exposureConfigurationDefault from './ExposureConfigurationDefault.json';
 import exposureConfigurationSchema from './ExposureConfigurationSchema.json';
 import {ExposureConfigurationValidator, ExposureConfigurationValidationError} from './ExposureConfigurationValidator';
 import {doesPlatformSupportV2} from './ExposureNotificationServiceUtils';
-
-export const HOURS_PER_PERIOD = 24;
-
-export const EXPOSURE_NOTIFICATION_CYCLE = 14;
-
-export const MINIMUM_REMINDER_INTERVAL_MINUTES = 180;
 
 export const cannotGetTEKsError = new Error('Unable to retrieve TEKs');
 
@@ -1178,7 +1173,7 @@ export class ExposureNotificationService {
     const currentStatus = this.exposureStatus.get();
     const keysFileUrls: string[] = [];
     let lastCheckedPeriod = currentStatus.lastChecked?.period;
-    const periodsSinceLastFetch = periodsSinceLastExposureFetch(EXPOSURE_NOTIFICATION_CYCLE, lastCheckedPeriod);
+    const periodsSinceLastFetch = periodsSinceLastExposureFetch(lastCheckedPeriod);
     try {
       for (const period of periodsSinceLastFetch) {
         const keysFileUrl = await this.backendInterface.retrieveDiagnosisKeys(period);
