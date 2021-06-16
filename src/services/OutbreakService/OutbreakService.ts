@@ -17,7 +17,6 @@ import {
   CHECKIN_NOTIFICATION_CYCLE,
   OUTBREAK_NOTIFICATION_CYCLE,
 } from 'shared/config';
-
 import {Observable} from 'shared/Observable';
 import {
   CheckInData,

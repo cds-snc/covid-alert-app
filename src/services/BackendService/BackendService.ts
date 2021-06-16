@@ -14,7 +14,6 @@ import regionSchema from 'locale/translations/regionSchema.json';
 import JsonSchemaValidator from 'shared/JsonSchemaValidator';
 import {StorageService, StorageDirectory} from 'services/StorageService';
 import {RegionContentResponse} from 'shared/Region';
-
 import {log} from 'shared/logging/config';
 
 import {covidshield} from './covidshield';
