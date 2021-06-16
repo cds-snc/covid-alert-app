@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Box, Text, Icon, Button} from 'components';
+import {Box, Text, Button} from 'components';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {useI18n} from 'locale';
 import {log} from 'shared/logging/config';
