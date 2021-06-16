@@ -21,9 +21,9 @@ import {I18nProvider, RegionalProvider} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {NotificationPermissionStatusProvider} from 'shared/NotificationPermissionStatus';
+import {RegionContent, RegionContentResponse} from 'shared/Region';
 
 import regionContentDefault from './locale/translations/region.json';
-import {RegionContent, RegionContentResponse} from './shared/Region';
 import {OutbreakProvider} from './services/OutbreakService';
 
 // this allows us to use new Date().toLocaleString() for date formatting on android

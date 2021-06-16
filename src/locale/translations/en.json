@@ -222,16 +222,16 @@
   },
   "QRCodeOnboarding": {
     "step-1Title": "Pilot project in Ottawa: exposures from places visited",
-    "step-1AltText": "-",
+    "step-1AltText": "Hand-drawn illustration of a street front of various businesses.",
     "step-1": "The app can notify you if you’ve been at a place at the same time as an exposure.\n\nThis kind of exposure notification uses QR codes you scan as you go about your day.\n\nIt’s more private than sharing your contact details with the places you visit.",
     "step-2Title": "How QR code notifications work",
-    "step-2AltText": "-",
+    "step-2AltText": "A hand-drawn illustration of a phone downloading a list of places and times. A small search icon of a magnifying glass  highlights the combination of a place and a time in the list.",
     "step-2": "Public health identifies when a place has an exposure risk.\n\nEvery day, your app downloads a list of those places and times.\n\nIf there’s a match with one of your visits, the app notifies you and explains what to do next.",
     "step-3Title": "Your privacy is protected",
-    "step-3AltText": "-",
+    "step-3AltText": "Hand-drawn illustration of a phone encircled by a dotted line with a lock. The icons of a QR code, a calendar and a watch are enclosed in the phone.",
     "step-3": "The app saves your visits on your phone, including the dates and times you were there.\n\n**Your visits and exposures are not shared** with anyone.\n\nYou can get to your recent visits from the menu. If you need to, you can delete any visit.",
     "step-4Title": "Help make contact tracing easier",
-    "step-4AltText": "-",
+    "step-4AltText": "Hand-drawn illustration of a lot of different people in dotted circles. Lines connecting different circles show the contacts between people.",
     "step-4": "Next time you’re out and about, look for COVID Alert posters with QR codes.\n\nStart adding your visits and get notified of possible exposures from the places you visited.",
     "step-4-banner": "Right now, posters with QR codes are **only available in Ottawa** as part of a pilot project with the City of Ottawa.",
     "ActionBack": "Back",
@@ -479,7 +479,7 @@
   "MenuButton": "Menu",
   "QRCode": {
     "Intro": {
-      "AltText": ""
+      "AltText": "Hand-drawn illustration of a hand holding a phone in front of a QR code."
     },
     "CTA": "Add a visit",
     "Reader": {
