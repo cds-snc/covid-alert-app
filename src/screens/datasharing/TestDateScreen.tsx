@@ -1,5 +1,5 @@
 import React, {useCallback, useContext} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {ScrollView} from 'react-native';
 import {Box, Text} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
@@ -41,9 +41,3 @@ export const TestDateScreen = () => {
     </BaseTekUploadView>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

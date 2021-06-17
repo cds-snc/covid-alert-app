@@ -4,6 +4,7 @@ import {Box, Text, Button, ButtonSingleLine} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {BoldText} from 'shared/BoldText';
+import styles from 'shared/Styles';
 
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 
@@ -51,9 +52,3 @@ export const Step0Screen = () => {
     </BaseDataSharingView>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

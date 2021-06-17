@@ -9,6 +9,7 @@ import {BulletPoint} from '../../components/BulletPoint';
 import {RadioButton} from './components/Radio';
 import {BaseDataSharingView} from './components/BaseDataSharingView';
 import {StepXofY} from './components';
+import styles from 'shared/Styles';
 
 export const Step2Screen = () => {
   const i18n = useI18n();
@@ -110,9 +111,3 @@ export const Step2Screen = () => {
     </BaseDataSharingView>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});
