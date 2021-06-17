@@ -1,8 +1,8 @@
 import React, {useCallback} from 'react';
 import {Box, Text, Icon, Button} from 'components';
-import {StyleSheet} from 'react-native';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import styles from 'shared/Styles';
 
 import {BaseQRCodeScreen} from './components/BaseQRCodeScreen';
 
@@ -33,21 +33,3 @@ export const InvalidQRCodeScreen = () => {
     </BaseQRCodeScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  invisible: {
-    display: 'none',
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    zIndex: 2,
-  },
-});

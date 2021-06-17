@@ -1,10 +1,11 @@
 import React, {useCallback} from 'react';
-import {TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
+import {TouchableOpacity, ScrollView} from 'react-native';
 import {Box, Text, Icon, ToolbarWithClose} from 'components';
 import {useCachedStorage} from 'services/StorageService';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useI18n} from 'locale';
+import styles from 'shared/Styles';
 
 interface LanguageSelectItemProps {
   onPress: () => void;
@@ -95,9 +96,3 @@ export const LanguageScreen = () => {
     </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

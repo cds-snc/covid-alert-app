@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {ScrollView} from 'react-native';
 import {Box, ToolbarWithClose} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
@@ -12,6 +12,7 @@ import {NoRegionView} from './views/NoRegionView';
 import {RegionNotCoveredView} from './views/RegionNotCoveredView';
 import {ActiveListView} from './views/ActiveListView';
 import {ActiveParagraphView} from './views/ActiveParagraphView';
+import styles from 'shared/Styles';
 
 const Content = () => {
   const {region} = useCachedStorage();
@@ -48,9 +49,3 @@ export const NoCodeScreen = () => {
     </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

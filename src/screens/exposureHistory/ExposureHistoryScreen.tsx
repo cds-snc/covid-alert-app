@@ -25,6 +25,7 @@ import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
 
 import {ExposureList} from './views/ExposureList';
 import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
+import styles from 'shared/Styles';
 
 const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
   switch (severity) {
@@ -146,9 +147,3 @@ export const ExposureHistoryScreen = () => {
     </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

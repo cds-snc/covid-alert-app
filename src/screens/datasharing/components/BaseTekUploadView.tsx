@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {ActivityIndicator, ScrollView, StyleSheet, Alert} from 'react-native';
+import {ActivityIndicator, ScrollView, Alert} from 'react-native';
 import {Box, Button} from 'components';
 import {useI18n} from 'locale';
 import {useReportDiagnosis, cannotGetTEKsError, useExposureHistory} from 'services/ExposureNotificationService';
@@ -13,6 +13,7 @@ import {useOutbreakService} from 'services/OutbreakService';
 import {isExposedToOutbreak} from 'shared/qr';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
+import styles from 'shared/Styles';
 
 interface BaseTekUploadViewProps {
   buttonText: string;
@@ -144,9 +145,3 @@ export const BaseTekUploadView = ({
     </BaseDataSharingView>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});
