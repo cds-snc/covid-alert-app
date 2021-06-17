@@ -34,18 +34,25 @@ const parseKeys = (obj, str, cb) => {
 };
 /* eslint-enable */
 
-const parseFiles = (targetPath, languages, regionContent) => {
+const parseFiles = (targetPath, languages, regionContent, ignore) => {
   const en = JSON.parse(regionContent[languages[0]]);
   const fr = JSON.parse(regionContent[languages[1]]);
   let missing = '';
 
   parseKeys(en, undefined, arr => {
     const strPath = arr.split(',').join('.');
-    const enStr = resolveObjectPath(strPath, en);
-    const frStr = resolveObjectPath(strPath, fr);
 
-    if (typeof enStr === 'string' && enStr && !frStr) {
-      missing += ` - Missing FR string: "${strPath}" ${'\n'}`;
+    if (!ignore.includes(strPath)) {
+      const enStr = resolveObjectPath(strPath, en);
+      const frStr = resolveObjectPath(strPath, fr);
+
+      if (typeof enStr === 'string' && enStr && !frStr) {
+        missing += ` - Missing FR string: "${strPath}" ${'\n'}`;
+      }
+
+      if (typeof frStr === 'string' && frStr && !enStr) {
+        missing += ` - Missing EN string: "${strPath}" ${'\n'}`;
+      }
     }
   });
 
@@ -60,8 +67,14 @@ const parseFiles = (targetPath, languages, regionContent) => {
 
 const contentPaths = ['src/locale/translations', 'src/locale/translations/regional'];
 
+const ingoredKeys = [
+  'RegionPicker.ExposedHelpLinkNote.AB',
+  'RegionPicker.ExposedHelpLinkNote.BC',
+  'RegionPicker.ExposedHelpLinkNote.SK',
+];
+
 contentPaths.forEach(async targetPath => {
   const languages = ['en', 'fr'];
   const regionContent = await getRegionContent(languages, targetPath);
-  parseFiles(targetPath, languages, regionContent);
+  parseFiles(targetPath, languages, regionContent, ingoredKeys);
 });
