@@ -74,6 +74,7 @@ export const ExposureNotificationServiceProvider = ({
       }
       // re-register the background tasks upon app launch
       backgroundScheduler.registerPeriodicTask(async () => {
+        publishNativeActiveUserMetric();
         await exposureNotificationService.updateExposureStatusInBackground();
       }, exposureNotificationService);
     };

@@ -121,14 +121,8 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   }
   
-  MetricsService *metricsService = [MetricsService sharedInstance];
-  
-  // Will be called when the app starts from either foreground or background
-  [metricsService publishMetric:ActiveUser bridge:bridge];
-  
-  if(application.applicationState == UIApplicationStateBackground) {
-    [metricsService publishMetric:ScheduledCheckStartedToday bridge:bridge];
-  }
+  // Will be called when the user manually starts the application
+  [[MetricsService sharedInstance] publishMetric:ActiveUser bridge:bridge];
   
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
