@@ -7,10 +7,11 @@ import {useI18n} from 'locale';
 import {getExposedHelpURL, getExposedHelpMenuURL} from 'shared/RegionLogic';
 import {useRegionalI18n} from 'locale/regional';
 import {captureException} from 'shared/log';
+import styles from 'shared/Styles';
 
 import {MainStackParamList} from '../../navigation/MainNavigator';
 
-import {regionData, RegionItem, regionStyles} from './RegionPickerExposed';
+import {regionData, RegionItem} from './RegionPickerExposed';
 
 type RegionPickerExposedNoPTScreenProps = RouteProp<MainStackParamList, 'RegionSelectExposedNoPT'>;
 
@@ -40,7 +41,7 @@ export const RegionPickerExposedNoPTScreen = () => {
 
   return (
     <Box flex={1} backgroundColor="overlayBackground">
-      <SafeAreaView style={regionStyles.flex}>
+      <SafeAreaView style={styles.flex}>
         <Toolbar
           title=""
           navIcon="icon-back-arrow"
@@ -48,7 +49,7 @@ export const RegionPickerExposedNoPTScreen = () => {
           navLabel={i18n.translate('RegionPicker.Close')}
           onIconClicked={close}
         />
-        <ScrollView style={regionStyles.flex} testID="RegionPickerSettings-ScrollView">
+        <ScrollView style={styles.flex} testID="RegionPickerSettings-ScrollView">
           <Text
             paddingHorizontal="m"
             marginBottom="m"

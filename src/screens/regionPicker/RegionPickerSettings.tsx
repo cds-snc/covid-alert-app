@@ -6,8 +6,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useCachedStorage} from 'services/StorageService';
 import {useI18n} from 'locale';
 import {Region} from 'shared/Region';
+import styles from 'shared/Styles';
 
-import {regionData, RegionItem, regionStyles} from './RegionPickerShared';
+import {regionData, RegionItem} from './RegionPickerShared';
 
 export const RegionPickerSettingsScreen = () => {
   const i18n = useI18n();
@@ -23,9 +24,9 @@ export const RegionPickerSettingsScreen = () => {
   );
   return (
     <Box flex={1} backgroundColor="overlayBackground">
-      <SafeAreaView style={regionStyles.flex}>
+      <SafeAreaView style={styles.flex}>
         <ToolbarWithClose closeText={i18n.translate('RegionPicker.Close')} showBackButton={false} onClose={close} />
-        <ScrollView style={regionStyles.flex} testID="RegionPickerSettings-ScrollView">
+        <ScrollView style={styles.flex} testID="RegionPickerSettings-ScrollView">
           <Text
             paddingHorizontal="m"
             marginBottom="m"
