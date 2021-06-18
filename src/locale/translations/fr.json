@@ -483,9 +483,7 @@
     "CTA": "Ajouter une visite",
     "Reader": {
       "Title": "Placez votre appareil photo devant le code\u00A0QR",
-      "Body": "",
-      "Back": "Précédent",
-      "Learn": ""
+      "Back": "Précédent"
     },
     "CheckInView": {
       "Title": "Merci d’avoir ajouté une visite",
