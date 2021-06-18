@@ -63,6 +63,8 @@ const parseFiles = (targetPath, languages, regionContent, ignore) => {
 
   console.log(`${targetPath} ${languages}`, '❌'); // eslint-disable-line no-console
   console.log(missing); // eslint-disable-line no-console
+
+  process.exit(1);
 };
 
 const contentPaths = ['src/locale/translations', 'src/locale/translations/regional'];
