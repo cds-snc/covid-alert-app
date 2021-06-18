@@ -484,9 +484,7 @@
     "CTA": "Add a visit",
     "Reader": {
       "Title": "Point the camera at the QR\u00A0code",
-      "Body": "Subscribe to a place to receive notification if other people visit this place at a similar time as you.",
-      "Back": "Back",
-      "Learn": "Learn more about QR codes and COVID Alert"
+      "Back": "Back"
     },
     "CameraPermissions": {
       "Title": "Give access to camera",
@@ -527,9 +525,6 @@
       "CTA1": "Back to home",
       "CTA2": "Your visits",
       "MoreInfo": "Learn more about QR codes and COVID alert"
-    },
-    "Exposed": {
-      "Title": "You've been Exposed"
     },
     "CancelCheckIn": {
       "Title": "Scan cancelled"
