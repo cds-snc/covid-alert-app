@@ -7,12 +7,12 @@ import {useCachedStorage} from 'services/StorageService';
 import {getRegionCase} from 'shared/RegionLogic';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useRegionalI18n} from 'locale/regional';
+import styles from 'shared/Styles';
 
 import {NoRegionView} from './views/NoRegionView';
 import {RegionNotCoveredView} from './views/RegionNotCoveredView';
 import {ActiveListView} from './views/ActiveListView';
 import {ActiveParagraphView} from './views/ActiveParagraphView';
-import styles from 'shared/Styles';
 
 const Content = () => {
   const {region} = useCachedStorage();

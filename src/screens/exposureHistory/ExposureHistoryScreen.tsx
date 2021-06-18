@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import {useI18n, I18n} from 'locale';
 import {
   CombinedExposureHistoryData,
@@ -22,10 +22,10 @@ import {
 } from 'services/ExposureNotificationService';
 import {log} from 'shared/logging/config';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
+import styles from 'shared/Styles';
 
 import {ExposureList} from './views/ExposureList';
 import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
-import styles from 'shared/Styles';
 
 const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
   switch (severity) {

@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet, Alert} from 'react-native';
+import {ScrollView, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, ToolbarWithClose} from 'components';
 import {useNavigation} from '@react-navigation/native';

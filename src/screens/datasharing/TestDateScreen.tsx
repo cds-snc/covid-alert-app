@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FormContext} from 'shared/FormContext';
 import {ContagiousDateType} from 'shared/DataSharing';
 import {parseDateString} from 'shared/date-fns';
+import styles from 'shared/Styles';
 
 import {BaseTekUploadView, DatePicker, StepXofY} from './components';
 

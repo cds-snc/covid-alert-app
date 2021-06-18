@@ -16,4 +16,7 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     zIndex: 2,
   },
-})
+  content: {
+    flexGrow: 1,
+  },
+});

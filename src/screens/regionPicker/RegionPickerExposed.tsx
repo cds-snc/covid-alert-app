@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Text, Icon} from 'components';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import {Region} from 'shared/Region';
 
 interface RegionItemProps {
@@ -54,3 +54,9 @@ const RegionItem_ = ({code, onPress, name, lastItem, testID}: RegionItemProps) =
   </>
 );
 export const RegionItem = React.memo(RegionItem_);
+
+export const regionStyles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+});

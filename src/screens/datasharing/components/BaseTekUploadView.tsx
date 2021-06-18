@@ -11,9 +11,9 @@ import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 import {useOutbreakService} from 'services/OutbreakService';
 import {isExposedToOutbreak} from 'shared/qr';
+import styles from 'shared/Styles';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
-import styles from 'shared/Styles';
 
 interface BaseTekUploadViewProps {
   buttonText: string;
