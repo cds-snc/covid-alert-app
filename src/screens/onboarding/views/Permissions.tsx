@@ -2,8 +2,9 @@ import React, {useCallback} from 'react';
 import {useI18n} from 'locale';
 import {Box, ButtonSingleLine} from 'components';
 import Markdown from 'react-native-markdown-display';
-import {Linking, StyleSheet} from 'react-native';
+import {Linking} from 'react-native';
 import {captureException} from 'shared/log';
+import styles from 'shared/Styles';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
@@ -55,12 +56,3 @@ export const Permissions = (props: Pick<ItemViewProps, 'isActive'>) => {
     </ItemView>
   );
 };
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  bodyContent: {
-    fontFamily: 'notosans',
-    fontSize: 18,
-  },
-});

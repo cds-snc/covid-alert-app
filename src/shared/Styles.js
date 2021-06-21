@@ -19,4 +19,8 @@ export default StyleSheet.create({
   content: {
     flexGrow: 1,
   },
+  bodyContent: {
+    fontFamily: 'notosans',
+    fontSize: 18,
+  },
 });
