@@ -1285,7 +1285,7 @@ describe('ExposureNotificationService', () => {
       }),
     );
 
-    const displayExposureHistoryItems: ProximityExposureHistoryItem[] = enService.displayExposureHistory.get();
+    let displayExposureHistoryItems: ProximityExposureHistoryItem[] = enService.displayExposureHistory.get();
 
     expect(displayExposureHistoryItems[0]).toStrictEqual(
       expect.objectContaining({
@@ -1311,18 +1311,10 @@ describe('ExposureNotificationService', () => {
     await outbreakService.addCheckIn(checkIns[0]);
     await outbreakService.addCheckIn(checkIns[1]);
     await outbreakService.checkForOutbreaks();
+    await enService.updateExposureStatus();
 
     let outbreakHistory = outbreakService.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(1);
-
-    /*
-          expect(service.exposureStatus.get()).toStrictEqual(
-        expect.objectContaining({
-          type: ExposureStatusType.Exposed,
-          summary: nextSummary,
-        }),
-      );
-    */
 
     // combine the history as it would be for ExposureHistoryScreen
     let mergedArray = [
@@ -1333,20 +1325,41 @@ describe('ExposureNotificationService', () => {
     expect(mergedArray).toHaveLength(2);
     expect(mergedArray[0].exposureType).toStrictEqual('outbreak');
     expect(mergedArray[1].exposureType).toStrictEqual('proximity');
+    // Exposure status to change to 'Monitoring' since we have an exposed outbreak
+    expect(enService.exposureStatus.get()).toStrictEqual(
+      expect.objectContaining({type: ExposureStatusType.Monitoring}),
+    );
 
     MockDate.set('2021-02-01T12:30Z');
+    // Testing to see what would happen if we dismiss the outbreak exposed on the home screen after receving a negative test
     outbreakService.ignoreOutbreak(outbreakHistory[0].id);
-    outbreakHistory = outbreakService.outbreakHistory.get();
-    mergedArray = [
-      ...toOutbreakExposureHistoryData({history: outbreakHistory, i18n}),
-      ...toProximityExposureHistoryData({proximityExposureHistory: displayExposureHistoryItems, i18n}),
-    ];
 
     expect(mergedArray).toHaveLength(2);
     expect(mergedArray[0].exposureType).toStrictEqual('outbreak');
     expect(mergedArray[0].historyItem.isIgnored).toStrictEqual(true);
     expect(mergedArray[1].exposureType).toStrictEqual('proximity');
-    expect(enService.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Exposed}));
+
+    await enService.updateExposureStatus();
+
+    // After receiving a negative test, our home screen is clear and we will stay in monitoring
+    expect(enService.exposureStatus.get()).toStrictEqual(
+      expect.objectContaining({type: ExposureStatusType.Monitoring}),
+    );
+
+    // After both exposures have expired, we should expect to see nothing in the merged array and for the status to be monitoring
+    MockDate.set('2021-02-16T12:00Z');
+    await outbreakService.checkForOutbreaks();
+    await enService.updateExposureStatus();
+    outbreakHistory = outbreakService.outbreakHistory.get();
+    displayExposureHistoryItems = enService.displayExposureHistory.get();
+    mergedArray = [
+      ...toOutbreakExposureHistoryData({history: outbreakHistory, i18n}),
+      ...toProximityExposureHistoryData({proximityExposureHistory: displayExposureHistoryItems, i18n}),
+    ];
+    expect(mergedArray).toHaveLength(0);
+    expect(enService.exposureStatus.get()).toStrictEqual(
+      expect.objectContaining({type: ExposureStatusType.Monitoring}),
+    );
   });
 
   describe('testing metrics component', () => {
