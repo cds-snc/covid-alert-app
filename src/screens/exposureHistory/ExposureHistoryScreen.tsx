@@ -1,13 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Alert} from 'react-native';
-import {useI18n, I18n} from 'locale';
-import {
-  CombinedExposureHistoryData,
-  ExposureType,
-  getNonIgnoredFromHistoryOutbreakHistory,
-  OutbreakHistoryItem,
-  OutbreakSeverity,
-} from 'shared/qr';
+import {useI18n} from 'locale';
+import {getNonIgnoredFromHistoryOutbreakHistory} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
 import {Box, Text, ToolbarWithClose, Button} from 'components';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -16,7 +10,6 @@ import {useOutbreakService} from 'services/OutbreakService';
 import {getCurrentDate} from 'shared/date-fns';
 import {
   useDisplayExposureHistory,
-  ProximityExposureHistoryItem,
   useClearExposedStatus,
   useExposureStatus,
 } from 'services/ExposureNotificationService';
@@ -26,49 +19,7 @@ import styles from 'shared/Styles';
 
 import {ExposureList} from './views/ExposureList';
 import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
-
-const severityText = ({severity, i18n}: {severity: OutbreakSeverity; i18n: I18n}) => {
-  switch (severity) {
-    case OutbreakSeverity.SelfIsolate:
-      return i18n.translate('QRCode.OutbreakExposed.SelfIsolate.Title');
-    case OutbreakSeverity.SelfMonitor:
-      return i18n.translate('QRCode.OutbreakExposed.SelfMonitor.Title');
-  }
-};
-
-const toOutbreakExposureHistoryData = ({
-  history,
-  i18n,
-}: {
-  history: OutbreakHistoryItem[];
-  i18n: I18n;
-}): CombinedExposureHistoryData[] => {
-  return history.map(outbreak => {
-    return {
-      exposureType: ExposureType.Outbreak,
-      subtitle: severityText({severity: Number(outbreak.severity), i18n}),
-      notificationTimestamp: outbreak.notificationTimestamp,
-      historyItem: outbreak,
-    };
-  });
-};
-
-const toProximityExposureHistoryData = ({
-  proximityExposureHistory,
-  i18n,
-}: {
-  proximityExposureHistory: ProximityExposureHistoryItem[];
-  i18n: I18n;
-}): CombinedExposureHistoryData[] => {
-  return proximityExposureHistory.map(item => {
-    return {
-      exposureType: ExposureType.Proximity,
-      subtitle: i18n.translate('QRCode.ProximityExposure'),
-      notificationTimestamp: item.notificationTimestamp,
-      historyItem: item,
-    };
-  });
-};
+import {toOutbreakExposureHistoryData, toProximityExposureHistoryData} from './utils';
 
 export const ExposureHistoryScreenState = {
   exposureHistoryClearedDate: getCurrentDate(),

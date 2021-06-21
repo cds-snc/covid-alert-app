@@ -3,6 +3,7 @@ import {Platform} from 'react-native';
 import {Box} from 'components';
 import ScrollView from 'rn-faded-scrollview';
 import {useOrientation} from 'shared/useOrientation';
+import styles from 'shared/Styles';
 
 import {Start} from './views/Start';
 import {Anonymous} from './views/Anonymous';
@@ -11,7 +12,6 @@ import {Permissions} from './views/Permissions';
 import {Region} from './views/Region';
 import {ItemViewProps} from './views/ItemView';
 import {PartOf} from './views/PartOf';
-import styles from 'shared/Styles';
 
 export type OnboardingKey = 'step-1' | 'step-2' | 'step-3' | 'step-4' | 'step-5' | 'step-6';
 

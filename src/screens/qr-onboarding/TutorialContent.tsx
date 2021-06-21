@@ -1,13 +1,13 @@
 import React from 'react';
 import {Box} from 'components';
 import ScrollView from 'rn-faded-scrollview';
+import styles from 'shared/Styles';
 
 import {Step1} from './views/Step1';
 import {Step2} from './views/Step2';
 import {Step3} from './views/Step3';
 import {Step4} from './views/Step4';
 import {ItemViewProps} from './views/ItemView';
-import styles from 'shared/Styles';
 
 export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4';
 
