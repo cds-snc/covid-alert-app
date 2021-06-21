@@ -21,6 +21,10 @@ import {
   ProximityExposureHistoryItem,
 } from '../ExposureNotificationService';
 import {HOURS_PER_PERIOD} from '../../../shared/config';
+// eslint-disable-next-line @shopify/strict-component-boundaries
+import {checkIns, toSeconds, subtractHours, addHours} from '../../OutbreakService/tests/utils';
+import {OutbreakService} from '../../OutbreakService';
+import {toOutbreakExposureHistoryData, toProximityExposureHistoryData} from '../../../screens/exposureHistory/utils';
 
 jest.mock('react-native-permissions', () => {
   return {checkNotifications: jest.fn().mockReturnValue(Promise.reject()), requestNotifications: jest.fn()};
@@ -83,6 +87,7 @@ const bridge: any = {
   getTemporaryExposureKeyHistory: jest.fn().mockResolvedValue({}),
   getStatus: jest.fn().mockResolvedValue('active'),
   getPendingExposureSummary: jest.fn().mockResolvedValue(undefined),
+  retrieveOutbreakEvents: jest.fn(),
 };
 
 const storageService: StorageService = {
@@ -1227,6 +1232,98 @@ describe('ExposureNotificationService', () => {
     displayExposureHistoryItems = enService.displayExposureHistory.get();
 
     expect(displayExposureHistoryItems).toHaveLength(0);
+  });
+
+  //
+
+  it('recent exposures handles outbreak and proximity exposures', async () => {
+    MockDate.set('2021-02-01T12:00Z');
+
+    const storage = new StorageServiceMock();
+
+    // create a new EN service using the StorageServiceMock so we can check the saved values
+    const enService = new ExposureNotificationService(server, i18n, storage, bridge, filteredMetricsService);
+
+    // create Outbreak service using the same storage
+    const outbreakService = new OutbreakService(i18n, bridge, storage, [], []);
+
+    jest.spyOn(outbreakService, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return outbreakService.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 12))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 12))},
+          severity: 1,
+        },
+      ]);
+    });
+
+    const period = periodSinceEpoch(today, HOURS_PER_PERIOD);
+    const nextSummary = {
+      daysSinceLastExposure: 7,
+      lastExposureTimestamp: today.getTime() - 7 * 3600 * 24 * 1000,
+      matchedKeyCount: 1,
+      maximumRiskScore: 1,
+      attenuationDurations: [1200, 0, 0],
+    };
+    bridge.detectExposure.mockResolvedValueOnce([nextSummary]);
+    enService.exposureStatus.set({
+      type: ExposureStatusType.Monitoring,
+      lastChecked: {
+        period,
+        timestamp: today.getTime() - PERIODIC_TASK_INTERVAL_IN_MINUTES * 60 * 1000 - 3600 * 1000,
+      },
+    });
+
+    await enService.updateExposureStatus();
+
+    // ensure we have an exposed item
+    expect(enService.exposureStatus.get()).toStrictEqual(
+      expect.objectContaining({
+        type: ExposureStatusType.Exposed,
+        summary: nextSummary,
+      }),
+    );
+
+    const displayExposureHistoryItems: ProximityExposureHistoryItem[] = enService.displayExposureHistory.get();
+
+    expect(displayExposureHistoryItems[0]).toStrictEqual(
+      expect.objectContaining({
+        isIgnoredFromHistory: false,
+        isExpired: false,
+      }),
+    );
+
+    expect(displayExposureHistoryItems).toHaveLength(1);
+
+    jest.spyOn(outbreakService, 'extractOutbreakEventsFromZipFiles').mockImplementation(async () => {
+      return outbreakService.convertOutbreakEvents([
+        {
+          locationId: checkIns[0].id,
+          startTime: {seconds: toSeconds(subtractHours(checkIns[0].timestamp, 2))},
+          endTime: {seconds: toSeconds(addHours(checkIns[0].timestamp, 4))},
+          severity: 1,
+        },
+      ]);
+    });
+
+    // setup an outbreak
+    await outbreakService.addCheckIn(checkIns[0]);
+    await outbreakService.addCheckIn(checkIns[1]);
+    await outbreakService.checkForOutbreaks();
+
+    const outbreakHistory = outbreakService.outbreakHistory.get();
+    expect(outbreakHistory).toHaveLength(1);
+
+    // combine the history as it would be for ExposureHistoryScreen
+    const mergedArray = [
+      ...toOutbreakExposureHistoryData({history: outbreakHistory, i18n}),
+      ...toProximityExposureHistoryData({proximityExposureHistory: displayExposureHistoryItems, i18n}),
+    ];
+
+    expect(mergedArray).toHaveLength(2);
+    expect(mergedArray[0].exposureType).toStrictEqual('outbreak');
+    expect(mergedArray[1].exposureType).toStrictEqual('proximity');
   });
 
   describe('testing metrics component', () => {
