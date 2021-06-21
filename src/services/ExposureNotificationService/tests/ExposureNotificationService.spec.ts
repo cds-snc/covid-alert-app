@@ -1312,11 +1312,19 @@ describe('ExposureNotificationService', () => {
     await outbreakService.addCheckIn(checkIns[1]);
     await outbreakService.checkForOutbreaks();
 
-    const outbreakHistory = outbreakService.outbreakHistory.get();
+    let outbreakHistory = outbreakService.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(1);
+    /*
+          expect(service.exposureStatus.get()).toStrictEqual(
+        expect.objectContaining({
+          type: ExposureStatusType.Exposed,
+          summary: nextSummary,
+        }),
+      );
+    */
 
     // combine the history as it would be for ExposureHistoryScreen
-    const mergedArray = [
+    let mergedArray = [
       ...toOutbreakExposureHistoryData({history: outbreakHistory, i18n}),
       ...toProximityExposureHistoryData({proximityExposureHistory: displayExposureHistoryItems, i18n}),
     ];
@@ -1324,6 +1332,20 @@ describe('ExposureNotificationService', () => {
     expect(mergedArray).toHaveLength(2);
     expect(mergedArray[0].exposureType).toStrictEqual('outbreak');
     expect(mergedArray[1].exposureType).toStrictEqual('proximity');
+
+    MockDate.set('2021-02-01T12:30Z');
+    outbreakService.ignoreOutbreak(outbreakHistory[0].id);
+    outbreakHistory = outbreakService.outbreakHistory.get();
+    mergedArray = [
+      ...toOutbreakExposureHistoryData({history: outbreakHistory, i18n}),
+      ...toProximityExposureHistoryData({proximityExposureHistory: displayExposureHistoryItems, i18n}),
+    ];
+
+    expect(mergedArray).toHaveLength(2);
+    expect(mergedArray[0].exposureType).toStrictEqual('outbreak');
+    expect(mergedArray[0].historyItem.isIgnored).toStrictEqual(true);
+    expect(mergedArray[1].exposureType).toStrictEqual('proximity');
+    expect(enService.exposureStatus.get()).toStrictEqual(expect.objectContaining({type: ExposureStatusType.Exposed}));
   });
 
   describe('testing metrics component', () => {
