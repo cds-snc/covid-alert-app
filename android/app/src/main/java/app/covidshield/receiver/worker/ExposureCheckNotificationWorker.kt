@@ -71,7 +71,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
             setForeground(foregroundInfo)
         } catch (exception: Exception) {
             filteredMetricsService.addDebugMetric(107.0, exception.message ?: "Unknown")
-            return Result.failure()
+            return Result.success()
         }
 
         val enIsEnabled = exposureNotificationClient.isEnabled.await()
@@ -95,7 +95,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
             return Result.success()
         } catch (exception: Exception) {
             filteredMetricsService.addDebugMetric(106.0, exception.message ?: "Unknown")
-            return Result.failure()
+            return Result.success()
         }
     }
 
