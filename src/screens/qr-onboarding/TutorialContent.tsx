@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {Box} from 'components';
 import ScrollView from 'rn-faded-scrollview';
 
@@ -8,6 +7,7 @@ import {Step2} from './views/Step2';
 import {Step3} from './views/Step3';
 import {Step4} from './views/Step4';
 import {ItemViewProps} from './views/ItemView';
+import styles from 'shared/Styles';
 
 export type TutorialKey = 'step-1' | 'step-2' | 'step-3' | 'step-4';
 
@@ -41,12 +41,3 @@ export const TutorialContent = ({item, isActive}: TutorialContentProps) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  content: {
-    flexGrow: 1,
-  },
-  flex: {
-    flex: 1,
-  },
-});
