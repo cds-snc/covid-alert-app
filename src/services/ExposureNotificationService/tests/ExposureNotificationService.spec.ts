@@ -1314,6 +1314,7 @@ describe('ExposureNotificationService', () => {
 
     let outbreakHistory = outbreakService.outbreakHistory.get();
     expect(outbreakHistory).toHaveLength(1);
+
     /*
           expect(service.exposureStatus.get()).toStrictEqual(
         expect.objectContaining({
