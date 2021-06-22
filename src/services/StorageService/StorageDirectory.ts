@@ -69,7 +69,7 @@ export class StorageDirectory {
   // ExposureNotificationService.ts
   static readonly ExposureNotificationServiceExposureHistoryKey: KeyDefinition = {
     keyIdentifier: 'exposureHistory',
-    storageType: StorageType.Secure,
+    storageType: StorageType.Unsecure,
   };
 
   static readonly ExposureNotificationServiceDisplayExposureHistoryKey: KeyDefinition = {
