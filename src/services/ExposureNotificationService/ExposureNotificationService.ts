@@ -173,6 +173,13 @@ export class ExposureNotificationService {
     await this.initiateExposureCheck();
   };
 
+  executeExposureCheckHeadless = async () => {
+    if (Platform.OS !== 'android') return;
+    publishDebugMetric(4.6);
+    log.debug({category: 'background', message: 'executeExposureCheckHeadless'});
+    await this.executeExposureCheck();
+  };
+
   initiateExposureCheck = async () => {
     if (Platform.OS !== 'android') return;
     const payload: NotificationPayload = {
