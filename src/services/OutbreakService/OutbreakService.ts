@@ -224,9 +224,13 @@ export class OutbreakService {
 
     const _outbreakHistory = expireHistoryItems(outbreakHistory);
 
-    _outbreakHistory.forEach((historyItem: OutbreakHistoryItem) => {
-      this.expireOutbreak(historyItem.id);
-    });
+    _outbreakHistory
+      .filter(item => {
+        return item.isExpired;
+      })
+      .forEach((historyItem: OutbreakHistoryItem) => {
+        this.expireOutbreak(historyItem.id);
+      });
 
     const updatedHistory = this.outbreakHistory.get();
 
