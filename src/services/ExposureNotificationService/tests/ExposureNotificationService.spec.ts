@@ -1350,6 +1350,7 @@ describe('ExposureNotificationService', () => {
     MockDate.set('2021-02-16T12:00Z');
     await outbreakService.checkForOutbreaks();
     await enService.updateExposureStatus();
+    await enService.removeProximityExposureHistoryItemAfterPeriod();
     outbreakHistory = outbreakService.outbreakHistory.get();
     displayExposureHistoryItems = enService.displayExposureHistory.get();
     mergedArray = [
