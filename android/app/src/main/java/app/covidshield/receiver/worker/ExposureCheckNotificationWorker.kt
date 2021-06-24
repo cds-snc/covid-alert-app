@@ -47,7 +47,7 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
 
         Log.d("background", "ExposureCheckNotificationWorker - doWork")
 
-        try {
+        return try {
             withTimeout(HEADLESS_JS_TASK_TIMEOUT_MS) {
                 val intent = Intent(context, MainActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -84,33 +84,33 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
                     filteredMetricsService.addDebugMetric(200.2, oncePerUTCDay = true)
                     Log.d("background", "ExposureCheckNotificationWorker - ExposureNotification: Not enabled or not activated")
                     filteredMetricsService.addDebugMetric(7.1, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
-                }
-
-                val currentReactContext = getCurrentReactContext(context)
-                if (currentReactContext != null) {
-                    currentReactContext.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
+                    Result.failure()
                 } else {
-                    withContext(Dispatchers.Main) {
-                        filteredMetricsService.addDebugMetric(3.3)
-                        val completer = CompletableDeferred<Unit>()
-                        CustomHeadlessTask(applicationContext, HEADLESS_JS_TASK_NAME) { completer.complete(Unit) }
-                        completer.await()
+                    val currentReactContext = getCurrentReactContext(context)
+                    if (currentReactContext != null) {
+                        currentReactContext.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            filteredMetricsService.addDebugMetric(3.3)
+                            val completer = CompletableDeferred<Unit>()
+                            CustomHeadlessTask(applicationContext, HEADLESS_JS_TASK_NAME) { completer.complete(Unit) }
+                            completer.await()
+                        }
                     }
+                    // Without this delay, the notification will not appear
+                    delay(5000)
+                    Result.success()
                 }
             }
         } catch (exception: TimeoutCancellationException) {
             filteredMetricsService.addDebugMetric(111.0, exception.message ?: "Unknown")
             log("doWork exception", mapOf("message" to "Timeout"))
-            return Result.success()
+            Result.failure()
         } catch (exception: Exception) {
             filteredMetricsService.addDebugMetric(112.0, exception.message ?: "Unknown")
             log("doWork exception", mapOf("message" to (exception.message ?: "Unknown")))
-            return Result.success()
+            Result.failure()
         }
-
-        // Without this delay, the notification will not appear
-        delay(5000)
-        return Result.success()
     }
 
     /**
