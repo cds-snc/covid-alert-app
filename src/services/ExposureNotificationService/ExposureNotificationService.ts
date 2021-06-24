@@ -805,8 +805,6 @@ export class ExposureNotificationService {
 
     const currentExposureStatus: ExposureStatus = this.exposureStatus.get();
     const updatedExposure = this.updateExposure();
-    this.migrateDisplayHistory();
-    this.removeProximityExposureHistoryItemAfterPeriod();
     // @todo confirm how equality works here
     if (updatedExposure !== currentExposureStatus) {
       log.debug({
@@ -1099,6 +1097,9 @@ export class ExposureNotificationService {
       log.debug({message: 'displayExposureHistory', payload: displayExposureHistory});
 
       this.displayExposureHistory.set(displayExposureHistory);
+
+      await this.migrateDisplayHistory();
+      await this.removeProximityExposureHistoryItemAfterPeriod();
     } catch (error) {
       log.debug({message: "'No displayExposureHistory found"});
     }
