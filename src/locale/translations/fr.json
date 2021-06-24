@@ -43,7 +43,7 @@
       },
       "Dismiss": {
         "Title": "Résultat de test négatif?",
-        "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif.",
+        "Body": "Vous pouvez mettre fin à l’alerte après avoir reçu un résultat de test négatif. Assurez-vous de suivre les consignes de votre région sur l’auto-isolement après un test négatif.",
         "Body1": "Cette exposition restera visible dans vos expositions récentes.",
         "CTA": "Mettre fin à l’alerte",
         "Confirm": {
