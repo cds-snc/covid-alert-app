@@ -58,6 +58,26 @@ if (Platform.OS === 'android') {
 
     await exposureNotificationService.initiateExposureCheckHeadless();
   });
+
+  BackgroundScheduler.registerAndroidHeadlessExposureNotificationPeriodicTask(async () => {
+    publishDebugMetric(4.7);
+    const backendService = new BackendService(
+      RETRIEVE_URL,
+      SUBMIT_URL,
+      HMAC_KEY,
+      DefaultStorageService.sharedInstance(),
+    );
+    const i18n = await createBackgroundI18n();
+    const exposureNotificationService = new ExposureNotificationService(
+      backendService,
+      i18n,
+      DefaultStorageService.sharedInstance(),
+      ExposureNotification,
+      FilteredMetricsService.sharedInstance(),
+    );
+
+    await exposureNotificationService.executeExposureCheckHeadless();
+  });
 }
 
 if (__DEV__) {

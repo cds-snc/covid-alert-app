@@ -180,8 +180,35 @@ const registerAndroidHeadlessExposureCheckPeriodicTask = (task: PeriodicTask) =>
   });
 };
 
+const registerAndroidHeadlessExposureNotificationPeriodicTask = (task: PeriodicTask) => {
+  publishDebugMetric(4.5);
+  if (Platform.OS !== 'android') return;
+  AppRegistry.registerHeadlessTask('EXPOSURE_NOTIFICATION_HEADLESS_TASK', () => async () => {
+    log.debug({
+      category: 'background',
+      message: 'EXPOSURE_NOTIFICATION_HEADLESS_TASK',
+    });
+    try {
+      await task();
+    } catch (error) {
+      log.error({
+        category: 'background',
+        message: 'runAndroidHeadlessExposureNotificationPeriodicTask',
+        error,
+      });
+    } finally {
+      BackgroundFetch.finish('EXPOSURE_NOTIFICATION_HEADLESS_TASK');
+    }
+  });
+  log.debug({
+    category: 'background',
+    message: 'registerAndroidHeadlessExposureNotificationPeriodicTask',
+  });
+};
+
 export const BackgroundScheduler = {
   registerPeriodicTask,
   registerAndroidHeadlessPeriodicTask,
   registerAndroidHeadlessExposureCheckPeriodicTask,
+  registerAndroidHeadlessExposureNotificationPeriodicTask,
 };
