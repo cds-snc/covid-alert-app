@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet, Alert} from 'react-native';
+import {ScrollView, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, ToolbarWithClose} from 'components';
 import {useNavigation} from '@react-navigation/native';
@@ -8,6 +8,7 @@ import {useI18n} from 'locale';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {useOutbreakService} from 'services/OutbreakService';
 import {useCachedStorage} from 'services/StorageService';
+import styles from 'shared/Styles';
 
 export const DismissAlertScreen = () => {
   const i18n = useI18n();
@@ -86,9 +87,3 @@ export const NegativeTestButton = () => {
     </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

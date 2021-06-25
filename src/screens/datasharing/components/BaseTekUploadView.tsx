@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {ActivityIndicator, ScrollView, StyleSheet, Alert} from 'react-native';
+import {ActivityIndicator, ScrollView, Alert} from 'react-native';
 import {Box, Button} from 'components';
 import {useI18n} from 'locale';
 import {useReportDiagnosis, cannotGetTEKsError, useExposureHistory} from 'services/ExposureNotificationService';
@@ -11,6 +11,7 @@ import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {DefaultStorageService, StorageDirectory} from 'services/StorageService';
 import {useOutbreakService} from 'services/OutbreakService';
 import {isExposedToOutbreak} from 'shared/qr';
+import styles from 'shared/Styles';
 
 import {BaseDataSharingView} from './BaseDataSharingView';
 
@@ -144,9 +145,3 @@ export const BaseTekUploadView = ({
     </BaseDataSharingView>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

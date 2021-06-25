@@ -1,9 +1,10 @@
 import React, {useCallback, useEffect} from 'react';
 import {Box, Text, Button} from 'components';
-import {AppState, AppStateStatus, Linking, StyleSheet} from 'react-native';
+import {AppState, AppStateStatus, Linking} from 'react-native';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {InfoShareItem} from 'screens/menu/components/InfoShareItem';
+import styles from 'shared/Styles';
 
 import {BaseQRCodeScreen} from '../components/BaseQRCodeScreen';
 
@@ -58,9 +59,3 @@ export const CameraPermissionDenied = ({updatePermissions}: {updatePermissions: 
     </BaseQRCodeScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

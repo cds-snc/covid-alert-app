@@ -1,8 +1,9 @@
 import React, {useState, useCallback} from 'react';
-import {ScrollView, StyleSheet, Alert} from 'react-native';
+import {ScrollView, Alert} from 'react-native';
 import {Box, Text, Button} from 'components';
 import {useI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
+import styles from 'shared/Styles';
 
 import {BulletPoint} from '../../components/BulletPoint';
 
@@ -110,9 +111,3 @@ export const Step2Screen = () => {
     </BaseDataSharingView>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

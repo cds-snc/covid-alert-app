@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, BulletPointX} from 'components';
 import {useI18n} from 'locale';
 import Markdown from 'react-native-markdown-display';
-import {StyleSheet} from 'react-native';
+import styles from 'shared/Styles';
 
 import {ItemView, ItemViewProps} from './ItemView';
 
@@ -47,12 +47,3 @@ export const Anonymous = (props: Pick<ItemViewProps, 'isActive'>) => {
     </ItemView>
   );
 };
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  bodyContent: {
-    fontFamily: 'notosans',
-    fontSize: 18,
-  },
-});

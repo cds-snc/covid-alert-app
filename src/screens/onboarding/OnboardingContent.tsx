@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import {Box} from 'components';
 import ScrollView from 'rn-faded-scrollview';
 import {useOrientation} from 'shared/useOrientation';
+import styles from 'shared/Styles';
 
 import {Start} from './views/Start';
 import {Anonymous} from './views/Anonymous';
@@ -50,12 +51,3 @@ export const OnboardingContent = ({item, isActive}: OnboardingContentProps) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  content: {
-    flexGrow: 1,
-  },
-  flex: {
-    flex: 1,
-  },
-});

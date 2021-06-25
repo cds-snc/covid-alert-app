@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import {useI18n} from 'locale';
 import {getNonIgnoredFromHistoryOutbreakHistory} from 'shared/qr';
 import {useNavigation} from '@react-navigation/native';
@@ -15,6 +15,7 @@ import {
 } from 'services/ExposureNotificationService';
 import {log} from 'shared/logging/config';
 import {FilteredMetricsService, EventTypeMetric} from 'services/MetricsService';
+import styles from 'shared/Styles';
 
 import {ExposureList} from './views/ExposureList';
 import {NoExposureHistoryScreen} from './views/NoExposureHistoryScreen';
@@ -97,9 +98,3 @@ export const ExposureHistoryScreen = () => {
     </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});

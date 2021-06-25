@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {ScrollView, Alert, StyleSheet} from 'react-native';
+import {ScrollView, Alert} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text, Box, Button, ButtonSingleLine, ToolbarWithClose} from 'components';
 import {useNavigation} from '@react-navigation/native';
@@ -8,6 +8,7 @@ import {useI18n} from 'locale';
 import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotificationService';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getCurrentDate, getMillisSinceUTCEpoch} from 'shared/date-fns';
+import styles from 'shared/Styles';
 
 export const ClearOutbreakExposureScreen = () => {
   const [state, setState] = useState(ClearOutbreakExposureViewState);
@@ -80,11 +81,6 @@ export const NegativeOutbreakTestButton = () => {
     </Box>
   );
 };
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});
 
 const ClearOutbreakExposureViewState = {
   exposureHistoryClearedDate: getCurrentDate(),

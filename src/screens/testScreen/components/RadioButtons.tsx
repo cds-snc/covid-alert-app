@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Text, Icon} from 'components';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
 interface Props {
   value: string;
@@ -32,9 +32,3 @@ const RadioButton_ = ({value, onPress, name, selected, testID}: Props) => (
   </>
 );
 export const RadioButton = React.memo(RadioButton_);
-
-export const radioStyles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-});
