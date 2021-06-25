@@ -24,7 +24,7 @@ import {
   getNewOutbreakExposures,
   isExposedToOutbreak,
   OutbreakHistoryItem,
-  expireHistoryItems,
+  hasExpired,
 } from 'shared/qr';
 import {
   getCurrentDate,
@@ -102,19 +102,6 @@ export class OutbreakService {
     this.outbreakHistory.get().forEach(outbreak => {
       outbreak.isIgnored = true;
     });
-    await this.storageService.save(
-      StorageDirectory.OutbreakServiceOutbreakHistoryKey,
-      JSON.stringify(this.outbreakHistory.get()),
-    );
-  };
-
-  expireOutbreak = async (outbreakId: string) => {
-    this.outbreakHistory
-      .get()
-      .filter(outbreak => outbreak.id === outbreakId)
-      .forEach(outbreak => {
-        outbreak.isExpired = true;
-      });
     await this.storageService.save(
       StorageDirectory.OutbreakServiceOutbreakHistoryKey,
       JSON.stringify(this.outbreakHistory.get()),
@@ -222,23 +209,8 @@ export class OutbreakService {
 
     if (!outbreakHistory.length) return;
 
-    const _outbreakHistory = expireHistoryItems(outbreakHistory);
-
-    _outbreakHistory
-      .filter(item => {
-        return item.isExpired;
-      })
-      .forEach((historyItem: OutbreakHistoryItem) => {
-        this.expireOutbreak(historyItem.id);
-      });
-
-    const updatedHistory = this.outbreakHistory.get();
-
-    const newOutbreakHistory = updatedHistory.filter((historyItem: OutbreakHistoryItem) => {
-      if (historyItem.isExpired) {
-        return false;
-      }
-      return true;
+    const newOutbreakHistory = outbreakHistory.filter(item => {
+      return !hasExpired(item);
     });
 
     if (outbreakHistory.length !== newOutbreakHistory.length) {
@@ -251,7 +223,7 @@ export class OutbreakService {
       return newOutbreakHistory;
     }
 
-    return updatedHistory;
+    return outbreakHistory;
   };
 
   clearCheckInHistory = async () => {

@@ -94,21 +94,6 @@ export const hasExpired = (historyItem: OutbreakHistoryItem): boolean => {
   return false;
 };
 
-/** returns a new outbreakHistory with the `isExpired` property updated */
-export const expireHistoryItems = (outbreakHistory: OutbreakHistoryItem[]): OutbreakHistoryItem[] => {
-  return outbreakHistory.map(historyItem => {
-    if (historyItem.isExpired) {
-      return {...historyItem};
-    }
-
-    if (hasExpired(historyItem)) {
-      return {...historyItem, isExpired: true};
-    }
-
-    return {...historyItem};
-  });
-};
-
 export const getNonIgnoredOutbreakHistory = (outbreakHistory: OutbreakHistoryItem[]) => {
   return outbreakHistory.filter(outbreak => {
     if (outbreak.isExpired || outbreak.isIgnored) {
