@@ -10,6 +10,7 @@ import {useOutbreakService} from 'services/OutbreakService';
 import {QR_HOST, QR_CODE_PUBLIC_KEY} from 'env';
 import base64 from 'react-native-base64';
 import nacl from 'tweetnacl';
+import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 
 interface EventURL {
   url: string;
@@ -32,6 +33,8 @@ const parseData = (data: string) => {
 export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
   const [scheme, , host] = url.split('/');
   if (scheme !== 'https:' || host !== QR_HOST) {
+    const filteredMetricsService = FilteredMetricsService.sharedInstance();
+    filteredMetricsService.addEvent({type: EventTypeMetric.Error500QrUrl});
     throw new Error('bad URL from QR code');
   }
 
@@ -63,6 +66,10 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
     };
     return checkInData;
   } catch (error) {
+    const filteredMetricsService = FilteredMetricsService.sharedInstance();
+    filteredMetricsService.addEvent({
+      type: EventTypeMetric.Error500QrParse,
+    });
     throw new Error('Problem decoding or parsing QR hash data');
   }
 };
