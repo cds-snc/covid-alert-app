@@ -15,6 +15,10 @@ export enum EventTypeMetric {
   BackgroundCheck = 'background-check',
   BackgroundProcess = 'background-process',
   QrCodeSuccessfullyScanned = 'qr-code-successfully-scanned',
+  Error400KeysBadCert = 'error-400-keys-bad-cert',
+  Error400KeysDownload = 'error-400-keys-download',
+  Error500QrUrl = 'error-500-qr-url',
+  Error500QrParse = 'error-500-qr-parse',
 }
 
 export type EventWithContext =
@@ -52,6 +56,18 @@ export type EventWithContext =
     }
   | {
       type: EventTypeMetric.QrCodeSuccessfullyScanned;
+    }
+  | {
+      type: EventTypeMetric.Error400KeysBadCert;
+    }
+  | {
+      type: EventTypeMetric.Error400KeysDownload;
+    }
+  | {
+      type: EventTypeMetric.Error500QrUrl;
+    }
+  | {
+      type: EventTypeMetric.Error500QrParse;
     };
 
 export interface FilteredEvent {
@@ -127,6 +143,30 @@ export class DefaultMetricsFilter implements MetricsFilter {
       case EventTypeMetric.QrCodeSuccessfullyScanned:
         return Promise.resolve({
           eventType: EventTypeMetric.QrCodeSuccessfullyScanned,
+          payload: [],
+          shouldBePushedToServerRightAway: true,
+        });
+      case EventTypeMetric.Error400KeysBadCert:
+        return Promise.resolve({
+          eventType: EventTypeMetric.Error400KeysBadCert,
+          payload: [],
+          shouldBePushedToServerRightAway: true,
+        });
+      case EventTypeMetric.Error400KeysDownload:
+        return Promise.resolve({
+          eventType: EventTypeMetric.Error400KeysDownload,
+          payload: [],
+          shouldBePushedToServerRightAway: true,
+        });
+      case EventTypeMetric.Error500QrUrl:
+        return Promise.resolve({
+          eventType: EventTypeMetric.Error500QrUrl,
+          payload: [],
+          shouldBePushedToServerRightAway: true,
+        });
+      case EventTypeMetric.Error500QrParse:
+        return Promise.resolve({
+          eventType: EventTypeMetric.Error500QrParse,
           payload: [],
           shouldBePushedToServerRightAway: true,
         });

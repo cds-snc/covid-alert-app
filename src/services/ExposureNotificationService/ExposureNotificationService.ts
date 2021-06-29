@@ -431,6 +431,10 @@ export class ExposureNotificationService {
       StorageDirectory.ExposureNotificationServiceSubmissionAuthKeysKey,
     );
     if (!submissionKeysStr) {
+      this.filteredMetricsService.addEvent({
+        type: EventTypeMetric.Error400KeysBadCert,
+      });
+
       throw new Error('Submission keys: bad certificate');
     }
     const auth = JSON.parse(submissionKeysStr) as SubmissionKeySet;
@@ -1189,6 +1193,9 @@ export class ExposureNotificationService {
         lastCheckedPeriod = Math.max(lastCheckedPeriod || 0, period);
       }
     } catch (error) {
+      this.filteredMetricsService.addEvent({
+        type: EventTypeMetric.Error400KeysDownload,
+      });
       captureException('Error while downloading key file', error);
     }
     return {keysFileUrls, lastCheckedPeriod};
