@@ -50,10 +50,9 @@ export const DismissAlertScreen = () => {
                 {i18n.translate('Home.ExposureDetected.Dismiss.Title')}
               </Text>
 
-              <Text marginBottom="l">
-                {i18n.translate('Home.ExposureDetected.Dismiss.Body')}{' '}
-                {qrEnabled && i18n.translate('Home.ExposureDetected.Dismiss.Body1')}
-              </Text>
+              <Text marginBottom={qrEnabled ? 'm' : 'l'}>{i18n.translate('Home.ExposureDetected.Dismiss.Body')}</Text>
+
+              {qrEnabled && <Text marginBottom="l">{i18n.translate('Home.ExposureDetected.Dismiss.Body1')}</Text>}
 
               <Button
                 text={i18n.translate('Home.ExposureDetected.Dismiss.CTA')}
