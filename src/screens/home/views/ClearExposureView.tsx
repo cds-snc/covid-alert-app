@@ -51,7 +51,7 @@ export const DismissAlertScreen = () => {
               </Text>
 
               <Text marginBottom="l">
-                {i18n.translate('Home.ExposureDetected.Dismiss.Body')}
+                {i18n.translate('Home.ExposureDetected.Dismiss.Body')}{' '}
                 {qrEnabled && i18n.translate('Home.ExposureDetected.Dismiss.Body1')}
               </Text>
 
