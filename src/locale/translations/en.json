@@ -598,7 +598,8 @@
   },
   "ClearOutbreakExposure": {
     "Title": "Negative test result?",
-    "Body": "You can dismiss the alert when you get a negative test. You’ll still be able to see it in your recent exposures.",
+    "Body": "You can dismiss this alert when you get a negative test. Make sure to follow your local public health guidelines for self-isolating after a negative test.",
+    "Body1": "You’ll still be able to see this exposure in your recent exposures.",
     "Button": "Dismiss alert",
     "Alert": {
       "Title": "Are you sure you want to dismiss this alert?",

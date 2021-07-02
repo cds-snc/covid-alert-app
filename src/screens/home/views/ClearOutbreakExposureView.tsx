@@ -9,9 +9,11 @@ import {useClearExposedStatus, useExposureStatus} from 'services/ExposureNotific
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 import {getCurrentDate, getMillisSinceUTCEpoch} from 'shared/date-fns';
 import styles from 'shared/Styles';
+import {useCachedStorage} from 'services/StorageService';
 
 export const ClearOutbreakExposureScreen = () => {
   const [state, setState] = useState(ClearOutbreakExposureViewState);
+  const {qrEnabled} = useCachedStorage();
   const navigation = useNavigation();
   const i18n = useI18n();
 
@@ -52,8 +54,8 @@ export const ClearOutbreakExposureScreen = () => {
             <Text variant="bodyTitle" marginBottom="m" accessibilityRole="header">
               {i18n.translate('ClearOutbreakExposure.Title')}
             </Text>
-            <Text marginBottom="m">{i18n.translate('ClearOutbreakExposure.Body')}</Text>
-
+            <Text marginBottom={qrEnabled ? 'm' : 'l'}>{i18n.translate('ClearOutbreakExposure.Body')}</Text>
+            {qrEnabled && <Text marginBottom="l">{i18n.translate('ClearOutbreakExposure.Body1')}</Text>}
             <Button
               text={i18n.translate('ClearOutbreakExposure.Button')}
               onPress={onClearOutbreakExposed}
