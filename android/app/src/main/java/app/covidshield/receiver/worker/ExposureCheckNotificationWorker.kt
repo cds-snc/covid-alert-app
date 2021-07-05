@@ -49,35 +49,6 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
 
         return try {
             withTimeout(HEADLESS_JS_TASK_TIMEOUT_MS) {
-                val intent = Intent(context, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-
-                val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-                val notification = NotificationCompat.Builder(context, "1")
-                        .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_detect_icon))
-                        .setContentTitle(inputData.getString("title"))
-                        .setContentText(inputData.getString("body"))
-                        .setContentIntent(pendingIntent)
-                        .setOngoing(true)
-
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                    notification.setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_DEFAULT))
-                }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    createNotificationChannel(CHANNEL_ID, inputData.getString("channelName")?: "COVID Alert Exposure Checks", inputData.getBoolean("disableSound", false))
-                    notification.setChannelId(CHANNEL_ID)
-                }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    val styledText: Spanned = Html.fromHtml(inputData.getString("body"), Html.FROM_HTML_MODE_LEGACY)
-                    notification.setStyle(NotificationCompat.BigTextStyle().bigText(styledText))
-                }
-
-                val foregroundInfo = ForegroundInfo(1, notification.build())
-                setForeground(foregroundInfo)
-
                 val enIsEnabled = exposureNotificationClient.isEnabled.await()
                 val enStatus = exposureNotificationClient.status.await()
                 if (!enIsEnabled || enStatus.contains(ExposureNotificationStatus.INACTIVATED)) {
@@ -86,6 +57,35 @@ class ExposureCheckNotificationWorker (private val context: Context, parameters:
                     filteredMetricsService.addDebugMetric(7.1, "ExposureNotification: enIsEnabled = $enIsEnabled AND enStatus = ${enStatus.map { it.ordinal }}.")
                     Result.failure()
                 } else {
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+
+                    val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+                    val notification = NotificationCompat.Builder(context, "1")
+                            .setSmallIcon(inputData.getInt("smallIcon", R.drawable.ic_detect_icon))
+                            .setContentTitle(inputData.getString("title"))
+                            .setContentText(inputData.getString("body"))
+                            .setContentIntent(pendingIntent)
+                            .setOngoing(true)
+
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                        notification.setPriority(inputData.getInt("priority", NotificationCompat.PRIORITY_DEFAULT))
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        createNotificationChannel(CHANNEL_ID, inputData.getString("channelName")?: "COVID Alert Exposure Checks", inputData.getBoolean("disableSound", false))
+                        notification.setChannelId(CHANNEL_ID)
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        val styledText: Spanned = Html.fromHtml(inputData.getString("body"), Html.FROM_HTML_MODE_LEGACY)
+                        notification.setStyle(NotificationCompat.BigTextStyle().bigText(styledText))
+                    }
+
+                    val foregroundInfo = ForegroundInfo(1, notification.build())
+                    setForeground(foregroundInfo)
+
                     val currentReactContext = getCurrentReactContext(context)
                     if (currentReactContext != null) {
                         currentReactContext.getJSModule(RCTNativeAppEventEmitter::class.java)?.emit("executeExposureCheckEvent", "data")
