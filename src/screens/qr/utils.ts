@@ -23,6 +23,12 @@ export const base64ToUint8Array = (str: string) => {
 const parseData = (data: string) => {
   const _locationData = data.split('\n');
 
+  log.debug({
+    category: 'qr-code',
+    message: 'parse-data',
+    payload: {data},
+  });
+
   return {
     id: _locationData[0],
     name: _locationData[1],
@@ -45,7 +51,8 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
       const data = nacl.sign.open(base64ToUint8Array(base64Str), base64ToUint8Array(QR_CODE_PUBLIC_KEY));
 
       if (!data) {
-        throw new Error();
+        log.error({category: 'qr-code', message: 'QR_CODE_PUBLIC_KEY failed to verify'});
+        throw new Error('QR_CODE_PUBLIC_KEY failed to verify');
       }
 
       // @ts-ignore
@@ -70,6 +77,8 @@ export const handleOpenURL = async ({url}: EventURL): Promise<CheckInData> => {
     filteredMetricsService.addEvent({
       type: EventTypeMetric.Error500QrParse,
     });
+
+    log.error({category: 'qr-code', message: error.message, error: EventTypeMetric.Error500QrParse});
     throw new Error('Problem decoding or parsing QR hash data');
   }
 };
