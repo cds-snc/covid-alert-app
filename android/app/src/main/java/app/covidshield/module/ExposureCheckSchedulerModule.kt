@@ -95,6 +95,11 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
         }
     }
 
+    @ReactMethod
+    fun cancelExposureCheck(promise: Promise) {
+        
+    }
+
 }
 
 

@@ -36,6 +36,7 @@ import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExpos
 import {RecentExposureScreen} from 'screens/exposureHistory/RecentExposureView';
 import {FormContext, FormContextDefaults} from 'shared/FormContext';
 import {CombinedExposureHistoryData} from 'shared/qr';
+import {useRegionalI18n} from 'locale';
 
 const MainStack = createStackNavigator<MainStackParamList>();
 
@@ -184,10 +185,12 @@ const forFade = ({current}: {current: any}) => ({
 
 const MainNavigator = () => {
   const {isOnboarding} = useCachedStorage();
+  const regionalI18n = useRegionalI18n();
+  const importantMessage = regionalI18n.translate(`RegionContent.ImportantMessage.active`);
   return (
     <MainStack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={isOnboarding ? 'Landing' : 'Home'}
+      initialRouteName={isOnboarding === true && importantMessage === 'display' ? 'Landing' : 'Home'}
       mode="modal"
     >
       <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />

@@ -10,6 +10,7 @@ import {
   useExposureStatus,
   useUpdateExposureStatus,
   useStartExposureNotificationService,
+  useStopExposureNotificationService,
   useExposureNotificationSystemStatusAutomaticUpdater,
   useSystemStatus,
 } from 'services/ExposureNotificationService';
@@ -41,6 +42,7 @@ import {ExposureNotificationsUserStoppedView} from './views/ExposureNotification
 import {UnknownProblemView} from './views/UnknownProblemView';
 import {LocationOffView} from './views/LocationOffView';
 import {OutbreakExposedView} from './views/OutbreakExposedView';
+import {ImportantMessageView} from './views/ImportantMessageView';
 
 const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
   return hasShared ? <DiagnosedShareView /> : <DiagnosedShareUploadView />;
@@ -178,11 +180,19 @@ export const HomeScreen = () => {
     return subscribeToStatusUpdates();
   }, [subscribeToStatusUpdates]);
 
+  const regionalI18n = useRegionalI18n();
+  const importantMessage = regionalI18n.translate(`RegionContent.ImportantMessage.active`) === 'disableEnService';
+
   const startExposureNotificationService = useStartExposureNotificationService();
+  const stopExposureNotificationService = useStopExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
 
   const startAndUpdate = useCallback(async () => {
     if (userStopped) return;
+    if (importantMessage) {
+      stopExposureNotificationService(false);
+      return;
+    }
     const success = await startExposureNotificationService(false);
     if (qrEnabled && !isDiagnosed(exposureStatus.type)) {
       checkForOutbreaks();
@@ -193,10 +203,12 @@ export const HomeScreen = () => {
   }, [
     userStopped,
     startExposureNotificationService,
+    stopExposureNotificationService,
     qrEnabled,
     checkForOutbreaks,
     updateExposureStatus,
     exposureStatus.type,
+    importantMessage,
   ]);
 
   useEffect(() => {
@@ -206,9 +218,9 @@ export const HomeScreen = () => {
   return (
     <Box flex={1} alignItems="center" backgroundColor="mainBackground">
       <Box flex={1} paddingTop="m" alignSelf="stretch">
-        <Content />
+        {importantMessage ? <ImportantMessageView /> : <Content />}
       </Box>
-      <MenuBar />
+      {!importantMessage && <MenuBar />}
     </Box>
   );
 };

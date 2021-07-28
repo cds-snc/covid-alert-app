@@ -1,5 +1,8 @@
 {
   "RegionContent": {
+    "ImportantMessage": {
+      "active": true
+    },
     "Home": {
       "ON": {
         "ExposedHelpLink": "https://covid-19.ontario.ca/exposed"
