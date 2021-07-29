@@ -36,7 +36,7 @@ export const useCachedStorage = () => {
 
   const [isOnboarding, setIsOnboarding] = useState(storageService.isOnboarding.get());
   const setOnboarded = useMemo(() => storageService.setOnboarded, [storageService.setOnboarded]);
-  const setDecommissioned = useMemo(() => storageService.setDecommissioned, [storageService.setOnboarded]);
+  const setDecommissioned = useMemo(() => storageService.setDecommissioned, [storageService.setDecommissioned]);
   const [userStopped, setUserStoppedInternal] = useState(storageService.userStopped.get());
 
   const setUserStopped = useMemo(

@@ -80,7 +80,7 @@ describe('CachedStorageService', () => {
       await cachedStorageService.setDecommissioned(false);
       expect(cachedStorageService.decommissioned.get()).toStrictEqual(false);
     });
-  })
+  });
 
   describe('setLocale', () => {
     it('stores the locale to permanent storage', async () => {

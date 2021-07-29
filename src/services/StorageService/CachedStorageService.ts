@@ -16,7 +16,7 @@ export enum Key {
   OutbreakHistory = 'OutbreakHistory',
   HasViewedQrInstructions = 'HasViewedQRInstructions',
   QrEnabled = 'QrEnabled',
-  Decommissioned = 'Decommissioned'
+  Decommissioned = 'Decommissioned',
 }
 
 export class CachedStorageService {
@@ -57,7 +57,7 @@ export class CachedStorageService {
   setDecommissioned = async (value: boolean) => {
     await this.storageService.save(StorageDirectory.CachedStorageIsDecommissionedKey, value ? '1' : '0');
     this.decommissioned.set(value);
-  }
+  };
 
   setLocale = async (value: string) => {
     await this.storageService.save(StorageDirectory.GlobalLocaleKey, value);
@@ -109,7 +109,8 @@ export class CachedStorageService {
       (await this.storageService.retrieve(StorageDirectory.CachedStorageServiceIsOnboardedKey)) === '1';
     this.isOnboarding.set(!isOnboarded);
 
-    const decommissioned = (await this.storageService.retrieve(StorageDirectory.CachedStorageIsDecommissionedKey)) === '1';
+    const decommissioned =
+      (await this.storageService.retrieve(StorageDirectory.CachedStorageIsDecommissionedKey)) === '1';
     this.decommissioned.set(decommissioned);
 
     const locale = (await this.storageService.retrieve(StorageDirectory.GlobalLocaleKey)) || this.locale.get();
