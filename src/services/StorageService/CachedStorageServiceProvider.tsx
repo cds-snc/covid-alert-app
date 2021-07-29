@@ -109,7 +109,16 @@ export const useCachedStorage = () => {
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setDecommissioned, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped, setHasViewedQr]);
+  }, [
+    setLocale,
+    setOnboarded,
+    setDecommissioned,
+    setOnboardedDatetime,
+    setRegion,
+    setSkipAllSet,
+    setUserStopped,
+    setHasViewedQr,
+  ]);
 
   return useMemo(
     () => ({
