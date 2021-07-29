@@ -16,6 +16,7 @@ export enum Key {
   OutbreakHistory = 'OutbreakHistory',
   HasViewedQrInstructions = 'HasViewedQRInstructions',
   QrEnabled = 'QrEnabled',
+  Decommissioned = 'Decommissioned',
 }
 
 export class CachedStorageService {
@@ -28,6 +29,7 @@ export class CachedStorageService {
   userStopped: Observable<boolean>;
   hasViewedQrInstructions: Observable<boolean>;
   qrEnabled: Observable<boolean>;
+  decommissioned: Observable<boolean>;
   importantMessage: Observable<boolean>;
 
   private storageService: StorageService;
@@ -44,11 +46,17 @@ export class CachedStorageService {
     this.hasViewedQrInstructions = new Observable<boolean>(false);
     this.qrEnabled = new Observable<boolean>(false);
     this.storageService = storageService;
+    this.decommissioned = new Observable<boolean>(false);
   }
 
   setOnboarded = async (value: boolean) => {
     await this.storageService.save(StorageDirectory.CachedStorageServiceIsOnboardedKey, value ? '1' : '0');
     this.isOnboarding.set(!value);
+  };
+
+  setDecommissioned = async (value: boolean) => {
+    await this.storageService.save(StorageDirectory.CachedStorageIsDecommissionedKey, value ? '1' : '0');
+    this.decommissioned.set(value);
   };
 
   setLocale = async (value: string) => {
@@ -100,6 +108,10 @@ export class CachedStorageService {
     const isOnboarded =
       (await this.storageService.retrieve(StorageDirectory.CachedStorageServiceIsOnboardedKey)) === '1';
     this.isOnboarding.set(!isOnboarded);
+
+    const decommissioned =
+      (await this.storageService.retrieve(StorageDirectory.CachedStorageIsDecommissionedKey)) === '1';
+    this.decommissioned.set(decommissioned);
 
     const locale = (await this.storageService.retrieve(StorageDirectory.GlobalLocaleKey)) || this.locale.get();
     this.locale.set(locale);

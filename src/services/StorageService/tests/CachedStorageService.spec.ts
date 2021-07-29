@@ -64,6 +64,24 @@ describe('CachedStorageService', () => {
     });
   });
 
+  describe('setDecommissioned', () => {
+    it('stores the decommissioned status to permanent storage', async () => {
+      await cachedStorageService.setDecommissioned(true);
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageIsDecommissionedKey, '1');
+
+      await cachedStorageService.setDecommissioned(false);
+      expect(storageService.save).toHaveBeenCalledWith(StorageDirectory.CachedStorageIsDecommissionedKey, '0');
+    });
+
+    it('exposes set value as StorageService attribute', async () => {
+      await cachedStorageService.setDecommissioned(true);
+      expect(cachedStorageService.decommissioned.get()).toStrictEqual(true);
+
+      await cachedStorageService.setDecommissioned(false);
+      expect(cachedStorageService.decommissioned.get()).toStrictEqual(false);
+    });
+  });
+
   describe('setLocale', () => {
     it('stores the locale to permanent storage', async () => {
       await cachedStorageService.setLocale('en');

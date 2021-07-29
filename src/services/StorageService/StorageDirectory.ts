@@ -45,6 +45,11 @@ export class StorageDirectory {
     storageType: StorageType.Unsecure,
   };
 
+  static readonly CachedStorageIsDecommissionedKey: KeyDefinition = {
+    keyIdentifier: 'IsDecommissioned',
+    storageType: StorageType.Unsecure,
+  };
+
   static readonly CachedStorageServiceForceScreenKey: KeyDefinition = {
     keyIdentifier: 'ForceScreen',
     storageType: StorageType.Unsecure,

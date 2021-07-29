@@ -36,6 +36,7 @@ export const useCachedStorage = () => {
 
   const [isOnboarding, setIsOnboarding] = useState(storageService.isOnboarding.get());
   const setOnboarded = useMemo(() => storageService.setOnboarded, [storageService.setOnboarded]);
+  const setDecommissioned = useMemo(() => storageService.setDecommissioned, [storageService.setDecommissioned]);
   const [userStopped, setUserStoppedInternal] = useState(storageService.userStopped.get());
 
   const setUserStopped = useMemo(
@@ -97,6 +98,7 @@ export const useCachedStorage = () => {
 
   const reset = useCallback(async () => {
     setOnboarded(false);
+    setDecommissioned(false);
     setLocale(getSystemLocale());
     setRegion(undefined);
     setOnboardedDatetime(undefined);
@@ -107,12 +109,22 @@ export const useCachedStorage = () => {
     if (__DEV__) {
       DevSettings.reload('Reset app');
     }
-  }, [setLocale, setOnboarded, setOnboardedDatetime, setRegion, setSkipAllSet, setUserStopped, setHasViewedQr]);
+  }, [
+    setLocale,
+    setOnboarded,
+    setDecommissioned,
+    setOnboardedDatetime,
+    setRegion,
+    setSkipAllSet,
+    setUserStopped,
+    setHasViewedQr,
+  ]);
 
   return useMemo(
     () => ({
       isOnboarding,
       setOnboarded,
+      setDecommissioned,
       locale,
       setLocale,
       region,
@@ -136,6 +148,7 @@ export const useCachedStorage = () => {
     [
       isOnboarding,
       setOnboarded,
+      setDecommissioned,
       locale,
       setLocale,
       region,
