@@ -95,7 +95,7 @@ const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationServ
   }
 };
 
-const cancelPeriodicTask = async () => {
+export const cancelPeriodicTask = async () => {
   if (Platform.OS === 'ios') {
     console.log('cancelPeriodicTask - ios');
     BackgroundFetch.stop();

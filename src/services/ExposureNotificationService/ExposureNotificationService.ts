@@ -37,7 +37,7 @@ import {getRandomString} from 'shared/logging/uuid';
 import {HOURS_PER_PERIOD, EXPOSURE_NOTIFICATION_CYCLE, MINIMUM_REMINDER_INTERVAL_MINUTES} from 'shared/config';
 
 import {BackendInterface, SubmissionKeySet} from '../BackendService';
-import {PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
+import {cancelPeriodicTask, PERIODIC_TASK_INTERVAL_IN_MINUTES} from '../BackgroundSchedulerService';
 import {StorageService, StorageDirectory} from '../StorageService';
 import ExposureCheckScheduler from '../../bridge/ExposureCheckScheduler';
 
@@ -802,6 +802,13 @@ export class ExposureNotificationService {
     log.debug({category: 'exposure-check', message: 'performExposureStatusUpdate'});
 
     const exposureConfiguration = await this.getExposureConfiguration();
+    if (exposureConfiguration.decommissioned) {
+      console.log('EN Configuration Decommissioned.');
+      this.storageService.save(StorageDirectory.CachedStorageIsDecommissionedKey, '1');
+      cancelPeriodicTask();
+      this.stop();
+      return;
+    }
     const hasPendingExposureSummary = await this.processPendingExposureSummary(exposureConfiguration);
     if (hasPendingExposureSummary) {
       return;
