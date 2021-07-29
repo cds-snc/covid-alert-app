@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
@@ -184,17 +184,17 @@ const forFade = ({current}: {current: any}) => ({
 });
 
 const MainNavigator = () => {
-  const {isOnboarding} = useCachedStorage();
-  const regionalI18n = useRegionalI18n();
-  const importantMessage = regionalI18n.translate(`RegionContent.ImportantMessage.active`);
+  const {isOnboarding, importantMessage} = useCachedStorage();
+  console.log(`importantMessage: ${importantMessage}`);
+  console.log(`isOnboarding: ${isOnboarding}`);
   return (
     <MainStack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={isOnboarding === true && importantMessage === 'display' ? 'Landing' : 'Home'}
+      initialRouteName={isOnboarding && importantMessage === false ? 'Landing' : 'Home'}
       mode="modal"
     >
-      <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
+      <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
       <MainStack.Screen
         options={{cardStyleInterpolator: forFade}}
         name="OnboardingNavigator"

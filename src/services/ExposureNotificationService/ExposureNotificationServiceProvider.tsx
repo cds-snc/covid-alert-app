@@ -156,7 +156,7 @@ export function useStopExposureNotificationService(): (manualTrigger: boolean) =
   const {setUserStopped} = useCachedStorage();
   return useCallback(
     async (manualTrigger: boolean) => {
-      setUserStopped(true);
+      setUserStopped(manualTrigger);
       const stopped = await exposureNotificationService.stop();
 
       log.debug({message: 'exposureNotificationService.stop()', payload: stopped});
@@ -172,6 +172,11 @@ export function useStopExposureNotificationService(): (manualTrigger: boolean) =
     },
     [exposureNotificationService, setUserStopped],
   );
+}
+
+export function useCancelPeriodicTask(): any {
+  const backgroundScheduler = BackgroundScheduler;
+  backgroundScheduler.cancelPeriodicTask();
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {

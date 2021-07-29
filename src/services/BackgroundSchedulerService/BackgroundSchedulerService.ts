@@ -97,9 +97,11 @@ const registerPeriodicTask = async (task: PeriodicTask, exposureNotificationServ
 
 const cancelPeriodicTask = async () => {
   if (Platform.OS === 'ios') {
+    console.log('cancelPeriodicTask - ios');
     BackgroundFetch.stop();
   } else {
-
+    console.log('cancelPeriodicTask - android');
+    await ExposureCheckScheduler.cancelPeriodicTask();
   }
 };
 
@@ -219,4 +221,5 @@ export const BackgroundScheduler = {
   registerAndroidHeadlessPeriodicTask,
   registerAndroidHeadlessExposureCheckPeriodicTask,
   registerAndroidHeadlessExposureNotificationPeriodicTask,
+  cancelPeriodicTask,
 };

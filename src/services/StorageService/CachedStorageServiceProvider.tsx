@@ -89,6 +89,12 @@ export const useCachedStorage = () => {
   ]);
   useEffect(() => storageService.qrEnabled.observe(setQrEnabledInternal), [storageService.qrEnabled]);
 
+  const [importantMessage, setImportantMessageInternal] = useState(storageService.importantMessage.get());
+  const setImportantMessage = useMemo(() => storageService.setImportantMessage, [storageService.setImportantMessage]);
+  useEffect(() => storageService.importantMessage.observe(setImportantMessageInternal), [
+    storageService.importantMessage,
+  ]);
+
   const reset = useCallback(async () => {
     setOnboarded(false);
     setLocale(getSystemLocale());
@@ -124,6 +130,8 @@ export const useCachedStorage = () => {
       setHasViewedQr,
       qrEnabled,
       setQrEnabled,
+      importantMessage,
+      setImportantMessage,
     }),
     [
       isOnboarding,
@@ -145,6 +153,8 @@ export const useCachedStorage = () => {
       setHasViewedQr,
       qrEnabled,
       setQrEnabled,
+      importantMessage,
+      setImportantMessage,
     ],
   );
 };
