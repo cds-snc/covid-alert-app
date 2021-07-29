@@ -17,7 +17,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY, QR_ENABLED} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
 import {BackendService} from 'services/BackendService';
-import {I18nProvider, RegionalProvider} from 'locale';
+import {I18nProvider, RegionalProvider, useRegionalI18n} from 'locale';
 import {ThemeProvider} from 'shared/theme';
 import {AccessibilityServiceProvider} from 'services/AccessibilityService';
 import {NotificationPermissionStatusProvider} from 'shared/NotificationPermissionStatus';
@@ -50,7 +50,9 @@ const App = () => {
   );
 
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
-  const {setQrEnabled} = useCachedStorage();
+  const {setQrEnabled, setImportantMessage} = useCachedStorage();
+
+  const regionalI18n = useRegionalI18n();
 
   useEffect(() => {
     if (QR_ENABLED) {
@@ -67,8 +69,13 @@ const App = () => {
 
     const fetchData = async () => {
       const regionContent: RegionContentResponse = await backendService.getRegionContent();
+      console.log(`fetchData: ${regionContent.status}`);
       if (regionContent.status === 200) {
+        console.log('A');
         setRegionContent({payload: regionContent.payload});
+        const importantMessage = true;
+        console.log(importantMessage);
+        await setImportantMessage(importantMessage);
       }
       return true;
     };
@@ -83,7 +90,7 @@ const App = () => {
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, [backendService, initialRegionContent]);
+  }, [backendService, initialRegionContent, setImportantMessage]);
 
   return (
     <I18nProvider>

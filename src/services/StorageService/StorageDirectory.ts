@@ -23,6 +23,11 @@ export class StorageDirectory {
     storageType: StorageType.Unsecure,
   };
 
+  static readonly GlobalImportantMessageKey: KeyDefinition = {
+    keyIdentifier: 'ImportantMessage',
+    storageType: StorageType.Unsecure,
+  };
+
   static readonly GlobalInitialTekUploadCompleteKey: KeyDefinition = {
     keyIdentifier: 'INITIAL_TEK_UPLOAD_COMPLETE',
     storageType: StorageType.Unsecure,

@@ -13,6 +13,7 @@ import {
   useStopExposureNotificationService,
   useExposureNotificationSystemStatusAutomaticUpdater,
   useSystemStatus,
+  useCancelPeriodicTask,
 } from 'services/ExposureNotificationService';
 import {useCachedStorage} from 'services/StorageService';
 import {RegionCase} from 'shared/Region';
@@ -180,17 +181,21 @@ export const HomeScreen = () => {
     return subscribeToStatusUpdates();
   }, [subscribeToStatusUpdates]);
 
-  const regionalI18n = useRegionalI18n();
-  const importantMessage = regionalI18n.translate(`RegionContent.ImportantMessage.active`) === 'disableEnService';
+  const {importantMessage} = useCachedStorage();
 
   const startExposureNotificationService = useStartExposureNotificationService();
   const stopExposureNotificationService = useStopExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
+  const cancelPeriodicTask = useCancelPeriodicTask();
 
   const startAndUpdate = useCallback(async () => {
+    console.log(`userStopped: ${userStopped}`);
     if (userStopped) return;
+    console.log('startAndUpdate');
     if (importantMessage) {
+      console.log('stopping EN');
       stopExposureNotificationService(false);
+      cancelPeriodicTask();
       return;
     }
     const success = await startExposureNotificationService(false);

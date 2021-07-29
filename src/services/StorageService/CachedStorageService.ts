@@ -30,11 +30,13 @@ export class CachedStorageService {
   hasViewedQrInstructions: Observable<boolean>;
   qrEnabled: Observable<boolean>;
   decommissioned: Observable<boolean>;
+  importantMessage: Observable<boolean>;
 
   private storageService: StorageService;
 
   constructor(storageService: StorageService) {
     this.isOnboarding = new Observable<boolean>(true);
+    this.importantMessage = new Observable<boolean>(false);
     this.locale = new Observable<string>(getSystemLocale());
     this.region = new Observable<Region | undefined>(undefined);
     this.onboardedDatetime = new Observable<Date | undefined>(undefined);
@@ -97,6 +99,11 @@ export class CachedStorageService {
     this.qrEnabled.set(value);
   };
 
+  setImportantMessage = async (value: boolean) => {
+    await this.storageService.save(StorageDirectory.GlobalImportantMessageKey, value ? '1' : '0');
+    this.importantMessage.set(value);
+  };
+
   init = async () => {
     const isOnboarded =
       (await this.storageService.retrieve(StorageDirectory.CachedStorageServiceIsOnboardedKey)) === '1';
@@ -137,6 +144,9 @@ export class CachedStorageService {
 
     const qrEnabled = (await this.storageService.retrieve(StorageDirectory.GlobalQrEnabledKey)) === '1';
     this.qrEnabled.set(qrEnabled);
+
+    const importantMessage = (await this.storageService.retrieve(StorageDirectory.GlobalImportantMessageKey)) === '1';
+    this.importantMessage.set(importantMessage);
   };
 }
 
