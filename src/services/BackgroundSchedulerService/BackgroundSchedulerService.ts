@@ -101,7 +101,7 @@ export const cancelPeriodicTask = async () => {
     BackgroundFetch.stop();
   } else {
     console.log('cancelPeriodicTask - android');
-    await ExposureCheckScheduler.cancelPeriodicTask();
+    await ExposureCheckScheduler.cancelExposureCheck();
   }
 };
 
