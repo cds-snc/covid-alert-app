@@ -191,8 +191,8 @@ const MainNavigator = () => {
   console.log(`isOnboarding: ${isOnboarding}`);
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Decommissioned" mode="modal">
-      <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
       <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
+      <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
       <MainStack.Screen
         options={{cardStyleInterpolator: forFade}}
         name="OnboardingNavigator"
