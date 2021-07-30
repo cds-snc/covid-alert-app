@@ -52,8 +52,6 @@ const App = () => {
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
   const {setQrEnabled, setImportantMessage} = useCachedStorage();
 
-  const regionalI18n = useRegionalI18n();
-
   useEffect(() => {
     if (QR_ENABLED) {
       setQrEnabled(true);
@@ -70,9 +68,10 @@ const App = () => {
     const fetchData = async () => {
       const regionContent: RegionContentResponse = await backendService.getRegionContent();
       if (regionContent.status === 200) {
+        console.log(regionContent.payload);
         setRegionContent({payload: regionContent.payload});
-        const decommissioned = true;
-        await setImportantMessage(decommissioned);
+        // const decommissioned = regionalI18n.translate('RegionContent.Decommissioned.Active') === 'active';
+        await setImportantMessage(true);
       }
       return true;
     };
