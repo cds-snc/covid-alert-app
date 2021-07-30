@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useI18n, useRegionalI18n} from 'locale';
 import {Box, ButtonSingleLine, Text} from 'components';
 import {Linking} from 'react-native';
 import {captureException} from 'shared/log';
 import {useCachedStorage} from 'services/StorageService';
+import {useCancelPeriodicTask, useStopExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -19,6 +20,8 @@ export const ImportantMessageView = () => {
   };
 
   const {setLocale} = useCachedStorage();
+  const stopExposureNotificationService = useStopExposureNotificationService();
+  const cancelPeriodicTask = useCancelPeriodicTask();
 
   const toggleLanguageOnPress = () => {
     switch (i18n.locale) {
@@ -29,6 +32,12 @@ export const ImportantMessageView = () => {
         setLocale('fr');
     }
   };
+
+  useEffect(() => {
+    console.log('DecommissionedView');
+    stopExposureNotificationService(false);
+    cancelPeriodicTask();
+  });
 
   return (
     <BaseHomeView>

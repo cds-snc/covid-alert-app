@@ -10,10 +10,8 @@ import {
   useExposureStatus,
   useUpdateExposureStatus,
   useStartExposureNotificationService,
-  useStopExposureNotificationService,
   useExposureNotificationSystemStatusAutomaticUpdater,
   useSystemStatus,
-  useCancelPeriodicTask,
 } from 'services/ExposureNotificationService';
 import {useCachedStorage} from 'services/StorageService';
 import {RegionCase} from 'shared/Region';
@@ -43,7 +41,6 @@ import {ExposureNotificationsUserStoppedView} from './views/ExposureNotification
 import {UnknownProblemView} from './views/UnknownProblemView';
 import {LocationOffView} from './views/LocationOffView';
 import {OutbreakExposedView} from './views/OutbreakExposedView';
-import {ImportantMessageView} from './views/ImportantMessageView';
 
 const UploadShareView = ({hasShared}: {hasShared?: boolean}) => {
   return hasShared ? <DiagnosedShareView /> : <DiagnosedShareUploadView />;
@@ -181,23 +178,11 @@ export const HomeScreen = () => {
     return subscribeToStatusUpdates();
   }, [subscribeToStatusUpdates]);
 
-  const {importantMessage} = useCachedStorage();
-
   const startExposureNotificationService = useStartExposureNotificationService();
-  const stopExposureNotificationService = useStopExposureNotificationService();
   const updateExposureStatus = useUpdateExposureStatus();
-  const cancelPeriodicTask = useCancelPeriodicTask();
 
   const startAndUpdate = useCallback(async () => {
-    console.log(`userStopped: ${userStopped}`);
     if (userStopped) return;
-    console.log('startAndUpdate');
-    if (importantMessage) {
-      console.log('stopping EN');
-      stopExposureNotificationService(false);
-      cancelPeriodicTask();
-      return;
-    }
     const success = await startExposureNotificationService(false);
     if (qrEnabled && !isDiagnosed(exposureStatus.type)) {
       checkForOutbreaks();
@@ -208,12 +193,10 @@ export const HomeScreen = () => {
   }, [
     userStopped,
     startExposureNotificationService,
-    stopExposureNotificationService,
     qrEnabled,
+    exposureStatus.type,
     checkForOutbreaks,
     updateExposureStatus,
-    exposureStatus.type,
-    importantMessage,
   ]);
 
   useEffect(() => {
@@ -223,9 +206,9 @@ export const HomeScreen = () => {
   return (
     <Box flex={1} alignItems="center" backgroundColor="mainBackground">
       <Box flex={1} paddingTop="m" alignSelf="stretch">
-        {importantMessage ? <ImportantMessageView /> : <Content />}
+        <Content />
       </Box>
-      {!importantMessage && <MenuBar />}
+      <MenuBar />
     </Box>
   );
 };
