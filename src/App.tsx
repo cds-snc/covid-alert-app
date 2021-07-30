@@ -69,13 +69,10 @@ const App = () => {
 
     const fetchData = async () => {
       const regionContent: RegionContentResponse = await backendService.getRegionContent();
-      console.log(`fetchData: ${regionContent.status}`);
       if (regionContent.status === 200) {
-        console.log('A');
         setRegionContent({payload: regionContent.payload});
-        const importantMessage = true;
-        console.log(importantMessage);
-        await setImportantMessage(importantMessage);
+        const decommissioned = true;
+        await setImportantMessage(decommissioned);
       }
       return true;
     };
