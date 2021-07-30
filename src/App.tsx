@@ -7,12 +7,12 @@
  *
  * @format
  */
-import React, {useMemo, useEffect, useState} from 'react';
+import React, {useMemo, useEffect, useState, useRef} from 'react';
 import DevPersistedNavigationContainer from 'navigation/DevPersistedNavigationContainer';
 import MainNavigator from 'navigation/MainNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {DefaultStorageService, CachedStorageServiceProvider, useCachedStorage} from 'services/StorageService';
-import {AppState, AppStateStatus, Platform, StatusBar} from 'react-native';
+import {AppState, AppStateStatus, Platform, StatusBar, Text, View} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {SUBMIT_URL, RETRIEVE_URL, HMAC_KEY, QR_ENABLED} from 'env';
 import {ExposureNotificationServiceProvider} from 'services/ExposureNotificationService';
@@ -52,6 +52,8 @@ const App = () => {
   const [regionContent, setRegionContent] = useState<IFetchData>({payload: initialRegionContent});
   const {setQrEnabled, setImportantMessage} = useCachedStorage();
 
+  const [regionContentLoaded, setRegionContentLoaded] = useState(false);
+
   useEffect(() => {
     if (QR_ENABLED) {
       setQrEnabled(true);
@@ -68,11 +70,10 @@ const App = () => {
     const fetchData = async () => {
       const regionContent: RegionContentResponse = await backendService.getRegionContent();
       if (regionContent.status === 200) {
-        console.log(regionContent.payload);
         setRegionContent({payload: regionContent.payload});
-        // const decommissioned = regionalI18n.translate('RegionContent.Decommissioned.Active') === 'active';
         await setImportantMessage(true);
       }
+      setRegionContentLoaded(true);
       return true;
     };
 
@@ -86,7 +87,7 @@ const App = () => {
     return () => {
       AppState.removeEventListener('change', onAppStateChange);
     };
-  }, [backendService, initialRegionContent, setImportantMessage]);
+  }, [backendService, initialRegionContent, setImportantMessage, setRegionContentLoaded]);
 
   return (
     <I18nProvider>
@@ -96,7 +97,7 @@ const App = () => {
             <DevPersistedNavigationContainer>
               <AccessibilityServiceProvider>
                 <NotificationPermissionStatusProvider>
-                  <MainNavigator />
+                  {regionContentLoaded ? <MainNavigator /> : <View />}
                 </NotificationPermissionStatusProvider>
               </AccessibilityServiceProvider>
             </DevPersistedNavigationContainer>

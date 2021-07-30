@@ -1,8 +1,8 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Image, StyleSheet, NativeModules, Platform} from 'react-native';
 import {useCachedStorage} from 'services/StorageService';
 import {Box, Button, Icon} from 'components';
-import {useI18n} from 'locale';
+import {useI18n, useRegionalI18n} from 'locale';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
@@ -10,7 +10,16 @@ import {EventTypeMetric, FilteredMetricsService} from 'services/MetricsService';
 export const LandingScreen = () => {
   const i18n = useI18n();
   const navigation = useNavigation();
-  const {setLocale} = useCachedStorage();
+  const {importantMessage, setLocale} = useCachedStorage();
+  const regionalI18n = useRegionalI18n();
+
+  useEffect(() => {
+    const decommissioned = importantMessage || regionalI18n.translate('RegionContent.Decommissioned.Active') === 'true';
+    if (decommissioned) {
+      console.log('Decommissioning from Landing Screen.');
+      navigation.navigate('Decommissioned');
+    }
+  }, [importantMessage]);
 
   const isENFrameworkSupported = async () => {
     if (Platform.OS === 'ios') {

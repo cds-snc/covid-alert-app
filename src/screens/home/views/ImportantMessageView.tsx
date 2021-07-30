@@ -4,11 +4,7 @@ import {Box, ButtonSingleLine, Text} from 'components';
 import {Linking} from 'react-native';
 import {captureException} from 'shared/log';
 import {useCachedStorage} from 'services/StorageService';
-import {
-  useCancelPeriodicTask,
-  useStartExposureNotificationService,
-  useStopExposureNotificationService,
-} from 'services/ExposureNotificationService';
+import {useCancelPeriodicTask, useStopExposureNotificationService} from 'services/ExposureNotificationService';
 
 import {HomeScreenTitle} from '../components/HomeScreenTitle';
 import {BaseHomeView} from '../components/BaseHomeView';
@@ -38,7 +34,6 @@ export const ImportantMessageView = () => {
   };
 
   useEffect(() => {
-    console.log('DecommissionedView');
     stopExposureNotificationService(false);
     cancelPeriodicTask();
   }, [stopExposureNotificationService, cancelPeriodicTask]);

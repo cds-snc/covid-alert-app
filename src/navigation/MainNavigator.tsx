@@ -186,11 +186,24 @@ const forFade = ({current}: {current: any}) => ({
 });
 
 const MainNavigator = () => {
-  const {isOnboarding, importantMessage} = useCachedStorage();
-  console.log(`importantMessage: ${importantMessage}`);
-  console.log(`isOnboarding: ${isOnboarding}`);
+  const {isOnboarding, importantMessage, setImportantMessage} = useCachedStorage();
+  const regionalI18n = useRegionalI18n();
+  const decommissioned = importantMessage || regionalI18n.translate('RegionContent.Decommissioned.Active') === 'true';
+  if (decommissioned) {
+    setImportantMessage(decommissioned);
+  }
+  const initialRouteName = () => {
+    if (isOnboarding && decommissioned === false) {
+      return 'Landing';
+    } else if (decommissioned === true) {
+      return 'Decommissioned';
+    } else {
+      return 'Home';
+    }
+  };
+  console.log(`Initial Route Name: ${initialRouteName()}`);
   return (
-    <MainStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Decommissioned" mode="modal">
+    <MainStack.Navigator screenOptions={{headerShown: false}} initialRouteName={initialRouteName()} mode="modal">
       <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
       <MainStack.Screen
