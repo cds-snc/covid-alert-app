@@ -174,9 +174,14 @@ export function useStopExposureNotificationService(): (manualTrigger: boolean) =
   );
 }
 
-export function useCancelPeriodicTask(): any {
+export function useCancelPeriodicTask() {
   const backgroundScheduler = BackgroundScheduler;
-  backgroundScheduler.cancelPeriodicTask();
+
+  const cancelPeriodicTask = useCallback(() => {
+    backgroundScheduler.cancelPeriodicTask();
+  }, [backgroundScheduler]);
+
+  return cancelPeriodicTask;
 }
 
 export function useSystemStatus(): [SystemStatus, () => void] {
