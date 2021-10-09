@@ -3103,6 +3103,11 @@
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/@shopify/react-hooks/-/react-hooks-1.9.1.tgz#c64e410246b3de4b19d34fc66bb0fc77e8d2c15a"
 
+"@shopify/react-hooks@^2.1.5":
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@shopify/react-hooks/-/react-hooks-2.1.6.tgz#0fcaed1536d60321e2bae6fe803c60921ec3f365"
+  integrity sha512-sx7WoYB26LmNewQmunpvlqRFtlS78OEuV6KvZNM1ny1TGmyAH6/G/Mf5eoaWNwjjyrKRDofiZLyYWd2hycv6fQ==
+
 "@shopify/react-i18n@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@shopify/react-i18n/-/react-i18n-3.0.1.tgz#3aca6cdc1cc99cd4d660b7cd67935cd6de80a5a3"
