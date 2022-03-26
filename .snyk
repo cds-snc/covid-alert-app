@@ -1,0 +1,22 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.22.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - react-native > react-native-codegen > jscodeshift > @babel/core > @babel/traverse > lodash:
+        patched: '2022-03-26T02:20:43.590Z'
+    - react-native > react-native-codegen > jscodeshift > @babel/plugin-proposal-optional-chaining > @babel/helper-skip-transparent-expression-wrappers > @babel/types > lodash:
+        patched: '2022-03-26T02:20:43.590Z'
+    - react-native > react-native-codegen > jscodeshift > @babel/plugin-proposal-class-properties > @babel/helper-create-class-features-plugin > @babel/helper-replace-supers > @babel/traverse > lodash:
+        patched: '2022-03-26T02:20:43.590Z'
+    - react-native > react-native-codegen > jscodeshift > @babel/preset-typescript > @babel/plugin-transform-typescript > @babel/helper-create-class-features-plugin > @babel/helper-replace-supers > @babel/traverse > lodash:
+        patched: '2022-03-26T02:20:43.590Z'
+    - react-native > react-native-codegen > jscodeshift > @babel/preset-typescript > @babel/plugin-transform-typescript > @babel/helper-create-class-features-plugin > @babel/helper-replace-supers > @babel/traverse > @babel/types > lodash:
+        patched: '2022-03-26T02:20:43.590Z'
+    - react-native > react-native-codegen > jscodeshift > @babel/preset-typescript > @babel/plugin-transform-typescript > @babel/helper-create-class-features-plugin > @babel/helper-replace-supers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2022-03-26T02:20:43.590Z'
+    - react-native > react-native-codegen > jscodeshift > @babel/preset-typescript > @babel/plugin-transform-typescript > @babel/helper-create-class-features-plugin > @babel/helper-replace-supers > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2022-03-26T02:20:43.590Z'
+    - react-native-unimodules > expo-constants > @expo/config > @expo/babel-preset-cli > @babel/preset-env > @babel/plugin-transform-async-to-generator > @babel/helper-remap-async-to-generator > @babel/helper-wrap-function > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2022-03-26T02:20:43.590Z'
