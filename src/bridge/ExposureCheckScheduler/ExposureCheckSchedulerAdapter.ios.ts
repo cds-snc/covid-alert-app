@@ -3,5 +3,6 @@ export default function ExposureCheckSchedulerAdapter(exposureCheckSchedulerAPI:
     ...exposureCheckSchedulerAPI,
     scheduleExposureCheck: async () => undefined,
     executeExposureCheck: async () => undefined,
+    cancelExposureCheck: async () => undefined,
   };
 }

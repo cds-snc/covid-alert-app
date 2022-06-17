@@ -1,5 +1,5 @@
 import React, {createContext, useContext} from 'react';
-import {useCachedStorage} from 'services/StorageService';
+import {createCachedStorageService, StorageDirectory, useCachedStorage} from 'services/StorageService';
 import {captureMessage} from 'shared/log';
 import {Region} from 'shared/Region';
 import {resolveObjectPath} from 'shared/resolveObjectPath';
@@ -28,6 +28,12 @@ export const createRegionalI18n = (locale: string, regionContent: any) => {
       return str;
     },
   };
+};
+
+export const createBackgroundRegionalI18n = async (forceLocale?: string) => {
+  const storageService = await createCachedStorageService();
+  const locale = forceLocale || storageService.locale.get();
+  return createRegionalI18n(locale);
 };
 
 export const RegionalContext = createContext<RegionalProviderProps | undefined>(undefined);

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from 'screens/home';
 import {TutorialScreen} from 'screens/tutorial';
@@ -36,6 +36,8 @@ import {ClearOutbreakExposureScreen} from 'screens/home/views/ClearOutbreakExpos
 import {RecentExposureScreen} from 'screens/exposureHistory/RecentExposureView';
 import {FormContext, FormContextDefaults} from 'shared/FormContext';
 import {CombinedExposureHistoryData} from 'shared/qr';
+import {useRegionalI18n} from 'locale';
+import {ImportantMessageView} from 'screens/home/views/ImportantMessageView';
 
 const MainStack = createStackNavigator<MainStackParamList>();
 
@@ -103,6 +105,7 @@ const QRCodeIntroScreenWithNavBar = withDarkNav(QRCodeIntroScreen);
 const MenuScreenWithNavBar = withDarkNav(MenuScreen);
 const ClearOutbreakExposureScreenWithNavBar = withDarkNav(ClearOutbreakExposureScreen);
 const RecentExposureScreenWithNavBar = withDarkNav(RecentExposureScreen);
+const DecommissionedViewWithNavBar = withDarkNav(ImportantMessageView);
 
 const OnboardingStack = createStackNavigator();
 const OnboardingNavigator = () => {
@@ -183,13 +186,24 @@ const forFade = ({current}: {current: any}) => ({
 });
 
 const MainNavigator = () => {
-  const {isOnboarding} = useCachedStorage();
+  const {isOnboarding, importantMessage, setImportantMessage} = useCachedStorage();
+  const regionalI18n = useRegionalI18n();
+  const decommissioned = importantMessage || regionalI18n.translate('RegionContent.Decommissioned.Active') === 'true';
+  if (decommissioned) {
+    setImportantMessage(decommissioned);
+  }
+  const initialRouteName = () => {
+    if (isOnboarding && decommissioned === false) {
+      return 'Landing';
+    } else if (decommissioned === true) {
+      return 'Decommissioned';
+    } else {
+      return 'Home';
+    }
+  };
+  console.log(`Initial Route Name: ${initialRouteName()}`);
   return (
-    <MainStack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName={isOnboarding ? 'Landing' : 'Home'}
-      mode="modal"
-    >
+    <MainStack.Navigator screenOptions={{headerShown: false}} initialRouteName={initialRouteName()} mode="modal">
       <MainStack.Screen name="Landing" component={LandingScreenWithNavBar} />
       <MainStack.Screen name="Home" component={HomeScreenWithNavBar} />
       <MainStack.Screen
@@ -217,6 +231,7 @@ const MainNavigator = () => {
       <MainStack.Screen name="Menu" component={MenuScreenWithNavBar} />
       <MainStack.Screen name="ClearOutbreakExposure" component={ClearOutbreakExposureScreenWithNavBar} />
       <MainStack.Screen name="QRCodeOnboard" component={QRCodeOnboardScreenWithNavBar} />
+      <MainStack.Screen name="Decommissioned" component={DecommissionedViewWithNavBar} />
     </MainStack.Navigator>
   );
 };

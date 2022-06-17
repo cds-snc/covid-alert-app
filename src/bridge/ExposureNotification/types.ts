@@ -73,6 +73,7 @@ export interface ExposureConfiguration {
   durationWeight: number;
   transmissionRiskLevelValues: number[];
   transmissionRiskWeight: number;
+  decommissioned: boolean;
 }
 
 export interface ExposureInformation {

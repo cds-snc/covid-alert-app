@@ -337,6 +337,17 @@ const theme = {
         borderColor: 'fadedBackground',
       },
     },
+    plain: {
+      color: palette.white,
+      height: 52,
+      textColor: palette.bodyBlack,
+      fontFamily: 'notosans',
+      borderColor: 'bodyText',
+      fontSize: 18,
+      disabled: {
+        borderColor: 'fadedBackground',
+      },
+    },
   },
   maxContentWidth: 500,
 };

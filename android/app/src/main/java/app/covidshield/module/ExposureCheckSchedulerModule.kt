@@ -95,6 +95,20 @@ class ExposureCheckSchedulerModule(private val context: ReactApplicationContext)
         }
     }
 
+    @ReactMethod
+    fun cancelExposureCheck(promise: Promise) {
+        promise.launch(this){
+            try {
+                workManager.cancelUniqueWork("exposureCheckSchedulerWorker")
+                workManager.cancelUniqueWork("exposureCheckNotificationWorker")
+                promise.resolve(null)
+            } catch (exception: Exception) {
+                promise.reject(exception)
+            }
+
+        }
+    }
+
 }
 
 

@@ -90,6 +90,7 @@ export class BackendService implements BackendInterface {
       const payload = await response.json();
       this.isValidRegionContent({status: response.status, payload});
       await this.storageService.save(StorageDirectory.BackendServiceRegionContentKey, JSON.stringify(payload));
+      console.log('Valid region content.');
       return {status: 200, payload};
     } catch (err) {
       captureMessage('getRegionContent - fetch error', {err: err.message});
