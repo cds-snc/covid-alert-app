@@ -1,5 +1,7 @@
 [La version française suit.](#application-mobile-alerte-covid)
 
+**COVID Alert is now retired**: For more information, visit the [Government of Canada COVID Alert home page](https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19/covid-alert.html).
+
 # COVID Alert Mobile App
 
 ![Lint + Typscript](https://github.com/cds-snc/covid-alert-app/workflows/CI/badge.svg)
@@ -208,6 +210,8 @@ You should now be able to install cocoapods and gem commands should now work.
 ---
 
 # Application mobile Alerte COVID
+
+**Alerte COVID a été mis hors service**. Pour en savoir davantage, visitez la [page d'accueil d’Alerte COVID du gouvernement du Canada](https://www.canada.ca/fr/sante-publique/services/maladies/maladie-coronavirus-covid-19/alerte-covid.html).
 
 ![Lint + Typscript](https://github.com/cds-snc/covid-alert-app/workflows/CI/badge.svg)
 
