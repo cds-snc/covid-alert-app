@@ -37,7 +37,9 @@
     "deploy-ios:production": "bundle exec fastlane ios build_and_deploy type:production | tee -a ./fastlane/logs/fastlane-deploy-ios-production-$(cat .env.production | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.production | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
     "deploy-ios:diawi": "bundle exec fastlane ios adhoc env:diawi | tee -a ./fastlane/logs/fastlane-deploy-ios-diawi-$(cat .env.diawi | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.diawi | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
     "deploy-android:diawi": "bundle exec fastlane android adhoc env:diawi | tee -a ./fastlane/logs/fastlane-deploy-android-diawi-$(cat .env.diawi | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env.diawi | grep APP_VERSION_CODE | cut -d'=' -f2)-$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
-    "deploy-ios:demo": "bundle exec fastlane ios build_and_deploy type:demo | tee -a ./fastlane/logs/fastlane-deploy-ios-demo--$(cat .env | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env | grep APP_VERSION_CODE | cut -d'=' -f2)$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log"
+    "deploy-ios:demo": "bundle exec fastlane ios build_and_deploy type:demo | tee -a ./fastlane/logs/fastlane-deploy-ios-demo--$(cat .env | grep APP_VERSION_NAME | cut -d'=' -f2)_$(cat .env | grep APP_VERSION_CODE | cut -d'=' -f2)$(date +%Y%m%d-%H%M%S)-$(stat -f %Su /dev/console).log",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.9.0",
@@ -83,7 +85,8 @@
     "semver": "^7.3.5",
     "tweetnacl": "^1.0.3",
     "url": "^0.11.0",
-    "yarn": "^1.22.10"
+    "yarn": "^1.22.10",
+    "@snyk/protect": "latest"
   },
   "resolutions": {
     "**/@typescript-eslint/eslint-plugin": "4.19.0",
@@ -125,5 +128,6 @@
     "typescript": "^4.2.3",
     "wait-for-expect": "^3.0.2",
     "mockdate": "^3.0.5"
-  }
+  },
+  "snyk": true
 }
